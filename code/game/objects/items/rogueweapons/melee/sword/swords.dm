@@ -55,6 +55,16 @@
 	.=..()
 	AddComponent(/datum/component/skill_blessed, TRAIT_FREEBLADE, /datum/skill/combat/swords, SKILL_LEVEL_MASTER)
 
+/obj/item/rogueweapon/sword/getonmobprop(tag)
+	. = ..()
+	if(tag)
+		switch(tag)
+			if("gen")
+				return list("shrink" = 0.6,"sx" = -10,"sy" = -8,"nx" = 13,"ny" = -8,"wx" = -8,"wy" = -7,"ex" = 7,"ey" = -8,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = 90,"sturn" = -90,"wturn" = -80,"eturn" = 81,"nflip" = 0,"sflip" = 8,"wflip" = 8,"eflip" = 0)
+			if("wielded")
+				return list("shrink" = 0.7,"sx" = 5,"sy" = -2,"nx" = -6,"ny" = -2,"wx" = -6,"wy" = -2,"ex" = 7,"ey" = -2,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = -28,"sturn" = 29,"wturn" = -35,"eturn" = 32,"nflip" = 8,"sflip" = 0,"wflip" = 8,"eflip" = 0)
+			if("onbelt")
+				return list("shrink" = 0.5,"sx" = -4,"sy" = -6,"nx" = 5,"ny" = -6,"wx" = 0,"wy" = -6,"ex" = -1,"ey" = -6,"nturn" = 100,"sturn" = 156,"wturn" = 90,"eturn" = 180,"nflip" = 0,"sflip" = 0,"wflip" = 0,"eflip" = 0,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0)
 
 /obj/item/rogueweapon/sword/iron
 	name = "iron arming sword"
@@ -65,6 +75,21 @@
 	smeltresult = /obj/item/ingot/iron
 	max_integrity = 100
 	sheathe_icon = "isword"
+
+/obj/item/rogueweapon/sword/stone
+	name = "stone sword"
+	desc = "A massive hunk of stone, chiseled down to form a crude flint-knapped blade. It has been pounded into a carved wooden handle, and further secured \
+	with tightly-wound fibers. </br>'Imitation is the sincerest form of flattery.'"
+	icon_state = "stone_sword"
+	force = 17 //Weaker than a short sword
+	possible_item_intents = list(/datum/intent/sword/cut, /datum/intent/sword/thrust, /datum/intent/sword/chop)
+	gripped_intents = null
+	max_blade_int = 100
+	max_integrity = 70
+	anvilrepair = /datum/skill/craft/crafting
+	smeltresult = null
+	minstr = 4
+	wdefense = 4
 
 /obj/item/rogueweapon/sword/bronze
 	name = "bronze arming sword"
@@ -80,39 +105,6 @@
 	max_integrity = 200
 	sheathe_icon = "bronzesword" //Placeholder. Close enough.
 
-/obj/item/rogueweapon/sword/falx
-	name = "falx"
-	desc = "An unusual type of curved sword that evolved from the farmer's sickle. It has an inwards edge, making it useful for cutting and chopping, great for destroying shields and men alike."
-	force = 22
-	possible_item_intents = list(/datum/intent/sword/cut/falx, /datum/intent/sword/chop/falx, /datum/intent/sword/cut/falx/heavy, /datum/intent/sword/strike)
-	icon_state = "falx"
-	max_blade_int = 230 // Tiny downgrade like the sabre
-	gripped_intents = null
-	minstr = 4
-	wdefense = 6
-
-/obj/item/rogueweapon/sword/falx/stalker
-	name = "stalker falx"
-	desc = "A jagged blade with an in inward edge. Once a reputable weapon, now little more than a thug's tool."
-	icon_state = "spiderfalx"
-	wbalance = WBALANCE_SWIFT
-	smeltresult = /obj/item/ingot/drow
-	smelt_bar_num = 1
-
-/obj/item/rogueweapon/sword/falx/dadao
-	name = "dadao"
-	desc = "A heavy steel blade with a pronounced curve and thick blade, designed to chop apart men and saigas alike. The Ranesheni name it Saigachopper - until they encountered the Zhanmadao, and then they renamed it the Little Saigachopper."
-	icon = 'icons/roguetown/weapons/swords32.dmi'
-	icon_state = "dadao"
-	sheathe_icon = "dadao"
-
-/obj/item/rogueweapon/sword/falx/dadao/iron
-	name = "iron dadao"
-	desc = "A wrought iron variant of the dadao, wrought by Lingyuese smithmen for smoothmen to use along a shield. The edge dulls quickly, but it will decapitate men and saiga all the same."
-	icon_state = "idadao"
-	smeltresult = /obj/item/ingot/iron
-	max_blade_int = 200
-
 /obj/item/rogueweapon/sword/decorated
 	name = "decorated arming sword"
 	desc = "A valuable ornate arming sword made for the purpose of ceremonial fashion, with a fine leather grip and a carefully engraved golden crossguard."
@@ -126,31 +118,24 @@
 		icon_state = "[rand_icon]"
 		sheathe_icon = "[rand_icon]"
 
-/obj/item/rogueweapon/sword/getonmobprop(tag)
-	. = ..()
-	if(tag)
-		switch(tag)
-			if("gen")
-				return list("shrink" = 0.6,"sx" = -10,"sy" = -8,"nx" = 13,"ny" = -8,"wx" = -8,"wy" = -7,"ex" = 7,"ey" = -8,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = 90,"sturn" = -90,"wturn" = -80,"eturn" = 81,"nflip" = 0,"sflip" = 8,"wflip" = 8,"eflip" = 0)
-			if("wielded")
-				return list("shrink" = 0.7,"sx" = 5,"sy" = -2,"nx" = -6,"ny" = -2,"wx" = -6,"wy" = -2,"ex" = 7,"ey" = -2,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = -28,"sturn" = 29,"wturn" = -35,"eturn" = 32,"nflip" = 8,"sflip" = 0,"wflip" = 8,"eflip" = 0)
-			if("onbelt")
-				return list("shrink" = 0.5,"sx" = -4,"sy" = -6,"nx" = 5,"ny" = -6,"wx" = 0,"wy" = -6,"ex" = -1,"ey" = -6,"nturn" = 100,"sturn" = 156,"wturn" = 90,"eturn" = 180,"nflip" = 0,"sflip" = 0,"wflip" = 0,"eflip" = 0,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0)
+/obj/item/rogueweapon/sword/church
+	name = "see arming sword"
+	desc = "A blessed arming sword, wielded by the Holy See's templars in their stalwart defense against evil. Originating in the wake of the Celestial Empire's \
+	collapse, legends say that it is the grandfather to longswords all across Psydonia: the triumph of an ancient Malumite priest, stricken with divine \
+	inspiration in humenity's darkest hour. Centuries later, it still remains the ideal choice for skewering infidels and monsters alike. </br>'I am the \
+	holder of light, in the dark abyss..' </br>'..I am the holder of order and ward against vileness..' </br>'..let the Gods guide my hand, and let the Inhumen cower before me.'"
+	icon_state = "see_sword"
+	max_integrity = 180
 
-/obj/item/rogueweapon/sword/stone
-	force = 17 //Weaker than a short sword
-	possible_item_intents = list(/datum/intent/sword/cut, /datum/intent/sword/thrust, /datum/intent/sword/chop)
-	gripped_intents = null
-	name = "stone sword"
-	desc = "A massive hunk of stone, chiseled down to form a crude flint-knapped blade. It has been pounded into a carved wooden handle, and further secured \
-	with tightly-wound fibers. </br>'Imitation is the sincerest form of flattery.'"
-	icon_state = "stone_sword"
-	max_blade_int = 100
-	max_integrity = 70
-	anvilrepair = /datum/skill/craft/crafting
-	smeltresult = null
-	minstr = 4
-	wdefense = 4
+/obj/item/rogueweapon/sword/undivided
+	name = "decaritterschwerte"
+	desc = "A blessed arming sword, held by the Holy See's templars in their stalwart defense against evil. The golden crossguard bears the winged motif of an angel, and \
+	psalms from the Pantheon's holy tome have been meticulously carved along the blade's edge. </br>'With a drop of holy Eclipsum, doth the blade rise..' </br>'..gilded, \
+	gleaming, radiant heat, warm my soul, immolate my enemies..' </br>'..and let me vanquish all those who would dare to Divide us, once more.'"
+	icon_state = "deca_sword"
+	max_integrity = 180
+	force = 25
+	force_wielded = 28
 
 /obj/item/rogueweapon/sword/zizo
 	name = "avantyne arming sword"
@@ -187,25 +172,1068 @@
 /obj/item/rogueweapon/sword/avantyne/get_examine_highlight_status()
 	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_ZIZO_WEAPON)
 
-/obj/item/rogueweapon/sword/church
-	name = "see arming sword"
-	desc = "A blessed arming sword, wielded by the Holy See's templars in their stalwart defense against evil. Originating in the wake of the Celestial Empire's \
-	collapse, legends say that it is the grandfather to longswords all across Psydonia: the triumph of an ancient Malumite priest, stricken with divine \
-	inspiration in humenity's darkest hour. Centuries later, it still remains the ideal choice for skewering infidels and monsters alike. </br>'I am the \
-	holder of light, in the dark abyss..' </br>'..I am the holder of order and ward against vileness..' </br>'..let the Gods guide my hand, and let the Inhumen cower before me.'"
-	icon_state = "see_sword"
-	max_integrity = 180
+/obj/item/rogueweapon/sword/silver
+	name = "silver arming sword"
+	desc = "An arming sword, fitted with a blade of pure silver. It is the bane of vampyres, nitebeasts, and deadites throughout all of Psydonia; \
+	cursed flesh erupts into holy fire, and unholy bravado twists into mortal fear."
+	icon_state = "silversword"
+	sheathe_icon = "silversword"
+	is_silver = TRUE
+	smeltresult = /obj/item/ingot/silver
 
-/obj/item/rogueweapon/sword/undivided
-	name = "decaritterschwerte"
-	desc = "A blessed arming sword, held by the Holy See's templars in their stalwart defense against evil. The golden crossguard bears the winged motif of an angel, and \
-	psalms from the Pantheon's holy tome have been meticulously carved along the blade's edge. </br>'With a drop of holy Eclipsum, doth the blade rise..' </br>'..gilded, \
-	gleaming, radiant heat, warm my soul, immolate my enemies..' </br>'..and let me vanquish all those who would dare to Divide us, once more.'"
-	icon_state = "deca_sword"
-	max_integrity = 180
+/obj/item/rogueweapon/sword/silver/ComponentInitialize()
+	AddComponent(\
+		/datum/component/silverbless,\
+		pre_blessed = BLESSING_NONE,\
+		silver_type = SILVER_TENNITE\
+	)
+
+/obj/item/rogueweapon/sword/silver/psy
+	name = "psydonic arming sword"
+	desc = "An arming sword, fitted with a blade of pure silver. It is the bane of vampyres, nitebeasts, and deadites throughout all of Psydonia; \
+	cursed flesh erupts into holy fire, and unholy bravado twists into mortal fear."
+	icon_state = "psyarmingsword"
+	sheathe_icon = "psysword"
+	smeltresult = /obj/item/ingot/silverblessed
+
+/obj/item/rogueweapon/sword/silver/psy/ComponentInitialize()
+	AddComponent(\
+		/datum/component/silverbless,\
+		pre_blessed = BLESSING_NONE,\
+		silver_type = SILVER_PSYDONIAN\
+	)
+
+/obj/item/rogueweapon/sword/silver/psy/preblessed/ComponentInitialize()
+	AddComponent(\
+		/datum/component/silverbless,\
+		pre_blessed = BLESSING_PSYDONIAN,\
+		silver_type = SILVER_PSYDONIAN\
+	)
+
+/obj/item/rogueweapon/sword/silver/decorated
+	name = "decorated silver khadga" //While ostensibly a sword, it's functionally identical - if a little weaker - than the Silver War Axe.
+	desc = "Beautifully designed for nobility, yet born from an ignoble purpose; to satiate the powers of ancient mythos with sacrificial blood. This Naledian \
+	sword, better known as a 'ram-dao', now serves to satiate the spite of vengeful spirits - not through bloodshed, but through sunderance."
+	icon_state = "ram_dao"
+	sheathe_icon = "scabbard_decsword3"
 	force = 25
-	force_wielded = 28
+	no_loot_taint = TRUE
+	possible_item_intents = list(/datum/intent/axe/cut, /datum/intent/axe/chop, /datum/intent/axe/bash/battle)
+	gripped_intents = null
+	minstr = 11
+	max_blade_int = 300
+	smeltresult = /obj/item/ingot/gold
+	smelt_bar_num = 1
+	wdefense = 5
+	is_silver = TRUE
+	max_integrity = 200
 
+/obj/item/rogueweapon/sword/silver/decorated/ComponentInitialize()
+	AddComponent(\
+		/datum/component/silverbless,\
+		pre_blessed = BLESSING_NONE,\
+		silver_type = SILVER_TENNITE\
+	)
+
+/obj/item/rogueweapon/sword/gold
+	name = "golden arming sword"
+	desc = "A heavenly arming sword, whose golden blade and besilked handle lays separated by a duocruciformic crossguard. This particular weapon \
+	seems to have innovatively combined the lethal cutting prowess of Psydonia's oldest weapon with the psychological damage of knowing that its \
+	wielder could likely bribe the Carriageman himself, and still chose to personally kill you."
+	icon_state = "goldsword"
+	smeltresult = /obj/item/ingot/gold
+	force = 35
+	force_wielded = 40
+	minstr = 10
+	max_integrity = 50 //For reference, regular attacks drain each 'max_' value by one point. Parries will quite literally cause this to explode.
+	max_blade_int = 50
+	anvilrepair = null //Ceremonial. This should break comedically easily, but still have just enough toughness to work with a few strikes.
+	sheathe_icon = "goldsword"
+	wbalance = WBALANCE_HEAVY
+	unenchantable = TRUE
+	no_loot_taint = TRUE
+
+/obj/item/rogueweapon/sword/blacksteel
+	name = "blacksteel arming sword"
+	desc = "A broad blade of blacksteel, mounted to a rosawooden handle that perfectly compliments its wielder's grasp. It is the culmination of \
+	Psydonia's storied history with arming swords; a mastersmith's triumph, only fit for the hands of a true hero.. or a truer villain."
+	icon_state = "bs_sword"
+	sheathe_icon = "bs_sword"
+	smeltresult = /obj/item/ingot/blacksteel
+	force = 25
+	force_wielded = 30
+	wdefense = 6
+	max_integrity = 350
+	max_blade_int = 350
+
+/obj/item/rogueweapon/sword/blacksteel/decorated
+	name = "decorated blacksteel arming sword"
+	desc = "A broad blade of blacksteel, mounted atop a golden sabreguard that's been meticulously engraved with its commissoner's heraldry. It is \
+	a masterwork of unmatched opulence and lethality, and is - perhaps - the finest arming sword your eyes'll ever lay upon."
+	icon_state = "bs_swordregal"
+	sheathe_icon = "bs_swordregal"
+	wdefense = 7
+	no_loot_taint = TRUE
+
+/obj/item/rogueweapon/sword/broken
+	name = "broken sword"
+	desc = "A lethal and well-balanced weapon, long ago; now, a shadow of its former self. Half \
+	of the blade of this straight sword is broken off. Only the completely Deprived would even \
+	consider using this as a weapon.'"
+	icon_state = "isword_d"
+	sheathe_icon = "isword_d"
+	force = 23
+	force_wielded = 26
+	wdefense = 3
+	wdefense_wbonus = 1
+	max_blade_int = 180
+	max_integrity = 90
+	swingsound = BLADEWOOSH_HUGE
+	possible_item_intents = list(/datum/intent/sword/chop/heavy, /datum/intent/sword/thrust/heavy, /datum/intent/sword/cut/light, /datum/intent/sword/strike)
+	gripped_intents = list(/datum/intent/sword/chop/heavy, /datum/intent/sword/thrust/heavy, /datum/intent/sword/cut/light, /datum/intent/sword/strike)
+	smeltresult = /obj/item/ingot/iron
+
+// Shortswords. Like regular swords, but shorter.
+/obj/item/rogueweapon/sword/short
+	name = "steel shortsword"
+	desc = "The arming sword's shorter and much older brother. Despite being centuries older than the swords of todae, it remains in use as a \
+	cheap sidearm for shieldbearers and archers."
+	alt_grips = null
+	possible_item_intents = list(/datum/intent/sword/cut/short, /datum/intent/sword/thrust/short, /datum/intent/sword/strike)
+	icon_state = "swordshort"
+	sheathe_icon = "swordshort"
+	gripped_intents = null
+	minstr = 4
+	wdefense = 4
+	wlength = WLENGTH_SHORT
+	w_class = WEIGHT_CLASS_NORMAL
+	grid_width = 32
+	grid_height = 96
+
+/obj/item/rogueweapon/sword/short/iron
+	name = "iron shortsword"
+	desc = "The arming sword's shorter and much older brother. Despite being centuries older than the swords of todae, it remains in use as a cheap \
+	sidearm for shieldbearers and archers. This iron variant predates them all."
+	icon_state = "iswordshort"
+	sheathe_icon = "iswordshort"
+	wdefense = 3
+	smeltresult = /obj/item/ingot/iron
+	max_integrity = 100
+
+/obj/item/rogueweapon/sword/short/ashort
+	name = "decrepit short sword"
+	desc = "A chipped sidearm-sword, wrought from rotted metal. It's hard to gauge whether it was naturally forged to be so short, or if it's \
+	all that remained of a longer blade."
+	icon_state = "ashortsword"
+	sheathe_icon = "ashortsword"
+	max_integrity = 75
+	force = 18
+	blade_dulling = DULLING_SHAFT_CONJURED
+	color = "#bb9696"
+	smeltresult = /obj/item/ingot/aaslag
+	anvilrepair = null
+
+/obj/item/rogueweapon/sword/short/pashortsword
+	name = "ancient shortsword"
+	desc = "A polished sidearm-sword, forged from gilbranze. From after His sacrifice, but before Her ascension; the tithe of a war without reason, \
+	waged between squabbling children who hadn't known that the world was about to end."
+	icon_state = "ashortsword"
+	sheathe_icon = "ashortsword"
+	smeltresult = /obj/item/ingot/aaslag
+
+/obj/item/rogueweapon/sword/short/kazengun
+	name = "steel kodachi"
+	desc = "A razor-edged sword with a wavy pattern weld apparent on its blade."
+	possible_item_intents = list(
+		/datum/intent/sword/cut/short,
+		/datum/intent/sword/thrust/short,
+		/datum/intent/sword/chop/short,
+		)
+	icon_state = "eastshortsword"
+	sheathe_icon = "kodachi"
+	wbalance = WBALANCE_SWIFT
+
+/obj/item/rogueweapon/sword/short/falchion
+	name = "falchion"
+	desc = "A single-edged sword that is similar to a messer in appearance, its origins trace back to Otava. An implement of commoners and knights \
+	alike. It's good for cutting and thrusting."
+	force = 20
+	icon_state = "falchion"
+	wdefense = 6
+	w_class = WEIGHT_CLASS_BULKY // Did not fit in a bag before path rework. Does not fit in a bag now either.
+	sheathe_icon = "falchion"
+
+/obj/item/rogueweapon/sword/short/gladius
+	name = "gladius"
+	desc = "A hefty blade of bronze, sharp enough to disembowel and decapitate with-but a lone hand's force. Psydonia's ancient champions drove back the \
+	Archdevil's hordes with these shortswords, a thousand years ago; yet now, the end has crept forth to threaten lyfe once more. Move with the grace of \
+	your ancestors - spread your feet, brace your grasp, and make them bleed for every step they take."
+	icon_state = "gladius"
+	sheathe_icon = "gladius"
+	max_integrity = 250
+	max_blade_int = 300
+	smeltresult = /obj/item/ingot/bronze
+	wdefense = 3
+
+/obj/item/rogueweapon/sword/short/gladius/decorated
+	name = "decorated gladius"
+	desc = "A beautiful depiction of justice, beflowered and besilked. The crimson engravings along its blade pay tribute to the ancient epics of Ravox's \
+	ascent to godlihood; for it was His wounding of the Sinistar's tentacled heart that forced the Archdevil to pause - first in disbelief, then in fascination."
+	icon_state = "gladiusdec"
+	sheathe_icon = "decgladius"
+	max_integrity = 300
+	smeltresult = /obj/item/ingot/gold
+	wdefense = 5
+	no_loot_taint = TRUE
+
+/obj/item/rogueweapon/sword/short/gladius/agladius
+	name = "decrepit gladius"
+	desc = "A hefty shortsword, wrought from rotted metal. Once, the sidearm of a proud legionnaire; now, a consequence of progress and sacrifice."
+	force = 18
+	max_integrity = 150
+	icon_state = "agladius"
+	blade_dulling = DULLING_SHAFT_CONJURED
+	color = "#bb9696"
+	smeltresult = /obj/item/ingot/aaslag
+	anvilrepair = null
+
+/obj/item/rogueweapon/sword/short/gladius/pagladius
+	name = "ancient gladius"
+	desc = "A polished shortsword, forged from gilbranze. Favored by Zizo's undying legionnaires, this antiquated tool serves a simple purpose; \
+	to spill the innards of unenlightened fools."
+	icon_state = "agladius"
+	smeltresult = /obj/item/ingot/aaslag
+
+/obj/item/rogueweapon/sword/short/iron/chipped
+	name = "chipped iron shortsword"
+	desc = "A damaged and ancient iron shortsword, borne from beyond your time. It looks duller, and seems less effective."
+	force = 17
+	icon_state = "iswordshort_d"
+	sheathe_icon = "iswordshort_d"
+	max_integrity = 75
+
+/obj/item/rogueweapon/sword/short/silver/psy
+	name = "psydonic shortsword"
+	desc = "Otavan smiths worked with Grenzelhoftian artificers, and an esoteric sidearm was born: a shortsword with an unique design, dismissing a crossguard \
+	in favor of a hollow beak to hook and draw harm away from its user. Short in length, yet lethally light in weight."
+	icon_state = "psyswordshort"
+	sheathe_icon = "psyswordshort"
+	smeltresult = /obj/item/ingot/silverblessed
+
+/obj/item/rogueweapon/sword/short/silver/psy/ComponentInitialize()
+	AddComponent(\
+		/datum/component/silverbless,\
+		pre_blessed = BLESSING_NONE,\
+		silver_type = SILVER_PSYDONIAN\
+	)
+
+/obj/item/rogueweapon/sword/short/silver/psy/preblessed/ComponentInitialize()
+	AddComponent(\
+		/datum/component/silverbless,\
+		pre_blessed = BLESSING_PSYDONIAN,\
+		silver_type = SILVER_PSYDONIAN\
+	)
+
+/obj/item/rogueweapon/sword/short/silver
+	name = "silver shortsword"
+	desc = "A shortsword with a blade of pure silver. In the marginalia of tomes depicting Psydonia's crusading orders, there is no sight more iconic than that of \
+	the hauberk-draped paladin; a kite shield in one hand, and this glimmering sidearm in the other."
+	icon_state = "silverswordshort"
+	sheathe_icon = "psyswordshort"
+	is_silver = TRUE
+	smeltresult = /obj/item/ingot/silver
+
+/obj/item/rogueweapon/sword/short/silver/ComponentInitialize()
+	AddComponent(\
+		/datum/component/silverbless,\
+		pre_blessed = BLESSING_NONE,\
+		silver_type = SILVER_TENNITE\
+	)
+
+
+/obj/item/rogueweapon/sword/short/gronn
+	name = "gronnic hinterblade"
+	desc = "Due to the shortage of forged steel in Gronn, their iron blades have become hardier and thicker than what one may see elsewhere. The \
+	favoured weapon of choice for any able-bodied northman of Gronn, the hinterblade is the heftier, unwieldy cousin of the arming sword."
+	possible_item_intents = list(/datum/intent/sword/cut/militia, /datum/intent/sword/chop/militia, /datum/intent/sword/thrust/short, /datum/intent/sword/strike/bad)
+	icon_state = "gronnsword"
+	sheathe_icon = "swordshort"
+	gripped_intents = null
+	minstr = 10 //NO TWINKS!!
+	wdefense = 3 // Use it with a shield jackass
+	wlength = WLENGTH_SHORT
+	w_class = WEIGHT_CLASS_NORMAL
+	wbalance = WBALANCE_HEAVY
+	grid_width = 32
+	grid_height = 96
+
+/obj/item/rogueweapon/sword/short/elvish
+	name = "elvish shortsword" //Elven weapons sprited and added by Jam
+	desc = "A finely crafted Elvish shortsword, light and swift, ideal for precise strikes."
+	icon_state = "elfsword"
+	sellprice = 40
+	sheathe_icon = "elfsword"
+	wbalance = WBALANCE_SWIFT //Elven designs tend to be light and swift
+	max_blade_int = 220
+
+/obj/item/rogueweapon/sword/short/iron/banded
+	name = "banded iron sword"
+	desc = "A rather heavy slab of iron for separating brigands from their ill-gotten gold. It's extremely heavy and only really allows cutting,\
+	yet it swings surprisingly fast - at the cost of force output."
+	icon_state = "bandedsword"
+	possible_item_intents = list(
+		/datum/intent/sword/cut/short/banded,
+		/datum/intent/sword/chop/powerstrike
+		)
+	wdefense = 4
+	minstr = 10
+	force = 7	//This sword gets its real damage values from its intents. IYKYK.
+	blade_int = 350	//You're gonna cut. A lot.
+	max_integrity = 110	//Iron arming sword + 10
+	pickup_sound = 'sound/foley/equip/scrap_equip.ogg'
+	equip_sound = 'sound/foley/equip/scrap_equip.ogg'
+
+/obj/item/rogueweapon/sword/short/broken
+	name = "aged shortsword"
+	desc = "The arming sword's shorter and much older brother. Despite being centuries older than the swords of todae, it remains in use as a cheap \
+	sidearm for shieldbearers and archers. This ancient variant was there since the beginning, and - through one way or another - has found \
+	itself a wielder, once more. Imperfections hardly command censure, especially when the edge remains sharp enough to gouge; a fitting \
+	throwback for the final daes of Psydonia's latest era."
+	icon_state = "iswordshort_d"
+	sheathe_icon = "iswordshort_d"
+	wdefense = 3
+	smeltresult = /obj/item/ingot/iron
+	max_integrity = 90
+	max_blade_int = 150
+	force = 21
+	swingsound = BLADEWOOSH_HUGE
+	smeltresult = /obj/item/ingot/iron
+
+// Sabres.. or is it Sabers?
+/obj/item/rogueweapon/sword/sabre
+	name = "sabre"
+	desc = "A very popular backsword made for cavalrymen that originated in Naledi and spread its influence further north, reaching Aavnr as a \"Szablya\" and \
+	notoriously cementing itself as the preferred weapon of the Potentate's Hussars."
+	icon_state = "sabre"
+	sheathe_icon = "sabre"
+	possible_item_intents = list(/datum/intent/sword/cut/sabre, /datum/intent/sword/cut/sabre/heavy, /datum/intent/sword/thrust/sabre, /datum/intent/sword/strike)
+	gripped_intents = null
+	parrysound = list('sound/combat/parry/bladed/bladedthin (1).ogg', 'sound/combat/parry/bladed/bladedthin (2).ogg', 'sound/combat/parry/bladed/bladedthin (3).ogg')
+	swingsound = BLADEWOOSH_SMALL
+	max_blade_int = 230
+	minstr = 5
+	wdefense = 7		//Same as rapier
+	wbalance = WBALANCE_SWIFT
+	special = /datum/special_intent/shin_swipe
+
+/obj/item/rogueweapon/sword/sabre/dec
+	icon_state = "decsabre"
+	sheathe_icon = "decsabre"
+
+/obj/item/rogueweapon/sword/sabre/iron
+	name = "iron sabre"
+	desc = "A Naledian sword mass produced for line infantry. Its fittings are simple, munitions grade, but the construction is sturdy and the blade as threatening \
+	as any."
+	smeltresult = /obj/item/ingot/iron
+	max_integrity = 100
+	icon_state = "isabre"
+
+/obj/item/rogueweapon/sword/sabre/steppesman
+	name = "aavnic shashka"
+	desc = "A single-edged, single-handed, and guardless blade of northern Aavnic make with a brass pommel in the shape of a zad's head. The gentle curve of its \
+	blade puts it midway between a radically curved sabre and a straight sword, effective for both cutting and thrusting but lacking raw defense potential."
+	possible_item_intents = list(/datum/intent/sword/cut/sabre, /datum/intent/sword/thrust/sabre, /datum/intent/sword/chop, /datum/intent/rend)
+	wdefense = 5
+	minstr = 6
+	icon_state = "shashka"
+	sheathe_icon = "shashka"
+
+/obj/item/rogueweapon/sword/sabre/freifechter
+	name = "szöréndnížine sabre"
+	desc = "A rare, specialty-made sabre domestic to Szöréndnížina, made similarly to those of the Potentate's Hussars. It has a large, open hilt \
+	with a cross-shaped guard formed from quillons and langets and a heavy curved blade. A chain is attached to the crossguard and into the \
+	pommel, protecting the hand. Unlike shorter and ligther sabres, it's large enough to reach the feet."
+	icon = 'icons/roguetown/weapons/special/freifechter.dmi'
+	possible_item_intents = list(/datum/intent/sword/cut/sabre/master, /datum/intent/sword/thrust/sabre, /datum/intent/effect/daze/freisabre, /datum/intent/rend)
+	wdefense = 7
+	minstr = 8
+	icon_state = "szabla"
+	sheathe_icon = "szabla"
+	bigboy = 1
+	max_integrity = 215
+	max_blade_int = 275		//Similarly statted to the longswords
+	inhand_x_dimension = 64
+	inhand_y_dimension = 64
+
+/obj/item/rogueweapon/sword/sabre/freifechter/Initialize(mapload)
+	. = ..()
+	AddComponent(/datum/component/skill_blessed, TRAIT_SABRIST, /datum/skill/combat/swords, SKILL_LEVEL_MASTER, TRUE)
+
+/obj/item/rogueweapon/sword/sabre/elf
+	name = "elvish sabre"
+	desc = "A single-edged masterwork of Elven design, whose silvered blade glimmers under the sun's glare."
+	icon_state = "esabre"
+	item_state = "esabre"
+	sheathe_icon = "esabre"
+	lefthand_file = 'icons/mob/inhands/weapons/swords_lefthand.dmi'
+	righthand_file = 'icons/mob/inhands/weapons/swords_righthand.dmi'
+	force = 23 //Equalized with the Stalker Sabre, with a +1DMG boost to its original stats.
+	force_wielded = 23
+	minstr = 7
+	wdefense = 7
+	last_used = 0
+	is_silver = TRUE //One of the rare silver-edged weapons that has a positive damage boost, due to it requiring both silver and gold to create.
+	smeltresult = /obj/item/ingot/gold
+	smelt_bar_num = 1
+
+/obj/item/rogueweapon/sword/sabre/elf/ComponentInitialize()
+	AddComponent(\
+		/datum/component/silverbless,\
+		pre_blessed = BLESSING_NONE,\
+		silver_type = SILVER_TENNITE\
+	)
+
+/obj/item/rogueweapon/sword/sabre/stalker
+	name = "stalker sabre"
+	desc = "A once-elegant blade of ketryl, whose sunless edge now menaces with obsidian-hued mirth."
+	icon_state = "spidersabre"
+	force = 23
+	force_wielded = 23
+	minstr = 7
+	wdefense = 8
+	smeltresult = /obj/item/ingot/drow
+	smelt_bar_num = 1
+
+/obj/item/rogueweapon/sword/sabre/shamshir
+	name = "shamshir"
+	desc = "A curved one-handed sword. This type of scimitar is the quintessential armament of Ranesheni horsemen, its name derived from Sama'glos for \"Tiger's claw\"."
+	force = 24
+	wdefense = 6	//Loses 1 wdef for that extra 2 force
+	icon_state = "tabi"
+	icon = 'icons/roguetown/weapons/swords64.dmi'
+	possible_item_intents = list(/datum/intent/sword/cut/sabre, /datum/intent/sword/chop, /datum/intent/sword/cut/sabre/heavy, /datum/intent/sword/strike)
+	bigboy = TRUE
+	pixel_y = -16
+	pixel_x = -16
+	inhand_x_dimension = 64
+	inhand_y_dimension = 64
+	dropshrink = 0.75
+
+/obj/item/rogueweapon/sword/sabre/shamshir/getonmobprop(tag)
+	. = ..()
+	if(tag)
+		switch(tag)
+			if("gen")
+				return list("shrink" = 0.6,"sx" = -10,"sy" = -8,"nx" = 13,"ny" = -8,"wx" = -8,"wy" = -7,"ex" = 7,"ey" = -8,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = 90,"sturn" = -90,"wturn" = -80,"eturn" = 81,"nflip" = 0,"sflip" = 8,"wflip" = 8,"eflip" = 0)
+			if("wielded")
+				return list("shrink" = 0.6,"sx" = 3,"sy" = 4,"nx" = -1,"ny" = 4,"wx" = -8,"wy" = 3,"ex" = 7,"ey" = 0,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = 0,"sturn" = 0,"wturn" = 0,"eturn" = 15,"nflip" = 8,"sflip" = 0,"wflip" = 8,"eflip" = 0)
+			if("onbelt")
+				return list("shrink" = 0.5,"sx" = -4,"sy" = -6,"nx" = 5,"ny" = -6,"wx" = 0,"wy" = -6,"ex" = -1,"ey" = -6,"nturn" = 100,"sturn" = 156,"wturn" = 90,"eturn" = 180,"nflip" = 0,"sflip" = 0,"wflip" = 0,"eflip" = 0,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0)
+
+/obj/item/rogueweapon/sword/sabre/bronzekhopesh
+	name = "khopesh"
+	desc = "A sickle-shaped sword of Naledi origin that owes its design to a type of battle axe its ancient settlers once used - it represents a symbol \
+	of power and conquest. The glint along its bronzen edge shifts with every passing glance, yearning to be dulled-wet with the blood of long-extinct villains."
+	icon_state = "bronzekhopesh"
+	force = 22
+	possible_item_intents = list(/datum/intent/sword/cut/sabre, /datum/intent/sword/thrust, /datum/intent/sword/chop/falx)
+	max_integrity = 175
+	max_blade_int = 300
+	smeltresult = /obj/item/ingot/bronze
+
+/obj/item/rogueweapon/sword/sabre/nockhopesh
+	name = "moonlight khopesh"
+	desc = "A sickle-shaped sword of Naledi origin that owes its design to a type of battle axe its ancient settlers once used - it represents a \
+	symbol of power and conquest. This one in particular is made of blued steel."
+	icon_state = "nockhopesh"
+	force = 25	//Base is 22
+	possible_item_intents = list(/datum/intent/sword/cut/sabre, /datum/intent/sword/thrust, /datum/intent/sword/chop/falx)
+	max_integrity = 200
+
+/obj/item/rogueweapon/sword/sabre/alloy
+	name = "decrepit khopesh"
+	desc = "A hooked sword, wrought from rotted metal. The design is not only baffling, but seems to predate history itself."
+	force = 18
+	max_integrity = 115
+	icon_state = "akhopesh"
+	blade_dulling = DULLING_SHAFT_CONJURED
+	color = "#bb9696"
+	smeltresult = /obj/item/ingot/aaslag
+	anvilrepair = null
+
+/obj/item/rogueweapon/sword/sabre/palloy
+	name = "ancient khopesh"
+	desc = "A polished hook-sword, forged from gilbranze. The Comet Syon's glare once graced this blade; now, it's wielded by those who can't even \
+	remember what came before His sacrifice."
+	smeltresult = /obj/item/ingot/aaslag
+	icon_state = "akhopesh"
+
+/obj/item/rogueweapon/sword/sabre/mulyeog
+	name = "hwando" // From Korean Hwangdo - Lit. Military Sword / Sabre, noted for less curves than a Japanese katana.
+	desc = "A foreign single-edged sword used by cut-throats & thugs. There's a red tassel on the hilt, said to bring about good fortune."
+	sheathe_icon = "mulyeog" // Stronger offense less defense sword meant to be paired w/ scabbard for parrying
+	icon_state = "eastsword1"
+	force = 25
+	smeltresult = /obj/item/ingot/steel
+	wdefense = 3
+
+/obj/item/rogueweapon/sword/sabre/mulyeog/rumahench
+	name = "ruma hwando"
+	desc = "A foreign steel single-edged sword with cloud patterns on the groove. The Ruma Clan's insignia is engraved on the blade."
+	icon_state = "eastsword2"
+	force = 27
+	max_integrity = 200
+	sharpness_mod = 1.5
+	sellprice = 50
+
+/obj/item/rogueweapon/sword/sabre/mulyeog/rumacaptain
+	name = "samjeongdo"
+	desc = "A gold-stained sword with cloud patterns on the groove. Exceedingly rare. It is a symbol of status within the Ruma clan."
+	icon_state = "eastsword3"
+	force = 27
+	max_integrity = 200
+	sharpness_mod = 1.5
+	sellprice = 100
+
+/obj/item/rogueweapon/sword/sabre/wodao
+	name = "wodao"
+	desc = "A slightly curved blade originating in the eastern realm of Lingyue, where its design was perfected over centuries of dynastic warfare. \
+	The pattern has since spread along the trade routes - adopted by Kazengunite diplomat-militants, then carried west as far as the Naledian allspice caravans. \
+	While less durable compared to other arming swords, its swift balance and unique design make it great for unleashing precise strikes."
+	icon = 'icons/roguetown/weapons/swords32.dmi'
+	icon_state = "wodao"
+	sheathe_icon = "wodao"
+
+/obj/item/rogueweapon/sword/sabre/iron/wodao
+	name = "iron wodao"
+	desc = "A wrought-iron wodao, mass produced by the thousands in the state arsenals for Xinyi infantry and provincial militias. The blade is competent, its edge sharp, but it will not hold as long under use. But at a fraction of the cost of a hwando, it is more than enough to slay a man or five before it needs to be sharpened."
+	icon_state = "iwodao"
+
+/obj/item/rogueweapon/sword/sabre/hook
+	name = "hook sword"
+	desc = "A steel sword with a hooked design at the tip of it; perfect for disarming enemies. Its back edge is sharpened and the hilt appears to have a sharpened tip."
+	force = 20
+	icon = 'icons/roguetown/weapons/swords64.dmi'
+	icon_state = "hook_sword"
+	possible_item_intents = list(/datum/intent/sword/cut/sabre, /datum/intent/sword/thrust/hook, /datum/intent/sword/strike, /datum/intent/sword/disarm)
+	max_integrity = 180
+	wdefense = 5
+
+/obj/item/rogueweapon/sword/sabre/hook/getonmobprop(tag)
+	. = ..()
+	if(tag)
+		switch(tag)
+			if("gen") return list(
+				"shrink" = 0.5,
+				"sx" = -14,
+				"sy" = -8,
+				"nx" = 15,
+				"ny" = -7,
+				"wx" = -10,
+				"wy" = -5,
+				"ex" = 7,
+				"ey" = -6,
+				"northabove" = 0,
+				"southabove" = 1,
+				"eastabove" = 1,
+				"westabove" = 0,
+				"nturn" = -13,
+				"sturn" = 110,
+				"wturn" = -60,
+				"eturn" = -30,
+				"nflip" = 1,
+				"sflip" = 1,
+				"wflip" = 8,
+				"eflip" = 1,
+				)
+			if("onback") return list(
+				"shrink" = 0.5,
+				"sx" = -1,
+				"sy" = 2,
+				"nx" = 0,
+				"ny" = 2,
+				"wx" = 2,
+				"wy" = 1,
+				"ex" = 0,
+				"ey" = 1,
+				"nturn" = 0,
+				"sturn" = 0,
+				"wturn" = 70,
+				"eturn" = 15,
+				"nflip" = 1,
+				"sflip" = 1,
+				"wflip" = 1,
+				"eflip" = 1,
+				"northabove" = 1,
+				"southabove" = 0,
+				"eastabove" = 0,
+				"westabove" = 0,
+				)
+			if("onbelt") return list(
+				"shrink" = 0.4,
+				"sx" = -4,
+				"sy" = -6,
+				"nx" = 5,
+				"ny" = -6,
+				"wx" = 0,
+				"wy" = -6,
+				"ex" = -1,
+				"ey" = -6,
+				"nturn" = 100,
+				"sturn" = 156,
+				"wturn" = 90,
+				"eturn" = 180,
+				"nflip" = 0,
+				"sflip" = 0,
+				"wflip" = 0,
+				"eflip" = 0,
+				"northabove" = 0,
+				"southabove" = 1,
+				"eastabove" = 1,
+				"westabove" = 0,
+				)
+
+/obj/item/rogueweapon/sword/sabre/banneret // just a better sabre, unique banneret weapon
+	name = "\"Edict\""
+	desc = "A lavish blacksteel sabre, inlaid with gold along the hilt and crossguard. The blade bears an inscription,\"FIAT JUSTITIA\"."
+	icon_state = "capsabre"
+	icon = 'icons/roguetown/weapons/special/captain.dmi'
+	force = 25 // same as elvish sabre
+	max_integrity = 200 // more integrity because blacksteel, a bit less than the flamberge
+	parrysound = list('sound/combat/parry/bladed/bladedthin (1).ogg', 'sound/combat/parry/bladed/bladedthin (2).ogg', 'sound/combat/parry/bladed/bladedthin (3).ogg')
+	sellprice = 100 // lets not make it too profitable
+	smeltresult = /obj/item/ingot/blacksteel
+
+/obj/item/rogueweapon/sword/sabre/bane
+	name = "\"Bane's Edge\""
+	desc = "A stained sabre made of blacksteel, its edge is coated in long-dried blood as well as poison."
+	icon_state = "poisonsabre"
+	force = 25
+	max_integrity = 200
+	parrysound = list('sound/combat/parry/bladed/bladedthin (1).ogg', 'sound/combat/parry/bladed/bladedthin (2).ogg', 'sound/combat/parry/bladed/bladedthin (3).ogg')
+	sellprice = 50
+	smeltresult = null
+	special = /datum/special_intent/coat_blade
+
+// Falxes.
+/obj/item/rogueweapon/sword/falx
+	name = "falx"
+	desc = "An unusual type of curved sword that evolved from the farmer's sickle. It has an inwards edge, making it useful for cutting and chopping, great for destroying shields and men alike."
+	force = 22
+	possible_item_intents = list(/datum/intent/sword/cut/falx, /datum/intent/sword/chop/falx, /datum/intent/sword/cut/falx/heavy, /datum/intent/sword/strike)
+	icon_state = "falx"
+	max_blade_int = 230 // Tiny downgrade like the sabre
+	gripped_intents = null
+	minstr = 4
+	wdefense = 6
+
+/obj/item/rogueweapon/sword/falx/stalker
+	name = "stalker falx"
+	desc = "A jagged blade with an in inward edge. Once a reputable weapon, now little more than a thug's tool."
+	icon_state = "spiderfalx"
+	wbalance = WBALANCE_SWIFT
+	smeltresult = /obj/item/ingot/drow
+	smelt_bar_num = 1
+
+/obj/item/rogueweapon/sword/falx/dadao
+	name = "dadao"
+	desc = "A heavy steel blade with a pronounced curve and thick blade, designed to chop apart men and saigas alike. The Ranesheni name it Saigachopper - until they encountered the Zhanmadao, and then they renamed it the Little Saigachopper."
+	icon = 'icons/roguetown/weapons/swords32.dmi'
+	icon_state = "dadao"
+	sheathe_icon = "dadao"
+
+/obj/item/rogueweapon/sword/falx/dadao/iron
+	name = "iron dadao"
+	desc = "A wrought iron variant of the dadao, wrought by Lingyuese smithmen for smoothmen to use along a shield. The edge dulls quickly, but it will decapitate men and saiga all the same."
+	icon_state = "idadao"
+	smeltresult = /obj/item/ingot/iron
+	max_blade_int = 200
+
+// Messers. Like Sabres and Falxes, but a little cooler.
+/obj/item/rogueweapon/sword/short/messer
+	name = "steel messer"
+	desc = "A \"Großesmesser\" of disputed Grenzel origin, meaning greatknife. It's a basic single-edge sword for civilian and military use. It excels at slicing and chopping, and it's made of steel."
+	icon_state = "smesser"
+	sheathe_icon = "smesser"
+	force = 25
+	possible_item_intents = list(/datum/intent/sword/cut/sabre, /datum/intent/axe/chop, /datum/intent/sword/strike)
+	minstr = 6
+	wdefense = 4
+
+/obj/item/rogueweapon/sword/short/messer/duelist
+	name = "dueling messer"
+	sheathe_icon = "smesser"
+	swingsound = BLADEWOOSH_SMALL
+	wbalance = WBALANCE_SWIFT
+
+/obj/item/rogueweapon/sword/short/messer/iron
+	name = "iron messer"
+	desc = "A \"Großesmesser\" of disputed Grenzel origin, meaning greatknife. It's a basic single-edge sword for civilian and military use."
+	icon_state = "dmesser"
+	force = 22
+	minstr = 4
+	wdefense = 3
+	max_integrity = 100
+	smeltresult = /obj/item/ingot/iron
+
+/obj/item/rogueweapon/sword/short/messer/hunting
+	name = "iron hunting sword"
+	desc = "A basic single-edge sword that is usually used to finish off hunted game. It excels at slicing and chopping, and it's made of iron. \
+	It's a fairly reliable and affordable self-defense weapon. And, unlike other swords, it can be used to butcher animals."
+	icon_state = "ihunting"
+	sheathe_icon = "imesser"
+	possible_item_intents = list(/datum/intent/sword/cut/sabre, /datum/intent/sword/chop/, /datum/intent/sword/thrust, /datum/intent/sword/strike)	//Gets sword chop VS the messer's evil ass axe chop.
+	force = 22
+	minstr = 4
+	wdefense = 2
+	wlength = WLENGTH_SHORT
+	w_class = WEIGHT_CLASS_NORMAL
+	smeltresult = /obj/item/ingot/iron
+	max_blade_int = 150
+	max_integrity = 100
+
+/obj/item/rogueweapon/sword/short/messer/hunting/steel
+	name = "steel hunting sword"
+	desc = "A basic single-edge sword that is usually used to finish off hunted game. It excels at slicing and chopping, and it's made of steel. \
+	It's a fairly reliable and affordable self-defense weapon. And, unlike other swords, it can be used to butcher animals."
+	force = 25
+	minstr = 6
+	smeltresult = /obj/item/ingot/steel
+	icon_state = "shunting"
+	sheathe_icon = "smesser"
+	max_blade_int = 200
+	max_integrity = 150
+
+/obj/item/rogueweapon/sword/short/messer/hunting/steel/towner
+	name = "Azurian hunting sword"
+	desc = "A finely crafted hunting sword borne of Azurian artisanship. It's very popular with local hunters thanks to its shaped blackhorn antler handle - with a flared guard and a large thumb groove for precision. \
+	Unlike other swords, it can be used to butcher animals with ease. It even features a gut hook for dressing animals and cleaning fish."
+	icon_state = "townerhunting"
+	sheathe_icon = "smesser"
+	max_blade_int = 225
+	max_integrity = 185
+	sellprice = 70
+
+/obj/item/rogueweapon/sword/short/messer/iron/virtue
+	name = "iron dueling messer"
+	desc = "A \"Großesmesser\" of disputed Grenzel origin, meaning greatknife. It's a basic single-edge sword for civilian and military use. It has been modified for the express purpose of dueling, with an added guard and a leaner grip for comfort and speed."
+	icon_state = "dmesser"
+	sheathe_icon = "dmesser"
+	swingsound = BLADEWOOSH_SMALL
+	wdefense = 3
+	wbalance = WBALANCE_SWIFT
+
+/obj/item/rogueweapon/sword/short/messer/alt
+	name = "noble's hunting sword"
+	desc = "A noble single-edge sword that can hack through a saiga's neck like timberwood. It excels at slicing and chopping, and it's made of steel. \
+	It's a reliable self-defense weapon, and a status symbol amongst the peasantry; if a yeoman has this upon their hip, they mean business. Unlike other hunting swords, it is unfit for butchering."
+	icon_state = "smesseralt"
+	sheathe_icon = "smesseralt"
+	wdefense = 3
+
+/obj/item/rogueweapon/sword/short/messer/copper
+	name = "copper messer"
+	desc = "A copper hunting sword. Less lethal than its iron counterpart."
+	force = 20 // Worse force. This weapon has steel integ instead of iron integ. Don't ask me why, it was that way before too.
+	icon_state = "cmesser"
+	sheathe_icon = "cmesser"
+	minstr = 4
+	wdefense = 2
+	smeltresult = /obj/item/ingot/copper
+
+/obj/item/rogueweapon/sword/short/messer/bronze
+	name = "makhaira"
+	desc = "A heavy shortsword of similar design to the Kopis, fit for cleaving through both foliage and flesh. </br>Infamous for its \
+	presence amongst the gladitorial arenas of Lirvas and Raneshen, where gashes provide the kind of crimson spectacle that liquor-addled \
+	crowds adore the most."
+	icon_state = "makhaira"
+	minstr = 6
+	wdefense = 3
+	wlength = WLENGTH_NORMAL
+	w_class = WEIGHT_CLASS_NORMAL
+	smeltresult = /obj/item/ingot/bronze
+	max_integrity = 150
+	sheathe_icon = "kopis"
+
+/obj/item/rogueweapon/sword/short/messer/blacksteel
+	name = "blacksteel messer"
+	desc = "A magnificent shortsword of blacksteel. Divorced from the labors that originally warranted its creation, yet no-less-adept at cleaving \
+	whatever might trouble one's morning strolls."
+	force = 27
+	possible_item_intents = list(/datum/intent/sword/cut/sabre, /datum/intent/sword/thrust, /datum/intent/axe/chop, /datum/intent/sword/cut/sabre/heavy)
+	smeltresult = /obj/item/ingot/blacksteel
+	icon_state = "bs_messer"
+	sheathe_icon = "bs_messer"
+	max_blade_int = 300
+	wbalance = WBALANCE_SWIFT
+
+// Rapiers. All the handling of a shortsword with the visual fidelity of a longsword.
+/obj/item/rogueweapon/sword/rapier
+	name = "rapier"
+	desc = "A practically brand new sword type with a straight, slender and sharply pointed blade meant to be wielded in one hand. \
+		Originating in the islands of Etrusca, its name comes from the term \"spada ropera\" (Literally \"dress sword\") due to its primary function being that of an accessory. \
+		A very young type of fighting technique for this weapon is emerging in the island, aptly named \"Destreza\" for dexterity."
+	icon = 'icons/roguetown/weapons/swords64.dmi'
+	icon_state = "rapier"
+	sheathe_icon = "rapier"
+	bigboy = TRUE
+	pixel_y = -16
+	pixel_x = -16
+	inhand_x_dimension = 64
+	inhand_y_dimension = 64
+	dropshrink = 0.75
+	max_blade_int = 230
+	possible_item_intents = list(/datum/intent/sword/thrust/rapier, /datum/intent/sword/cut/rapier, /datum/intent/sword/thrust/rapier/lunge)
+	gripped_intents = null
+	special = /datum/special_intent/piercing_lunge
+	parrysound = list(
+		'sound/combat/parry/bladed/bladedthin (1).ogg',
+		'sound/combat/parry/bladed/bladedthin (2).ogg',
+		'sound/combat/parry/bladed/bladedthin (3).ogg',
+		)
+	swingsound = BLADEWOOSH_SMALL
+	minstr = 6
+	wdefense = 7
+	wbalance = WBALANCE_SWIFT
+
+/obj/item/rogueweapon/sword/rapier/getonmobprop(tag)
+	. = ..()
+	if(tag)
+		switch(tag)
+			if("gen") return list(
+				"shrink" = 0.5,
+				"sx" = -14,
+				"sy" = -8,
+				"nx" = 15,
+				"ny" = -7,
+				"wx" = -10,
+				"wy" = -5,
+				"ex" = 7,
+				"ey" = -6,
+				"northabove" = 0,
+				"southabove" = 1,
+				"eastabove" = 1,
+				"westabove" = 0,
+				"nturn" = -13,
+				"sturn" = 110,
+				"wturn" = -60,
+				"eturn" = -30,
+				"nflip" = 1,
+				"sflip" = 1,
+				"wflip" = 8,
+				"eflip" = 1,
+				)
+			if("onback") return list(
+				"shrink" = 0.5,
+				"sx" = -1,
+				"sy" = 2,
+				"nx" = 0,
+				"ny" = 2,
+				"wx" = 2,
+				"wy" = 1,
+				"ex" = 0,
+				"ey" = 1,
+				"nturn" = 0,
+				"sturn" = 0,
+				"wturn" = 70,
+				"eturn" = 15,
+				"nflip" = 1,
+				"sflip" = 1,
+				"wflip" = 1,
+				"eflip" = 1,
+				"northabove" = 1,
+				"southabove" = 0,
+				"eastabove" = 0,
+				"westabove" = 0,
+				)
+			if("onbelt") return list(
+				"shrink" = 0.4,
+				"sx" = -4,
+				"sy" = -6,
+				"nx" = 5,
+				"ny" = -6,
+				"wx" = 0,
+				"wy" = -6,
+				"ex" = -1,
+				"ey" = -6,
+				"nturn" = 100,
+				"sturn" = 156,
+				"wturn" = 90,
+				"eturn" = 180,
+				"nflip" = 0,
+				"sflip" = 0,
+				"wflip" = 0,
+				"eflip" = 0,
+				"northabove" = 0,
+				"southabove" = 1,
+				"eastabove" = 1,
+				"westabove" = 0,
+				)
+
+/obj/item/rogueweapon/sword/rapier/dec
+	name = "decorated rapier"
+	desc = "A fine duelist's instrument with a tapered thrusting blade. Its hilt is gilt in gold and inlaid, \
+	and its blade bears twin inscriptions on either side. One reads, \"CAST IN THE NAME OF GODS\" while the \
+	obverse reads, \"YE NOT GUILTY\"."
+	icon_state = "decrapier"
+	sheathe_icon = "decrapier"
+	no_loot_taint = TRUE
+
+/obj/item/rogueweapon/sword/rapier/vaquero
+	name = "cup-hilt rapier"
+	desc = "A special variant of an Etruscan rapier. The cup hilt of this weapon is both simpler to produce and more protective than the type of traditional design of current rapiers."
+	icon_state = "cup_hilt_rapier"
+	wdefense = 8
+	force = 25
+
+/obj/item/rogueweapon/sword/rapier/silver
+	name = "silver rapier"
+	desc = "A basket-hilted rapier, fitted with a thin blade of pure silver. Immortalized by Rockhill's witch hunters, this weapon - though cumberstone \
+	in an untrained hand - is surprisingly adept at both parrying and riposting."
+	icon_state = "silverrapier"
+	sheathe_icon = "silverrapier"
+	smeltresult = /obj/item/ingot/silver
+	is_silver = TRUE
+
+/obj/item/rogueweapon/sword/rapier/silver/ComponentInitialize()
+	AddComponent(\
+		/datum/component/silverbless,\
+		pre_blessed = BLESSING_NONE,\
+		silver_type = SILVER_TENNITE\
+	)
+
+/obj/item/rogueweapon/sword/rapier/silver/psy
+	name = "psydonic rapier"
+	desc = "A basket-hilted rapier, fitted with a thin blade of pure silver. Such a resplendent weapon not only pierces the gaps within a heathen's \
+	maille, but also serves as the symbol of an Otavan diplomat's authority."
+	icon_state = "silverrapier"
+	sheathe_icon = "silverrapier"
+	smeltresult = /obj/item/ingot/silverblessed
+
+/obj/item/rogueweapon/sword/rapier/silver/psy/ComponentInitialize()
+	AddComponent(\
+		/datum/component/silverbless,\
+		pre_blessed = BLESSING_NONE,\
+		silver_type = SILVER_PSYDONIAN\
+	)
+
+/obj/item/rogueweapon/sword/rapier/silver/psy/preblessed/ComponentInitialize()
+	AddComponent(\
+		/datum/component/silverbless,\
+		pre_blessed = BLESSING_PSYDONIAN,\
+		silver_type = SILVER_PSYDONIAN\
+	)
+
+/obj/item/rogueweapon/sword/rapier/silver/psy/relic
+	name = "\"Eucharist\""
+	desc = "Etruscan shape falling prey to Otavan craftsmanship. Saint Malum's smiths created an uniquely thin blade, capable of swiftly \
+	skewering the unholy and the miscreants through gaps that most claim to have never existed in the first place. <b>Silver-dipped steel \
+	crowned upon a basket hilt that keeps righteous hands safe from harm.</b>"
+	icon_state = "psyrapier"
+	sheathe_icon = "psyrapier"
+	max_integrity = 250
+	max_blade_int = 330
+	minstr = 7
+	wdefense = 9
+
+/obj/item/rogueweapon/sword/rapier/silver/psy/relic/ComponentInitialize()
+	AddComponent(\
+		/datum/component/silverbless,\
+		pre_blessed = BLESSING_PSYDONIAN,\
+		silver_type = SILVER_PSYDONIAN\
+	)
+
+/obj/item/rogueweapon/sword/rapier/lord
+	name = "sword of the Mad Duke"
+	desc = "A royal heirloom whose spiraling basket hilt is inlaid with fine cut gems. It bears the burnish of \
+	time, where once sharply defined features have been worn down by so many hands. An old rumor ties this implement \
+	to the siege that smashed the Mad Duke's keep to rubble, and burnt the Duke himself to cinders."
+	icon_state = "lordrap"
+	sheathe_icon = "lordrapier"
+	sellprice = 150
+	max_integrity = 300
+	max_blade_int = 300
+	wdefense = 7
+
+/obj/item/rogueweapon/sword/rapier/eora
+	name = "\"Heartstring\""
+	desc = "A specialty-made bilbo hilt rapier made in service to Lady Eora. For the time when soft words can no longer be spoken, and hearts are to be pierced."
+	icon = 'icons/roguetown/weapons/swords32.dmi'
+	icon_state = "eorarapier"
+	sheathe_icon = "eorarapier"
+	grid_width = 32
+	grid_height = 64
+	dropshrink = 0
+	bigboy = FALSE
+	force = 25 // Same statline as the cup hilted etruscan rapier
+	wdefense = 8
+
+/obj/item/rogueweapon/sword/rapier/courtphysician
+	name = "cane blade"
+	desc = "A steel blade with a gold handle, intended to be concealed inside of a cane, bears the visage of a vulture on its pommel."
+	icon = 'icons/roguetown/weapons/swords32.dmi'
+	icon_state = "doccaneblade"
+	sheathe_icon = "doccaneblade"
+	sellprice = 100 //Gold handle
+	grid_width = 32
+	grid_height = 64
+	dropshrink = 0
+	bigboy = FALSE
+	possible_item_intents = list(/datum/intent/sword/thrust/rapier, /datum/intent/sword/cut/rapier)
+	gripped_intents = null
+	force_wielded = 0
+
+/obj/item/rogueweapon/sword/rapier/hand
+	name = "\"Dark Sister\""
+	desc = "A tool made for nobler tasks than shedding blood, discreet and ever ready, as you should be too."
+	icon = 'icons/roguetown/weapons/special/hand32.dmi'
+	icon_state = "staffblade"
+	item_state = "staffblade"
+	sheathe_icon = "staffblade"
+
+/obj/item/rogueweapon/sword/rapier/avantyne
+	name = "avantyne-threaded rapier"
+	desc = "Graceful yet grotesque, this piercing shard of spite ignores the art of fencing in favor of the art of suffering. To wield it is to let your coldest grudges guide your hand."
+	icon_state = "zizorapier"
+	sheathe_icon = "zizorapier"
+	force = 25
+	max_blade_int = 250
+	max_integrity = 225
+	smeltresult = /obj/item/ingot/avantyne
+
+/obj/item/rogueweapon/sword/rapier/avantyne/get_examine_highlight_status()
+	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_ZIZO_AVANTYNE)
+
+/obj/item/rogueweapon/sword/rapier/avantyne/relic
+	name = "\"Damnatio\""
+	desc = "Stemmed holiness, malformed beneath an otherworldly parasite. Such a necessary rite either commands not the will of \
+	a fearsome warlock, but of the Man whose faith in God has crumbled beyond repair. 'What have I done?' </br>'How did I sink?' </br>'From the holiest high..' </br>'..to the direst brink..'"
+	icon_state = "zizorapier"
+	sheathe_icon = "zizorapier"
+	force = 30
+	max_blade_int = 333
+	max_integrity = 333
+	smeltresult = /obj/item/ingot/avantyne
+
+/obj/item/rogueweapon/sword/rapier/blacksteel
+	name = "blacksteel rapier"
+	desc = "A magnificent rapier of blacksteel. Despite originating from the matrimony of cutting-edge swordsmanship techniques and metallurgy, it \
+	doesn't actually have a cutting edge to call its own. Not like that matters as much, of course, when it can pierce straight through plate armor."
+	force = 27
+	smeltresult = /obj/item/ingot/blacksteel
+	icon_state = "blacksteelrapier"
+	sheathe_icon = "blacksteelrapier"
+	max_blade_int = 400
+	possible_item_intents = list(/datum/intent/sword/thrust/rapier, /datum/intent/sword/cut/rapier, /datum/intent/sword/thrust/rapier/lunge)
+	wdefense = 9 //Absurdly high defense, but no added integrity; for the discerning duelmaster.
+	special_picks = list(
+		/datum/special_intent/piercing_lunge,
+		/datum/special_intent/polearm_backstep,
+		/datum/special_intent/dagger_dash,
+		/datum/special_intent/limbguard
+		)
+
+// Longswords. Because two hands're always better than one.. right?
 // The stock longsword fighting kit. A TRAIT_LONGSWORDSMAN only replaces these with the master intents
 // below, so any /sword/long subtype that redefines these won't work for a frei. Kept as defines so the
 // type below and uses_stock_longsword_kit() don't drift apart.
@@ -306,6 +1334,13 @@
 		gripped_intents = LONGSWORD_STOCK_GRIPPED_INTENTS
 		alt_grips = LONGSWORD_STOCK_ALT_GRIPS
 	master_training_active = should_train
+
+/obj/item/rogueweapon/sword/long/dec
+	name = "decorated longsword"
+	desc = "A valuable ornate longsword made for the purpose of ceremonial fashion, with a fine leather grip and a carefully engraved golden crossguard. \
+	Its blade bears twin inscriptions on either side. One reads, \"THY KINGDOM COME\" while the obverse reads, \"THY WILL BE DONE\"."
+	icon_state = "declongsword"
+	no_loot_taint = TRUE
 
 /obj/item/rogueweapon/sword/long/iron
 	name = "bastard sword"
@@ -430,24 +1465,6 @@
 
 /obj/item/rogueweapon/sword/long/matthios/get_examine_highlight_status()
 	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_MATTHIOS_WEAPON)
-
-/obj/item/rogueweapon/sword/broken
-	name = "broken sword"
-	desc = "A lethal and well-balanced weapon, long ago; now, a shadow of its former self. Half \
-	of the blade of this straight sword is broken off. Only the completely Deprived would even \
-	consider using this as a weapon.'"
-	icon_state = "isword_d"
-	sheathe_icon = "isword_d"
-	force = 23
-	force_wielded = 26
-	wdefense = 3
-	wdefense_wbonus = 1
-	max_blade_int = 180
-	max_integrity = 90
-	swingsound = BLADEWOOSH_HUGE
-	possible_item_intents = list(/datum/intent/sword/chop/heavy, /datum/intent/sword/thrust/heavy, /datum/intent/sword/cut/light, /datum/intent/sword/strike)
-	gripped_intents = list(/datum/intent/sword/chop/heavy, /datum/intent/sword/thrust/heavy, /datum/intent/sword/cut/light, /datum/intent/sword/strike)
-	smeltresult = /obj/item/ingot/iron
 
 /obj/item/rogueweapon/sword/long/training
 	name = "training sword"
@@ -1146,860 +2163,6 @@
 			if("onbelt")
 				return list("shrink" = 0.4,"sx" = -4,"sy" = -6,"nx" = 5,"ny" = -6,"wx" = 0,"wy" = -6,"ex" = -1,"ey" = -6,"nturn" = 100,"sturn" = 156,"wturn" = 90,"eturn" = 180,"nflip" = 0,"sflip" = 0,"wflip" = 0,"eflip" = 0,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0)
 
-/obj/item/rogueweapon/sword/short
-	name = "steel shortsword"
-	desc = "The arming sword's shorter and much older brother. Despite being centuries older than the swords of todae, it remains in use as a \
-	cheap sidearm for shieldbearers and archers."
-	alt_grips = null
-	possible_item_intents = list(/datum/intent/sword/cut/short, /datum/intent/sword/thrust/short, /datum/intent/sword/strike)
-	icon_state = "swordshort"
-	sheathe_icon = "swordshort"
-	gripped_intents = null
-	minstr = 4
-	wdefense = 4
-	wlength = WLENGTH_SHORT
-	w_class = WEIGHT_CLASS_NORMAL
-	grid_width = 32
-	grid_height = 96
-
-/obj/item/rogueweapon/sword/short/kazengun
-	name = "steel kodachi"
-	desc = "A razor-edged sword with a wavy pattern weld apparent on its blade."
-	possible_item_intents = list(
-		/datum/intent/sword/cut/short,
-		/datum/intent/sword/thrust/short,
-		/datum/intent/sword/chop/short,
-		)
-	icon_state = "eastshortsword"
-	sheathe_icon = "kodachi"
-	wbalance = WBALANCE_SWIFT
-
-/obj/item/rogueweapon/sword/short/iron
-	name = "iron shortsword"
-	desc = "The arming sword's shorter and much older brother. Despite being centuries older than the swords of todae, it remains in use as a cheap \
-	sidearm for shieldbearers and archers. This iron variant predates them all."
-	icon_state = "iswordshort"
-	sheathe_icon = "iswordshort"
-	wdefense = 3
-	smeltresult = /obj/item/ingot/iron
-	max_integrity = 100
-
-/obj/item/rogueweapon/sword/short/ashort
-	name = "decrepit short sword"
-	desc = "A chipped sidearm-sword, wrought from rotted metal. It's hard to gauge whether it was naturally forged to be so short, or if it's \
-	all that remained of a longer blade."
-	icon_state = "ashortsword"
-	sheathe_icon = "ashortsword"
-	max_integrity = 75
-	force = 18
-	blade_dulling = DULLING_SHAFT_CONJURED
-	color = "#bb9696"
-	smeltresult = /obj/item/ingot/aaslag
-	anvilrepair = null
-
-/obj/item/rogueweapon/sword/short/pashortsword
-	name = "ancient shortsword"
-	desc = "A polished sidearm-sword, forged from gilbranze. From after His sacrifice, but before Her ascension; the tithe of a war without reason, \
-	waged between squabbling children who hadn't known that the world was about to end."
-	icon_state = "ashortsword"
-	sheathe_icon = "ashortsword"
-	smeltresult = /obj/item/ingot/aaslag
-
-/obj/item/rogueweapon/sword/short/broken
-	name = "aged shortsword"
-	desc = "The arming sword's shorter and much older brother. Despite being centuries older than the swords of todae, it remains in use as a cheap \
-	sidearm for shieldbearers and archers. This ancient variant was there since the beginning, and - through one way or another - has found \
-	itself a wielder, once more. Imperfections hardly command censure, especially when the edge remains sharp enough to gouge; a fitting \
-	throwback for the final daes of Psydonia's latest era."
-	icon_state = "iswordshort_d"
-	sheathe_icon = "iswordshort_d"
-	wdefense = 3
-	smeltresult = /obj/item/ingot/iron
-	max_integrity = 90
-	max_blade_int = 150
-	force = 21
-	swingsound = BLADEWOOSH_HUGE
-	smeltresult = /obj/item/ingot/iron
-
-/obj/item/rogueweapon/sword/short/falchion
-	name = "falchion"
-	desc = "A single-edged sword that is similar to a messer in appearance, its origins trace back to Otava. An implement of commoners and knights \
-	alike. It's good for cutting and thrusting."
-	force = 20
-	icon_state = "falchion"
-	wdefense = 6
-	w_class = WEIGHT_CLASS_BULKY // Did not fit in a bag before path rework. Does not fit in a bag now either.
-	sheathe_icon = "falchion"
-
-/obj/item/rogueweapon/sword/short/gladius
-	name = "gladius"
-	desc = "A hefty blade of bronze, sharp enough to disembowel and decapitate with-but a lone hand's force. Psydonia's ancient champions drove back the \
-	Archdevil's hordes with these shortswords, a thousand years ago; yet now, the end has crept forth to threaten lyfe once more. Move with the grace of \
-	your ancestors - spread your feet, brace your grasp, and make them bleed for every step they take."
-	icon_state = "gladius"
-	sheathe_icon = "gladius"
-	max_integrity = 250
-	max_blade_int = 300
-	smeltresult = /obj/item/ingot/bronze
-	wdefense = 3
-
-/obj/item/rogueweapon/sword/short/gladius/decorated
-	name = "decorated gladius"
-	desc = "A beautiful depiction of justice, beflowered and besilked. The crimson engravings along its blade pay tribute to the ancient epics of Ravox's \
-	ascent to godlihood; for it was His wounding of the Sinistar's tentacled heart that forced the Archdevil to pause - first in disbelief, then in fascination."
-	icon_state = "gladiusdec"
-	sheathe_icon = "decgladius"
-	max_integrity = 300
-	smeltresult = /obj/item/ingot/gold
-	wdefense = 5
-	no_loot_taint = TRUE
-
-/obj/item/rogueweapon/sword/sabre/bronzekhopesh
-	name = "khopesh"
-	desc = "A sickle-shaped sword of Naledi origin that owes its design to a type of battle axe its ancient settlers once used - it represents a symbol \
-	of power and conquest. The glint along its bronzen edge shifts with every passing glance, yearning to be dulled-wet with the blood of long-extinct villains."
-	icon_state = "bronzekhopesh"
-	force = 22
-	possible_item_intents = list(/datum/intent/sword/cut/sabre, /datum/intent/sword/thrust, /datum/intent/sword/chop/falx)
-	max_integrity = 175
-	max_blade_int = 300
-	smeltresult = /obj/item/ingot/bronze
-
-/obj/item/rogueweapon/sword/short/gladius/agladius
-	name = "decrepit gladius"
-	desc = "A hefty shortsword, wrought from rotted metal. Once, the sidearm of a proud legionnaire; now, a consequence of progress and sacrifice."
-	force = 18
-	max_integrity = 150
-	icon_state = "agladius"
-	blade_dulling = DULLING_SHAFT_CONJURED
-	color = "#bb9696"
-	smeltresult = /obj/item/ingot/aaslag
-	anvilrepair = null
-
-/obj/item/rogueweapon/sword/short/gladius/pagladius
-	name = "ancient gladius"
-	desc = "A polished shortsword, forged from gilbranze. Favored by Zizo's undying legionnaires, this antiquated tool serves a simple purpose; \
-	to spill the innards of unenlightened fools."
-	icon_state = "agladius"
-	smeltresult = /obj/item/ingot/aaslag
-
-/obj/item/rogueweapon/sword/short/iron/chipped
-	name = "chipped iron shortsword"
-	desc = "A damaged and ancient iron shortsword, borne from beyond your time. It looks duller, and seems less effective."
-	force = 17
-	icon_state = "iswordshort_d"
-	sheathe_icon = "iswordshort_d"
-	max_integrity = 75
-
-/obj/item/rogueweapon/sword/short/silver/psy
-	name = "psydonic shortsword"
-	desc = "Otavan smiths worked with Grenzelhoftian artificers, and an esoteric sidearm was born: a shortsword with an unique design, dismissing a crossguard \
-	in favor of a hollow beak to hook and draw harm away from its user. Short in length, yet lethally light in weight."
-	icon_state = "psyswordshort"
-	sheathe_icon = "psyswordshort"
-	smeltresult = /obj/item/ingot/silverblessed
-
-/obj/item/rogueweapon/sword/short/silver/psy/ComponentInitialize()
-	AddComponent(\
-		/datum/component/silverbless,\
-		pre_blessed = BLESSING_NONE,\
-		silver_type = SILVER_PSYDONIAN\
-	)
-
-/obj/item/rogueweapon/sword/short/silver/psy/preblessed/ComponentInitialize()
-	AddComponent(\
-		/datum/component/silverbless,\
-		pre_blessed = BLESSING_PSYDONIAN,\
-		silver_type = SILVER_PSYDONIAN\
-	)
-
-/obj/item/rogueweapon/sword/short/silver
-	name = "silver shortsword"
-	desc = "A shortsword with a blade of pure silver. In the marginalia of tomes depicting Psydonia's crusading orders, there is no sight more iconic than that of \
-	the hauberk-draped paladin; a kite shield in one hand, and this glimmering sidearm in the other."
-	icon_state = "silverswordshort"
-	sheathe_icon = "psyswordshort"
-	is_silver = TRUE
-	smeltresult = /obj/item/ingot/silver
-
-/obj/item/rogueweapon/sword/short/silver/ComponentInitialize()
-	AddComponent(\
-		/datum/component/silverbless,\
-		pre_blessed = BLESSING_NONE,\
-		silver_type = SILVER_TENNITE\
-	)
-
-/obj/item/rogueweapon/sword/short/messer
-	name = "steel messer"
-	desc = "A \"Großesmesser\" of disputed Grenzel origin, meaning greatknife. It's a basic single-edge sword for civilian and military use. It excels at slicing and chopping, and it's made of steel."
-	icon_state = "smesser"
-	sheathe_icon = "smesser"
-	force = 25
-	possible_item_intents = list(/datum/intent/sword/cut/sabre, /datum/intent/axe/chop, /datum/intent/sword/strike)
-	minstr = 6
-	wdefense = 4
-
-/obj/item/rogueweapon/sword/short/messer/duelist
-	name = "dueling messer"
-	sheathe_icon = "smesser"
-	swingsound = BLADEWOOSH_SMALL
-	wbalance = WBALANCE_SWIFT
-
-/obj/item/rogueweapon/sword/short/messer/iron
-	name = "iron messer"
-	desc = "A \"Großesmesser\" of disputed Grenzel origin, meaning greatknife. It's a basic single-edge sword for civilian and military use."
-	icon_state = "dmesser"
-	force = 22
-	minstr = 4
-	wdefense = 3
-	max_integrity = 100
-	smeltresult = /obj/item/ingot/iron
-
-/obj/item/rogueweapon/sword/short/messer/hunting
-	name = "iron hunting sword"
-	desc = "A basic single-edge sword that is usually used to finish off hunted game. It excels at slicing and chopping, and it's made of iron. \
-	It's a fairly reliable and affordable self-defense weapon. And, unlike other swords, it can be used to butcher animals."
-	icon_state = "ihunting"
-	sheathe_icon = "imesser"
-	possible_item_intents = list(/datum/intent/sword/cut/sabre, /datum/intent/sword/chop/, /datum/intent/sword/thrust, /datum/intent/sword/strike)	//Gets sword chop VS the messer's evil ass axe chop.
-	force = 22
-	minstr = 4
-	wdefense = 2
-	wlength = WLENGTH_SHORT
-	w_class = WEIGHT_CLASS_NORMAL
-	smeltresult = /obj/item/ingot/iron
-	max_blade_int = 150
-	max_integrity = 100
-
-/obj/item/rogueweapon/sword/short/messer/hunting/steel
-	name = "steel hunting sword"
-	desc = "A basic single-edge sword that is usually used to finish off hunted game. It excels at slicing and chopping, and it's made of steel. \
-	It's a fairly reliable and affordable self-defense weapon. And, unlike other swords, it can be used to butcher animals."
-	force = 25
-	minstr = 6
-	smeltresult = /obj/item/ingot/steel
-	icon_state = "shunting"
-	sheathe_icon = "smesser"
-	max_blade_int = 200
-	max_integrity = 150
-
-/obj/item/rogueweapon/sword/short/messer/hunting/steel/towner
-	name = "Azurian hunting sword"
-	desc = "A finely crafted hunting sword borne of Azurian artisanship. It's very popular with local hunters thanks to its shaped blackhorn antler handle - with a flared guard and a large thumb groove for precision. \
-	Unlike other swords, it can be used to butcher animals with ease. It even features a gut hook for dressing animals and cleaning fish."
-	icon_state = "townerhunting"
-	sheathe_icon = "smesser"
-	max_blade_int = 225
-	max_integrity = 185
-	sellprice = 70
-
-/obj/item/rogueweapon/sword/short/messer/iron/virtue
-	name = "iron dueling messer"
-	desc = "A \"Großesmesser\" of disputed Grenzel origin, meaning greatknife. It's a basic single-edge sword for civilian and military use. It has been modified for the express purpose of dueling, with an added guard and a leaner grip for comfort and speed."
-	icon_state = "dmesser"
-	sheathe_icon = "dmesser"
-	swingsound = BLADEWOOSH_SMALL
-	wdefense = 3
-	wbalance = WBALANCE_SWIFT
-
-/obj/item/rogueweapon/sword/short/messer/alt
-	name = "noble's hunting sword"
-	desc = "A noble single-edge sword that can hack through a saiga's neck like timberwood. It excels at slicing and chopping, and it's made of steel. \
-	It's a reliable self-defense weapon, and a status symbol amongst the peasantry; if a yeoman has this upon their hip, they mean business. Unlike other hunting swords, it is unfit for butchering."
-	icon_state = "smesseralt"
-	sheathe_icon = "smesseralt"
-	wdefense = 3
-
-/obj/item/rogueweapon/sword/short/messer/copper
-	name = "copper messer"
-	desc = "A copper hunting sword. Less lethal than its iron counterpart."
-	force = 20 // Worse force. This weapon has steel integ instead of iron integ. Don't ask me why, it was that way before too.
-	icon_state = "cmesser"
-	sheathe_icon = "cmesser"
-	minstr = 4
-	wdefense = 2
-	smeltresult = /obj/item/ingot/copper
-
-/obj/item/rogueweapon/sword/short/messer/bronze
-	name = "makhaira"
-	desc = "A heavy shortsword of similar design to the Kopis, fit for cleaving through both foliage and flesh. </br>Infamous for its \
-	presence amongst the gladitorial arenas of Lirvas and Raneshen, where gashes provide the kind of crimson spectacle that liquor-addled \
-	crowds adore the most."
-	icon_state = "makhaira"
-	minstr = 6
-	wdefense = 3
-	wlength = WLENGTH_NORMAL
-	w_class = WEIGHT_CLASS_NORMAL
-	smeltresult = /obj/item/ingot/bronze
-	max_integrity = 150
-	sheathe_icon = "kopis"
-
-/obj/item/rogueweapon/sword/short/messer/blacksteel
-	name = "blacksteel messer"
-	desc = "A magnificent shortsword of blacksteel. Divorced from the labors that originally warranted its creation, yet no-less-adept at cleaving \
-	whatever might trouble one's morning strolls."
-	force = 27
-	possible_item_intents = list(/datum/intent/sword/cut/sabre, /datum/intent/sword/thrust, /datum/intent/axe/chop, /datum/intent/sword/cut/sabre/heavy)
-	smeltresult = /obj/item/ingot/blacksteel
-	icon_state = "bs_messer"
-	sheathe_icon = "bs_messer"
-	max_blade_int = 300
-	wbalance = WBALANCE_SWIFT
-
-/obj/item/rogueweapon/sword/sabre
-	name = "sabre"
-	desc = "A very popular backsword made for cavalrymen that originated in Naledi and spread its influence further north, reaching Aavnr as a \"Szablya\" and \
-	notoriously cementing itself as the preferred weapon of the Potentate's Hussars."
-	icon_state = "sabre"
-	sheathe_icon = "sabre"
-	possible_item_intents = list(/datum/intent/sword/cut/sabre, /datum/intent/sword/cut/sabre/heavy, /datum/intent/sword/thrust/sabre, /datum/intent/sword/strike)
-	gripped_intents = null
-	parrysound = list('sound/combat/parry/bladed/bladedthin (1).ogg', 'sound/combat/parry/bladed/bladedthin (2).ogg', 'sound/combat/parry/bladed/bladedthin (3).ogg')
-	swingsound = BLADEWOOSH_SMALL
-	max_blade_int = 230
-	minstr = 5
-	wdefense = 7		//Same as rapier
-	wbalance = WBALANCE_SWIFT
-	special = /datum/special_intent/shin_swipe
-
-/datum/intent/sword/cut/sabre
-	clickcd = 8		//Faster than sword by 4
-	damfactor = 1.25	//Better than rapier (Base is 1.1 for swords)
-	penfactor = PEN_NONE
-
-/datum/intent/sword/cut/sabre/heavy
-	name = "precise swing"
-	icon_state = "inhack"
-	blade_class = BCLASS_CHOP
-	damfactor = 1.5
-	penfactor = PEN_HEAVY
-	swingdelay = 1.1 SECONDS
-	clickcd = 1.3 SECONDS
-	swingdelay_type = SWINGDELAY_CANCEL
-	canparry = FALSE
-	candodge = FALSE
-
-/datum/intent/sword/thrust/sabre
-	clickcd = 9			//Fast but still not as fast as rapier n' shittier.
-	damfactor = 0.9		//10% worse	than base
-	penfactor = PEN_LIGHT	//Curved blade — can poke through cloth but not mail.
-
-/obj/item/rogueweapon/sword/sabre/dec
-	icon_state = "decsabre"
-	sheathe_icon = "decsabre"
-
-/obj/item/rogueweapon/sword/sabre/iron
-	name = "iron sabre"
-	desc = "A Naledian sword mass produced for line infantry. Its fittings are simple, munitions grade, but the construction is sturdy and the blade as threatening \
-	as any."
-	smeltresult = /obj/item/ingot/iron
-	max_integrity = 100
-	icon_state = "isabre"
-
-/obj/item/rogueweapon/sword/sabre/steppesman
-	name = "aavnic shashka"
-	desc = "A single-edged, single-handed, and guardless blade of northern Aavnic make with a brass pommel in the shape of a zad's head. The gentle curve of its \
-	blade puts it midway between a radically curved sabre and a straight sword, effective for both cutting and thrusting but lacking raw defense potential."
-	possible_item_intents = list(/datum/intent/sword/cut/sabre, /datum/intent/sword/thrust/sabre, /datum/intent/sword/chop, /datum/intent/rend)
-	wdefense = 5
-	minstr = 6
-	icon_state = "shashka"
-	sheathe_icon = "shashka"
-
-/datum/intent/sword/cut/sabre/master
-	name = "pokrajać"
-	desc = "Perform a masterful wide-arc cut that's strong enough to penetrate gambesons and light leathers."
-	attack_verb = list("masterfully cuts", "deftly slits", "quarts")
-	clickcd = 7
-	damfactor = 1.25
-	penfactor = PEN_MEDIUM
-	max_intent_damage = 25
-
-/datum/intent/effect/daze/freisabre
-	name = "uszkodzić"
-	desc = "After a few misleading strikes, suddenly slash at your opponent's wrist to affect their speed and strength, preventing them from using their weapon effectively. This move can be parried, but not dodged."
-	attack_verb = list("deftly wrist-slits")
-	intent_effect = /datum/status_effect/debuff/dazed/freisabre
-	target_parts = list(BODY_ZONE_PRECISE_L_HAND, BODY_ZONE_PRECISE_R_HAND)
-	blade_class = BCLASS_CUT
-	damfactor = 1.25
-	clickcd = 12
-	recovery = 8
-	swingdelay = 8
-	canparry = TRUE
-	candodge = FALSE
-
-/obj/item/rogueweapon/sword/sabre/freifechter
-	name = "szöréndnížine sabre"
-	desc = "A rare, specialty-made sabre domestic to Szöréndnížina, made similarly to those of the Potentate's Hussars. It has a large, open hilt \
-	with a cross-shaped guard formed from quillons and langets and a heavy curved blade. A chain is attached to the crossguard and into the \
-	pommel, protecting the hand. Unlike shorter and ligther sabres, it's large enough to reach the feet."
-	icon = 'icons/roguetown/weapons/special/freifechter.dmi'
-	possible_item_intents = list(/datum/intent/sword/cut/sabre/master, /datum/intent/sword/thrust/sabre, /datum/intent/effect/daze/freisabre, /datum/intent/rend)
-	wdefense = 7
-	minstr = 8
-	icon_state = "szabla"
-	sheathe_icon = "szabla"
-	bigboy = 1
-	max_integrity = 215
-	max_blade_int = 275		//Similarly statted to the longswords
-	inhand_x_dimension = 64
-	inhand_y_dimension = 64
-
-/obj/item/rogueweapon/sword/sabre/freifechter/Initialize(mapload)
-	. = ..()
-	AddComponent(/datum/component/skill_blessed, TRAIT_SABRIST, /datum/skill/combat/swords, SKILL_LEVEL_MASTER, TRUE)
-
-//Unique church sword - slightly better than regular sabre due to falx chop.
-/obj/item/rogueweapon/sword/sabre/nockhopesh
-	name = "moonlight khopesh"
-	desc = "A sickle-shaped sword of Naledi origin that owes its design to a type of battle axe its ancient settlers once used - it represents a \
-	symbol of power and conquest. This one in particular is made of blued steel."
-	icon_state = "nockhopesh"
-	force = 25	//Base is 22
-	possible_item_intents = list(/datum/intent/sword/cut/sabre, /datum/intent/sword/thrust, /datum/intent/sword/chop/falx)
-	max_integrity = 200
-
-/obj/item/rogueweapon/sword/sabre/alloy
-	name = "decrepit khopesh"
-	desc = "A hooked sword, wrought from rotted metal. The design is not only baffling, but seems to predate history itself."
-	force = 18
-	max_integrity = 115
-	icon_state = "akhopesh"
-	blade_dulling = DULLING_SHAFT_CONJURED
-	color = "#bb9696"
-	smeltresult = /obj/item/ingot/aaslag
-	anvilrepair = null
-
-/obj/item/rogueweapon/sword/sabre/palloy
-	name = "ancient khopesh"
-	desc = "A polished hook-sword, forged from gilbranze. The Comet Syon's glare once graced this blade; now, it's wielded by those who can't even \
-	remember what came before His sacrifice."
-	smeltresult = /obj/item/ingot/aaslag
-	icon_state = "akhopesh"
-
-/obj/item/rogueweapon/sword/sabre/elf
-	name = "elvish sabre"
-	desc = "A single-edged masterwork of Elven design, whose silvered blade glimmers under the sun's glare."
-	icon_state = "esabre"
-	item_state = "esabre"
-	sheathe_icon = "esabre"
-	lefthand_file = 'icons/mob/inhands/weapons/swords_lefthand.dmi'
-	righthand_file = 'icons/mob/inhands/weapons/swords_righthand.dmi'
-	force = 23 //Equalized with the Stalker Sabre, with a +1DMG boost to its original stats.
-	force_wielded = 23
-	minstr = 7
-	wdefense = 7
-	last_used = 0
-	is_silver = TRUE //One of the rare silver-edged weapons that has a positive damage boost, due to it requiring both silver and gold to create.
-	smeltresult = /obj/item/ingot/gold
-	smelt_bar_num = 1
-
-/obj/item/rogueweapon/sword/sabre/elf/ComponentInitialize()
-	AddComponent(\
-		/datum/component/silverbless,\
-		pre_blessed = BLESSING_NONE,\
-		silver_type = SILVER_TENNITE\
-	)
-
-/obj/item/rogueweapon/sword/sabre/stalker
-	name = "stalker sabre"
-	desc = "A once-elegant blade of ketryl, whose sunless edge now menaces with obsidian-hued mirth."
-	icon_state = "spidersabre"
-	force = 23
-	force_wielded = 23
-	minstr = 7
-	wdefense = 8
-	smeltresult = /obj/item/ingot/drow
-	smelt_bar_num = 1
-
-/obj/item/rogueweapon/sword/sabre/shamshir
-	name = "shamshir"
-	desc = "A curved one-handed sword. This type of scimitar is the quintessential armament of Ranesheni horsemen, its name derived from Sama'glos for \"Tiger's claw\"."
-	force = 24
-	wdefense = 6	//Loses 1 wdef for that extra 2 force
-	icon_state = "tabi"
-	icon = 'icons/roguetown/weapons/swords64.dmi'
-	possible_item_intents = list(/datum/intent/sword/cut/sabre, /datum/intent/sword/chop, /datum/intent/sword/cut/sabre/heavy, /datum/intent/sword/strike)
-	bigboy = TRUE
-	pixel_y = -16
-	pixel_x = -16
-	inhand_x_dimension = 64
-	inhand_y_dimension = 64
-	dropshrink = 0.75
-
-/obj/item/rogueweapon/sword/sabre/shamshir/getonmobprop(tag)
-	. = ..()
-	if(tag)
-		switch(tag)
-			if("gen")
-				return list("shrink" = 0.6,"sx" = -10,"sy" = -8,"nx" = 13,"ny" = -8,"wx" = -8,"wy" = -7,"ex" = 7,"ey" = -8,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = 90,"sturn" = -90,"wturn" = -80,"eturn" = 81,"nflip" = 0,"sflip" = 8,"wflip" = 8,"eflip" = 0)
-			if("wielded")
-				return list("shrink" = 0.6,"sx" = 3,"sy" = 4,"nx" = -1,"ny" = 4,"wx" = -8,"wy" = 3,"ex" = 7,"ey" = 0,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = 0,"sturn" = 0,"wturn" = 0,"eturn" = 15,"nflip" = 8,"sflip" = 0,"wflip" = 8,"eflip" = 0)
-			if("onbelt")
-				return list("shrink" = 0.5,"sx" = -4,"sy" = -6,"nx" = 5,"ny" = -6,"wx" = 0,"wy" = -6,"ex" = -1,"ey" = -6,"nturn" = 100,"sturn" = 156,"wturn" = 90,"eturn" = 180,"nflip" = 0,"sflip" = 0,"wflip" = 0,"eflip" = 0,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0)
-
-/obj/item/rogueweapon/sword/rapier
-	name = "rapier"
-	desc = "A practically brand new sword type with a straight, slender and sharply pointed blade meant to be wielded in one hand. \
-		Originating in the islands of Etrusca, its name comes from the term \"spada ropera\" (Literally \"dress sword\") due to its primary function being that of an accessory. \
-		A very young type of fighting technique for this weapon is emerging in the island, aptly named \"Destreza\" for dexterity."
-	icon = 'icons/roguetown/weapons/swords64.dmi'
-	icon_state = "rapier"
-	sheathe_icon = "rapier"
-	bigboy = TRUE
-	pixel_y = -16
-	pixel_x = -16
-	inhand_x_dimension = 64
-	inhand_y_dimension = 64
-	dropshrink = 0.75
-	max_blade_int = 230
-	possible_item_intents = list(/datum/intent/sword/thrust/rapier, /datum/intent/sword/cut/rapier, /datum/intent/sword/thrust/rapier/lunge)
-	gripped_intents = null
-	special = /datum/special_intent/piercing_lunge
-	parrysound = list(
-		'sound/combat/parry/bladed/bladedthin (1).ogg',
-		'sound/combat/parry/bladed/bladedthin (2).ogg',
-		'sound/combat/parry/bladed/bladedthin (3).ogg',
-		)
-	swingsound = BLADEWOOSH_SMALL
-	minstr = 6
-	wdefense = 7
-	wbalance = WBALANCE_SWIFT
-
-/obj/item/rogueweapon/sword/rapier/vaquero
-	name = "cup-hilt rapier"
-	desc = "A special variant of an Etruscan rapier. The cup hilt of this weapon is both simpler to produce and more protective than the type of traditional design of current rapiers."
-	icon_state = "cup_hilt_rapier"
-	wdefense = 8
-	force = 25
-
-/obj/item/rogueweapon/sword/rapier/getonmobprop(tag)
-	. = ..()
-	if(tag)
-		switch(tag)
-			if("gen") return list(
-				"shrink" = 0.5,
-				"sx" = -14,
-				"sy" = -8,
-				"nx" = 15,
-				"ny" = -7,
-				"wx" = -10,
-				"wy" = -5,
-				"ex" = 7,
-				"ey" = -6,
-				"northabove" = 0,
-				"southabove" = 1,
-				"eastabove" = 1,
-				"westabove" = 0,
-				"nturn" = -13,
-				"sturn" = 110,
-				"wturn" = -60,
-				"eturn" = -30,
-				"nflip" = 1,
-				"sflip" = 1,
-				"wflip" = 8,
-				"eflip" = 1,
-				)
-			if("onback") return list(
-				"shrink" = 0.5,
-				"sx" = -1,
-				"sy" = 2,
-				"nx" = 0,
-				"ny" = 2,
-				"wx" = 2,
-				"wy" = 1,
-				"ex" = 0,
-				"ey" = 1,
-				"nturn" = 0,
-				"sturn" = 0,
-				"wturn" = 70,
-				"eturn" = 15,
-				"nflip" = 1,
-				"sflip" = 1,
-				"wflip" = 1,
-				"eflip" = 1,
-				"northabove" = 1,
-				"southabove" = 0,
-				"eastabove" = 0,
-				"westabove" = 0,
-				)
-			if("onbelt") return list(
-				"shrink" = 0.4,
-				"sx" = -4,
-				"sy" = -6,
-				"nx" = 5,
-				"ny" = -6,
-				"wx" = 0,
-				"wy" = -6,
-				"ex" = -1,
-				"ey" = -6,
-				"nturn" = 100,
-				"sturn" = 156,
-				"wturn" = 90,
-				"eturn" = 180,
-				"nflip" = 0,
-				"sflip" = 0,
-				"wflip" = 0,
-				"eflip" = 0,
-				"northabove" = 0,
-				"southabove" = 1,
-				"eastabove" = 1,
-				"westabove" = 0,
-				)
-
-/datum/intent/sword/cut/rapier
-	clickcd = CLICK_CD_QUICK
-	damfactor = 0.75
-
-/datum/intent/sword/thrust/rapier
-	clickcd = 8
-	damfactor = 1.1
-	penfactor = PEN_MEDIUM
-
-/datum/intent/sword/thrust/rapier/lunge
-	name = "deep lunge"
-	icon_state = "inlunge"
-	damfactor = 1.3
-	penfactor = PEN_BSTEEL
-
-	swingdelay_type = SWINGDELAY_CANCELSLOW
-	canparry = FALSE
-	candodge = FALSE
-
-	swingdelay = 1.1 SECONDS
-	clickcd = 1.5 SECONDS
-
-/obj/item/rogueweapon/sword/rapier/dec
-	name = "decorated rapier"
-	desc = "A fine duelist's instrument with a tapered thrusting blade. Its hilt is gilt in gold and inlaid, \
-	and its blade bears twin inscriptions on either side. One reads, \"CAST IN THE NAME OF GODS\" while the \
-	obverse reads, \"YE NOT GUILTY\"."
-	icon_state = "decrapier"
-	sheathe_icon = "decrapier"
-	no_loot_taint = TRUE
-
-/obj/item/rogueweapon/sword/rapier/blacksteel
-	name = "blacksteel rapier"
-	desc = "A magnificent rapier of blacksteel. Despite originating from the matrimony of cutting-edge swordsmanship techniques and metallurgy, it \
-	doesn't actually have a cutting edge to call its own. Not like that matters as much, of course, when it can pierce straight through plate armor."
-	force = 27
-	smeltresult = /obj/item/ingot/blacksteel
-	icon_state = "blacksteelrapier"
-	sheathe_icon = "blacksteelrapier"
-	max_blade_int = 400
-	possible_item_intents = list(/datum/intent/sword/thrust/rapier, /datum/intent/sword/cut/rapier, /datum/intent/sword/thrust/rapier/lunge)
-	wdefense = 9 //Absurdly high defense, but no added integrity; for the discerning duelmaster.
-	special_picks = list(
-		/datum/special_intent/piercing_lunge,
-		/datum/special_intent/polearm_backstep,
-		/datum/special_intent/dagger_dash,
-		/datum/special_intent/limbguard
-		)
-
-/obj/item/rogueweapon/sword/rapier/silver
-	name = "silver rapier"
-	desc = "A basket-hilted rapier, fitted with a thin blade of pure silver. Immortalized by Rockhill's witch hunters, this weapon - though cumberstone \
-	in an untrained hand - is surprisingly adept at both parrying and riposting."
-	icon_state = "silverrapier"
-	sheathe_icon = "silverrapier"
-	smeltresult = /obj/item/ingot/silver
-	is_silver = TRUE
-
-/obj/item/rogueweapon/sword/rapier/silver/ComponentInitialize()
-	AddComponent(\
-		/datum/component/silverbless,\
-		pre_blessed = BLESSING_NONE,\
-		silver_type = SILVER_TENNITE\
-	)
-
-/obj/item/rogueweapon/sword/rapier/silver/psy
-	name = "psydonic rapier"
-	desc = "A basket-hilted rapier, fitted with a thin blade of pure silver. Such a resplendent weapon not only pierces the gaps within a heathen's \
-	maille, but also serves as the symbol of an Otavan diplomat's authority."
-	icon_state = "silverrapier"
-	sheathe_icon = "silverrapier"
-	smeltresult = /obj/item/ingot/silverblessed
-
-/obj/item/rogueweapon/sword/rapier/silver/psy/ComponentInitialize()
-	AddComponent(\
-		/datum/component/silverbless,\
-		pre_blessed = BLESSING_NONE,\
-		silver_type = SILVER_PSYDONIAN\
-	)
-
-/obj/item/rogueweapon/sword/rapier/silver/psy/preblessed/ComponentInitialize()
-	AddComponent(\
-		/datum/component/silverbless,\
-		pre_blessed = BLESSING_PSYDONIAN,\
-		silver_type = SILVER_PSYDONIAN\
-	)
-
-/obj/item/rogueweapon/sword/rapier/silver/psy/relic
-	name = "\"Eucharist\""
-	desc = "Etruscan shape falling prey to Otavan craftsmanship. Saint Malum's smiths created an uniquely thin blade, capable of swiftly \
-	skewering the unholy and the miscreants through gaps that most claim to have never existed in the first place. <b>Silver-dipped steel \
-	crowned upon a basket hilt that keeps righteous hands safe from harm.</b>"
-	icon_state = "psyrapier"
-	sheathe_icon = "psyrapier"
-	max_integrity = 250
-	max_blade_int = 330
-	minstr = 7
-	wdefense = 9
-
-/obj/item/rogueweapon/sword/rapier/silver/psy/relic/ComponentInitialize()
-	AddComponent(\
-		/datum/component/silverbless,\
-		pre_blessed = BLESSING_PSYDONIAN,\
-		silver_type = SILVER_PSYDONIAN\
-	)
-
-/obj/item/rogueweapon/sword/rapier/lord
-	name = "sword of the Mad Duke"
-	desc = "A royal heirloom whose spiraling basket hilt is inlaid with fine cut gems. It bears the burnish of \
-	time, where once sharply defined features have been worn down by so many hands. An old rumor ties this implement \
-	to the siege that smashed the Mad Duke's keep to rubble, and burnt the Duke himself to cinders."
-	icon_state = "lordrap"
-	sheathe_icon = "lordrapier"
-	sellprice = 150
-	max_integrity = 300
-	max_blade_int = 300
-	wdefense = 7
-
-/obj/item/rogueweapon/sword/rapier/eora
-	name = "\"Heartstring\""
-	desc = "A specialty-made bilbo hilt rapier made in service to Lady Eora. For the time when soft words can no longer be spoken, and hearts are to be pierced."
-	icon = 'icons/roguetown/weapons/swords32.dmi'
-	icon_state = "eorarapier"
-	sheathe_icon = "eorarapier"
-	grid_width = 32
-	grid_height = 64
-	dropshrink = 0
-	bigboy = FALSE
-	force = 25 // Same statline as the cup hilted etruscan rapier
-	wdefense = 8
-
-/obj/item/rogueweapon/sword/rapier/courtphysician
-	name = "cane blade"
-	desc = "A steel blade with a gold handle, intended to be concealed inside of a cane, bears the visage of a vulture on its pommel."
-	icon = 'icons/roguetown/weapons/swords32.dmi'
-	icon_state = "doccaneblade"
-	sheathe_icon = "doccaneblade"
-	sellprice = 100 //Gold handle
-	grid_width = 32
-	grid_height = 64
-	dropshrink = 0
-	bigboy = FALSE
-	possible_item_intents = list(/datum/intent/sword/thrust/rapier, /datum/intent/sword/cut/rapier)
-	gripped_intents = null
-	force_wielded = 0
-
-/obj/item/rogueweapon/sword/rapier/hand
-	name = "\"Dark Sister\""
-	desc = "A tool made for nobler tasks than shedding blood, discreet and ever ready, as you should be too."
-	icon = 'icons/roguetown/weapons/special/hand32.dmi'
-	icon_state = "staffblade"
-	item_state = "staffblade"
-	sheathe_icon = "staffblade"
-
-/obj/item/rogueweapon/sword/rapier/avantyne
-	name = "avantyne-threaded rapier"
-	desc = "Graceful yet grotesque, this piercing shard of spite ignores the art of fencing in favor of the art of suffering. To wield it is to let your coldest grudges guide your hand."
-	icon_state = "zizorapier"
-	sheathe_icon = "zizorapier"
-	force = 25
-	max_blade_int = 250
-	max_integrity = 225
-	smeltresult = /obj/item/ingot/avantyne
-
-/obj/item/rogueweapon/sword/rapier/avantyne/get_examine_highlight_status()
-	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_ZIZO_AVANTYNE)
-
-/obj/item/rogueweapon/sword/rapier/avantyne/relic
-	name = "\"Damnatio\""
-	desc = "Stemmed holiness, malformed beneath an otherworldly parasite. Such a necessary rite either commands not the will of \
-	a fearsome warlock, but of the Man whose faith in God has crumbled beyond repair. 'What have I done?' </br>'How did I sink?' </br>'From the holiest high..' </br>'..to the direst brink..'"
-	icon_state = "zizorapier"
-	sheathe_icon = "zizorapier"
-	force = 30
-	max_blade_int = 333
-	max_integrity = 333
-	smeltresult = /obj/item/ingot/avantyne
-
-/obj/item/rogueweapon/sword/cutlass
-	name = "cutlass"
-	desc = "The mariner's special: A short, broad sabre with a slightly curved blade optimized for slashing."
-	icon_state = "cutlass"
-	force = 23
-	possible_item_intents = list(/datum/intent/sword/cut/sabre, /datum/intent/sword/chop)
-	gripped_intents = null
-	wdefense = 6
-	wbalance = WBALANCE_SWIFT
-	sheathe_icon = "cutlass"
-
-/obj/item/rogueweapon/sword/silver
-	name = "silver arming sword"
-	desc = "An arming sword, fitted with a blade of pure silver. It is the bane of vampyres, nitebeasts, and deadites throughout all of Psydonia; \
-	cursed flesh erupts into holy fire, and unholy bravado twists into mortal fear."
-	icon_state = "silversword"
-	sheathe_icon = "silversword"
-	is_silver = TRUE
-	smeltresult = /obj/item/ingot/silver
-
-/obj/item/rogueweapon/sword/silver/ComponentInitialize()
-	AddComponent(\
-		/datum/component/silverbless,\
-		pre_blessed = BLESSING_NONE,\
-		silver_type = SILVER_TENNITE\
-	)
-
-/obj/item/rogueweapon/sword/silver/psy
-	name = "psydonic arming sword"
-	desc = "An arming sword, fitted with a blade of pure silver. It is the bane of vampyres, nitebeasts, and deadites throughout all of Psydonia; \
-	cursed flesh erupts into holy fire, and unholy bravado twists into mortal fear."
-	icon_state = "psyarmingsword"
-	sheathe_icon = "psysword"
-	smeltresult = /obj/item/ingot/silverblessed
-
-/obj/item/rogueweapon/sword/silver/psy/ComponentInitialize()
-	AddComponent(\
-		/datum/component/silverbless,\
-		pre_blessed = BLESSING_NONE,\
-		silver_type = SILVER_PSYDONIAN\
-	)
-
-/obj/item/rogueweapon/sword/silver/psy/preblessed/ComponentInitialize()
-	AddComponent(\
-		/datum/component/silverbless,\
-		pre_blessed = BLESSING_PSYDONIAN,\
-		silver_type = SILVER_PSYDONIAN\
-	)
-
-/obj/item/rogueweapon/sword/silver/decorated
-	name = "decorated silver khadga" //While ostensibly a sword, it's functionally identical - if a little weaker - than the Silver War Axe.
-	desc = "Beautifully designed for nobility, yet born from an ignoble purpose; to satiate the powers of ancient mythos with sacrificial blood. This Naledian \
-	sword, better known as a 'ram-dao', now serves to satiate the spite of vengeful spirits - not through bloodshed, but through sunderance."
-	icon_state = "ram_dao"
-	sheathe_icon = "scabbard_decsword3"
-	force = 25
-	no_loot_taint = TRUE
-	possible_item_intents = list(/datum/intent/axe/cut, /datum/intent/axe/chop, /datum/intent/axe/bash/battle)
-	gripped_intents = null
-	minstr = 11
-	max_blade_int = 300
-	smeltresult = /obj/item/ingot/gold
-	smelt_bar_num = 1
-	wdefense = 5
-	is_silver = TRUE
-	max_integrity = 200
-
-/obj/item/rogueweapon/sword/silver/decorated/ComponentInitialize()
-	AddComponent(\
-		/datum/component/silverbless,\
-		pre_blessed = BLESSING_NONE,\
-		silver_type = SILVER_TENNITE\
-	)
-
 /obj/item/rogueweapon/sword/long/rhomphaia
 	name = "rhomphaia"
 	desc = "An ancient two-handed sword similar to the falx, with a less pronounced curve. Once known for cutting through helmet - metallurgy has improved since then, but it can chop through light armor with ease."
@@ -2251,158 +2414,6 @@
 	icon_state = "pestranmesser"
 	sheathe_icon = "pestranmesser"
 
-/obj/item/rogueweapon/sword/long/dec
-	name = "decorated longsword"
-	desc = "A valuable ornate longsword made for the purpose of ceremonial fashion, with a fine leather grip and a carefully engraved golden crossguard. \
-	Its blade bears twin inscriptions on either side. One reads, \"THY KINGDOM COME\" while the obverse reads, \"THY WILL BE DONE\"."
-	icon_state = "declongsword"
-	no_loot_taint = TRUE
-
-// kazengite content
-// Stronger offense less defense sword meant to be paired w/ scabbard for parrying
-/obj/item/rogueweapon/sword/sabre/mulyeog
-	force = 25
-	name = "hwando" // From Korean Hwangdo - Lit. Military Sword / Sabre, noted for less curves than a Japanese katana.
-	desc = "A foreign single-edged sword used by cut-throats & thugs. There's a red tassel on the hilt, said to bring about good fortune."
-	sheathe_icon = "mulyeog"
-	icon_state = "eastsword1"
-	smeltresult = /obj/item/ingot/steel
-	wdefense = 3
-
-/obj/item/rogueweapon/sword/sabre/mulyeog/rumahench
-	name = "ruma hwando"
-	desc = "A foreign steel single-edged sword with cloud patterns on the groove. The Ruma Clan's insignia is engraved on the blade."
-	icon_state = "eastsword2"
-	force = 27
-	max_integrity = 200
-	sharpness_mod = 1.5
-	sellprice = 50
-
-/obj/item/rogueweapon/sword/sabre/mulyeog/rumacaptain
-	name = "samjeongdo"
-	desc = "A gold-stained sword with cloud patterns on the groove. Exceedingly rare. It is a symbol of status within the Ruma clan."
-	icon_state = "eastsword3"
-	force = 27
-	max_integrity = 200
-	sharpness_mod = 1.5
-	sellprice = 100
-
-/obj/item/rogueweapon/sword/sabre/wodao
-	name = "wodao"
-	desc = "A slightly curved blade originating in the eastern realm of Lingyue, where its design was perfected over centuries of dynastic warfare. \
-	The pattern has since spread along the trade routes - adopted by Kazengunite diplomat-militants, then carried west as far as the Naledian allspice caravans. \
-	While less durable compared to other arming swords, its swift balance and unique design make it great for unleashing precise strikes."
-	icon = 'icons/roguetown/weapons/swords32.dmi'
-	icon_state = "wodao"
-	sheathe_icon = "wodao"
-
-/obj/item/rogueweapon/sword/sabre/iron/wodao
-	name = "iron wodao"
-	desc = "A wrought-iron wodao, mass produced by the thousands in the state arsenals for Xinyi infantry and provincial militias. The blade is competent, its edge sharp, but it will not hold as long under use. But at a fraction of the cost of a hwando, it is more than enough to slay a man or five before it needs to be sharpened."
-	icon_state = "iwodao"
-
-/obj/item/rogueweapon/sword/sabre/hook
-	name = "hook sword"
-	desc = "A steel sword with a hooked design at the tip of it; perfect for disarming enemies. Its back edge is sharpened and the hilt appears to have a sharpened tip."
-	force = 20
-	icon = 'icons/roguetown/weapons/swords64.dmi'
-	icon_state = "hook_sword"
-	possible_item_intents = list(/datum/intent/sword/cut/sabre, /datum/intent/sword/thrust/hook, /datum/intent/sword/strike, /datum/intent/sword/disarm)
-	max_integrity = 180
-	wdefense = 5
-
-/obj/item/rogueweapon/sword/sabre/hook/getonmobprop(tag)
-	. = ..()
-	if(tag)
-		switch(tag)
-			if("gen") return list(
-				"shrink" = 0.5,
-				"sx" = -14,
-				"sy" = -8,
-				"nx" = 15,
-				"ny" = -7,
-				"wx" = -10,
-				"wy" = -5,
-				"ex" = 7,
-				"ey" = -6,
-				"northabove" = 0,
-				"southabove" = 1,
-				"eastabove" = 1,
-				"westabove" = 0,
-				"nturn" = -13,
-				"sturn" = 110,
-				"wturn" = -60,
-				"eturn" = -30,
-				"nflip" = 1,
-				"sflip" = 1,
-				"wflip" = 8,
-				"eflip" = 1,
-				)
-			if("onback") return list(
-				"shrink" = 0.5,
-				"sx" = -1,
-				"sy" = 2,
-				"nx" = 0,
-				"ny" = 2,
-				"wx" = 2,
-				"wy" = 1,
-				"ex" = 0,
-				"ey" = 1,
-				"nturn" = 0,
-				"sturn" = 0,
-				"wturn" = 70,
-				"eturn" = 15,
-				"nflip" = 1,
-				"sflip" = 1,
-				"wflip" = 1,
-				"eflip" = 1,
-				"northabove" = 1,
-				"southabove" = 0,
-				"eastabove" = 0,
-				"westabove" = 0,
-				)
-			if("onbelt") return list(
-				"shrink" = 0.4,
-				"sx" = -4,
-				"sy" = -6,
-				"nx" = 5,
-				"ny" = -6,
-				"wx" = 0,
-				"wy" = -6,
-				"ex" = -1,
-				"ey" = -6,
-				"nturn" = 100,
-				"sturn" = 156,
-				"wturn" = 90,
-				"eturn" = 180,
-				"nflip" = 0,
-				"sflip" = 0,
-				"wflip" = 0,
-				"eflip" = 0,
-				"northabove" = 0,
-				"southabove" = 1,
-				"eastabove" = 1,
-				"westabove" = 0,
-				)
-
-/datum/intent/sword/thrust/hook
-	damfactor = 0.9
-
-//Snowflake version of hand-targeting disarm intent.
-/datum/intent/sword/disarm
-	name = "disarm"
-	desc = "A precise, sweeping strike that aims for the target's weapon. While it deals no damage on its own, successfully striking the target while they're off-balanced will disarm them in a grand flourish."
-	icon_state = "intake"
-	animname = "strike"
-	hitsound = list('sound/combat/hits/blunt/metalblunt (1).ogg', 'sound/combat/hits/blunt/metalblunt (2).ogg', 'sound/combat/hits/blunt/metalblunt (3).ogg')
-	penfactor = PEN_NONE
-	swingdelay = 2	//Small delay to hook
-	clickcd = 22	//Can't spam this; long delay.
-	attack_verb = list("hooks", "pries")
-	blade_class = BCLASS_DISARM
-	damfactor = 0
-	item_d_type = "blunt"
-
 /obj/item/rogueweapon/sword/long/shotel
 	name = "steel shotel"
 	icon_state = "shotel_steel"
@@ -2465,122 +2476,27 @@
 			if("onbelt")
 				return list("shrink" = 0.4,"sx" = -4,"sy" = -6,"nx" = 5,"ny" = -6,"wx" = 0,"wy" = -6,"ex" = -1,"ey" = -6,"nturn" = 100,"sturn" = 156,"wturn" = 90,"eturn" = 180,"nflip" = 0,"sflip" = 0,"wflip" = 0,"eflip" = 0,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0)
 
-/obj/item/rogueweapon/sword/sabre/banneret // just a better sabre, unique banneret weapon
-	name = "\"Edict\""
-	desc = "A lavish blacksteel sabre, inlaid with gold along the hilt and crossguard. The blade bears an inscription,\"FIAT JUSTITIA\"."
-	icon_state = "capsabre"
-	icon = 'icons/roguetown/weapons/special/captain.dmi'
-	force = 25 // same as elvish sabre
-	max_integrity = 200 // more integrity because blacksteel, a bit less than the flamberge
-	parrysound = list('sound/combat/parry/bladed/bladedthin (1).ogg', 'sound/combat/parry/bladed/bladedthin (2).ogg', 'sound/combat/parry/bladed/bladedthin (3).ogg')
-	sellprice = 100 // lets not make it too profitable
-	smeltresult = /obj/item/ingot/blacksteel
-
-/obj/item/rogueweapon/sword/sabre/bane
-	name = "\"Bane's Edge\""
-	desc = "A stained sabre made of blacksteel, its edge is coated in long-dried blood as well as poison."
-	icon_state = "poisonsabre"
-	force = 25
-	max_integrity = 200
-	parrysound = list('sound/combat/parry/bladed/bladedthin (1).ogg', 'sound/combat/parry/bladed/bladedthin (2).ogg', 'sound/combat/parry/bladed/bladedthin (3).ogg')
-	sellprice = 50
-	smeltresult = null
-	special = /datum/special_intent/coat_blade
-
-/obj/item/rogueweapon/sword/gold
-	name = "golden arming sword"
-	desc = "A heavenly arming sword, whose golden blade and besilked handle lays separated by a duocruciformic crossguard. This particular weapon \
-	seems to have innovatively combined the lethal cutting prowess of Psydonia's oldest weapon with the psychological damage of knowing that its \
-	wielder could likely bribe the Carriageman himself, and still chose to personally kill you."
-	icon_state = "goldsword"
-	smeltresult = /obj/item/ingot/gold
-	force = 35
-	force_wielded = 40
-	minstr = 10
-	max_integrity = 50 //For reference, regular attacks drain each 'max_' value by one point. Parries will quite literally cause this to explode.
-	max_blade_int = 50
-	anvilrepair = null //Ceremonial. This should break comedically easily, but still have just enough toughness to work with a few strikes.
-	sheathe_icon = "goldsword"
-	wbalance = WBALANCE_HEAVY
-	unenchantable = TRUE
-	no_loot_taint = TRUE
-
-/obj/item/rogueweapon/sword/blacksteel
-	name = "blacksteel arming sword"
-	desc = "A broad blade of blacksteel, mounted to a rosawooden handle that perfectly compliments its wielder's grasp. It is the culmination of \
-	Psydonia's storied history with arming swords; a mastersmith's triumph, only fit for the hands of a true hero.. or a truer villain."
-	icon_state = "bs_sword"
-	sheathe_icon = "bs_sword"
-	smeltresult = /obj/item/ingot/blacksteel
-	force = 25
-	force_wielded = 30
-	wdefense = 6
-	max_integrity = 350
-	max_blade_int = 350
-
-/obj/item/rogueweapon/sword/blacksteel/decorated
-	name = "decorated blacksteel arming sword"
-	desc = "A broad blade of blacksteel, mounted atop a golden sabreguard that's been meticulously engraved with its commissoner's heraldry. It is \
-	a masterwork of unmatched opulence and lethality, and is - perhaps - the finest arming sword your eyes'll ever lay upon."
-	icon_state = "bs_swordregal"
-	sheathe_icon = "bs_swordregal"
-	wdefense = 7
-	no_loot_taint = TRUE
-
-/obj/item/rogueweapon/sword/short/gronn
-	name = "gronnic hinterblade"
-	desc = "Due to the shortage of forged steel in Gronn, their iron blades have become hardier and thicker than what one may see elsewhere. The \
-	favoured weapon of choice for any able-bodied northman of Gronn, the hinterblade is the heftier, unwieldy cousin of the arming sword."
-	possible_item_intents = list(/datum/intent/sword/cut/militia, /datum/intent/sword/chop/militia, /datum/intent/sword/thrust/short, /datum/intent/sword/strike/bad)
-	icon_state = "gronnsword"
-	sheathe_icon = "swordshort"
-	gripped_intents = null
-	minstr = 10 //NO TWINKS!!
-	wdefense = 3 // Use it with a shield jackass
-	wlength = WLENGTH_SHORT
-	w_class = WEIGHT_CLASS_NORMAL
-	wbalance = WBALANCE_HEAVY
-
-	grid_width = 32
-	grid_height = 96
-
-//Elven weapons sprited and added by Jam
-/obj/item/rogueweapon/sword/short/elvish
-	name = "elvish shortsword"
-	desc = "A finely crafted Elvish shortsword, light and swift, ideal for precise strikes."
-	icon_state = "elfsword"
-	sellprice = 40
-	sheathe_icon = "elfsword"
-	wbalance = WBALANCE_SWIFT //Elven designs tend to be light and swift
-	max_blade_int = 220
-
 /obj/item/rogueweapon/sword/long/elvish
 	name = "elvish longsword"
-	desc = "A mighty Elvish longsword, well-balanced and efficient, favored for both offense and defense."
+	desc = "A mighty elvish longsword, well-balanced and efficient, favored for both offense and defense."
 	icon = 'icons/roguetown/weapons/swords64.dmi'
 	icon_state = "elflongsword"
 	sellprice = 50
 	sheathe_icon = "elfsword"
 	max_blade_int = 300
 
-//Banded iron sword that I don't want to chuck in the middle of the file again
-/obj/item/rogueweapon/sword/short/iron/banded
-	name = "banded iron sword"
-	desc = "A rather heavy slab of iron for separating brigands from their ill-gotten gold. It's extremely heavy and only really allows cutting,\
-	yet it swings surprisingly fast - at the cost of force output."
-	icon_state = "bandedsword"
-	possible_item_intents = list(
-		/datum/intent/sword/cut/short/banded,
-		/datum/intent/sword/chop/powerstrike
-		)
-	wdefense = 4
-	minstr = 10
-	force = 7	//This sword gets its real damage values from its intents. IYKYK.
-	blade_int = 350	//You're gonna cut. A lot.
-	max_integrity = 110	//Iron arming sword + 10
-	pickup_sound = 'sound/foley/equip/scrap_equip.ogg'
-	equip_sound = 'sound/foley/equip/scrap_equip.ogg'
-
 #undef LONGSWORD_STOCK_INTENTS
 #undef LONGSWORD_STOCK_GRIPPED_INTENTS
 #undef LONGSWORD_STOCK_ALT_GRIPS
+
+// Unique Swords.
+/obj/item/rogueweapon/sword/cutlass
+	name = "cutlass"
+	desc = "The mariner's special: A short, broad sabre with a slightly curved blade optimized for slashing."
+	icon_state = "cutlass"
+	force = 23
+	possible_item_intents = list(/datum/intent/sword/cut/sabre, /datum/intent/sword/chop)
+	gripped_intents = null
+	wdefense = 6
+	wbalance = WBALANCE_SWIFT
+	sheathe_icon = "cutlass"

@@ -176,6 +176,30 @@
 /datum/intent/mace/smash/wood/stone/spec_on_apply_effect(mob/living/H, mob/living/user, params)
 	return
 
+// Dazing-specific intents.
+/datum/intent/effect/daze
+	name = "dazing strike"
+	desc = "A heavy strike that causes temporary disorientation, but only when successfully landed on the head. The slower follow-through makes it \
+	harder to complete without risking an interruption."
+	icon_state = "indaze"
+	attack_verb = list("dazes")
+	animname = "strike"
+	hitsound = list('sound/combat/hits/blunt/daze_hit.ogg')
+	penfactor = PEN_NONE
+	swingdelay = 1 SECONDS
+	damfactor = 1
+	item_d_type = "blunt"
+	intent_effect = /datum/status_effect/debuff/dazed
+	target_parts = list(BODY_ZONE_HEAD)
+	intent_intdamage_factor = BLUNT_DEFAULT_INT_DAMAGEFACTOR
+	candodge = FALSE
+	canparry = FALSE
+	swingdelay_type = SWINGDELAY_CANCEL
+
+/datum/intent/effect/daze/ranged
+	name = "ranged dazing strike"
+	reach = 2
+
 //Cudgel and Flanged Mace-specific intents.
 /datum/intent/mace/strike/wallop
 	name = "wallop" // Non-lethal mace-striking (Made for cudgel specifically. Don't put this on everything. Yeah, I mean you.)
