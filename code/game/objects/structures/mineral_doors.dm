@@ -86,7 +86,7 @@
 		force_closed()
 		return
 
-	if(HAS_TRAIT(user, TRAIT_SUPER_FBIKICK) || HAS_TRAIT(user, TRAIT_STRONGKICK))
+	if(HAS_TRAIT(user, TRAIT_SUPER_FBIKICK))
 		playsound(src, 'sound/combat/hits/onwood/woodimpact (1).ogg', 100)
 		user.visible_message(span_danger("[user] obliterates [src] with a kick!"), \
 			span_danger("I obliterate [src] with a kick!"))
@@ -96,8 +96,8 @@
 
 	if(HAS_TRAIT(user, TRAIT_FBIKICK))
 		playsound(src, 'sound/combat/hits/onwood/woodimpact (1).ogg', 100)
-		user.visible_message(span_warning("[user] kicks open [src]!"), \
-			span_notice("I kick open [src]!"))
+		user.visible_message(span_warning("[user] kicks open [src] off its hinges!"), \
+			span_notice("I kick open [src] off its hinges!"))
 		locked = FALSE
 		force_open()
 		return
