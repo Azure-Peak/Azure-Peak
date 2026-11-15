@@ -199,7 +199,7 @@
 			if("spark")
 				used = list('sound/foley/machinebreak.ogg')
 			if("wwwhistle")
-				used = list('sound/vo/wolfwhistle1.ogg', 'sound/vo/wolfwhistle.ogg')
+				used = list('sound/vo/wolfwhistle1.ogg', 'sound/vo/wolfwhistle2.ogg')
 			if("iwhistle")
 				used = list('sound/vo/impresswhistle1.ogg', 'sound/vo/impresswhistle2.ogg')
 	return used
