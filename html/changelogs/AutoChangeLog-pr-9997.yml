@@ -1,5 +1,0 @@
-author: "ToasterStrudes"
-delete-after: True
-changes:
-  - rscadd: "Added a new donator item for Toasterstrudes"
-  - rscdel: "Deprecated donator item for Toasterstrudes"
