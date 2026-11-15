@@ -605,7 +605,7 @@
 	else
 		var/obj/item/roguekey/K = I
 		if(K.lockhash == lockhash || istype(K, /obj/item/roguekey/lord) || istype(K, /obj/item/roguekey/skeleton)) //master key cares not for lockhashes
-			lock_toggle(user, LOCK_HAND)
+			lock_toggle(user, LOCK_HAND, !(istype(K, /obj/item/roguekey/waxkey)))
 			if(!K.on_use())
 				jam(JAM_TIER_BROKENKEY)
 			if(autobump)
@@ -871,7 +871,7 @@
 		return
 
 
-/obj/structure/mineral_door/proc/lock_toggle(mob/user, circumstance)
+/obj/structure/mineral_door/proc/lock_toggle(mob/user, circumstance, refresh_imprint = TRUE)
 	if(isSwitchingStates || door_opened)
 		return
 	if(locked)
@@ -887,7 +887,7 @@
 			span_notice("I lock [src]."))
 		playsound(src, locksound, 100)
 		locked = 1
-	if(ishuman(user) && user.client && circumstance)
+	if(ishuman(user) && user.client && circumstance && refresh_imprint)
 		var/mob/living/carbon/human/H = user
 		H.last_used_keyhash = lockhash
 		switch(circumstance)

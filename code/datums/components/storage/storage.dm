@@ -679,15 +679,15 @@
 		if(!stop_messages)
 			to_chat(M, span_warning("[host] is full, make some space!"))
 		return FALSE //Storage item is full
+	if(is_type_in_typecache(I, cant_hold)) //Check for specific items which this container can't hold.
+		if(!stop_messages)
+			to_chat(M, span_warning("[host] cannot hold [I]!"))
+		return FALSE
 	if(length(can_hold))
 		if(!is_type_in_typecache(I, can_hold))
 			if(!stop_messages)
 				to_chat(M, span_warning("[host] cannot hold [I]!"))
 			return FALSE
-	if(is_type_in_typecache(I, cant_hold)) //Check for specific items which this container can't hold.
-		if(!stop_messages)
-			to_chat(M, span_warning("[host] cannot hold [I]!"))
-		return FALSE
 	if(I.w_class > max_w_class && !is_type_in_typecache(I, exception_hold))
 		if(!stop_messages)
 			to_chat(M, span_warning("[I] is too big for [host]!"))
