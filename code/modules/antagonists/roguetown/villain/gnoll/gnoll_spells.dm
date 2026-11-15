@@ -376,6 +376,7 @@
 					return FALSE
 
 			to_chat(owner, span_notice("You begin to consume [corpse.name]."))
+			playsound(owner.loc, pick('sound/gore/flesh_eat_01.ogg', 'sound/gore/flesh_eat_02.ogg', 'sound/gore/flesh_eat_03.ogg', 'sound/gore/flesh_eat_04.ogg', 'sound/gore/flesh_eat_05.ogg', 'sound/gore/flesh_eat_06.ogg'), rand(30,60), TRUE)
 			if(do_after(owner, 20 SECONDS, corpse))
 				corpse.gib()
 				to_chat(owner, span_notice("You finish consuming [corpse.name], restoring your physical form."))
@@ -438,7 +439,7 @@
 
 		consume_counter++
 		if(prob(40))
-			playsound(receiver.loc, 'sound/misc/eat.ogg', rand(30,60), TRUE)
+			playsound(receiver.loc, pick('sound/gore/flesh_eat_01.ogg', 'sound/gore/flesh_eat_02.ogg', 'sound/gore/flesh_eat_03.ogg', 'sound/gore/flesh_eat_04.ogg', 'sound/gore/flesh_eat_05.ogg', 'sound/gore/flesh_eat_06.ogg'), rand(30,60), TRUE)
 
 		heal_gnoll(receiver, meat_base_heal * heal_multiplier)
 		if(receiver_is_gnoll)
