@@ -7,7 +7,6 @@
 	eligible_regions = list(
 		THREAT_REGION_AZURE_BASIN,
 		THREAT_REGION_AZURE_GROVE,
-		THREAT_REGION_TERRORBOG,
 	)
 	writ_type = WRIT_TYPE_RECOVERY
 	var/list/fetch_items = list(
@@ -40,7 +39,7 @@
 		return
 	target_item_type = pick(fetch_items)
 	target_item_plural = fetch_items[target_item_type]
-	progress_required = rand(1, 3)
+	progress_required = 1
 	finalize_preview_title()
 
 /datum/quest/retrieval/materialize(obj/effect/landmark/quest_spawner/landmark)
@@ -51,7 +50,11 @@
 		var/turf/spawn_turf = landmark.get_safe_spawn_turf()
 		if(!spawn_turf)
 			continue
-		var/obj/item/new_item = new target_item_type(spawn_turf)
+		var/obj/effect/quest_spawn/item/spawner = new(spawn_turf)
+		var/obj/item/new_item = new target_item_type(spawner)
 		new_item.AddComponent(/datum/component/quest_object/retrieval, src)
 		add_tracked_atom(new_item)
+		spawner.contained_atom = new_item
+		spawner.AddComponent(/datum/component/quest_object/mob_spawner, src)
+		register_spawner(spawner)
 	return TRUE

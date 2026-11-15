@@ -399,10 +399,10 @@
 
 		<h3>Signing and Active Cap</h3> <p>Each person may hold up to
 		[QUEST_MAX_ACTIVE_PER_PLAYER] active contracts at a time. Some jobs override
-		this cap upward. A fellowship leader gains
-		<b>+[QUEST_ACTIVE_FELLOWSHIP_BONUS_PAIR]</b> with one fellow in the band and
-		<b>+[QUEST_ACTIVE_FELLOWSHIP_BONUS_BAND]</b> with two or more. A led
-		fellowship of three can run [QUEST_MAX_ACTIVE_PER_PLAYER + QUEST_ACTIVE_FELLOWSHIP_BONUS_BAND] contracts at once.</p>
+		this cap upward. Only a fellowship's leader can sign contracts at the
+		Ledger. The leader gains <b>+[QUEST_ACTIVE_FELLOWSHIP_BONUS_FIRST]</b> for
+		the first member and <b>+[QUEST_ACTIVE_FELLOWSHIP_BONUS_PER_MEMBER]</b> for
+		each member after.</p>
 
 		<p>Contract scales to the amount of people who were actually present for the contract. This counts everyone within two screens of the contract when it spawns.</p>
 
@@ -413,8 +413,8 @@
 		first [CONTRACT_TOWNIE_GATE_TIME / 600] minutes of the round. Adventuring jobs
 		(Mercenary, Adventurer, and similar) are exempt and may sign immediately. The
 		Ledger shows how long the gate remains and the exempt job list. Contracts
-		handed to you directly by Steward or Innkeeper are not affected by this or by
-		the fellowship requirement.</p>
+		handed to you directly are not affected by this, by the fellowship requirement
+		or by the solo contract limit.</p>
 
 		<h3>Deposits</h3>
 		<p>Most contracts require a small deposit on signing, scaled by difficulty:
@@ -441,7 +441,11 @@
 		[QUEST_KILL_HUNT_TIMER / (1 MINUTES)] minutes, with warnings at
 		[DisplayTimeText(QUEST_KILL_HUNT_WARN_EARLY)] and
 		[DisplayTimeText(QUEST_KILL_HUNT_WARN_FINAL)] left. If
-		the timer runs out, the scroll crumbles and any live wave mobs despawn. This
+		the timer runs out while you are still fighting, it is extended by
+		[DisplayTimeText(QUEST_KILL_HUNT_OVERTIME)], up to [QUEST_KILL_HUNT_OVERTIME_MAX] times. You count as
+		fighting if a target died in the last [DisplayTimeText(QUEST_KILL_HUNT_OVERTIME_RECENT_KILL)] or someone
+		is within [QUEST_KILL_HUNT_OVERTIME_RANGE] tiles of a living target. Otherwise
+		the scroll crumbles and any live wave mobs despawn. This
 		starts when the mobs in question spawn at the target location. Blockade Scrolls
 		use a longer timer for each wave. See <i>Defense and Blockades</i>.</p>
 
@@ -489,6 +493,38 @@
 			logged and have a cooldown for each pair.</li> <li>Wretch responses route
 			back to the original sender through an ephemeral response ID.</li>
 		</ul>
+
+		<h3>Mercenary Contracts</h3>
+		<p>A Mercenary spawns with a "Mercenary Contract", which can be set to 1 to [MERC_CONTRACT_MAX_DAYS] days. They can hand it over to someone who is a leader of a fellowship, and become hired that way. This forces the Mercenary to join their fellowship, forces the fellowship to split contracts proceeds, and make the Mercenary impossible to boot out. A Mercenary is bound by the signing alone limit of one contract every [QUEST_SOLO_SIGN_COOLDOWN / 600] minutes even when leading a fellowship. When a Mercenary leading a fellowship signs this way, every other Mercenary in it waits as well. For a Mercenary only towner postings do not count toward this. The limit is lifted during lowpop.</p>
+
+		<p>Contract provides two types of benefits. A Mercenary under contract will gets a flat +25% bonus from their share of any contracts completed by the fellowship leader. And if they are hired to certain roles (Inquisition, Outlaws, the University, and Burghers and Peasants except the Innkeeper, Tapster and Cook), they will receive a stipend that is deposited to their account or sent to mail by an off-map faction. The stipend is received daily. To receive your stipend from stipended role, you must spend at least [round(MERC_CONTRACT_PRESENCE_SHARE * 100)]% of the preceding day close to them or a member of their fellowship. Specifically, within [MERC_CONTRACT_PRESENCE_RANGE] tiles (not counting z level differences). The hirer's daily rate and the Guild's share bonus are always paid no matter where you spend the day. Any pay negotiated outside of the contract is also unaffected by the presence requirements. Only the stipend are. A contract can be ended early by the hirer.
+		The hirer can only do so once the first day has passed. A Mercenary let go
+		early must wait a day before they can be hired again.</p>
+
+		<p>A mercenary can end their own contract with the "End Mercenary Contract"
+		verb once the first day has passed. They give up their rate and stipend for
+		the day in progress, but do not have to wait to be hired again.</p>
+
+		<p>The hirer and the Mercenary can also agree to end the contract at any
+		time. The hirer asks with the contract in hand, the Mercenary with the "End
+		Mercenary Contract" verb, and the other accepts. The rate for the day in
+		progress is paid, but not the stipend, and the Mercenary does not have to
+		wait to be hired again.</p>
+
+		<p>The hirer and the Mercenary can both see the contract and end it from the
+		Mercenary tab of a MEISTER.</p>
+
+		<p>A Mercenary may ask for a daily rate from the hirer, it is held from the
+		hirer's MEISTER account one day at a time at the start of each day, and paid
+		at the end of the day. If the hirer cannot cover the next day, the Mercenary
+		is told and can end the contract immediately without penalty.</p>
+
+		<p>While under contract, the Mercenary cannot leave the fellowship and the
+		leader cannot disband it. If the fellowship is destroyed anyway, the contract
+		ends.</p>
+
+		<p>When a contract ends, the Mercenary receives a fresh one. New Mercenary
+		Contract can be acquired from a MEISTER.</p>
 
 		</div>
 	"}

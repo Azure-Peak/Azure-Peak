@@ -124,7 +124,7 @@ GLOBAL_LIST_EMPTY(quest_scrolls)
 		return FALSE
 	Q.lock_fellowship(user)
 	if(!Q.materialized)
-		var/obj/effect/landmark/quest_spawner/landmark = Q.pending_landmark_ref?.resolve()
+		var/obj/effect/landmark/quest_spawner/landmark = SSquestpool.resolve_or_repick_landmark(Q)
 		if(!landmark || !Q.materialize(landmark))
 			to_chat(user, span_warning("Odd. It appears no landmark is available for this contract!"))
 			return FALSE
@@ -303,9 +303,12 @@ GLOBAL_LIST_EMPTY(quest_scrolls)
 	data["reward"] = assigned_quest.reward_amount
 	data["fellowship_size"] = length(assigned_quest.fellowship_roster)
 	data["fellowship_extras"] = assigned_quest.fellowship_extras
-	data["fellowship_split"] = assigned_quest.fellowship_split_payout
+	data["fellowship_missing"] = assigned_quest.fellowship_missing
+	data["fellowship_split"] = assigned_quest.fellowship_split_payout || assigned_quest.holder_fellowship_splits()
 	data["fellowship_threat_pct"] = round((assigned_quest.fellowship_threat_mult - 1) * 100)
 	data["fellowship_reward_pct"] = round((assigned_quest.fellowship_reward_mult - 1) * 100)
+	data["veteran"] = assigned_quest.veteran
+	data["veteran_threat_pct"] = round((QUEST_VETERAN_THREAT_MULT - 1) * 100)
 	data["progress_current"] = assigned_quest.progress_current
 	data["complete"] = assigned_quest.complete
 	data["levy_exempt"] = assigned_quest.levy_exempt

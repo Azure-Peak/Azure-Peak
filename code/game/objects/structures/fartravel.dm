@@ -88,7 +88,8 @@
 	var/datum/job/mob_job = SSjob.GetJob(mind.assigned_role)
 	if(!mob_job)
 		return
-	mob_job.current_positions = max(0, mob_job.current_positions - 1)
+	if(!migrant_type)
+		mob_job.current_positions = max(0, mob_job.current_positions - 1)
 	var/datum/advclass/target_job = get_advclass_datum()
 	if(target_job)
 		SSrole_class_handler.adjust_class_amount(target_job, -1)
