@@ -969,7 +969,7 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 	if(!has_buckled_mobs())
 		return
 	var/mutable_appearance/mounted_overlay = mutable_appearance(icon, mounted_state, overlay_layer)
-	mounted_overlay.appearance_flags = RESET_ALPHA|RESET_COLOR
+	mounted_overlay.appearance_flags = RESET_ALPHA
 	add_overlay(mounted_overlay)
 
 /mob/living/simple_animal/proc/adjust_speed(mob/living/driver)
