@@ -188,7 +188,7 @@
 		ADD_TRAIT(user, TRAIT_WARLOCK, "[type]")
 		ADD_TRAIT(user, TRAIT_UNLYCKERABLE, "[type]")
 		ADD_TRAIT(user, TRAIT_NOWW, "[type]")
-		grant_poke_spell_zizo(user)
+		grant_poke_spell(user, TRUE)
 
 	user.visible_message(
 		span_boldwarning("Arcyne runes sear themselves across [user]'s skin, glowing with a sickly light before fading beneath the flesh!"),
@@ -246,7 +246,7 @@
 		user.mind.setup_mage_aspects(list("mastery" = FALSE, "major" = 0, "minor" = 2, "utilities" = 5))
 		user.mind.AddSpell(new /datum/action/cooldown/spell/bonechill)
 		user.mind.AddSpell(new /datum/action/cooldown/spell/bonemend)
-		grant_poke_spell_zizo(user)
+		grant_poke_spell(user, TRUE)
 
 	user.visible_message(
 		span_boldwarning("[user]'s flesh burns away in necrotic flames, revealing bone beneath as they are consumed by the Lesser Work!"),

@@ -304,93 +304,104 @@
 
 /datum/action/cooldown/spell/noc/spellpack
 	name = "Arcyne Affinity"
-	desc = "Allows you to learn a set of spells. \n \
-	<b>MAGISTER</b>: Greater Arcyne Bolt, Arc Bolt, Phase, Message, Campfire \n \
-	<b>ENCHANTER</b>: Stygian Efflorescence, Geas, Rune Ward, Forcewall, Blood Rush \n \
-	<b>SEER</b>: Bestow Ward, Guidance, Precognition, Surge, Mindlink"
+	desc = "Attune your mind and body to the moon, learning its secrets depending on which facet of it you are most affined with.<br><br><b>LIGHT SIDE OF THE MOON</b>: Mastery of creation, and pursuer of secrets. <br><b>HALF SIDE OF THE MOON</b>: Conciliation of both faces, walking the line between creation and destruction. <br><b>DARK SIDE OF THE MOON</b>: Mastery of destruction, and keeper of secrets.<br><br><i>This rituos can only be used at night time.</i>"
 	button_icon_state = "spellpack"
-//Magister = Generic magos, low utility mostly damage; Enchanter = Area denial beast, some utility; Seer = Full support with practically 0 offensive capacity.
 	click_to_activate = FALSE
-	primary_resource_cost = SPELLCOST_MIRACLE
-	secondary_resource_cost = SPELLCOST_UTILITY_BUFF
-	invocation_type = INVOCATION_NONE
-	charge_required = FALSE
-	cooldown_time = 5 SECONDS
+	self_cast_possible = TRUE
+	charge_message = "<font color='#a4e5ff'>O' NOC! BLESSED MOONLIGHT!"
+	charge_required = TRUE
+	charge_time = 10 SECONDS
+	charge_slowdown = CHARGING_SLOWDOWN_HEAVY
+	cooldown_time = 3 MINUTES
+	primary_resource_cost = 100
+	secondary_resource_cost = 100
+	sound = 'sound/magic/swap.ogg'
 	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
-
-	/// var we use to flag we are currently choosing a bundle.
-	var/choosing_bundle = FALSE
-	var/chosen_bundle
-	var/list/magister_bundle = list(
-		/datum/action/cooldown/spell/projectile/greater_arcyne_bolt,
-		/datum/action/cooldown/spell/projectile/arc_bolt,
-		/datum/action/cooldown/spell/phase,
-		/datum/action/cooldown/spell/message,
-		/datum/action/cooldown/spell/create_campfire
-	)
-	var/list/enchanter_bundle = list(
-		/datum/action/cooldown/spell/projectile/stygian_efflorescence,
-		/datum/action/cooldown/spell/geas,
-		/datum/action/cooldown/spell/touch/rune_ward,
-		/datum/action/cooldown/spell/forcewall,
-		/datum/action/cooldown/spell/augment_buff/blood_rush,
-	)
-	var/list/seer_bundle = list(
-		/datum/action/cooldown/spell/bestow_ward,
-		/datum/action/cooldown/spell/augment_buff/guidance,
-		/datum/action/cooldown/spell/augment_buff/precognition,
-		/datum/action/cooldown/spell/augment_buff/surge,
-		/datum/action/cooldown/spell/mindlink
-	)
+	var/anti_spam
 
 /datum/action/cooldown/spell/noc/spellpack/cast(atom/cast_on)
+	anti_spam = TRUE
 	. = ..()
-
-	if(choosing_bundle)
+	var/mob/living/user = owner
+	if(!istype(user) || !user.mind)
+		anti_spam = FALSE
 		return FALSE
-	var/choice = chosen_bundle
-	if(!chosen_bundle)
-		choosing_bundle = TRUE
-		choice = alert(owner, "What type of spells has Noc blessed you with?", "CHOOSE PATH", "Magister", "Enchanter", "Seer")
-		chosen_bundle = choice
-		choosing_bundle = FALSE
+
+//	if(GLOB.tod != "night")
+//		to_chat(user, span_warning("The radiance of the Elder Sister interferes in your communion with Noc."))
+//		anti_spam = FALSE
+//		return FALSE
+
+	var/choice = tgui_input_list(user, "The moon gazes at you. What do you see of it?", "Spell Pack", list("Light Side", "Half Side", "Dark Side"))
+	if(!choice)
+		anti_spam = FALSE
+		return FALSE
+
+	if(!run_spellpack_chant(user, choice))
+		anti_spam = FALSE
+		return FALSE
 
 	switch(choice)
-		if("Magister")
-			add_spells(owner, magister_bundle, grant_all = TRUE)
-			owner.mind?.RemoveSpell(src.type)
-			return TRUE
-		if("Enchanter")
-			add_spells(owner, enchanter_bundle, grant_all = TRUE)
-			owner.mind?.RemoveSpell(src.type)
-			return TRUE
-		if("Seer")
-			add_spells(owner, seer_bundle, grant_all = TRUE)
-			owner.mind?.RemoveSpell(src.type)
-			return TRUE
-	return FALSE
+		if("Dark Side")
+			user.visible_message(span_danger("[user] is swallowed by a creeping darkness, shadows form into arcyne tattoos!"),
+				span_userdanger("The dark between the stars answers, and it is hungry."))
+			user.mind.setup_mage_aspects(list("major" = 1, "minor" = 0, "utilities" = 3))
+		if("Half Side") // zizo rituos
+			user.visible_message(span_notice("[user] stands half in moonlight and half in shadow, one eye briefly shines like silver, one limb is wrapped in darkness, forming into arcyne tattoos!"),
+				span_notice("The moon's two faces meet within you, and neither one casts you out."))
+			grant_poke_spell(user)
+			user.mind.setup_mage_aspects(list("major" = 0, "minor" = 2, "utilities" = 6))
+		if("Light Side")
+			user.visible_message(span_notice("[user] is bathed in pale moonlight, their eyes briefly shining like silver!"),
+				span_notice("The moon's gaze falls upon you, clear and merciful."))
+			user.mind.setup_mage_aspects(list("ward" = TRUE, "major" = 0, "minor" = 3, "utilities" = 9, "locked_aspects" = list(/datum/magic_aspect/augmentation, /datum/magic_aspect/allowardry)))
+		else
+			anti_spam = FALSE
+			return FALSE
 
-/datum/action/cooldown/spell/noc/spellpack/proc/add_spells(mob/owner, list/spells, choice_count = 1, grant_all = FALSE)
-	for(var/spell_type in spells)
-		if(owner?.mind.has_spell(spells[spell_type]))
-			spells.Remove(spell_type)
-	if(!grant_all)
-		var/choice_count_visual = choice_count
-		for(var/i in 1 to choice_count)
-			var/choice = input(owner, "Choose a spell! Choices remaining: [choice_count_visual]") as null|anything in spells
-			if(!isnull(choice))
-				var/picked_spell = spells[choice]
-				var/datum/new_spell = new picked_spell
-				owner?.mind.AddSpell(new_spell)
-				choice_count_visual--
-				spells.Remove(choice)
-	else
-		for(var/spell_type in spells)
-			var/datum/new_spell = new spell_type
-			owner?.mind.AddSpell(new_spell)
-	if(!length(spells))
-		owner.mind?.RemoveSpell(src.type)
+	user.mind.RemoveSpell(src.type)
+	anti_spam = FALSE
+	return TRUE
 
+/datum/action/cooldown/spell/noc/spellpack/proc/run_spellpack_chant(mob/living/user, path_choice)
+	var/list/chant_lines
+
+	switch(path_choice)
+		if("Light Side")
+			chant_lines = list("NOC! WISE ONE OF THE SILVER VEIL!",
+				"I LIFT MY EYES TO THE MOON AND ASK FOR SIGHT!",
+				"LET THY RADIANCE UNMAKE THE NIGHT'S DOUBT!",
+				"EVERY STAR A WORD, EVERY WORD A WARD!",
+				"WRITE THY WISDOM UPON MY FORM!",
+				"I RISE IN MOONLIGHT, AND I AM THY LAMP!")
+		if("Half Side")
+			chant_lines = list("NOC! WISE ONE OF THE WAXING AND THE WANING!",
+				"I LIFT MY EYES TO THE MOON AND WILL NOT LOOK AWAY FROM ITS SHADOW!",
+				"LET LIGHT AND DARK BE ONE BREATH IN MY CHEST!",
+				"THE CRESCENT IS NO COMPROMISE, IT IS A COVENANT!",
+				"WRITE THY BALANCE UPON MY FORM!",
+				"I STAND BETWEEN THE FACES, AND I AM THY BRIDGE!")
+		if("Dark Side")
+			chant_lines = list("NOC! WISE ONE OF THE HOLLOW NIGHT!",
+				"I TURN FROM THE MOON AND KNEEL TO THE DARK!",
+				"LET THE SPACE BETWEEN STARS SPEAK MY NAME!",
+				"SHADOW IS THE SHARPEST KNOWLEDGE!",
+				"BIND THY SECRETS TO MY BLOOD!",
+				"I FALL INTO NIGHT, AND I AM THY BLADE!")
+		else
+			return FALSE
+
+	var/total = length(chant_lines)
+	for(var/i in 1 to total)
+		user.say(chant_lines[i], forced = "spell", language = /datum/language/common)
+		if(i >= 3)
+			shake_camera(user, min(i, 4), i - 1)
+		var/delay = 2 SECONDS
+		if(!do_after(user, delay, target = user))
+			to_chat(user, span_warning("The chant breaks. The moon lies unimpressed..."))
+			return FALSE
+
+	return TRUE
 
 //////////////////
 // T4 - Eclipse //
