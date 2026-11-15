@@ -352,7 +352,6 @@
 /obj/item/rogueweapon/handclaw/steel/graggarblunt/get_examine_highlight_status()
 	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_GRAGGAR_WEAPON)
 
-
 // Claws.
 /obj/item/rogueweapon/handclaw
 	name = "iron hound claws"
