@@ -1,3 +1,318 @@
+/datum/intent/spear/thrust
+	name = "thrust"
+	blade_class = BCLASS_STAB
+	attack_verb = list("thrusts")
+	animname = "stab"
+	icon_state = "instab"
+	reach = 2
+	clickcd = CLICK_CD_CHARGED
+	warnie = "mobwarning"
+	hitsound = list('sound/combat/hits/bladed/genstab (1).ogg', 'sound/combat/hits/bladed/genstab (2).ogg', 'sound/combat/hits/bladed/genstab (3).ogg')
+	penfactor = PEN_HEAVY
+	item_d_type = "stab"
+	effective_range = 2
+	effective_range_type = EFF_RANGE_EXACT
+
+/datum/intent/spear/thrust/polearm
+	name = "weak thrust"
+	desc = "A weak thrust from a polearm not designed for stabbing. Doesn't care about effective range, \
+	but also incapable of piercing all but the weakest cloth armor."
+	penfactor = PEN_LIGHT
+	damfactor = 1
+	effective_range = null
+	effective_range_type = EFF_RANGE_NONE
+
+/datum/intent/spear/thrust/training
+	name = "blunted thrust"
+	penfactor = PEN_NONE
+	intent_intdamage_factor = BLUNT_DEFAULT_INT_DAMAGEFACTOR
+	hitsound = list('sound/combat/hits/blunt/metalblunt (1).ogg', 'sound/combat/hits/blunt/metalblunt (2).ogg', 'sound/combat/hits/blunt/metalblunt (3).ogg')
+
+/datum/intent/spear/thrust/oneh
+	name = "one-handed thrust"
+	reach = 1
+	swingdelay = 14
+	damfactor = 1.6
+	penfactor = PEN_HEAVY
+	clickcd = CLICK_CD_RESIST
+	effective_range = null
+	effective_range_type = EFF_RANGE_NONE
+	sharpness_penalty = 3
+
+/datum/intent/spear/thrust/oneh/training
+	name = "blunted one-handed thrust"
+	penfactor = PEN_NONE
+	intent_intdamage_factor = BLUNT_DEFAULT_INT_DAMAGEFACTOR
+	hitsound = list('sound/combat/hits/blunt/metalblunt (1).ogg', 'sound/combat/hits/blunt/metalblunt (2).ogg', 'sound/combat/hits/blunt/metalblunt (3).ogg')
+
+/datum/intent/spear/thrust/militia
+	penfactor = PEN_MEDIUM
+
+/datum/intent/spear/thrust/pike		//EXPERIMENTAL
+	name = "pike thrust"
+	desc = "Thrust your pike forward from its furthest end to reach farther ahead than any spear ever could. Only effective at three paces."
+	damfactor = 1.15
+	reach = 3
+	effective_range = 3
+	clickcd = CLICK_CD_CHARGED + 1
+	swingdelay = 1.5
+
+/datum/intent/spear/thrust/pike/skewer		//EXPERIMENTAL
+	name = "pike lance"
+	desc = "Grab your pike from a closer end and charge forward with your whole body for devastating damage."
+	clickcd = CLICK_CD_HEAVY + 4
+	swingdelay = 6
+	damfactor = 1.5
+	penfactor = PEN_MEDIUM
+	max_intent_damage = 54
+	reach = 2
+	effective_range = 2
+	icon_state = "inlance"
+	attack_verb = list("lances", "runs through", "skewers")
+
+/datum/intent/spear/thrust/short
+	reach = 1
+	damfactor = 0.9
+	penfactor = PEN_MEDIUM
+	effective_range = null
+	effective_range_type = EFF_RANGE_NONE
+
+/datum/intent/spear/bash
+	name = "bash"
+	blade_class = BCLASS_BLUNT
+	penfactor = PEN_NONE
+	icon_state = "inbash"
+	attack_verb = list("bashes", "strikes")
+	damfactor = NONBLUNT_BLUNT_DAMFACTOR
+	item_d_type = "blunt"
+	intent_intdamage_factor = BLUNT_DEFAULT_INT_DAMAGEFACTOR
+
+// Eaglebeak has a decent bash with range
+/datum/intent/spear/bash/polehammer //Used for something that is not just eagle beak
+	name = "crushing bash"
+	hitsound = list('sound/combat/hits/blunt/metalblunt (1).ogg', 'sound/combat/hits/blunt/metalblunt (2).ogg', 'sound/combat/hits/blunt/metalblunt (3).ogg')
+	damfactor = 1
+	reach = 2
+
+/datum/intent/spear/bash/ranged
+	reach = 2
+
+/datum/intent/spear/cut
+	name = "cut"
+	blade_class = BCLASS_CUT
+	attack_verb = list("cuts", "slashes")
+	icon_state = "incut"
+	damfactor = 1
+	hitsound = list('sound/combat/hits/bladed/genslash (1).ogg', 'sound/combat/hits/bladed/genslash (2).ogg', 'sound/combat/hits/bladed/genslash (3).ogg')
+	reach = 2
+	item_d_type = "slash"
+
+/datum/intent/spear/cut/oneh
+	name = "one-handed cut"
+	reach = 1
+	swingdelay = 6
+	sharpness_penalty = 2
+
+/datum/intent/spear/cut/oneh/pike
+	name = "weak cut"
+	desc = "An awkward one-handed slash with a pike too long to swing properly."
+	damfactor = 0.6
+
+/datum/intent/spear/cut/scythe
+	reach = 3
+	damfactor = 1
+
+/datum/intent/spear/cut/bardiche/cleave
+	name = "cleaving cut"
+	icon_state = "incleave"
+	attack_verb = list("cleaves", "carves through")
+	clickcd = CLICK_CD_MASSIVE
+	damfactor = 1.0
+	cleave = /datum/cleave_pattern/forward_cleave
+	desc = "A cleave that cuts through a second target behind the first."
+
+/datum/intent/spear/cut/glaive
+	damfactor = 1.2
+	chargetime = 0
+
+/datum/intent/spear/cut/glaive/sweep
+	name = "sweeping cut"
+	icon_state = "insweep"
+	attack_verb = list("sweeps through", "cuts across")
+	clickcd = CLICK_CD_GLACIAL
+	cleave = /datum/cleave_pattern/horizontal_sweep
+	desc = "A sweep that cuts through targets to the front."
+
+/datum/intent/spear/cut/short
+	reach = 1
+
+/datum/intent/spear/cast
+	name = "cast"
+	chargetime = 0
+	noaa = TRUE
+	misscost = 0
+	icon_state = "inuse"
+	no_attack = TRUE
+
+/datum/intent/spear/cut/naginata
+	damfactor = 1.2
+	chargetime = 0
+
+/datum/intent/spear/cut/naginata/sweep
+	name = "sweeping cut"
+	icon_state = "insweep"
+	attack_verb = list("sweeps through", "cuts across")
+	clickcd = CLICK_CD_GLACIAL
+	cleave = /datum/cleave_pattern/horizontal_sweep
+	desc = "A sweep that cuts through targets to the front."
+
+/datum/intent/rend
+	name = "rend"
+	icon_state = "inrend"
+	attack_verb = list("rends", "cleaves")
+	animname = "chop"
+	blade_class = BCLASS_CHOP
+	hitsound = list('sound/combat/hits/bladed/genchop (1).ogg', 'sound/combat/hits/bladed/genchop (2).ogg', 'sound/combat/hits/bladed/genchop (3).ogg')
+	reach = 1
+	swingdelay = 1 SECONDS
+	swingdelay_type = SWINGDELAY_PENALTY
+	penfactor = PEN_NONE
+	damfactor = 2.5
+	clickcd = CLICK_CD_CHARGED
+	no_early_release = TRUE
+	item_d_type = "slash"
+	misscost = 10
+	intent_intdamage_factor = 0.05
+	demolition_mod = 0.05
+
+/datum/intent/rend/apophis
+	damfactor = 2.2
+	intent_intdamage_factor = 0.2
+
+/datum/intent/rend/reach
+	name = "long rend"
+	penfactor = PEN_NONE
+	misscost = 5
+	swingdelay = 15
+	clickcd = CLICK_CD_HEAVY
+	damfactor = 2
+	reach = 2
+
+/datum/intent/rend/reach/partizan
+	name = "rending thrust"
+	attack_verb = list("skewers", "cleaves")
+	blade_class = BCLASS_STAB
+	swingdelay = 8
+	misscost = 20
+	damfactor = 1.8
+	hitsound = list('sound/combat/hits/bladed/genstab (1).ogg', 'sound/combat/hits/bladed/genstab (2).ogg', 'sound/combat/hits/bladed/genstab (3).ogg')
+	item_d_type = "stab"
+	no_early_release = TRUE
+	intent_intdamage_factor = 0.1
+
+// Billhook-specific intents.
+/datum/intent/spear/dismount
+	name = "dismounting hook"
+	blade_class = BCLASS_STAB
+	attack_verb = list("hooks")
+	damfactor = 0.6
+	animname = "stab"
+	icon_state = "inlunge"
+	reach = 2
+	desc = "Hook an opponent with your polearm, forcefully dismounting them should they be on horseback. Must strike the rider themselves and not their mount and does not work on horseback."
+	clickcd = CLICK_CD_CHARGED
+	swingdelay_type = SWINGDELAY_CANCEL
+	swingdelay = 1 SECONDS //1 second for the horse to pull out of range, pretty hard to land.
+	clickcd = 1.3 SECONDS
+	warnie = "mobwarning"
+	hitsound = list('sound/combat/hits/bladed/genstab (1).ogg', 'sound/combat/hits/bladed/genstab (2).ogg', 'sound/combat/hits/bladed/genstab (3).ogg')
+	penfactor = PEN_LIGHT //Bad for anything but its intended purpose
+	item_d_type = "stab"
+	effective_range = 2
+	effective_range_type = EFF_RANGE_EXACT
+
+/datum/intent/spear/dismount/spec_on_apply_effect(mob/living/H, mob/living/user, params)
+	var/target_buckled = H.buckled ? TRUE : FALSE
+	if(!target_buckled)
+		return
+	if(istype(H.buckled, /obj/structure/flora/roguegrass/maneater)) //We don't want this being used on people stuck in maneaters, as funny as that sounds.
+		return
+	H.buckled.unbuckle_mob(H)
+	H.Knockdown(50)
+	H.Paralyze(10)
+	var/turf/edge_target_turf = get_edge_target_turf(H, get_dir(H, user))
+	if(istype(edge_target_turf))
+		H.safe_throw_at(edge_target_turf, 1, 1, user, spin = TRUE)
+	user.visible_message(span_danger("[user] digs the hook of their weapon into [H] and brings them crashing down!"))
+	playsound(H.loc, 'sound/foley/zfall.ogg', 100, FALSE)
+	H.visible_message(span_danger("[H] falls off their mount!"))
+
+// Polehammer-specific intents.
+/datum/intent/mace/smash/eaglebeak
+	reach = 2
+	clickcd = CLICK_CD_HEAVY // Slightly longer since it has RANGE. Don't want to increase charge time more since it is unreliable.
+
+// Spellblade-specific intents.
+/datum/intent/spear/thrust/azurean
+	name = "thrust"
+	desc = "A quick, nimble two-handed thrust. Keeps reach but lacks the power to pierce armor."
+	reach = 2
+	clickcd = CLICK_CD_QUICK // Long range, quick poke, NO AP
+	penfactor = PEN_NONE
+	damfactor = 1
+	effective_range = null
+	effective_range_type = EFF_RANGE_NONE
+
+/datum/intent/spear/thrust/azurean/oneh
+	name = "one-handed thrust"
+	desc = "A rapid jab from one hand. Fast with long range, but unable to penetrate armor."
+	reach = 2
+	clickcd = CLICK_CD_QUICK // capture that nimble feel
+	penfactor = PEN_NONE
+	damfactor = 1
+	effective_range = null
+	effective_range_type = EFF_RANGE_NONE
+
+/datum/intent/spear/thrust/azurean/pick
+	name = "pick"
+	icon_state = "inpick"
+	desc = "A shortspear is nimble enough to handle when two-handed and gripped toward the blade. Grasps it near the end and drive it into the weak point of your opponent's armor - hard to pull off but can be devastating if successful."
+	blade_class = BCLASS_PICK
+	attack_verb = list("impales", "drives into")
+	hitsound = list('sound/combat/hits/pick/genpick (1).ogg', 'sound/combat/hits/pick/genpick (2).ogg')
+	reach = 1
+	clickcd = 18
+	swingdelay = 14
+	penfactor = PEN_HEAVY
+	damfactor = 0.8
+	item_d_type = "stab"
+	effective_range = null
+	effective_range_type = EFF_RANGE_NONE
+
+// Lance-specific intents.
+/datum/intent/spear/thrust/lance
+	damfactor = 1.25 // Turns its base damage into 30 on the two-hand thrust. It keeps the spear thrust one handed.
+
+/datum/intent/lance
+	name = "lance"
+	icon_state = "inlance"
+	attack_verb = list("lances", "runs through", "skewers")
+	animname = "stab"
+	item_d_type = "stab"
+	penfactor = PEN_NONE
+	chargetime = 4 SECONDS
+	damfactor = 4
+	reach = 2
+	cleave = /datum/cleave_pattern/lance
+
+/datum/intent/lance/onehand
+	chargetime = 4 SECONDS
+	swingdelay = 1 SECONDS
+	reach = 2
+	damfactor = 4 // 25% less damage
+	cleave = /datum/cleave_pattern/lance
+
+//Quarterstaff-specific intents.
 /datum/intent/spear/bash/staff
 	name = "staff bash"
 	damfactor = 1
@@ -113,449 +428,3 @@
 	chargedrain = 1
 	clickcd = CLICK_CD_HEAVY
 	intent_intdamage_factor = 1.5
-
-/datum/alt_grip/quarterstaff
-	two_handed = TRUE
-	skill_req = SKILL_LEVEL_JOURNEYMAN
-
-/datum/alt_grip/quarterstaff/half
-	name = "half-staff"
-	grip_intents = list(
-		/datum/intent/spear/bash/quarterstaff/rapid,
-		/datum/intent/mace/strike/dislocate/quarterstaff,
-		/datum/intent/effect/daze/longsword/clinch/quarterstaff,
-	)
-	onmobprop_overrides = list(
-		"altgrip" = list(
-			"shrink" = 0.6,
-			"sx" = 1,
-			"sy" = 2,
-			"nx" = 0,
-			"ny" = 2,
-			"wx" = -3,
-			"wy" = 2,
-			"ex" = 1,
-			"ey" = 2,
-			"northabove" = 0,
-			"southabove" = 1,
-			"eastabove" = 1,
-			"westabove" = 0,
-			"nturn" = 45,
-			"sturn" = -45,
-			"wturn" = 50,
-			"eturn" = -55,
-			"nflip" = 8,
-			"sflip" = 0,
-			"wflip" = 8,
-			"eflip" = 0,
-		),
-	)
-	var_overrides = list(
-		"wlength" = WLENGTH_NORMAL
-	)
-	additive_var_overrides = list(
-		"wdefense" = 1
-	)
-
-/datum/alt_grip/quarterstaff/half/get_grip_intents(obj/item/source)
-	. = ..()
-	var/obj/item/rogueweapon/woodstaff/quarterstaff/staff = source
-	if(istype(staff) && staff.signature_intent)
-		. += staff.signature_intent
-
-/datum/alt_grip/quarterstaff/long
-	name = "long guard"
-	grip_intents = list(
-		/datum/intent/spear/bash/quarterstaff/long,
-		/datum/intent/spear/thrust/quarterstaff/long,
-		/datum/intent/mace/smash/quarterstaff/long,
-		/datum/intent/spear/bash/quarterstaff/overhead,
-	)
-	onmobprop_overrides = list(
-		"altgrip" = list(
-			"shrink" = 0.6,
-			"sx" = 6,
-			"sy" = -5,
-			"nx" = -5,
-			"ny" = -4,
-			"wx" = -8,
-			"wy" = -4,
-			"ex" = 7,
-			"ey" = -4,
-			"northabove" = 0,
-			"southabove" = 1,
-			"eastabove" = 1,
-			"westabove" = 0,
-			"nturn" = -25,
-			"sturn" = 25,
-			"wturn" = -55,
-			"eturn" = 60,
-			"nflip" = 8,
-			"sflip" = 0,
-			"wflip" = 8,
-			"eflip" = 0,
-		),
-	)
-	var_overrides = list(
-		"wlength" = WLENGTH_GREAT
-	)
-	additive_var_overrides = list(
-		"wdefense" = -3
-	)
-
-/obj/item/rogueweapon/woodstaff
-	force = 10
-	force_wielded = 15
-	possible_item_intents = list(/datum/intent/spear/bash/woodstaff)
-	gripped_intents = list(/datum/intent/spear/bash/ranged/woodstaff, /datum/intent/mace/smash/wood/ranged)
-	name = "wooden staff"
-	desc = "A solid dependable walking stick that allows one to traverse rough terrain with ease, keep the weight off an \
-	injured leg, or reliably fend off incoming blows. Perfect for beggars, pilgrims, and mages."
-	icon_state = "woodstaff"
-	icon = 'icons/roguetown/weapons/polearms64.dmi'
-	wlength = WLENGTH_LONG
-	w_class = WEIGHT_CLASS_BULKY
-	slot_flags = ITEM_SLOT_BACK
-	sharpness = IS_BLUNT
-	walking_stick = TRUE
-	pixel_y = -16
-	pixel_x = -16
-	inhand_x_dimension = 64
-	inhand_y_dimension = 64
-	wdefense = 4
-	bigboy = TRUE
-	gripsprite = TRUE
-	associated_skill = /datum/skill/combat/staves
-	is_implement = TRUE
-	special = /datum/special_intent/quarterstaff_sweep
-	anvilrepair = /datum/skill/craft/carpentry
-	resistance_flags = FLAMMABLE
-	twirly = SKILL_LEVEL_JOURNEYMAN
-	twirl_speed = 6
-
-/obj/item/rogueweapon/woodstaff/getonmobprop(tag)
-	. = ..()
-	if(tag)
-		switch(tag)
-			if("gen")
-				return list("shrink" = 0.6,"sx" = -6,"sy" = -1,"nx" = 8,"ny" = 0,"wx" = -4,"wy" = 0,"ex" = 2,"ey" = 1,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = -38,"sturn" = 37,"wturn" = 32,"eturn" = -23,"nflip" = 0,"sflip" = 8,"wflip" = 8,"eflip" = 0)
-			if("wielded")
-				return list("shrink" = 0.6,"sx" = 4,"sy" = -2,"nx" = -3,"ny" = -2,"wx" = -5,"wy" = -1,"ex" = 3,"ey" = -2,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = 7,"sturn" = -7,"wturn" = 16,"eturn" = -22,"nflip" = 8,"sflip" = 0,"wflip" = 8,"eflip" = 0)
-			if("onbelt")
-				return list("shrink" = 0.3,"sx" = -2,"sy" = -5,"nx" = 4,"ny" = -5,"wx" = 0,"wy" = -5,"ex" = 2,"ey" = -5,"nturn" = 0,"sturn" = 0,"wturn" = 0,"eturn" = 0,"nflip" = 0,"sflip" = 0,"wflip" = 0,"eflip" = 0,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0)
-
-/obj/item/rogueweapon/woodstaff/wise
-	name = "wise staff"
-	desc = "A staff for keeping the volves at bay..."
-
-/obj/item/rogueweapon/woodstaff/aries // more humble with no aura
-	name = "staff of the shepherd"
-	desc = "A finely wrought bishop's crozier crowned with the likeness of a shepherd watching over his flock. Its curved head serves as a reminder that a true shepherd does not rule through fear, but through guidance, mercy, and unwavering vigilance. To the faithful it is a symbol of humble service; to the lost, a promise that even the stray may yet find their way home."
-	force = 25
-	force_wielded = 28
-	icon_state = "aries"
-	icon = 'icons/roguetown/weapons/polearms64.dmi'
-	associated_skill = /datum/skill/magic/holy
-	is_implement = FALSE
-	sellprice = 240
-	pixel_y = -22
-	pixel_x = -22
-	possible_item_intents = list(SPEAR_BASH, /datum/intent/bless)
-	gripped_intents = list(/datum/intent/spear/bash/ranged, /datum/intent/mace/smash/wood/ranged, /datum/intent/bless)
-
-/obj/item/rogueweapon/woodstaff/aries/icarus // more boisterous with aura
-	name = "staff of the guide"
-	desc = "A radiant staff crowned by a lavish, pure gold-forged sun whose rays stretch in every direction. It embodies the sacred duty to bring light where darkness lingers, offering wisdom to the faithful and hope to the despairing. More than a mark of rank, it stands as a beacon that calls others to walk the righteous path beneath the ever-watchful eyes of the Ten."
-	icon_state = "icarus"
-	aura_color = "#ffed9f"
-
-/obj/item/rogueweapon/woodstaff/aries/afterattack(atom/movable/A, mob/user, proximity)
-	. = ..()
-
-	if(user.mind?.assigned_role != "Bishop")
-		to_chat(user, span_warning("The staff sizzles against my hand!"))
-		user.emote("pain")
-		return
-
-	if(user.used_intent?.type != /datum/intent/bless)
-		return
-
-	// people
-	if(ishuman(A))
-		var/mob/living/carbon/human/H = A
-
-		if(H.has_status_effect(/datum/status_effect/buff/blessed) || H.has_stress_event(/datum/stressevent/blessed_evil) || H.has_stress_event(/datum/stressevent/blessed_neutral))
-			to_chat(user, span_warning("[H] has already been blessed."))
-			return
-
-		playsound(user, 'sound/magic/censercharging.ogg', 100)
-		user.visible_message(span_info("[user] holds \the [src] over \the [H], offering a solemn blessing..."))
-
-		if(!do_after(user, 50, target = H))
-			return
-
-		if(H.patron?.type in ALL_INHUMEN_PATRONS)
-			to_chat(H, span_boldred("You feel the Ten's blessings weigh upon your soul."))
-			H.add_stress(/datum/stressevent/blessed_evil)
-		else if(H.patron?.type in OLD_GOD_PATRON)
-			to_chat(H, span_hypnophrase("You feel the Ten's blessings reluctantly settle upon your soul."))
-			H.add_stress(/datum/stressevent/blessed_neutral)
-		else
-			to_chat(H, span_hypnophrase("You feel the Ten's blessings settle upon your soul."))
-			H.apply_status_effect(/datum/status_effect/buff/blessed)
-			H.add_stress(/datum/stressevent/blessed)
-
-		playsound(H, 'sound/magic/bless.ogg', 100)
-		new /obj/effect/temp_visual/censer_dust(get_turf(H))
-		user.visible_message(span_blue("[user] blesses [H]."))
-		return
-
-	// silver items
-	if(isitem(A))
-		var/obj/item/I = A
-
-		// haha hey guys its me profane dagger im just gonna sneak on in here!
-		if(istype(I, /obj/item/rogueweapon/huntingknife/idagger/steel/profane))
-			var/obj/item/rogueweapon/huntingknife/idagger/steel/profane/zevil_dagger = I
-			zevil_dagger.attempt_to_break(zevil_dagger, user, 1)
-			return
-
-		var/datum/component/silverbless/CP = I.GetComponent(/datum/component/silverbless)
-
-		if(!CP)
-			to_chat(user, span_info("\The [I] cannot be blessed."))
-			return
-
-		if(CP.is_blessed)
-			to_chat(user, span_info("It has already been blessed."))
-			return
-
-		if(!(CP.silver_type & SILVER_TENNITE))
-			to_chat(user, span_info("\The [I] cannot receive Tennite blessings."))
-			return
-
-		playsound(user, 'sound/magic/censercharging.ogg', 100)
-		user.visible_message(span_info("[user] holds \the [src] over \the [I]..."))
-
-		if(!do_after(user, 5 SECONDS, target = I))
-			return
-
-		CP.try_bless(BLESSING_TENNITE)
-		new /obj/effect/temp_visual/censer_dust(get_turf(I))
-		return
-
-/obj/item/rogueweapon/woodstaff/aries/getonmobprop(tag)
-	. = ..()
-	if(tag)
-		switch(tag)
-			if("gen")
-				return list("shrink" = 0.6,"sx" = -6,"sy" = -1,"nx" = 8,"ny" = 0,"wx" = -4,"wy" = 0,"ex" = 2,"ey" = 1,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = -38,"sturn" = 37,"wturn" = 32,"eturn" = -23,"nflip" = 0,"sflip" = 8,"wflip" = 8,"eflip" = 0)
-			if("wielded")
-				return list("shrink" = 0.6,"sx" = 4,"sy" = -2,"nx" = -3,"ny" = -2,"wx" = -5,"wy" = -1,"ex" = 3,"ey" = -2,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = 7,"sturn" = -7,"wturn" = 16,"eturn" = -22,"nflip" = 8,"sflip" = 0,"wflip" = 8,"eflip" = 0)
-
-
-/obj/item/churcharticles/litany
-	name = "litany of the Ten"
-	desc = "A finely illuminated parchment of litany bearing the sacred verses of the Holy See. Penned upon blessed parchment and sealed with crimson wax, it contains the Rite of Endorsement, a solemn invocation entrusted only to ordained bishops. Once the final verse is spoken, the parchment burns to ash, and one of the Ten's sacred croziers is called forth. Don't lose it."
-	icon = 'icons/roguetown/items/misc.dmi'
-	icon_state = "litany"
-	item_state = "litany"
-	aura_color = "#ffed9f"
-	var/in_use = FALSE
-
-/obj/item/churcharticles/litany/attack_self(mob/user)
-	. = ..()
-	if(!ishuman(user))
-		return
-	if(in_use)
-		to_chat(user, span_warning("The litany is already being recited."))
-		return
-	in_use = TRUE
-	user.visible_message(span_boldwarning("[user] unfurls [src], raising it high before beginning a solemn rite."))
-	if(!do_after(user, 25, target = user))
-		in_use = FALSE
-		return
-	user.say(",g Before the Holy Ten, I reaffirm the sacred vows laid upon my soul.")
-	if(!do_after(user, 25, target = user))
-		in_use = FALSE
-		return
-	user.say(",g May I serve with humility, wisdom, and unwavering faith.")
-	if(!do_after(user, 25, target = user))
-		in_use = FALSE
-		return
-	user.say(",g Let my voice be Yours in counsel.")
-	if(!do_after(user, 25, target = user))
-		in_use = FALSE
-		return
-	user.say(",g Let my hand be Yours in mercy.")
-	if(!do_after(user, 25, target = user))
-		in_use = FALSE
-		return
-	user.say(",g Let my office stand as testament to the covenant between the Holy See and the faithful.")
-	if(!do_after(user, 25, target = user))
-		in_use = FALSE
-		return
-	user.say(",g Should I yet prove worthy in Your sight, grant unto me a sacred staff, wrought by the grace of the Holy Ten, that I may bear it as the symbol of the authority entrusted to me.")
-	var/choice = tgui_alert(user, "Which of the Ten's staves do you invoke?", "RITE OF THE TEN", list("Staff of the Shepherd", "Staff of the Guide", "Cancel"))
-	if(!choice || choice == "Cancel")
-		in_use = FALSE
-		return
-	var/obj/item/rogueweapon/woodstaff/aries/staff
-	switch(choice)
-		if("Staff of the Shepherd")
-			staff = new /obj/item/rogueweapon/woodstaff/aries(get_turf(user))
-		if("Staff of the Guide")
-			staff = new /obj/item/rogueweapon/woodstaff/aries/icarus(get_turf(user))
-	playsound(get_turf(user), 'sound/magic/holyshield.ogg', 100, FALSE)
-	new /obj/effect/temp_visual/censer_dust(get_turf(user))
-	user.visible_message(span_blue("As the final words leave [user]'s lips, [src] crumbles into sacred ash and [staff] manifests before them!"))
-	qdel(src)
-
-/obj/item/rogueweapon/woodstaff/quarterstaff
-	name = "wooden quarterstaff"
-	desc = "A staff that makes any journey easier. Durable and swift, capable of bludgeoning stray volves and ruffians alike. The prodigious length \
-	permits it to both incapacitate the villainous with blunted strikes, and to keep snarling foes at staff's length."
-	force = 16
-	force_wielded = 22
-	possible_item_intents = list(/datum/intent/spear/bash/quarterstaff)
-	gripped_intents = list(/datum/intent/spear/bash/ranged/quarterstaff, /datum/intent/spear/thrust/quarterstaff, /datum/intent/mace/smash/wood/ranged, /datum/intent/sword/disarm/quarterstaff)
-	alt_grips = list(/datum/alt_grip/quarterstaff/half, /datum/alt_grip/quarterstaff/long)
-	icon_state = "quarterstaff"
-	associated_skill = /datum/skill/combat/staves
-	is_implement = FALSE
-	max_integrity = 175
-	wdefense = 5
-	wdefense_wbonus = 6
-	wbalance = WBALANCE_SWIFT
-	smeltresult = /obj/item/natural/ash
-	/// The material-specific intent this staff keeps in its half-staff stance.
-	var/signature_intent = /datum/intent/sword/disarm/quarterstaff
-
-/obj/item/rogueweapon/woodstaff/quarterstaff/virtue
-	name = "shepherd's quarterstaff" //Reskinned iron quarterstaff without the smeltability-into-ingotry.
-	force = 17
-	force_wielded = 23
-	gripped_intents = list(/datum/intent/spear/bash/ranged/quarterstaff, /datum/intent/spear/thrust/quarterstaff, /datum/intent/mace/smash/quarterstaff, /datum/intent/effect/hobble/quarterstaff)
-	signature_intent = /datum/intent/effect/hobble/quarterstaff
-	wbalance = WBALANCE_NORMAL
-	icon_state = "quarterstaff_virtue"
-	max_integrity = 250
-	wdefense_wbonus = 5
-
-/obj/item/rogueweapon/woodstaff/quarterstaff/iron
-	name = "iron quarterstaff"
-	desc = "A quarterstaff reinforced with iron studdings and counterweights. The prodigious length \
-	permits it to both incapacitate the villainous with blunted strikes, and to keep snarling foes at staff's length."
-	force = 17
-	force_wielded = 23
-	gripped_intents = list(/datum/intent/spear/bash/ranged/quarterstaff, /datum/intent/spear/thrust/quarterstaff, /datum/intent/mace/smash/quarterstaff, /datum/intent/effect/hobble/quarterstaff)
-	signature_intent = /datum/intent/effect/hobble/quarterstaff
-	wbalance = WBALANCE_NORMAL
-	icon_state = "quarterstaff_iron"
-	max_integrity = 250
-	wdefense_wbonus = 5
-	smeltresult = /obj/item/ingot/iron
-
-/obj/item/rogueweapon/woodstaff/quarterstaff/steel
-	name = "steel quarterstaff"
-	desc = "A quarterstaff reinforced with steel tips and steel rings, blurring the line between a light polehammer and a reinforced \
-	quarterstaff. Extremely durable, and more than capable of bludgeoning brigands to death; or more mercifully, robbing them of their \
-	very own tools."
-	force = 18
-	force_wielded = 25
-	gripped_intents = list(/datum/intent/spear/bash/ranged/quarterstaff, /datum/intent/spear/thrust/quarterstaff, /datum/intent/mace/smash, /datum/intent/effect/daze/quarterstaff)
-	signature_intent = /datum/intent/effect/daze/quarterstaff
-	wbalance = WBALANCE_HEAVY
-	icon_state = "quarterstaff_steel"
-	max_integrity = 200
-	wdefense = 4
-	wdefense_wbonus = 5
-	smeltresult = /obj/item/ingot/steel
-
-/obj/item/rogueweapon/woodstaff/quarterstaff/steel/holysee
-	name = "see quarterstaff"
-	desc = "A decorated quarterstaff reinforced with metal with enough heft behind it to send deadites back into Necra's realm. \
-	Exceedingly durable and capable it is favorite of many orders that forgo cladding themselves in steel."
-	icon_state = "quarterstaff_see"
-	max_integrity = 230
-
-/obj/item/rogueweapon/woodstaff/quarterstaff/steel/astrata
-	name = "solar scepter"
-	desc = "A quarterstaff bearing the symbol of Astrata, Her rule given form in a scepter atop a reinforced shaft."
-	icon_state = "quarterstaff_astrata"
-	max_integrity = 230
-
-/obj/item/rogueweapon/woodstaff/quarterstaff/steel/noc
-	name = "lunar crescent"
-	desc = "A quarterstaff bearing the symbol of Noc, His moonlight taken form atop a reinforced shaft."
-	icon_state = "quarterstaff_noc"
-	max_integrity = 230
-
-/obj/item/rogueweapon/woodstaff/quarterstaff/blacksteel
-	name = "blacksteel quarterstaff"
-	desc = "A quarterstaff reinforced with blacksteel tips. One might imagine that the elegance of such a design hardly befits the people \
-	who'd traditionally wield such a weapon; then again, who are we to judge?"
-	force = 20
-	force_wielded = 30
-	gripped_intents = list(/datum/intent/spear/bash/ranged/quarterstaff, /datum/intent/spear/thrust/quarterstaff, /datum/intent/mace/smash, /datum/intent/effect/daze/quarterstaff)
-	signature_intent = /datum/intent/effect/daze/quarterstaff
-	wbalance = WBALANCE_NORMAL
-	icon_state = "quarterstaff_blacksteel"
-	max_integrity = 350
-	smeltresult = /obj/item/ingot/blacksteel
-	wdefense_wbonus = 7	//12 when wielded.
-
-/obj/item/rogueweapon/woodstaff/quarterstaff/steel/silver
-	name = "silver quarterstaff"
-	desc = "A quarterstaff reinforced with silver tips. A relatively new design, purportedly inspired by the warstaffs oft-carried by Naledian \
-	warscholars. Durable enough to catch-and-disarm avantyne to the shaft, without so much as a splinter - or so, they say."
-	icon_state = "quarterstaff_silver"
-	is_silver = TRUE
-	smeltresult = /obj/item/ingot/silver
-
-/obj/item/rogueweapon/woodstaff/quarterstaff/steel/silver/ComponentInitialize()
-	AddComponent(\
-		/datum/component/silverbless,\
-		pre_blessed = BLESSING_NONE,\
-		silver_type = SILVER_TENNITE\
-	)
-
-/obj/item/rogueweapon/woodstaff/quarterstaff/steel/silver/psy
-	name = "psydonic quarterstaff"
-	desc = "A quarterstaff reinforced with silver tips. A relatively new design, purportedly inspired by the warstaffs \
-	oft-carried by Naledian warscholars. Durable enough to catch avantyne to the shaft, without so much as a splinter - or so, they say."
-	icon_state = "quarterstaff_silver"
-	smeltresult = /obj/item/ingot/silverblessed
-
-/obj/item/rogueweapon/woodstaff/quarterstaff/steel/silver/psy/ComponentInitialize()
-	AddComponent(\
-		/datum/component/silverbless,\
-		pre_blessed = BLESSING_NONE,\
-		silver_type = SILVER_PSYDONIAN\
-	)
-
-/obj/item/rogueweapon/woodstaff/quarterstaff/steel/silver/psy/preblessed/ComponentInitialize()
-	AddComponent(\
-		/datum/component/silverbless,\
-		pre_blessed = BLESSING_PSYDONIAN,\
-		silver_type = SILVER_PSYDONIAN\
-	)
-
-/obj/item/rogueweapon/woodstaff/quarterstaff/gold
-	name = "golden quarterstaff"
-	desc = "The astute may point out that this staff is poorly designed. They would be correct. Gold, even low karat, is a bad material for a \
-	weapon. This one additionally manages to be doubly-sinned by having a heavy chunk of gold at the end. It's almost a polehammer. Practical? \
-	No. But it makes a statement."
-	icon_state = "quarterstaff_gold"
-	force = 23
-	force_wielded = 30
-	wdefense = 4
-	wdefense_wbonus = 5
-	gripped_intents = list(/datum/intent/spear/bash/ranged/quarterstaff, /datum/intent/spear/thrust/quarterstaff, /datum/intent/mace/smash, /datum/intent/effect/daze/quarterstaff)
-	signature_intent = /datum/intent/effect/daze/quarterstaff
-	wbalance = WBALANCE_HEAVY
-	special = /datum/special_intent/gilded_dragon_sweep
-	sellprice = 80
-	no_loot_taint = TRUE
-	max_integrity = 250 //equal to psydonite; putting it at half of this was a neat little experiment but agonizing
-

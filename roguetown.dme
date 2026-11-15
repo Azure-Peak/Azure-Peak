@@ -1431,7 +1431,6 @@
 #include "code\game\objects\items\rogueweapons\melee\sword\sword_intents.dm"
 #include "code\game\objects\items\rogueweapons\melee\axe\axes.dm"
 #include "code\game\objects\items\rogueweapons\melee\axe\axe_intents.dm"
-#include "code\game\objects\items\rogueweapons\melee\polearm\lance.dm"
 #include "code\game\objects\items\rogueweapons\melee\polearm\polearms.dm"
 #include "code\game\objects\items\rogueweapons\melee\polearm\staff.dm"
 #include "code\game\objects\items\rogueweapons\melee\polearm\polearm_intents.dm"

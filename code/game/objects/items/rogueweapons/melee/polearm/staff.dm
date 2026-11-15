@@ -1,217 +1,12 @@
-/datum/intent/spear/bash/staff
-	name = "staff bash"
-	damfactor = 1
-	reach = 1
-	intent_intdamage_factor = 1
-	clickcd = CLICK_CD_CHARGED
-
-/datum/intent/spear/bash/staff/onehand
-	damfactor = NONBLUNT_BLUNT_DAMFACTOR
-
-/datum/intent/spear/bash/woodstaff
-	intent_intdamage_factor = 1
-
-/datum/intent/spear/bash/ranged/woodstaff
-	intent_intdamage_factor = 1
-
-/datum/intent/spear/bash/ranged/quarterstaff
-	damfactor = 1
-	intent_intdamage_factor = 1
-
-/datum/intent/spear/bash/quarterstaff
-	damfactor = 0.8
-	intent_intdamage_factor = 1
-
-/datum/intent/spear/thrust/quarterstaff
-	name = "jab"
-	desc = "A quick, light jab with the end of the staff. Weaker than a bash, but faster. Unlike a spear's thrust, it has no sweet spot to find."
-	blade_class = BCLASS_BLUNT
-	attack_verb = list("jabs", "prods")
-	hitsound = list('sound/combat/hits/blunt/bluntsmall (1).ogg', 'sound/combat/hits/blunt/bluntsmall (2).ogg')
-	penfactor = PEN_NONE
-	damfactor = 0.9
-	clickcd = CLICK_CD_QUICK
-	item_d_type = "blunt"
-	effective_range = null
-	effective_range_type = EFF_RANGE_NONE
-	intent_intdamage_factor = 1
-
-/datum/intent/mace/smash/quarterstaff
-	reach = 2
-
-/datum/intent/sword/disarm/quarterstaff
-	desc = "Slip the light shaft against the target's weapon and lever it away. While it deals no damage on its own, successfully striking the target while they're off-balanced will disarm them."
-	attack_verb = list("hooks", "pries")
-	reach = 2
-
-/datum/intent/effect/hobble/quarterstaff
-	name = "leg sweep"
-	desc = "A low, sweeping strike at the legs with the iron-shod end of the staff, hobbling the target's movement."
-	attack_verb = list("sweeps", "hobbles")
-	reach = 2
-	damfactor = 0.6
-
-/datum/intent/effect/daze/quarterstaff
-	name = "counterweight strike"
-	desc = "Whip the metal-weighted butt of the staff up into the target's head, dazing them."
-	attack_verb = list("cracks", "dazes")
-	intent_intdamage_factor = 1
-
-/datum/intent/spear/bash/quarterstaff/rapid
-	name = "rapid strike"
-	desc = "Short, quick blows from a choked-up grip. Keeps pressure on lightly armored foes."
-	attack_verb = list("raps", "strikes", "cracks")
-	damfactor = 0.85
-	clickcd = CLICK_CD_MELEE
-
-/datum/intent/mace/strike/dislocate/quarterstaff
-	name = "joint strike"
-	desc = "Drive the shaft into an elbow or knee from up close. </br>Deals TWIST damage instead of BLUNT damage. Critical hits cause DISLOCATIONS, instead of FRACTURES. </br>DISLOCATED ARMS and HANDS cannot wield, grab, or use anything. </br>DISLOCATED LEGS and FEET prevent the target from standing."
-	attack_verb = list("jams", "levers", "cracks")
-	damfactor = 1.1
-
-/datum/intent/effect/daze/longsword/clinch/quarterstaff
-	name = "shaft clinch"
-	desc = "Step inside your opponent's guard and drive the middle of the shaft into their face. Very briefly reduces opponent's strength, making it easier to escape a grab."
-	attack_verb = list("clinches and bars")
-	intent_intdamage_factor = 1
-	hitsound = list('sound/combat/hits/blunt/woodblunt (1).ogg', 'sound/combat/hits/blunt/woodblunt (2).ogg')
-
-/datum/intent/spear/bash/quarterstaff/long
-	name = "long swing"
-	desc = "A wide, heavy swing from the very end of the staff, trading speed for leverage."
-	attack_verb = list("swings at", "clubs", "wallops")
-	reach = 2
-	damfactor = 1.25
-	swingdelay = 4
-	clickcd = CLICK_CD_CHARGED
-	intent_intdamage_factor = BLUNT_DEFAULT_INT_DAMAGEFACTOR
-
-/datum/intent/spear/thrust/quarterstaff/long
-	name = "long thrust"
-	desc = "Thrust from the butt of the staff to keep a foe at the furthest possible length. Only effective at three paces."
-	reach = 3
-	damfactor = 1.15
-	effective_range = 3
-	effective_range_type = EFF_RANGE_EXACT
-	clickcd = CLICK_CD_CHARGED
-	swingdelay = 1.5
-
-/datum/intent/mace/smash/quarterstaff/long
-	name = "levering smash"
-	desc = "Swing the full length of the staff to drive a foe back. Delivers Strength-scaling knockback and slowdown to the target, ranging from X (1 tile) to XIII (3 tiles). </br>Cannot inflict any knockback or slowdown if your Strength is below X. </br>Cannot be used consecutively more than every 5 seconds on the same target. </br>Prone targets halve the knockback distance. </br>Not fully charging the attack limits knockback to 1 tile."
-	maxrange = 3
-
-/datum/intent/spear/bash/quarterstaff/overhead
-	name = "overhead crack"
-	desc = "A charged, two-handed overhead blow from the end of the staff, meant to batter armor rather than flesh."
-	icon_state = "instrike"
-	attack_verb = list("cracks down on", "batters")
-	reach = 2
-	damfactor = 1
-	chargetime = 8
-	chargedrain = 1
-	clickcd = CLICK_CD_HEAVY
-	intent_intdamage_factor = 1.5
-
-/datum/alt_grip/quarterstaff
-	two_handed = TRUE
-	skill_req = SKILL_LEVEL_JOURNEYMAN
-
-/datum/alt_grip/quarterstaff/half
-	name = "half-staff"
-	grip_intents = list(
-		/datum/intent/spear/bash/quarterstaff/rapid,
-		/datum/intent/mace/strike/dislocate/quarterstaff,
-		/datum/intent/effect/daze/longsword/clinch/quarterstaff,
-	)
-	onmobprop_overrides = list(
-		"altgrip" = list(
-			"shrink" = 0.6,
-			"sx" = 1,
-			"sy" = 2,
-			"nx" = 0,
-			"ny" = 2,
-			"wx" = -3,
-			"wy" = 2,
-			"ex" = 1,
-			"ey" = 2,
-			"northabove" = 0,
-			"southabove" = 1,
-			"eastabove" = 1,
-			"westabove" = 0,
-			"nturn" = 45,
-			"sturn" = -45,
-			"wturn" = 50,
-			"eturn" = -55,
-			"nflip" = 8,
-			"sflip" = 0,
-			"wflip" = 8,
-			"eflip" = 0,
-		),
-	)
-	var_overrides = list(
-		"wlength" = WLENGTH_NORMAL
-	)
-	additive_var_overrides = list(
-		"wdefense" = 1
-	)
-
-/datum/alt_grip/quarterstaff/half/get_grip_intents(obj/item/source)
-	. = ..()
-	var/obj/item/rogueweapon/woodstaff/quarterstaff/staff = source
-	if(istype(staff) && staff.signature_intent)
-		. += staff.signature_intent
-
-/datum/alt_grip/quarterstaff/long
-	name = "long guard"
-	grip_intents = list(
-		/datum/intent/spear/bash/quarterstaff/long,
-		/datum/intent/spear/thrust/quarterstaff/long,
-		/datum/intent/mace/smash/quarterstaff/long,
-		/datum/intent/spear/bash/quarterstaff/overhead,
-	)
-	onmobprop_overrides = list(
-		"altgrip" = list(
-			"shrink" = 0.6,
-			"sx" = 6,
-			"sy" = -5,
-			"nx" = -5,
-			"ny" = -4,
-			"wx" = -8,
-			"wy" = -4,
-			"ex" = 7,
-			"ey" = -4,
-			"northabove" = 0,
-			"southabove" = 1,
-			"eastabove" = 1,
-			"westabove" = 0,
-			"nturn" = -25,
-			"sturn" = 25,
-			"wturn" = -55,
-			"eturn" = 60,
-			"nflip" = 8,
-			"sflip" = 0,
-			"wflip" = 8,
-			"eflip" = 0,
-		),
-	)
-	var_overrides = list(
-		"wlength" = WLENGTH_GREAT
-	)
-	additive_var_overrides = list(
-		"wdefense" = -3
-	)
-
 /obj/item/rogueweapon/woodstaff
-	force = 10
-	force_wielded = 15
-	possible_item_intents = list(/datum/intent/spear/bash/woodstaff)
-	gripped_intents = list(/datum/intent/spear/bash/ranged/woodstaff, /datum/intent/mace/smash/wood/ranged)
 	name = "wooden staff"
 	desc = "A solid dependable walking stick that allows one to traverse rough terrain with ease, keep the weight off an \
 	injured leg, or reliably fend off incoming blows. Perfect for beggars, pilgrims, and mages."
 	icon_state = "woodstaff"
+	force = 10
+	force_wielded = 15
+	possible_item_intents = list(/datum/intent/spear/bash/woodstaff)
+	gripped_intents = list(/datum/intent/spear/bash/ranged/woodstaff, /datum/intent/mace/smash/wood/ranged)
 	icon = 'icons/roguetown/weapons/polearms64.dmi'
 	wlength = WLENGTH_LONG
 	w_class = WEIGHT_CLASS_BULKY
@@ -248,8 +43,8 @@
 	name = "wise staff"
 	desc = "A staff for keeping the volves at bay..."
 
-/obj/item/rogueweapon/woodstaff/aries // more humble with no aura
-	name = "staff of the shepherd"
+/obj/item/rogueweapon/woodstaff/aries
+	name = "staff of the shepherd" // more humble with no aura
 	desc = "A finely wrought bishop's crozier crowned with the likeness of a shepherd watching over his flock. Its curved head serves as a reminder that a true shepherd does not rule through fear, but through guidance, mercy, and unwavering vigilance. To the faithful it is a symbol of humble service; to the lost, a promise that even the stray may yet find their way home."
 	force = 25
 	force_wielded = 28
@@ -263,8 +58,8 @@
 	possible_item_intents = list(SPEAR_BASH, /datum/intent/bless)
 	gripped_intents = list(/datum/intent/spear/bash/ranged, /datum/intent/mace/smash/wood/ranged, /datum/intent/bless)
 
-/obj/item/rogueweapon/woodstaff/aries/icarus // more boisterous with aura
-	name = "staff of the guide"
+/obj/item/rogueweapon/woodstaff/aries/icarus
+	name = "staff of the guide" // more boisterous with aura
 	desc = "A radiant staff crowned by a lavish, pure gold-forged sun whose rays stretch in every direction. It embodies the sacred duty to bring light where darkness lingers, offering wisdom to the faithful and hope to the despairing. More than a mark of rank, it stands as a beacon that calls others to walk the righteous path beneath the ever-watchful eyes of the Ten."
 	icon_state = "icarus"
 	aura_color = "#ffed9f"
@@ -353,64 +148,7 @@
 			if("wielded")
 				return list("shrink" = 0.6,"sx" = 4,"sy" = -2,"nx" = -3,"ny" = -2,"wx" = -5,"wy" = -1,"ex" = 3,"ey" = -2,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = 7,"sturn" = -7,"wturn" = 16,"eturn" = -22,"nflip" = 8,"sflip" = 0,"wflip" = 8,"eflip" = 0)
 
-
-/obj/item/churcharticles/litany
-	name = "litany of the Ten"
-	desc = "A finely illuminated parchment of litany bearing the sacred verses of the Holy See. Penned upon blessed parchment and sealed with crimson wax, it contains the Rite of Endorsement, a solemn invocation entrusted only to ordained bishops. Once the final verse is spoken, the parchment burns to ash, and one of the Ten's sacred croziers is called forth. Don't lose it."
-	icon = 'icons/roguetown/items/misc.dmi'
-	icon_state = "litany"
-	item_state = "litany"
-	aura_color = "#ffed9f"
-	var/in_use = FALSE
-
-/obj/item/churcharticles/litany/attack_self(mob/user)
-	. = ..()
-	if(!ishuman(user))
-		return
-	if(in_use)
-		to_chat(user, span_warning("The litany is already being recited."))
-		return
-	in_use = TRUE
-	user.visible_message(span_boldwarning("[user] unfurls [src], raising it high before beginning a solemn rite."))
-	if(!do_after(user, 25, target = user))
-		in_use = FALSE
-		return
-	user.say(",g Before the Holy Ten, I reaffirm the sacred vows laid upon my soul.")
-	if(!do_after(user, 25, target = user))
-		in_use = FALSE
-		return
-	user.say(",g May I serve with humility, wisdom, and unwavering faith.")
-	if(!do_after(user, 25, target = user))
-		in_use = FALSE
-		return
-	user.say(",g Let my voice be Yours in counsel.")
-	if(!do_after(user, 25, target = user))
-		in_use = FALSE
-		return
-	user.say(",g Let my hand be Yours in mercy.")
-	if(!do_after(user, 25, target = user))
-		in_use = FALSE
-		return
-	user.say(",g Let my office stand as testament to the covenant between the Holy See and the faithful.")
-	if(!do_after(user, 25, target = user))
-		in_use = FALSE
-		return
-	user.say(",g Should I yet prove worthy in Your sight, grant unto me a sacred staff, wrought by the grace of the Holy Ten, that I may bear it as the symbol of the authority entrusted to me.")
-	var/choice = tgui_alert(user, "Which of the Ten's staves do you invoke?", "RITE OF THE TEN", list("Staff of the Shepherd", "Staff of the Guide", "Cancel"))
-	if(!choice || choice == "Cancel")
-		in_use = FALSE
-		return
-	var/obj/item/rogueweapon/woodstaff/aries/staff
-	switch(choice)
-		if("Staff of the Shepherd")
-			staff = new /obj/item/rogueweapon/woodstaff/aries(get_turf(user))
-		if("Staff of the Guide")
-			staff = new /obj/item/rogueweapon/woodstaff/aries/icarus(get_turf(user))
-	playsound(get_turf(user), 'sound/magic/holyshield.ogg', 100, FALSE)
-	new /obj/effect/temp_visual/censer_dust(get_turf(user))
-	user.visible_message(span_blue("As the final words leave [user]'s lips, [src] crumbles into sacred ash and [staff] manifests before them!"))
-	qdel(src)
-
+// Quarterstaffs. The real deal, that is.
 /obj/item/rogueweapon/woodstaff/quarterstaff
 	name = "wooden quarterstaff"
 	desc = "A staff that makes any journey easier. Durable and swift, capable of bludgeoning stray volves and ruffians alike. The prodigious length \
@@ -559,3 +297,66 @@
 	no_loot_taint = TRUE
 	max_integrity = 250 //equal to psydonite; putting it at half of this was a neat little experiment but agonizing
 
+// Unique Qurterstaves. Or at the very least, Quarterstaff-related items.
+/obj/item/rogueweapon/woodstaff/polearm
+	name = "shillelagh" // While technically a polearm, it's stil forked off of the '/woodstaff' tree. Hence, it'll be stored here.
+	desc = "A particularly long and sturdy walking stick with a variety of uses. It's heavier at one end, making it a little unbalanced."
+	associated_skill = /datum/skill/combat/polearms
+	is_implement = FALSE
+
+/obj/item/churcharticles/litany
+	name = "litany of the Ten"
+	desc = "A finely illuminated parchment of litany bearing the sacred verses of the Holy See. Penned upon blessed parchment and sealed with crimson wax, it contains the Rite of Endorsement, a solemn invocation entrusted only to ordained bishops. Once the final verse is spoken, the parchment burns to ash, and one of the Ten's sacred croziers is called forth. Don't lose it."
+	icon = 'icons/roguetown/items/misc.dmi'
+	icon_state = "litany"
+	item_state = "litany"
+	aura_color = "#ffed9f"
+	var/in_use = FALSE
+
+/obj/item/churcharticles/litany/attack_self(mob/user)
+	. = ..()
+	if(!ishuman(user))
+		return
+	if(in_use)
+		to_chat(user, span_warning("The litany is already being recited."))
+		return
+	in_use = TRUE
+	user.visible_message(span_boldwarning("[user] unfurls [src], raising it high before beginning a solemn rite."))
+	if(!do_after(user, 25, target = user))
+		in_use = FALSE
+		return
+	user.say(",g Before the Holy Ten, I reaffirm the sacred vows laid upon my soul.")
+	if(!do_after(user, 25, target = user))
+		in_use = FALSE
+		return
+	user.say(",g May I serve with humility, wisdom, and unwavering faith.")
+	if(!do_after(user, 25, target = user))
+		in_use = FALSE
+		return
+	user.say(",g Let my voice be Yours in counsel.")
+	if(!do_after(user, 25, target = user))
+		in_use = FALSE
+		return
+	user.say(",g Let my hand be Yours in mercy.")
+	if(!do_after(user, 25, target = user))
+		in_use = FALSE
+		return
+	user.say(",g Let my office stand as testament to the covenant between the Holy See and the faithful.")
+	if(!do_after(user, 25, target = user))
+		in_use = FALSE
+		return
+	user.say(",g Should I yet prove worthy in Your sight, grant unto me a sacred staff, wrought by the grace of the Holy Ten, that I may bear it as the symbol of the authority entrusted to me.")
+	var/choice = tgui_alert(user, "Which of the Ten's staves do you invoke?", "RITE OF THE TEN", list("Staff of the Shepherd", "Staff of the Guide", "Cancel"))
+	if(!choice || choice == "Cancel")
+		in_use = FALSE
+		return
+	var/obj/item/rogueweapon/woodstaff/aries/staff
+	switch(choice)
+		if("Staff of the Shepherd")
+			staff = new /obj/item/rogueweapon/woodstaff/aries(get_turf(user))
+		if("Staff of the Guide")
+			staff = new /obj/item/rogueweapon/woodstaff/aries/icarus(get_turf(user))
+	playsound(get_turf(user), 'sound/magic/holyshield.ogg', 100, FALSE)
+	new /obj/effect/temp_visual/censer_dust(get_turf(user))
+	user.visible_message(span_blue("As the final words leave [user]'s lips, [src] crumbles into sacred ash and [staff] manifests before them!"))
+	qdel(src)
