@@ -1424,7 +1424,6 @@
 #include "code\game\objects\items\rogueweapons\melee\bludgeon\whip.dm"
 #include "code\game\objects\items\rogueweapons\melee\bludgeon\blunt_intents.dm"
 #include "code\game\objects\items\rogueweapons\melee\knife\knives.dm"
-#include "code\game\objects\items\rogueweapons\melee\knife\templar_knives.dm"
 #include "code\game\objects\items\rogueweapons\melee\knife\knives_intents.dm"
 #include "code\game\objects\items\rogueweapons\melee\special.dm"
 #include "code\game\objects\items\rogueweapons\melee\sword\swords.dm"
