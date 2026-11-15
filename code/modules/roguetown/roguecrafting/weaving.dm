@@ -25,10 +25,23 @@
 	craftdiff = 3
 
 /datum/crafting_recipe/roguetown/weaving/puritan
-
 	name = "puritan's cape"
 	display_category = ITEM_CAT_GARMENT_FINE
 	result = list(/obj/item/clothing/cloak/cape/puritan)
+	reqs = list(/obj/item/natural/silk = 4)
+	craftdiff = 3
+
+/datum/crafting_recipe/roguetown/weaving/puritangold
+	name = "puritan's cape, golden order"
+	display_category = ITEM_CAT_GARMENT_FINE
+	result = list(/obj/item/clothing/cloak/cape/puritan/gold)
+	reqs = list(/obj/item/natural/silk = 4)
+	craftdiff = 3
+
+/datum/crafting_recipe/roguetown/weaving/puritansilver
+	name = "puritan's cape, silver order"
+	display_category = ITEM_CAT_GARMENT_FINE
+	result = list(/obj/item/clothing/cloak/cape/puritan/silver)
 	reqs = list(/obj/item/natural/silk = 4)
 	craftdiff = 3
 

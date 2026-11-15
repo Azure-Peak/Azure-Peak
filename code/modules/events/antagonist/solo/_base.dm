@@ -15,8 +15,6 @@
 	/// A list of extra events to force whenever this one is chosen by the storyteller.
 	/// Can either be normal list or a weighted list.
 	var/list/extra_spawned_events
-	/// Similar to extra_spawned_events however these are only used by roundstart events and will only try and run if we have the points to do so
-	var/list/preferred_events
 
 // this is a hack-fix. solo antags, if they have an antag datum, will trim out people who already have said antag datum.
 // before this it seems like it could apply to people if they were already that antag. my chungus life.
@@ -42,9 +40,9 @@
 	. = ..()
 	if(!.)
 		return
-	if(storyteller_antag_flags & STORYTELLER_ANTAG_MEDIUM)
+	if(storyteller_antag_flags & STORYTELLER_ANTAG_LITE)
 		var/datum/storyteller/preset = active_preset()
-		if(preset?.type != /datum/storyteller/gamemode/no_antag)
+		if(!preset?.lite_antags?[type])
 			return FALSE
 	var/is_hard_roundstart = roundstart && (storyteller_antag_flags & STORYTELLER_ANTAG_VILLAIN)
 	// Hard antags always require the population minimum - never bypassed, even by an admin-opened slot.
@@ -64,6 +62,9 @@
 
 /datum/round_event_control/antagonist/solo/proc/get_antag_amount()
 	var/people = SSgamemode.get_correct_popcount()
+	if(storyteller_antag_flags & STORYTELLER_ANTAG_LITE)
+		var/datum/storyteller/preset = active_preset()
+		return min(base_antags + FLOOR(people / denominator, 1), preset?.lite_antags?[type] || 0)
 	var/is_villain = (storyteller_antag_flags & STORYTELLER_ANTAG_VILLAIN)
 	var/admin_slot = SSgamemode.get_admin_slot(antag_datum, storyteller_slot_key)
 	if(!isnull(admin_slot))
@@ -75,8 +76,7 @@
 		return SSgamemode.storyteller_scale_slots(admin_slot, people, !roundstart, SSgamemode.story_antag_scaling_step(antag_datum), SSgamemode.story_antag_min_players(antag_datum))
 	var/storyteller_cap = SSgamemode.story_antag_slot_cap(antag_datum, roundstart = roundstart)
 	if(storyteller_cap)
-		var/scaling_mult = is_villain ? SSgamemode.hard_antag_mult() : 1
-		return SSgamemode.storyteller_scale_slots(storyteller_cap, people, !roundstart, SSgamemode.story_antag_scaling_step(antag_datum), SSgamemode.story_antag_min_players(antag_datum), scaling_mult)
+		return SSgamemode.storyteller_scale_slots(storyteller_cap, people, !roundstart, SSgamemode.story_antag_scaling_step(antag_datum), SSgamemode.story_antag_min_players(antag_datum))
 	var/amount = base_antags + FLOOR(people / denominator, 1)
 	return min(amount, maximum_antags)
 
@@ -94,12 +94,12 @@
 
 /datum/round_event_control/antagonist/solo/return_failure_string(players_amt)
 	. =..()
-	if(storyteller_antag_flags & STORYTELLER_ANTAG_MEDIUM)
+	if(storyteller_antag_flags & STORYTELLER_ANTAG_LITE)
 		var/datum/storyteller/preset = active_preset()
-		if(preset?.type != /datum/storyteller/gamemode/no_antag)
+		if(!preset?.lite_antags?[type])
 			if(.)
 				. += ", "
-			. += "Medium Intensity only"
+			. += "Not a lite antag of this gamemode"
 			return .
 	var/is_hard_roundstart = roundstart && (storyteller_antag_flags & STORYTELLER_ANTAG_VILLAIN)
 	if(is_hard_roundstart && players_amt < HARD_ANTAG_MIN_POP)
@@ -132,8 +132,6 @@
 	var/prompted_picking = FALSE //TODO: Implement this
 	/// DO NOT SET THIS MANUALLY, THIS IS INHERITED FROM THE EVENT CONTROLLER ON NEW
 	var/list/extra_spawned_events
-	// Same as above
-	var/list/preferred_events
 
 /datum/round_event/antagonist/solo/New(my_processing, datum/round_event_control/event_controller)
 	. = ..()
@@ -142,8 +140,6 @@
 		if(antag_event_controller)
 			if(antag_event_controller.extra_spawned_events)
 				extra_spawned_events = fill_with_ones(antag_event_controller.extra_spawned_events)
-			if(antag_event_controller.preferred_events)
-				preferred_events = fill_with_ones(antag_event_controller.preferred_events)
 
 /datum/round_event/antagonist/solo/setup()
 	var/datum/round_event_control/antagonist/solo/cast_control = control
@@ -155,16 +151,6 @@
 	prompted_picking = cast_control.prompted_picking
 	var/list/possible_candidates = cast_control.get_candidates()
 	var/list/candidates = list()
-	if(cast_control == SSgamemode.current_roundstart_event && length(SSgamemode.roundstart_antag_minds))
-		log_storyteller("Running roundstart antagonist assignment, event: [src], roundstart_antag_minds: [english_list(SSgamemode.roundstart_antag_minds)]")
-		for(var/datum/mind/antag_mind in SSgamemode.roundstart_antag_minds)
-			if(!antag_mind.current)
-				log_storyteller("Roundstart antagonist setup error: antag_mind([antag_mind]) in roundstart_antag_minds without a set mob")
-				continue
-			candidates += antag_mind.current
-			SSgamemode.roundstart_antag_minds -= antag_mind
-			log_storyteller("Roundstart antag_mind, [antag_mind]")
-
 	if(prompted_picking)
 		// Trying a callback here to avoid hanging the event logic.
 		INVOKE_ASYNC(src, PROC_REF(poll_and_assign), possible_candidates)

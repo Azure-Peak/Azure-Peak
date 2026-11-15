@@ -18,6 +18,7 @@
 	tool_behaviour = TOOL_SHOVEL
 	slot_flags = ITEM_SLOT_HIP | ITEM_SLOT_BACK
 	swingsound = list('sound/combat/wooshes/blunt/shovel_swing.ogg','sound/combat/wooshes/blunt/shovel_swing2.ogg')
+	associated_skill = /datum/skill/combat/axes
 	drop_sound = 'sound/foley/dropsound/shovel_drop.ogg'
 	var/obj/item/natural/dirtclod/heldclod
 	smeltresult = /obj/item/ingot/iron

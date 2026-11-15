@@ -91,9 +91,7 @@
 
 /obj/item/clothing/cloak/tabard/stabard/crusader
 	name = "surcoat of the golden order"
-	desc = "A regal surcoat, inlaid with golden threading. The stitchwork tethers it to the Golden Orders; a catch-all term for the various faith-militances that \
-	ward Psydonia from heathens, cultists, and the ever-looming threat of another calamity. This variant bears the psicruciformic sigil of the Psydonic and Necran \
-	orders."
+	desc = "A regal surcoat; inlaid with golden threading, worn by those who ward Psydonia from heathens, cultists, and calamities-yet-foreseen."
 	icon_state = "crusader_surcoat"
 	icon = 'icons/roguetown/clothing/special/crusader.dmi'
 	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/crusader.dmi'
@@ -102,59 +100,37 @@
 
 /obj/item/clothing/cloak/tabard/stabard/crusader/t
 	name = "surcoat of the silver order"
-	desc = "A noble surcoat, inlaid with silver threading. The stitchwork tethers it to the Silver Orders; a catch-all term for the various faith-militances that \
-	ward Psydonia from monsters, deadites, and the ever-looming threat of another calamity. This variant bears the psicruciformic sigil of the Psydonic and Necran \
-	orders."
+	desc = "A noble surcoat; inlaid with silver threading, worn by those who ward Psydonia from monsters, creechers, and archdevils-yet-revived."
 	icon_state = "crusader_surcoatt2"
 
 /obj/item/clothing/cloak/tabard/stabard/crusader/astrata
 	name = "surcoat of the golden order"
-	desc = "A regal surcoat, inlaid with golden threading. The stitchwork tethers it to the Golden Orders; a catch-all term for the various faith-militances that \
-	ward Psydonia from heathens, cultists, and the ever-looming threat of another calamity. This variant bears the duocruciformic sigil of the Astratan and Ravoxian \
-	orders."
 	icon_state = "acrusader_surcoat"
 
 /obj/item/clothing/cloak/tabard/stabard/crusader/t/astrata
 	name = "surcoat of the silver order"
-	desc = "A noble surcoat, inlaid with silver threading. The stitchwork tethers it to the Silver Orders; a catch-all term for the various faith-militances that \
-	ward Psydonia from monsters, deadites, and the ever-looming threat of another calamity. This variant bears the duocruciformic sigil of the Astratan and Ravoxian \
-	orders."
 	icon_state = "acrusader_surcoatt2"
 
 /obj/item/clothing/cloak/tabard/stabard/crusader/undivided
 	name = "surcoat of the golden order"
-	desc = "A regal surcoat, inlaid with golden threading. The stitchwork tethers it to the Golden Orders; a catch-all term for the various faith-militances that \
-	ward Psydonia from heathens, cultists, and the ever-looming threat of another calamity. This variant bears the unicruciform sigil of the Undivided and Erranteer \
-	orders."
 	icon_state = "ucrusader_surcoat"
 
 /obj/item/clothing/cloak/tabard/stabard/crusader/t/undivided
 	name = "surcoat of the silver order"
-	desc = "A noble surcoat, inlaid with silver threading. The stitchwork tethers it to the Silver Orders; a catch-all term for the various faith-militances that \
-	ward Psydonia from monsters, deadites, and the ever-looming threat of another calamity. This variant bears the unicruciform sigil of the Undivided and Erranteer \
-	orders."
 	icon_state = "ucrusader_surcoatt2"
 
 /obj/item/clothing/cloak/tabard/stabard/crusader/bsteel
 	name = "surcoat of the blacksteel order"
-	desc = "A venerated surcoat, inlaid with blacksteel threading. The stitchwork tethers it to the Blacksteel Order; an ancient faith-militance whose roots trace \
-	all the way back to Psydonia's first crusaders. Uniquely welcoming to both Psydonic and Undivided patroneers, and irreversibly valorant against the dreaded \
-	Avantyne Legion. </br>'Happiness must be fought for, lest all hope perish from the face of this world.'"
+	desc = "A venerated surcoat; inlaid with blacksteeled threading, worn by the few who've taken the mantle of clashing against the avantyne-clad \
+	lieutenants of Psydonia's undying legions."
 	icon_state = "crusader_surcoatb3"
-
-/obj/item/clothing/cloak/tabard/stabard/crusader/heavy
-	name = "overvestments"
-	desc = "A heavy surcoat that offers complete modesty and protection against the weather, but leaves the thinner-framed with sorer shoulders. Commonly seen upon \
-	the bods of paladin-errants, priests, and pilgrims across Psydonia's more intemperate climates."
-	icon_state = "priest_surcoat"
 
 //
 
 /obj/item/clothing/cloak/tabard/stabard/crusader/legacy
 	name = "valorian surcoat of the golden order"
-	desc = "A regal surcoat, inlaid with golden threading. The stitchwork tethers it to the Golden Orders; a catch-all term for the various faith-militances that \
-	ward Psydonia from heathens, cultists, and the ever-looming threat of another calamity. This variant predates them all - stitched by Valorian seamstresses to adorn \
-	the bods of Rockhill's final crusaders. </br>'Into the darkness, unto the light; steel to the heathen, so that their sins may be set right.'"
+	desc = "A regal surcoat; inlaid with golden threading, worn by those who ward Psydonia from heathens, cultists, and calamities-yet-foreseen. Older in stitchwork, \
+	surcoats like these are seldom seen beyond the nostalgic and departed."
 	icon_state = "legacy_crusader_surcoat"
 	icon = 'icons/roguetown/clothing/special/crusader.dmi'
 	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/crusader.dmi'
@@ -162,17 +138,16 @@
 
 /obj/item/clothing/cloak/tabard/stabard/crusader/t/legacy
 	name = "valorian surcoat of the silver order"
-	desc = "A noble surcoat, inlaid with silver threading. The stitchwork tethers it to the Silver Orders; a catch-all term for the various faith-militances that \
-	ward Psydonia from monsters, deadites, and the ever-looming threat of another calamity. This variant predates them all - stitched by Valorian seamstresses to adorn \
-	the bods of Rockhill's final crusaders. </br>'Lest we forget, before we forgive; silver to the monster, for the Hell they'll relive.'"
+	desc = "A regal surcoat; inlaid with silver threading, worn by those who ward Psydonia from monsters, creechers, and archdevils-yet-revived. Older in stitchwork, \
+	surcoats like these are seldom seen beyond the nostalgic and departed."
 	icon_state = "legacy_crusader_surcoatt2"
 
 //
 
 /obj/item/clothing/cloak/cape/crusader
 	name = "desert cape"
-	color = CLOTHING_ORANGE
 	desc = "Were we to've met in another lyfetime, do you suppose we would've been fonder friends?"
+	color = CLOTHING_ORANGE
 	icon_state = "crusader_cloak"
 	icon = 'icons/roguetown/clothing/special/crusader.dmi'
 	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/crusader.dmi'

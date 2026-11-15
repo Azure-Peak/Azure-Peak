@@ -7,4 +7,5 @@
 	npc_archetype = /datum/npc_archetype/skeleton/bogguard/archer
 
 /mob/living/carbon/human/species/skeleton/npc/bogguard/master
+	threat_point = THREAT_DEADLY
 	npc_archetype = /datum/npc_archetype/skeleton/bogguard/master

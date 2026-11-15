@@ -1,12 +1,8 @@
 /obj/item
 	/// Current blade integrity
 	var/blade_int = 0
-	/// Blade integrity at which dismemberment reaches 100% effectiveness
-	var/dismember_blade_int = 0
 	/// Maximum blade integrity
 	var/max_blade_int = 0
-	/// Whether to randomize the blade integrity on init.
-	var/randomize_blade_int_on_init = FALSE
 	/// Required skill to repair the blade integrity
 	var/required_repair_skill = 0
 	/// Sharpness loss multiplier.

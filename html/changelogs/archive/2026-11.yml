@@ -484,3 +484,99 @@
   saltprjak:
   - bugfix: Magician's Brick and Aetherknife melee damage now properly scale with
       INT. Heavy is the hand that holds the brick.
+2026-11-15:
+  ?.:
+  - code_imp: Necran Excommunicated can do lesser Necran rituals now, and spawn with
+      a chalk.
+  BobProductive:
+  - rscadd: Climbing gear now lets you attach to walls via jumping/leaping
+  - rscadd: Climbing gear now gives you leaper
+  - rscdel: Removed the stamina reduction when climbing with climbing gear
+  Ketrai:
+  - rscadd: Added Nodachi as a kazengun weapon option to eastern warrior, mercenary
+      gun-in & kouken, mistwalkers, disgraced knight, kazengun trading ships and the
+      merchant silverface.
+  OMEGATHERION:
+  - rscadd: more emote sounds in gnoll voicepack.dm
+  - rscadd: Track *sniffs if you aren't sneaking
+  - bugfix: pouch items spawning in one slot for zigboxes and healing pouches
+  - bugfix: gnoll shaman's rite chalk spawning on the ground instead of their hand
+  - bugfix: gnoll knight's default cmode music
+  Ollanius:
+  - bugfix: (I'm baaa-a-aaack!) - Overvestments no longer have a mysterious white
+      cloak hanging over them.
+  - bugfix: Padded undervestments no longer have flickering sleeves when facing to
+      the right.
+  - bugfix: Cloaks of the Silver- and Gold-type Orders now function again, solving
+      the month-long case of Late Stage Back!Norwoodism.
+  - code_imp: Repathed the Overvestments and Cloaks to 'stabard/overvestments' and
+      'cape/puritan/silver + /gold', respectively.
+  - code_imp: Reduced the girth of the Ordered Surcoat's descriptions. The Loadout's
+      Cloak section should be much more tidy, now.
+  - rscadd: Dedicated smallfolk sprites for the Puritan Cape. Dwarves and rousladies,
+      fear no more!
+  - rscadd: Puritan capes are now craftable (under the listing of 'formal').
+  - code_imp: Puritan capes require two silk threads to craft, which has been added
+      to the Cloak-forked recipes as well.
+  Ryan180602:
+  - code_imp: Clean up vote/god code.
+  - code_imp: High Intensity rolled on low pop now rolls Standard.
+  - bugfix: Masq Lite rolls again on Medium.
+  - code_imp: Add Renegade lite on Medium.
+  ToasterStrudes:
+  - rscadd: Added a new donator item for Toasterstrudes
+  - rscdel: Deprecated donator item for Toasterstrudes
+  WeNeedMorePhoron:
+  - rscadd: Added mage NPC including all 3 variants of spellblades and 6 schools to
+      all complex mobs NPC factions. Aiming formula were tweaked to feel more human
+      like with higher possibility of missing.
+  - rscadd: Added Graggarite Cleric NPC
+  - bugfix: Fixes goblin pyromancers and all throwing weapons using NPCs, which has
+      been broken for months.
+  - rscadd: Added higher threat mobs to several factions lacking them. Added proper
+      threat to goblin faction subtypes of mob so reward scales properly.
+  - rscadd: Ambush now check for any ongoing PVE fight nearby in 9 tiles and block
+      itself from spawning if there's one ongoing already.
+  - rscadd: Ported Ochre Valley's doppelganger mob, with the doppel heart given as
+      a sellable rewards on death. They do not give any yield or such.
+  - rscadd: Adjusted NPC kick, intent switching and other logic to add in a delay
+      that imitate human reaction time and delay, so that they subtly feels a bit
+      fairer.
+  - bugfix: Masochist should fire its timer properly and Sadist / Masochist are more
+      easily satisfied by beating / being beaten now.
+  - bugfix: Narsie font (Vampire Telepathy) text is no longer insanely large
+  - rscdel: Removed the shipping fluctuation event which was causing one or two random
+      supply pack to goes utterly overpriced. We're in a new economic era, babe.
+  - bugfix: Pouch can no longer collect and delete coin inside of itself
+  - rscadd: Refactored and fixed some grammar / typos on Master's Rod and Court Magician's
+      staff. The shock intent on the CM's staff now reuse the SHOCK icon. Also added
+      description.
+  - rscadd: Templars / Acolytes / Sexton have access to the institutional fund of
+      the Church subject to the same minimum balance limit, up to 50m a day by default.
+  - bugfix: Fix Beam Runtime.
+  - rscadd: All towner roles will now have the Take Apprentice Spell. Take a merc
+      along on your fishing trip.
+  - rscadd: Added item stats and intents preview to Commissioner / Silverface / Goldface
+      / Encyclopedia. Cleaned up intents examine to show less useless stats.
+  borneblood:
+  - balance: Colorblind toggle for Darksight virtue lets you actually see better in
+      the dark.
+  changelingonberry:
+  - balance: Forlorne can be taken by gnolls and wretches now.
+  - bugfix: Forlorne gives you a 30 second immunity to ambushes on spawn.
+  - bugfix: Items that can be repaired both via needle and hammer can now be repaired
+      via their respective kits too.
+  jinxynii:
+  - rscadd: The Light orb can now be tinted. Use it in hand to cycle between white,
+      salt-gold, copper-green, tin-blue, cinnabar-rose and manganese-violet. Your
+      choice carries over when you recast.
+  - rscadd: The Prestidigitation magelight mote can be tinted the same way. With Light
+      selected and the mote released, use the hand in hand to cycle arcyne-blue, salt-gold,
+      copper-green, cinnabar-rose and manganese-violet.
+  - image: Added recoloured wisp sprites for each magelight mote tint, and tinted
+      the Light orb sprite to match its glow.
+  kilozombie:
+  - balance: Gronnic talismans now have different names from each other, letting you
+      tell them apart at a glance (without giving away the meaning of each)
+  string-thing:
+  - rscadd: Added axe skill to shovels

@@ -113,14 +113,14 @@ GLOBAL_LIST_INIT(quest_bounty_goblin_goons, list(
 	for(var/goon_type in to_spawn)
 		var/mob/living/goon = spawn_hidden_mob(landmark, goon_type, is_target = FALSE)
 		if(goon)
-			total_spawned_tp += initial(goon.threat_point) || 0
+			total_spawned_tp += initial_threat_point(goon.type)
 
 /datum/quest/kill/bounty/proc/spawn_goblin_horde(obj/effect/landmark/quest_spawner/landmark)
 	total_spawned_tp = 0
 	for(var/i in 1 to rand(5, 9))
 		var/mob/living/goon = spawn_hidden_mob(landmark, pick(GLOB.quest_bounty_goblin_goons), is_target = FALSE, tag_faction = FALSE)
 		if(goon)
-			total_spawned_tp += initial(goon.threat_point) || 0
+			total_spawned_tp += initial_threat_point(goon.type)
 
 /datum/quest/kill/bounty/faction_fits(datum/quest_faction/F)
 	return ..() && length(F.boss_mob_types)
