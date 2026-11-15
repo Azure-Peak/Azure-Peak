@@ -24,6 +24,7 @@ import {
   SERIF,
   TITLE,
 } from './common/parchment';
+import { type PinMap, pinGlyph, pinTitle } from './common/pins';
 
 type Recipe = {
   name: string;
@@ -45,6 +46,7 @@ type Data = {
   busy: number;
   showonlycraftable: number;
   craftability: Record<string, number>;
+  pins: PinMap;
   crafting_recipes: Record<string, Record<string, Recipe>>;
 };
 
@@ -82,9 +84,10 @@ const CRAFT_AMOUNTS: { label: string; params: Record<string, unknown> }[] = [
 const CraftingRecipe = (props: {
   recipe: Recipe;
   craftable: boolean;
+  pin?: string;
   act: ActFn;
 }) => {
-  const { recipe, craftable, act } = props;
+  const { recipe, craftable, pin, act } = props;
   const [open, setOpen] = useState(false);
 
   const craft = (extra: Record<string, unknown>) =>
@@ -112,6 +115,14 @@ const CraftingRecipe = (props: {
           onClick={() => craft({})}
         >
           &#128296;
+        </button>
+        <button
+          type="button"
+          style={inkButtonStyle({ color: pin ? SEAL_AMBER : INK_FAINT })}
+          title={pinTitle(pin)}
+          onClick={() => act('cycle_pin', { path: recipe.path })}
+        >
+          {pinGlyph(pin)}
         </button>
         <button
           type="button"
@@ -199,11 +210,21 @@ const CraftingCategory = (props: {
   onlyCraftable: boolean;
   craftability: Craftability;
   searchText: string;
+  pins: PinMap;
+  defaultOpen?: boolean;
   act: ActFn;
 }) => {
-  const { title, recipes, onlyCraftable, craftability, searchText, act } =
-    props;
-  const [open, setOpen] = useState(false);
+  const {
+    title,
+    recipes,
+    onlyCraftable,
+    craftability,
+    searchText,
+    pins,
+    defaultOpen,
+    act,
+  } = props;
+  const [open, setOpen] = useState(!!defaultOpen);
 
   const visible = useMemo(
     () =>
@@ -262,6 +283,7 @@ const CraftingCategory = (props: {
               key={recipe.path}
               recipe={recipe}
               craftable={isCraftable(craftability, recipe.name)}
+              pin={pins[recipe.path]}
               act={act}
             />
           ))}
@@ -281,6 +303,21 @@ export const MiaCraft = () => {
   useEffect(() => {
     searchRef.current?.focus();
   }, []);
+
+  const pins = data.pins || {};
+
+  // Every pinned recipe, gathered from all categories
+  const pinnedRecipes = useMemo(() => {
+    const out: Record<string, Recipe> = {};
+    for (const recipes of Object.values(data.crafting_recipes)) {
+      for (const recipe of Object.values(recipes)) {
+        if (pins[recipe.path]) {
+          out[recipe.path] = recipe;
+        }
+      }
+    }
+    return out;
+  }, [data.crafting_recipes, pins]);
 
   const categories = useMemo(
     () =>
@@ -342,6 +379,17 @@ export const MiaCraft = () => {
             </button>
           </div>
 
+          <CraftingCategory
+            title="★ Pinned"
+            recipes={pinnedRecipes}
+            onlyCraftable={false}
+            craftability={craftability}
+            searchText={searchText}
+            pins={pins}
+            defaultOpen
+            act={act}
+          />
+
           {categories.map(([title, recipes]) => (
             <CraftingCategory
               key={title}
@@ -350,6 +398,7 @@ export const MiaCraft = () => {
               onlyCraftable={onlyCraftable}
               craftability={craftability}
               searchText={searchText}
+              pins={pins}
               act={act}
             />
           ))}

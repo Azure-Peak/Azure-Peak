@@ -189,6 +189,9 @@
 
 	data["hingot_type"] = hingot?.type
 
+	var/datum/recipe_pins/pinned = user?.get_recipe_pins()
+	data["pins"] = pinned ? pinned.pins["anvil"] : list()
+
 	return data
 
 /obj/machinery/anvil/ui_static_data(mob/user)
@@ -204,6 +207,7 @@
 			"category" = R.i_type,
 			"req_bar" = R.req_bar,
 			"ref" = REF(R),
+			"path" = "[R.type]",
 			"icon" = spritesheet.icon_class_name(sanitize_css_class_name("recipe_[REF(R)]"))
 		))
 
@@ -219,6 +223,11 @@
 	var/mob/user = ui.user
 
 	switch(action)
+		if("cycle_pin")
+			var/datum/recipe_pins/pinned = user.get_recipe_pins()
+			pinned?.cycle("anvil", params["path"])
+			return TRUE
+
 		if("choose_recipe")
 			var/datum/anvil_recipe/recipe = locate(params["ref"])
 			if(!istype(recipe))

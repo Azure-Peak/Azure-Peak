@@ -10,6 +10,7 @@ import {
 
 import { useBackend } from '../backend';
 import { Window } from '../layouts';
+import { type PinMap, pinGlyph, pinTitle } from './common/pins';
 
 type Recipe = {
   name: string;
@@ -17,11 +18,13 @@ type Recipe = {
   req_bar: string;
   req_blade: string;
   ref: string;
+  path: string;
   icon: string;
 };
 
 type Data = {
   hingot_type?: string | null;
+  pins?: PinMap;
   recipes: Recipe[];
 };
 
@@ -81,6 +84,7 @@ export const RecipeDisplay = () => {
   const { act, data } = useBackend<Data>();
 
   const { recipes, hingot_type } = data;
+  const pins = data.pins || {};
 
   const availableRecipes = recipes
     .filter((recipe) => {
@@ -95,6 +99,7 @@ export const RecipeDisplay = () => {
     })
     .sort(
       (a, b) =>
+        Number(!!pins[b.path]) - Number(!!pins[a.path]) ||
         (a.category || '').localeCompare(b.category || '') ||
         (a.name || '').localeCompare(b.name || ''),
     );
@@ -107,20 +112,32 @@ export const RecipeDisplay = () => {
       buttons={<SearchBar search={search} setSearch={setSearch} />}
     >
       {availableRecipes.map((recipe) => (
-        <Button
-          key={recipe.ref}
-          fluid
-          onClick={() => act('choose_recipe', { ref: recipe.ref })}
-        >
-          <Stack align="center">
-            <Stack.Item>
-              <Box className={recipe.icon} mr={2} inline />
-            </Stack.Item>
-            <Stack.Item>
-              {recipe.category} - {recipe.name}
-            </Stack.Item>
-          </Stack>
-        </Button>
+        <Stack key={recipe.ref} align="center" mb={0.5}>
+          <Stack.Item grow>
+            <Button
+              fluid
+              onClick={() => act('choose_recipe', { ref: recipe.ref })}
+            >
+              <Stack align="center">
+                <Stack.Item>
+                  <Box className={recipe.icon} mr={2} inline />
+                </Stack.Item>
+                <Stack.Item>
+                  {recipe.category} - {recipe.name}
+                </Stack.Item>
+              </Stack>
+            </Button>
+          </Stack.Item>
+          <Stack.Item>
+            <Button
+              tooltip={pinTitle(pins[recipe.path])}
+              color={pins[recipe.path] ? 'good' : 'transparent'}
+              onClick={() => act('cycle_pin', { path: recipe.path })}
+            >
+              {pinGlyph(pins[recipe.path])}
+            </Button>
+          </Stack.Item>
+        </Stack>
       ))}
     </Section>
   );

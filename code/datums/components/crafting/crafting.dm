@@ -664,6 +664,8 @@
 	var/list/data = list()
 	data["busy"] = busy
 	data["showonlycraftable"] = showonlycraftable
+	var/datum/recipe_pins/pinned = user?.get_recipe_pins()
+	data["pins"] = pinned ? pinned.pins["crafting"] : list()
 
 	var/list/surroundings = get_surroundings(user)
 	var/new_hash = list2params(surroundings["other"])
@@ -741,6 +743,10 @@
 			usr.mind.lastrecipe = recipe
 		if("checkboxonlycraftable")
 			showonlycraftable = params["state"]
+		if("cycle_pin")
+			var/datum/recipe_pins/pinned = usr.get_recipe_pins()
+			pinned?.cycle("crafting", params["path"])
+			return TRUE
 
 
 
