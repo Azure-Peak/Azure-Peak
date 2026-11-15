@@ -366,6 +366,45 @@
 	throw_speed = 3
 	embedding = list("embedded_pain_multiplier" = 4, "embed_chance" = 33, "embedded_fall_chance" = 2)
 
+/obj/item/rogueweapon/greataxe/militia
+	name = "militia war axe"
+	desc = "Shovels have always held some manner of importance in a militiaman's lyfe. Instead of digging corpsepits, however, this poleaxe will now fill them up."
+	icon_state = "peasantwaraxe"
+	possible_item_intents = list(/datum/intent/axe/cut, /datum/intent/axe/chop, SPEAR_BASH) //bash is for nonlethal takedowns, only targets limbs
+	gripped_intents = list(/datum/intent/rend/reach, /datum/intent/axe/chop/long, SPEAR_BASH)
+	force = 15
+	force_wielded = 25
+	minstr = 10
+	max_blade_int = 130
+	anvilrepair = /datum/skill/craft/carpentry
+	smeltresult = /obj/item/rogueore/coal
+	wdefense = 4
+	wbalance = WBALANCE_HEAVY
+
+/obj/item/rogueweapon/greataxe/militia/silver
+	name = "silver militia shovelaxe"
+	desc = "'Do you think Psydon stays in Heaven because He too lives in fear of what He's created?' </br>A silver shovel, improvised - perhaps, by the hands of a particularly desperate gravedigger - to fill a polearm's duty."
+	icon_state = "silvershovelwaraxe"
+	possible_item_intents = list(/datum/intent/axe/cut, /datum/intent/axe/chop, SPEAR_BASH) //bash is for nonlethal takedowns, only targets limbs
+	gripped_intents = list(/datum/intent/rend/reach, /datum/intent/axe/chop/long, SPEAR_BASH)
+	anvilrepair = /datum/skill/craft/carpentry
+	smeltresult = /obj/item/ingot/silver
+	is_silver = TRUE
+
+/obj/item/rogueweapon/greataxe/militia/silver/ComponentInitialize()
+	AddComponent(\
+		/datum/component/silverbless,\
+		pre_blessed = BLESSING_NONE,\
+		silver_type = SILVER_TENNITE\
+	)
+
+/obj/item/rogueweapon/greataxe/militia/silver/preblessed/ComponentInitialize()
+	AddComponent(\
+		/datum/component/silverbless,\
+		pre_blessed = BLESSING_TENNITE,\
+		silver_type = SILVER_TENNITE\
+	)
+
 /obj/item/rogueweapon/greataxe/blacksteel
 	name = "blacksteel greataxe"
 	desc = "A magnificent greataxe of blacksteel, tipped with spikes to keep the horrors at bay. No one's quite sure as to whether it's meant \
@@ -375,7 +414,7 @@
 	force_wielded = 35
 	smeltresult = /obj/item/ingot/blacksteel
 	possible_item_intents = list(/datum/intent/axe/cut, /datum/intent/axe/chop, /datum/intent/axe/thrust, SPEAR_BASH)
-	gripped_intents = list(/datum/intent/axe/cut/long, /datum/intent/axe/chop/long, /datum/intent/axe/rangedthrust, /datum/intent/axe/sweep)
+	gripped_intents = list(/datum/intent/axe/cut/long, /datum/intent/axe/chop/long, /datum/intent/axe/thrust/ranged, /datum/intent/axe/sweep)
 	max_blade_int = 500
 	wdefense_wbonus = 4 //Increased defense when wielded.
 	special = /datum/special_intent/axe_swing //Weapon specials on a non-greatsword? How scandalous!

@@ -92,14 +92,14 @@
 /// INTENT DATUMS	^
 
 /obj/item/rogueweapon/lordscepter
-	force = 20
-	force_wielded = 20
-	possible_item_intents = list(/datum/intent/lordbash, /datum/intent/lord_electrocute, /datum/intent/lord_silence)
-	gripped_intents = list(/datum/intent/lordbash)
 	name = "master's rod"
 	desc = "Bend the knee. Can't be used outside of the manor."
 	icon_state = "scepter"
 	icon = 'icons/roguetown/weapons/misc32.dmi'
+	force = 20
+	force_wielded = 20
+	possible_item_intents = list(/datum/intent/lordbash, /datum/intent/lord_electrocute, /datum/intent/lord_silence)
+	gripped_intents = list(/datum/intent/lordbash)
 	sharpness = IS_BLUNT
 	//dropshrink = 0.75
 	wlength = WLENGTH_NORMAL
@@ -110,7 +110,6 @@
 	swingsound = BLUNTWOOSH_MED
 	minstr = 5
 	COOLDOWN_DECLARE(scepter)
-
 	grid_height = 96
 	grid_width = 32
 
@@ -153,12 +152,12 @@
 	return H
 
 /obj/item/rogueweapon/mace/stunmace
-	force = 15
-	force_wielded = 15
 	name = "stunmace"
+	desc = "Pain is our currency here."
 	icon = 'icons/roguetown/weapons/misc32.dmi'
 	icon_state = "stunmace0"
-	desc = "Pain is our currency here."
+	force = 15
+	force_wielded = 15
 	gripped_intents = null
 	w_class = WEIGHT_CLASS_NORMAL
 	possible_item_intents = list(/datum/intent/mace/strike/stunner, /datum/intent/mace/smash/stunner)
@@ -495,87 +494,20 @@
 	icon = 'icons/roguetown/weapons/unarmed32.dmi'
 	wdefense = 3
 	force = 20
-	possible_item_intents = list(/datum/intent/mace/strike, /datum/intent/mace/smash/lesser, /datum/intent/mace/rangedthrust/short)
+	possible_item_intents = list(/datum/intent/mace/strike, /datum/intent/mace/smash/lesser, /datum/intent/mace/thrust)
 	wbalance = WBALANCE_NORMAL
 	swingsound = BLUNTWOOSH_MED
 
-
 ///Peasantry / Militia Weapon Pack///
 
-/obj/item/rogueweapon/woodstaff/militia
-	force = 20
-	force_wielded = 30
-	possible_item_intents = list(SPEAR_BASH, /datum/intent/spear/cut)
-	gripped_intents = list(/datum/intent/pick/ranged, /datum/intent/spear/thrust, SPEAR_BASH)
-	name = "militia goedendag"
-	desc = "Clubs - and their spiked descendants - are older than most languages and civilizations. Tyme hasn't made them any less deadly, however. "
-	icon_state = "peasantwarclub"
-	icon = 'icons/roguetown/weapons/blunt64.dmi'
-	smeltresult = /obj/item/rogueore/coal
-	sharpness = IS_SHARP
-	walking_stick = TRUE
-	wdefense = 6
-	max_blade_int = 140
-	associated_skill = /datum/skill/combat/polearms
-	is_implement = FALSE
-	special = /datum/special_intent/polearm_backstep
-
-/obj/item/rogueweapon/woodstaff/militia/getonmobprop(tag)
-	. = ..()
-	if(tag)
-		switch(tag)
-			if("gen")
-				return list("shrink" = 0.8,"sx" = -9,"sy" = 5,"nx" = 9,"ny" = 5,"wx" = -4,"wy" = 4,"ex" = 4,"ey" = 4,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = -38,"sturn" = 37,"wturn" = 32,"eturn" = -23,"nflip" = 0,"sflip" = 8,"wflip" = 8,"eflip" = 0)
-			if("wielded")
-				return list("shrink" = 0.8,"sx" = 8,"sy" = 0,"nx" = -1,"ny" = 0,"wx" = -5,"wy" = -1,"ex" = 3,"ey" = 0,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = 7,"sturn" = -7,"wturn" = 16,"eturn" = -22,"nflip" = 8,"sflip" = 0,"wflip" = 8,"eflip" = 0)
-
-/obj/item/rogueweapon/greataxe/militia
-	name = "militia war axe"
-	desc = "Shovels have always held some manner of importance in a militiaman's lyfe. Instead of digging corpsepits, however, this poleaxe will now fill them up."
-	icon_state = "peasantwaraxe"
-	possible_item_intents = list(/datum/intent/axe/cut, /datum/intent/axe/chop, SPEAR_BASH) //bash is for nonlethal takedowns, only targets limbs
-	gripped_intents = list(/datum/intent/rend/reach, /datum/intent/axe/chop/long, SPEAR_BASH)
-	force = 15
-	force_wielded = 25
-	minstr = 10
-	max_blade_int = 130
-	anvilrepair = /datum/skill/craft/carpentry
-	smeltresult = /obj/item/rogueore/coal
-	wdefense = 4
-	wbalance = WBALANCE_HEAVY
-
-/obj/item/rogueweapon/greataxe/militia/silver
-	name = "silver militia shovelaxe"
-	desc = "'Do you think Psydon stays in Heaven because He too lives in fear of what He's created?' </br>A silver shovel, improvised - perhaps, by the hands of a particularly desperate gravedigger - to fill a polearm's duty."
-	icon_state = "silvershovelwaraxe"
-	possible_item_intents = list(/datum/intent/axe/cut, /datum/intent/axe/chop, SPEAR_BASH) //bash is for nonlethal takedowns, only targets limbs
-	gripped_intents = list(/datum/intent/rend/reach, /datum/intent/axe/chop/long, SPEAR_BASH)
-	anvilrepair = /datum/skill/craft/carpentry
-	smeltresult = /obj/item/ingot/silver
-	is_silver = TRUE
-
-/obj/item/rogueweapon/greataxe/militia/silver/ComponentInitialize()
-	AddComponent(\
-		/datum/component/silverbless,\
-		pre_blessed = BLESSING_NONE,\
-		silver_type = SILVER_TENNITE\
-	)
-
-/obj/item/rogueweapon/greataxe/militia/silver/preblessed/ComponentInitialize()
-	AddComponent(\
-		/datum/component/silverbless,\
-		pre_blessed = BLESSING_TENNITE,\
-		silver_type = SILVER_TENNITE\
-	)
-
 /obj/item/rogueweapon/spear/militia
+	name = "militia spear"
+	desc = "Pitchforks and hoes traditionally till the soil. In tymes of peril, however, it isn't uncommon for a militiaman to pound them into polearms."
+	icon_state = "peasantwarspear"
 	force = 18
 	force_wielded = 30
 	possible_item_intents = list(SPEAR_THRUST_1H, SPEAR_CUT_1H)
 	gripped_intents = list(SPEAR_THRUST, SPEAR_CUT, SPEAR_BASH)
-	name = "militia spear"
-	desc = "Pitchforks and hoes traditionally till the soil. In tymes of peril, however, it isn't uncommon for a militiaman to pound them into polearms."
-	icon_state = "peasantwarspear"
 	minstr = 8
 	max_blade_int = 120
 	max_integrity = 200
@@ -730,20 +662,19 @@
 					light_on()
 					user.regenerate_icons()
 
-
-
 /datum/component/ignitable/proc/on_examine(datum/source, mob/user, list/examine_list)
 	return
 
+// Scythes.
 /obj/item/rogueweapon/scythe
-	force = 15
-	force_wielded = 25
-	possible_item_intents = list(SPEAR_BASH)
-	gripped_intents = list(/datum/intent/spear/cut/scythe, SPEAR_BASH, MACE_STRIKE)
 	name = "scythe"
 	desc = "The bane of fields, the trimmer of grass, the harvester of wheat, and - depending on who you ask - the shepherd of souls to the afterlyfe."
 	icon_state = "peasantscythe"
 	icon = 'icons/roguetown/weapons/polearms64.dmi'
+	force = 15
+	force_wielded = 25
+	possible_item_intents = list(SPEAR_BASH)
+	gripped_intents = list(/datum/intent/spear/cut/scythe, SPEAR_BASH, MACE_STRIKE)
 	pixel_y = -16
 	pixel_x = -16
 	inhand_x_dimension = 64
@@ -794,6 +725,7 @@
 		silver_type = SILVER_TENNITE\
 	)
 
+// Picks.
 /obj/item/rogueweapon/pick/militia
 	name = "militia warpick"
 	desc = "At the end of the dae, a knight's bascinet isn't much different than a particularly large stone. After all, both tend to rupture with sobering ease when introduced to a sharpened pickend."
@@ -823,11 +755,11 @@
 				return list("shrink" = 0.6,"sx" = -11,"sy" = -10,"nx" = 13,"ny" = -9,"wx" = -7,"wy" = -9,"ex" = 7,"ey" = -11,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = 90,"sturn" = -90,"wturn" = -90,"eturn" = 90,"nflip" = 0,"sflip" = 8,"wflip" = 8,"eflip" = 0)
 
 /obj/item/rogueweapon/pick/militia/steel
-	force = 25
-	force_wielded = 30
 	name = "militia steel warpick"
 	desc = "At the end of the dae, a knight's bascinet isn't much different than a particularly large stone. After all, both tend to rupture with sobering ease when introduced to a sharpened pickend. This one is honed out of steel parts."
 	icon_state = "milsteelpick"
+	force = 25
+	force_wielded = 30
 	max_blade_int = 180
 	max_integrity = 600
 	associated_skill = /datum/skill/combat/axes
@@ -844,9 +776,8 @@
 			if("gen")
 				return list("shrink" = 0.6,"sx" = -11,"sy" = -10,"nx" = 13,"ny" = -9,"wx" = -7,"wy" = -9,"ex" = 7,"ey" = -11,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = 90,"sturn" = -90,"wturn" = -90,"eturn" = 90,"nflip" = 0,"sflip" = 8,"wflip" = 8,"eflip" = 0)
 
-//Dwarvish warpick. Unobtanium outside of Grudgebearer. Do not change that.
 /obj/item/rogueweapon/pick/militia/steel/warpick
-	name = "dwarven warpick"
+	name = "dwarven warpick" //Dwarvish warpick. Unobtanium outside of Grudgebearer. Do not change that.
 	desc = "A hardy repurposed dwarven mining warpick. Made to handle the dwellers above and below, both clad in rock and forged rock."
 	icon_state = "dwarpick"
 	possible_item_intents = list(/datum/intent/pick/heavy, /datum/intent/mace/strike)
@@ -854,35 +785,7 @@
 	max_blade_int = 200 //10% increase over the steel pick
 	max_integrity = 660
 
-/obj/item/rogueweapon/sword/falchion/militia
-	name = "maciejowski"
-	desc = "Fittingly coined as a 'peasant's falchion', this hunting sword's blade has been retempered to hunt the most dangerous game. Those jagged edges are perfect for tearing into flesh-and-maille."
-	possible_item_intents = list(/datum/intent/sword/cut, /datum/intent/sword/strike)
-	icon_state = "maciejowski"
-	sheathe_icon = "maciejowski"
-	gripped_intents = list(/datum/intent/rend, /datum/intent/sword/chop/militia, /datum/intent/sword/strike)
-	force = 18
-	force_wielded = 25
-	anvilrepair = /datum/skill/craft/carpentry
-	smeltresult = /obj/item/ingot/iron
-	wdefense = 3
-	wbalance = WBALANCE_HEAVY
-
-/obj/item/rogueweapon/sword/falchion/militia/bronze
-	name = "kopis"
-	desc = "The falchion's ancient predecessor, veiled in bronze - yet no less lethal against an awaiting trunk. The curved grip snuggly fits in the wielder's hand, allowing their will to be imposed upon assailant-and-archdevil alike with terrible force."
-	possible_item_intents = list(/datum/intent/sword/cut, /datum/intent/sword/chop/militia, /datum/intent/sword/thrust/long/deep, /datum/intent/sword/strike)
-	icon_state = "kopis"
-	sheathe_icon = "kopis"
-	gripped_intents = list(/datum/intent/rend, /datum/intent/sword/chop/militia, /datum/intent/sword/thrust/long/deep, /datum/intent/sword/strike)
-	force = 20
-	force_wielded = 27 // +2/3ish over the Maciejowski. A proper killing machine.
-	max_integrity = 175
-	max_blade_int = 350
-	anvilrepair = /datum/skill/craft/weaponsmithing
-	smeltresult = /obj/item/ingot/bronze
-	wbalance = WBALANCE_HEAVY
-
+//Claws.
 /obj/item/rogueweapon/handclaw
 	slot_flags = ITEM_SLOT_HIP
 	name = "iron hound claws"
@@ -1040,88 +943,3 @@
 	misscost = 10
 	intent_intdamage_factor = 0.05
 	demolition_mod = 0.05
-
-/datum/intent/peculate
-	name = "peculate"
-	hitsound = null
-	desc = span_cult("The skinthiefing. The soul-taking. ") + "Peculate a dead or bled-out opponent, their head intact, to claim them for the dagger. \
-	You will steal their form... assuming a mortal could easily assume their shape. " + span_info("Skinthiefing will not work on constructs, gnolls, or most NPCs.")
-	icon_state = "inpeculate"
-	attack_verb = list("steals", "peculates", "skinthiefs")
-	max_intent_damage = 0
-
-
-/datum/intent/peculate/examine(mob/user)
-	if(!HAS_TRAIT(user, TRAIT_ASSASSIN))
-	// todo: add more of these later
-		to_chat(user, "<span style='color:#3F5C6D'>The profane dagger</span> whispers, " + span_cult("<i>\"Hehe... hehehe...\"</i>"))
-		return
-	// call parent for assassins so they can actually see the desc
-	. = ..()
-
-// Standard of the keep.
-// Big ol' flag that they keep to give bonuses, used by the manorguard standard bearer.
-/obj/item/rogueweapon/spear/keep_standard
-	name = "ducal standard"
-	desc = "The local lord's banner, fashioned to a blacksteel pike and turned into a deadly instrument of war. \
-	The man who wields this is said to bring great fortune to his house, and those who keep him safe. \
-	<small>Runes glow near the head of the pike. A sure sign of the arcyne.</small>"
-	force = 15
-	force_wielded = 30
-	throwforce = 10 //No
-	possible_item_intents = list(SPEAR_BASH)
-	gripped_intents = list(/datum/intent/spear/thrust, /datum/intent/spear/bash/ranged, /datum/intent/mace/smash/eaglebeak) // GET THEM OFF OF ME!!! OOOUGH!!!
-	icon = 'icons/roguetown/weapons/polearms64.dmi'
-	icon_state = "standard"
-	max_blade_int = 200
-	max_integrity = 250
-	smeltresult = /obj/item/ingot/blacksteel
-	resistance_flags = FIRE_PROOF
-	var/active_item = FALSE
-
-/obj/item/rogueweapon/spear/keep_standard/equipped(mob/living/user)
-	. = ..()
-	if(active_item)
-		return
-	active_item = TRUE
-	if(HAS_TRAIT(user, TRAIT_STANDARD_BEARER))
-		to_chat(user, span_suppradio("The standard's runes pulse, accepting me as its <b>master</b>."))
-		user.add_stress(/datum/stressevent/keep_standard)
-		add_verb(user, /mob/proc/standard_position)
-		add_verb(user, /mob/proc/standard_rally)
-	else
-		to_chat(user, span_suicide("The standard's runes pulse, rejecting me as its <b>master</b>."))
-
-/obj/item/rogueweapon/spear/keep_standard/dropped(mob/living/user)
-	..()
-	if(!active_item)
-		return
-	active_item = FALSE
-	if(HAS_TRAIT(user, TRAIT_STANDARD_BEARER))
-		to_chat(user, span_monkeyhive("The standard's runes pulse, rhythmically, as if sad to see you release your control."))
-		user.remove_stress(/datum/stressevent/keep_standard)
-		remove_verb(user, /mob/proc/standard_position)
-		remove_verb(user, /mob/proc/standard_rally)
-	else
-		to_chat(user, span_suicide("The standard's runes pulse, as if sighing in relief once I let go."))
-
-//Shameless copy of how clothes handle it.
-/obj/item/rogueweapon/spear/keep_standard/update_icon()
-	refresh_detail_overlay()
-
-/obj/item/rogueweapon/spear/keep_standard/Initialize(mapload)
-	. = ..()
-	if(GLOB.lordprimary)
-		lordcolor(GLOB.lordprimary, GLOB.lordsecondary)
-	GLOB.lordcolor += src
-
-/obj/item/rogueweapon/spear/keep_standard/lordcolor(primary, secondary)
-	detail_tag = "_detail"
-	altdetail_tag = "_detailalt"
-	detail_color = primary
-	altdetail_color = secondary
-	update_icon()
-
-/obj/item/rogueweapon/spear/keep_standard/Destroy()
-	GLOB.lordcolor -= src
-	return ..()

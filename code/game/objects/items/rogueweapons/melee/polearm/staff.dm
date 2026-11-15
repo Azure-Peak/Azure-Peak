@@ -360,3 +360,30 @@
 	new /obj/effect/temp_visual/censer_dust(get_turf(user))
 	user.visible_message(span_blue("As the final words leave [user]'s lips, [src] crumbles into sacred ash and [staff] manifests before them!"))
 	qdel(src)
+
+/obj/item/rogueweapon/woodstaff/militia
+	name = "militia goedendag"
+	desc = "Clubs - and their spiked descendants - are older than most languages and civilizations. Tyme hasn't made them any less deadly, however. "
+	icon_state = "peasantwarclub"
+	icon = 'icons/roguetown/weapons/blunt64.dmi'
+	force = 20
+	force_wielded = 30
+	possible_item_intents = list(SPEAR_BASH, /datum/intent/spear/cut)
+	gripped_intents = list(/datum/intent/pick/ranged, /datum/intent/spear/thrust, SPEAR_BASH)
+	smeltresult = /obj/item/rogueore/coal
+	sharpness = IS_SHARP
+	walking_stick = TRUE
+	wdefense = 6
+	max_blade_int = 140
+	associated_skill = /datum/skill/combat/polearms
+	is_implement = FALSE
+	special = /datum/special_intent/polearm_backstep
+
+/obj/item/rogueweapon/woodstaff/militia/getonmobprop(tag)
+	. = ..()
+	if(tag)
+		switch(tag)
+			if("gen")
+				return list("shrink" = 0.8,"sx" = -9,"sy" = 5,"nx" = 9,"ny" = 5,"wx" = -4,"wy" = 4,"ex" = 4,"ey" = 4,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = -38,"sturn" = 37,"wturn" = 32,"eturn" = -23,"nflip" = 0,"sflip" = 8,"wflip" = 8,"eflip" = 0)
+			if("wielded")
+				return list("shrink" = 0.8,"sx" = 8,"sy" = 0,"nx" = -1,"ny" = 0,"wx" = -5,"wy" = -1,"ex" = 3,"ey" = 0,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = 7,"sturn" = -7,"wturn" = 16,"eturn" = -22,"nflip" = 8,"sflip" = 0,"wflip" = 8,"eflip" = 0)

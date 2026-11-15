@@ -564,7 +564,7 @@
 	force = 15
 	force_wielded = 30
 	possible_item_intents = list(/datum/intent/mace/strike, /datum/intent/mace/bash/ranged) //Fluffed as either buttstroking with the Grand Mace, or ineffectually swinging it.
-	gripped_intents = list(/datum/intent/mace/strike/grand, /datum/intent/mace/smash/grand, /datum/intent/mace/rangedthrust/short, /datum/intent/effect/daze)
+	gripped_intents = list(/datum/intent/mace/strike/grand, /datum/intent/mace/smash/grand, /datum/intent/mace/thrust, /datum/intent/effect/daze)
 	sharpness = IS_BLUNT
 	wlength = WLENGTH_LONG
 	w_class = WEIGHT_CLASS_BULKY

@@ -1050,21 +1050,3 @@
 
 /datum/intent/effect
 	blade_class = BCLASS_EFFECT
-
-/datum/intent/effect/daze
-	name = "dazing strike"
-	desc = "A heavy strike aimed at the head to daze them."
-	icon_state = "indaze"
-	attack_verb = list("dazes")
-	animname = "strike"
-	hitsound = list('sound/combat/hits/blunt/daze_hit.ogg')
-	penfactor = PEN_NONE
-	swingdelay = 1 SECONDS
-	damfactor = 1
-	item_d_type = "blunt"
-	intent_effect = /datum/status_effect/debuff/dazed
-	target_parts = list(BODY_ZONE_HEAD)
-	intent_intdamage_factor = BLUNT_DEFAULT_INT_DAMAGEFACTOR
-	candodge = FALSE
-	canparry = FALSE
-	swingdelay_type = SWINGDELAY_CANCEL

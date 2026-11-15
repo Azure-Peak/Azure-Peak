@@ -173,3 +173,7 @@
 
 /datum/intent/axe/chop/frost
 	intent_effect = /datum/status_effect/buff/frostbite
+
+/datum/intent/axe/chop/halberd
+	damfactor = 1.3
+	reach = 2
