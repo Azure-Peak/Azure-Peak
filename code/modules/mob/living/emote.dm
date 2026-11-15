@@ -1685,19 +1685,19 @@
 
 	emote("ffsalute", intentional =	TRUE)
 
-/datum/emote/living/catcall
-	key = "catcall"
+/datum/emote/living/wwhistle
+	key = "wwhistle"
 	key_third_person = "whistles!"
 	message = "whistles!"
 	message_muffled = "makes a muffled noise."
 	emote_type = EMOTE_AUDIBLE
 	show_runechat = FALSE
 
-/mob/living/carbon/human/verb/emote_catcall()
-	set name = "Cat Call"
+/mob/living/carbon/human/verb/emote_wwhistle()
+	set name = "Wolf Whistle"
 	set category = "Emotes.Noises"
 
-	emote("catcall", intentional =	TRUE)
+	emote("wwhistle", intentional =	TRUE)
 
 /datum/emote/living/iwhistle
 	key = "iwhistle"

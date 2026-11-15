@@ -203,8 +203,8 @@
 				used = list('sound/foley/trap.ogg')
 			if("spark")
 				used = list('sound/foley/machinebreak.ogg')
-			if("catcall")
-				used = list('sound/vo/catcall1.ogg', 'sound/vo/catcall2.ogg')
+			if("wwhistle")
+				used = list('sound/vo/wolfwhistle1.ogg', 'sound/vo/wolfwhistle2.ogg')
 			if("iwhistle")
 				used = list('sound/vo/impresswhistle1.ogg', 'sound/vo/impresswhistle2.ogg')
 	return used
