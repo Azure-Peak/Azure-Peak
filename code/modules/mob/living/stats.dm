@@ -147,12 +147,12 @@
 				if(BUFSTR < 0)
 					newamt = STASTR + BUFSTR
 					BUFSTR = 0
-			while(newamt < 1)
-				newamt++
-				BUFSTR--
-			while(newamt > 20)
-				newamt--
-				BUFSTR++
+			if(newamt < 1)
+				BUFSTR -= 1 - newamt
+				newamt = 1
+			if(newamt > 20)
+				BUFSTR += newamt - 20
+				newamt = 20
 			STASTR = newamt
 
 		if(STATKEY_PER)
@@ -167,12 +167,12 @@
 				if(BUFPER < 0)
 					newamt = STAPER + BUFPER
 					BUFPER = 0
-			while(newamt < 1)
-				newamt++
-				BUFPER--
-			while(newamt > 20)
-				newamt--
-				BUFPER++
+			if(newamt < 1)
+				BUFPER -= 1 - newamt
+				newamt = 1
+			if(newamt > 20)
+				BUFPER += newamt - 20
+				newamt = 20
 			STAPER = newamt
 
 			update_fov_angles()
@@ -189,12 +189,12 @@
 				if(BUFINT < 0)
 					newamt = STAINT + BUFINT
 					BUFINT = 0
-			while(newamt < 1)
-				newamt++
-				BUFINT--
-			while(newamt > 20)
-				newamt--
-				BUFINT++
+			if(newamt < 1)
+				BUFINT -= 1 - newamt
+				newamt = 1
+			if(newamt > 20)
+				BUFINT += newamt - 20
+				newamt = 20
 			STAINT = newamt
 
 		if(STATKEY_CON)
@@ -209,12 +209,12 @@
 				if(BUFCON < 0)
 					newamt = STACON + BUFCON
 					BUFCON = 0
-			while(newamt < 1)
-				newamt++
-				BUFCON--
-			while(newamt > 20)
-				newamt--
-				BUFCON++
+			if(newamt < 1)
+				BUFCON -= 1 - newamt
+				newamt = 1
+			if(newamt > 20)
+				BUFCON += newamt - 20
+				newamt = 20
 			STACON = newamt
 
 		if(STATKEY_WIL)
@@ -229,12 +229,12 @@
 				if(BUFEND < 0)
 					newamt = STAWIL + BUFEND
 					BUFEND = 0
-			while(newamt < 1)
-				newamt++
-				BUFEND--
-			while(newamt > 20)
-				newamt--
-				BUFEND++
+			if(newamt < 1)
+				BUFEND -= 1 - newamt
+				newamt = 1
+			if(newamt > 20)
+				BUFEND += newamt - 20
+				newamt = 20
 
 			pain_threshold += amt * 10
 			STAWIL = newamt
@@ -251,12 +251,12 @@
 				if(BUFSPE < 0)
 					newamt = STASPD + BUFSPE
 					BUFSPE = 0
-			while(newamt < 1)
-				newamt++
-				BUFSPE--
-			while(newamt > 20)
-				newamt--
-				BUFSPE++
+			if(newamt < 1)
+				BUFSPE -= 1 - newamt
+				newamt = 1
+			if(newamt > 20)
+				BUFSPE += newamt - 20
+				newamt = 20
 			STASPD = newamt
 			update_move_intent_slowdown()
 
@@ -272,12 +272,12 @@
 				if(BUFLUC < 0)
 					newamt = STALUC + BUFLUC
 					BUFLUC = 0
-			while(newamt < 1)
-				newamt++
-				BUFLUC--
-			while(newamt > 20)
-				newamt--
-				BUFLUC++
+			if(newamt < 1)
+				BUFLUC -= 1 - newamt
+				newamt = 1
+			if(newamt > 20)
+				BUFLUC += newamt - 20
+				newamt = 20
 			STALUC = newamt
 
 /// Calculates a luck value in the range [1, 400] (calculated as STALUC^2), then maps the result linearly to the given range

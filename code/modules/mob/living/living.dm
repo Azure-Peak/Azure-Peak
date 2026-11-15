@@ -2216,6 +2216,22 @@ GLOBAL_LIST_INIT(sight_trait_signals, build_sight_trait_signals())
 		client.mouse_pointer_icon = ranged_ability.ranged_mousepointer
 
 /mob/living/vv_edit_var(var_name, var_value)
+	var/static/list/vv_stat_keys = list(
+		"STASTR" = STATKEY_STR,
+		"STAPER" = STATKEY_PER,
+		"STAINT" = STATKEY_INT,
+		"STACON" = STATKEY_CON,
+		"STAWIL" = STATKEY_WIL,
+		"STASPD" = STATKEY_SPD,
+		"STALUC" = STATKEY_LCK,
+	)
+	var/statkey = vv_stat_keys[var_name]
+	if(statkey)
+		if(!isnum(var_value))
+			return FALSE
+		change_stat(statkey, clamp(round(var_value), 1, 20) - get_stat(statkey))
+		datum_flags |= DF_VAR_EDITED
+		return TRUE
 	switch(var_name)
 		if ("maxHealth")
 			if (!isnum(var_value) || var_value <= 0)
