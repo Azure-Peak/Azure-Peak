@@ -1,0 +1,4 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - bugfix: "You are no longer told about the pretax instead of posttax number when ledger tell you about your split pay with a members not in a party"
