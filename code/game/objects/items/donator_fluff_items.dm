@@ -5182,11 +5182,11 @@ As Excaliber."
 	icon = 'icons/clothing/donor_clothes.dmi'
 	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
 	unique_reskin = list(
-		"Blacksteel" = "sigholtcoronet_0",
-		"Gold" = "sigholtcoronet_1",
-		"Silver" = "sigholtcoronet_2",
+		"blacksteel" = "sigholtcoronet_0",
+		"gold" = "sigholtcoronet_1",
+		"silver" = "sigholtcoronet_2",
 	)
-	current_skin = "Blacksteel"
+	current_skin = "blacksteel"
 
 /obj/item/clothing/head/roguetown/circlet/sigholt_coronet/rmb_self(mob/user, keybind = FALSE)
 	. = ..()
@@ -5206,7 +5206,7 @@ As Excaliber."
 	icon_state = unique_reskin[choice]
 	item_state = icon_state
 
-	var/metal_name = lowertext(choice)
+	var/metal_name = choice
 	to_chat(M, span_info("You adjust the [src]."))
 	name = "[metal_name] coronet"
 	desc = "A [metal_name] coronet inlaid with holy sylver. A mark of office, or ostentation?"
