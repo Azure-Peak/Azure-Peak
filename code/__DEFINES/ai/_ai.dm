@@ -89,6 +89,13 @@
 #define BB_AGGRO_RANGE "aggro_range" // Range at which mobs can detect and add threats
 #define BB_AGGRO_MAINTAIN_RANGE "aggro_maintain_range" // Range at which target is dropped if exceeded
 
+#define BB_TARGET_LAST_SEEN			"target_last_seen"
+#define BB_TARGET_LAST_SEEN_TURF	"target_last_seen_turf"
+#define BB_TARGET_LAST_SEEN_TIME	"target_last_seen_time"
+#define BB_TARGET_SEARCH_TURF		"target_search_turf"
+#define AI_TARGET_SIGHT_MEMORY		(5 SECONDS)
+#define AI_HOT_PURSUIT_GRACE		(15 SECONDS)
+
 ///time until we should next eat, set by the generic hunger subtree
 #define BB_NEXT_HUNGRY "BB_NEXT_HUNGRY"
 ///what we're going to eat next

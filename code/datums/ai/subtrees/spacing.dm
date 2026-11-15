@@ -44,7 +44,10 @@
 	else if(range <= 1)
 		return
 	else if(!can_see(living_pawn, target, view_distance))
-		controller.queue_behavior(/datum/ai_behavior/pursue_to_range, target_key, 1)
+		var/chase_key = target_key
+		if(controller.blackboard[BB_TARGET_LAST_SEEN] == target && !can_see(living_pawn, target, controller.max_target_distance))
+			chase_key = BB_TARGET_LAST_SEEN_TURF
+		controller.queue_behavior(/datum/ai_behavior/pursue_to_range, chase_key, 1)
 	else if(range > maximum_distance)
 		controller.queue_behavior(/datum/ai_behavior/pursue_to_range, target_key, maximum_distance)
 	else

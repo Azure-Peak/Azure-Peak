@@ -44,17 +44,22 @@
 				controller.clear_blackboard_key(BB_HIGHEST_THREAT_MOB)
 				current_target = null
 
-			if(current_target && get_dist(living_mob, living_target) > maintain_range)
-				// Hot-pursuit grace: if we were recently shot by this exact mob, keep them as
-				// our threat regardless of melee-leash distance so we chase the sniper.
-				var/last_hit = controller.blackboard["bb_last_ranged_hit_time"] || 0
-				var/mob/last_shooter = controller.blackboard["bb_last_ranged_attacker"]
-				var/in_grace = (last_shooter == current_target) && (world.time - last_hit < 15 SECONDS)
-				if(!in_grace)
-					controller.clear_blackboard_key(BB_HIGHEST_THREAT_MOB)
-					current_target = null
+			// Hot-pursuit grace: if we were recently shot by this exact mob, keep them as
+			// our threat regardless of melee-leash distance so we chase the sniper.
+			if(current_target && get_dist(living_mob, living_target) > maintain_range && !controller.in_hot_pursuit(current_target))
+				controller.clear_blackboard_key(BB_HIGHEST_THREAT_MOB)
+				current_target = null
+
+	if(current_target && !controller.track_target_sight(current_target))
+		if(!controller.target_sight_lapsed(current_target) || controller.in_hot_pursuit(current_target))
+			controller.search_for_target(current_target)
+			return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_FAILED
+		AI_THINK(living_mob, "SIGHT: lost track of [current_target]")
+		controller.forget_target(current_target)
+		current_target = null
 
 	if(current_target)
+		controller.clear_blackboard_key(BB_TARGET_SEARCH_TURF)
 		if(current_target == controller.blackboard[target_key])
 			return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_FAILED
 		AI_THINK(living_mob, "SCAN: locking [current_target]")
@@ -70,6 +75,7 @@
 		return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_SUCCEEDED
 
 	controller.clear_blackboard_key(target_key)
+	controller.clear_blackboard_key(BB_TARGET_SEARCH_TURF)
 
 	if(living_mob.pet_passive)
 		return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_FAILED
@@ -138,6 +144,7 @@
 	else if(chosen_target && !QDELETED(chosen_target))
 		controller.set_blackboard_key(BB_HIGHEST_THREAT_MOB, chosen_target)
 		controller.set_blackboard_key(target_key, chosen_target)
+		controller.remember_target_at(chosen_target)
 		var/atom/potential_hiding_location = find_hiding_location(living_mob, chosen_target)
 		if(potential_hiding_location)
 			controller.set_blackboard_key(hiding_location_key, potential_hiding_location)
