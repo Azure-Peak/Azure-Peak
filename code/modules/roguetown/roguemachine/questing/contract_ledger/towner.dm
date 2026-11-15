@@ -93,7 +93,7 @@
 
 /proc/towner_bearer_summary(tier, datum/quest/kill/recovery/towner/proto)
 	. = "combat & distance pay"
-	var/bonus = get_towner_tier_term(tier, "flat_bonus") || 0
+	var/bonus = round((get_towner_tier_term(tier, "flat_bonus") || 0) * TOWNER_REWARD_MULT)
 	if(bonus > 0)
 		. += " + [bonus]m bonus"
 	if(proto)

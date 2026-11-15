@@ -43,6 +43,7 @@
 			if(!index)
 				index = H.real_name
 			S.name = "veteran cloak ([index])"
+		H.mind?.AddSpell(new /datum/action/cooldown/spell/vetprotege)
 
 
 /datum/advclass/veteran/battlemaster
@@ -398,7 +399,7 @@
 	subclass_languages = list(/datum/language/grenzelhoftian)
 	cmode_music = 'sound/music/combat_grenzelhoft.ogg'
 	category_tags = list(CTAG_VETERAN)
-	traits_applied = list(TRAIT_MEDIUMARMOR, TRAIT_STEELHEARTED) //I am sick of fullplate grenzelvets
+	traits_applied = list(TRAIT_MEDIUMARMOR, TRAIT_STEELHEARTED, TRAIT_BADTRAINER) //I am sick of fullplate grenzelvets
 	subclass_stats = list(
 		STATKEY_WIL = 3,// two handed weapons require a LOT of stamina.
 		STATKEY_STR = 2,

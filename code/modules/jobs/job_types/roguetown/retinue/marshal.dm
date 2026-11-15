@@ -23,6 +23,7 @@
 	min_pq = 8
 	max_pq = null
 	round_contrib_points = 3
+	quest_claim_barred = TRUE
 	cmode_music = 'sound/music/combat_knight.ogg'
 	advclass_cat_rolls = list (CTAG_MARSHAL = 20)
 

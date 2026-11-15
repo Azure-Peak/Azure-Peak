@@ -35,6 +35,14 @@ plus talkstatue_tgui.dm (TGUI surface shared across all three roles).
 	var/single_cooldown = 10 MINUTES
 	var/broadcast_cooldown_time = 20 MINUTES
 	var/static/response_id_counter = 0
+	var/next_advert = 0
+	var/mutable = TRUE
+	var/muted = FALSE
+
+/obj/structure/roguemachine/talkstatue/mercenary/tavern
+	name = "tavern mercenary statue"
+	desc = "A gilbranze warrior erupts from the stone bell that homes them; foreign garb, horns of stone, claws of deathly metals. The perfect central-point of a proud warrior extrinsic to this place and tyme. This one cannot be muted."
+	mutable = FALSE
 
 /obj/structure/roguemachine/talkstatue/church
 	name = "church statue"

@@ -58,6 +58,12 @@
 	addtimer(CALLBACK(src, PROC_REF(drop_fireball), center), impact_delay)
 	return TRUE
 
+/datum/action/cooldown/spell/fire_strike/get_impact_turfs(atom/center)
+	var/turf/epicenter = get_turf(center)
+	if(!epicenter)
+		return list()
+	return RANGE_TURFS(blast_radius, epicenter)
+
 /datum/action/cooldown/spell/fire_strike/proc/drop_fireball(turf/center)
 	if(QDELETED(src) || QDELETED(owner))
 		return

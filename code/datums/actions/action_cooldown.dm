@@ -31,6 +31,8 @@
 	var/npc_max_range = 1
 	var/npc_requires_los = TRUE
 	var/self_targetable = FALSE
+	var/npc_escape = FALSE
+	var/npc_retry_at = 0
 	/// Anatomy gate - the ability is unavailable while any of these zones is broken.
 	var/list/required_zones
 	/// The cooldown added onto the user's next click.
@@ -237,6 +239,9 @@
 /// its quarry instead of spacing off it, so a telegraphed pattern still lands where it was aimed.
 /datum/action/cooldown/proc/ai_commit_time()
 	return 0
+
+/datum/action/cooldown/proc/npc_cast_target(atom/target)
+	return target
 
 /datum/action/cooldown/proc/can_use(atom/target)
 	if(QDELETED(target))

@@ -206,7 +206,14 @@
 		"price_base" = base,
 		"price_tariff" = tariff,
 		"price" = base + tariff,
+		"has_stats" = pack_has_stats(PA) ? TRUE : FALSE,
 	)
+
+/obj/structure/roguemachine/goldface/proc/pack_has_stats(datum/supply_pack/PA)
+	for(var/path in PA.contains)
+		if(item_has_stat_card(path))
+			return TRUE
+	return FALSE
 
 /obj/structure/roguemachine/goldface/update_icon()
 	cut_overlays()
@@ -736,6 +743,19 @@
 					upgrade_flags |= UPGRADE_NOTAX
 			playsound(loc, 'sound/misc/gold_misc.ogg', 100, FALSE, -1)
 			return TRUE
+		if("preview")
+			var/pack_path = text2path(params["ref"])
+			if(!ispath(pack_path, /datum/supply_pack))
+				return FALSE
+			var/datum/supply_pack/previewed = SSmerchant.supply_packs[pack_path]
+			if(!previewed || (previewed.not_in_public && is_public))
+				return FALSE
+			if(!(previewed.group in categories) && !(previewed.group in categories_gamer))
+				return FALSE
+			if(!H.can_read(src, TRUE))
+				return FALSE
+			show_item_stats(H, previewed.contains)
+			return FALSE
 		if("buy")
 			var/path = text2path(params["ref"])
 			if(!ispath(path, /datum/supply_pack))

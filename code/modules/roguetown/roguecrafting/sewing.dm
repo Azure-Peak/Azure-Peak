@@ -21,7 +21,6 @@
 	reqs = list(/obj/item/natural/cloth = 1)
 	craftdiff = 0
 
-
 /datum/crafting_recipe/roguetown/sewing/torsosash
 	name = "sash"
 	category = "Robes"
@@ -690,7 +689,7 @@
 /datum/crafting_recipe/roguetown/sewing/stabardheavy
 	name = "surcoat, overvestments"
 	category = "Tabards"
-	result = list(/obj/item/clothing/cloak/tabard/stabard/crusader/heavy)
+	result = list(/obj/item/clothing/cloak/tabard/stabard/overvestments)
 	reqs = list(/obj/item/natural/cloth = 3,
 				/obj/item/natural/fibers = 2)
 	craftdiff = 3
@@ -1446,22 +1445,6 @@
 	name = "desert cape"
 	category = "Cloaks"
 	result = list(/obj/item/clothing/cloak/cape/crusader)
-	reqs = list(/obj/item/natural/cloth = 4,
-				/obj/item/natural/fibers = 2)
-	craftdiff = 3
-
-/datum/crafting_recipe/roguetown/sewing/cape/goldenorder
-	name = "cape, golden order"
-	category = "Cloaks"
-	result = list(/obj/item/clothing/cloak/cape/inquisitorgold)
-	reqs = list(/obj/item/natural/cloth = 4,
-				/obj/item/natural/fibers = 2)
-	craftdiff = 3
-
-/datum/crafting_recipe/roguetown/sewing/cape/silverorder
-	name = "cape, silver order"
-	category = "Cloaks"
-	result = list(/obj/item/clothing/cloak/cape/inquisitorsilver)
 	reqs = list(/obj/item/natural/cloth = 4,
 				/obj/item/natural/fibers = 2)
 	craftdiff = 3

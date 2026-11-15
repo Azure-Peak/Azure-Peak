@@ -26,6 +26,8 @@
 #define THREAT_ELITE_PLUS 60	// For mad-touched madman so we can account for their strength w/o nerfing them
 #define THREAT_APEX 70		// Half-drakkyn, ancient dreamfiend
 #define THREAT_LEGENDARY 100 // Drakkyn broodmother
+#define THREAT_CASTER_PREMIUM 10
+#define THREAT_SPELLBLADE_PREMIUM 5
 
 /// Conversion: one "band" in the Noticeboard IC description equals this many threat points.
 #define THREAT_POINTS_PER_BAND 50

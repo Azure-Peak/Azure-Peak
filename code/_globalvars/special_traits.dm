@@ -43,6 +43,8 @@ GLOBAL_LIST_INIT(special_traits, build_special_traits())
 		apply_dnr_trait(character, player, TRAIT_GENERIC)
 	if(SSgamemode?.dnr_round)
 		apply_dnr_trait(character, player, MERCILESS_ROUND)
+	if(SSgamemode?.lastlegs_round)
+		apply_lastlegs_trait(character, player, MERCILESS_ROUND)
 	if(player.prefs.qsr_pref)
 		apply_qsr_trait(character, player)
 	character.mind.triumph_discount_remaining = is_donator(player.ckey) ? 3 : 0 // donators get first 3 triumph points free, spent on retrieval
@@ -252,7 +254,13 @@ GLOBAL_LIST_INIT(special_traits, build_special_traits())
 			needs_extra_vice = TRUE
 		else
 			has_extra_vice = TRUE
+	var/list/flaw_order = list()
 	for(var/datum/charflaw/cf in character.charflaws)
+		if(cf.relocates_owner)
+			flaw_order.Insert(1, cf)
+		else
+			flaw_order += cf
+	for(var/datum/charflaw/cf in flaw_order)
 		cf.apply_post_equipment(character)
 		record_featured_object_stat(FEATURED_STATS_VICES, cf.name)
 	if(needs_extra_vice && !has_extra_vice)
@@ -262,6 +270,9 @@ GLOBAL_LIST_INIT(special_traits, build_special_traits())
 
 /proc/apply_dnr_trait(mob/living/carbon/human/character, client/player, source = TRAIT_GENERIC)
 	ADD_TRAIT(player.mob, TRAIT_DNR, source)
+
+/proc/apply_lastlegs_trait(mob/living/carbon/human/character, client/player, source = TRAIT_GENERIC)
+	ADD_TRAIT(player.mob, TRAIT_LASTLEGS, source)
 
 /proc/apply_qsr_trait(mob/living/carbon/human/character, client/player)
 	ADD_TRAIT(player.mob, TRAIT_QUICKSILVERRESISTANT, TRAIT_GENERIC)

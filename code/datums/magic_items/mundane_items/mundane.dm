@@ -84,7 +84,7 @@
 		i.light_system = MOVABLE_LIGHT
 		if(!i.GetComponent(/datum/component/overlay_lighting))
 			i.AddComponent(/datum/component/overlay_lighting)
-		i.set_light_range(10)
+		i.set_light_range(8)
 		i.set_light_power(1)
 		i.set_light_color(LIGHT_COLOR_WHITE)
 		i.set_light_on(TRUE)

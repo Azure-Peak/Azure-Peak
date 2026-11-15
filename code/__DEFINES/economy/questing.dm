@@ -53,9 +53,9 @@
 #define TOWNER_POSTING_TIER_HARD "hard"
 #define TOWNER_POSTING_TIER_PERILOUS "perilous"
 
-#define TOWNER_POSTING_COST_MEDIUM 100
-#define TOWNER_POSTING_COST_HARD 200
-#define TOWNER_POSTING_COST_PERILOUS 350
+#define TOWNER_POSTING_COST_MEDIUM 75
+#define TOWNER_POSTING_COST_HARD 150
+#define TOWNER_POSTING_COST_PERILOUS 260
 
 #define TOWNER_POSTING_CROWN_COST_MULT 2
 #define TOWNER_POSTING_COMPANY_COST_MULT 1.5
@@ -66,9 +66,11 @@
 
 #define TOWNER_MAX_ACTIVE_POSTINGS 5
 
-#define TOWNER_REWARD_CAP_MEDIUM 350
-#define TOWNER_REWARD_CAP_HARD 600
-#define TOWNER_REWARD_CAP_PERILOUS 1500
+#define TOWNER_REWARD_MULT 0.75
+#define TOWNER_REWARD_BASE 25
+#define TOWNER_REWARD_CAP_MEDIUM 260
+#define TOWNER_REWARD_CAP_HARD 450
+#define TOWNER_REWARD_CAP_PERILOUS 1125
 
 #define TOWNER_CARAVAN_TP_BUDGET_MEDIUM 80
 #define TOWNER_CARAVAN_TP_BUDGET_HARD 150
@@ -81,7 +83,7 @@
 #define TOWNER_PERILOUS_TP_BUDGET_SECOND QUEST_TP_BUDGET_INCURSION_SECOND
 
 // Flat sweetener layered on combat & distance pay, shared by every towner type.
-#define TOWNER_FLAT_BONUS_MEDIUM 50
+#define TOWNER_FLAT_BONUS_MEDIUM 65
 #define TOWNER_FLAT_BONUS_HARD 100
 #define TOWNER_FLAT_BONUS_PERILOUS 250
 
@@ -102,12 +104,19 @@
 #define QUEST_POOL_WEIGHT_RETRIEVAL 55
 #define QUEST_POOL_WEIGHT_COURIER 45
 
+#define QUEST_POOL_UNDERSTOCK_WEIGHT_MULT 10
+
 // Multipliers applied to the base TP for kill request rewards
-#define QUEST_KILL_THREAT_MULT 1.0
+#define QUEST_KILL_THREAT_MULT 0.8
 // Bounty's main target is further multiplied
 #define QUEST_BOUNTY_THREAT_MULT 1
 // 2x the threat point value is ideal
 #define QUEST_NOTORIOUS_BOUNTY_THREAT_MULT 2
+
+#define QUEST_VETERAN_THREAT_MULT 1.5
+#define QUEST_VETERAN_THREAT_REWARD_MULT 0.6 // Slightly less efficiency
+#define QUEST_VETERAN_ELITE_BIAS 1
+#define QUEST_VETERAN_RANGED_WEIGHT_MULT 2
 
 // Max mobs for kill request to avoid lagging
 #define QUEST_KILL_MAX_MOBS 20
@@ -118,14 +127,16 @@
 #define QUEST_SPAWN_REVEAL_TIME (6 SECONDS)
 
 #define QUEST_TP_BUDGET_KILL_EASY 35
-#define QUEST_TP_BUDGET_CLEAR_OUT 80
-#define QUEST_TP_BUDGET_RAID 150
+// Easy only rolls factions whose average mob costs at most this share of its region-scaled budget
+#define QUEST_EASY_MAX_FACTION_TP_SHARE 0.65
+#define QUEST_TP_BUDGET_CLEAR_OUT 90
+#define QUEST_TP_BUDGET_RAID 180
 #define QUEST_TP_BUDGET_INCURSION_FIRST 200
 #define QUEST_TP_BUDGET_INCURSION_SECOND 150
-#define QUEST_TP_BUDGET_BOUNTY_GOONS 120
+#define QUEST_TP_BUDGET_BOUNTY_GOONS 150
 // Small starting escort so the boss isn't alone against ambient mobs and full parties.
 #define QUEST_TP_BUDGET_NOTORIOUS_GOONS 50
-#define QUEST_TP_BUDGET_RECOVERY 80
+#define QUEST_TP_BUDGET_RECOVERY 100
 
 // TP budget variance
 #define QUEST_TP_BUDGET_VARIANCE 0.25
@@ -144,8 +155,7 @@
 
 // Flat reward base
 #define QUEST_REWARD_BASE_FLAT 10
-#define QUEST_REWARD_BASE_FETCH 15
-#define QUEST_REWARD_BASE_RECOVERY 25
+#define QUEST_REWARD_BASE_FETCH 12
 
 // Flat bonus layered on by difficulty, on top of the base + tp/distance reward.
 #define QUEST_DIFFICULTY_BONUS_EASY 0
@@ -164,21 +174,24 @@
 // Jobs may override via /datum/job.max_active_quests.
 #define QUEST_MAX_ACTIVE_PER_PLAYER 2
 
-#define QUEST_ACTIVE_FELLOWSHIP_BONUS_PAIR 1
-#define QUEST_ACTIVE_FELLOWSHIP_BONUS_BAND 2
+#define QUEST_ACTIVE_FELLOWSHIP_BONUS_FIRST 2
+#define QUEST_ACTIVE_FELLOWSHIP_BONUS_PER_MEMBER 1
 
-#define QUEST_FELLOWSHIP_THREAT_PER_EXTRA_EASY 0.5
-#define QUEST_FELLOWSHIP_THREAT_PER_EXTRA_MEDIUM 0.33
-#define QUEST_FELLOWSHIP_THREAT_PER_EXTRA_HARD 0.25
+#define QUEST_FELLOWSHIP_THREAT_PER_EXTRA_HARD 0.40
 #define QUEST_FELLOWSHIP_REWARD_PER_EXTRA 0.20
+#define QUEST_SOLO_SCALE_THREAT_FIRST 0.75
+#define QUEST_SOLO_SCALE_THREAT_AFTER 0.30
+// To make adding an additional head worth it, I also multiplicatively scale the reward, but cap it at +50% flat modifier so that at some point it just proportionally increases challenge instead of growing disproportionately. This also allows me to increase fellowship sizes in the future without creating a scaling issue.
+#define QUEST_FELLOWSHIP_REWARD_MULT_CAP 1.5
 #define QUEST_MIN_REGION_TP_MULT_MEDIUM 1.0
-#define QUEST_FELLOWSHIP_THREAT_PER_EXTRA_BLOCKADE 0.10
-#define QUEST_FELLOWSHIP_REWARD_PER_EXTRA_BLOCKADE 0.33
-#define QUEST_FELLOWSHIP_THREAT_PER_EXTRA_INCURSION 0.10
-#define QUEST_FELLOWSHIP_REWARD_PER_EXTRA_INCURSION 0.33
+#define QUEST_MEDIUM_MAX_REGION_TP_MULT 1.25
+#define QUEST_FELLOWSHIP_THREAT_PER_EXTRA_BLOCKADE 0.20
+#define QUEST_FELLOWSHIP_THREAT_PER_EXTRA_INCURSION 0.20
 #define QUEST_FELLOWSHIP_SCALE_MAX FELLOWSHIP_MAX_MEMBERS
-#define QUEST_ARRIVAL_SCAN_RANGE 14
+#define QUEST_ARRIVAL_SCAN_RANGE 21
 
+#define QUEST_MERC_LEDGER_POP_THRESHOLD 30
+#define QUEST_SOLO_SIGN_COOLDOWN (30 MINUTES)
 #define QUEST_INCURSION_FELLOWSHIP_REQUIREMENT 3
 #define QUEST_INCURSION_INTERMISSION (2 MINUTES)
 #define QUEST_INCURSION_INTERMISSION_WARN (30 SECONDS)
@@ -223,7 +236,12 @@
 // After a quest reroll is generated it is locked for this long to prevent regen
 #define QUEST_LANDMARK_COOLDOWN (5 MINUTES)
 
-#define QUEST_KILL_HUNT_TIMER (15 MINUTES)
+#define QUEST_KILL_HUNT_TIMER (20 MINUTES)
+#define QUEST_KILL_HUNT_OVERTIME (2 MINUTES)
+#define QUEST_KILL_HUNT_OVERTIME_MAX 5
+#define QUEST_KILL_HUNT_OVERTIME_RECENT_KILL (3 MINUTES)
+#define QUEST_KILL_HUNT_OVERTIME_RANGE 15
+// This means that the real ceiling is 30 minutes, so long as you are actively fighting
 #define QUEST_RECOVERY_DELIVERY_TIMER (30 MINUTES)
 #define QUEST_GUARDIAN_LEASH_RANGE 40
 #define QUEST_GUARDIAN_LEASH_GRACE (2 MINUTES)
@@ -256,6 +274,11 @@
 #define NOTORIOUS_BOUNTY_PLAYER_BONUS 250
 #define NOTORIOUS_BOUNTY_NPC_BONUS 60
 
+#define NOTORIOUS_BOUNTY_PLAYER_STAT_CAP 13
+#define NOTORIOUS_BOUNTY_PLAYER_COMBAT_SKILL_CAP SKILL_LEVEL_EXPERT
+#define NOTORIOUS_BOUNTY_PLAYER_SHIELD_SKILL_CAP SKILL_LEVEL_JOURNEYMAN
+#define NOTORIOUS_BOUNTY_PLAYER_BRAWL_SKILL_CAP SKILL_LEVEL_JOURNEYMAN
+
 #define NOTORIOUS_BOUNTY_SURVIVAL_TRIUMPH 1
 #define NOTORIOUS_BOUNTY_ENGAGE_RANGE 10
 // Grace period between the boss dying and the player being released to a ghost.
@@ -269,14 +292,14 @@
 #define QUEST_SOURCE_TOWNER "towner"
 #define QUEST_SOURCE_GM "gm"
 
-#define QUEST_DELIVERY_DISTANCE_DIVISOR 8 // Divides the distance for reward calculation
+#define QUEST_DELIVERY_DISTANCE_DIVISOR 10 // Divides the distance for reward calculation
 #define QUEST_DELIVERY_DISTANCE_BONUS 1 // Adds a bonus for longer distances
-#define QUEST_COURIER_BONUS_FLAT 10 // Flat bonus for courier quests, since you gotta wait for a person to open a package
+#define QUEST_COURIER_BONUS_FLAT 7 // Flat bonus for courier quests, since you gotta wait for a person to open a package
 #define QUEST_DELIVERY_PER_ITEM_BONUS 2 // Bonus per item delivered
 // Threat-scaled reward layered on top of distance / item bonuses for retrieval & courier quests.
 // Multiplied by (region's delivery_reward_multiplier - 1.0), so a 1.0× region adds nothing and a
 // 2.0× region (Terrorbog, Mt Decap, Underdark) adds the full amount.
-#define QUEST_DELIVERY_THREAT_BONUS 20
+#define QUEST_DELIVERY_THREAT_BONUS 15
 
 #define BLOCKADE_FELLOWSHIP_REQUIREMENT 3
 #define BLOCKADE_WAVE_TIMER_DS (15 MINUTES)
@@ -287,6 +310,9 @@
 #define BLOCKADE_WAVE_WARN_SECOND (5 MINUTES)
 #define BLOCKADE_WAVE_WARN_THIRD (2 MINUTES)
 #define NOM_DE_GUERRE_MAX_LENGTH 60
+#define MERC_STATUE_ADVERT_MIN (2 MINUTES)
+#define MERC_STATUE_ADVERT_MAX (4 MINUTES)
+#define MERC_STATUE_ADVERT_RANGE 7
 
 // Minimum Pledge to call a hoard recovery writ from a fellowship without being the Steward.
 #define HOARD_RECOVERY_PLEDGE 200
@@ -295,7 +321,6 @@
 #define BLOCKADE_TOTAL_WAVES 3
 #define BLOCKADE_WAVE_BASE_TP 180
 #define BLOCKADE_EARLY_WAVE_TP_MULT 1.2
-#define BLOCKADE_DEFENDER_SCAN_RANGE 7
 #define BLOCKADE_CLEAR_TRIUMPHS 1
 
 #define BLOCKADE_ARCHETYPE_WARBAND "warband"
@@ -308,3 +333,31 @@
 )
 #define BLOCKADE_ARCHETYPE_PIVOT_TP 20
 #define BLOCKADE_ARCHETYPE_BIAS_STRENGTH 1.5
+
+#define MERC_CONTRACT_MAX_DAYS 6
+#define MERC_CONTRACT_MAX_RATE 500 // Surely no one will enter this
+#define MERC_CONTRACT_DAY_LENGTH ((24 HOURS) / SSticker.station_time_rate_multiplier)
+#define MERC_CONTRACT_RANGE 7
+#define MERC_CONTRACT_ACCEPT_TIMEOUT (30 SECONDS)
+#define MERC_CONTRACT_END_ASK_COOLDOWN (3 MINUTES)
+
+#define MERC_HIRER_TOWNER "towner"
+#define MERC_HIRER_OUTLAW "outlaw"
+#define MERC_HIRER_INQUISITION "inquisition"
+#define MERC_HIRER_UNIVERSITY "university"
+
+#define MERC_STIPEND_TOWNER 100
+#define MERC_STIPEND_OUTLAW 100
+#define MERC_STIPEND_INQUISITION 80
+#define MERC_STIPEND_UNIVERSITY 100
+
+// Incentivizes Mercenary to be hired out by others to complete contracts
+#define MERC_CONTRACT_SHARE_BONUS 0.25
+
+#define MERC_CONTRACT_MEDAL_DAYS 2
+#define MERC_CONTRACT_MEDAL_TRIUMPHS 3
+
+// Cuts out the most egregious case of a Mercenary abusing contract with stipended role to print free money, by requiring them to be present with their hirer for 1/3 of the day to receive the stipend.
+#define MERC_CONTRACT_PRESENCE_INTERVAL (30 SECONDS)
+#define MERC_CONTRACT_PRESENCE_RANGE 14
+#define MERC_CONTRACT_PRESENCE_SHARE (1/3)

@@ -302,10 +302,13 @@ SUBSYSTEM_DEF(migrants)
 	return turfs
 
 /datum/controller/subsystem/migrants/proc/spawn_migrant(datum/migrant_wave/wave, datum/migrant_assignment/assignment, spawn_on_location, greet_text)
-	var/rank = "Migrant"
+	var/datum/migrant_role/role = MIGRANT_ROLE(assignment.role_type)
+	var/datum/job/role_job = SSjob.GetJobType(role.job_type)
+	var/rank = role_job.title
 	var/mob/dead/new_player/newplayer = assignment.client.mob
 
-	SSjob.AssignRole(newplayer, rank, TRUE)
+	if(SSjob.AssignRole(newplayer, rank, TRUE))
+		role_job.current_positions = max(role_job.current_positions - 1, 0)
 
 	var/mob/living/character = newplayer.create_character(TRUE)	//creates the human and transfers vars and mind
 
@@ -314,7 +317,6 @@ SUBSYSTEM_DEF(migrants)
 	// We don't want latejoiner to get hit by poll levies when they haven't participated in the round, which feels unfair
 	SStreasury.waive_past_poll_levies(character)
 
-	var/datum/migrant_role/role = MIGRANT_ROLE(assignment.role_type)
 	character.migrant_type = assignment.role_type
 
 
@@ -425,6 +427,13 @@ SUBSYSTEM_DEF(migrants)
 		return FALSE
 	if(!player.prefs)
 		return FALSE
+	var/datum/job/job = SSjob.GetJobType(role.job_type)
+	if(!job || is_banned_from(player.ckey, job.title) || !job.player_old_enough(player) || job.required_playtime_remaining(player))
+		return FALSE
+	#ifdef USES_PQ
+	if(!isnull(job.min_pq) && (get_playerquality(player.ckey) < job.min_pq))
+		return FALSE
+	#endif
 	var/datum/preferences/prefs = player.prefs
 	if(role.forbidden_races && (prefs.pref_species.type in role.forbidden_races))
 		return FALSE

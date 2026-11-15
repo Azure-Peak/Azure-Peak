@@ -1,4 +1,0 @@
-author: "changelingonberry"
-delete-after: True
-changes:
-  - bugfix: "Wanted vice can no longer be picked by marshall, assassin or court agent."

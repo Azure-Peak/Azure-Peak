@@ -524,63 +524,6 @@
 		var/obj/item/parcel/towner_caravan/box = P
 		box.post_to_owner(src, user)
 		return
-	if(istype(P, /obj/item/merctoken))
-		if(ishuman(user))
-			var/mob/living/carbon/human/H = user
-			if(H.mind.assigned_role != "Mercenary")
-				to_chat(H, "<span class='warning'>This is of no use to me - I may give this to a mercenary so they may send it themselves.</span>")
-				return
-			if(H.mind.assigned_role == "Mercenary")
-				if(H.tokenclaimed == TRUE)
-					to_chat(H, "<span class='warning'>I have already received my commendation. There's always next week to look forward to!</span>")
-					return
-			var/obj/item/merctoken/C = P
-			if(C.signed == 1)
-				qdel(C)
-				visible_message("<span class='warning'>[H] sends something.</span>")
-				playsound(loc, 'sound/misc/disposalflush.ogg', 100, FALSE, -1)
-				sleep(20)
-				playsound(loc, 'sound/misc/triumph.ogg', 100, FALSE, -1)
-				playsound(src.loc, 'sound/misc/hiss.ogg', 100, FALSE, -1)
-				H.visible_message("<span class='warning'>A trinket comes tumbling down from the machine. Proof of your distinction.</span>")
-				H.adjust_triumphs(3)
-				H.tokenclaimed = TRUE
-				switch(H.merctype)
-					if(0)
-						new /obj/item/clothing/neck/roguetown/luckcharm/mercmedal(src.loc)
-					if(1)
-						new /obj/item/clothing/neck/roguetown/luckcharm/mercmedal/atgervi(src.loc)
-					if(2)
-						new /obj/item/clothing/neck/roguetown/luckcharm/mercmedal/blackoak(src.loc)
-					if(3)
-						new /obj/item/clothing/neck/roguetown/luckcharm/mercmedal/condottiero(src.loc)
-					if(4)
-						new /obj/item/clothing/neck/roguetown/luckcharm/mercmedal/desertrider(src.loc)
-					if(5)
-						new /obj/item/clothing/neck/roguetown/luckcharm/mercmedal/forlorn(src.loc)
-					if(6)
-						new /obj/item/clothing/neck/roguetown/luckcharm/mercmedal/freifechter(src.loc)
-					if(7)
-						new /obj/item/clothing/neck/roguetown/luckcharm/mercmedal/grenzelhoft(src.loc)
-					if(8)
-						new /obj/item/clothing/neck/roguetown/luckcharm/mercmedal/grudgebearer(src.loc)
-					if(9)
-						new /obj/item/clothing/neck/roguetown/luckcharm/mercmedal(src.loc) // NOT CURRENTLY IMPLEMENTED
-					if(10)
-						new /obj/item/clothing/neck/roguetown/luckcharm/mercmedal/routier(src.loc)
-					if(11)
-						new /obj/item/clothing/neck/roguetown/luckcharm/mercmedal/steppesman(src.loc)
-					if(12)
-						new /obj/item/clothing/neck/roguetown/luckcharm/mercmedal/underdweller(src.loc)
-					if(13)
-						new /obj/item/clothing/neck/roguetown/luckcharm/mercmedal/vaquero(src.loc)
-					if(14)
-						new /obj/item/clothing/neck/roguetown/luckcharm/mercmedal(src.loc) // NOT CURRENTLY IMPLEMENTED
-					if(15)
-						new /obj/item/clothing/neck/roguetown/luckcharm/mercmedal/anthrax(src.loc)
-			if(C.signed == 0)
-				to_chat(H, "<span class='warning'>I cannot send an unsigned token.</span>")
-				return
 	if(HAS_TRAIT(user, TRAIT_INQUISITION))
 		if(istype(P, /obj/item/roguekey))
 			var/obj/item/roguekey/K = P
