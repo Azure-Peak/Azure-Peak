@@ -1702,7 +1702,7 @@
 /datum/emote/living/iwhistle
 	key = "iwhistle"
 	key_third_person = "whistles."
-	message = "whistles."
+	message = "lets out an impressed whistle."
 	message_muffled = "makes a muffled noise."
 	emote_type = EMOTE_AUDIBLE
 	show_runechat = FALSE
