@@ -1688,7 +1688,7 @@
 /datum/emote/living/wwhistle
 	key = "wwhistle"
 	key_third_person = "whistles!"
-	message = "whistles!"
+	message = "whistles appreciatively!"
 	message_muffled = "makes a muffled noise."
 	emote_type = EMOTE_AUDIBLE
 	show_runechat = FALSE
