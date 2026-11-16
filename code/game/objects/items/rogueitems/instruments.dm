@@ -27,6 +27,7 @@
 	var/playing = FALSE
 	grid_height = 64
 	grid_width = 32
+	obj_flags = UNIQUE_RENAME
 
 /obj/item/rogue/instrument/equipped(mob/living/user, slot)
 	. = ..()
