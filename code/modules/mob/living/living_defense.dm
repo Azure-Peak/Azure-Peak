@@ -416,14 +416,13 @@
 //proc to upgrade a simple pull into a more aggressive grab.
 /mob/living/proc/grippedby(mob/living/carbon/user, instant = FALSE)
 	var/clickcd = CLICK_CD_MELEE
-	if(mind && src != user)
+	if(src != user && !isanimal(src))
 		clickcd = CLICK_CD_WRESTLING
 	user.changeNext_move(clickcd)
 	var/skill_diff = 0
 	var/combat_modifier = 1
-	if(user.mind)
-		skill_diff += (user.get_skill_level(/datum/skill/combat/wrestling)) //NPCs don't use this
-	if(mind)
+	skill_diff += (user.get_skill_level(/datum/skill/combat/wrestling))
+	if(!isanimal(src))
 		skill_diff -= (get_skill_level(/datum/skill/combat/wrestling))
 
 	if(user == src)
@@ -467,7 +466,7 @@
 			to_chat(user, span_warning("I struggle with [src]!"))
 		playsound(src.loc, 'sound/foley/struggle.ogg', 100, FALSE, -1)
 		user.Immobilize(2 SECONDS)
-		user.changeNext_move((mind ? CLICK_CD_WRESTLING : CLICK_CD_MELEE))
+		user.changeNext_move(isanimal(src) ? CLICK_CD_MELEE : CLICK_CD_WRESTLING)
 		src.Immobilize(1 SECONDS)
 		src.changeNext_move(CLICK_CD_GRAB_RESIST)
 		if(user.badluck(5))
