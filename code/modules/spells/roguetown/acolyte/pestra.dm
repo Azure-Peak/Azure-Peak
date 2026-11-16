@@ -453,7 +453,6 @@
 	duration = 10 SECONDS
 	effectedstats = list(STATKEY_CON = -2)
 	var/static/mutable_appearance/rotten = mutable_appearance('icons/roguetown/mob/rotten.dmi', "rotten")
-	var/extended_duration = FALSE
 
 /datum/status_effect/buff/infestation/on_apply()
 	. = ..()
@@ -464,8 +463,6 @@
 	target.Jitter(20)
 	target.add_overlay(rotten)
 	target.update_vision_cone()
-	if(isanimal(target))
-		target.change_stat(STATKEY_SPD, -5) // rot take them
 
 /datum/status_effect/buff/infestation/on_remove()
 	var/mob/living/target = owner
@@ -473,26 +470,12 @@
 		return
 	target.cut_overlay(rotten)
 	target.update_vision_cone()
-	if(isanimal(target))
-		target.change_stat(STATKEY_SPD, 5) // rot take them
 	. = ..()
 
 /datum/status_effect/buff/infestation/tick()
 	var/mob/living/target = owner
 	var/mob/living/carbon/C = target
-	if(!extended_duration && isanimal(target))
-		duration += 20 SECONDS
-		extended_duration = TRUE
-	if(isanimal(target)) // technically speaking we're just turning the brain rot into actual body rot, rotception
-		target.adjustToxLoss(3)
-		target.adjustBruteLoss(1)
-		target.adjustOxyLoss(2)
-		if(!target.getToxLoss())
-			target.adjustBruteLoss(3)
-		if(!target.getOxyLoss())
-			target.adjustBruteLoss(2)
-	else // i mean at least we got pestilent blade or something idk
-		target.adjustBruteLoss(2)
+	target.adjustBruteLoss(2)
 	var/prompt = pick(1,2,3)
 	var/message = pick(
 		"Ticks on my skin start to engorge with blood!",

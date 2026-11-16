@@ -3,7 +3,7 @@
 	button_icon = 'icons/mob/actions/genericmiracles.dmi'
 	button_icon_state = "dblast"
 	name = "Profane Blast"
-	desc = "Release a blast of sheer divine energy at your enemies. Deals more damage to conformists, undead, and simple-minded creatures. Once every 30 seconds, your God may smite the target, inflicting debilitating effects.<br><br>Toggle firing mode (Shift+G): Focus or Arc."
+	desc = "Release a blast of sheer divine energy at your enemies. Deals more damage to conformists and undead. Once every 30 seconds, your God may smite the target, inflicting debilitating effects.<br><br>Toggle firing mode (Shift+G): Focus or Arc."
 	fluff_desc = "Among the first miracles bestowed upon the faithful is the ability to channel their patron's essence into a focused blast of divine power. Though simple in execution, it is a versatile expression of a deity's will, carrying forth a fragment of the patron's true nature."
 	sound = 'sound/magic/vlightning.ogg'
 	spell_color = GLOW_COLOR_LIGHTNING
@@ -88,9 +88,6 @@
 				if(S && S.can_apply_god_bonus() && !(L.patron?.type in ALL_INHUMEN_PATRONS))
 					apply_god_bonus(L)
 					S.consume_god_bonus()
-				if(isanimal(L))
-					L.adjust_fire_stacks(1, /datum/status_effect/fire_handler/fire_stacks/divine)
-					L.ignite_mob()
 	qdel(src)
 
 /datum/action/cooldown/spell/projectile/unholy_blast/proc/can_apply_god_bonus()
@@ -105,8 +102,6 @@
 		damage_to_do += 30
 	if(L.mob_biotypes & MOB_UNDEAD || HAS_TRAIT(L, TRAIT_SILVER_WEAK))
 		damage_to_do += 10
-	if(isanimal(L))
-		damage_to_do += 60
 	var/mob/living/carbon/human/caster = firer
 	if(istype(caster) && ishuman(L))
 		if(arcyne_strike(caster, L, null, damage_to_do, def_zone, BCLASS_BURN, PEN_NONE, spell_name = "Divine Blast", damage_type = BURN, skip_animation = TRUE) == ARCYNE_STRIKE_WARDED)
