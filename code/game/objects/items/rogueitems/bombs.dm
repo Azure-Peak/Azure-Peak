@@ -448,6 +448,7 @@
 	icon_state = "impact_grenade"
 	dropshrink = 0.6
 	throw_speed = 1
+	grid_height = 64 //quite easy to make in bulk vs belchers/gas grenades
 	abstract_type = /obj/item/explosive/impact
 	fragile = TRUE
 	/// Bomber experts refuse to set this off in their hands

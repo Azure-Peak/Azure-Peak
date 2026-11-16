@@ -1061,11 +1061,10 @@
 
 //increasing the number to reflect the effort it takes to get fyritius and firedust
 /datum/crafting_recipe/roguetown/engineering/impactexplosive
-	name = "impact grenades (x3)"
+	name = "impact grenades (x2)"
 	category = "Explosives"
 	display_category = ITEM_CAT_ENG_COMBAT
 	result = list(
-		/obj/item/explosive/impact/shrapnel,
 		/obj/item/explosive/impact/shrapnel,
 		/obj/item/explosive/impact/shrapnel,
 	)
