@@ -401,7 +401,6 @@
 
 	var/damage = bonus_damage
 	var/mammon_spent = round(bonus_damage / 3)
-	var/simple_animal_mult = isanimal(target) ? 2 : 1
 	var/apen = clamp(round(mammon_spent / 20), PEN_NONE, PEN_BSTEEL)
 	var/bclass = BCLASS_BLUNT
 	var/damtype = BRUTE
@@ -409,7 +408,7 @@
 		bclass = BCLASS_BURN
 		damtype = BURN
 
-	arcyne_strike(owner, target, weapon, damage, owner.zone_selected, bclass, apen, "Mammonite", FALSE, FALSE, FALSE, damtype, simple_animal_mult, 1)
+	arcyne_strike(owner, target, weapon, damage, owner.zone_selected, bclass, apen, "Mammonite", FALSE, FALSE, FALSE, damtype, 1, 1)
 	owner.visible_message(span_danger("[owner]'s strike crashes down with the weight of greed!"), span_notice("My investment pays off in full!"))
 	mammon_coin_burst(get_turf(target))
 	playsound(get_turf(target), 'sound/combat/hits/burn (2).ogg', 60, TRUE)
