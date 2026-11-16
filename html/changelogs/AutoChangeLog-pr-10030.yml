@@ -1,0 +1,4 @@
+author: "awwlie"
+delete-after: True
+changes:
+  - rscadd: "added the UNIQUE_RENAME obj_flag to instruments/"

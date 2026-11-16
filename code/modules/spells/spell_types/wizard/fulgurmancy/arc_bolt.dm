@@ -73,6 +73,16 @@
 		holder.maptext = MAPTEXT(tag)
 		holder.color = "#00ccff"
 
+/datum/action/cooldown/spell/projectile/arc_bolt/get_impact_turfs(atom/center)
+	. = list()
+	var/obj/projectile/magic/arc_bolt/bolt = projectile_type
+	var/turf/epicenter = get_turf(center)
+	if(!epicenter || !initial(bolt.arcs))
+		return
+	for(var/turf/T in view(ARC_BOLT_JUMP_RANGE, epicenter))
+		. += T
+	. -= get_turf(owner)
+
 /datum/action/cooldown/spell/projectile/arc_bolt/get_spell_statistics(mob/living/user)
 	var/list/stats = ..()
 	stats += span_info("Firing mode (toggle with Shift+G): Chain (arcs to 3 foes behind for half damage) / Focus (single target) / Arc (single target, lobs over obstacles, reduced damage).")

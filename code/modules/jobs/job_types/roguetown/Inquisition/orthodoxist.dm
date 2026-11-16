@@ -15,6 +15,7 @@
 	min_pq = 5
 	max_pq = null
 	round_contrib_points = 2
+	quest_claim_barred = TRUE
 	advclass_cat_rolls = list(CTAG_ORTHODOXIST = 20)
 	wanderer_examine = FALSE
 	advjob_examine = TRUE
@@ -26,5 +27,6 @@
 		/datum/advclass/disciple,
 		/datum/advclass/sojourner,
 		/datum/advclass/confessor,
+		/datum/advclass/chasseur,
 		/datum/advclass/psyaltrist
 	)

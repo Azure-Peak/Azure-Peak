@@ -1,4 +1,0 @@
-author: "WeNeedMorePhoron"
-delete-after: True
-changes:
-  - rscadd: "Folded Chessboard is now craftable. Old game table renamed ornamental game table to reduce confusion"

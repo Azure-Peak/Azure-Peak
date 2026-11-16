@@ -39,10 +39,12 @@
 	backl = /obj/item/storage/backpack/rogue/satchel
 	backpack_contents = list(
 		/obj/item/flashlight/flare/torch/lantern,
+		/obj/item/rogueweapon/huntingknife = 1,
+		/obj/item/rogueweapon/scabbard/sheath = 1,
 		)
 	H.set_blindness(0)
 	if(H.mind)
-		var/weapons = list("Naginata","Quarterstaff","Hwando")
+		var/weapons = list("Naginata","Quarterstaff","Hwando", "Nodachi")
 		var/weapon_choice = input(H, "Choose your weapon", "TAKE UP ARMS") as anything in weapons
 		switch(weapon_choice)
 			if("Naginata")
@@ -59,6 +61,11 @@
 				beltr = /obj/item/rogueweapon/scabbard/sword/kazengun
 				armor = /obj/item/clothing/suit/roguetown/armor/basiceast
 				H.adjust_skillrank_up_to(/datum/skill/combat/swords, 4, TRUE)
+			if("Nodachi")
+				r_hand = /obj/item/rogueweapon/greatsword/nodachi/iron
+				backr = /obj/item/rogueweapon/scabbard/gwstrap
+				H.adjust_skillrank_up_to(/datum/skill/combat/swords, 4, TRUE)
+				armor = /obj/item/clothing/suit/roguetown/armor/basiceast/mentorsuit
 
 /datum/advclass/foreigner/yoruku
 	name = "Eastern Assassin"
@@ -96,9 +103,11 @@
 	backpack_contents = list(
 		/obj/item/flashlight/flare/torch = 1,
 		/obj/item/explosive/impact/smoke/bomb = 3,
+		/obj/item/rogueweapon/huntingknife = 1,
+		/obj/item/rogueweapon/scabbard/sheath = 1,
 		)
 	neck = /obj/item/storage/belt/rogue/pouch/coins/poor
-	belt = /obj/item/storage/belt/rogue/leather/knifebelt/black/kazengun
+	belt = /obj/item/storage/belt/rogue/leather/tossbelt/blade/black/kazengun
 	gloves = /obj/item/clothing/gloves/roguetown/eastgloves1
 	pants = /obj/item/clothing/under/roguetown/heavy_leather_pants/eastpants1
 	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/eastshirt1
@@ -206,6 +215,10 @@
 	head = /obj/item/clothing/head/roguetown/roguehood/shalal/hijab/black
 	beltr = /obj/item/flashlight/flare/torch/lantern
 	mask = /obj/item/clothing/mask/rogue/lordmask/tarnished
+	backpack_contents = list(
+		/obj/item/rogueweapon/huntingknife = 1,
+		/obj/item/rogueweapon/scabbard/sheath = 1,
+		)
 
 	var/paths = list("Refugee (Default)", "Seminary Dropout (Hierophant)", "Wandering Yogi (Vizier)")
 	var/path = input(H, "Choose your past.", "WHAT DID WAR TAKE FROM YOU?") as anything in paths
@@ -449,6 +462,8 @@
 		/obj/item/flashlight/flare/torch = 1,
 		/obj/item/storage/belt/rogue/pouch/coins/poor = 1,
 		/obj/item/natural/bundle/cloth/bandage/full = 1,
+		/obj/item/rogueweapon/huntingknife = 1,
+		/obj/item/rogueweapon/scabbard/sheath = 1,
 		)
 
 /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/hierophant/civilian

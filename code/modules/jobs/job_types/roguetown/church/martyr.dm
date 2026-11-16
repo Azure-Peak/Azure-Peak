@@ -499,6 +499,7 @@
 	min_pq = 10 //Cus it's a Martyr of the Ten. Get it.
 	max_pq = null
 	round_contrib_points = 4
+	quest_claim_barred = TRUE
 	total_positions = 1
 	spawn_positions = 1
 	display_order = JDO_MARTYR
@@ -511,7 +512,7 @@
 	//No undeath-adjacent virtues for a role that can sacrifice itself. The Ten like their sacrifices 'pure'. (I actually didn't want to code returning those virtue traits post-sword use)
 	//They get those traits during sword activation, anyway.
 	//Dual wielder is there to stand-in for ambidextrous in case they activate their sword in their off-hand.
-	virtue_restrictions = list(/datum/virtue/utility/noble, /datum/virtue/combat/second_chance, /datum/virtue/utility/hollow, /datum/virtue/combat/dualwielder, /datum/virtue/heretic/zchurch_keyholder)
+	virtue_restrictions = list(/datum/virtue/utility/noble, /datum/virtue/combat/second_chance, /datum/virtue/utility/hollow, /datum/virtue/combat/dualwielder, /datum/virtue/utility/zchurch_keyholder)
 	quirk_restrictions = list(/datum/quirk/noble)
 	vice_restrictions = list(/datum/charflaw/silverweakness, /datum/charflaw/wanted)
 

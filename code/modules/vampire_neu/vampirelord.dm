@@ -69,9 +69,9 @@
 	ADD_TRAIT(H, TRAIT_NOMOOD, TRAIT_GENERIC) //Stops you getting moodnuked and dropping your weapon non-stop. I didn't want to have to give them this off-the-bat but after seeing this happen, yeaaaah.
 	ADD_TRAIT(H, TRAIT_BADTRAINER, TRAIT_GENERIC) //legendary skill antag, we don't want our skill level to backfire or end up training allies into master swordsmen
 	//remove problematic traits we can somehow roundstart with
-	REMOVE_TRAIT(H, TRAIT_SHIRTLESS, TRAIT_GENERIC)
-	REMOVE_TRAIT(H, TRAIT_ARCYNE, TRAIT_GENERIC) //no mage stuff
-	REMOVE_TRAIT(H, TRAIT_LEYLINE_ATTUNEMENT, TRAIT_GENERIC)
+	REMOVE_TRAIT(H, TRAIT_SHIRTLESS, null)
+	REMOVE_TRAIT(H, TRAIT_ARCYNE, null) //no mage stuff
+	REMOVE_TRAIT(H, TRAIT_LEYLINE_ATTUNEMENT, null)
 	H.update_move_intent_slowdown()
 
 /datum/antagonist/vampire/lord/greet()

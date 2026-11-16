@@ -123,9 +123,13 @@
 						to_chat(M, "<span class='warning'>I don't know any languages.</span>")
 					to_chat(M, "*----*")
 		for(var/X in GLOB.roguetraits)
-			if(HAS_TRAIT(L, X))
-				to_chat(L, "[X] - <span class='info'>[GLOB.roguetraits[X]]</span>")
-				ht = TRUE
+			if(!HAS_TRAIT(L, X))
+				continue
+			ht = TRUE
+			if(X == TRAIT_BADTRAINER && HAS_TRAIT_FROM(L, X, PROTEGE_TRAIT))
+				to_chat(L, "Protégé - <span class='info'>A veteran has taken me under their wing and can teach me up to one skill level below their own. I am too green to pass it on, though.</span>")
+				continue
+			to_chat(L, "[X] - <span class='info'>[GLOB.roguetraits[X]]</span>")
 		if(!ht)
 			to_chat(L, "<span class='warning'>I have no special traits.</span>")
 		to_chat(L, "*----*")
@@ -852,12 +856,16 @@
 		var/mob/living/L = hud.mymob
 		if(L.eyesclosed)
 			L.eyesclosed = 0
+			if(L.stat < UNCONSCIOUS && L.m_intent != MOVE_INTENT_SNEAK)
+				L.visible_message(span_info("[L] opens [L.p_their()] eyes."), vision_distance = 3)
 			L.cure_blind("eyelids")
 
 	if(modifiers["left"])
 		if(_y>=29 || _y<=4)
 			if(isliving(hud.mymob))
 				var/mob/living/L = hud.mymob
+				if(L.stat < UNCONSCIOUS && L.m_intent != MOVE_INTENT_SNEAK)
+					L.visible_message(span_info("[L] closes [L.p_their()] eyes."), vision_distance = 3)
 				L.eyesclosed = 1
 				L.become_blind("eyelids")
 		else
