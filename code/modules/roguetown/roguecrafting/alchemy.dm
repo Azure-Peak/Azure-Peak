@@ -10,8 +10,29 @@
 	name = "bottle bomb"
 	category = "Table"
 	result = list(/obj/item/explosive/fused/bottle)
-	reqs = list(/obj/item/reagent_containers/glass/bottle = 1, /obj/item/natural/ash = 2, /obj/item/rogueore/coal = 1, /obj/item/natural/cloth = 1)
+	reqs = list(
+				/obj/item/reagent_containers/glass/bottle = 1,
+				/obj/item/alch/coaldust = 1,
+				/obj/item/natural/ash = 2,
+				/obj/item/natural/cloth = 1,
+	)
 	craftdiff = 2
+
+/datum/crafting_recipe/roguetown/alchemy/bbomb_3x //intentionally somewhat cheap, so you can have these in bulk. healthier than pre-emptively having a thousand high-end ones in PVP and better for PVE for advs.
+	name = "bottle bomb (3x)"
+	category = "Table"
+	result = list(
+					/obj/item/explosive/fused/bottle,
+					/obj/item/explosive/fused/bottle,
+					/obj/item/explosive/fused/bottle,
+	)
+	reqs = list(
+				/obj/item/reagent_containers/glass/bottle = 3,
+				/obj/item/alch/coaldust = 2,
+				/obj/item/natural/ash = 3,
+				/obj/item/natural/cloth = 2,
+	)
+	craftdiff = 3 //bombardier has just below the minimal req for this if they pass the intcheck, aronist virtue will usually have to work for it.
 
 /datum/crafting_recipe/roguetown/alchemy/ozium
 	name = "ozium"
