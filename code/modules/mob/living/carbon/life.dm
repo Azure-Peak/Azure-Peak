@@ -581,8 +581,8 @@ GLOBAL_LIST_INIT(ballmer_windows_me_msg, list("Yo man, what if, we like, uh, put
 		var/is_zombie_immune = HAS_TRAIT(src, TRAIT_ZOMBIE_IMMUNE)
 		var/doesnt_hunger = HAS_TRAIT(src, TRAIT_NOHUNGER)
 
-		// slow blood regen to prevent a blood loss softlock
-		if(is_deathless || is_zombie_immune)
+		// slow blood regen to prevent a blood loss
+		if(is_deathless) // only deathless here is the saner choice since it affects them directly
 			if(blood_volume < BLOOD_VOLUME_BAD)
 				blood_volume += (BLOOD_VOLUME_NORMAL * 0.002)
 
