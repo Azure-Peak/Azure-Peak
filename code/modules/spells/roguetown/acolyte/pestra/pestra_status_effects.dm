@@ -163,10 +163,10 @@
 
 /datum/status_effect/debuff/pestilent_plague/on_apply()
 	. = ..()
-	if(owner.mind)
-		owner.adjustBruteLoss(10)
-	else
+	if(isanimal(owner))
 		owner.adjustBruteLoss(40)
+	else
+		owner.adjustBruteLoss(10)
 	to_chat(owner, span_danger("My body is wracked by malaise!"))
 	var/filter = owner.get_filter(PLAGUE_GLOW_FILTER)
 	if (!filter)
@@ -178,10 +178,10 @@
 
 /datum/status_effect/debuff/pestilent_plague/tick()
 	var/mob/living/target = owner
-	if(owner.mind)
-		target.adjustBruteLoss(1)
-	else
+	if(isanimal(owner))
 		target.adjustBruteLoss(5)
+	else
+		target.adjustBruteLoss(1)
 
 	if(prob(10))
 		var/message = pick(
