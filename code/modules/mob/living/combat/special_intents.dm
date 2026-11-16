@@ -1463,7 +1463,7 @@ tile_coordinates = list(list(1,1), list(-1,1), list(-1,-1), list(1,-1),list(0,0)
 			if(L.has_status_effect(/datum/status_effect/debuff/exposed) || L.has_status_effect(/datum/status_effect/debuff/vulnerable)) // big damage and a knockdown if they exposed / vuln.
 				L.Knockdown(KD_dur)
 				throwdist = rand(2,4)
-				dam = 200 // big damage
+				dam = 100 // big damage
 				target_zone = BODY_ZONE_HEAD	// Finisher always hits the head
 				playsound(howner, 'sound/combat/tf2crit.ogg', 100, TRUE)
 				L.remove_status_effect(/datum/status_effect/debuff/exposed)
