@@ -66,7 +66,7 @@ GLOBAL_LIST_INIT(npc_crafting_skills, list(
 	var/list/taur_colors
 	// Factional stat modifiers. These are applied on top of statpacks. They do not need to be even trade
 	var/list/stat_modifiers
-	// We want to make the PVE a bit fairer between High PER and low PER build without having to make everyone modify archetypes. So, most NPCs that are NOT supposed to be very hard will now have damaged armor.
+	// We want to make the PVE a bit fairer between High PER and low PER build without having to make everyone modify archetypes. So, most NPCs that are NOT supposed to be very hard will now have damaged armor. General rule of thumb: TP 40 or above NPCS should have full integrity.
 	var/chest_armor_integrity_mult = NPC_CHEST_ARMOR_INTEGRITY_MULT
 
 /datum/npc_archetype/proc/apply_early(mob/living/carbon/human/H)
@@ -115,7 +115,7 @@ GLOBAL_LIST_INIT(npc_crafting_skills, list(
 		npc_body.finish(H)
 
 /datum/npc_archetype/proc/weaken_chest_armor(mob/living/carbon/human/H)
-	if(chest_armor_integrity_mult >= 1)
+	if(chest_armor_integrity_mult >= 1 || threat_point >= THREAT_DEADLY)
 		return
 	var/obj/item/clothing/strongest
 	var/best_rating = -1
