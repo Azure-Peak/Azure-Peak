@@ -104,8 +104,11 @@
 	if(istype(get_area(user), /area/rogue/indoors/ravoxarena))
 		to_chat(user, span_userdanger("I tried to escape, but something rebukes me! There's no escape until the end of the challenge!"))
 		return FALSE
+	if(istype(get_area(user), /area/rogue/indoors/deathsedge))
+		to_chat(user, span_userdanger("I tried to part the veil within the veil... Such deeds are beyond mortal hands. Nothing happens."))
+		return TRUE
 	if(locate(/obj/structure/deaths_door_portal) in T)
-		to_chat(user, span_warning("A gate already stands here."))
+		to_chat(user, span_warning("The veil is already split there."))
 		return FALSE
 	if(user.mind && !user.mind.has_spell(/obj/effect/proc_holder/spell/invoked/necras_sight))
 		user.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/necras_sight)

@@ -18,7 +18,7 @@ GLOBAL_VAR(deaths_door_exit)//turf at necra's shrine on each map
 	if((user.mob_biotypes & MOB_UNDEAD) && user.stat != DEAD) // if somehow you're an undead and alive, you're not escaping from here, sorry
 		user.visible_message(span_purple("<i>[user] almost slips through the shrine, but just before they escape, countless ghastly hands burst from the mist and drag them back. The spirits swarm over [user] until all that remains crumbles to pale dust.</i>"),
 			span_userdanger("<i>The way out is right there, so close... Then hands seize me from every side. The spirits will not let me leave. I am pulled apart, and it is so... quiet here...</i>"))
-		user.dust(TRUE)
+		user.dust(TRUE, FALSE, TRUE)
 		return
 
 	exit_deaths_door(user, user)
@@ -31,7 +31,7 @@ GLOBAL_VAR(deaths_door_exit)//turf at necra's shrine on each map
 	if((target.mob_biotypes & MOB_UNDEAD) && target.stat != DEAD) // if somehow you're an undead and alive, you're not escaping from here, sorry
 		target.visible_message(span_purple("<i>[target] almost slips through the shrine, but just before they escape, countless ghastly hands burst from the mist and drag them back. The spirits swarm over [target] until all that remains crumbles to pale dust.</i>"),
 			span_userdanger("<i>The way out is right there, so close... Then hands seize me from every side. The spirits will not let me leave. I am pulled apart, and it is so... quiet here...</i>"))
-		target.dust(TRUE)
+		target.dust(TRUE, FALSE, TRUE)
 		return
 
 	if(user.incapacitated())
@@ -198,7 +198,7 @@ GLOBAL_VAR(deaths_door_exit)//turf at necra's shrine on each map
 		playsound(target_turf, 'sound/magic/lightning.ogg', 50)
 		user.electrocute_act(400, user) // explosion is too much for what's just divine disapproval
 		if(!user.mind) // but we do this as a treat, sure
-			user.gib(drop_items = FALSE)
+			M.gib(TRUE, TRUE, FALSE, FALSE, TRUE)
 		return
 	enter_portal(user)
 
@@ -222,7 +222,7 @@ GLOBAL_VAR(deaths_door_exit)//turf at necra's shrine on each map
 		playsound(target_turf, 'sound/magic/lightning.ogg', 50)
 		user.electrocute_act(400, M) // explosion is too much for what's just divine disapproval
 		if(!M.mind) // but we do this as a treat, sure
-			M.gib(drop_items = FALSE)
+			M.gib(TRUE, TRUE, FALSE, FALSE, TRUE)
 		return
 
 	enter_portal(M, user)
