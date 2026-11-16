@@ -1093,12 +1093,13 @@ GLOBAL_DATUM_INIT(_corpse_sort_ref, /mob, null)
 	if(target.stat == DEAD)
 		to_chat(user, span_warning("The dead should be left to rest. You know what to do."))
 		return FALSE
-	if(target == user)
-		if(user.has_status_effect(/datum/status_effect/buff/vengeful_ward))
-			to_chat(user, span_warning("The spirits already circle me."))
-			return FALSE
-		user.apply_status_effect(/datum/status_effect/buff/vengeful_ward, crow_mode)
-		return TRUE
+	var/mob/living/ward_target = user
+	if(target != user && user.current_fellowship && target.current_fellowship == user.current_fellowship)
+		ward_target = target
+	if(ward_target.has_status_effect(/datum/status_effect/buff/vengeful_ward))
+		to_chat(user, span_warning(ward_target == user ? "The spirits already circle me." : "The spirits already circle them."))
+		return FALSE
+	ward_target.apply_status_effect(/datum/status_effect/buff/vengeful_ward, crow_mode)
 	play_summon_sound(user, crow_mode)
 	for(var/turf/T as anything in get_spawn_turfs(user))
 		var/mob/living/simple_animal/hostile/rogue/spirit_vengeance/avenging/spirit = new(T, user, crow_mode)
@@ -1108,11 +1109,11 @@ GLOBAL_DATUM_INIT(_corpse_sort_ref, /mob, null)
 /datum/action/cooldown/spell/necra/vengeful_spirits/proc/play_summon_sound(mob/living/user, crow)
 	var/summon_sound
 	if(crow)
-		playsound(user, 'sound/vo/mobs/bird/birdfly.ogg', 100, TRUE)
+		playsound(user.loc, 'sound/vo/mobs/bird/birdfly.ogg', 100, TRUE)
 		summon_sound = pick('sound/vo/mobs/bird/CROW_01.ogg', 'sound/vo/mobs/bird/CROW_03.ogg')
 	else
 		summon_sound = pick('sound/vo/mobs/ghost/aggro (1).ogg', 'sound/vo/mobs/ghost/aggro (2).ogg', 'sound/vo/mobs/ghost/aggro (3).ogg', 'sound/vo/mobs/ghost/aggro (4).ogg', 'sound/vo/mobs/ghost/aggro (5).ogg', 'sound/vo/mobs/ghost/aggro (6).ogg')
-	playsound(user, summon_sound, 100, TRUE)
+	playsound(user.loc, summon_sound, 100, TRUE)
 
 /datum/action/cooldown/spell/necra/vengeful_spirits/proc/get_spawn_turfs(mob/living/user)
 	var/turf/center = get_turf(user)
@@ -1131,9 +1132,9 @@ GLOBAL_DATUM_INIT(_corpse_sort_ref, /mob, null)
 	id = "vengeful_spirit"
 	status_type = STATUS_EFFECT_MULTIPLE
 	duration = 30 SECONDS
-	tick_interval = 2 SECONDS
+	tick_interval = 5 SECONDS // slowed this down due to noise spam
 	alert_type = null // managed manually below cause of a runtime
-	var/tick_damage = 1 // don't make this any higher than 1, please. This is 2 hybrid damage over time, per stack, for 30 seconds. Dispelled by RIPOSTE.
+	var/tick_damage = 2.25 // deals 2.25 fire and 2.25 brute damage every 5 seconds for 30 seconds, totaling 27 damage at 1 stack and 81 damage at 3 stacks (using Sacred Fire as the capstone)
 	var/crow_form = FALSE
 	var/obj/effect/vengeful_orbiter/orbiter
 
@@ -1161,8 +1162,9 @@ GLOBAL_DATUM_INIT(_corpse_sort_ref, /mob, null)
 			spirit.disperse()
 		return
 	var/aimloc = pick(BODY_ZONE_CHEST, BODY_ZONE_HEAD, BODY_ZONE_L_ARM, BODY_ZONE_R_ARM)
-	arcyne_strike(owner, owner, null, tick_damage, aimloc, BCLASS_BITE, PEN_LIGHT, "spirit ravage", TRUE, TRUE, FALSE, BRUTE, PUNCH_INT_DAMAGEFACTOR, null, null)
-	arcyne_strike(owner, owner, null, tick_damage, aimloc, BCLASS_BURN, PEN_LIGHT, "spirit rancor", TRUE, TRUE, FALSE, BURN, PUNCH_INT_DAMAGEFACTOR, null, null)
+	var/pennis = owner.has_trait(TRAIT_SILVER_WEAKNESS) ? PEN_BSTEEL : PEN_LIGHT
+	arcyne_strike(owner, owner, null, tick_damage, aimloc, BCLASS_BITE, pennis, "spirit ravage", TRUE, TRUE, FALSE, BRUTE, PUNCH_INT_DAMAGEFACTOR, null, null)
+	arcyne_strike(owner, owner, null, tick_damage, aimloc, BCLASS_BURN, pennis, "spirit rancor", TRUE, TRUE, FALSE, BURN, PUNCH_INT_DAMAGEFACTOR, null, null)
 
 /datum/status_effect/debuff/vengeful_spirit/proc/disperse()
 	if(orbiter)
