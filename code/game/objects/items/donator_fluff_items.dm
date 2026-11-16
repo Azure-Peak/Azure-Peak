@@ -1,7 +1,6 @@
 ///////////////////
 // UNIVERSAL	 //
 ///////////////////
-
 /obj/item/herbseed/rosa/azure
 	name = "azurosa seeds"
 	seed_identity = "azurosa seeds"
@@ -24,7 +23,6 @@
 	one thing: a donation from the inner lands."
 	icon_state = "azurosa_plant"
 	icon = 'icons/obj/items/donor_objects.dmi'
-
 	herbtype = /obj/item/alch/rosa/azure
 
 /obj/item/alch/rosa/azure
