@@ -597,7 +597,7 @@
 			if(medicine < SKILL_LEVEL_APPRENTICE) // if we have no or novice skill, we don't see anything
 				continue
 			if(medicine < SKILL_LEVEL_EXPERT) // only expert+ knows the exact condition, it'll always display red otherwise
-				gasp_color = "#ff0000"
+				true_color = "#ff0000"
 		balloon_alert(viewer, "<font color='[true_color]'>[gasp]</font>")
 
 /mob/living/carbon/human/proc/deathgasp_noise()
