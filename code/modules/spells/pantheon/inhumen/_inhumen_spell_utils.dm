@@ -52,12 +52,6 @@
 			else if(faction_tag in M.faction)
 				continue
 
-			if(!M.mind && M.resting && M.stat != CONSCIOUS)
-				M.gib(TRUE, TRUE, TRUE, FALSE)
-
-			if(!M.mind)
-				M.Stun(50)
-
 			M.set_resting(TRUE, TRUE)
 			to_chat(M, span_danger("The blast hurls you backwards!"))
 
