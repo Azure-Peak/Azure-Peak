@@ -92,6 +92,7 @@
 	charge_sound = 'sound/magic/chargingold.ogg'
 	cooldown_time = 30 SECONDS
 	cast_range = 6
+	invocation_type = INVOCATION_SHOUT
 	invocations = list("Rend the veil, and grant me passage...")
 
 /datum/action/cooldown/spell/necra/deaths_door/cast(atom/cast_on)

@@ -151,6 +151,11 @@ GLOBAL_LIST_INIT(orb_tint_messages, list(
 	turn_off()
 	. = ..()
 
+/obj/item/flashlight/flare/light/forlorne/necran
+	name = "dying light"
+	desc = "A faint wisp of spectral light. Perhaps a bit of the Undermaiden's pity over your soul? A miracle..."
+	light_color = "#baa0c7"
+
 /// Dim, short-lived orb dropped at the feet of those with the Forlorne vice.
 /obj/item/flashlight/flare/light/forlorne
 	name = "fading light"
