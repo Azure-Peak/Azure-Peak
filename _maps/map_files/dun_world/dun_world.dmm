@@ -52758,12 +52758,6 @@
 /obj/effect/decal/remains/human,
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/under/cave/dukecourt)
-"iYx" = (
-/obj/structure/roguemachine/scomm/l{
-	scom_tag = "Cathedral - Noccite Study"
-	},
-/turf/open/floor/rogue/metal,
-/area/rogue/indoors/town/church/chapel)
 "iYy" = (
 /obj/structure/table/wood,
 /obj/item/reagent_containers/glass/cup/wooden,
@@ -399683,7 +399677,7 @@ bGf
 hUi
 qeP
 xmJ
-iYx
+fwK
 rUv
 nTb
 oXe
