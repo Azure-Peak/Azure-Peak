@@ -320,7 +320,7 @@
 			H.cmode_music = 'sound/music/cmode/antag/combat_adonai.ogg'
 			helmets += list("Psydonic Barbute" = /obj/item/clothing/head/roguetown/helmet/heavy/ornate/barbute,
 				"Psydonic Sallet" = /obj/item/clothing/head/roguetown/helmet/heavy/ornate/sallet,
-				"Psydonic Armet" = /obj/item/clothing/head/roguetown/helmet/heavy/ornate,
+				"Psydonic Armet" = /obj/item/clothing/head/roguetown/helmet/heavy/ornate/armet,
 				"Psydonic Volfskulle Bascinet" = /obj/item/clothing/head/roguetown/helmet/heavy/ornate/volfhelm,
 				"Psydonic Bucket Helm" = /obj/item/clothing/head/roguetown/helmet/heavy/ornate/bucket)
 	if(H.mind)

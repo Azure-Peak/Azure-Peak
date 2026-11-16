@@ -244,7 +244,7 @@
 		if(/datum/patron/old_god)
 			cloak = /obj/item/clothing/cloak/tabard/psydontabard/black
 			helmets += list(
-				"Psydonic Armet" = /obj/item/clothing/head/roguetown/helmet/heavy/ornate,
+				"Psydonic Armet" = /obj/item/clothing/head/roguetown/helmet/heavy/ornate/armet,
 				"Psydonic Bucket Helm" = /obj/item/clothing/head/roguetown/helmet/heavy/ornate/bucket,
 				"Psydonic Volfskulle Bascinet" = /obj/item/clothing/head/roguetown/helmet/heavy/ornate/volfhelm,
 				"Greatplumed Psydonic Armet" = /obj/item/clothing/head/roguetown/helmet/heavy/ornate/knight/greatplume)
