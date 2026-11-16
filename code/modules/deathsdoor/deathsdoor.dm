@@ -198,7 +198,7 @@ GLOBAL_VAR(deaths_door_exit)//turf at necra's shrine on each map
 		playsound(target_turf, 'sound/magic/lightning.ogg', 50)
 		user.electrocute_act(400, user) // explosion is too much for what's just divine disapproval
 		if(!user.mind) // but we do this as a treat, sure
-			M.gib(TRUE, TRUE, FALSE, FALSE, TRUE)
+			user.gib(TRUE, TRUE, FALSE, FALSE, TRUE)
 		return
 	enter_portal(user)
 
