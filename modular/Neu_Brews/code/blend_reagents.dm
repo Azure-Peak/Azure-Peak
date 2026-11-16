@@ -1,14 +1,14 @@
 /datum/reagent/consumable/caffeine/raneshenbitter
-	cuisine = CUISINE_RANESHENI
-	quality = DRINK_GOOD
-	name = "Raneshen Bitter Tea"
-	description = "Dark and foreboding, a bitter reminder of the loss of PSYDON, to be followed by sweet exaltation of HIS sacrifice."
+	name = "Raneshen bitter tea"
+	description = "Dark and foreboding; a bitter reminder of the loss of Psydon, to be followed by sweet exaltation of His sacrifice."
 	reagent_state = LIQUID
 	color = "#663854"
 	taste_description = "smooth, intense bitterness"
+	cuisine = CUISINE_RANESHENI
+	quality = DRINK_GOOD
 
 /datum/reagent/consumable/brew/eorasgracetea
-	name = "Eora's Grace"
+	name = "brew of Eora's grace"
 	description = "And she held my hand gently and she smiled. I cried, for I remembered my mother. How I miss her so."
 	color = "#fbaed2"
 	taste_description = "fruity herbaceousness"
@@ -18,60 +18,60 @@
 	brew_mend(M, 0.2, 0.1)
 
 /datum/reagent/consumable/brew/eorasloveteafake
-	cuisine = CUISINE_SOUTH_IMPERIAL|CUISINE_OTAVAIS
-	quality = DRINK_GOOD
-	name = "Faked Eora's Love"
-	description = "A testament that humankind can never reach the perfection of the gods. Is this love? Or just a really sweet tea?"
+	name = "faked brew of Eora's love"
+	description = "A testament that humenkind can never reach the perfection of the gods. Is this love? Or just a really sweet tea?"
 	color = "#fba0e3"
 	taste_description = "saccharine fruitiness"
+	cuisine = CUISINE_SOUTH_IMPERIAL|CUISINE_OTAVAIS
+	quality = DRINK_GOOD
 
 /datum/reagent/consumable/brew/eorasloveteafake/on_mob_life(mob/living/carbon/M)
 	. = ..()
 	brew_mend(M, 0.3, 0.1)
 
 /datum/reagent/consumable/brew/eorasloveteatrue
-	cuisine = CUISINE_NORTH_IMPERIAL|CUISINE_SOUTH_IMPERIAL|CUISINE_OTAVAIS|CUISINE_NORTHERN|CUISINE_ETRUSCAN|CUISINE_SOUTHEASTERN|CUISINE_RANESHENI
-	quality = DRINK_VERYGOOD
-	name = "Eora's Love"
+	name = "brew of Eora's love"
 	description = "Humenkind cannot love like the gods, but they do not need to. They have each other and this bond is Eora's most cherished fact of the world."
 	color = "#fba0e3"
 	taste_description = "affection"
+	cuisine = CUISINE_NORTH_IMPERIAL|CUISINE_SOUTH_IMPERIAL|CUISINE_OTAVAIS|CUISINE_NORTHERN|CUISINE_ETRUSCAN|CUISINE_SOUTHEASTERN|CUISINE_RANESHENI
+	quality = DRINK_VERYGOOD
 
 /datum/reagent/consumable/brew/eorasloveteatrue/on_mob_life(mob/living/carbon/M)
 	. = ..()
 	brew_mend(M, 0.45, 0.15, 1.5)
 
 /datum/reagent/consumable/caffeine/ravoxtea
-	cuisine = CUISINE_ETRUSCAN
-	quality = DRINK_GOOD
-	name = "Ravox's Calm"
+	name = "brew of Ravox's calm"
 	description = "Brew this and drink deep. Feel the focus. Draw your blade with an unclouded mind and let justice speak where mercy was ignored."
 	reagent_state = LIQUID
 	color = "#482000"
 	taste_description = "mind-clearing bitterness"
 	brew_buff = /datum/status_effect/buff/brew/ravox_calm
+	cuisine = CUISINE_ETRUSCAN
+	quality = DRINK_GOOD
 
 /datum/reagent/consumable/caffeine/mocha
-	cuisine = CUISINE_RANESHENI
-	quality = DRINK_GOOD
-	name = "Veranda Coffee"
+	name = "veranda coffee"
 	description = "I make this pot in the name of the Allfather, stranger. Sit down and drink. As long the brew remains, we shall be brothers. When it is empty, we will depart and maybe see each other again."
 	reagent_state = LIQUID
 	color = "#482000"
 	taste_description = "bitter chocolate"
+	cuisine = CUISINE_RANESHENI
+	quality = DRINK_GOOD
 
 /datum/reagent/consumable/caffeine/mocha/on_mob_life(mob/living/carbon/M)
 	. = ..()
 	brew_mend(M, 0.3, 0.15, 1, -0.1)
 
 /datum/reagent/consumable/brew/gerevine
-	cuisine = CUISINE_OTAVAIS
-	quality = DRINK_GOOD
-	name = "Gerevine Brew"
+	name = "gerevine brew"
 	description = "It is said that this drink was the first offered to the Saints, when they descended and walked among the faithful. They wept, for it reminded them of the Allfather."
 	color = "#fdbcb4"
 	taste_description = "nostalgic homesickness"
 	brew_buff = /datum/status_effect/buff/brew/willpower
+	cuisine = CUISINE_OTAVAIS
+	quality = DRINK_GOOD
 
 /datum/reagent/consumable/brew/gerevine/on_mob_life(mob/living/carbon/M)
 	. = ..()
@@ -80,13 +80,13 @@
 		M.adjustToxLoss(-1, 0)
 
 /datum/reagent/consumable/caffeine/schorle
-	cuisine = CUISINE_NORTH_IMPERIAL
-	quality = DRINK_GOOD
-	name = "Apfelschorle"
+	name = "apfelschorle"
 	description = "Come! Watch me drink the orchard's finest nectar! Ah, lyfe can be so wonderful."
 	reagent_state = LIQUID
 	color = "#d0f0c0"
 	taste_description = "pearly tartness"
+	cuisine = CUISINE_NORTH_IMPERIAL
+	quality = DRINK_GOOD
 
 /datum/reagent/consumable/caffeine/schorle/on_mob_life(mob/living/carbon/M)
 	. = ..()
@@ -94,7 +94,7 @@
 		M.energy_add(5)
 
 /datum/reagent/consumable/brew/baothablend
-	name = "Void's Embrace"
+	name = "void's embrace"
 	description = "So dark it swallows the stars. Regret incarnate. Sup from it and forget."
 	color = "#d00000"
 	taste_description = "merciful oblivion"
@@ -118,7 +118,7 @@ You have forgotten everything…"))
 	brew_mend(M, 0.75, 0.25, 2)
 
 /datum/reagent/consumable/brew/forgottenlove
-	name = "Tea of Sisters"
+	name = "tea of sisters"
 	description = "How can it be? Something so vile and something so pure combined brings forth something new and unprecedented."
 	color = "#de6fa1"
 	taste_description = "bittersweet nostalgia"
@@ -134,56 +134,56 @@ How strange.\n\
 You see the sky from a pit and a palace both."))
 
 /datum/reagent/consumable/caffeine/chai
-	cuisine = CUISINE_SOUTHEASTERN|CUISINE_RANESHENI
-	quality = DRINK_GOOD
-	name = "Chai"
+	name = "chai"
 	description = "And on we march to unite the Isles. Gleaming naginatas clash against wicker shields and in the nite we drink Aisata's favoured tea."
 	reagent_state = LIQUID
 	color = "#b78727"
 	taste_description = "peppery-sweet grassiness"
+	cuisine = CUISINE_SOUTHEASTERN|CUISINE_RANESHENI
+	quality = DRINK_GOOD
 
 /datum/reagent/consumable/caffeine/chai/on_mob_life(mob/living/carbon/M)
 	. = ..()
 	brew_mend(M, 0.3, 0.15, 1, -0.1)
 
 /datum/reagent/consumable/brew/volfmilk
-	cuisine = CUISINE_NORTHERN
-	drink_type = DRINKTYPE_JUICE
-	quality = DRINK_GOOD
-	name = "Vargmjölk"
+	name = "vargmjölk"
 	description = "And we ring the fire, backs turned in snide to the cold. Volf-skinned, we thank you for snatching this brew from the teats of the world…"
 	color = "#d3003f"
 	taste_description = "warm, fruity sweetness"
-
-/datum/reagent/consumable/brew/icetea
 	cuisine = CUISINE_NORTHERN
 	drink_type = DRINKTYPE_JUICE
 	quality = DRINK_GOOD
-	name = "Fruktte"
+
+/datum/reagent/consumable/brew/icetea
+	name = "fruktte"
 	description = "And in the mountains we tear the frozen tears of the moose, for we do not lose ourselves in bloodshed yet like it wants us to. Instead, we enjoy a good cup with friends and clan."
 	color = "#0f4d92"
 	taste_description = "cooled fruitiness"
+	cuisine = CUISINE_NORTHERN
+	drink_type = DRINKTYPE_JUICE
+	quality = DRINK_GOOD
 
 /datum/reagent/consumable/brew/barleytea
-	cuisine = CUISINE_NORTH_IMPERIAL
-	quality = DRINK_GOOD
-	name = "Barley Tea"
+	name = "barley tea"
 	description = "Reality is an affliction caused by the chronic lack of alcohol in the humours. This won't fix it, but at least it whets the tongue, lad."
 	color = "#e08d3c"
 	taste_description = "toasty bitterness"
+	cuisine = CUISINE_NORTH_IMPERIAL
+	quality = DRINK_GOOD
 
 /datum/reagent/consumable/brew/kvass
-	cuisine = CUISINE_SOUTH_IMPERIAL
-	quality = DRINK_GOOD
-	name = "Kvass"
+	name = "kvass"
 	description = "'Tis the bread we drink. Mount the saigas then and let us ride. For the steppe waits for no one and our forefather gave us this so we don't have to chew our meal."
 	color = "#b78727"
 	taste_description = "astringent-sweet cereals"
+	cuisine = CUISINE_SOUTH_IMPERIAL
+	quality = DRINK_GOOD
 
 /datum/reagent/consumable/brew/avantare
-	cuisine = CUISINE_ETRUSCAN
-	quality = DRINK_GOOD
-	name = "Avantare"
+	name = "avantare"
 	description = "Furl the sails, take down the mizzenmast. Drink our Avantare and hug your wife. We are home, finally home again."
 	color = "#ffff66"
 	taste_description = "freshening sourness"
+	cuisine = CUISINE_ETRUSCAN
+	quality = DRINK_GOOD
