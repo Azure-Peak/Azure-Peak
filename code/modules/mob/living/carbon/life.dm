@@ -743,8 +743,8 @@ GLOBAL_LIST_INIT(ballmer_windows_me_msg, list("Yo man, what if, we like, uh, put
 						to_chat(src, span_blue("I've fallen asleep."))
 						is_asleep = TRUE
 
-					// Nobles need a good bed and a proper room, or they will bitch
-					if((sleepy_mod < 3 || !istype(get_area(src), /area/rogue/indoors)) && (HAS_TRAIT(src, TRAIT_NOBLE_UNLANDED) || HAS_TRAIT(src, TRAIT_NOBLE)))
+					// (unlanded, for now) Nobles need a good bed and a proper room, or they will bitch
+					if((sleepy_mod < 3 || !istype(get_area(src), /area/rogue/indoors)) && (HAS_TRAIT(src, TRAIT_NOBLE_UNLANDED)))// || HAS_TRAIT(src, TRAIT_NOBLE)))
 						add_stress(/datum/stressevent/unlanded_noble_poor_sleep)
 					else if(sleepy_mod >= 3 && has_stress_event(/datum/stressevent/unlanded_noble_poor_sleep))
 						remove_stress(/datum/stressevent/unlanded_noble_poor_sleep) // A good night's sleep in cozy conditions fixes it, ser!
