@@ -1080,7 +1080,7 @@
 	craftdiff = 4
 
 //guild artificers are uniquely the only role in the game with access to this, due to the effort it takes to get fyritius and firedust as a guildie. Intended to prevent one-man armies with a million shrapnel grenades.
-/datum/crafting_recipe/roguetown/engineering/impactexplosive
+/datum/crafting_recipe/roguetown/engineering/impactexplosive_arti
 	name = "impact grenades (x3) (Trained Artificer recipe)"
 	category = "Explosives"
 	required_trait = TRAIT_ARTIFICER
