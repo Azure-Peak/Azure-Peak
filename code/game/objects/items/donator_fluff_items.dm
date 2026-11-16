@@ -1,7 +1,6 @@
 ///////////////////
 // UNIVERSAL	 //
 ///////////////////
-
 /obj/item/herbseed/rosa/azure
 	name = "azurosa seeds"
 	seed_identity = "azurosa seeds"
