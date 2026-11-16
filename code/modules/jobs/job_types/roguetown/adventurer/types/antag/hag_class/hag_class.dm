@@ -65,7 +65,6 @@
 		add_verb(H, /mob/living/carbon/human/proc/listen_through_roots)
 		add_verb(H, /mob/living/carbon/human/proc/toggle_guarded)
 		add_verb(H, /mob/living/carbon/human/proc/remember_fey)
-		add_verb(H, /mob/living/carbon/human/proc/listen_through_roots)
 		add_verb(H, /mob/living/carbon/human/proc/adopt_name)
 		H.ambushable = FALSE
 		H.faction |= list(FACTION_HAG)
