@@ -36,6 +36,10 @@
 
 /datum/quest/kill/notorious_bounty/Destroy()
 	stop_hunt_tick()
+	if(!complete && !failed)
+		release_boss()
+		despawn_gang()
+		despawn_live_hunt_mobs()
 	clear_hunter_marks()
 	clear_boss_marker()
 	return ..()
