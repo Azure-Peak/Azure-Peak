@@ -40,7 +40,7 @@
 				break
 			spawned++
 			var/mob/living/simple_animal/hostile/retaliate/rogue/voidstoneobelisk/obelisk = new /mob/living/simple_animal/hostile/retaliate/rogue/voidstoneobelisk(spawn_turfs[spawned])
-			addtimer(CALLBACK(obelisk, TYPE_PROC_REF(/mob/living/simple_animal/hostile, FindTarget)), 1 SECONDS) // so you have SOME time to react. without this, they just sit there until attacked
+			addtimer(CALLBACK(obelisk.ai_controller, TYPE_PROC_REF(/datum/ai_controller, force_aggro), user), 1 SECONDS) // so you have SOME time to react
 		return TRUE
 	var/mob/living/bound = bind_ritual_mob(user, loc, mob_to_bind)
 	if(!bound)

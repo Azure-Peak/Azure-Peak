@@ -3,7 +3,6 @@
 /// antag config directly. A preset's vote pool is set by preset_pool, independent of its type hierarchy.
 
 /datum/storyteller/gamemode
-	always_votable = TRUE
 	hag_slots = 1
 
 // ----------------------------------------------------------------------------------------------------------
@@ -23,7 +22,6 @@
 	preferred_gnoll_mode = GNOLL_SCALING_NONE
 	wretch_slot_cap = 0
 	roundstart_prob = 0
-	guarantees_roundstart_roleset = FALSE
 	starting_point_multipliers = list(
 		EVENT_TRACK_MUNDANE = 1,
 		EVENT_TRACK_PERSONAL = 1,
@@ -54,12 +52,9 @@
 	welcome_text = "The threads of fate bend to an unseen hand.."
 	color_theme = "#c8a13a"
 	preset_pool = null
-	always_votable = FALSE
 	block_hard = FALSE
 	block_soft = FALSE
 	allow_dreamwalker = TRUE
-	guaranteed_hard = FALSE
-	guarantees_roundstart_roleset = FALSE
 	roundstart_prob = 0
 	preferred_gnoll_mode = GNOLL_SCALING_DYNAMIC	// max 3
 	wretch_slot_cap = 12
@@ -94,12 +89,11 @@
 	color_theme = "#a43c3c"
 	preset_pool = GAMEMODE_POOL_GUARANTEED
 	guaranteed_hard = TRUE
-	guarantees_roundstart_roleset = TRUE
 	roundstart_prob = 100
 	block_hard = FALSE
 	block_soft = FALSE
 	allow_dreamwalker = TRUE
-	allow_renegade = TRUE
+	midround_renegades = RENEGADE_MIDROUND_COUNT
 	preferred_gnoll_mode = GNOLL_SCALING_FLAT	// max 2
 	wretch_slot_cap = 9
 
@@ -116,10 +110,14 @@
 	block_hard = TRUE
 	block_soft = FALSE
 	allow_dreamwalker = FALSE
+	lite_antags = list(
+		/datum/round_event_control/antagonist/solo/masqueradelite = 6,
+		/datum/round_event_control/antagonist/solo/renegade/lite = 1,
+	)
+	midround_renegades = 1
 	preferred_gnoll_mode = GNOLL_SCALING_DYNAMIC	// max 3
 	wretch_slot_cap = 12
 	roundstart_prob = 50
-	guarantees_roundstart_roleset = FALSE
 
 /datum/storyteller/gamemode/no_antag/standard
 	name = "Standard Intensity"
@@ -127,6 +125,8 @@
 	desc = "No hard antags. Wretches up to 6. Gnolls max 2. Hag present. No dreamwalker."
 	color_theme = "#37b3a6"
 	allow_dreamwalker = FALSE
+	lite_antags = null
+	midround_renegades = 0
 	preferred_gnoll_mode = GNOLL_SCALING_FLAT	// max 2
 	wretch_slot_cap = 6
 
@@ -138,6 +138,8 @@
 	color_theme = "#1f6b67"
 	preset_pool = GAMEMODE_POOL_EXTENDED
 	allow_dreamwalker = FALSE
+	lite_antags = null
+	midround_renegades = 0
 	preferred_gnoll_mode = GNOLL_SCALING_NONE
 	wretch_slot_cap = 4
 	roundstart_prob = 0

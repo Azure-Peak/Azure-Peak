@@ -12,9 +12,7 @@
 	emote_hear = null
 	emote_see = null
 	speak_chance = 1
-	turns_per_move = 3
 	see_in_dark = 6
-	move_to_delay = 3
 	base_intents = list(/datum/intent/simple/bite/volf)
 	aggressive = 1
 	threat_point = THREAT_TRASH
@@ -40,11 +38,7 @@
 	maxHealth = RACCOON_HEALTH
 	melee_damage_lower = 10
 	melee_damage_upper = 15
-	vision_range = 7
-	aggro_vision_range = 9
 	environment_smash = ENVIRONMENT_SMASH_NONE
-	retreat_distance = 0
-	minimum_distance = 0
 	milkies = FALSE
 	food_type = list(/obj/item/reagent_containers/food/snacks,
 					/obj/item/natural/bone,
@@ -56,16 +50,12 @@
 	STASPD = 18
 	simple_detect_bonus = 30
 	deaggroprob = 0
-	del_on_deaggro = 44 SECONDS
-	retreat_health = 0.3
 	food = 0
 	attack_sound = list('sound/vo/mobs/vw/attack (1).ogg','sound/vo/mobs/vw/attack (2).ogg','sound/vo/mobs/vw/attack (3).ogg','sound/vo/mobs/vw/attack (4).ogg')
 	dodgetime = 30
 	eat_forever = TRUE
 
 //new ai, old ai off
-	AIStatus = AI_OFF
-	can_have_ai = FALSE
 	ai_controller = /datum/ai_controller/volf
 	move_base_delay = MOVEMENT_DELAY_SPD_3
 
@@ -99,13 +89,11 @@
 
 /mob/living/simple_animal/hostile/retaliate/rogue/raccoon/taunted(mob/user)
 	emote("aggro")
-	Retaliate()
-	GiveTarget(user)
+	ai_controller?.force_aggro(user)
 	return
 
 /mob/living/simple_animal/hostile/retaliate/rogue/raccoon/Life()
 	..()
 	if(pulledby)
-		Retaliate()
-		GiveTarget(pulledby)
+		ai_controller?.force_aggro(pulledby)
 

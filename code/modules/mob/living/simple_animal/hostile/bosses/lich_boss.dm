@@ -7,19 +7,13 @@
 	del_on_death = TRUE
 	icon = 'icons/mob/evilpope.dmi'
 	icon_state = "EvilPope"
-	wander = 0
-	vision_range = 8
-	aggro_vision_range = 24
+	ai_controller = /datum/ai_controller/lich
 	ranged = 1
 	rapid = 3
 	rapid_fire_delay = 8
 	ranged_message = "casts a spell"
 	ranged_cooldown_time = 40
-	ranged_ignores_vision = TRUE
 	environment_smash = 0
-	minimum_distance = 8
-	retreat_distance = 0
-	move_to_delay = 10
 	obj_damage = 100
 	base_intents = list(/datum/intent/simple/lich)
 	melee_damage_lower = 60
@@ -42,15 +36,8 @@
 	/obj/projectile/magic/spitfire)
 	patron = /datum/patron/inhumen/zizo
 	footstep_type = FOOTSTEP_MOB_SHOE
-	stat_attack = UNCONSCIOUS
 
-	var/obj/effect/proc_holder/spell/targeted/turf_teleport/blink/blink = null
-	var/next_cast = 0
-	var/next_blink = 0
-	var/list/taunt = list("Witness my power!", "Die!", "Suffer!")
 	var/minions_to_spawn = 6
-	var/next_summon = 0
-	var/next_blaststrong = 0
 	var/mob_type
 	var/mob/new_mob
 	var/spawned_mobs = 0
@@ -61,20 +48,20 @@
 /mob/living/simple_animal/hostile/boss/lich/Initialize(mapload)
 	projectiletype = /obj/projectile/bullet/reusable/deepone
 	. = ..()
-	blink = new /obj/effect/proc_holder/spell/targeted/turf_teleport/blink
-	blink.clothes_req = 0
-	blink.human_req = 0
-	blink.player_lock = 0
-	blink.inner_tele_radius = 5
-	blink.outer_tele_radius = 6
-	blink.invocations += pick(taunt)
-	blink.invocation_type = "shout"
-	AddSpell(blink)
 	//ADD_TRAIT(src, TRAIT_NOFIRE, TRAIT_GENERIC) //Testing vulnerability to the new silver changes. Un-// these if it becomes too easy.
 	ADD_TRAIT(src, TRAIT_SILVER_WEAK, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_NPC_EXAMINE, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_NOZIZORECRUIT, TRAIT_GENERIC) //I know what you are
 	//REMOVE_TRAIT(src, TRAIT_SIMPLE_WOUNDS, TRAIT_GENERIC) //Ditto.
+	AddComponent(/datum/component/ai_aggro_system, aggro_range = 8, maintain_range = 24)
+	for(var/ability_type in list(
+		/datum/action/cooldown/spell/lich/summon_minions,
+		/datum/action/cooldown/spell/lich/blink,
+		/datum/action/cooldown/spell/lich/fireball_wave,
+		/datum/action/cooldown/spell/lich/projectile_wave,
+	))
+		var/datum/action/cooldown/spell/ability = new ability_type(src)
+		ability.Grant(src)
 
 /mob/living/simple_animal/hostile/boss/lich/Shoot()
 	projectiletype = pick(allowed_projectile_types)
@@ -86,7 +73,7 @@
 	button_icon_state = "art_summon"
 	usage_probability = 100
 	boss_cost = 70
-	boss_type = /mob/living/simple_animal/hostile/retaliate/rogue/boss/lich
+	boss_type = /mob/living/simple_animal/hostile/boss/lich
 	needs_target = TRUE
 	say_when_triggered = "Hgf'ant'kthar!"
 	var/static/summoned_minions = 0
@@ -101,72 +88,42 @@
 			new minions_chosen (get_step(boss,pick_n_take(directions)), 1)
 		summoned_minions += 1;
 
-/mob/living/simple_animal/hostile/boss/lich/handle_automated_action()
-	. = ..()
-	if(target && next_cast < world.time && next_summon < world.time) //Second summon ability. Spawns a mob of simple skeletons
-		spawn_minions(minions_to_spawn)
-		INVOKE_ASYNC(src, TYPE_PROC_REF(/atom/movable, say), "Minions, to me!", null, list("colossus", "yell"))
-		next_cast = world.time + 10
-		next_summon = world.time + 600
-		return .
-	if(target && next_cast < world.time && next_blink < world.time) //Triggers a blink spell
-		if(blink.cast_check(0,src))
-			blink.choose_targets(src)
-			blink.invocations += pick(taunt)
-			next_cast = world.time + 20
-			next_blink = world.time + 120
-			return .
-	if(target && next_cast < world.time && health < maxHealth * 0.33 && next_blaststrong < world.time) //Fires a wave of greater fireballs after blinking
-		INVOKE_ASYNC(src, TYPE_PROC_REF(/atom/movable, say), "I am immortal, you are NOTHING!", null, list("colossus", "yell"))
-		playsound(get_turf(src), 'sound/magic/antimagic.ogg', 70, TRUE)
-		blaststrong()
-		next_cast = world.time + 100
-		next_blaststrong = world.time + 300
-		return .
-	if(target && next_cast < world.time) //fires a wave of a random projectile after blinking
-		blast()
-		next_cast = world.time + 100
-		return .
-
-
-/mob/living/simple_animal/hostile/boss/lich/proc/blast(set_angle)
-	var/turf/target_turf = get_turf(target)
+/mob/living/simple_animal/hostile/boss/lich/proc/blast(atom/victim, set_angle)
+	var/turf/target_turf = get_turf(victim)
 	var/angle_to_target = Get_Angle(src, target_turf)
 	if(isnum(set_angle))
 		angle_to_target = set_angle
 	var/static/list/colossus_shotgun_shot_angles = list(30, 20, 10, 0, -10, -20, -30)
 	for(var/i in colossus_shotgun_shot_angles)
-		shoot_projectile(target_turf, angle_to_target + i)
+		shoot_projectile(victim, target_turf, angle_to_target + i)
 
-/mob/living/simple_animal/hostile/boss/lich/proc/shoot_projectile(turf/marker, set_angle)
+/mob/living/simple_animal/hostile/boss/lich/proc/shoot_projectile(atom/victim, turf/marker, set_angle)
 	if(!isnum(set_angle) && (!marker || marker == loc))
 		return
 	var/turf/startloc = get_turf(src)
 	var/obj/projectile/P = new projectiletype(startloc)
 	P.preparePixelProjectile(marker, startloc)
 	P.firer = src
-	if(target)
-		P.original = target
+	P.original = victim
 	P.fire(set_angle)
 
-/mob/living/simple_animal/hostile/boss/lich/proc/blaststrong(set_angle)
-	var/turf/target_turf = get_turf(target)
+/mob/living/simple_animal/hostile/boss/lich/proc/blaststrong(atom/victim, set_angle)
+	var/turf/target_turf = get_turf(victim)
 	var/angle_to_target = Get_Angle(src, target_turf)
 	if(isnum(set_angle))
 		angle_to_target = set_angle
 	var/static/list/colossus_shotgun_shot_angles = list(45, 30, 15, 0, -15, -30, -45)
 	for(var/i in colossus_shotgun_shot_angles)
-		shoot_projectilestrong(target_turf, angle_to_target + i)
+		shoot_projectilestrong(victim, target_turf, angle_to_target + i)
 
-/mob/living/simple_animal/hostile/boss/lich/proc/shoot_projectilestrong(turf/marker, set_angle)
+/mob/living/simple_animal/hostile/boss/lich/proc/shoot_projectilestrong(atom/victim, turf/marker, set_angle)
 	if(!isnum(set_angle) && (!marker || marker == loc))
 		return
 	var/turf/startloc = get_turf(src)
 	var/obj/projectile/P = new /obj/projectile/magic/aoe/fireball/rogue/great/lich(startloc)
 	P.preparePixelProjectile(marker, startloc)
 	P.firer = src
-	if(target)
-		P.original = target
+	P.original = victim
 	P.fire(set_angle)
 
 /obj/projectile/magic/sickness/lich
@@ -260,7 +217,7 @@
 	new /obj/item/roguekey/mage/lich(T)
 	return ..()
 
-/mob/living/simple_animal/hostile/retaliate/rogue/boss/lich/simple_limb_hit(zone)
+/mob/living/simple_animal/hostile/boss/lich/simple_limb_hit(zone)
 	if(!zone)
 		return ""
 	switch(zone)
@@ -356,25 +313,3 @@
 	desc = "A strange key the Archlich dropped."
 	icon_state = "eyekey"
 	lockid = "lich"
-
-/obj/effect/proc_holder/spell/targeted/turf_teleport/blink
-	name = "Blink"
-	desc = ""
-
-	school = "abjuration"
-	recharge_time = 20
-	clothes_req = FALSE
-	range = -1
-	include_user = TRUE
-	cooldown_min = 5 //4 deciseconds reduction per rank
-
-
-	smoke_spread = 1
-	smoke_amt = 0
-
-	inner_tele_radius = 0
-	outer_tele_radius = 6
-
-	action_icon_state = "blink"
-	sound1 = 'sound/blank.ogg'
-	sound2 = 'sound/blank.ogg'

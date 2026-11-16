@@ -53,6 +53,7 @@
 	var/freeze_type = /turf/open/floor/rogue/frozen_water
 	/// Fishing element for this specific water tile
 	var/datum/fish_source/fishing_datum = /datum/fish_source/water
+	var/fishable_in_town = FALSE
 
 /turf/open/water/Initialize(mapload)
 	.	= ..()
@@ -96,13 +97,24 @@
 	return HAS_TRAIT(user, TRAIT_EXPERT_FISHER) || user.get_skill_level(/datum/skill/labor/fishing) >= FISHING_FISH_LIST_SKILL
 
 /turf/open/water/proc/is_fishable()
-	var/area/rogue/region = get_area(src)
-	if(istype(region) && region.town_area)
+	if(!fishable_in_town && is_town_water())
 		return FALSE
 	for(var/direction in GLOB.cardinals)
 		var/turf/neighbor = get_step(src, direction)
 		if(istype(neighbor, /turf/open/water) || istype(neighbor, /turf/open/floor/rogue/frozen_water))
 			return TRUE
+	return FALSE
+
+/turf/open/water/proc/is_town_water()
+	var/area/rogue/region = get_area(src)
+	if(istype(region) && (region.town_area || region.town_waters))
+		return TRUE
+	var/turf/above = GET_TURF_ABOVE(src)
+	while(isopenspace(above))
+		region = get_area(above)
+		if(istype(region) && region.town_area)
+			return TRUE
+		above = GET_TURF_ABOVE(above)
 	return FALSE
 
 /// Lays this turf's ice on top, pushing our own type onto baseturfs so thaw() (a ScrapeAway())
@@ -845,6 +857,7 @@
 
 /turf/open/water/ocean/deep/dark
 	water_color = "#000211"
+	fishable_in_town = TRUE
 
 /turf/open/water/ocean/abyssal
 	name = "darkwater"
@@ -857,6 +870,7 @@
 	swim_skill = TRUE
 	wash_in = FALSE
 	fishing_datum = /datum/fish_source/ocean/abyssal
+	fishable_in_town = TRUE
 
 /turf/open/water/pond
 	name = "pond"

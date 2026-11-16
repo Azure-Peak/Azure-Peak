@@ -11,7 +11,7 @@
 			if(be_special_type in be_special)
 				be_special -= be_special_type
 			else
-				if(be_special_type in GLOB.special_roles_rogue)
+				if((be_special_type in GLOB.special_roles_rogue) && !is_banned_from(user.ckey, be_special_type))
 					be_special += be_special_type
 			return TRUE
 		// these are fine because the other one is in ui_act_character_creator and that's

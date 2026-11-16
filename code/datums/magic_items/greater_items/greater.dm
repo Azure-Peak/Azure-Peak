@@ -60,7 +60,7 @@
 				continue
 			if(prob(30))
 				nearby.lightning_shock(src)
-				new /obj/effect/temp_visual/lightning(get_turf(target), get_turf(nearby))
+				new /obj/effect/temp_visual/thunderstrike_actual(get_turf(nearby))
 	last_used[source] = world.time
 
 /datum/magic_item/greater/frostveil

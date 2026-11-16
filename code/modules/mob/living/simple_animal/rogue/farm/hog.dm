@@ -11,9 +11,7 @@
 	blood_toll_bucket = STATS_KILLED_LIVESTOCK
 	emote_see = list("eyes the surroundings.", "flicks its ears.")
 	speak_chance = 1
-	turns_per_move = 5
 	see_in_dark = 6
-	move_to_delay = 8
 	animal_species = /mob/living/simple_animal/hostile/retaliate/rogue/swine/hog
 	botched_butcher_results = list(
 		/obj/item/reagent_containers/food/snacks/rogue/meat/fatty = 2,
@@ -59,14 +57,11 @@
 	STAWIL = 20//Beefy
 	STASTR = 12
 	STASPD = 8
-	move_to_delay = 8
 	milkies = FALSE //Do not the hog
 	childtype = list(/mob/living/simple_animal/hostile/retaliate/rogue/swine/piglet = 60, /mob/living/simple_animal/hostile/retaliate/rogue/swine/hog/piglet = 40)
 	remains_type = /obj/effect/decal/remains/pig
 
 	//new ai, old ai off
-	AIStatus = AI_OFF
-	can_have_ai = FALSE
 	ai_controller = /datum/ai_controller/generic
 	move_base_delay = MOVEMENT_DELAY_SLOW
 
@@ -154,9 +149,7 @@
 	gender = MALE
 	mob_biotypes = MOB_ORGANIC|MOB_BEAST
 	emote_see = list("eyes the surroundings.", "flicks its ears.")
-	stop_automated_movement_when_pulled = TRUE
 	speak_chance = 1
-	turns_per_move = 5
 	see_in_dark = 6
 	botched_butcher_results = list(
 		/obj/item/reagent_containers/food/snacks/rogue/meat/fatty = 2,
@@ -186,7 +179,6 @@
 	)//We get fat instead of hide - pig hide is terrible for much of anything.
 	faction = list(FACTION_PIGS)
 	mob_biotypes = MOB_ORGANIC|MOB_BEAST
-	attack_same = 0
 	base_intents = list(/datum/intent/simple/headbutt/saiga)
 	attack_verb_simple = "ram"
 	attack_verb_continuous = "rams"
@@ -195,8 +187,6 @@
 	melee_damage_lower = 35
 	melee_damage_upper = 60
 	environment_smash = ENVIRONMENT_SMASH_NONE
-	retreat_distance = 0
-	minimum_distance = 0
 	food_type = list(/obj/item/reagent_containers/food/snacks/grown/wheat,/obj/item/reagent_containers/food/snacks/grown/oat,/obj/item/reagent_containers/food/snacks/grown/potato/rogue,/obj/item/reagent_containers/food/snacks/rogue/meat)//Omnivores / Give me your öats bröther for I am starving.
 	footstep_type = FOOTSTEP_MOB_SHOE
 	pooptype = /obj/item/natural/poo/horse
@@ -204,7 +194,7 @@
 	STAWIL = 20//Beefy
 	STASTR = 12
 	STASPD = 6
-	move_to_delay = 10//Slowest mount
+	ride_move_delay = 10//Slowest mount
 	can_buckle = TRUE
 	buckle_lying = 0
 	can_saddle = TRUE//Hooooooog rider
@@ -280,8 +270,7 @@
 
 /mob/living/simple_animal/hostile/retaliate/rogue/swine/taunted(mob/user)
 	emote("aggro")
-	Retaliate()
-	GiveTarget(user)
+	ai_controller?.force_aggro(user)
 	return
 
 /mob/living/simple_animal/hostile/retaliate/rogue/swine/hog/tamed()

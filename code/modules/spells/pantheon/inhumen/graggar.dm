@@ -220,7 +220,7 @@
 	primary_resource_cost = SPELLCOST_MIRACLE
 
 	secondary_resource_type = SPELL_COST_STAMINA
-	primary_resource_cost = SPELLCOST_MINOR_PROJECTILE
+	secondary_resource_cost = SPELLCOST_MINOR_PROJECTILE
 	invocation_type = INVOCATION_SHOUT
 	invocations = list("Be wrangled by gore!")
 

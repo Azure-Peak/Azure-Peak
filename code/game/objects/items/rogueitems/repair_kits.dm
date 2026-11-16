@@ -51,9 +51,9 @@
 		self_del()
 		return
 	if(can_repair)
-		if(I.sewrepair && repair_type == 1)
+		if(I.sewrepair && !I.anvilrepair && repair_type == 1)
 			return
-		if(I.anvilrepair && repair_type == 0)
+		if(I.anvilrepair && !I.sewrepair && repair_type == 0)
 			return
 		if(I.max_integrity)
 			if(I.obj_integrity == I.max_integrity)
@@ -81,7 +81,7 @@
 					user.visible_message(span_info("[user] repairs [I]'s coverage!"))
 					I.repair_coverage()
 				if(XP_ON_SUCCESS > 0)
-					if(I.anvilrepair)
+					if(I.anvilrepair && repair_type == 1)
 						user.mind.add_sleep_experience(I.anvilrepair, user.STAINT * XP_ON_SUCCESS)
 					else
 						user.mind.add_sleep_experience(/datum/skill/craft/sewing, user.STAINT * XP_ON_SUCCESS)

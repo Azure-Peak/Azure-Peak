@@ -94,6 +94,7 @@
 
 /obj/item/var/polished = FALSE
 /obj/item/var/polish_bonus = 0
+/obj/item/var/polish_dulled = FALSE
 /obj/item/var/glazed = FALSE
 /obj/item/var/glaze_suffix = "glazed"
 /obj/item/var/glaze_bonus_pct = 0
@@ -129,7 +130,10 @@
 		if(3)
 			. += span_info("It's been thoroughly brushed. <i>It needs a wash.</i>")
 		if(4)
-			. += span_green("It's been nicely polished.")
+			if(polish_dulled)
+				. += span_smallgreen("It's been nicely polished.") + " " + span_smallred("It is caked in dirt and does not shine. <i>A wash would clean it off.</i>")
+			else
+				. += span_smallgreen("It's been nicely polished.") + " " + span_smallred("Applying some dirt (right-click on mud or dig up dirt with a shovel) would probably make it not shine brightly in the dark.")
 
 /obj/item/polishing_cream
 	icon = 'icons/roguetown/items/misc.dmi'
@@ -238,6 +242,9 @@
 			obj_integrity = min(obj_integrity, max_integrity)
 			var/datum/component/glint = GetComponent(/datum/component/metal_glint)
 			qdel(glint)
+			if(polish_dulled)
+				polish_dulled = FALSE
+				UnregisterSignal(src, COMSIG_COMPONENT_CLEAN_ACT)
 		else if(polished >= 1 && polished <= 3)
 			remove_atom_colour(FIXED_COLOUR_PRIORITY)
 			UnregisterSignal(src, COMSIG_COMPONENT_CLEAN_ACT)
@@ -267,6 +274,22 @@
 		if((color == "#635e65") || (color == "#9e9e9e") || (color == "#cccccc"))
 			remove_atom_colour(FIXED_COLOUR_PRIORITY)
 			UnregisterSignal(src, COMSIG_COMPONENT_CLEAN_ACT)
+
+/obj/item/proc/dull_polish()
+	if(polished != 4 || polish_dulled)
+		return FALSE
+	polish_dulled = TRUE
+	var/datum/component/glint = GetComponent(/datum/component/metal_glint)
+	qdel(glint)
+	RegisterSignal(src, COMSIG_COMPONENT_CLEAN_ACT, PROC_REF(restore_polish_shine))
+	return TRUE
+
+/obj/item/proc/restore_polish_shine(datum/source, strength)
+	UnregisterSignal(src, COMSIG_COMPONENT_CLEAN_ACT)
+	if(polished != 4 || !polish_dulled)
+		return
+	polish_dulled = FALSE
+	AddComponent(/datum/component/metal_glint)
 
 /obj/effect/temp_visual/armor_glint
 	name = "glint"

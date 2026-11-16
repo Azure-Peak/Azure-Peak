@@ -288,7 +288,21 @@ export const BrowseTab = (props: {
                           textOverflow: 'ellipsis',
                         }}
                       >
-                        {starsIf(entry.name, canRead)}
+                        {!!entry.has_stats && canRead ? (
+                          <span
+                            style={{
+                              cursor: 'pointer',
+                              textDecoration: 'underline dotted',
+                              textUnderlineOffset: '3px',
+                            }}
+                            title={`${entry.name} - click to view properties`}
+                            onClick={() => act('preview', { ref: entry.ref })}
+                          >
+                            {entry.name}
+                          </span>
+                        ) : (
+                          starsIf(entry.name, canRead)
+                        )}
                       </div>
                       {category === ALL && (
                         <div

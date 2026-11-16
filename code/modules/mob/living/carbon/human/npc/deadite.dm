@@ -103,11 +103,15 @@
 
 	var/obj/item/grabbing/bite/bite = get_item_by_slot(SLOT_MOUTH)
 	if(istype(bite))
-		// 50% chance to continue biting if already started
-		if(prob(50))
+		var/prone_player = victim?.mind && !(victim.mobility_flags & MOBILITY_STAND)
+		if(prone_player && bite.grabbed != victim)
+			qdel(bite) // let go of whoever else we have and go for them
+		// 50% chance to continue biting if already started, unless they're down
+		else if(prone_player || prob(50))
 			bite.bitelimb(src)
 			return TRUE
-		return FALSE // try something else like grappling
+		else
+			return FALSE // try something else like grappling
 
 	if(!victim) // if we aren't passed a target, find one at random from nearby. this is currently unused
 		for(var/mob/living/carbon/human in view(1, src))
@@ -120,7 +124,7 @@
 	if(!victim) // still no one to bite
 		return FALSE
 
-	if(!get_location_accessible(src, BODY_ZONE_PRECISE_MOUTH, grabs = TRUE)) // can't bite, mouth is covered!
+	if(!can_bite())
 		return FALSE
 
 	victim.onbite(src)

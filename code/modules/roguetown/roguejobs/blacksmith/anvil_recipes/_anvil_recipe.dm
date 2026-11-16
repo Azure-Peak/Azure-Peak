@@ -246,84 +246,11 @@
 		<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
 		<body>
 			<div>
-			<h1>[icon2html(new created_item, user)][name]</h1>
+			<h1>[recipe_icon_html(created_item, user)][name]</h1>
 			<h4>Description</h4>
 			<p>[initial(created_item.desc)]</p>
 			<div>
 		"}
-	var/obj/item/clothing/suit/roguetown/armor/bookarmor = initial(new created_item)
-	var/obj/item/rogueweapon/bookweapon = initial(created_item)
-
-	if(!(bookarmor.armor == "")&&!isnull(bookarmor.armor) )
-		var/obj/item/clothing/C = initial(new created_item)
-		if(C.body_parts_covered)
-			html += "\n<b>COVERAGE: </b>"
-			html += " | "
-			for(var/zone in body_parts_covered2organ_names(C.body_parts_covered))
-				html += "<b>[capitalize(zone)]</b> | "
-			html += "<br>"
-		html += "INTEGRITY: [bookarmor.max_integrity]<br>"
-		if(bookarmor.armor_class == ARMOR_CLASS_HEAVY)
-			html += "<b>AC: </b>HEAVY<br>"
-		if(bookarmor.armor_class == ARMOR_CLASS_MEDIUM)
-			html += "<b>AC: </b>MEDIUM<br>"
-		if(bookarmor.armor_class == ARMOR_CLASS_LIGHT)
-			html += "<b>AC: </b> LIGHT<br>"
-	else if (!isnull(bookweapon) && bookweapon.force>1)
-		html += "Combat Properties<br>"
-		if(bookweapon.minstr)
-			html += "\n<b>MIN.STR:</b> [bookweapon.minstr]<br>"
-
-		if(bookweapon.force)
-			html += "\n<b>FORCE:</b> [bookweapon.force]<br>"
-		if(bookweapon.gripped_intents && !bookweapon.wielded)
-			if(bookweapon.force_wielded)
-				html += "\n<b>WIELDED FORCE:</b> [bookweapon.force_wielded]<br>"
-
-		if(bookweapon.wbalance)
-			html += "\n<b>BALANCE: </b>"
-			if(bookweapon.wbalance == WBALANCE_HEAVY)
-				html += "Heavy<br>"
-			if(bookweapon.wbalance == WBALANCE_SWIFT)
-				html += "Swift<br>"
-
-
-		if(bookweapon.wlength != WLENGTH_NORMAL)
-			html += "\n<b>LENGTH:</b> "
-			switch(bookweapon.wlength)
-				if(WLENGTH_SHORT)
-					html += "Short<br>"
-				if(WLENGTH_LONG)
-					html += "Long<br>"
-				if(WLENGTH_GREAT)
-					html += "Great<br>"
-
-		if(!ispath(bookweapon) && bookweapon.has_altgrip_modes())
-			var/alt_grip_names = bookweapon.get_altgrip_names()
-			html += "\n<b>GRIP: ALT-GRIP (Inhand RMB / Hotkey)"
-			if(alt_grip_names)
-				html += ": [alt_grip_names]"
-			html += "</b><br>"
-		if(bookweapon.gripped_intents)
-			html += "\n<b>TWO-HANDED: Yes</b><br>"
-
-		var/shafttext = get_blade_dulling_text(bookweapon, verbose = TRUE)
-		if(shafttext)
-			html += "\n<b>SHAFT:</b> [shafttext] <br>"
-
-		if(bookweapon.twohands_required)
-			html += "\n<b>BULKY</b><br>"
-		if(bookweapon.can_parry)
-			html += "\n<b>DEFENSE:</b> [bookweapon.wdefense]<br>"
-		if(bookweapon.associated_skill && bookweapon.associated_skill.name)
-			html += "\n<b>SKILL:</b> [bookweapon.associated_skill.name]<br>"
-
-		if(bookweapon.intdamage_factor != 1 && bookweapon.force >= 5)
-			html += "\n<b>INTEGRITY DAMAGE:</b> [bookweapon.intdamage_factor * 100]%<br>"
-
-		if(bookweapon.antibeast_factor != 1 && bookweapon.force >= 5)
-			html += "\n<b>ANTI-BEAST MODIFIER:</b> [bookweapon.antibeast_factor * 100]%<br>"
-
 
 	if(craftdiff > 0)
 		html += "<h1></h1>For those of [SSskills.level_names_plain[craftdiff]] skills<br>"
@@ -337,10 +264,10 @@
 				<strong>Requirements</strong>
 				<br>"}
 
-	html += "[icon2html(new req_bar, user)] Start with [initial(req_bar.name)] on an anvil.<br>"
+	html += "[recipe_icon_html(req_bar, user)] Start with [initial(req_bar.name)] on an anvil.<br>"
 	html += "Hammer the material.<br>"
 	for(var/atom/path as anything in additional_items)
-		html += "[icon2html(new path, user)] then add [initial(path.name)]<br>"
+		html += "[recipe_icon_html(path, user)] then add [initial(path.name)]<br>"
 		html += "Hammer the material.<br>"
 
 	html += {"
@@ -349,9 +276,9 @@
 		"}
 
 	if(createditem_num > 1)
-		html += "<strong class=class='scroll'>and then you get</strong> <br> [createditem_num] [icon2html(new created_item, user)]	[initial(created_item.name)]<br>"
+		html += "<strong class=class='scroll'>and then you get</strong> <br> [createditem_num] [recipe_icon_html(created_item, user)]	[initial(created_item.name)]<br>"
 	else
-		html += "<strong class=class='scroll'>and then you get</strong> <br> [icon2html(new created_item, user)]	[initial(created_item.name)]<br>"
+		html += "<strong class=class='scroll'>and then you get</strong> <br> [recipe_icon_html(created_item, user)]	[initial(created_item.name)]<br>"
 
 	if(created_item.sellprice)
 		html += "<strong class=class='scroll'>You can sell this for [created_item.sellprice] mammons at a normal quality</strong> <br>"

@@ -179,7 +179,7 @@ GLOBAL_LIST_INIT(quest_debug_unissuable_types, list(
 	if(!KQ?.hunt_timer_id)
 		return null
 	deltimer(KQ.hunt_timer_id)
-	KQ.on_hunt_timeout()
+	KQ.on_hunt_timeout(TRUE)
 	return "admin fired hunt timeout"
 
 /datum/quest_debug_panel/ui_act(action, list/params, datum/tgui/ui, datum/ui_state/state)

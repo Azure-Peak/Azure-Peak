@@ -15,6 +15,7 @@ GLOBAL_LIST_INIT(roguetown_areas_typecache, typecacheof(list(/area/rogue/indoors
 	requires_power = FALSE
 //	var/previous_ambient = ""
 	var/town_area = FALSE
+	var/town_waters = FALSE
 	var/keep_area = FALSE
 	var/tavern_area = FALSE
 	var/warden_area = FALSE

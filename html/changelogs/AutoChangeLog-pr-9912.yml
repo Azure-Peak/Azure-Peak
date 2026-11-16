@@ -1,4 +1,0 @@
-author: "WeNeedMorePhoron"
-delete-after: True
-changes:
-  - rscadd: "Add messages to indicate if you had too much food / water"
