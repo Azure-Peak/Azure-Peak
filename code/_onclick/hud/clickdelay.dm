@@ -73,7 +73,7 @@
 			if((L.last_parry + L.parrydelay) > world.time)
 				icon_state = "defdelay1"
 				return TRUE
-	if(L.in_combat_until > world.time)
+	if(L.is_in_combat())
 		icon_state = "defdelay0c"
 		return TRUE
 	icon_state = "defdelay0"

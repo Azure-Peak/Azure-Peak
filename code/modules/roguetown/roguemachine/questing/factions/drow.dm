@@ -13,6 +13,8 @@
 		/mob/living/simple_animal/hostile/retaliate/rogue/drider = 15,
 		/mob/living/simple_animal/hostile/retaliate/rogue/troll/cave = 10,
 		/mob/living/simple_animal/hostile/retaliate/rogue/minotaur = 5,
+		/mob/living/carbon/human/species/elf/dark/drowraider/caster = 7,
+		/mob/living/carbon/human/species/elf/dark/drowraider/spellblade = 5,
 	)
 	boss_mob_types = list(
 		/mob/living/carbon/human/species/elf/dark/drowraider/scourge = 100,

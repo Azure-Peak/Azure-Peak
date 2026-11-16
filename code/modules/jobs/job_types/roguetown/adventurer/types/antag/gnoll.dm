@@ -44,7 +44,7 @@
 		/datum/advclass/gnoll/templar,
 		/datum/advclass/gnoll/shaman,
 	)
-	vice_restrictions = list(/datum/charflaw/hunted, /datum/charflaw/targeted, /datum/charflaw/forlorne)
+	vice_restrictions = list(/datum/charflaw/hunted, /datum/charflaw/targeted)
 
 /datum/advclass/gnoll
 	tempo_capable = FALSE

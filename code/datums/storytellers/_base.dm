@@ -14,8 +14,6 @@
 	var/welcome_text = "Lift your Eyes to the Horizon." //changing this quote to match the one from the original eris PR.
 	/// This is the multiplier for repetition penalty in event weight. The lower the harsher it is
 	var/event_repetition_multiplier = 0.6
-	///if the event is forced regardless
-	var/forced = FALSE
 	/// Multipliers for starting points.
 	var/list/starting_point_multipliers = list(
 		EVENT_TRACK_MUNDANE = 1,
@@ -45,30 +43,10 @@
 	/// Variance in the budget of roundstart points.
 	var/roundstart_points_variance = 15
 
-	/// Whether the preset guarantees a roleset roll (antag) on roundstart. (Still needs to pass pop check)
-	var/guarantees_roundstart_roleset = FALSE
-
-	/// Whether the storyteller has the distributions disabled. Important for ghost storytellers
-	var/disable_distribution = FALSE
-
-	/// Whether a storyteller is pickable/can be voted for
-	var/restricted = FALSE
-	/// If defined, will need a minimum of population to be votable
-	var/population_min
-	/// If defined, it will not be votable if exceeding the population
-	var/population_max
 	/// has the round gotten to the point where jobs are pre-created?
 	var/static/round_started = FALSE
-	///have we done roundstart checks?
-	var/roundstart_checks = FALSE
 	///prob of roundstart antag
 	var/roundstart_prob = 90
-	///do we ignore ran_roundstart
-	var/ignores_roundstart = FALSE
-	///is a storyteller always able to be voted for(also does not count for the amount of storytellers to pick from)
-	var/always_votable = FALSE
-	///weight this has of being picked for random storyteller/showing up in the vote if not always_votable
-	var/weight = 0
 	// --- Legacy influence/devotion plumbing (inert under the preset system, kept for compile compatibility) ---
 	/// List of all influence sets. Presets leave this empty.
 	var/list/influence_sets = list()
@@ -96,12 +74,12 @@
 	var/preset_pool
 	/// If TRUE, a roundstart hard antag (Bandit/Lich/Werewolf/Vampire Lord) is guaranteed to roll (still needs pop >= HARD_ANTAG_MIN_POP).
 	var/guaranteed_hard = FALSE
-	/// Multiplier applied to hard-antag slot scaling. >1 scales hard antag counts more aggressively with pop.
-	var/hard_mult = 1
 	/// Whether the Dreamwalker roundstart event is allowed to roll under this preset.
 	var/allow_dreamwalker = FALSE
-	/// Whether the midround Renegade check may hand out the role under this preset.
-	var/allow_renegade = FALSE
+	/// Lite antag events this preset can roll at roundstart, event type -> most antags it spawns.
+	var/list/lite_antags
+	/// Most Renegades the midround check hands out under this preset.
+	var/midround_renegades = 0
 	/// How many Hag slots this preset opens (0 or 1).
 	var/hag_slots = 0
 	/// If TRUE, all hard (villain) antags are blocked at roundstart.
@@ -117,21 +95,8 @@
 		influence_factors[selected_stat] = current_set[selected_stat]
 
 /datum/storyteller/process()
-	if(!round_started || disable_distribution) // we are differing roundstarted ones until base roundstart so we can get cooler stuff
+	if(!round_started) // we are differing roundstarted ones until base roundstart so we can get cooler stuff
 		return
-
-	if(!is_roundstart_roles_blocked_storyteller() && !guarantees_roundstart_roleset && prob(roundstart_prob) && !roundstart_checks)
-		roundstart_checks = TRUE
-
-	if(!is_roundstart_roles_blocked_storyteller() && SSgamemode.current_roundstart_event && !SSgamemode.ran_roundstart && (guarantees_roundstart_roleset || roundstart_checks))
-		buy_event(SSgamemode.current_roundstart_event, EVENT_TRACK_CHARACTER_INJECTION, TRUE)
-		if(EVENT_TRACK_CHARACTER_INJECTION in SSgamemode.forced_next_events)
-			SSgamemode.forced_next_events[EVENT_TRACK_CHARACTER_INJECTION] = null
-			SSgamemode.forced_next_events -= EVENT_TRACK_CHARACTER_INJECTION
-
-		log_storyteller("Running SSgamemode.current_roundstart_event\[[SSgamemode.current_roundstart_event]\]")
-		SSgamemode.ran_roundstart = TRUE
-
 	add_points(1)
 	handle_tracks()
 
@@ -163,7 +128,7 @@
 /// Find and buy a valid event from a track.
 /datum/storyteller/proc/find_and_buy_event_from_track(track)
 	. = FALSE
-	var/are_forced = forced
+	var/are_forced = FALSE
 	var/datum/controller/subsystem/gamemode/mode = SSgamemode
 	var/datum/round_event_control/picked_event
 	if(mode.forced_next_events[track]) //Forced event by admin
@@ -182,48 +147,35 @@
 		var/list/valid_events = list()
 		var/list/invalid_reasons = list()
 		var/roundstart_players_amt = get_active_player_count(alive_check = TRUE, afk_check = TRUE, human_check = TRUE)
+		var/startroll = track == EVENT_TRACK_CHARACTER_INJECTION && !SSticker?.HasRoundStarted()
 		// Determine which events are valid to pick
 		for(var/datum/round_event_control/event as anything in mode.event_pools[track])
-			var/players_amt = roundstart_players_amt
-			if((event.storyteller_antag_flags & STORYTELLER_ANTAG_MEDIUM) && type != /datum/storyteller/gamemode/no_antag)
-				invalid_reasons[event] = "Medium Intensity only"
+			if(startroll && !event.roundstart)
 				continue
-			if(forced)
+			if(event.canSpawnEvent(roundstart_players_amt))
 				if(QDELETED(event))
 					message_admins("[event.name] was deleted!")
-					if(track == EVENT_TRACK_CHARACTER_INJECTION && !SSticker?.HasRoundStarted())
-						invalid_reasons[event] = "deleted"
-					continue
-				var/forced_weight = mode.storyteller_event_weight(event, round(event.calculated_weight * 10))
-				if(forced_weight <= 0)
-					if(track == EVENT_TRACK_CHARACTER_INJECTION && !SSticker?.HasRoundStarted())
-						invalid_reasons[event] = mode.antag_roll_reason(event, players_amt)
-					continue
-				valid_events[event] = forced_weight
-			else if(event.canSpawnEvent(players_amt))
-				if(QDELETED(event))
-					message_admins("[event.name] was deleted!")
-					if(track == EVENT_TRACK_CHARACTER_INJECTION && !SSticker?.HasRoundStarted())
+					if(startroll)
 						invalid_reasons[event] = "deleted"
 					continue
 				var/adjusted_weight = mode.storyteller_event_weight(event, round(event.calculated_weight * 10))
 				if(adjusted_weight <= 0)
-					if(track == EVENT_TRACK_CHARACTER_INJECTION && !SSticker?.HasRoundStarted())
-						invalid_reasons[event] = mode.antag_roll_reason(event, players_amt)
+					if(startroll)
+						invalid_reasons[event] = mode.antag_roll_reason(event, roundstart_players_amt)
 					continue
 				valid_events[event] = adjusted_weight //multiply weight by 10 to get first decimal value
-			else if(track == EVENT_TRACK_CHARACTER_INJECTION && !SSticker?.HasRoundStarted() && istype(event, /datum/round_event_control/antagonist/solo))
-				invalid_reasons[event] = event.return_failure_string(players_amt) || "canSpawnEvent failed"
+			else if(startroll && istype(event, /datum/round_event_control/antagonist/solo))
+				invalid_reasons[event] = event.return_failure_string(roundstart_players_amt) || "canSpawnEvent failed"
 				if(event.storyteller_rumour_name && (event.storyteller_antag_flags & STORYTELLER_ANTAG_VILLAIN) && !is_storyteller_villain_blocked())
 					mode.false_rumours |= event.storyteller_rumour_name
-		if(track == EVENT_TRACK_CHARACTER_INJECTION && !SSticker?.HasRoundStarted())
+		if(startroll)
 			mode.log_roundstart_antag_pool(valid_events, invalid_reasons)
 		///If we didn't get any events, remove the points inform admins and dont do anything
 		if(!length(valid_events))
 			message_admins("Storyteller failed to pick an event for track of [track].")
 			mode.event_track_points[track] *= TRACK_FAIL_POINT_PENALTY_MULTIPLIER
 			return
-		if(track == EVENT_TRACK_CHARACTER_INJECTION && !SSticker?.HasRoundStarted())
+		if(startroll)
 			var/list/guaranteed_events = mode.storyteller_guaranteed_events(valid_events)
 			if(length(guaranteed_events))
 				var/list/filtered_out_events = list()
@@ -247,25 +199,10 @@
 				stack_trace("WARNING: Storyteller picked a null from event pool.")
 				SSgamemode.event_track_points[track] = 0
 				return
-		if(track == EVENT_TRACK_CHARACTER_INJECTION && !SSticker?.HasRoundStarted() && istype(picked_event, /datum/round_event_control/antagonist/solo))
+		if(startroll && istype(picked_event, /datum/round_event_control/antagonist/solo))
 			mode.log_roundstart_antag_pick(picked_event, roundstart_players_amt, "weighted roundstart pool")
 	buy_event(picked_event, track, are_forced)
 	. = TRUE
-
-///Attempt to buy a specific event if we can afford it, otherwise returns FALSE, note this does NOT take cost variance into account
-/datum/storyteller/proc/try_buy_event(datum/round_event_control/bought_event)
-	if(ispath(bought_event))
-		bought_event = locate(bought_event) in SSevents.control //might be able to make this slightly cheaper by searching in the track sorted list
-	var/track = bought_event.track
-	if(!track || (bought_event in SSgamemode.uncategorized))
-		return FALSE //trackless events cant be bought
-
-	var/datum/controller/subsystem/gamemode/mode = SSgamemode
-	if(mode.event_track_points[track] - (bought_event.cost * mode.point_thresholds[track]) < 0)
-		return FALSE
-
-	buy_event(bought_event, track)
-	return TRUE
 
 /// Find and buy a valid event from a track.
 /datum/storyteller/proc/buy_event(datum/round_event_control/bought_event, track, forced = FALSE)
