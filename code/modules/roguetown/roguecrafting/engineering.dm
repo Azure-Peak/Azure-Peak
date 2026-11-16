@@ -1059,12 +1059,34 @@
 	skillcraft = /datum/skill/craft/engineering
 	craftdiff = 4
 
-//increasing the number to reflect the effort it takes to get fyritius and firedust
+//seperates for everyone else, who can only make 2 at a time. less efficently too. - Bomb experts will benefit from jury-rigging more.
 /datum/crafting_recipe/roguetown/engineering/impactexplosive
 	name = "impact grenades (x2)"
 	category = "Explosives"
 	display_category = ITEM_CAT_ENG_COMBAT
 	result = list(
+		/obj/item/explosive/impact/shrapnel,
+		/obj/item/explosive/impact/shrapnel,
+	)
+	reqs = list(
+		/obj/item/natural/clay = 1,
+		/obj/item/paper = 1,
+		/obj/item/alch/coaldust = 1,
+		/obj/item/alch/firedust = 1,
+		/obj/item/reagent_containers/food/snacks/grown/rogue/fyritius = 1,
+	)
+	structurecraft = /obj/structure/artificer_table
+	skillcraft = /datum/skill/craft/engineering
+	craftdiff = 4
+
+//guild artificers are uniquely the only role in the game with access to this, due to the effort it takes to get fyritius and firedust as a guildie. Intended to prevent one-man armies with a million shrapnel grenades.
+/datum/crafting_recipe/roguetown/engineering/impactexplosive
+	name = "impact grenades (x3) (Trained Artificer recipe)"
+	category = "Explosives"
+	required_trait = TRAIT_ARTIFICER
+	display_category = ITEM_CAT_ENG_COMBAT
+	result = list(
+		/obj/item/explosive/impact/shrapnel,
 		/obj/item/explosive/impact/shrapnel,
 		/obj/item/explosive/impact/shrapnel,
 	)
@@ -1282,7 +1304,7 @@
 	required_trait = TRAIT_BOMBER_EXPERT
 	display_category = ITEM_CAT_ENG_COMBAT
 	result = list(/obj/item/explosive/fused/bottle)
-	reqs = list(/obj/item/natural/dirtclod = 3, /obj/item/natural/ash = 2, /obj/item/natural/fibers = 2)
+	reqs = list(/obj/item/natural/dirtclod = 3, /obj/item/natural/ash = 2, /obj/item/natural/fibers = 1)
 	skillcraft = /datum/skill/craft/engineering
 	craftdiff = 4
 
@@ -1292,7 +1314,7 @@
 	required_trait = TRAIT_BOMBER_EXPERT
 	display_category = ITEM_CAT_ENG_COMBAT
 	result = list(/obj/item/explosive/fused/bottle)
-	reqs = list(/obj/item/natural/glass_shard = 1, /obj/item/natural/ash = 2, /obj/item/natural/fibers = 2)
+	reqs = list(/obj/item/natural/glass_shard = 1, /obj/item/natural/ash = 2, /obj/item/natural/fibers = 1)
 	skillcraft = /datum/skill/craft/engineering
 	craftdiff = 4
 
@@ -1302,7 +1324,7 @@
 	required_trait = TRAIT_BOMBER_EXPERT
 	display_category = ITEM_CAT_ENG_COMBAT
 	result = list(/obj/item/explosive/fused/bottle)
-	reqs = list(/obj/item/natural/glass_shard/shrapnel = 1, /obj/item/natural/ash = 2, /obj/item/natural/fibers = 2)
+	reqs = list(/obj/item/natural/glass_shard/shrapnel = 1, /obj/item/natural/ash = 2, /obj/item/natural/fibers = 1)
 	skillcraft = /datum/skill/craft/engineering
 	craftdiff = 4
 
