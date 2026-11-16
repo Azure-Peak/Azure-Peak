@@ -260,3 +260,8 @@
 	name = "Belt Hooks"
 	path = /obj/item/storage/belt/rogue/leather/belthooks
 	sort_category = "Accessories"
+
+/datum/loadout_item/bandithood
+	name = "Bandit Hood"
+	path = /obj/item/clothing/head/roguetown/menacing/bandit
+	sort_category = "Accessories"

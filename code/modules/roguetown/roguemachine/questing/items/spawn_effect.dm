@@ -102,6 +102,20 @@
 /obj/effect/quest_spawn/ex_act()
 	return
 
+/obj/effect/quest_spawn/item
+
+/obj/effect/quest_spawn/item/reveal_contained()
+	if(!contained_atom)
+		qdel(src)
+		return
+	var/image/I = image(icon = 'icons/effects/effects.dmi', loc = get_turf(src), icon_state = "hidden", layer = 18)
+	I.plane = 18
+	I.mouse_opacity = MOUSE_OPACITY_TRANSPARENT
+	flick_overlay_view(I, 5 SECONDS)
+	contained_atom.forceMove(get_turf(src))
+	contained_atom = null
+	qdel(src)
+
 /obj/effect/quest_spawn/notorious
 	prox_range = NOTORIOUS_BOUNTY_PROX_RANGE
 

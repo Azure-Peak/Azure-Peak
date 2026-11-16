@@ -8,6 +8,7 @@
 	outfit = /datum/outfit/job/roguetown/adventurer/blacksmith
 
 	category_tags = list(CTAG_PILGRIM, CTAG_TOWNER)
+	subclass_spells = list(/obj/effect/proc_holder/spell/invoked/takeapprentice)
 	traits_applied = list(TRAIT_TRAINED_SMITH, TRAIT_SMITHING_EXPERT)
 	subclass_stats = list(
 		STATKEY_WIL = 2,

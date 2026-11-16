@@ -1,0 +1,4 @@
+author: "awwlie"
+delete-after: True
+changes:
+  - bugfix: "fixed /obj/item/enchantingkit's deleting polish and item quality: they now force an inherit of polish and item_quality"

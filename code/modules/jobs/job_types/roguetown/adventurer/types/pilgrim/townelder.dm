@@ -8,6 +8,7 @@
 	outfit = /datum/outfit/job/roguetown/elder
 	cmode_music = 'sound/music/cmode/towner/combat_retired.ogg'
 	category_tags = list(CTAG_TOWNER)
+	subclass_spells = list(/obj/effect/proc_holder/spell/invoked/takeapprentice)
 	traits_applied = list(TRAIT_SEEPRICES_SHITTY, TRAIT_EMPATH, TRAIT_MEDICINE_EXPERT, TRAIT_HOMESTEAD_EXPERT, TRAIT_ALCHEMY_EXPERT, TRAIT_SMITHING_EXPERT, TRAIT_SEWING_EXPERT, TRAIT_SURVIVAL_EXPERT)
 	subclass_stats = list(
 		STATKEY_INT = 3,

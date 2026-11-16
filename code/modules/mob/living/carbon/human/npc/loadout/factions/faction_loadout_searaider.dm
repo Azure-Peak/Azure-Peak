@@ -9,8 +9,16 @@
 	threat_point = THREAT_TOUGH
 	body = /datum/npc_body/northern_commoner/searaider
 	statpack = /datum/npc_statpack/line/t2
+	patron = list(
+		/datum/patron/inhumen/graggar = 40,
+		/datum/patron/inhumen/zizo = 20,
+		/datum/patron/inhumen/matthios = 20,
+		/datum/patron/inhumen/baotha = 20,
+	)
+	joins_cabal = FALSE
 	armor_training = ARMOR_CLASS_HEAVY
 	melee = SKILL_LEVEL_JOURNEYMAN
+	magic = SKILL_LEVEL_JOURNEYMAN
 	brawl = SKILL_LEVEL_JOURNEYMAN
 	survival = SKILL_LEVEL_APPRENTICE
 	loadouts = list(
@@ -66,6 +74,58 @@
 		/datum/npc_loadout/weapon/searaider_greatsword,
 	)
 
+/datum/npc_archetype/searaider/shaman
+	name = "Sea Raider Shaman"
+	job = "Sea Raider Shaman"
+	threat_point = THREAT_TOUGH + THREAT_CASTER_PREMIUM
+	patron = /datum/patron/inhumen/graggar
+	armor_training = ARMOR_CLASS_LIGHT
+	loadouts = list(
+		/datum/npc_loadout/kit/searaider_flavor,
+		/datum/npc_loadout/kit/searaider_shaman,
+	)
+	ai_controller = /datum/ai_controller/human_npc/caster/melee
+
+/datum/npc_archetype/searaider/caster
+	abstract_type = /datum/npc_archetype/searaider/caster
+	threat_point = THREAT_TOUGH + THREAT_CASTER_PREMIUM
+	statpack = /datum/npc_statpack/caster/t1
+	armor_training = ARMOR_CLASS_LIGHT
+	ai_controller = /datum/ai_controller/human_npc/caster
+
+/datum/npc_archetype/searaider/caster/mixed
+	name = "Sea Raider Mage"
+	variants = list(
+		/datum/npc_archetype/searaider/caster/pyromancer = 4,
+		/datum/npc_archetype/searaider/caster/ferramancer = 1,
+		/datum/npc_archetype/searaider/caster/cryomancer = 1,
+	)
+
+/datum/npc_archetype/searaider/caster/pyromancer
+	name = "Sea Raider Pyromancer"
+	job = "Sea Raider Pyromancer"
+	loadouts = list(
+		/datum/npc_loadout/kit/caster/pyromancer,
+		/datum/npc_loadout/kit/searaider_flavor/caster,
+	)
+
+/datum/npc_archetype/searaider/caster/cryomancer
+	name = "Sea Raider Cryomancer"
+	job = "Sea Raider Cryomancer"
+	loadouts = list(
+		/datum/npc_loadout/kit/caster/cryomancer,
+		/datum/npc_loadout/kit/searaider_flavor/caster,
+	)
+
+/datum/npc_archetype/searaider/caster/ferramancer
+	name = "Sea Raider Ferramancer"
+	job = "Sea Raider Ferramancer"
+	loadouts = list(
+		/datum/npc_loadout/kit/caster/ferramancer,
+		/datum/npc_loadout/kit/searaider_flavor/caster,
+	)
+	ai_controller = /datum/ai_controller/human_npc/caster/melee
+
 //** BODY **//
 
 /datum/npc_body/northern_commoner/searaider
@@ -92,8 +152,8 @@
 		/obj/item/clothing/suit/roguetown/shirt/undershirt/vagrant,
 		/obj/item/clothing/suit/roguetown/shirt/undershirt/sailor, //We don't want anything that dips below waist, looks bad w/kilt
 	)
-	id = list(
-		/obj/item/clothing/neck/roguetown/psicross/inhumen/graggar = 20, //SHATTER MY BINDS
+	beltr = list(
+		NPC_PATRON_AMULET = 20, //SHATTER MY BINDS
 		NPC_NOTHING = 80,
 	)
 	cloak = list(
@@ -112,9 +172,39 @@
 	pants = /obj/item/clothing/under/roguetown/tights
 	shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced
 
+/datum/npc_loadout/kit/searaider_flavor/caster
+	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/light
+
 /datum/npc_loadout/kit/searaider_flavor/huscarl
 	shoes = /obj/item/clothing/shoes/roguetown/boots/maille/iron
 	cloak = /obj/item/clothing/cloak/raincloak/furcloak/brown
+
+/datum/npc_loadout/kit/searaider_shaman
+	miracle_tier = CLERIC_T2
+	traits = list(TRAIT_CIVILIZEDBARBARIAN, TRAIT_IGNOREDAMAGESLOWDOWN, TRAIT_NOPAINSTUN)
+	skills = list(
+		/datum/skill/magic/holy = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/combat/unarmed = SKILL_LEVEL_EXPERT,
+		/datum/skill/combat/wrestling = SKILL_LEVEL_EXPERT,
+	)
+	beltr = NPC_PATRON_AMULET
+	armor = list(
+		/obj/item/clothing/suit/roguetown/armor/leather/hide = 50,
+		/obj/item/clothing/suit/roguetown/armor/leather/heavy/coat = 50,
+	)
+	wrists = /obj/item/clothing/wrists/roguetown/bracers/leather
+	gloves = /obj/item/clothing/gloves/roguetown/leather
+	pants = /obj/item/clothing/under/roguetown/heavy_leather_pants
+	neck = /obj/item/clothing/neck/roguetown/coif
+	head = list(
+		/obj/item/clothing/head/roguetown/helmet/leather/volfhelm = 60,
+		/obj/item/clothing/head/roguetown/helmet/leather = 40,
+	)
+	weapons = list(
+		list(/obj/item/rogueweapon/handclaw),
+		list(/obj/item/rogueweapon/handclaw/ironclaw),
+		list(/obj/item/rogueweapon/handclaw/ironclaw/blunt),
+	)
 
 //** WEAPONS **//
 

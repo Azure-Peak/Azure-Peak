@@ -21,6 +21,7 @@
 	var/lock_direction = FALSE
 	/// Makes the AI Caster keep facing their target during the windup
 	var/track_target = FALSE
+	var/track_cutoff = 0
 	var/redraw_interval = 2
 	var/sweep_step = 1
 	/// If TRUE, a guard deflection aborts the remaining bands instead of just sparing that victim.
@@ -50,6 +51,9 @@
 /datum/action/cooldown/spell/telegraphed_strike/ai_commit_time()
 	return get_strike_duration()
 
+/datum/action/cooldown/spell/telegraphed_strike/get_impact_turfs(atom/center)
+	return get_pattern_turfs(owner, get_cardinal(owner.dir))
+
 /datum/action/cooldown/spell/telegraphed_strike/can_use(atom/target)
 	. = ..()
 	if(!. || !require_target_in_pattern || !npc_controlled() || QDELETED(target) || target == owner)
@@ -58,6 +62,15 @@
 	if(!goal)
 		return FALSE
 	return (goal in get_pattern_turfs(owner, telegraph_cardinal(get_dir(owner, target))))
+
+/datum/action/cooldown/spell/telegraphed_strike/proc/npc_strike_score(atom/target, base, extra_hostile_bonus = 15)
+	var/mob/living/victim = target
+	if(!isliving(victim))
+		return 0
+	var/list/turfs = get_pattern_turfs(owner, npc_face_dir(owner, victim))
+	if(npc_allies_in(turfs))
+		return 0
+	return base + extra_hostile_bonus * max(0, npc_hostiles_in(turfs) - 1)
 
 /datum/action/cooldown/spell/telegraphed_strike/get_spell_statistics(mob/living/user)
 	var/list/stats = ..()
@@ -102,7 +115,7 @@
 	for(var/i in 1 to iterations)
 		if(QDELETED(H) || H.stat != CONSCIOUS || strike_disrupted(H))
 			break
-		if(track_target && !QDELETED(cast_on) && cast_on != H)
+		if(track_target && !QDELETED(cast_on) && cast_on != H && (iterations - i) * redraw_interval >= track_cutoff)
 			H.face_atom(cast_on)
 		var/facing = locked_facing || get_cardinal(H.dir)
 		if(get_turf(H) != last_turf || facing != last_facing)

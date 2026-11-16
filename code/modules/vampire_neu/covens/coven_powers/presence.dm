@@ -47,6 +47,15 @@
 	target.apply_overlay(MUTATIONS_LAYER)
 	playsound(target,'sound/villain/wonder.ogg', 40)
 	target.apply_status_effect(/datum/status_effect/awestruck, owner)
+	var/secret_link = ""
+	if(target.get_secret_for(owner, "vampire"))
+		if(ishuman(owner) && ishuman(target))
+			var/mob/living/carbon/human/vampire = owner
+			var/mob/living/carbon/human/awestruck_human = target
+			vampire.remember_secret_target(awestruck_human, "vampire")
+		secret_link = " (<a href='?src=[REF(target)];task=view_remote_secret;secret_type=vampire'>Recall Secrets</a>)"
+	if(secret_link)
+		to_chat(owner, span_notice("Your supernatural presence brushes against something hidden within [target].") + secret_link)
 	if(!owner.cmode)
 		to_chat(target, span_love("<b>Come close and look upon me.</b>"))
 		owner.say("Look upon me.")

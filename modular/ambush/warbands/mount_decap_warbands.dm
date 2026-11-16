@@ -48,6 +48,22 @@
 		/mob/living/carbon/human/species/human/northern/highwayman/ambush = 2,
 	)
 
+/datum/npc_warband/doppelganger
+	name = "Doppelganger"
+	category = FACTION_BANDITS
+	faction_tag = "bandits"
+	members = list(
+		/mob/living/carbon/human/species/human/northern/doppelganger/ambush = 1,
+	)
+
+/datum/npc_warband/doppelgangers
+	name = "Doppelgangers"
+	category = FACTION_BANDITS
+	faction_tag = "bandits"
+	members = list(
+		/mob/living/carbon/human/species/human/northern/doppelganger/ambush = 2,
+	)
+
 /datum/npc_warband/medium_skeleton_party
 	name = "Skeleton Patrol"
 	category = FACTION_UNDEAD

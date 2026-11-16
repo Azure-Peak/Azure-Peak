@@ -1176,8 +1176,8 @@
 
 /mob/proc/get_role_title()
 	var/used_title
-	if(migrant_type)
-		var/datum/migrant_role/migrant = MIGRANT_ROLE(migrant_type)
+	var/datum/migrant_role/migrant = migrant_type ? MIGRANT_ROLE(migrant_type) : null
+	if(migrant?.job_type == /datum/job/roguetown/migrant)
 		used_title = migrant.name
 		if(migrant.advjob_examine && advjob)
 			used_title = advjob
