@@ -578,27 +578,27 @@
 		return
 	var/oxy = getOxyLoss()
 	// The more oxygen damage, the redder the gasp, only seen by specific people however
-	var/true_color = "#ff0000"
+	var/gasp_color = "#ff0000"
 	if(oxy <= 20)
-		true_color = "#00ff40"
+		gasp_color = "#00ff40"
 	else if(oxy <= 40)
-		true_color = "#c8ff00"
+		gasp_color = "#c8ff00"
 	else if(oxy <= 60)
-		true_color = "#eeff00"
+		gasp_color = "#eeff00"
 	else if(oxy <= 80)
-		true_color = "#ff9100"
+		gasp_color = "#ff9100"
 	var/gasp = "*[pick("gasp", "choke", "gag", "wheeze", "gurgle", "sputter", "struggle")]!* (dying)"
 	for(var/mob/living/carbon/human/viewer in get_hearers_in_view(DEFAULT_MESSAGE_RANGE, src, RECURSIVE_CONTENTS_CLIENT_MOBS))
 		if(viewer == src || is_blind(viewer) || !viewer.mind)
 			continue
-		var/gasp_color = true_color
+		var/true_color = gasp_color
 		if(!(HAS_TRAIT(viewer, TRAIT_COMBAT_AWARE) || HAS_TRAIT(viewer, TRAIT_MEDICINE_EXPERT) || istype(viewer.patron, /datum/patron/divine/pestra) || istype(viewer.patron, /datum/patron/divine/necra) || istype(viewer.patron, /datum/patron/inhumen/zizo)))
 			var/medicine = viewer.get_skill_level(/datum/skill/misc/medicine)
 			if(medicine < SKILL_LEVEL_APPRENTICE) // if we have no or novice skill, we don't see anything
 				continue
 			if(medicine < SKILL_LEVEL_EXPERT) // only expert+ knows the exact condition, it'll always display red otherwise
 				gasp_color = "#ff0000"
-		balloon_alert(viewer, "<font color='[gasp_color]'>[gasp]</font>")
+		balloon_alert(viewer, "<font color='[true_color]'>[gasp]</font>")
 
 /mob/living/carbon/human/proc/deathgasp_noise()
 	if(stat == CONSCIOUS || HAS_TRAIT(src, TRAIT_NOBREATH) || HAS_TRAIT(src, TRAIT_DEATHLESS))
