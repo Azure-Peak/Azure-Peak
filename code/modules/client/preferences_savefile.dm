@@ -7,7 +7,7 @@
 //	where you would want the updater procs below to run
 
 //	This also works with decimals.
-#define SAVEFILE_VERSION_MAX	36
+#define SAVEFILE_VERSION_MAX	37
 
 /*
 SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Carn
@@ -51,6 +51,8 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	if(current_version < 31) // RAISE THIS TO SAVEFILE_VERSION_MAX (and make sure to add +1 to the version) EVERY TIME YOU ADD SERVER-CHANGING KEYBINDS LIKE CHANGING HOW SAY WORKS!!
 		force_reset_keybindings_direct()
 		addtimer(CALLBACK(src, PROC_REF(force_reset_keybindings_direct)), 30)
+	if(current_version < 37 && islist(key_bindings) && !key_bindings["F10"]) // Add the AntagOOC default without resetting custom keybinds
+		key_bindings["F10"] = list("AntagOOC")
 
 /datum/preferences/proc/update_character(current_version, savefile/S)
 	if(current_version < 30)
