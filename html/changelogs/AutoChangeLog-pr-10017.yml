@@ -1,4 +1,0 @@
-author: "BurpleBineapple"
-delete-after: True
-changes:
-  - bugfix: "fogbeasts with colour no longer look broken clientside when riding one."
