@@ -448,7 +448,6 @@
 	icon_state = "impact_grenade"
 	dropshrink = 0.6
 	throw_speed = 1
-	grid_height = 64 //quite easy to make in bulk vs belchers/gas grenades
 	abstract_type = /obj/item/explosive/impact
 	fragile = TRUE
 	/// Bomber experts refuse to set this off in their hands
@@ -462,6 +461,9 @@
 	detonate()
 
 /obj/item/explosive/impact/shrapnel
+	grid_height = 64 //quite easy to make in bulk vs belchers/gas grenades + extremely and almost immedately lethal and life threatening + breaks most of your armor off-the-bat.
+	//Otherwise the rest of these impacts are just 1x1
+
 	/// Number of shrapnel fragments flung outwards on detonation
 	var/shards = 10
 
