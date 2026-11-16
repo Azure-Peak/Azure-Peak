@@ -578,15 +578,15 @@
 		return
 	var/oxy = getOxyLoss()
 	// The more oxygen damage, the redder the gasp, only seen by specific people however
-	var/gasp_color = "#ff0000"
+	var/true_color = "#ff0000"
 	if(oxy <= 20)
-		gasp_color = "#00ff40"
+		true_color = "#00ff40"
 	else if(oxy <= 40)
-		gasp_color = "#c8ff00"
+		true_color = "#c8ff00"
 	else if(oxy <= 60)
-		gasp_color = "#eeff00"
+		true_color = "#eeff00"
 	else if(oxy <= 80)
-		gasp_color = "#ff9100"
+		true_color = "#ff9100"
 	var/gasp = "*[pick("gasp", "choke", "gag", "wheeze", "gurgle", "sputter", "struggle")]!* (dying)"
 	for(var/mob/living/carbon/human/viewer in get_hearers_in_view(DEFAULT_MESSAGE_RANGE, src, RECURSIVE_CONTENTS_CLIENT_MOBS))
 		if(viewer == src || is_blind(viewer) || !viewer.mind)
