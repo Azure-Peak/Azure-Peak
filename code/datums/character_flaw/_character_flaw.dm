@@ -938,20 +938,28 @@ GLOBAL_LIST_INIT(averse_factions, list(
 	. = ..()
 	user.adjust_triumphs(1)
 	triumph_given = TRUE
-	origin_turf = get_turf(user)
+	send_away(user)
+	if(!forlorne_turf)
+		return
+	ADD_TRAIT(user, TRAIT_NO_AMBUSH, "forlorne")
+	addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(___TraitRemove), user, TRAIT_NO_AMBUSH, "forlorne"), 30 SECONDS)
+	to_chat(user, span_userdanger("I am lost..."))
+	to_chat(user, span_warning("No heals will be given out for unlucky spawns."))
+
+/// Called before the outfit is equipped so nothing dropped during equipping is left behind at the original spawn.
+/datum/charflaw/forlorne/proc/send_away(mob/user)
+	if(forlorne_turf)
+		return
 	var/list/spots = list()
 	for(var/obj/effect/landmark/forlorne/L as anything in GLOB.forlorne_landmarks)
 		if(isturf(L.loc))
 			spots += L.loc
 	if(!length(spots))
 		return
+	origin_turf = get_turf(user)
 	forlorne_turf = pick(spots)
 	user.forceMove(forlorne_turf)
 	new /obj/item/flashlight/flare/light/forlorne(forlorne_turf)
-	ADD_TRAIT(user, TRAIT_NO_AMBUSH, "forlorne")
-	addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(___TraitRemove), user, TRAIT_NO_AMBUSH, "forlorne"), 30 SECONDS)
-	to_chat(user, span_userdanger("I am lost..."))
-	to_chat(user, span_warning("No heals will be given out for unlucky spawns."))
 
 /// Becoming certain antagonists cancels this vice: the triumph is refunded and, if they haven't moved yet, they go back to where they would have spawned.
 /datum/charflaw/forlorne/proc/antag_override(mob/living/carbon/human/user)

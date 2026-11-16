@@ -184,6 +184,9 @@
 	* If visualsOnly is true, you can omit any work that doesn't visually appear on the character sprite
 	*/
 /datum/outfit/proc/equip(mob/living/carbon/human/H, visualsOnly = FALSE)
+	if(!visualsOnly)
+		var/datum/charflaw/forlorne/forlorne_vice = H.get_flaw(/datum/charflaw/forlorne)
+		forlorne_vice?.send_away(H)
 	pre_equip(H, visualsOnly)
 
 	//Start with uniform,suit,backpack for additional slots
