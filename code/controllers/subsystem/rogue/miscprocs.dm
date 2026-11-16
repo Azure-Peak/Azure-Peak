@@ -286,6 +286,17 @@ GLOBAL_LIST_EMPTY(miracle_tiers)
 		ADD_TRAIT(src, TRAIT_DECEIVING_MEEKNESS, TRAIT_VIRTUE)
 	to_chat(src, "I have [HAS_TRAIT(src, TRAIT_DECEIVING_MEEKNESS) ? "raised" : "lowered"] my guard around others.")
 
+/mob/living/carbon/human/proc/toggle_light_steps()
+	set name = "Toggle Light Steps"
+	set category = "RoleUnique.Virtue"
+
+	if(HAS_TRAIT_FROM(src, TRAIT_LIGHT_STEP, TRAIT_VIRTUE))
+		REMOVE_TRAIT(src, TRAIT_LIGHT_STEP, TRAIT_VIRTUE)
+	else
+		ADD_TRAIT(src, TRAIT_LIGHT_STEP, TRAIT_VIRTUE)
+	update_move_intent_slowdown()
+	to_chat(src, "I [HAS_TRAIT_FROM(src, TRAIT_LIGHT_STEP, TRAIT_VIRTUE) ? "begin" : "stop"] stepping lightly.")
+
 
 // Not actually a virtue, but kept in the category for convenience. Miner-role only. Component handles all of the messaging and logic, this is just a wrapper, basically.
 /mob/living/carbon/human/proc/toggle_oresight()

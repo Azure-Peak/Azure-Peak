@@ -254,7 +254,13 @@ GLOBAL_LIST_INIT(special_traits, build_special_traits())
 			needs_extra_vice = TRUE
 		else
 			has_extra_vice = TRUE
+	var/list/flaw_order = list()
 	for(var/datum/charflaw/cf in character.charflaws)
+		if(cf.relocates_owner)
+			flaw_order.Insert(1, cf)
+		else
+			flaw_order += cf
+	for(var/datum/charflaw/cf in flaw_order)
 		cf.apply_post_equipment(character)
 		record_featured_object_stat(FEATURED_STATS_VICES, cf.name)
 	if(needs_extra_vice && !has_extra_vice)

@@ -1,4 +1,0 @@
-author: "changelingonberry"
-delete-after: True
-changes:
-  - bugfix: "Items that can be repaired both via needle and hammer can now be repaired via their respective kits too."
