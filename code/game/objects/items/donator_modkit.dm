@@ -74,9 +74,10 @@
 		R.name += " <font size = 1>([I.name])</font>"
 	else
 		R.name = R.name
-	if(I.polished)
-		R.polished = I.polished
-		R.polish_bonus = I.polish_bonus
+	if(I.polished == 4)
+		R.apply_full_polish()
+	else
+		I.polished = R.polished
 	if(I.has_item_quality)
 		R.item_quality = I.item_quality
 	qdel(I)
