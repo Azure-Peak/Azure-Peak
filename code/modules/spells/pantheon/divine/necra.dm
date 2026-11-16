@@ -1162,7 +1162,7 @@ GLOBAL_DATUM_INIT(_corpse_sort_ref, /mob, null)
 			spirit.disperse()
 		return
 	var/aimloc = pick(BODY_ZONE_CHEST, BODY_ZONE_HEAD, BODY_ZONE_L_ARM, BODY_ZONE_R_ARM)
-	var/pennis = HAS_TRAIT(owner, TRAIT_SILVER_WEAKNESS) ? PEN_BSTEEL : PEN_LIGHT
+	var/pennis = HAS_TRAIT(owner, TRAIT_SILVER_WEAK) ? PEN_BSTEEL : PEN_LIGHT
 	arcyne_strike(owner, owner, null, tick_damage, aimloc, BCLASS_BITE, pennis, "spirit ravage", TRUE, TRUE, FALSE, BRUTE, PUNCH_INT_DAMAGEFACTOR, null, null)
 	arcyne_strike(owner, owner, null, tick_damage, aimloc, BCLASS_BURN, pennis, "spirit rancor", TRUE, TRUE, FALSE, BURN, PUNCH_INT_DAMAGEFACTOR, null, null)
 
