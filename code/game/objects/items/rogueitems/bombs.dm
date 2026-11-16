@@ -1,6 +1,5 @@
 #define MT_BOMB_HIT "bomb_hit"
 #define BOMB_HIT_IMMUNITY_DURATION 1 SECONDS
-#define BOMB_CRIT_LEFTOVERS pick("smithereens", "thin gruel", "bits", "spare parts", "pieces", "kingdom come", "another timeline", "yesterday", "hell", "PSYDON's embrace", "Necra's embrace", "Zizo's embrace", "Astrata and back")
 #define BOMB_SOUND pick('sound/misc/explode/bottlebomb (1).ogg', 'sound/misc/explode/bottlebomb (2).ogg')
 
 /mob/living/proc/can_be_gibbed()
@@ -87,15 +86,6 @@
 
 	qdel(src)
 	return TRUE
-
-/obj/item/explosive/proc/crit(mob/living/target, damtype, armor)
-	playsound(get_turf(target), 'sound/combat/tf2crit.ogg', 100, FALSE)
-	if(target.can_be_gibbed())
-		target.visible_message(span_crit("<b>Critical hit!</b> The explosive blasts them to [BOMB_CRIT_LEFTOVERS]!"))
-		target.gib(TRUE, TRUE, FALSE, TRUE)
-		return
-	target.visible_message(span_crit("<b>Critical hit!</b> The explosive deals devastating damage!"))
-	target.apply_damage(PVE_damage, damtype, BODY_ZONE_CHEST, armor)
 
 /obj/item/explosive/ex_act()
 	if(!stowed())
@@ -223,17 +213,12 @@
 	fuze = rand(40, 60)
 
 /obj/item/explosive/fused/bottle/blast(turf/T, forced)
-	var/critbang = 0
-	var/can_crit = FALSE
-	if(isliving(thrower))
-		var/mob/living/M = thrower
-		critbang = min(50, (M.get_skill_level(/datum/skill/craft/engineering) * 5) + (M.STALUC * 2)) + tripcrit // caps at 50% chance, tripmines are excluded from the cap
-		can_crit = HAS_TRAIT(M, TRAIT_BOMBER_EXPERT)
+	var/expert_thrower = isliving(thrower) && HAS_TRAIT(thrower, TRAIT_BOMBER_EXPERT)
 
 	playsound(T, 'sound/items/firesnuff.ogg', 100)
 
 	for(var/mob/living/target in range(1, T))
-		if(target == thrower && can_crit)
+		if(target == thrower && expert_thrower)
 			continue
 		if(target.mob_timers[MT_BOMB_HIT] && world.time < target.mob_timers[MT_BOMB_HIT] + BOMB_HIT_IMMUNITY_DURATION)
 			continue
@@ -242,15 +227,9 @@
 		if(spawn_shard)
 			embed_bomb_shrapnel(target, /obj/item/natural/glass_shard/shrapnel)
 
-		var/scorched = get_scorch_stacks(target)
 		var/armor = target.run_armor_check(BODY_ZONE_CHEST, "fire", blade_dulling = BCLASS_BURN, damage = PVE_damage, no_debuff = TRUE)
 		target.apply_damage(PVE_damage, BURN, BODY_ZONE_CHEST, armor)
 		target.apply_status_effect(/datum/status_effect/debuff/staggered)
-
-		if(can_crit && !target.mind && ((target.stat != CONSCIOUS && target.can_be_gibbed()) || (scorched && prob(critbang))))
-			crit(target, BURN, armor)
-			continue
-
 		apply_scorch_stack(target, 1)
 
 	explosion(T, light_impact_range = 2, smoke = (tripcrit > 0), adminlog = FALSE, soundin = BOMB_SOUND, bomb_owner = thrower)
@@ -436,9 +415,6 @@
 	victim.visible_message(span_warningbig("[victim] steps on [src]!"),
 		span_warningbig("I feel the snapping of twine under my boot!"))
 	victim.Slowdown(5)
-	if(victim.STAINT <= 10 || victim.STAPER <= 10 || !victim.mind)
-		victim.Immobilize(5)
-		victim.emote(pick("huh","whimper","fwhine","gasp"))
 	payload.tripcrit = 50
 	payload.light()
 
@@ -465,15 +441,10 @@
 	var/shards = 10
 
 /obj/item/explosive/impact/shrapnel/blast(turf/T, forced)
-	var/critbang = 0
-	var/can_crit = FALSE
-	if(isliving(thrower))
-		var/mob/living/M = thrower
-		critbang = (M.get_skill_level(/datum/skill/craft/engineering) * 10) + (M.STALUC * 2) + tripcrit
-		can_crit = HAS_TRAIT(M, TRAIT_BOMBER_EXPERT)
+	var/expert_thrower = isliving(thrower) && HAS_TRAIT(thrower, TRAIT_BOMBER_EXPERT)
 
 	for(var/mob/living/target in T)
-		if(target == thrower && can_crit)
+		if(target == thrower && expert_thrower)
 			continue
 		if(target.mob_timers[MT_BOMB_HIT] && world.time < target.mob_timers[MT_BOMB_HIT] + BOMB_HIT_IMMUNITY_DURATION)
 			continue
@@ -483,12 +454,9 @@
 		target.apply_damage(PVE_damage, BRUTE, BODY_ZONE_CHEST, armor)
 		target.apply_status_effect(/datum/status_effect/debuff/staggered)
 
-		if(can_crit && !target.mind && prob(critbang + (target.stat != CONSCIOUS ? 50 : 0)))
-			crit(target, BRUTE, armor)
-
 	for(var/i in 1 to shards)
 		var/obj/projectile/bullet/bombshard/P = new(T)
-		if(can_crit)
+		if(expert_thrower)
 			P.firer = thrower
 		P.fire(i * 360 / shards + rand(-10, 10))
 
@@ -676,5 +644,4 @@
 
 #undef MT_BOMB_HIT
 #undef BOMB_HIT_IMMUNITY_DURATION
-#undef BOMB_CRIT_LEFTOVERS
 #undef BOMB_SOUND
