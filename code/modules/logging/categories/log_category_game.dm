@@ -12,6 +12,11 @@
 	config_flag = /datum/config_entry/flag/log_emote
 	master_category = /datum/log_category/game
 
+/datum/log_category/game_ghost_polls
+	category = LOG_CATEGORY_GAME_GHOST_POLLS
+	config_flag = /datum/config_entry/flag/log_game
+	master_category = /datum/log_category/game
+
 /datum/log_category/game_looc
 	category = LOG_CATEGORY_GAME_LOOC
 	config_flag = /datum/config_entry/flag/log_looc

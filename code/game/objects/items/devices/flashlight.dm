@@ -273,6 +273,13 @@
 				user.visible_message("<span class='warning'>[src] has burnt out and falls apart!</span>")
 				qdel(src)
 
+/obj/item/flashlight/flare/torch/attackby(obj/item/I, mob/user, params)
+	if(on && HAS_TRAIT(user, TRAIT_BOMBER_EXPERT)) // only works if ur a badas!
+		if(istype(I, /obj/item/explosive/fused))
+			I.fire_act()
+			return
+	return ..()
+
 /obj/item/flashlight/flare/torch/spark_act()
 	fire_act()
 

@@ -54,6 +54,8 @@
 				var/datum/job/J = SSjob.GetJob(highest_title)
 				if(J && length(J.quirk_restrictions) && (Q.type in J.quirk_restrictions))
 					unavailable = "Disallowed for role [highest_title]."
+				if(J?.is_quirk_job_locked(Q))
+					unavailable = "Only allowed for roles: [english_list(Q.allowed_jobs)]."
 		UNTYPED_LIST_ADD(quirk_availability, list(
 			"path" = path,
 			"unavailable" = unavailable,

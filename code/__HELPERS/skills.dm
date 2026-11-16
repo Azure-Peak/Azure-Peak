@@ -1,3 +1,19 @@
+/proc/get_skill_speed_divisor(skill_level = SKILL_LEVEL_NONE)
+	switch(skill_level)
+		if(SKILL_LEVEL_NOVICE)
+			return SKILL_SPEED_DIVISOR_NOVICE
+		if(SKILL_LEVEL_APPRENTICE)
+			return SKILL_SPEED_DIVISOR_APPRENTICE
+		if(SKILL_LEVEL_JOURNEYMAN)
+			return SKILL_SPEED_DIVISOR_JOURNEYMAN
+		if(SKILL_LEVEL_EXPERT)
+			return SKILL_SPEED_DIVISOR_EXPERT
+		if(SKILL_LEVEL_MASTER)
+			return SKILL_SPEED_DIVISOR_MASTER
+		if(SKILL_LEVEL_LEGENDARY)
+			return SKILL_SPEED_DIVISOR_LEGENDARY
+	return SKILL_SPEED_DIVISOR_NONE
+
 /proc/get_skill_delay(skill_level, fastest = 0.5, slowest = 5)
 	if(skill_level == SKILL_LEVEL_NONE) //can't divivde by zero
 		return slowest SECONDS

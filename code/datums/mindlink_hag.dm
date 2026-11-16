@@ -25,9 +25,9 @@
 
 	// Speech logic
 	if(findtext(message, ",m", 1, 3))
-		message = trim(copytext(message, 3))
+		message = capitalize(trim(copytext(message, 3)))
 		message = span_centcomradio("[message]")
-		var/formatted = "The voice of [speaker] echoes, \"<i>[capitalize(message)]</i>\"."
+		var/formatted = "The voice of [speaker] echoes, \"<i>[message]</i>\"."
 
 		for(var/mob/living/M in members)
 			// Slightly more secretive!

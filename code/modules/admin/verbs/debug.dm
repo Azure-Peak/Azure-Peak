@@ -290,6 +290,46 @@ But you can call procs that are of type /mob/living/carbon/human/proc/ for that 
 GLOBAL_LIST_EMPTY(loadout_selected_jobs)
 GLOBAL_LIST_EMPTY(loadout_selected_advclasses)
 
+/mob/living/carbon/human/proc/sheet()
+	. = list()
+	for(var/stat in MOBSTATS)
+		.[stat] = get_stat(stat)
+	for(var/datum/skill/S as anything in skills?.known_skills)
+		.[S.name] = skills.known_skills[S]
+	for(var/trait in status_traits)
+		.["[trait]"] = "trait"
+	for(var/S in mind?.spell_list)
+		var/datum/action/A = S
+		var/obj/O = S
+		.[istype(A) ? A.name : O.name] = "spell"
+	for(var/obj/item/I in get_equipped_items(TRUE) | held_items)
+		.[I.name] = "item"
+
+/mob/living/carbon/human/proc/sheet_diff(list/old)
+	var/list/now = sheet()
+	var/list/out = list()
+	for(var/key in old | now)
+		var/was = old[key]
+		var/cur = now[key]
+		if(istext(was) || istext(cur))
+			if(!was || !cur)
+				out += "[cur ? "+" : "-"][cur || was] [key]"
+		else if((was || 0) != (cur || 0))
+			out += "[key] [was || 0] -> [cur || 0]"
+	return length(out) ? jointext(out, ", ") : "no changes"
+
+/client/proc/loadout_label(mob/living/carbon/human/H)
+	var/path = GLOB.loadout_selected_jobs[REF(H)]
+	var/datum/advclass/AC = GLOB.loadout_selected_advclasses[REF(H)]
+	var/label = "no job"
+	if(ispath(path, /datum/migrant_role))
+		var/datum/migrant_role/MR = path
+		label = "[initial(MR.name)] (migrant)"
+	else if(path)
+		var/datum/job/J = path
+		label = initial(J.title)
+	return AC ? "[label] / [initial(AC.name)]" : label
+
 /// Builds an associative list of all available jobs and migrant roles for the loadout panel
 /client/proc/build_loadout_job_list()
 	var/list/job_list = list()
@@ -318,7 +358,9 @@ GLOBAL_LIST_EMPTY(loadout_selected_advclasses)
 	to_chat(usr, span_notice("Job selected: [selected_title]"))
 	if(!H.mind)
 		H.mind_initialize()
+	var/old_role = H.mind.assigned_role
 	H.mind.assigned_role = selected_title
+	H.log_message("had their assigned role changed from [old_role || "none"] to [selected_title] by [key_name(usr)] via the loadout manager", LOG_ADMIN)
 
 	// Auto-select advclass if job has only one, or open selection if multiple
 	if(ispath(job_type_path, /datum/migrant_role))
@@ -570,10 +612,12 @@ GLOBAL_LIST_EMPTY(loadout_selected_advclasses)
 				return TRUE
 			// Ask to delete current equipment
 			if(alert(usr, "Delete all current equipment?", "Confirm", "Yes", "No") == "Yes")
+				var/list/old = H.sheet()
 				for(var/obj/item/I in H.get_equipped_items(TRUE))
 					qdel(I)
 				for(var/obj/item/I in H.held_items)
 					qdel(I)
+				H.log_message("had all equipment deleted by [key_name(usr)] via the loadout manager: [H.sheet_diff(old)]", LOG_ADMIN)
 			apply_full_job_loadout(H, job_path)
 			show_loadout_panel(H)
 
@@ -658,6 +702,7 @@ GLOBAL_LIST_EMPTY(loadout_selected_advclasses)
 /client/proc/apply_full_job_loadout(mob/living/carbon/human/H, job_type_path)
 	if(!ishuman(H))
 		return
+	var/list/old = H.sheet()
 
 	// Determine if this is a migrant role or regular job
 	var/is_migrant = FALSE
@@ -822,12 +867,13 @@ GLOBAL_LIST_EMPTY(loadout_selected_advclasses)
 
 	to_chat(H, span_notice("Full job loadout applied! Stats, skills, and traits have been configured."))
 	message_admins("[key_name_admin(usr)] applied full job loadout [actual_outfit] to [ADMIN_LOOKUPFLW(H)].")
-	log_admin("[key_name(usr)] applied full job loadout [actual_outfit] to [key_name(H)].")
+	H.log_message("had the full [loadout_label(H)] loadout ([actual_outfit]) applied by [key_name(usr)] via the loadout manager: [H.sheet_diff(old)]", LOG_ADMIN)
 
 // Individual application functions
 /client/proc/apply_job_equipment_and_spells(mob/living/carbon/human/H, job_type_path, delete_existing = FALSE)
 	if(!ishuman(H))
 		return
+	var/list/old = H.sheet()
 
 	if(!H.mind)
 		H.mind_initialize()
@@ -916,13 +962,14 @@ GLOBAL_LIST_EMPTY(loadout_selected_advclasses)
 	if(actual_outfit)
 		to_chat(H, span_notice("Equipment and spells applied[is_migrant ? " from migrant role" : ""]!"))
 		message_admins("[key_name_admin(usr)] applied equipment and spells from [actual_outfit] to [ADMIN_LOOKUPFLW(H)].")
-		log_admin("[key_name(usr)] applied equipment and spells from [actual_outfit] to [key_name(H)].")
+		H.log_message("had [loadout_label(H)] equipment and spells ([actual_outfit]) applied[delete_existing ? " after wiping gear and spells" : ""] by [key_name(usr)] via the loadout manager: [H.sheet_diff(old)]", LOG_ADMIN)
 	else
 		to_chat(usr, span_warning("No outfit available for this [is_migrant ? "migrant role" : "job"]."))
 
 /client/proc/apply_job_stats(mob/living/carbon/human/H, job_type_path, delete_existing = FALSE)
 	if(!ishuman(H))
 		return
+	var/list/old = H.sheet()
 
 	// Get outfit from job type for job finding
 	var/datum/job/JobType = job_type_path
@@ -956,11 +1003,12 @@ GLOBAL_LIST_EMPTY(loadout_selected_advclasses)
 
 	to_chat(H, span_notice("Stats applied from job[advclass_path ? " and advclass" : ""]!"))
 	message_admins("[key_name_admin(usr)] applied stats from [outfit_path] to [ADMIN_LOOKUPFLW(H)].")
-	log_admin("[key_name(usr)] applied stats from [outfit_path] to [key_name(H)].")
+	H.log_message("had [loadout_label(H)] stats applied[delete_existing ? " after a reroll" : ""] by [key_name(usr)] via the loadout manager: [H.sheet_diff(old)]", LOG_ADMIN)
 
 /client/proc/apply_job_skills(mob/living/carbon/human/H, job_type_path, delete_existing = FALSE)
 	if(!ishuman(H))
 		return
+	var/list/old = H.sheet()
 
 	// Get outfit from job type for job finding
 	var/datum/job/JobType = job_type_path
@@ -991,11 +1039,12 @@ GLOBAL_LIST_EMPTY(loadout_selected_advclasses)
 
 	to_chat(H, span_notice("Skills applied[advclass_path ? " from advclass" : ""]!"))
 	message_admins("[key_name_admin(usr)] applied skills from [outfit_path] to [ADMIN_LOOKUPFLW(H)].")
-	log_admin("[key_name(usr)] applied skills from [outfit_path] to [key_name(H)].")
+	H.log_message("had [loadout_label(H)] skills applied[delete_existing ? " after wiping skills" : ""] by [key_name(usr)] via the loadout manager: [H.sheet_diff(old)]", LOG_ADMIN)
 
 /client/proc/apply_job_traits(mob/living/carbon/human/H, job_type_path, delete_existing = FALSE)
 	if(!ishuman(H))
 		return
+	var/list/old = H.sheet()
 
 	// Get outfit from job type for job finding
 	var/datum/job/JobType = job_type_path
@@ -1035,7 +1084,7 @@ GLOBAL_LIST_EMPTY(loadout_selected_advclasses)
 
 	to_chat(H, span_notice("Traits applied from job[advclass_path ? " and advclass" : ""]!"))
 	message_admins("[key_name_admin(usr)] applied traits from [outfit_path] to [ADMIN_LOOKUPFLW(H)].")
-	log_admin("[key_name(usr)] applied traits from [outfit_path] to [key_name(H)].")
+	H.log_message("had [loadout_label(H)] traits applied[delete_existing ? " after wiping job traits" : ""] by [key_name(usr)] via the loadout manager: [H.sheet_diff(old)]", LOG_ADMIN)
 
 /client/proc/apply_job_examine_title(mob/living/carbon/human/H, job_type_path)
 	if(!ishuman(H))
@@ -1060,7 +1109,7 @@ GLOBAL_LIST_EMPTY(loadout_selected_advclasses)
 		H.advjob = null
 		to_chat(H, span_notice("Examine title set to: [title]"))
 		message_admins("[key_name_admin(usr)] set examine title for [ADMIN_LOOKUPFLW(H)] to [title].")
-		log_admin("[key_name(usr)] set examine title for [key_name(H)] to [title].")
+		H.log_message("had their examine title set to [title] by [key_name(usr)] via the loadout manager", LOG_ADMIN)
 		qdel(migrant_datum)
 	else
 		// Get the job datum directly from the path
@@ -1086,7 +1135,7 @@ GLOBAL_LIST_EMPTY(loadout_selected_advclasses)
 			H.advjob = advclass_datum.name
 			to_chat(H, span_notice("Examine title set to: [advclass_datum.name]"))
 			message_admins("[key_name_admin(usr)] set examine title for [ADMIN_LOOKUPFLW(H)] to [advclass_datum.name].")
-			log_admin("[key_name(usr)] set examine title for [key_name(H)] to [advclass_datum.name].")
+			H.log_message("had their examine title set to [advclass_datum.name] by [key_name(usr)] via the loadout manager", LOG_ADMIN)
 		else
 			// For jobs with advjob_examine = TRUE, set H.advjob to the appropriate title
 			if(job_datum.advjob_examine)
@@ -1095,11 +1144,12 @@ GLOBAL_LIST_EMPTY(loadout_selected_advclasses)
 			var/display_title = job_datum.display_title || title
 			to_chat(H, span_notice("Examine title set to: [display_title]"))
 			message_admins("[key_name_admin(usr)] set examine title for [ADMIN_LOOKUPFLW(H)] to [display_title].")
-			log_admin("[key_name(usr)] set examine title for [key_name(H)] to [display_title].")
+			H.log_message("had their examine title set to [display_title] by [key_name(usr)] via the loadout manager", LOG_ADMIN)
 
 /client/proc/clean_slate_mob(mob/living/carbon/human/H)
 	if(!ishuman(H))
 		return
+	var/list/old = H.sheet()
 
 	// Delete all equipment including items in hands
 	for(var/obj/item/I in H.get_equipped_items(TRUE))
@@ -1150,7 +1200,7 @@ GLOBAL_LIST_EMPTY(loadout_selected_advclasses)
 
 	to_chat(H, span_warning("You have been reset to a blank slate!"))
 	message_admins("[key_name_admin(usr)] reset [ADMIN_LOOKUPFLW(H)] to a clean slate.")
-	log_admin("[key_name(usr)] reset [key_name(H)] to a clean slate.")
+	H.log_message("was reset to a clean slate by [key_name(usr)] via the loadout manager: [H.sheet_diff(old)]", LOG_ADMIN)
 
 // Copy loadout from one mob to another
 /client/proc/copy_loadout_from_mob(mob/living/carbon/human/target)
@@ -1188,8 +1238,11 @@ GLOBAL_LIST_EMPTY(loadout_selected_advclasses)
 	if(!copy_choice)
 		return
 
+	var/list/old = target.sheet()
+	var/wiped = FALSE
 	// Clear target's equipment first
 	if(alert(src, "Clear target's current equipment?", "Confirm", "Yes", "No") == "Yes")
+		wiped = TRUE
 		for(var/obj/item/I in target.get_equipped_items(TRUE))
 			qdel(I)
 
@@ -1211,7 +1264,7 @@ GLOBAL_LIST_EMPTY(loadout_selected_advclasses)
 	target.regenerate_icons()
 	to_chat(usr, span_notice("Loadout copied from [source.name] to [target.name]!"))
 	message_admins("[key_name_admin(usr)] copied loadout from [ADMIN_LOOKUPFLW(source)] to [ADMIN_LOOKUPFLW(target)] ([copy_choice]).")
-	log_admin("[key_name(usr)] copied loadout from [key_name(source)] to [key_name(target)] ([copy_choice]).")
+	target.log_message("had [copy_choice] copied from [key_name(source)][wiped ? " after wiping gear" : ""] by [key_name(usr)] via the loadout manager: [target.sheet_diff(old)]", LOG_ADMIN)
 
 /client/proc/copy_equipment(mob/living/carbon/human/source, mob/living/carbon/human/target)
 	// Copy all worn/held items by creating duplicates
@@ -1560,7 +1613,7 @@ GLOBAL_LIST_EMPTY(loadout_selected_advclasses)
 					spell_name = S.name
 				H.mind.RemoveSpell(spell)
 				message_admins("[key_name_admin(usr)] has removed [spell_name] from [ADMIN_LOOKUPFLW(H)].")
-				log_admin("[key_name(usr)] has removed [spell_name] from [key_name(H)].")
+				H.log_message("had spell [spell_name] removed by [key_name(usr)] via the loadout manager", LOG_ADMIN)
 
 /client/proc/loadout_add_spell(mob/T)
 	var/list/spells = list()
@@ -1585,5 +1638,5 @@ GLOBAL_LIST_EMPTY(loadout_selected_advclasses)
 			T.AddSpell(spell)
 		message_admins(span_danger("Spells given to mindless mobs will not be transferred in mindswap or cloning!"))
 	message_admins("[key_name_admin(usr)] has granted [selected] to [ADMIN_LOOKUPFLW(T)].")
-	log_admin("[key_name(usr)] has granted [selected] to [key_name(T)].")
+	T.log_message("had spell [selected] granted by [key_name(usr)] via the loadout manager", LOG_ADMIN)
 	return selected

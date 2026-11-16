@@ -1884,8 +1884,8 @@
  */
 
 /mob/living/proc/on_fire_stack(seconds_per_tick, datum/status_effect/fire_handler/fire_stacks/fire_handler)
-	var/fire_resist_mult = HAS_TRAIT(src, TRAIT_FIRE_RESIST) ? 0.5 : 1
-	adjust_bodytemperature(((fire_handler.stacks * 12)) * 0.5 * seconds_per_tick * fire_resist_mult)
+//	var/fire_resist_mult = HAS_TRAIT(src, TRAIT_FIRE_RESIST) ? 0.5 : 1 // quarantined for now, someone else pls look into this later, removal of this proc is causing some systematic problems I cba to fix. ~ Kunai
+
 
 /**
  * Adjust the amount of fire stacks on a mob
@@ -2139,13 +2139,6 @@
 		if (client)
 			if (new_z)
 				SSmobs.clients_by_zlevel[new_z] += src
-				for (var/I in length(SSidlenpcpool.idle_mobs_by_zlevel[new_z]) to 1 step -1) //Backwards loop because we're removing (guarantees optimal rather than worst-case performance), it's fine to use .len here but doesn't compile on 511
-					var/mob/living/simple_animal/SA = SSidlenpcpool.idle_mobs_by_zlevel[new_z][I]
-					if (SA)
-						SA.toggle_ai(AI_ON) // Guarantees responsiveness for when appearing right next to mobs
-					else
-						SSidlenpcpool.idle_mobs_by_zlevel[new_z] -= SA
-
 			registered_z = new_z
 		else
 			registered_z = null

@@ -253,9 +253,11 @@
 
 //Ghosts
 
-#define ui_ghost_jumptomob "SOUTH:6,CENTER-2:24"
-#define ui_ghost_orbit "SOUTH:6,CENTER-1:24"
-#define ui_ghost_reenter_corpse "SOUTH:6,CENTER:24"
-#define ui_ghost_teleport "SOUTH:6,CENTER+1:24"
-#define ui_ghost_moveup "SOUTH:6,CENTER+2:24"
-#define ui_ghost_movedown "SOUTH:6,CENTER+3:24"
+#define ui_ghost_jumptomob "SOUTH:6,CENTER-4:0"
+#define ui_ghost_orbit "SOUTH:6,CENTER-3:0"
+#define ui_ghost_reenter_corpse "SOUTH:6,CENTER-2:0"
+#define ui_ghost_teleport "SOUTH:6,CENTER-1:0"
+#define ui_ghost_hermes "SOUTH:6,CENTER:0"
+#define ui_ghost_character "SOUTH:6,CENTER+1:0"
+#define ui_ghost_moveup "SOUTH:6,CENTER+2:0"
+#define ui_ghost_movedown "SOUTH:6,CENTER+3:0"

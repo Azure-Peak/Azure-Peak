@@ -434,4 +434,20 @@
 		"#Remember the words, honor the words."
 	)
 
+/datum/abyssal_ritual/painted_bait
+	name = "Imagine Painted Bait"
+	desc = "Draw sacred paints into a tangible form, alluring to the creatures of the abyss."
+	required_ingredients = list(
+		/obj/item/dream_material/dream_ring = 1,
+		/obj/item/dream_material/dream_fishes = 1
+	)
+	reward_items = list(
+		/obj/item/fishing/bait/deluxe = 6
+	)
+	invocation_phases = list(
+		"#All feel the call of the depths.",
+		"#Let not what lies there be forgotten.",
+		"Abyssor! Grant us thy bounty!"
+	)
+
 #undef MOVESPEED_ID_WATERLOG_SLOW

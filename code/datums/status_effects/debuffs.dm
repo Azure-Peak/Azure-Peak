@@ -119,7 +119,7 @@
 		var/healing = -0.2
 		if((locate(/obj/structure/bed) in owner.loc))
 			healing -= 0.3
-		else if((locate(/obj/structure/table) in owner.loc))
+		else if(has_table_surface(owner.loc))
 			healing -= 0.1
 		for(var/obj/item/bedsheet/bedsheet in range(owner.loc,0))
 			if(bedsheet.loc != owner.loc) //bedsheets in my backpack/neck don't give you comfort

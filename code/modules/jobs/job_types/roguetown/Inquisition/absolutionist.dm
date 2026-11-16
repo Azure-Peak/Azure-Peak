@@ -14,10 +14,11 @@
 	min_pq = 3
 	max_pq = null
 	round_contrib_points = 2
+	quest_claim_barred = TRUE // You're a pacifist
 	wanderer_examine = FALSE
 	advjob_examine = FALSE
 	give_bank_account = 15
-	vice_restrictions = list(/datum/charflaw/silverweakness)
+	vice_restrictions = list(/datum/charflaw/silverweakness, /datum/charflaw/wanted)
 
 	job_traits = list(
 		TRAIT_NOPAINSTUN,

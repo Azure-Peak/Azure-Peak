@@ -104,7 +104,7 @@
 	RegisterSignal(body, COMSIG_LIVING_DEATH, PROC_REF(on_body_death))
 	RegisterSignal(body, COMSIG_MOVABLE_MOVED, PROC_REF(on_tether_moved))
 
-	tether_beam = body.Beam(vessel, icon_state = "b_beam", time = INFINITY, maxdistance = leash_range + 3, beam_type = /obj/effect/ebeam/spirit_tether, beam_sleep_time = 2)
+	tether_beam = body.Beam(vessel, icon_state = "b_beam", time = INFINITY, max_distance = leash_range + 3, beam_type = /obj/effect/ebeam/spirit_tether)
 	START_PROCESSING(SSprocessing, src)
 
 	return_action = new /datum/action/cooldown/spell/spirit_return()

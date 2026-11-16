@@ -536,14 +536,11 @@ If you want to expand on poisons theres tons of fun effects TG chemistry has tha
 	var/fever_multiplier = 1
 
 /datum/reagent/infection/on_mob_life(mob/living/carbon/M)
-	var/heat = (BODYTEMP_AUTORECOVERY_MINIMUM + clamp(volume, 3, 15)) * fever_multiplier
 	M.adjustToxLoss(damage_tick, 0)
 	if (lethal_fever)
-		M.adjust_bodytemperature(heat, 0)
 		if (prob(5))
 			to_chat(M, span_warning("A wicked heat settles within me... I feel ill. Very ill."))
 	else
-		M.adjust_bodytemperature(heat, 0, BODYTEMP_HEAT_DAMAGE_LIMIT - 1)
 		if (prob(5))
 			to_chat(M, span_warning("I feel a horrible chill despite the sweat rolling from my brow..."))
 	return ..()

@@ -26,6 +26,8 @@
 
 /obj/item/clothing/suit/roguetown/shirt/robe/dropped(mob/living/carbon/human/user)
 	..()
+	if(QDELETED(user)) // Wearer is despawning (far travel etc.), contents go with them.
+		return
 	var/datum/component/storage/STR = GetComponent(/datum/component/storage)
 	if(STR)
 		var/list/things = STR.contents()

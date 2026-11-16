@@ -94,7 +94,10 @@ export const GrimoireChoiceSection = ({
         const wouldCostSwap = swapMode && !isSelected && !isLiveChosen;
         const cantAffordSwap = wouldCostSwap && swapAvailable < swapCost;
         const disabled =
-          selectedElsewhere || conflictsElsewhere || cantAffordSwap;
+          isPendingUnbind ||
+          selectedElsewhere ||
+          conflictsElsewhere ||
+          cantAffordSwap;
         return (
           <div
             key={spell.path}

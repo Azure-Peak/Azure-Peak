@@ -34,7 +34,7 @@
 
 	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
 
-	var/blast_radius = 1
+	impact_radius = 1
 	var/blast_delay = 2 SECONDS
 	var/blast_damage = SPELL_DMG(75)
 	var/push_dist = 3
@@ -53,22 +53,23 @@
 		to_chat(H, span_warning("I can't cast where I can't see!"))
 		return FALSE
 
-	for(var/turf/T in range(blast_radius, center))
+	for(var/turf/T as anything in get_impact_turfs(center))
 		if(T.density)
 			continue
 		new /obj/effect/temp_visual/telegraph/pillar/fadein(T, blast_delay)
 
-	addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(arcyne_burst_erupt), center, H, blast_radius, blast_damage, push_dist, src, name), blast_delay)
+	addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(arcyne_burst_erupt), center, H, impact_radius, blast_damage, push_dist, src, name), blast_delay)
 
 	return TRUE
+
+/datum/action/cooldown/spell/arcyne_burst/get_impact_turfs(atom/center)
+	return get_visible_area_turfs(get_turf(center), impact_radius)
 
 /proc/arcyne_burst_erupt(turf/epicenter, mob/living/carbon/human/caster, radius = 1, damage = 50, push_dist = 3, datum/action/cooldown/spell/guard_source, spell_name = "Arcyne Burst")
 	if(!epicenter)
 		return
 	playsound(epicenter, 'sound/magic/repulse.ogg', 90, TRUE, 4)
-	for(var/turf/T in range(radius, epicenter))
-		if(!(T in get_hear(radius, epicenter)))
-			continue
+	for(var/turf/T as anything in get_visible_area_turfs(epicenter, radius))
 		new /obj/effect/temp_visual/kinetic_blast(T)
 		for(var/obj/structure/S in T)
 			S.take_damage(damage * SPELL_DAMAGE_INTEGRITY_MODIFIER, BRUTE, "blunt", FALSE)

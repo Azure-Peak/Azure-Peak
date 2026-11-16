@@ -113,7 +113,7 @@
 	shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced
 	cloak = /obj/item/clothing/cloak/thief_cloak
 	gloves = /obj/item/clothing/gloves/roguetown/angle
-	belt = /obj/item/storage/belt/rogue/leather/knifebelt/black/steel
+	belt = /obj/item/storage/belt/rogue/leather/tossbelt/blade/black/steel
 	head = /obj/item/clothing/head/roguetown/helmet/kettle/
 	armor = /obj/item/clothing/suit/roguetown/armor/leather/studded
 	backl = /obj/item/storage/backpack/rogue/satchel

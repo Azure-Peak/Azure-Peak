@@ -59,7 +59,7 @@
 	else
 		icon_regular_floor = icon_state
 
-/turf/open/floor/ex_act(severity, target, epicenter, devastation_range, heavy_impact_range, light_impact_range, flame_range)
+/turf/open/floor/ex_act(severity, target, epicenter, extreme_impact_range, heavy_impact_range, light_impact_range, flame_range)
 	var/shielded = is_shielded()
 	..()
 	if(severity != 1 && shielded && target != src)
@@ -68,7 +68,7 @@
 		ScrapeAway(flags = CHANGETURF_INHERIT_AIR)
 		take_damage(INFINITY, BRUTE, "blunt", 0)
 		return
-	var/ddist = devastation_range
+	var/ddist = extreme_impact_range
 	var/hdist = heavy_impact_range
 	var/ldist = light_impact_range
 	var/fdist = flame_range

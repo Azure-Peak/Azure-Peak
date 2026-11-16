@@ -9,7 +9,7 @@ LICH SKELETONS
 	tutorial = "You are bygone. Your will belongs to your master. Fulfil and kill."
 
 	outfit = /datum/outfit/job/roguetown/greater_skeleton/lich
-	vice_restrictions = list(/datum/charflaw/hunted, /datum/charflaw/targeted, /datum/charflaw/wanted)
+	vice_restrictions = list(/datum/charflaw/hunted, /datum/charflaw/targeted, /datum/charflaw/wanted, /datum/charflaw/forlorne)
 
 /datum/outfit/job/roguetown/greater_skeleton/lich
 
@@ -1023,7 +1023,6 @@ LICH SKELETONS
 	color = "#bb9696"
 	smeltresult = /obj/item/ingot/aaslag
 	anvilrepair = null
-	randomize_blade_int_on_init = TRUE
 
 /obj/item/rogueweapon/greatsword/grenz/flamberge/paalloy
 	name = "ancient flamberge"

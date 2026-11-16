@@ -112,6 +112,13 @@
 			L += new path()
 	return L
 
+/proc/init_subtypes_w_path_keys(prototype, list/L)
+	if(!istype(L))
+		L = list()
+	for(var/path as anything in subtypesof(prototype))
+		L[path] = new path()
+	return L
+
 //returns a list of paths to every subtype of prototype (excluding prototype)
 //if no list/L is provided, one is created.
 /proc/init_paths(prototype, list/L)

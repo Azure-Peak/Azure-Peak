@@ -69,23 +69,19 @@
 				target.mind.current.faction -= faction_tag
 				marked_allies -= WEAKREF(target.mind.current)
 				user.say("Hostis declaratus es.", language = /datum/language/common)
-				target.notify_faction_change()
 			else
 				target.mind.current.faction += faction_tag
 				marked_allies |= WEAKREF(target.mind.current)
 				user.say("Amicus declaratus es.", language = /datum/language/common)
-				target.notify_faction_change()
 		else if(istype(target, /mob/living/simple_animal))
 			if(faction_tag in target.faction)
 				target.faction -= faction_tag
 				marked_allies -= WEAKREF(target)
 				user.say("Hostis declaratus es.", language = /datum/language/common)
-				target.notify_faction_change()
 			else
 				target.faction |= faction_tag
 				marked_allies |= WEAKREF(target)
 				user.say("Amicus declaratus es.", language = /datum/language/common)
-				target.notify_faction_change()
 		return TRUE
 	return FALSE
 

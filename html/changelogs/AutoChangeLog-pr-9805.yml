@@ -1,5 +1,0 @@
-author: "RosySaturniidae"
-delete-after: True
-changes:
-  - code_imp: "patron color defines are now in colors.dm"
-  - code_imp: "replaced all instances of GLOW_COLOR_patron"

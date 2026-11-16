@@ -111,6 +111,16 @@
 	path = /obj/item/clothing/neck/roguetown/collar
 	sort_category = "Accessories"
 
+/datum/loadout_item/cravat
+	name = "Cravat"
+	path = /obj/item/clothing/neck/roguetown/cravat
+	sort_category = "Accessories"
+
+/datum/loadout_item/ruffle
+	name = "Ruffled Collar"
+	path = /obj/item/clothing/neck/roguetown/ruffle
+	sort_category = "Accessories"
+
 /datum/loadout_item/forlon_collar
 	name = "Light Forlorn Collar"
 	path = /obj/item/clothing/neck/roguetown/collar/forlorn
@@ -183,7 +193,7 @@
 
 /datum/loadout_item/knifebelt // comes empty
 	name = "Tossblade Belt"
-	path = /obj/item/storage/belt/rogue/leather/knifebelt/black
+	path = /obj/item/storage/belt/rogue/leather/tossbelt/blade/black
 	sort_category = "Accessories"
 
 /datum/loadout_item/blackbelt
@@ -249,4 +259,9 @@
 /datum/loadout_item/belthooks
 	name = "Belt Hooks"
 	path = /obj/item/storage/belt/rogue/leather/belthooks
+	sort_category = "Accessories"
+
+/datum/loadout_item/bandithood
+	name = "Bandit Hood"
+	path = /obj/item/clothing/head/roguetown/menacing/bandit
 	sort_category = "Accessories"

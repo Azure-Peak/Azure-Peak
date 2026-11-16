@@ -3,6 +3,26 @@
 #define PRESTI_MOTE "presti_mote"
 #define PRESTI_SENSE "presti_sense"
 
+/// Tints the Prestidigitation magelight mote can be shifted between (use the hand in hand with Light selected). Name -> light colour.
+/// The first entry is the mote's original colour. The rest are slightly deeper counterparts of the Light orb's tints (see orb_light_tints in light.dm).
+/// Each non-first name has a matching "wisp_<name>" sprite state in lighting.dmi.
+GLOBAL_LIST_INIT(mote_light_tints, list(
+	"arcyne-blue" = "#3FBAFD",
+	"salt-gold" = "#ffd65c",
+	"copper-green" = "#8fe8a8",
+	"cinnabar-rose" = "#ffa6a0",
+	"manganese-violet" = "#c79bff"
+))
+
+/// What the caster sees when the mote shifts to each tint. Name -> message.
+GLOBAL_LIST_INIT(mote_tint_messages, list(
+	"arcyne-blue" = "My mote gutters and flickers, then steadies into its natural arcyne blue.",
+	"salt-gold" = "My mote sputters, flickers, and catches a salt-gold gleam.",
+	"copper-green" = "My mote wavers and flickers, then burns a verdigris copper-green.",
+	"cinnabar-rose" = "My mote gutters, flares, and settles into a smouldering cinnabar red.",
+	"manganese-violet" = "My mote flickers low and rekindles a manganese-violet."
+))
+
 /datum/action/cooldown/spell/touch/prestidigitation
 	name = "Prestidigitation"
 	desc = "A few basic tricks many apprentices use to practice basic manipulation of the arcyne. Except for light, cooldown is decreased by 10% per point of Int above 10 up to 50%. Includes the following modes:\n \
@@ -27,6 +47,9 @@
 	spell_impact_intensity = SPELL_IMPACT_NONE
 
 	point_cost = 0
+
+	/// Index into GLOB.mote_light_tints. Lives on the spell so it survives the hand being re-formed.
+	var/mote_tint_index = 1
 
 	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
 
@@ -104,6 +127,33 @@
 /obj/item/melee/new_touch_attack/prestidigitation/Destroy()
 	QDEL_NULL(mote)
 	return ..()
+
+/// Applies the spell's chosen tint to the mote's light and sprite.
+/// The first tint is the mote's original colour and keeps its original sprite; the others use the "wisp_<tint name>" states in lighting.dmi.
+/obj/item/melee/new_touch_attack/prestidigitation/proc/apply_mote_tint()
+	if(!mote)
+		return
+	var/datum/action/cooldown/spell/touch/prestidigitation/spell = spell_which_made_us?.resolve()
+	var/list/tints = GLOB.mote_light_tints
+	var/index = spell ? WRAP(spell.mote_tint_index, 1, length(tints) + 1) : 1
+	mote.set_light_color(tints[tints[index]])
+	mote.icon_state = (index == 1) ? initial(mote.icon_state) : "wisp_[tints[index]]"
+
+/// With the Light mode selected, using the hand in hand shifts the mote to the next tint, but only while the mote is released (orbiting the caster).
+/obj/item/melee/new_touch_attack/prestidigitation/attack_self(mob/user)
+	var/mob/living/L = user
+	if(!istype(L) || !L.used_intent || L.used_intent.type != /datum/intent/hand/light)
+		return ..()
+	var/datum/action/cooldown/spell/touch/prestidigitation/spell = spell_which_made_us?.resolve()
+	if(!spell || !mote || mote.loc == src)
+		return ..()
+	var/list/tints = GLOB.mote_light_tints
+	spell.mote_tint_index = WRAP(spell.mote_tint_index + 1, 1, length(tints) + 1)
+	apply_mote_tint()
+	var/tint_name = tints[spell.mote_tint_index]
+	var/message = GLOB.mote_tint_messages[tint_name] || "My mote shifts to a [tint_name] glow."
+	to_chat(user, span_notice(message))
+	return TRUE
 
 /obj/item/melee/new_touch_attack/prestidigitation/proc/sense_leylines(mob/living/carbon/human/user)
 	if(!length(GLOB.leyline_sites))
@@ -195,6 +245,7 @@
 	var/int_bonus = max(user.STAINT - 10, 0)
 	var/mote_power = 5 + FLOOR(int_bonus * 0.3, 1)
 	mote.set_light_range(mote_power)
+	apply_mote_tint()
 	if(mote.light_system == STATIC_LIGHT)
 		mote.update_light()
 

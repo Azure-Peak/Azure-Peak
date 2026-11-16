@@ -7,10 +7,14 @@ SUBSYSTEM_DEF(questpool)
 
 	var/list/datum/quest/pool = list()
 	var/list/recent_takes = list()
+	var/list/solo_signs = list()
+	var/list/solo_sign_quests = list()
 	var/list/event_log = list()
 	var/list/registered_ledgers = list()
 	var/list/kill_count_by_region = list()
 	var/list/evergreen_count_by_region = list()
+	var/list/type_count_by_region = list()
+	var/list/landmarks_by_region = list()
 	var/list/pool_weights = list()
 	var/debug_mode = FALSE
 
@@ -22,9 +26,11 @@ SUBSYSTEM_DEF(questpool)
 				pool_weights[proto.pool_kind] = list()
 			pool_weights[proto.pool_kind][qtype] = proto.pool_weight
 	init_quest_factions()
+	count_region_landmarks()
 	// Front-load every region to its full target so roundstart has a healthy mix.
-	regen_kill_targets(total_kill_target())
-	regen_fetch_targets()
+	regen_kill_targets(total_kill_target(QUEST_POOL_ROUNDSTART_MULT), QUEST_POOL_ROUNDSTART_MULT)
+	regen_fetch_targets(QUEST_POOL_ROUNDSTART_MULT)
+	stagger_roundstart_lapses()
 	RegisterSignal(SSdcs, COMSIG_GLOB_MOB_DEATH, PROC_REF(on_mob_death))
 	return ..()
 
@@ -67,6 +73,15 @@ SUBSYSTEM_DEF(questpool)
 /datum/controller/subsystem/questpool/proc/adjust_region_count(datum/quest/Q, delta)
 	if(!Q?.region || !delta)
 		return
+	var/list/types = type_count_by_region[Q.region]
+	if(!types)
+		types = list()
+		type_count_by_region[Q.region] = types
+	var/new_type_count = (types[Q.quest_type] || 0) + delta
+	if(new_type_count <= 0)
+		types -= Q.quest_type
+	else
+		types[Q.quest_type] = new_type_count
 	if(Q.pool_kind == QUEST_POOL_KILL)
 		var/new_count = (kill_count_by_region[Q.region] || 0) + delta
 		if(new_count <= 0)
@@ -89,12 +104,46 @@ SUBSYSTEM_DEF(questpool)
 		return TRUE
 	return FALSE
 
+/datum/controller/subsystem/questpool/proc/count_region_landmarks()
+	landmarks_by_region = list()
+	for(var/obj/effect/landmark/quest_spawner/landmark as anything in GLOB.quest_landmarks_list)
+		if(QDELETED(landmark) || !landmark.region)
+			continue
+		landmarks_by_region[landmark.region] = (landmarks_by_region[landmark.region] || 0) + 1
+
+/datum/controller/subsystem/questpool/proc/region_has_pool_room(region_name)
+	var/free = 0
+	for(var/obj/effect/landmark/quest_spawner/landmark as anything in GLOB.quest_landmarks_list)
+		if(QDELETED(landmark) || landmark.region != region_name)
+			continue
+		if(!landmark.is_available_for_quest())
+			continue
+		free++
+		if(free > QUEST_POOL_LANDMARK_RESERVE)
+			return TRUE
+	return FALSE
+
+/datum/controller/subsystem/questpool/proc/get_pool_target(datum/threat_region/TR, pool_kind, pop, target_mult = 1)
+	var/kill = region_allows_pool(TR, QUEST_POOL_KILL) ? TR.get_kill_target(pop, target_mult) : 0
+	var/evergreen = region_allows_pool(TR, QUEST_POOL_EVERGREEN) ? TR.get_evergreen_target(target_mult) : 0
+	var/capacity = max(0, (landmarks_by_region[TR.region_name] || 0) - QUEST_POOL_LANDMARK_RESERVE)
+	if(kill + evergreen > capacity)
+		var/kill_share = round(capacity * kill / (kill + evergreen))
+		evergreen = capacity - kill_share
+		kill = kill_share
+	return pool_kind == QUEST_POOL_KILL ? kill : evergreen
+
+/datum/controller/subsystem/questpool/proc/stagger_roundstart_lapses()
+	for(var/datum/quest/Q as anything in pool)
+		Q.created_at = world.time
+		Q.lapse_offset = QUEST_POOL_ROUNDSTART_GRACE + rand(0, QUEST_POOL_ROUNDSTART_JITTER)
+
 /// Sum of per-region kill targets across all regions.
-/datum/controller/subsystem/questpool/proc/total_kill_target()
+/datum/controller/subsystem/questpool/proc/total_kill_target(target_mult = 1)
 	var/pop = GLOB.player_list.len
 	var/total = 0
 	for(var/datum/threat_region/TR as anything in SSregionthreat.threat_regions)
-		total += TR.get_kill_target(pop)
+		total += get_pool_target(TR, QUEST_POOL_KILL, pop, target_mult)
 	return total
 
 /datum/controller/subsystem/questpool/proc/count_kill_quests_in(region_name)
@@ -104,23 +153,24 @@ SUBSYSTEM_DEF(questpool)
 	return evergreen_count_by_region[region_name] || 0
 
 /// Returns the region furthest below its kill target by fill ratio, or null if all are at target.
-/datum/controller/subsystem/questpool/proc/pick_neediest_kill_region()
+/datum/controller/subsystem/questpool/proc/pick_neediest_kill_region(target_mult = 1)
 	var/pop = GLOB.player_list.len
 	var/lowest_ratio = 1
 	var/datum/threat_region/chosen
 	for(var/datum/threat_region/TR as anything in SSregionthreat.threat_regions)
-		var/target = TR.get_kill_target(pop)
+		var/target = get_pool_target(TR, QUEST_POOL_KILL, pop, target_mult)
 		if(!target)
-			continue
-		if(!region_allows_pool(TR, QUEST_POOL_KILL))
 			continue
 		var/have = count_kill_quests_in(TR.region_name)
 		if(have >= target)
 			continue
 		var/ratio = have / target
-		if(ratio < lowest_ratio)
-			lowest_ratio = ratio
-			chosen = TR
+		if(ratio >= lowest_ratio)
+			continue
+		if(!region_has_pool_room(TR.region_name))
+			continue
+		lowest_ratio = ratio
+		chosen = TR
 	return chosen
 
 /proc/region_allows_pool(datum/threat_region/TR, pool_kind)
@@ -129,9 +179,9 @@ SUBSYSTEM_DEF(questpool)
 			return TRUE
 	return FALSE
 
-/datum/controller/subsystem/questpool/proc/regen_kill_targets(count)
+/datum/controller/subsystem/questpool/proc/regen_kill_targets(count, target_mult = 1)
 	for(var/i in 1 to count)
-		var/datum/threat_region/TR = pick_neediest_kill_region()
+		var/datum/threat_region/TR = pick_neediest_kill_region(target_mult)
 		if(!TR)
 			return
 		var/type = pick_pool_type_for(TR, QUEST_POOL_KILL)
@@ -139,15 +189,14 @@ SUBSYSTEM_DEF(questpool)
 			continue
 		generate_one(type, TR)
 
-/datum/controller/subsystem/questpool/proc/regen_fetch_targets()
+/datum/controller/subsystem/questpool/proc/regen_fetch_targets(target_mult = 1)
+	var/pop = GLOB.player_list.len
 	for(var/datum/threat_region/TR as anything in SSregionthreat.threat_regions)
-		if(!TR.evergreen_target)
-			continue
-		if(!region_allows_pool(TR, QUEST_POOL_EVERGREEN))
-			continue
 		var/have = count_evergreen_quests_in(TR.region_name)
-		var/needed = TR.evergreen_target - have
+		var/needed = get_pool_target(TR, QUEST_POOL_EVERGREEN, pop, target_mult) - have
 		for(var/i in 1 to needed)
+			if(!region_has_pool_room(TR.region_name))
+				break
 			var/type = pick_pool_type_for(TR, QUEST_POOL_EVERGREEN)
 			if(!type)
 				break
@@ -155,11 +204,20 @@ SUBSYSTEM_DEF(questpool)
 
 /datum/controller/subsystem/questpool/proc/pick_pool_type_for(datum/threat_region/TR, pool_kind)
 	var/list/weights = list()
+	var/total_weight = 0
 	for(var/qtype in pool_weights[pool_kind])
 		if(TR.allows_quest_type(qtype))
 			weights[qtype] = pool_weights[pool_kind][qtype]
+			total_weight += weights[qtype]
 	if(!length(weights))
 		return null
+	var/list/have = type_count_by_region[TR.region_name]
+	var/on_board = 0
+	for(var/qtype in weights)
+		on_board += have?[qtype] || 0
+	for(var/qtype in weights)
+		if((have?[qtype] || 0) < weights[qtype] / total_weight * (on_board + 1))
+			weights[qtype] *= QUEST_POOL_UNDERSTOCK_WEIGHT_MULT
 	return pickweight(weights)
 
 /datum/controller/subsystem/questpool/proc/reroll_stale()
@@ -230,6 +288,8 @@ SUBSYSTEM_DEF(questpool)
 	if(!TR)
 		TR = SSregionthreat.pick_region_for_quest(Q.quest_type)
 	var/obj/effect/landmark/quest_spawner/landmark = find_quest_landmark(Q.quest_type, TR?.region_name, Q)
+	if(!landmark)
+		landmark = bump_pool_quest_for(Q, TR?.region_name)
 	if(!landmark || !Q.preview(landmark))
 		qdel(Q)
 		return null
@@ -239,6 +299,31 @@ SUBSYSTEM_DEF(questpool)
 	Q.reward_target_turf = landmark_turf
 	Q.reward_amount = Q.calculate_reward(origin, landmark_turf)
 	return landmark
+
+/datum/controller/subsystem/questpool/proc/bump_pool_quest_for(datum/quest/Q, region)
+	if(!region || Q.source == QUEST_SOURCE_POOL)
+		return null
+	var/datum/quest/oldest
+	var/obj/effect/landmark/quest_spawner/freed
+	for(var/datum/quest/candidate as anything in pool)
+		if(candidate.source != QUEST_SOURCE_POOL || candidate.region != region)
+			continue
+		if(oldest && candidate.posted_at >= oldest.posted_at)
+			continue
+		var/obj/effect/landmark/quest_spawner/landmark = candidate.pending_landmark_ref?.resolve()
+		if(QDELETED(landmark) || landmark.claimed_by?.resolve() != candidate)
+			continue
+		oldest = candidate
+		freed = landmark
+	if(!oldest)
+		return null
+	remove_from_pool(oldest)
+	log_event("bumped", "[oldest.quest_difficulty] [oldest.quest_type] in [region] gave its landmark to [Q.source] [Q.quest_type]")
+	record_contract_stat(oldest, CONTRACT_STAT_LAPSED)
+	record_source_statistic(oldest, CONTRACT_STAT_LAPSED)
+	qdel(oldest)
+	freed.claimed_by = WEAKREF(Q)
+	return freed
 
 /datum/controller/subsystem/questpool/proc/add_to_pool(datum/quest/Q)
 	pool += Q
@@ -408,14 +493,19 @@ SUBSYSTEM_DEF(questpool)
 		return null
 	return new proto.type()
 
-/datum/controller/subsystem/questpool/proc/claim(datum/quest/Q, mob/user)
+/datum/controller/subsystem/questpool/proc/claim(datum/quest/Q, mob/user, veteran = FALSE)
 	if(!Q || !(Q in pool))
 		return FALSE
 	if(!Q.can_claim(user))
 		return FALSE
+	Q.signed_at_ledger = TRUE
+	Q.veteran = veteran && Q.can_be_veteran()
 	Q.lock_fellowship(user)
-	var/obj/effect/landmark/quest_spawner/landmark = resolve_or_repick_landmark(Q)
+	if(Q.veteran && !Q.is_directive)
+		Q.reward_amount = Q.calculate_reward(Q.reward_origin_turf, Q.reward_target_turf)
+	var/obj/effect/landmark/quest_spawner/landmark = resolve_or_repick_landmark(Q, allow_anywhere = TRUE)
 	if(!landmark)
+		clear_failed_veteran(Q)
 		log_event("claim_failed", "no landmark available for [Q.quest_difficulty] [Q.quest_type]")
 		return FALSE
 	pool -= Q
@@ -424,6 +514,7 @@ SUBSYSTEM_DEF(questpool)
 		if(!(Q in pool))
 			pool += Q
 			adjust_region_count(Q, 1)
+		clear_failed_veteran(Q)
 		log_event("claim_failed", "materialize failed for [Q.quest_difficulty] [Q.quest_type]")
 		return FALSE
 	Q.materialized = TRUE
@@ -433,12 +524,21 @@ SUBSYSTEM_DEF(questpool)
 	log_event("claim", "[describe_user(user)] took [Q.quest_difficulty] [Q.quest_type]")
 	return TRUE
 
-/datum/controller/subsystem/questpool/proc/resolve_or_repick_landmark(datum/quest/Q)
+/datum/controller/subsystem/questpool/proc/clear_failed_veteran(datum/quest/Q)
+	if(!Q.veteran)
+		return
+	Q.veteran = FALSE
+	if(!Q.is_directive)
+		Q.reward_amount = Q.calculate_reward(Q.reward_origin_turf, Q.reward_target_turf)
+
+/datum/controller/subsystem/questpool/proc/resolve_or_repick_landmark(datum/quest/Q, allow_anywhere = FALSE)
 	var/obj/effect/landmark/quest_spawner/landmark = Q.pending_landmark_ref?.resolve()
-	if(landmark && !QDELETED(landmark))
+	if(landmark && !QDELETED(landmark) && (Q.materialized || landmark.claimed_by?.resolve() == Q))
 		return landmark
 	landmark = find_quest_landmark(Q.quest_type, Q.region, Q)
 	if(!landmark)
+		landmark = bump_pool_quest_for(Q, Q.region)
+	if(!landmark && allow_anywhere)
 		landmark = find_quest_landmark(Q.quest_type, null, Q)
 	if(landmark)
 		Q.pending_landmark_ref = WEAKREF(landmark)
@@ -480,12 +580,73 @@ SUBSYSTEM_DEF(questpool)
 		recent_takes[user.ckey] = takes
 	takes += world.time
 
+/datum/controller/subsystem/questpool/proc/solo_sign_cooldown_remaining(mob/user)
+	if(!user?.ckey)
+		return 0
+	var/last_sign = solo_signs[user.ckey]
+	if(isnull(last_sign))
+		return 0
+	return max(0, last_sign + QUEST_SOLO_SIGN_COOLDOWN - world.time)
+
+/datum/controller/subsystem/questpool/proc/holds_solo_signed(mob/user)
+	if(!user?.ckey)
+		return FALSE
+	var/datum/weakref/quest_ref = solo_sign_quests[user.ckey]
+	var/datum/quest/Q = quest_ref?.resolve()
+	if(QDELETED(Q))
+		solo_sign_quests -= user.ckey
+		return FALSE
+	return !Q.complete
+
+/datum/controller/subsystem/questpool/proc/is_solo_sign_ready(mob/user)
+	return !solo_sign_cooldown_remaining(user) && !holds_solo_signed(user)
+
+/datum/controller/subsystem/questpool/proc/mark_solo_signed(mob/user, datum/quest/Q)
+	if(!user?.ckey)
+		return
+	solo_signs[user.ckey] = world.time
+	solo_sign_quests[user.ckey] = WEAKREF(Q)
+	var/mob/living/signer = user
+	var/datum/fellowship/F = istype(signer) ? signer.current_fellowship : null
+	if(!F)
+		return
+	for(var/mob/living/member as anything in F.get_members())
+		if(member == signer || !member.ckey)
+			continue
+		if(has_quest_claim_solo_allowance(member))
+			solo_signs[member.ckey] = world.time
+
 /datum/controller/subsystem/questpool/proc/mark_abandoned(mob/user, datum/quest/Q, forfeited)
 	record_round_statistic(STATS_CONTRACTS_ABANDONED)
 	record_contract_stat(Q, CONTRACT_STAT_ABANDONED)
 	if(forfeited)
 		record_round_statistic(STATS_CONTRACT_MAMMONS_FORFEITED, forfeited)
 	log_event("abandon", "[describe_user(user)] forfeited [forfeited] on [Q?.quest_difficulty] [Q?.quest_type]")
+
+/datum/controller/subsystem/questpool/proc/lapse_unattended_scroll(datum/quest/Q)
+	if(QDELETED(Q))
+		return
+	var/label = Q.get_title() || Q.quest_type
+	if(Q.quest_receiver_reference)
+		var/mob/living/bearer = Q.quest_receiver_reference.resolve()
+		var/forfeited = Q.forfeit_deposit()
+		mark_abandoned(bearer, Q, forfeited)
+		var/refund_fraction = Q.has_started() ? REFUND_ON_FAILURE : REFUND_ON_NOT_TAKEN
+		refund_closed_posting(Q, QUEST_ISSUE_STATUS_ABANDONED, refund_fraction, "Abandoned posting refund", "crumbled after [Q.quest_receiver_name] left it unattended")
+		if(bearer)
+			log_quest(bearer.ckey, bearer.mind, bearer, "Unattended lapse [Q.quest_type]")
+			to_chat(bearer, span_warning("Your contract <b>[label]</b> was left unattended and has crumbled to dust.[forfeited > 0 ? " You lose your [forfeited] mammon deposit." : ""]"))
+	else
+		record_contract_stat(Q, CONTRACT_STAT_LAPSED)
+		record_source_statistic(Q, CONTRACT_STAT_LAPSED)
+		if(refund_closed_posting(Q, QUEST_ISSUE_STATUS_LAPSED, REFUND_ON_NOT_TAKEN, "Lapsed posting refund", "crumbled after it was left unattended"))
+			record_round_statistic(STATS_CONTRACTS_LAPSE_REFUNDED)
+		else
+			var/mob/poster = Q.quest_giver_reference?.resolve()
+			if(poster)
+				to_chat(poster, span_notice("Your posting <b>[label]</b> crumbled after it was left unattended."))
+	log_event("unattended", "[Q.source] [Q.quest_type] \"[label]\" (holder [Q.quest_receiver_name || "none"]) crumbled after [QUEST_SCROLL_UNATTENDED_LAPSE / (1 MINUTES)] minutes unattended")
+	qdel(Q)
 
 /datum/controller/subsystem/questpool/proc/record_completion(mob/user, datum/quest/Q, paid, taxed)
 	record_round_statistic(STATS_CONTRACTS_COMPLETED)

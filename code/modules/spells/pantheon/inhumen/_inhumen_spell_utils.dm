@@ -6,7 +6,7 @@
 
 /datum/action/cooldown/spell/zizo/bone_cataclysm/proc/explode_skeleton(mob/living/S, mob/living/caster, datum/beam/B)
 	if(B && !QDELETED(B))
-		B.End()
+		qdel(B)
 
 	if(!S || QDELETED(S))
 		return
@@ -117,7 +117,7 @@
 
 /datum/action/cooldown/spell/zizo/bone_cataclysm/proc/despawn_skeleton(mob/living/S, mob/living/caster, datum/beam/B)
 	if(B && !QDELETED(B))
-		B.End()
+		qdel(B)
 
 	if(!S || QDELETED(S))
 		return

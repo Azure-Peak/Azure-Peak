@@ -1,4 +1,4 @@
-#define MAX_HAND_SIZE 10
+#define MAX_HAND_SIZE 13
 #define SHOW_ERROR_HAND_FULL(user) to_chat(user, span_warning("It can't hold any more cards."))
 #define SHOW_ERROR_CARDS_FROM_DIFFERENT_DECK(user) to_chat(user, span_warning("These cards come from a different deck. I can't mix them."))
 #define SHOW_ERROR_WHERES_YOUR_FUCKING_ARMS(user) to_chat(user, span_danger("WITH WHAT ARMS?"))
@@ -471,7 +471,7 @@
 		if(CH.our_deck != src)
 			to_chat(user, span_warning("[CH.cards.len > 1 ? "These cards" : "This card"] didn't come the same deck as [cards.len > 1 ? "those" : "that one"]!"))
 			return
-		cards.Add(CH.cards)
+		cards.Insert(1, CH.cards)
 		user.visible_message(span_notice("\The [user] returns \the [CH] to the bottom of \the [src]."), span_notice("I return \the [CH] to the bottom of \the [src]."))
 		qdel(CH)
 		user.changeNext_move(CLICK_CD_FAST)

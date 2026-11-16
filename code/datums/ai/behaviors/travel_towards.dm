@@ -31,6 +31,14 @@
 /datum/ai_behavior/travel_towards/stop_on_arrival
 	clear_target = TRUE
 
+/datum/ai_behavior/travel_towards/hold
+
+/datum/ai_behavior/travel_towards/hold/perform(seconds_per_tick, datum/ai_controller/controller, target_key)
+	return AI_BEHAVIOR_DELAY
+
+/datum/ai_behavior/travel_towards/hold/adjacent
+	required_distance = 1
+
 /**
  * # Travel Towards Atom
  * Travel towards an atom you pass directly from the controller rather than a blackboard key.

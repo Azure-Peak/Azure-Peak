@@ -392,6 +392,7 @@
 			<li><b>Delay Type</b>: Normal Attack Delay has no effect. DIFFICULT attack delay, also known as YELLOW intent, will reduce your parry / dodge chance drastically. RIGID can be canceled by you being attacked and leave you completely open to being attacked. RIGID Intent usually has powerful effects but is hard to pull off.</li>
 			<li><b>Integrity Modifier</b>: How much integrity and shield damage is multiplied by when attacking armor. Does nothing to flesh damage.</li>
 			<li><b>Demolition Modifier</b>: How much damage is multiplied by when attacking a structure like a door. Only the demolition modifier does anything against a structure. Integrity modifier matters on a shield being parried with, where the higher of the two is taken instead of the two stacking.</li>
+			<li><b>Anti-Beast Modifier</b>: This weapon or ammunition is better versus simple minded beasts and inflicts more damage.</li>
 			<li><b>Cleave</b>: Certain attacks hit more than one tile and will explain its pattern and how many it can hit.</li>
 		</ul>
 		</div>

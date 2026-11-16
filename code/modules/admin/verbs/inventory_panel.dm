@@ -183,7 +183,7 @@
 			to_chat(usr, span_notice("Repaired [repaired_count] items for [target.name]."))
 			to_chat(target, span_notice("Your equipment has been magically repaired!"))
 			message_admins("[key_name_admin(usr)] repaired all equipment for [key_name_admin(target)].")
-			log_admin("[key_name(usr)] repaired all equipment for [key_name(target)].")
+			target.log_message("had all equipment repaired ([repaired_count] items) by [key_name(usr)] via the inventory panel", LOG_ADMIN)
 			show_inventory_panel(target)
 		
 		if("damage_all")
@@ -205,7 +205,7 @@
 			to_chat(usr, span_notice("Damaged [damaged_count] items for [target.name]."))
 			to_chat(target, span_warning("Your equipment suddenly feels weaker!"))
 			message_admins("[key_name_admin(usr)] damaged all equipment for [key_name_admin(target)].")
-			log_admin("[key_name(usr)] damaged all equipment for [key_name(target)].")
+			target.log_message("had all equipment damaged to half integrity ([damaged_count] items) by [key_name(usr)] via the inventory panel", LOG_ADMIN)
 			show_inventory_panel(target)
 		
 		if("destroy_all")
@@ -228,7 +228,7 @@
 			to_chat(usr, span_notice("Destroyed [destroyed_count] items for [target.name]."))
 			to_chat(target, span_danger("All your equipment disintegrates!"))
 			message_admins("[key_name_admin(usr)] destroyed all equipment for [key_name_admin(target)].")
-			log_admin("[key_name(usr)] destroyed all equipment for [key_name(target)].")
+			target.log_message("had all equipment deleted ([destroyed_count] items) by [key_name(usr)] via the inventory panel", LOG_ADMIN)
 			show_inventory_panel(target)
 		
 		if("repair_item")
@@ -244,7 +244,7 @@
 				I.update_icon()
 				to_chat(usr, span_notice("Repaired [I.name]."))
 				message_admins("[key_name_admin(usr)] repaired [I.name] for [key_name_admin(target)].")
-				log_admin("[key_name(usr)] repaired [I.name] for [key_name(target)].")
+				target.log_message("had [I.name] ([I.type]) repaired by [key_name(usr)] via the inventory panel", LOG_ADMIN)
 				// Check if item is in a container, if so refresh contents panel
 				if(I.loc && istype(I.loc, /obj/item))
 					show_item_contents_panel(target, I.loc)
@@ -255,6 +255,7 @@
 			var/obj/item/I = locate(href_list["item"])
 			if(I)
 				var/item_name = I.name
+				var/item_type = I.type
 				var/obj/container = I.loc
 				// Unequip if worn/held
 				if(ishuman(target))
@@ -268,7 +269,7 @@
 				to_chat(usr, span_notice("Dropped [item_name]."))
 				to_chat(target, span_warning("Your [item_name] falls to the ground!"))
 				message_admins("[key_name_admin(usr)] dropped [item_name] for [key_name_admin(target)].")
-				log_admin("[key_name(usr)] dropped [item_name] for [key_name(target)].")
+				target.log_message("had [item_name] ([item_type]) dropped by [key_name(usr)] via the inventory panel", LOG_ADMIN)
 				// Check if item was in a container, if so refresh contents panel
 				if(container && istype(container, /obj/item))
 					show_item_contents_panel(target, container)
@@ -282,19 +283,20 @@
 				I.update_icon()
 				to_chat(usr, span_notice("Damaged [I.name]."))
 				message_admins("[key_name_admin(usr)] damaged [I.name] for [key_name_admin(target)].")
-				log_admin("[key_name(usr)] damaged [I.name] for [key_name(target)].")
+				target.log_message("had [I.name] ([I.type]) damaged to [I.obj_integrity] integrity by [key_name(usr)] via the inventory panel", LOG_ADMIN)
 				show_inventory_panel(target)
 		
 		if("destroy_item")
 			var/obj/item/I = locate(href_list["item"])
 			if(I)
 				var/item_name = I.name
+				var/item_type = I.type
 				var/obj/container = I.loc
 				qdel(I)
 				to_chat(usr, span_notice("Destroyed [item_name]."))
 				to_chat(target, span_warning("Your [item_name] disintegrates!"))
 				message_admins("[key_name_admin(usr)] destroyed [item_name] for [key_name_admin(target)].")
-				log_admin("[key_name(usr)] destroyed [item_name] for [key_name(target)].")
+				target.log_message("had [item_name] ([item_type]) deleted by [key_name(usr)] via the inventory panel", LOG_ADMIN)
 				// Check if item was in a container, if so refresh contents panel
 				if(container && istype(container, /obj/item))
 					show_item_contents_panel(target, container)
