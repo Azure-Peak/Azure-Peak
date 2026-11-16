@@ -204,7 +204,7 @@
 
 /datum/action/cooldown/spell/projectile/moonscorch
 	name = "Moonscorch"
-	desc = "Hurl an owl at your target, blinding them for 15 seconds. Mindless creechers get IMMOBILIZED."
+	desc = "Hurl an owl at your target, blinding them for 15 seconds."
 	background_icon = 'icons/mob/actions/nocmiracles.dmi'
 	button_icon = 'icons/mob/actions/nocmiracles.dmi'
 	button_icon_state = "blindness"
@@ -268,10 +268,6 @@
 			playsound(get_turf(target), 'sound/magic/magic_nulled.ogg', 100)
 			qdel(src)
 			return BULLET_ACT_BLOCK
-		if(!M.mind)
-			M.Immobilize(5 SECONDS)
-			qdel(src)
-			return TRUE
 		if(M.has_status_effect(STATUS_EFFECT_BLINDED))
 			visible_message(span_warning("They are already blind!"))
 			qdel(src)
