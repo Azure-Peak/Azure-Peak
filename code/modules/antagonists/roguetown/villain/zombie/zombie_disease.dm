@@ -67,13 +67,13 @@
 	. = ..()
 	if(QDELETED(owner))
 		return FALSE
-		
+
 	var/warning_message = pick(infection_messages)
 	if(prob(10))
 		to_chat(owner, span_userdanger("[warning_message]"))
 	else
 		to_chat(owner, span_danger("[warning_message]"))
-		
+
 	var/mob/living/carbon/human/H = owner
 	if(!H)
 		owner.remove_status_effect(/datum/status_effect/zombie_infection)
@@ -96,8 +96,11 @@
 	if(!source)
 		return FALSE
 	
-	var/datum/antagonist/zombie/zombie_antag = source.mind?.has_antag_datum(/datum/antagonist/zombie)
-	if(!zombie_antag || !zombie_antag.has_turned)
+	if(source.mind)
+		var/datum/antagonist/zombie/zombie_antag = source.mind.has_antag_datum(/datum/antagonist/zombie)
+		if(!zombie_antag || !zombie_antag.has_turned)
+			return FALSE
+	else if(!HAS_TRAIT(source, TRAIT_DEADITE)) // NPC deadites have no mind to hold the antag datum
 		return FALSE
 
 	if(HAS_TRAIT(src, TRAIT_DNR) || mind?.has_antag_datum(/datum/antagonist/zombie))
@@ -105,8 +108,8 @@
 
 	// Apply status effect with timer
 	apply_status_effect(
-		/datum/status_effect/zombie_infection, 
-		wake_delay, 
+		/datum/status_effect/zombie_infection,
+		wake_delay,
 		infection_type == "wound"
 	)
 

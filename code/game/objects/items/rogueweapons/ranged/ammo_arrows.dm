@@ -80,6 +80,7 @@
 	damage = 20
 	damage_type = BRUTE
 	armor_penetration = PEN_NONE
+	antibeast_factor = ANTIBEAST_DEFAULT
 	icon = 'icons/roguetown/weapons/ranged/arrow_proj.dmi'
 	icon_state = "arrow_proj"
 	ammo_type = /obj/item/ammo_casing/caseless/rogue/arrow
@@ -211,7 +212,7 @@
 	in power - pray that you have the will to see its aim unfettered-and-true."
 	projectile_type = /obj/projectile/bullet/reusable/arrow/silver
 	is_silver = TRUE
-	is_lesser_silver = TRUE //Still technically useable by cursed individuals, if they load it quickly enough. Would this be the Zizoid equivalent of using depleted uranium rounds?
+	is_lesser_silver = TRUE //Still technically usable by cursed individuals, if they load it quickly enough. Would this be the Zizoid equivalent of using depleted uranium rounds?
 
 /obj/projectile/bullet/reusable/arrow/silver
 	name = "silver arrow"

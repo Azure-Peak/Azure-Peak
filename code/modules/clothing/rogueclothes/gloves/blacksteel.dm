@@ -24,5 +24,5 @@
 
 /obj/item/clothing/wrists/roguetown/bracers/blacksteel/modern
 	name = "blacksteel bracers"
-	desc = "Alloyed plate bracers, meticulously assembled from blacksteel. Besilked straps peek out from both ends; soft enough to barely impede finer movements, while still strong enough to lock a pair of accompying gauntlets-and-couters into place."
+	desc = "Alloyed plate bracers, meticulously assembled from blacksteel. Besilked straps peek out from both ends; soft enough to barely impede finer movements, while still strong enough to lock a pair of accompanying gauntlets-and-couters into place."
 	icon_state = "bsbracers"

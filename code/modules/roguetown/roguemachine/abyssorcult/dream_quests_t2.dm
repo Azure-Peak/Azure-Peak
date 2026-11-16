@@ -22,7 +22,7 @@
 	The murmurs within the crowd grow loud and obnoxious, echoing in your skull. \
 	Yet, you persist. One of the faithful isn't so easily swayed by a little bit of nausea. \
 	Perhaps it was that morning's porridge. It wouldn't be the first time the rot of the land afflicted the golden grains. \
-	The sermon proceeds. You dilligently sing your portion of her holy hymns. \
+	The sermon proceeds. You diligently sing your portion of her holy hymns. \
 	It just.. Drags on. The words stuck to your tongue like sludge. \
 	Musing such thoughts left you ill-prepared for the sudden drop of moisture hitting your forehead. \
 	You rub out the drop, not even singing anymore. The roof? But- it isn't even raining. \
@@ -149,7 +149,7 @@
 	Your presence is noticed, horrid eyes that look like they're clawing to stay above the wrinkles. \
 	'A guest. Are they reaching for their pouch?' \
 	'Do not feed us, you will end up just the same.' \
-	'Cut off that hand, clearly you musn't just perish the thought, you must prevent it altogether.' \
+	'Cut off that hand, clearly you mustn't just perish the thought, you must prevent it altogether.' \
 	Each vie for your attention. To look as pathetic as possible, but abandoning reason to such a degree that even pity is wasted upon them. \
 	Are you any better? \
 	Hands grip your limbs, dragging you into the mud. So bereft of splendour it has cracked and hardened. \

@@ -15,10 +15,16 @@
 		/mob/living/carbon/human/species/human/northern/highwayman/bulwark = 8,
 		/mob/living/carbon/human/species/human/northern/highwayman/road_knight = 8,
 		/mob/living/carbon/human/species/human/northern/highwayman/sharpshooter = 8,
+		/mob/living/carbon/human/species/human/northern/highwayman/caster = 15,
+		/mob/living/carbon/human/species/human/northern/doppelganger/ambush = 3,
 	)
 	boss_mob_types = list(
 		/mob/living/carbon/human/species/human/northern/outlaw_duelist = 70,
 		/mob/living/carbon/human/species/human/northern/outlaw_ranger = 30,
+	)
+	variant_chances = list(
+		/datum/quest_faction_variant/rogue_coven = 10,
+		/datum/quest_faction_variant/rogue_azurcaephan = 10,
 	)
 	boss_title_templates = list(
 		"%N the Cutthroat",

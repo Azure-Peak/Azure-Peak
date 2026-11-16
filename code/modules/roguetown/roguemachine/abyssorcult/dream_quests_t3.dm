@@ -142,7 +142,7 @@
 	Your legs move with stiff movements, gazing down to see the very same darkened salt you imbided replace your flesh. \
 	Stepping like screeching clockwork, your toes step upon the waving grass, even if you do not feel their embrace. \
 	You fall down, as the last of your flesh hardens, atrophying to leave but a hollow husk. \
-	The vigil, staring out over the town dilligently to heed it from danger. \
+	The vigil, staring out over the town diligently to heed it from danger. \
 	Eyes light up the sky with pale, white fire, leading every sailor safely. \
 	You wished for a drink, but the waves saw fit to give you a new purpose."
 	possible_phrases = list(
@@ -162,7 +162,7 @@
 	The well sings of old grievances buried by time. Unearthed by the tides. \
 	Hands grip the legs, whispers of truth delivered through the marrow instead of deaf ears. \
 	Of the injustice unseen in great wars of the past, the lies between spouses, otherwise only sung by zad or rat alike. \
-	The dessicated husk of an old councillor, now languishing in the sewers, a service lended by a great scheme. \
+	The desiccated husk of an old councillor, now languishing in the sewers, a service lended by a great scheme. \
 	Psydon's Dae dredges up the stains of the past."
 	possible_phrases = list(
 		"Psydon's Dae shall reveal old secrets",

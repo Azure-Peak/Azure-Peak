@@ -1,18 +1,25 @@
 #define RCP_CONTRIBUTION_CAP 20 // How much RCP can contribute to PQ gain total.
 
+/// Numeric PQ per key as passed to get_playerquality, so we don't hit the disk on every lookup.
+/// adjust_playerquality is the only writer of pq_num.json and drops the entry for its key.
+GLOBAL_LIST_EMPTY(playerquality_cache)
+
 /proc/get_playerquality(key, text)
 	if(!key)
 		return
-	var/the_pq = 0
-	var/json_file = file("data/player_saves/[copytext(key,1,2)]/[key]/pq_num.json")
-	if(!fexists(json_file))
-		WRITE_FILE(json_file, "{}")
-	var/list/json = json_decode(file2text(json_file))
-
-	if(json[ckey(key)])
-		the_pq = json[ckey(key)]
-	if(!the_pq)
+	var/the_pq = GLOB.playerquality_cache[key]
+	if(isnull(the_pq))
 		the_pq = 0
+		var/json_file = file("data/player_saves/[copytext(key,1,2)]/[key]/pq_num.json")
+		if(!fexists(json_file))
+			WRITE_FILE(json_file, "{}")
+		var/list/json = json_decode(file2text(json_file))
+
+		if(json[ckey(key)])
+			the_pq = json[ckey(key)]
+		if(!the_pq)
+			the_pq = 0
+		GLOB.playerquality_cache[key] = the_pq
 	if(!text)
 		return the_pq
 	else
@@ -21,7 +28,7 @@
 		if(the_pq >= 800)
 			return "<span style='color: #198CFF;'>UNDYING</span>"
 		if(the_pq >= 600)
-			return "<span style='color: 0055FF;'>DIVINE</span>"
+			return "<span style='color: #0055FF;'>DIVINE</span>"
 		if(the_pq >= 400)
 			return "<span style='color: #0073E6;'>EXALTED</span>"
 		if(the_pq >= 280)
@@ -69,6 +76,7 @@
 	json[key] = curpq
 	fdel(json_file)
 	WRITE_FILE(json_file, json_encode(json))
+	GLOB.playerquality_cache -= key
 
 	if(reason || admin)
 		var/thing = ""
@@ -146,7 +154,7 @@
 		to_chat(usr, span_boldwarning("User does not exist."))
 		return
 	var/popup_window_data = "<center>[ckey]</center>"
-	popup_window_data += "<center>PQ: [get_playerquality(ckey, TRUE, TRUE)] ([get_playerquality(ckey, FALSE, TRUE)])</center>"
+	popup_window_data += "<center>PQ: [get_playerquality(ckey, TRUE)] ([get_playerquality(ckey, FALSE)])</center>"
 	popup_window_data += "<center><a href='?_src_=holder;[HrefToken()];cursemenu=[ckey]'>CURSES</a></center>"
 	popup_window_data += "<table width=100%><tr><td width=33%><div style='text-align:left'>"
 	popup_window_data += "Commends: <a href='?_src_=holder;[HrefToken()];readcommends=[ckey]'>[get_commends(ckey)]</a></div></td>"

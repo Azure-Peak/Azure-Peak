@@ -34,8 +34,6 @@
 /datum/particle_weather/hail/weather_act(mob/living/L)
 	if(issimple(L))
 		return
-
-	L.adjust_bodytemperature(-rand(5, 15))
 	var/armor_block = L.run_armor_check(BODY_ZONE_HEAD, "blunt", blade_dulling=BCLASS_BLUNT)
 	if(L.apply_damage(rand(5, 10), UNARMED_ATTACK, BODY_ZONE_HEAD, armor_block))
 		if(prob(25))

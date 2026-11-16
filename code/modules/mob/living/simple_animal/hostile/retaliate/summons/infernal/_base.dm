@@ -1,8 +1,6 @@
 /mob/living/simple_animal/hostile/retaliate/rogue/infernal
 	obj_damage = 75
 	blood_toll_bucket = STATS_KILLED_INFERNALS
-	AIStatus = AI_OFF
-	can_have_ai = FALSE
 
 /mob/living/simple_animal/hostile/retaliate/rogue/infernal/Initialize(mapload)
 	. = ..()
@@ -18,8 +16,7 @@
 /mob/living/simple_animal/hostile/retaliate/rogue/infernal/Life()
 	..()
 	if(pulledby)
-		Retaliate()
-		GiveTarget(pulledby)
+		ai_controller?.force_aggro(pulledby)
 
 /mob/living/simple_animal/hostile/retaliate/rogue/infernal/attackby(obj/item/I, mob/living/carbon/human/user, params)
 	if(istype(I, /obj/item/magic))

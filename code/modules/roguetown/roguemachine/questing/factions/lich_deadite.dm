@@ -10,6 +10,7 @@
 		/mob/living/carbon/human/species/skeleton/npc/mediumspread = 45,
 		/mob/living/carbon/human/species/skeleton/npc/hardspread = 40,
 		/mob/living/carbon/human/species/skeleton/npc/archer = 15,
+		/mob/living/carbon/human/species/dwarfskeleton/ambush/knight = 8,
 	)
 	boss_mob_types = list(
 		/mob/living/carbon/human/species/skeleton/npc/dungeon/lich = 100,

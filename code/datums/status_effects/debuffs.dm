@@ -97,6 +97,8 @@
 		SSdroning.kill_loop(owner.client)
 		SSdroning.kill_rain(owner.client)
 		owner.clear_typing_indicator()
+		if(owner.m_intent != MOVE_INTENT_SNEAK)
+			owner.visible_message(span_info("[owner] falls asleep."), vision_distance = 3)
 		if(iscarbon(owner)) //to avoid repeated istypes
 			carbon_owner = owner
 		if(ishuman(owner))
@@ -106,6 +108,8 @@
 	if(ishuman(owner))
 		SSdroning.play_area_sound(get_area(src), owner.client)
 		SSdroning.play_loop(get_area(src), owner.client)
+		if(owner.m_intent != MOVE_INTENT_SNEAK)
+			owner.visible_message(span_info("[owner] stirs, waking up."), vision_distance = 3)
 	. = ..()
 
 /datum/status_effect/incapacitating/sleeping/Destroy()
@@ -119,7 +123,7 @@
 		var/healing = -0.2
 		if((locate(/obj/structure/bed) in owner.loc))
 			healing -= 0.3
-		else if((locate(/obj/structure/table) in owner.loc))
+		else if(has_table_surface(owner.loc))
 			healing -= 0.1
 		for(var/obj/item/bedsheet/bedsheet in range(owner.loc,0))
 			if(bedsheet.loc != owner.loc) //bedsheets in my backpack/neck don't give you comfort

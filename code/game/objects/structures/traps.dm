@@ -27,7 +27,7 @@
 /obj/structure/trap/get_mechanics_examine(mob/user)
 	. = ..()
 	. += span_info("Right-clicking the eye on your HUD allows you to check your surroundings for hidden threats, traps, and ambushes. The chance to spot each instance scales with your character's Perception.")
-	. += span_info("Most traps are almost completely invisible. Examining an adjacent trap by shift-clicking it will momentarily dispell the invisiblity, and temporarily disables it.")
+	. += span_info("Most traps are almost completely invisible. Examining an adjacent trap by shift-clicking it will momentarily dispel the invisibility, and temporarily disables it.")
 
 /obj/structure/trap/Initialize(mapload)
 	. = ..()
@@ -265,7 +265,6 @@
 /obj/structure/trap/chill/trap_effect(mob/living/L)
 	to_chat(L, span_danger("<B>You're frozen solid!</B>"))
 	L.Paralyze(20)
-	L.adjust_bodytemperature(-300)
 	L.apply_status_effect(/datum/status_effect/freon)
 
 /obj/structure/trap/damage
@@ -322,7 +321,7 @@
 	icon_state = "bomb_trap_plate"
 	time_between_triggers = 100
 	max_integrity = 500
-	scraptype = /obj/item/impact_grenade/explosion
+	scraptype = /obj/item/explosive/impact/shrapnel
 
 /obj/structure/trap/bomb/trap_effect(mob/living/L)
 	..()
@@ -334,7 +333,7 @@
 	icon_state = "trap_plate"
 	time_between_triggers = 100
 	max_integrity = 500
-	scraptype = /obj/item/bomb
+	scraptype = /obj/item/explosive/fused/bottle
 
 /obj/structure/trap/flame/trap_effect(mob/living/L)
 	..()
@@ -598,7 +597,6 @@
 /obj/structure/trap/bogtrap/freeze/trap_effect(mob/living/L)
 	to_chat(L, span_danger("<B>You're frozen solid!</B>"))
 	L.Paralyze(50)
-	L.adjust_bodytemperature(-300)
 	playsound(src, 'sound/misc/explode/bottlebomb (1).ogg', 60, TRUE)
 
 

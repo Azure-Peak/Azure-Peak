@@ -74,23 +74,48 @@
 		HCT.prepared_boons[/datum/hag_boon/name] = (HCT.prepared_boons[/datum/hag_boon/name] || 1) - 1
 		to_chat(src, span_warning("I assume the mantle of [identity.name]."))
 
-/mob/living/carbon/human/proc/remember_feytouched()
-	set name = "Remember Feytouched"
+/mob/living/carbon/human/proc/listen_through_roots()
+	set name = "Listen through Roots"
 	set category = "RoleUnique.Hag"
-	set desc = "Recall who treads the roots, currently."
+	set desc = "Listen through the Mossmother's roots for the familiar rhythm of the Feytouched."
 
-	// Just in case.
 	if(stat || !HAS_TRAIT(src, TRAIT_ANCIENT_HAG))
 		return
-	var/did = FALSE
+
+	var/list/possible_targets = list()
 	for(var/mob/living/carbon/human/H in GLOB.player_list)
-		if(HAS_TRAIT(H, TRAIT_FEYTOUCHED))
-			if(!did)
-				to_chat(src, span_green("My vassels currently are:"))
-				did = TRUE
-			to_chat(src, span_green(H.name))
-	if(!did)
-		to_chat(src, span_green("The roots are silent for the mote."))
+		if(H == src || H.stat == DEAD)
+			continue
+		if(!HAS_TRAIT(H, TRAIT_FEYTOUCHED))
+			continue
+		possible_targets[H.real_name] = H
+	if(!length(possible_targets))
+		to_chat(src, span_notice("The roots answer only with their own slow pulse. No familiar mortal rhythm reaches you."))
+		return
+
+	var/selection = tgui_input_list(
+		src,
+		"Whose familiar rhythm do you listen for?",
+		"Listen through Roots",
+		possible_targets
+	)
+	if(!selection)
+		return
+
+	var/mob/living/carbon/human/target = possible_targets[selection]
+	if(!target || QDELETED(target) || target.stat == DEAD || !HAS_TRAIT(target, TRAIT_FEYTOUCHED))
+		to_chat(src, span_warning("The rhythm vanishes before you can grasp it."))
+		return
+
+	var/secret = target.get_secret_for(src, "hag")
+	if(!secret)
+		to_chat(src, span_notice("The roots remember [target.real_name], but offer no hidden truth about them."))
+		return
+
+	var/parsed_secret = parsemarkdown_basic(html_encode(secret), hyperlink = TRUE)
+	to_chat(src, span_boldnotice("A familiar rhythm rises through the roots. The Mossmother remembers what [target.real_name] tried to bury..."))
+	to_chat(src, "<span class='info'>[parsed_secret]</span>")
+
 /mob/living/carbon/human/proc/remember_fey()
 	set name = "Remember Fey"
 	set category = "RoleUnique.Hag"

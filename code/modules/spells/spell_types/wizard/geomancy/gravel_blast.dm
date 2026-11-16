@@ -36,6 +36,21 @@
 
 	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN
 
+/datum/action/cooldown/spell/projectile/gravel_blast/get_impact_turfs(atom/center)
+	. = list()
+	var/turf/start = get_turf(owner)
+	var/turf/epicenter = get_turf(center)
+	if(!start || !epicenter || start == epicenter)
+		return
+	var/base_angle = Get_Angle(start, epicenter)
+	var/reach = get_dist(start, epicenter)
+	var/center_index = (projectiles_per_fire + 1) / 2
+	for(var/i in 1 to projectiles_per_fire)
+		var/turf/ray_end = get_turf_in_angle(base_angle + ((i - center_index) * spread_step), start, reach)
+		if(ray_end)
+			. |= getline(start, ray_end)
+	. -= start
+
 /datum/action/cooldown/spell/projectile/gravel_blast/ready_projectile(obj/projectile/to_fire, atom/target, mob/user, iteration)
 	. = ..()
 	var/base_angle = to_fire.Angle
@@ -46,16 +61,3 @@
 	// Only the center stone can roll for blunt crit/knockout
 	if(iteration != center_index)
 		to_fire.woundclass = null
-
-// --- Lesser Gravel Blast: 3-projectile variant for poke option picks ---
-
-/datum/action/cooldown/spell/projectile/gravel_blast/lesser
-	name = "Lesser Gravel Blast"
-	desc = "Spray a trio of stones at a target. Stones ricochet off walls. Subsequent hits on the same target deal reduced damage. \
-	Stones are particularly effective at degrading armor. Deals 2x damage to structures. \
-	Toggle arc mode (Shift+G) to lob over obstacles at reduced damage."
-	button_icon_state = "gravel_blast"
-	projectiles_per_fire = 3
-	attunement_school = null
-	spell_tier = 0
-	point_cost = 0

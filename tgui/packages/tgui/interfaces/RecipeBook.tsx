@@ -3,6 +3,7 @@ import { Box, Section, Stack } from 'tgui-core/components';
 
 import { useBackend } from '../backend';
 import { Window } from '../layouts';
+import type { ItemStatCardData } from './common/ItemStatCard';
 import {
   INK,
   INK_FAINT,
@@ -95,6 +96,7 @@ export type RecipeBookData = {
   current_recipe: string | null;
   recipe_detail_html: string;
   recipe_entry_data?: RecipeEntryData | null;
+  recipe_stat_card?: ItemStatCardData | null;
   initial_category?: string;
 };
 
@@ -246,6 +248,7 @@ const BookPage = () => {
         <RecipeBookEntry
           html={data.recipe_detail_html}
           entryData={data.recipe_entry_data}
+          statCard={data.recipe_stat_card}
         />
       </Stack.Item>
     </Stack>

@@ -18,8 +18,9 @@
 		THREAT_REGION_UNDERDARK,
 	)
 	tier_tp_budgets = list(
-		TOWNER_POSTING_TIER_MEDIUM = TOWNER_OREVEIN_TP_BUDGET_MEDIUM,
-		TOWNER_POSTING_TIER_HARD = TOWNER_OREVEIN_TP_BUDGET_HARD,
+		TOWNER_POSTING_TIER_MEDIUM = list(TOWNER_OREVEIN_TP_BUDGET_MEDIUM),
+		TOWNER_POSTING_TIER_HARD = list(TOWNER_OREVEIN_TP_BUDGET_HARD),
+		TOWNER_POSTING_TIER_PERILOUS = list(TOWNER_PERILOUS_TP_BUDGET_FIRST, TOWNER_PERILOUS_TP_BUDGET_SECOND),
 	)
 	bundle_pools = list(
 		"gems" = list(
@@ -49,6 +50,12 @@
 					list("path" = /obj/item/rogueore/cinnabar, "min" = 3, "max" = 4, "noun" = "cinnabar"),
 					list("pool" = "gems", "min" = 1, "max" = 1, "noun" = "gems", "prob" = 80),
 				),
+				TOWNER_POSTING_TIER_PERILOUS = list(
+					list("path" = /obj/item/rogueore/iron, "min" = 40, "max" = 50, "noun" = "iron"),
+					list("path" = /obj/item/rogueore/coal, "min" = 18, "max" = 24, "noun" = "coal"),
+					list("path" = /obj/item/rogueore/cinnabar, "min" = 5, "max" = 6, "noun" = "cinnabar"),
+					list("pool" = "gems", "min" = 1, "max" = 2, "noun" = "gems"),
+				),
 			),
 		),
 		"cuprostannic" = list(
@@ -67,6 +74,12 @@
 					list("path" = /obj/item/rogueore/cinnabar, "min" = 3, "max" = 4, "noun" = "cinnabar"),
 					list("pool" = "gems", "min" = 1, "max" = 1, "noun" = "gems", "prob" = 60),
 				),
+				TOWNER_POSTING_TIER_PERILOUS = list(
+					list("path" = /obj/item/rogueore/copper, "min" = 50, "max" = 62, "noun" = "copper"),
+					list("path" = /obj/item/rogueore/tin, "min" = 16, "max" = 22, "noun" = "tin"),
+					list("path" = /obj/item/rogueore/cinnabar, "min" = 5, "max" = 6, "noun" = "cinnabar"),
+					list("pool" = "gems", "min" = 1, "max" = 1, "noun" = "gems"),
+				),
 			),
 		),
 		"gemmiferous" = list(
@@ -81,6 +94,10 @@
 					list("path" = /obj/item/rogueore/gold, "min" = 2, "max" = 3, "noun" = "gold"),
 					list("pool" = "gems", "min" = 3, "max" = 4, "noun" = "gems"),
 				),
+				TOWNER_POSTING_TIER_PERILOUS = list(
+					list("path" = /obj/item/rogueore/gold, "min" = 3, "max" = 5, "noun" = "gold"),
+					list("pool" = "gems", "min" = 5, "max" = 7, "noun" = "gems"),
+				),
 			),
 		),
 		"auricinnabar" = list(
@@ -94,6 +111,10 @@
 				TOWNER_POSTING_TIER_HARD = list(
 					list("path" = /obj/item/rogueore/gold, "min" = 4, "max" = 5, "noun" = "gold"),
 					list("path" = /obj/item/rogueore/cinnabar, "min" = 14, "max" = 17, "noun" = "cinnabar"),
+				),
+				TOWNER_POSTING_TIER_PERILOUS = list(
+					list("path" = /obj/item/rogueore/gold, "min" = 6, "max" = 8, "noun" = "gold"),
+					list("path" = /obj/item/rogueore/cinnabar, "min" = 22, "max" = 27, "noun" = "cinnabar"),
 				),
 			),
 		),
@@ -126,7 +147,7 @@
 	return ""
 
 /datum/quest/kill/recovery/towner/miner_orevein/compose_warband()
-	if(posting_tier != TOWNER_POSTING_TIER_HARD)
+	if(posting_tier == TOWNER_POSTING_TIER_MEDIUM)
 		return ..()
 	var/behemoth = /mob/living/simple_animal/hostile/retaliate/rogue/elemental/behemoth
 	var/saved_budget = tp_budget

@@ -1,6 +1,6 @@
 /datum/advclass/gnoll/shaman
 	name = "Gnoll Shaman"
-	tutorial = "Leader in faith, often the main source of wisdom within a gnoll pack. Few are closer to Graggar himself as you are. You may chose to waylay the hunt, in order to nurture fallen oppponents back to health, so they may grow stronger, providing a true challenge in a future fight."
+	tutorial = "Leader in faith, often the main source of wisdom within a gnoll pack. Few are closer to Graggar himself than you are. You may choose to waylay the hunt, in order to nurture fallen opponents back to health so they may grow stronger, providing a true challenge in a future fight."
 	outfit = /datum/outfit/job/roguetown/gnoll/shaman
 	traits_applied = list(TRAIT_RITUALIST, TRAIT_DODGEEXPERT, TRAIT_ALCHEMY_EXPERT, TRAIT_UNCONVERTIBLE, TRAIT_HALLOWED) // Surely this won't be broken.
 	reset_stats = TRUE
@@ -44,10 +44,9 @@
 		H.set_species(/datum/species/gnoll)
 		H.skin_armor = new vamp_armor_type(H)
 		H.AddComponent(/datum/component/vampiric_striker, shard_threshold, shard_repair_value, max_fury_stacks)
-		var/obj/item/ritechalk/chalk = new /obj/item/ritechalk(H.loc)
-		H.put_in_r_hand(chalk)
 		neck = /obj/item/storage/belt/rogue/pouch/healing
 		backr = /obj/item/storage/backpack/rogue/satchel/gnoll
+		r_hand = /obj/item/ritechalk
 		don_pelt(H)
 		var/datum/devotion/C = new /datum/devotion(H, H.patron)
 		C.grant_miracles(H, cleric_tier = CLERIC_T4, passive_gain = CLERIC_REGEN_MINOR, start_maxed = TRUE)

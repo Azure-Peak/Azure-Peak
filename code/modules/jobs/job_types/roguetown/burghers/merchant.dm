@@ -44,6 +44,10 @@ You are the beating heart of the Azurian economy, inheritor of a thousand yils o
 The priests will whisper that you follow the Sun-Thief. Frown, shake your head, and remind them you are an honest and humble merchant keeping the wheels of commerce turning, a faithful worker of Malum's will. Do not let some mouth-breathing crownsman tell you otherwise"
 	outfit = /datum/outfit/job/roguetown/merchant/basic
 	category_tags = list(CTAG_MERCH)
+	subclass_spells = list(
+		/obj/effect/proc_holder/spell/invoked/appraise/secular,
+		/obj/effect/proc_holder/spell/invoked/takeapprentice,
+	)
 	subclass_stats = list(
 		STATKEY_PER = 3,
 		STATKEY_INT = 2,
@@ -59,7 +63,6 @@ The priests will whisper that you follow the Sun-Thief. Frown, shake your head, 
 		/datum/skill/combat/knives = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/reading = SKILL_LEVEL_MASTER,
 		/datum/skill/misc/sneaking = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/misc/stealing = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/medicine = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/craft/cooking = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/riding = SKILL_LEVEL_JOURNEYMAN,
@@ -88,9 +91,6 @@ The priests will whisper that you follow the Sun-Thief. Frown, shake your head, 
 		H.dna.species.soundpack_m = GLOB.voice_packs[/datum/voicepack/male/wizard]
 	else if(should_wear_femme_clothes(H))
 		shoes = /obj/item/clothing/shoes/roguetown/gladiator
-	if(H.mind)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/appraise/secular)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/takeapprentice)
 	if(H.mind)
 		SStreasury.grant_savings(ECONOMIC_RICH, H)
 	backpack_contents = list(

@@ -13,9 +13,7 @@
 	emote_hear = null
 	emote_see = null
 	speak_chance = 1
-	turns_per_move = 6
 	see_in_dark = 6
-	move_to_delay = 3
 	base_intents = list(/datum/intent/simple/bite)
 	butcher_results = list()
 	death_loot = list(/obj/item/magic/fae/sylvanessence = 1)
@@ -26,12 +24,8 @@
 	threat_point = THREAT_APEX
 	melee_damage_lower = 28
 	melee_damage_upper = 40
-	vision_range = 7
-	aggro_vision_range = 9
 	environment_smash = ENVIRONMENT_SMASH_NONE
 	simple_detect_bonus = 20
-	retreat_distance = 4
-	minimum_distance = 3
 	food_type = list()
 	movement_type = FLYING
 	footstep_type = FOOTSTEP_MOB_BAREFOOT
@@ -42,8 +36,6 @@
 	simple_detect_bonus = 20
 	deaggroprob = 0
 	candodge = TRUE
-	// del_on_deaggro = 44 SECONDS
-	retreat_health = 0
 	food = 0
 	attack_sound = null
 	dodgetime = 40

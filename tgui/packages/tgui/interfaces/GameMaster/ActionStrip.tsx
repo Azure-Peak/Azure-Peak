@@ -28,6 +28,7 @@ export function ActionStrip() {
     spawn_dust_leave_head,
     spawn_dust_delete_gear,
     spawn_spread,
+    spawn_deadite,
     spawn_click_intercept,
     spawn_factions = [],
   } = data;
@@ -93,6 +94,18 @@ export function ActionStrip() {
                 }}
               >
                 Dust
+              </Button.Checkbox>
+            </Stack.Item>
+            <Stack.Item>
+              <Button.Checkbox
+                compact
+                checked={spawn_deadite}
+                tooltip="Spawned humanoids turn into deadites"
+                onClick={() => {
+                  act('toggle_spawn_deadite');
+                }}
+              >
+                Deadite
               </Button.Checkbox>
             </Stack.Item>
             {warband && (

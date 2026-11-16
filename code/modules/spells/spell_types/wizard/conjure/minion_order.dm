@@ -69,23 +69,19 @@
 				target.mind.current.faction -= faction_tag
 				marked_allies -= WEAKREF(target.mind.current)
 				user.say("Hostis declaratus es.", language = /datum/language/common)
-				target.notify_faction_change()
 			else
 				target.mind.current.faction += faction_tag
 				marked_allies |= WEAKREF(target.mind.current)
 				user.say("Amicus declaratus es.", language = /datum/language/common)
-				target.notify_faction_change()
 		else if(istype(target, /mob/living/simple_animal))
 			if(faction_tag in target.faction)
 				target.faction -= faction_tag
 				marked_allies -= WEAKREF(target)
 				user.say("Hostis declaratus es.", language = /datum/language/common)
-				target.notify_faction_change()
 			else
 				target.faction |= faction_tag
 				marked_allies |= WEAKREF(target)
 				user.say("Amicus declaratus es.", language = /datum/language/common)
-				target.notify_faction_change()
 		return TRUE
 	return FALSE
 
@@ -93,7 +89,7 @@
 	button_icon = 'icons/mob/actions/mage_conjure.dmi'
 	button_icon_state = "order_servants"
 	name = "Recall Servants"
-	desc = "Wrench every conjured servant through the leyline to your side, wherever they have strayed - even across floors or a piloted body's leash."
+	desc = "Pull every conjured servant through the leyline to your side, wherever they are."
 	sound = 'sound/magic/magnet.ogg'
 	spell_color = GLOW_COLOR_ARCANE
 	glow_intensity = GLOW_INTENSITY_MEDIUM

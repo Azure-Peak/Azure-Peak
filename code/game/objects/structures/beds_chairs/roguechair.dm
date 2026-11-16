@@ -228,7 +228,7 @@
 	. += span_info("Click-dragging yourself onto a seat, while on the same tile, will 'buckle' you in; this represents your character sitting down. Sitting down gradually restores energy, and can be used to prop up people who'd normally be unable to stand.")
 	. += span_info("Left-click on the seat to 'unbuckle' yourself; this represents your character getting up. You can alternatively get up by pressing the 'RESIST' hotkey.")
 	. += span_info("This can be done to other people, as well. Click-dragging someone onto a seat will sit them down, and left-clicking the seat will 'unbuckle' them once more.")
-	. += span_info("Restrained people are unable to 'unbuckle' themeselves, or otherwise get up from whatever they're tied to. Pressing the 'RESIST' hotkey will allow them to start struggling out of their restraints. The time needed to accomplish this scales with the character's Strength.")
+	. += span_info("Restrained people are unable to 'unbuckle' themselves, or otherwise get up from whatever they're tied to. Pressing the 'RESIST' hotkey will allow them to start struggling out of their restraints. The time needed to accomplish this scales with the character's Strength.")
 	. += span_info("Some chairs and stools can be used as improvised weapons, by click-dragging them onto yourself. Activating a chair or stool in your hand will set it down in whatever direction you're facing.")
 
 /obj/item/chair/rogue/getonmobprop(tag)

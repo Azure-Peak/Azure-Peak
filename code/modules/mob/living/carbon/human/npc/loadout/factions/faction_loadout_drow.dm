@@ -8,6 +8,7 @@
 	// Elven quickness, and hardier than the light role assumes since they raid rather than skirmish.
 	stat_modifiers = list("speed" = 1, "constitution" = 2)
 	melee = SKILL_LEVEL_EXPERT
+	magic = SKILL_LEVEL_EXPERT
 	brawl = SKILL_LEVEL_EXPERT
 	survival = SKILL_LEVEL_APPRENTICE
 
@@ -42,6 +43,66 @@
 		/datum/npc_loadout/kit/drow_flavor/scourge,
 		/datum/npc_loadout/weapon/drow_scourge,
 	)
+
+/datum/npc_archetype/drow/drider
+	name = "Drow Drider"
+	job = "Drow Drider"
+	statpack = /datum/npc_statpack/light/t4
+	stat_modifiers = list("strength" = 3, "speed" = 2, "constitution" = 7)
+	traits = list(TRAIT_BADTRAINER)
+	skills = list(/datum/skill/misc/climbing = SKILL_LEVEL_MASTER)
+	taur_type = /obj/item/bodypart/taur/spider/drider
+	taur_colors = list("#0f0463", "#1a1540", "#271633", "#212021", "#361213", "#540305")
+	loadouts = list(
+		/datum/npc_loadout/armor/light/drow,
+		/datum/npc_loadout/kit/drow_flavor/drider,
+		/datum/npc_loadout/weapon/drow_drider,
+	)
+
+/datum/npc_archetype/drow/caster
+	abstract_type = /datum/npc_archetype/drow/caster
+	threat_point = THREAT_DANGEROUS + THREAT_CASTER_PREMIUM
+	statpack = /datum/npc_statpack/caster/t1
+	armor_training = ARMOR_CLASS_LIGHT
+	ai_controller = /datum/ai_controller/human_npc/caster
+
+/datum/npc_archetype/drow/caster/mixed
+	name = "Drow Mage"
+	variants = list(
+		/datum/npc_archetype/drow/caster/telomancer = 1,
+		/datum/npc_archetype/drow/caster/geomancer = 1,
+	)
+
+/datum/npc_archetype/drow/caster/telomancer
+	name = "Drow Telomancer"
+	job = "Drow Telomancer"
+	loadouts = list(
+		/datum/npc_loadout/kit/caster/telomancer,
+		/datum/npc_loadout/armor/light/drow,
+		/datum/npc_loadout/kit/drow_flavor,
+	)
+
+/datum/npc_archetype/drow/caster/geomancer
+	name = "Drow Geomancer"
+	job = "Drow Geomancer"
+	loadouts = list(
+		/datum/npc_loadout/kit/caster/geomancer,
+		/datum/npc_loadout/armor/light/drow,
+		/datum/npc_loadout/kit/drow_flavor,
+	)
+
+/datum/npc_archetype/drow/spellblade
+	name = "Drow Spellblade"
+	job = "Drow Spellblade"
+	threat_point = THREAT_DANGEROUS + THREAT_CASTER_PREMIUM + THREAT_SPELLBLADE_PREMIUM
+	statpack = /datum/npc_statpack/spellblade/t2
+	armor_training = ARMOR_CLASS_LIGHT
+	loadouts = list(
+		/datum/npc_loadout/kit/spellblade/blade/drow,
+		/datum/npc_loadout/armor/light/drow,
+		/datum/npc_loadout/kit/drow_flavor,
+	)
+	ai_controller = /datum/ai_controller/human_npc/caster/melee
 
 //** ARMOR **//
 
@@ -89,6 +150,13 @@
 	belt = /obj/item/storage/belt/rogue/leather/black
 	shoes = /obj/item/clothing/shoes/roguetown/boots/maille/iron
 
+/datum/npc_loadout/kit/drow_flavor/drider
+	clear_slots = list("shoes")
+	cloak = null
+	head = null
+	mask = /obj/item/clothing/mask/rogue/facemask/shadowfacemask
+	neck = /obj/item/clothing/neck/roguetown/coif/heavypadding
+
 //** WEAPONS **//
 
 /datum/npc_loadout/weapon/drow_melee
@@ -106,3 +174,11 @@
 
 /datum/npc_loadout/weapon/drow_scourge
 	r_hand = /obj/item/rogueweapon/whip/spiderwhip
+
+/datum/npc_loadout/weapon/drow_drider
+	traits = list(TRAIT_DUALWIELDER)
+	weapons = list(
+		list(/obj/item/rogueweapon/whip/spiderwhip),
+		list(/obj/item/rogueweapon/sword/sabre/stalker, /obj/item/rogueweapon/sword/sabre/stalker, 100),
+		list(/obj/item/rogueweapon/huntingknife/idagger/steel/elvish, /obj/item/rogueweapon/huntingknife/idagger/steel/elvish, 100),
+	)

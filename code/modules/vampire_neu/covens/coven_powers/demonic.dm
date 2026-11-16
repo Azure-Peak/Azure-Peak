@@ -26,7 +26,7 @@
 	owner.color = "#884200"
 	owner.add_stress(/datum/stressevent/vampiric_nostalgia)
 	playsound(get_turf(owner), 'sound/misc/carriage4.ogg', 40, TRUE)
-	owner.visible_message(span_suicide("Blood departs from [owner]'s body, only to form a armored carapace around them!"))
+	owner.visible_message(span_suicide("Blood departs from [owner]'s body, only to form an armored carapace around them!"))
 
 
 /datum/coven_power/demonic/deny_the_mother/deactivate()

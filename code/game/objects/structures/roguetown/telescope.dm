@@ -142,7 +142,7 @@
 						// if theyre capable of using a scrying orb, nepolx makes them less likely 2 fuck it up
 						status_effect = /datum/status_effect/buff/transparent_eyeball
 				if(5) // JOVE. graggar ate ravox's celestial body, which turned it blue and gave it red(er) eyes.
-					picked_message = span_warning("Jove's bleeding vortex marrs its width with a crimson trail... ")
+					picked_message = span_warning("Jove's bleeding vortex mars its width with a crimson trail... ")
 					H.playsound_local(H, 'sound/magic/psydonbleeds.ogg', 40, TRUE) // HE IS COMING.
 					switch(H.patron?.type) // fucks w/ ravoxites and noccites.
 						if(/datum/patron/divine/noc, /datum/patron/divine/ravox)

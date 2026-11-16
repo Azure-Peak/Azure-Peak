@@ -172,8 +172,9 @@
 	body += "<A href='?_src_=holder;[HrefToken()];subtlemessage=[REF(M)]'>Subtle message</A>"
 	//body += "<A href='?_src_=holder;[HrefToken()];languagemenu=[REF(M)]'>Language Menu</A>"
 	body += "<br><A href='?_src_=holder;[HrefToken()];heal_panel=[REF(M)]'>Heal Panel</A> | "
-	body += "<A href='?_src_=holder;[HrefToken()];inventory_panel=[REF(M)]'>Inventory Panel</A> |"
-	body += "<A href='?_src_=holder;[HrefToken()];examine_player=[REF(M)]'>Flavor Text</A>"
+	body += "<A href='?_src_=holder;[HrefToken()];inventory_panel=[REF(M)]'>Inventory Panel</A> | "
+	body += "<A href='?_src_=holder;[HrefToken()];examine_player=[REF(M)]'>Flavor Text</A> | "
+	body += "<A href='?_src_=holder;[HrefToken()];secrets_panel=[REF(M)]'>Secrets</A>"
 
 	body += "</div>"
 
@@ -575,6 +576,30 @@
 	message_admins("[key_name_admin(usr)] toggled Dead OOC.")
 	SSblackbox.record_feedback("nested tally", "admin_toggle", 1, list("Toggle Dead OOC", "[GLOB.dooc_allowed ? "Enabled" : "Disabled"]")) //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
 
+/datum/admins/proc/toggleantagooc()
+	set category = "Server"
+	set desc = "Toggle the AntagOOC channel"
+	set name = "Toggle AntagOOC"
+	GLOB.antagooc_allowed = !GLOB.antagooc_allowed
+	for(var/client/C in GLOB.clients)
+		if(C.mob?.has_antagooc_access())
+			to_chat(C, "<B>AntagOOC has been [GLOB.antagooc_allowed ? "enabled. If you're an antagonist, you can access it through the \"AntagOOC\" verb" : "disabled"].</B>")
+	log_admin("[key_name(usr)] toggled AntagOOC.")
+	message_admins("[key_name_admin(usr)] toggled AntagOOC [GLOB.antagooc_allowed ? "on" : "off"].")
+	SSblackbox.record_feedback("nested tally", "admin_toggle", 1, list("Toggle AntagOOC", "[GLOB.antagooc_allowed ? "Enabled" : "Disabled"]")) //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
+
+/datum/admins/proc/toggleantagoocwretches()
+	set category = "Server"
+	set desc = "Toggle whether wretches can use AntagOOC"
+	set name = "Toggle AntagOOC Wretches"
+	GLOB.antagooc_wretches = !GLOB.antagooc_wretches
+	for(var/client/C in GLOB.clients)
+		if(C.mob?.mind?.has_antag_datum(/datum/antagonist/wretch))
+			to_chat(C, "<B>Wretches can [GLOB.antagooc_wretches ? "now" : "no longer"] use AntagOOC.</B>")
+	log_admin("[key_name(usr)] toggled AntagOOC for wretches.")
+	message_admins("[key_name_admin(usr)] toggled AntagOOC for wretches [GLOB.antagooc_wretches ? "on" : "off"].")
+	SSblackbox.record_feedback("nested tally", "admin_toggle", 1, list("Toggle AntagOOC Wretches", "[GLOB.antagooc_wretches ? "Enabled" : "Disabled"]")) //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
+
 /datum/admins/proc/startnow()
 	set category = "Server"
 	set desc="Start the round RIGHT NOW"
@@ -700,7 +725,7 @@
 	else
 		for(var/i in 1 to amount)
 			var/atom/A = new chosen(T)
-			A.flags_1 |= ADMIN_SPAWNED_1
+			A.flags_1 |= ADMIN_SPAWNED_1 | ANTAGOOC_ACCESS_1
 
 	log_admin("[key_name(usr)] spawned [amount] x [chosen] at [AREACOORD(usr)]")
 	SSblackbox.record_feedback("tally", "admin_verb", 1, "Spawn Atom") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
@@ -723,7 +748,7 @@
 	else
 		var/obj/structure/closet/supplypod/centcompod/pod = new()
 		var/atom/A = new chosen(pod)
-		A.flags_1 |= ADMIN_SPAWNED_1
+		A.flags_1 |= ADMIN_SPAWNED_1 | ANTAGOOC_ACCESS_1
 		new /obj/effect/DPtarget(T, pod)
 
 	log_admin("[key_name(usr)] pod-spawned [chosen] at [AREACOORD(usr)]")
@@ -933,28 +958,10 @@
 
 
 /mob/living/carbon/human/proc/admin_send_back_to_lobby(mob/admin, delete_character = FALSE)
-	var/datum/job/mob_job
-	var/target_job = SSrole_class_handler.get_advclass_by_name(advjob)
 	var/player_key = key ? key : mind?.key
-	if(mind)
-		mob_job = SSjob.GetJob(mind.assigned_role)
-		if(mob_job)
-			mob_job.current_positions = max(0, mob_job.current_positions - 1)
-		if(target_job)
-			SSrole_class_handler.adjust_class_amount(target_job, -1)
-		mind.unknow_all_people()
-		for(var/datum/mind/MF in get_minds())
-			mind.become_unknown_to(MF)
-		for(var/datum/bounty/removing_bounty in GLOB.head_bounties)
-			if(removing_bounty.target == real_name)
-				GLOB.head_bounties -= removing_bounty
-	else if(admin)
+	if(!mind && admin)
 		to_chat(admin, span_warning("Target has no mind!"))
-	GLOB.chosen_names -= real_name
-	if(!mob_job)
-		LAZYREMOVE(GLOB.actors_list[SSjob.bitflag_to_department(WANDERERS, FALSE)], mobid)
-	else
-		LAZYREMOVE(GLOB.actors_list[SSjob.bitflag_to_department(mob_job.department_flag, mob_job.obfuscated_job)], mobid)
+	process_far_travel(admin)
 	if(client)
 		SSdroning.kill_droning(client)
 		SSdroning.kill_loop(client)

@@ -43,7 +43,7 @@
 	RegisterSignal(parent, COMSIG_ATOM_UPDATE_ICON, PROC_REF(update_icon))
 	RegisterSignal(parent, COMSIG_ATOM_EXITED, PROC_REF(update_sheathed_ref))
 
-// through some manner of unforseen tomfoolery (or admin intervention), our sheathed blade has left our contents without clearing our sheathed ref
+// through some manner of unforeseen tomfoolery (or admin intervention), our sheathed blade has left our contents without clearing our sheathed ref
 // let's fix that and update the icon so that people don't try to draw a sword that isn't there, yes?
 /datum/component/holster/proc/update_sheathed_ref(datum/source, atom/movable/thing, newloc)
 	if(!sheathed || (thing != sheathed))

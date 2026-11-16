@@ -12,7 +12,7 @@
 
 	desc_title = "Sun Elf"
 	desc = "Native to the vast region of Raneshen, Sun Elves are an elven subspecies descended \
-	from the followers of the Günayan Crusade who settled in the region a millenium \
+	from the followers of the Günayan Crusade who settled in the region a millennium \
 	ago. Tradition holds that Astrata guided their ancestors on a holy mission to carve out \
 	a divine Dominion of the Sun, one that would purge all darkness with Astrata's holy light.<br><br>\
 	For most of their history, Sun Elves ruled over Raneshen's Nshkormh region as a deeply-hierarchical \

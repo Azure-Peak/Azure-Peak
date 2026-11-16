@@ -12,9 +12,7 @@
 	emote_hear = null
 	emote_see = null
 	speak_chance = 1
-	turns_per_move = 3
 	see_in_dark = 6
-	move_to_delay = 3
 	base_intents = list(/datum/intent/unarmed/claw)
 	butcher_results = list()
 	death_loot = list(/obj/item/magic/infernal/ash = 4)
@@ -24,12 +22,8 @@
 	maxHealth = 90
 	melee_damage_lower = 10
 	melee_damage_upper = 15
-	vision_range = 7
-	aggro_vision_range = 9
 	environment_smash = ENVIRONMENT_SMASH_NONE
 	simple_detect_bonus = 20
-	retreat_distance = 4
-	minimum_distance = 3
 	food_type = list()
 	movement_type = FLYING
 	pooptype = null
@@ -39,8 +33,6 @@
 	simple_detect_bonus = 20
 	deaggroprob = 0
 	candodge = TRUE
-	// del_on_deaggro = 44 SECONDS
-	retreat_health = 0
 	food = 0
 	attack_sound = 'sound/combat/hits/bladed/smallslash (1).ogg'
 	attack_verb_continuous = "claws"
@@ -83,12 +75,10 @@
 
 /mob/living/simple_animal/hostile/retaliate/rogue/infernal/imp/taunted(mob/user)
 	emote("aggro")
-	Retaliate()
-	GiveTarget(user)
+	ai_controller?.force_aggro(user)
 	return
 
 /mob/living/simple_animal/hostile/retaliate/rogue/infernal/imp/Life()
 	..()
 	if(pulledby)
-		Retaliate()
-		GiveTarget(pulledby)
+		ai_controller?.force_aggro(pulledby)

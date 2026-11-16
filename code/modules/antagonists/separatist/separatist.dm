@@ -16,4 +16,4 @@
 	return nation
 
 /datum/antagonist/separatist/greet()
-	to_chat(owner, "<B>I are a separatist! [nation.name] forever! Protect the sovereignty of your newfound land with your comrades in arms!</B>")
+	to_chat(owner, "<B>I am a separatist! [nation.name] forever! I must protect the sovereignty of my newfound land with my comrades in arms!</B>")

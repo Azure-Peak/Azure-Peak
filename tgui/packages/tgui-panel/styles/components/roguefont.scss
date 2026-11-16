@@ -3,6 +3,13 @@
   src: url('~roguefont/pterra.ttf');
 }
 
+// Pterra has no emoji and its .notdef is blank, which hides them when fallback fails (Wine).
+@font-face {
+  font-family: 'Pterra';
+  src: local('Segoe UI Emoji'), url('~roguefont/noto/notocoloremoji.ttf');
+  unicode-range: U+200D, U+FE0F, U+1F000-1FAFF;
+}
+
 @font-face {
   font-family: 'Dauphin';
   src: url('~roguefont/languages/elf.ttf') format('truetype');

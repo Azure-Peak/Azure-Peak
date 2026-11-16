@@ -15,9 +15,7 @@
 	emote_hear = null
 	emote_see = null
 	speak_chance = 1
-	turns_per_move = 2
 	see_in_dark = 10
-	move_to_delay = 3
 
 	STACON = 19
 	STASTR = 16
@@ -39,13 +37,9 @@
 	maxHealth = MINOTAUR_HEALTH
 	melee_damage_lower = 55
 	melee_damage_upper = 80
-	vision_range = 3
-	aggro_vision_range = 8
 	limb_destroyer = 0 // seems strong
 	environment_smash = ENVIRONMENT_SMASH_STRUCTURES
 	obj_damage = 1
-	retreat_distance = 0
-	minimum_distance = 0
 	milkies = FALSE
 	food_type = list(/obj/item/reagent_containers/food/snacks/rogue/meat,
 	//obj/item/bodypart,
@@ -55,19 +49,14 @@
 	pooptype = null
 
 	deaggroprob = 0
-	retreat_health = 0
 	food = 0
 	attack_sound = list('sound/combat/wooshes/blunt/wooshhuge (1).ogg','sound/combat/wooshes/blunt/wooshhuge (2).ogg','sound/combat/wooshes/blunt/wooshhuge (3).ogg')
 	dodgetime = 0
 	aggressive = 1
 
 //new ai, old ai off
-	AIStatus = AI_OFF
-	can_have_ai = FALSE
 	ai_controller = /datum/ai_controller/minotaur
 	move_base_delay = MOVEMENT_DELAY_SPD_17
-
-//	stat_attack = UNCONSCIOUS
 
 /mob/living/simple_animal/hostile/retaliate/rogue/minotaur/Initialize(mapload)
 	. = ..()
@@ -109,15 +98,13 @@
 
 /mob/living/simple_animal/hostile/retaliate/rogue/minotaur/taunted(mob/user)
 	emote("aggro")
-	Retaliate()
-	GiveTarget(user)
+	ai_controller?.force_aggro(user)
 	return
 
 /mob/living/simple_animal/hostile/retaliate/rogue/minotaur/Life()
 	..()
 	if(pulledby)
-		Retaliate()
-		GiveTarget(pulledby)
+		ai_controller?.force_aggro(pulledby)
 
 /mob/living/simple_animal/hostile/retaliate/rogue/minotaur/get_sound(input)
 	switch(input)
@@ -160,10 +147,6 @@
 	reach = 2
 	item_d_type = "stab"
 	clickcd = MINOTAUR_AXE_ATTACK_SPEED
-
-/mob/living/simple_animal/hostile/retaliate/rogue/minotaur/original
-	AIStatus = AI_ON
-	can_have_ai = TRUE
 
 // Dungeon-taur - Less health then normal.
 /mob/living/simple_animal/hostile/retaliate/rogue/minotaur/wounded

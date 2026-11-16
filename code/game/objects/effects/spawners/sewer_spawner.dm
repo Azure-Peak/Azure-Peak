@@ -29,7 +29,7 @@
 		/obj/item/clothing/gloves/roguetown/leather = 4,
 		/obj/item/clothing/shoes/roguetown/boots = 8,
 		/obj/item/clothing/shoes/roguetown/boots/leather = 8,
-		/obj/item/storage/belt/rogue/leather/knifebelt/iron = 1,
+		/obj/item/storage/belt/rogue/leather/tossbelt/blade/iron = 1,
 
 		// Money
 		/obj/item/roguecoin/copper = 10,

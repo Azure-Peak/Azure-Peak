@@ -12,12 +12,8 @@
 	)
 	eligible_regions = list(
 		THREAT_REGION_AZURE_GROVE,
+		THREAT_REGION_AZUREAN_COAST,
 		THREAT_REGION_UNDERDARK,
-	)
-	eligible_factions = list(
-		QUEST_FACTION_HIGHWAYMAN,
-		QUEST_FACTION_SEA_GOBLIN,
-		QUEST_FACTION_GRONNMAN,
 	)
 	varieties = list(
 		"clay" = list(
@@ -33,6 +29,11 @@
 					list("path" = /obj/item/natural/clay, "min" = 35, "max" = 45, "noun" = "clay"),
 					list("path" = /obj/item/natural/glass, "min" = 20, "max" = 25, "noun" = "glass"),
 					list("path" = /obj/item/rogueore/coal, "min" = 10, "max" = 15, "noun" = "coal"),
+				),
+				TOWNER_POSTING_TIER_PERILOUS = list(
+					list("path" = /obj/item/natural/clay, "min" = 56, "max" = 72, "noun" = "clay"),
+					list("path" = /obj/item/natural/glass, "min" = 32, "max" = 40, "noun" = "glass"),
+					list("path" = /obj/item/rogueore/coal, "min" = 16, "max" = 24, "noun" = "coal"),
 				),
 			),
 		),

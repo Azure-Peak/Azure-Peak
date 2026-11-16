@@ -26,7 +26,6 @@
 	)
 
 	subclass_skills = list(
-	/datum/skill/misc/stealing = SKILL_LEVEL_EXPERT,
 	/datum/skill/misc/sneaking = SKILL_LEVEL_JOURNEYMAN,
 	/datum/skill/combat/knives = SKILL_LEVEL_JOURNEYMAN,
 	/datum/skill/misc/swimming = SKILL_LEVEL_NOVICE,

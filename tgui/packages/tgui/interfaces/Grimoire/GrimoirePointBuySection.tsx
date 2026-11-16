@@ -9,6 +9,7 @@ export const GrimoirePointBuySection = ({
   getPointbuyUsed,
   act,
   readOnly = false,
+  isPendingUnbind = false,
 }: {
   aspect: Aspect;
   pointbuySelections: Record<string, string[]>;
@@ -17,6 +18,7 @@ export const GrimoirePointBuySection = ({
   getPointbuyUsed: (a: Aspect) => number;
   act: (action: string, params: Record<string, unknown>) => void;
   readOnly?: boolean;
+  isPendingUnbind?: boolean;
 }) => {
   const selections = pointbuySelections[aspect.path] || [];
   const used = getPointbuyUsed(aspect);
@@ -42,8 +44,9 @@ export const GrimoirePointBuySection = ({
         const wouldExceed =
           !isSelected && used + spell.cost > aspect.pointbuy_budget;
         const isDisabled =
-          !isSelected &&
-          (wouldExceed || selectedElsewhere || conflictsElsewhere);
+          isPendingUnbind ||
+          (!isSelected &&
+            (wouldExceed || selectedElsewhere || conflictsElsewhere));
         return (
           <div
             key={spell.path}

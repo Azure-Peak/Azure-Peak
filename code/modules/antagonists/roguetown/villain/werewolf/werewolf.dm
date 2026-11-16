@@ -11,6 +11,7 @@
 	storyteller_slot_scaling = 2
 	storyteller_slot_default_cap = 2
 	storyteller_maxcaps = list(/datum/storyteller/gamemode/guaranteed_antag = 2)
+	storyteller_blacklisted = TRUE
 	var/list/inherent_traits = list(
 		TRAIT_IGNORESLOWDOWN,
 		TRAIT_IGNOREDAMAGESLOWDOWN,

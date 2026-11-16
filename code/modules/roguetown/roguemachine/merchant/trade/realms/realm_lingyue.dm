@@ -2,7 +2,7 @@
 	id = REALM_LINGYUE
 	name = "Lingyue"
 	roll_weight = TRADE_REALM_WEIGHT_DISTANT
-	demanded_categories = list(NAVIGATOR_BUCKET_WEAPONS, NAVIGATOR_BUCKET_ARMOR_LIGHT, NAVIGATOR_BUCKET_GARMENT_FINELUX, NAVIGATOR_BUCKET_POTIONS_REAGENTS, NAVIGATOR_BUCKET_ENCHANTMENTS, NAVIGATOR_BUCKET_INSTRUMENTS, NAVIGATOR_BUCKET_SEAFOOD, NAVIGATOR_BUCKET_VALUABLES_CRAFTED, NAVIGATOR_BUCKET_MISCELLANEOUS)
+	demanded_categories = list(NAVIGATOR_BUCKET_WEAPONS, NAVIGATOR_BUCKET_ARMOR_FABRIC, NAVIGATOR_BUCKET_GARMENT_FINELUX, NAVIGATOR_BUCKET_POTIONS_REAGENTS, NAVIGATOR_BUCKET_ENCHANTMENTS, NAVIGATOR_BUCKET_INSTRUMENTS, NAVIGATOR_BUCKET_SEAFOOD, NAVIGATOR_BUCKET_VALUABLES_CRAFTED, NAVIGATOR_BUCKET_MISCELLANEOUS)
 	single_word_base = TRUE
 	ship_name_words = list(
 		"Tianxia", "Fenghuang", "Qilin", "Longwang", "Yuanzhao",
@@ -123,7 +123,7 @@
 	If you pay him enough, he will settle here for the next yil or two. \
 	Otherwise, I'll bring him over to Grenzelhoft.",
 
-	"Tis dire, I'm out of rice wine! Do you have any local rice wine to trade?",
+	"'Tis dire, I'm out of rice wine! Do you have any local rice wine to trade?",
 
 	"Ah! Azurian fishes and crabs! Legendary, I know at least twenty families who would kill for a taste of them! \
 	We brought a runic chest from Shenzhou to preserve them for the journey home!",

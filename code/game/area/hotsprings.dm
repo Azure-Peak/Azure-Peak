@@ -7,6 +7,7 @@
 	droning_sound_dusk = 'sound/newmusic/lovecraft2.ogg'
 	droning_sound_night = 'sound/newmusic/lovecraft2.ogg'
 	ambush_mobs = null
+	ambush_factions = null
 	converted_type = /area/rogue/indoors/shelter/rtfield
 	deathsight_message = "somewhere high up in a mountains, where cherry blossoms bloom"
 	detail_text = DETAIL_TEXT_EORAN_SHRINE
@@ -21,6 +22,7 @@
 	droning_sound_dusk = 'sound/newmusic/lovecraft2.ogg'
 	droning_sound_night = 'sound/newmusic/lovecraft2.ogg'
 	ambush_mobs = null
+	ambush_factions = null
 	converted_type = /area/rogue/indoors/abandonedhotsprings
 	deathsight_message = "somewhere above a swamp, where cherry blossoms bloom and spiders chitter"
 	detail_text = DETAIL_TEXT_ABANDONED_HOT_SPRINGS
@@ -45,6 +47,7 @@
 	droning_sound_dusk = 'sound/music/area/grimdusk.ogg'
 	droning_sound_night = 'sound/music/area/grimsprings.ogg'
 	ambush_mobs = null
+	ambush_factions = null
 	converted_type = /area/rogue/indoors/abandonedhotsprings
 	deathsight_message = "somewhere above a swamp, where cherry blossoms bloom and spiders chitter"
 	detail_text = DETAIL_TEXT_ABANDONED_HOT_SPRINGS
@@ -68,6 +71,7 @@
 	droning_sound_night = list('sound/music/area/grimfountain.ogg', 'sound/music/area/grimpeace.ogg', 'sound/music/area/grimtwilight.ogg')
 	droning_sound_dawn = 'sound/music/area/grimdawn.ogg'
 	ambush_mobs = null
+	ambush_factions = null
 	converted_type = /area/rogue/indoors/shelter/rtfield
 	deathsight_message = "somewhere surrounded by blooming cherry blossoms, nearby a massive tree."
 	detail_text = DETAIL_TEXT_EORAN_SHRINE

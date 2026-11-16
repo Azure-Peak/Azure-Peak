@@ -31,3 +31,22 @@
 /mob/living/carbon/human/species/human/northern/searaider/huscarl/ambush
 	threat_point = THREAT_DEADLY
 	ambush_faction = "raiders"
+
+/mob/living/carbon/human/species/human/northern/searaider/shaman
+	npc_archetype = /datum/npc_archetype/searaider/shaman
+	threat_point = THREAT_TOUGH + THREAT_CASTER_PREMIUM
+	ambush_faction = "raiders"
+
+/mob/living/carbon/human/species/human/northern/searaider/caster
+	npc_archetype = /datum/npc_archetype/searaider/caster/mixed
+	threat_point = THREAT_TOUGH + THREAT_CASTER_PREMIUM
+	ambush_faction = "raiders"
+
+/mob/living/carbon/human/species/human/northern/searaider/caster/pyromancer
+	npc_archetype = /datum/npc_archetype/searaider/caster/pyromancer
+
+/mob/living/carbon/human/species/human/northern/searaider/caster/ferramancer
+	npc_archetype = /datum/npc_archetype/searaider/caster/ferramancer
+
+/mob/living/carbon/human/species/human/northern/searaider/caster/cryomancer
+	npc_archetype = /datum/npc_archetype/searaider/caster/cryomancer

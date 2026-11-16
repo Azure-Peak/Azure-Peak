@@ -1,13 +1,17 @@
 /// Log files bigger than this are only offered for download
 #define LOGVIEW_MAX_BYTES (64 * 1024 * 1024)
 /// Bytes split at a time while parsing, a power of two so offsets stay exact past 16MB
-#define LOGVIEW_CHUNK 262144
+#define LOGVIEW_CHUNK 65536
 /// Entries sent to the viewer per page
 #define LOGVIEW_PAGE 200
 /// Parsed rounds kept in memory between viewers
 #define LOGVIEW_ROUNDS 3
 /// Players one viewer can filter by at once
 #define LOGVIEW_PLAYERS 20
+/// Tick usage past which the viewer's background work waits for the next tick
+#define LOGVIEW_TICK 40
+/// Yields once the tick is past LOGVIEW_TICK, so parsing and filtering never crowd out the MC
+#define LOGVIEW_YIELD (TICK_USAGE > min(LOGVIEW_TICK, Master.current_ticklimit) ? stoplag() : 0)
 
 /// Source not parsed yet
 #define LOGVIEW_IDLE 0
@@ -26,6 +30,9 @@ GLOBAL_PROTECT(logview_rounds)
 /// Open log viewers by admin ckey
 GLOBAL_LIST_EMPTY(logviewers)
 GLOBAL_PROTECT(logviewers)
+/// Parsed json sources of the live round by file path, fed new entries by the logger
+GLOBAL_LIST_EMPTY(logview_live)
+GLOBAL_PROTECT(logview_live)
 
 /client/proc/getserverlogs()
 	set name = "Get Server Logs"
@@ -58,8 +65,12 @@ GLOBAL_PROTECT(logviewers)
 	var/seen = -1
 	/// Lines already parsed, so a growing file only parses what was appended
 	var/lines = 0
-	/// Timestamp of each entry
-	var/list/stamps = list()
+	/// Date of each entry as YYYY-MM-DD. Times are kept as numbers since BYOND's string table chokes on hundreds of thousands of timestamp strings
+	var/list/days = list()
+	/// Second of the day of each entry
+	var/list/secs = list()
+	/// Millisecond of each entry
+	var/list/msecs = list()
 	/// Category of each entry
 	var/list/cats = list()
 	/// Message of each entry
@@ -74,6 +85,10 @@ GLOBAL_PROTECT(logviewers)
 	var/list/names = list()
 	/// ckey -> jobs from the manifest
 	var/list/jobs = list()
+	/// Whether the logger feeds this source new entries, so it never needs re-reading
+	var/fed = FALSE
+	/// Entries logged while this source was loading, added once it finishes
+	var/list/queue = list()
 
 GENERAL_PROTECT_DATUM(/datum/log_source)
 
@@ -113,7 +128,7 @@ GENERAL_PROTECT_DATUM(/datum/log_source)
 			carry = rows[length(rows)]
 			rows.len--
 			for(var/line in rows)
-				CHECK_TICK
+				LOGVIEW_YIELD
 				if(++count <= lines || !length(line))
 					continue
 				if(!json)
@@ -134,14 +149,33 @@ GENERAL_PROTECT_DATUM(/datum/log_source)
 	catch(var/exception/E)
 		state = LOGVIEW_IDLE
 		seen = -1
+		queue = list()
 		throw E
-	lines = max(lines, count)
+	for(var/list/row in queue)
+		add_entry(arglist(row))
+	lines = max(lines, count) + length(queue)
+	queue = list()
 	state = LOGVIEW_READY
+
+/datum/log_source/proc/feed(datum/log_entry/entry)
+	if(state != LOGVIEW_LOADING && state != LOGVIEW_READY)
+		return
+	var/list/row = list(entry.timestamp, entry.category, "[entry.message]", isnull(entry.data) ? null : json_encode(entry.data))
+	if(state == LOGVIEW_LOADING)
+		queue += list(row)
+		return
+	add_entry(arglist(row))
+	lines++
+
+/datum/log_source/proc/when(i)
+	var/s = secs[i]
+	return "[days[i]] [copytext("0[round(s / 3600)]", -2)]:[copytext("0[round(s / 60) % 60]", -2)]:[copytext("0[s % 60]", -2)].[copytext("00[msecs[i]]", -3)]"
 
 /datum/log_source/proc/add_entry(stamp, cat, msg, data)
 	var/static/regex/login = regex(@"^Login: (.+?)(?:/\(.*?\))? from ")
-	var/static/regex/pair = regex(@"(\S+?)(?:\[DC\])?/\(([^)]+)\)", "g")
-	stamps += stamp
+	days += copytext(stamp, 1, 11)
+	secs += text2num(copytext(stamp, 12, 14)) * 3600 + text2num(copytext(stamp, 15, 17)) * 60 + text2num(copytext(stamp, 18, 20))
+	msecs += text2num(copytext("[copytext(stamp, 21, 24)]000", 1, 4))
 	cats += cat
 	msgs += msg
 	datas.len++
@@ -161,15 +195,24 @@ GENERAL_PROTECT_DATUM(/datum/log_source)
 	if(copytext(msg, 1, 8) == "Login: " && login.Find(msg))
 		var/key = login.group[1]
 		keys[ckey(key)] = key
-	if(!findtext(msg, "/("))
-		return
-	var/at = 1
-	while(pair.Find(msg, at))
-		at = pair.next
-		var/who = ckey(pair.group[1])
-		var/what = pair.group[2]
+	var/last = 1
+	var/at = findtextEx(msg, "/(")
+	while(at)
+		var/stop = findtextEx(msg, ")", at + 2)
+		if(!stop)
+			return
+		var/key = copytext(msg, max(last, findlasttextEx(msg, " ", at) + 1, findlasttextEx(msg, "\n", at) + 1, findlasttextEx(msg, "\t", at) + 1), at)
+		if(copytext(key, -4) == "\[DC]")
+			key = copytext(key, 1, -4)
+		if(stop == at + 2 || !length(key))
+			at = findtextEx(msg, "/(", at + 2)
+			continue
+		var/who = ckey(key)
+		var/what = copytext(msg, at + 2, stop)
 		if(who && ckey(what) != who)
 			LAZYOR(names[who], what)
+		last = stop + 1
+		at = findtextEx(msg, "/(", last)
 
 /// A round's log folder and its parsed sources
 /datum/log_round
@@ -196,6 +239,7 @@ GENERAL_PROTECT_DATUM(/datum/log_round)
 	others = list()
 	read_dir("")
 	read_dir("secret/")
+	read_dir("profiler/")
 	sources = sortList(sources)
 
 /datum/log_round/proc/read_dir(sub)
@@ -215,6 +259,9 @@ GENERAL_PROTECT_DATUM(/datum/log_round)
 		if(!source)
 			source = new(name, rel, "[path][rel]", json)
 			sources[name] = source
+			if(json && path == "[GLOB.log_directory]/")
+				source.fed = TRUE
+				GLOB.logview_live[source.path] = source
 		source.bytes = length(file(source.path))
 
 /// One admin's open log viewer
@@ -357,7 +404,7 @@ GENERAL_PROTECT_DATUM(/datum/log_viewer)
 		rows += list(list(
 			"src" = source.name,
 			"i" = i,
-			"ts" = source.stamps[i],
+			"ts" = source.when(i),
 			"cat" = source.cats[i],
 			"msg" = source.msgs[i],
 			"data" = source.datas[i],
@@ -592,6 +639,8 @@ GENERAL_PROTECT_DATUM(/datum/log_viewer)
 		if(!old)
 			return
 		cache -= old.path
+		if(old.path == "[GLOB.log_directory]/")
+			GLOB.logview_live = list()
 
 /datum/log_viewer/proc/people()
 	var/list/known = list()
@@ -631,7 +680,7 @@ GENERAL_PROTECT_DATUM(/datum/log_viewer)
 			for(var/name in shown)
 				var/datum/log_source/source = folder.sources[name]
 				var/fresh = source?.state != LOGVIEW_READY
-				if(!source || !(fresh || reread))
+				if(!source || !(fresh || (reread && !source.fed)))
 					continue
 				source.load()
 				if(fresh && !QDELETED(src))
@@ -657,7 +706,7 @@ GENERAL_PROTECT_DATUM(/datum/log_viewer)
 	var/s = hms.group[3] ? text2num(hms.group[3]) : (upper ? 59 : 0)
 	if(h > 23 || m > 59 || s > 59)
 		return null
-	return "[h < 10 ? "0" : ""][h]:[m < 10 ? "0" : ""][m]:[s < 10 ? "0" : ""][s]"
+	return h * 3600 + m * 60 + s
 
 /datum/log_viewer/proc/refilter()
 	error = null
@@ -685,40 +734,45 @@ GENERAL_PROTECT_DATUM(/datum/log_viewer)
 		bit = trim(bit)
 		if(bit)
 			nots += bit
-	var/list/needles = list()
+	var/list/exact = list()
+	var/list/loose = list()
 	if(length(players))
 		var/list/people = people()
 		for(var/who in players)
-			needles |= who
 			var/list/person = people[ckey(who)]
 			if(!person)
+				loose |= who
 				continue
-			needles |= person["key"]
+			exact |= who
+			exact |= person["key"]
 			if(chars)
-				needles |= person["names"]
-		marks |= needles
+				exact |= person["names"]
+		marks |= loose | exact
 
-	if(lo || hi)
-		var/first
-		var/last
+	var/loday
+	var/hiday
+	if(isnum(lo) || isnum(hi))
+		var/today
+		var/start
+		var/tomorrow
 		for(var/name in folder.sources)
 			var/datum/log_source/source = folder.sources[name]
-			if(source.state != LOGVIEW_READY || !length(source.stamps))
+			var/n = length(source.days)
+			if(source.state != LOGVIEW_READY || !n)
 				continue
-			if(!first || source.stamps[1] < first)
-				first = source.stamps[1]
-			if(!last || source.stamps[length(source.stamps)] > last)
-				last = source.stamps[length(source.stamps)]
-		if(first)
-			var/start = copytext(first, 12, 20)
-			var/today = copytext(first, 1, 11)
-			var/tomorrow = copytext(last, 1, 11)
-			if(lo)
-				lo = "[lo < start ? tomorrow : today] [lo]"
-			if(hi)
-				hi = "[hi < start ? tomorrow : today] [hi].999"
+			var/day = source.days[1]
+			if(!today || day < today || (day == today && source.secs[1] < start))
+				today = day
+				start = source.secs[1]
+			if(!tomorrow || source.days[n] > tomorrow)
+				tomorrow = source.days[n]
+		if(today)
+			if(isnum(lo))
+				loday = lo < start ? tomorrow : today
+			if(isnum(hi))
+				hiday = hi < start ? tomorrow : today
 
-	var/key = json_encode(list(search, pattern, nots, needles, lo, hi))
+	var/key = json_encode(list(search, pattern, nots, exact, loose, lo, hi, loday, hiday))
 	if(key != sig)
 		sig = key
 		picked = list()
@@ -732,12 +786,15 @@ GENERAL_PROTECT_DATUM(/datum/log_viewer)
 			continue
 		var/list/got = picked[source] || list()
 		picked[source] = got
-		var/list/stamps = source.stamps
+		var/list/days = source.days
+		var/list/secs = source.secs
 		var/list/msgs = source.msgs
 		var/stop = length(msgs)
 		for(var/i in scanned[source] + 1 to stop)
-			CHECK_TICK
-			if((lo && stamps[i] < lo) || (hi && stamps[i] > hi))
+			LOGVIEW_YIELD
+			if(loday && (days[i] < loday || (days[i] == loday && secs[i] < lo)))
+				continue
+			if(hiday && (days[i] > hiday || (days[i] == hiday && secs[i] > hi)))
 				continue
 			var/msg = msgs[i]
 			if(finder)
@@ -745,12 +802,17 @@ GENERAL_PROTECT_DATUM(/datum/log_viewer)
 					continue
 			else if(search && !findtext(msg, search))
 				continue
-			if(length(needles))
+			if(length(exact) || length(loose))
 				var/hit = FALSE
-				for(var/needle in needles)
-					if(findtext(msg, needle))
+				for(var/needle in exact)
+					if(findtextEx(msg, needle))
 						hit = TRUE
 						break
+				if(!hit)
+					for(var/needle in loose)
+						if(findtext(msg, needle))
+							hit = TRUE
+							break
 				if(!hit)
 					continue
 			var/hide = FALSE
@@ -767,7 +829,7 @@ GENERAL_PROTECT_DATUM(/datum/log_viewer)
 			visible = list()
 			var/list/cats = source.cats
 			for(var/i in got)
-				CHECK_TICK
+				LOGVIEW_YIELD
 				if(!hidden[cats[i]])
 					visible += i
 		srcs += source
@@ -775,27 +837,40 @@ GENERAL_PROTECT_DATUM(/datum/log_viewer)
 
 	var/k = length(srcs)
 	var/list/at = new /list(k)
+	var/list/heads = new /list(k)
+	var/list/moments = new /list(k)
 	for(var/j in 1 to k)
 		at[j] = 1
+		var/list/got = picks[j]
+		var/datum/log_source/source = srcs[j]
+		if(length(got))
+			heads[j] = source.days[got[1]]
+			moments[j] = source.secs[got[1]] + source.msecs[got[1]] / 1000
 	while(TRUE)
 		var/best = 0
-		var/top
+		var/topday
+		var/topmark
 		for(var/j in 1 to k)
-			var/list/got = picks[j]
-			if(at[j] > length(got))
-				continue
-			var/datum/log_source/source = srcs[j]
-			var/stamp = source.stamps[got[at[j]]]
-			if(!best || stamp < top)
+			var/day = heads[j]
+			if(day && (!best || day < topday || (day == topday && moments[j] < topmark)))
 				best = j
-				top = stamp
+				topday = day
+				topmark = moments[j]
 		if(!best)
 			break
 		var/list/chosen = picks[best]
-		hsrc += srcs[best]
-		hidx += chosen[at[best]]
-		at[best]++
-		CHECK_TICK
+		var/datum/log_source/source = srcs[best]
+		var/pos = at[best]
+		hsrc += source
+		hidx += chosen[pos]
+		at[best] = ++pos
+		if(pos > length(chosen))
+			heads[best] = null
+		else
+			var/i = chosen[pos]
+			heads[best] = source.days[i]
+			moments[best] = source.secs[i] + source.msecs[i] / 1000
+		LOGVIEW_YIELD
 
 	if(want)
 		var/datum/log_source/target = want[1]
@@ -814,8 +889,8 @@ GENERAL_PROTECT_DATUM(/datum/log_viewer)
 	for(var/pos in 1 to length(hidx))
 		var/datum/log_source/source = hsrc[pos]
 		var/i = hidx[pos]
-		out += "\[[source.stamps[i]]\] [uppertext(source.cats[i])]: [source.msgs[i]]"
-		CHECK_TICK
+		out += "\[[source.when(i)]\] [uppertext(source.cats[i])]: [source.msgs[i]]"
+		LOGVIEW_YIELD
 	var/path = "tmp/logview.[owner].txt"
 	rustg_file_write(jointext(out, "\n"), path)
 	if(!user)
@@ -829,6 +904,8 @@ GENERAL_PROTECT_DATUM(/datum/log_viewer)
 #undef LOGVIEW_PAGE
 #undef LOGVIEW_ROUNDS
 #undef LOGVIEW_PLAYERS
+#undef LOGVIEW_TICK
+#undef LOGVIEW_YIELD
 #undef LOGVIEW_IDLE
 #undef LOGVIEW_LOADING
 #undef LOGVIEW_READY

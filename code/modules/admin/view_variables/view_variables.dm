@@ -26,6 +26,8 @@
 	var/islist = islist(thing) || (!isdatum(thing) && hascall(thing, "Cut")) // Some special lists don't count as lists, but can be detected by if they have list procs
 	if(!islist && !isdatum(thing))
 		return
+	if(!islist)
+		usr.client.vvdatum = WEAKREF(thing)
 	var/isalist = isalist(thing) // islist will always be true for alists too
 
 	var/title = ""

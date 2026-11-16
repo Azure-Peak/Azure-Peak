@@ -23,7 +23,7 @@
 	advclass_cat_rolls = list(CTAG_STEWARD = 2)
 
 	job_traits = list(TRAIT_NOBLE, TRAIT_SEEPRICES, TRAIT_ROYAL_SUBSIDY)
-	vice_restrictions = list(/datum/charflaw/mute, /datum/charflaw/unintelligible) //Needs to use the throat - sometimes
+	vice_restrictions = list(/datum/charflaw/mute, /datum/charflaw/unintelligible, /datum/charflaw/wanted) //Needs to use the throat - sometimes
 	virtue_restrictions = list(/datum/virtue/utility/skilled, /datum/virtue/utility/apprentice, /datum/virtue/utility/homesteader, /datum/virtue/utility/granary) //Commerce role, not a craftsman.
 	job_subclasses = list(
 		/datum/advclass/steward

@@ -1,7 +1,7 @@
 /datum/action/cooldown/spell/projectile/arcyne_volley
 	button_icon = 'icons/mob/actions/mage_telomancy.dmi'
 	name = "Magister's Dart"
-	desc = "Advanced Offensive Magyck, refined over millenium and turned into a true Telomancer's ultimate thesis! Toggle firing mode (Shift+G) while the spell is active: \
+	desc = "Advanced Offensive Magyck, refined over millennium and turned into a true Telomancer's ultimate thesis! Toggle firing mode (Shift+G) while the spell is active: \
 	Cascade looses a rapid stream of bolts at a single foe, Seeker sends homing orbs that pass harmlessly through all but their mark, and Soulshot fires a piercing beam through several foes."
 	button_icon_state = "arcyne_bolt"
 	sound = 'sound/magic/vlightning.ogg'
@@ -80,6 +80,20 @@
 			B.vis_contents.Add(holder)
 		holder.maptext = MAPTEXT(tag)
 		holder.color = "#00ccff"
+
+/datum/action/cooldown/spell/projectile/arcyne_volley/get_impact_turfs(atom/center)
+	. = list()
+	var/turf/start = get_turf(owner)
+	var/turf/epicenter = get_turf(center)
+	if(!start || !epicenter || start == epicenter)
+		return
+	switch(modes[current_mode]["fire"])
+		if("homing")
+			return
+		if("single")
+			epicenter = get_turf_in_angle(Get_Angle(start, epicenter), start, cast_range) || epicenter
+	. = getline(start, epicenter)
+	. -= start
 
 /datum/action/cooldown/spell/projectile/arcyne_volley/fire_projectile(atom/target)
 	switch(modes[current_mode]["fire"])

@@ -171,7 +171,7 @@ GLOBAL_VAR_INIT(last_crown_announcement_time, -1000)
 					playsound(src, 'sound/misc/machineno.ogg', 100, FALSE, -1)
 					return
 				if (world.time < GLOB.last_crown_announcement_time + 2 MINUTES)
-					say(("Tis not yet time for another announcement my liege."))
+					say(("'Tis not yet time for another announcement my liege."))
 					return
 				if(!SScommunications.can_announce(H))
 					say("I must gather my strength!")

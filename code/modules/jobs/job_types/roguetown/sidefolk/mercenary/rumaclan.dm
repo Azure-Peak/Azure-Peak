@@ -69,7 +69,7 @@
 				l_hand = /obj/item/clothing/suit/roguetown/shirt/undershirt/eastshirt1
 			if("Dress")
 				l_hand = /obj/item/clothing/suit/roguetown/shirt/dress/captainrobe
-		var/weapons = list("Ruma Hwando (Onehanded sabre)","Golden Ruma Hwando","Ssangsudo (Heavy sword)","Naginata & Tanto (Polearm & dagger)","Kodachi & Tanto (Shortsword & dagger)","Longbow & Kodachi","Longbow & Tanto")
+		var/weapons = list("Ruma Hwando (Onehanded sabre)","Golden Ruma Hwando","Ssangsudo (Heavy sword)", "Nodachi (Two-Handed sword)", "Naginata & Tanto (Polearm & dagger)","Kodachi & Tanto (Shortsword & dagger)","Longbow & Kodachi","Longbow & Tanto")
 		var/weapon_choice = input(H, "Choose your weapon.", "WHEN STEEL MUST SPEAK...") as anything in weapons
 		switch(weapon_choice)
 			if("Ruma Hwando (Onehanded sabre)")
@@ -84,6 +84,10 @@
 				H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_EXPERT, TRUE)
 				beltr = /obj/item/rogueweapon/scabbard/sword/kazengun/noparry
 				beltl = /obj/item/rogueweapon/sword/long/kriegmesser/ssangsudo
+			if("Nodachi (Two-Handed sword)")
+				H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_EXPERT, TRUE)
+				r_hand = /obj/item/rogueweapon/greatsword/nodachi
+				backl = /obj/item/rogueweapon/scabbard/gwstrap/nodachi
 			if("Naginata & Tanto (Polearm & dagger)")
 				H.adjust_skillrank_up_to(/datum/skill/combat/polearms, SKILL_LEVEL_EXPERT, TRUE) //j-man suffices for the knife here.
 				r_hand = /obj/item/rogueweapon/spear/naginata
@@ -229,7 +233,7 @@
 			if("Kodachi, Tanto, & Tossblades") //Melee and a touch of ranged versatility, but not much spare belt-room.
 				H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_EXPERT, TRUE)
 				H.adjust_skillrank_up_to(/datum/skill/combat/knives, SKILL_LEVEL_EXPERT, TRUE)
-				belt = /obj/item/storage/belt/rogue/leather/knifebelt/black/kazengun //uses iron throwing stars for now, no sprite for steel ones.
+				belt = /obj/item/storage/belt/rogue/leather/tossbelt/blade/black/kazengun //uses iron throwing stars for now, no sprite for steel ones.
 				r_hand = /obj/item/rogueweapon/sword/short/kazengun
 				backl = /obj/item/rogueweapon/scabbard/sword/kazengun/kodachi
 				beltr = /obj/item/rogueweapon/scabbard/sheath/kazengun

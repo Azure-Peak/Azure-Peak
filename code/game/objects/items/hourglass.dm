@@ -26,7 +26,7 @@
 		start()
 		flick("hourglass_flip",src)
 	else
-		to_chat(user,span_notice("I stop the [src].")) //Sand magically flows back because that's more convinient to use.
+		to_chat(user,span_notice("I stop the [src].")) //Sand magically flows back because that's more convenient to use.
 		stop()
 
 /obj/item/hourglass/update_icon()

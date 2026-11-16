@@ -17,7 +17,7 @@
 // Pillaged and adapted from telepathy code
 /obj/effect/proc_holder/spell/targeted/personality_commune/cast(list/targets, mob/user)
 	if(!istype(trauma))
-		to_chat(user, span_warning("Something is wrong; Either due a bug or admemes, you are trying to cast this spell without a split personality!"))
+		to_chat(user, span_warning("Something is wrong; Either due to a bug or admemes, you are trying to cast this spell without a split personality!"))
 		return
 	var/msg = stripped_input(usr, "What would you like to tell your other self?", null , "")
 	if(!msg)

@@ -121,6 +121,45 @@
 	rotprocess = SHELFLIFE_LONG
 	eat_effect = /datum/status_effect/buff/greatsnackbuff
 
+/obj/item/reagent_containers/food/snacks/rogue/etruscalad
+	cuisine = CUISINE_ETRUSCAN
+	dish_type = DISH_VEGETABLE
+	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_QUARTER_MEAL)
+	name = "etruscalad"
+	desc = "A crunchy, bitter salad with Etruscan origins. A staple food amidst both the rich and the poor, though not nearly as hearty on its own without any meat or cheese."
+	icon = 'modular/Neu_Food/icons/cooked/cooked_veggies.dmi'
+	icon_state = "etruscalad"
+	tastes = list("earthiness" = 1, "tomato" = 1, "cabbage" = 3)
+	faretype = FARE_FINE
+	rotprocess = SHELFLIFE_DECENT
+	eat_effect = /datum/status_effect/buff/snackbuff
+
+/obj/item/reagent_containers/food/snacks/rogue/dressed_etruscalad
+	cuisine = CUISINE_ETRUSCAN
+	dish_type = DISH_VEGETABLE
+	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_HALF_MEAL)
+	name = "dressed etruscalad"
+	desc = "A delicious végétal salad with a wicked crunch, topped with a sour vinaigrette which has radically transformed the cabbage's taste and color. The centerpiece of any good Etruscan lunch."
+	icon = 'modular/Neu_Food/icons/cooked/cooked_veggies.dmi'
+	icon_state = "etruscalad_dressed"
+	tastes = list("ripe cabbage" = 1, "tomato" = 1, "vinegar" = 1)
+	faretype = FARE_LAVISH
+	rotprocess = SHELFLIFE_DECENT
+	eat_effect = /datum/status_effect/buff/greatsnackbuff
+
+/obj/item/reagent_containers/food/snacks/rogue/royal_etruscalad
+	cuisine = CUISINE_ETRUSCAN|CUISINE_NORTH_IMPERIAL
+	dish_type = DISH_VEGETABLE|DISH_BREAD
+	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_THREE_QUARTER_MEAL)
+	name = "royal etruscalad"
+	desc = "A pidgin végétal dish known to have served as appetizer in many a meal for the old Mad Duke; a crunchy, vinegary etruscalad is topped with flaky cubed toast slices. Excessive and delicious."
+	icon = 'modular/Neu_Food/icons/cooked/cooked_veggies.dmi'
+	icon_state = "etruscalad_royal"
+	tastes = list("ripe cabbage" = 1, "tomato" = 1, "vinegar" = 1, "croutons" = 1)
+	faretype = FARE_LAVISH
+	rotprocess = SHELFLIFE_DECENT
+	eat_effect = /datum/status_effect/buff/greatmealbuff
+
 /obj/item/reagent_containers/food/snacks/roastseeds
 	dish_type = DISH_VEGETABLE
 	list_reagents = list(/datum/reagent/consumable/nutriment = 1)

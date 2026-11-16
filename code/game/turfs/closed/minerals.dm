@@ -428,7 +428,7 @@
 
 /turf/closed/mineral/rogue/bedrock
 	name = "bedrock"
-	desc = "Lichens and moss cling to the jagged contours of the barren rock face. It is slick with moisture and exudes the heavy odors of dirt, rock and ancient metals compacted into nigh-indestructable rock."
+	desc = "Lichens and moss cling to the jagged contours of the barren rock face. It is slick with moisture and exudes the heavy odors of dirt, rock and ancient metals compacted into nigh-indestructible rock."
 	icon_state = "rockyashbed"
 //	smooth_icon = 'icons/turf/walls/hardrock.dmi'
 	color = "#9b9b9b"

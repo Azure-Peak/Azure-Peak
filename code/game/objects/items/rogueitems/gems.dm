@@ -13,6 +13,7 @@
 	static_price = FALSE
 	resistance_flags = FIRE_PROOF
 	materia = list(/datum/materia_aspect/arcyne)
+	possible_item_intents = list(/datum/intent/use, /datum/intent/food)
 
 /obj/item/roguegem/getonmobprop(tag)
 	. = ..()
@@ -29,11 +30,11 @@
 
 /obj/item/roguegem/get_mechanics_examine(mob/user)
 	. = ..()
-	. += span_info("Most gemstomes are extremely valuable, and are chiefly used to create bejeweled rings and weaponry.")
+	. += span_info("Most gemstones are extremely valuable, and are chiefly used to create bejeweled rings and weaponry.")
 	. += span_info("Certain gemstones can be carved into ornate treasures, cutlery, and armor with the right skills and tools.")
 
 /obj/item/roguegem/attack(mob/living/M, mob/user)
-	if(!user.cmode)
+	if(!user.cmode && istype(user.used_intent, /datum/intent/food))
 		if(try_construct_consume(src, M, user))
 			return
 	else

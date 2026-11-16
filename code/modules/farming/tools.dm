@@ -33,7 +33,7 @@
 /obj/item/rogueweapon/thresher/get_mechanics_examine(mob/user)
 	. = ..()
 	. += span_notice("Left-click a piece of produce with the 'STRIKE' intent to mash it into seeds, which can be used to plant more crops.")
-	. += span_notice("Left-click harvested stalks with the 'THRESH' intent to shuck them, turning them into piles of useable fibers, grains, oats, and rice.")
+	. += span_notice("Left-click harvested stalks with the 'THRESH' intent to shuck them, turning them into piles of usable fibers, grains, oats, and rice.")
 
 /obj/item/rogueweapon/thresher/getonmobprop(tag)
 	. = ..()
@@ -117,7 +117,7 @@
 
 /obj/item/rogueweapon/sickle/aalloy
 	name = "decrepit sickle"
-	desc = "Her thought was simple; to seperate the wheat from the chaff. By removing the limitations set upon one's spirit by lyfe, only then could divinity be obtained. She was correct - yet Her ascension had gone terribly awry, all-the-same."
+	desc = "Her thought was simple; to separate the wheat from the chaff. By removing the limitations set upon one's spirit by lyfe, only then could divinity be obtained. She was correct - yet Her ascension had gone terribly awry, all-the-same."
 	icon_state = "asickle"
 	color = "#bb9696"
 	smeltresult = /obj/item/ingot/aaslag
@@ -162,7 +162,7 @@
 	wlength = WLENGTH_NORMAL
 	drop_sound = 'sound/foley/dropsound/wooden_drop.ogg'
 	smeltresult = /obj/item/ingot/iron
-	hoe_damage = null //the durability damage recieved for every work cycle
+	hoe_damage = null //the durability damage received for every work cycle
 	work_time = 3 SECONDS // the time it takes to make new soil or till soil
 	is_tool = TRUE
 

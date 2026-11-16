@@ -460,6 +460,14 @@
 	display_category = ITEM_CAT_TOOLS_SUNDRIES
 	createditem_num = 3
 
+/datum/anvil_recipe/tools/iron/fishinghooks
+	name = "Fishing Hooks (x3)"
+	category = "Iron"
+	req_bar = /obj/item/ingot/iron
+	created_item = /obj/item/fishing/hook/iron
+	display_category = ITEM_CAT_TOOLS_SUNDRIES
+	createditem_num = 3
+
 /datum/anvil_recipe/tools/iron/sewingneedle
 	name = "Needles, Iron (x3)"
 	category = "Iron"
@@ -689,6 +697,13 @@
 	created_item = /obj/item/kitchen/fork/silver
 	display_category = ITEM_CAT_TOOLS_COOKWARE
 	createditem_num = 3
+
+/datum/anvil_recipe/tools/silver/bowl
+	name = "Bowl, Silver"
+	category = "Silver"
+	req_bar = /obj/item/ingot/silver
+	created_item = /obj/item/reagent_containers/glass/bowl/silver
+	display_category = ITEM_CAT_TOOLS_COOKWARE
 
 // --------- GOLD RECIPES-----------
 

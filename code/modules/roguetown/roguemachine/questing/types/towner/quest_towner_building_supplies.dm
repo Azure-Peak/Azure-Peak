@@ -13,11 +13,7 @@
 	eligible_regions = list(
 		THREAT_REGION_MOUNT_DECAP,
 		THREAT_REGION_AZUREAN_COAST,
-	)
-	eligible_factions = list(
-		QUEST_FACTION_TARICHEA_DEADITE,
-		QUEST_FACTION_MADMAN,
-		QUEST_FACTION_MOUNTAIN_TROLL,
+		THREAT_REGION_AZURE_GROVE,
 	)
 	varieties = list(
 		"building supplies" = list(
@@ -40,6 +36,15 @@
 					list("path" = /obj/item/construction/nail, "min" = 6, "max" = 10, "noun" = "nails"),
 					list("path" = /obj/item/ingot/iron, "min" = 4, "max" = 8, "noun" = "iron ingots"),
 					list("path" = /obj/item/rogueore/coal, "min" = 4, "max" = 8, "noun" = "coal"),
+				),
+				TOWNER_POSTING_TIER_PERILOUS = list(
+					list("path" = /obj/item/grown/log/tree/small, "min" = 32, "max" = 38, "noun" = "wood"),
+					list("path" = /obj/item/natural/wood/plank, "min" = 32, "max" = 38, "noun" = "planks"),
+					list("path" = /obj/item/natural/stone, "min" = 48, "max" = 56, "noun" = "stone"),
+					list("path" = /obj/item/natural/stoneblock, "min" = 32, "max" = 38, "noun" = "stone blocks"),
+					list("path" = /obj/item/construction/nail, "min" = 10, "max" = 16, "noun" = "nails"),
+					list("path" = /obj/item/ingot/iron, "min" = 7, "max" = 12, "noun" = "iron ingots"),
+					list("path" = /obj/item/rogueore/coal, "min" = 7, "max" = 12, "noun" = "coal"),
 				),
 			),
 		),

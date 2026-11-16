@@ -25,7 +25,7 @@
 
 /datum/action/cooldown/spell/ferramancy_strike/falling_crescent
 	name = "Falling Crescent"
-	desc = "Wind up a greatsword's edge, then sweep a wide arc across the tiles in front of you, cleaving everything in reach right to left. You are slowed and left wide open as you wind it up, but once begun it cannot be stopped - only stepped clear of. This strike can be defended against, but not parried or dodged.\n\n\
+	desc = "Wind up a greatsword's edge, then sweep a wide arc across the tiles in front of you, cleaving everything in reach right to left. You are slowed and left wide open as you wind it up, but once begun it cannot be stopped. This strike can be defended against, but not parried or dodged.\n\n\
 	Deals 52 brute damage to everything caught in the arc."
 	button_icon_state = "falling_crescent"
 	invocations = list("Acies Lunata!")
@@ -50,6 +50,7 @@
 
 /datum/action/cooldown/spell/ferramancy_strike/sorcerers_lance
 	name = "Sorcerer's Lance"
+	// TODO: Rewrite desc
 	desc = "Wind up a couched lance, then drive it forward in a straight line, skewering everything up to five tiles ahead. You are slowed and left wide open as you wind it up, but once begun it cannot be stopped - only stepped clear of. This strike can be defended against, but not parried or dodged.\n\n\
 	Deals 28 brute damage to everything caught in the line, piercing through even heavy armor."
 	button_icon_state = "sorcerers_lance"
