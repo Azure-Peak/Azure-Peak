@@ -28,6 +28,7 @@
 	var/hunter_mark_key
 	var/hunter_marks_seeded = FALSE
 	var/hunt_engaged = FALSE
+	var/engaged_ticks = 0
 	var/boss_paid = FALSE
 	var/takeover_resolved = FALSE
 	var/hunt_tick_id
@@ -75,6 +76,7 @@
 	if(!QDELETED(boss) && boss.client)
 		leash_boss(boss)
 		refresh_hunter_marks()
+		count_engaged_tick(boss)
 	check_hunt_engaged(boss)
 	check_party_wipe()
 
@@ -244,7 +246,7 @@
 	quest_scroll?.update_quest_text()
 	announce_to_bearer("<b>[boss_name] has been warned of you.</b> The reward rises by [NOTORIOUS_BOUNTY_PLAYER_BONUS] mammon.")
 	to_chat(boss, span_danger("You are [boss_name]. Someone signed a writ for your head and the hunting party is on its way."))
-	to_chat(boss, span_danger("You cannot leave this ground. Hold out [DisplayTimeText(timeleft(hunt_timer_id), 1)] or break them to earn [NOTORIOUS_BOUNTY_SURVIVAL_TRIUMPH] TRIUMPH. Hiding pays nothing. They have to come at you and fail."))
+	to_chat(boss, span_danger("You cannot leave this ground. Hold out [DisplayTimeText(timeleft(hunt_timer_id), 1)] or break them to earn [NOTORIOUS_BOUNTY_TRIUMPH] TRIUMPH. Hiding pays nothing. They have to come at you and fail."))
 	to_chat(boss, span_boldnotice("You may kill them. Do not remove them from the round. Follow escalation rules. You may join any fight your gang has already started."))
 	to_chat(boss, span_boldnotice("Your hunters are marked. [describe_hunting_party()]"))
 	var/turf/boss_turf = get_turf(boss)
@@ -282,7 +284,7 @@
 	var/mob/living/boss = boss_ref?.resolve()
 	if(QDELETED(boss) || boss.stat == DEAD || !boss.client)
 		return
-	if(!pay_out_boss(boss))
+	if(!pay_out_boss(boss) && !hunt_engaged)
 		to_chat(boss, span_warning("The hunters never came for you."))
 	to_chat(boss, span_warning("The hunt is over. You escape to safety."))
 	clear_hunter_marks()
@@ -299,6 +301,7 @@
 		INVOKE_ASYNC(src, PROC_REF(release_dead_boss), boss)
 		return
 	to_chat(boss, span_userdanger("Your lyfe and notoriety end here. Your spirit drifts away..."))
+	INVOKE_ASYNC(src, PROC_REF(pay_out_boss), boss)
 	addtimer(CALLBACK(src, PROC_REF(release_dead_boss), boss), NOTORIOUS_BOUNTY_DEATH_RELEASE)
 
 /datum/quest/kill/notorious_bounty/proc/release_dead_boss(mob/living/boss)
@@ -306,6 +309,7 @@
 		boss = boss_ref?.resolve()
 	if(QDELETED(boss) || !boss.client || boss.stat != DEAD)
 		return
+	pay_out_boss(boss)
 	UnregisterSignal(boss, COMSIG_LIVING_DEATH)
 	clear_hunter_marks()
 	clear_boss_marker()
@@ -389,17 +393,25 @@
 /datum/quest/kill/notorious_bounty/proc/check_hunt_engaged(mob/living/boss)
 	if(hunt_engaged || QDELETED(boss))
 		return
+	hunt_engaged = hunter_in_range(boss)
+
+/datum/quest/kill/notorious_bounty/proc/count_engaged_tick(mob/living/boss)
+	if(boss.stat == DEAD || !boss.client || boss.client.inactivity >= NOTORIOUS_BOUNTY_HUNT_TICK)
+		return
+	if(hunter_in_range(boss))
+		engaged_ticks++
+
+/datum/quest/kill/notorious_bounty/proc/hunter_in_range(mob/living/boss)
 	var/turf/boss_turf = get_turf(boss)
 	if(!boss_turf)
-		return
+		return FALSE
 	for(var/mob/living/M as anything in get_hunting_party())
 		var/turf/hunter_turf = get_turf(M)
 		if(!hunter_turf || hunter_turf.z != boss_turf.z)
 			continue
-		if(get_dist(hunter_turf, boss_turf) > NOTORIOUS_BOUNTY_ENGAGE_RANGE)
-			continue
-		hunt_engaged = TRUE
-		return
+		if(get_dist(hunter_turf, boss_turf) <= NOTORIOUS_BOUNTY_ENGAGE_RANGE)
+			return TRUE
+	return FALSE
 
 /datum/quest/kill/notorious_bounty/proc/succour_fallen_hunters()
 	if(!hunt_engaged || !leash_origin)
@@ -433,15 +445,19 @@
 
 //TODO(flavor): Boss outlasted the hunt and is paid. Should land as a win.
 /datum/quest/kill/notorious_bounty/proc/pay_out_boss(mob/living/boss)
-	if(boss_paid || !hunt_engaged)
+	if(boss_paid || engaged_ticks < NOTORIOUS_BOUNTY_ENGAGED_TICKS)
 		return FALSE
-	if(QDELETED(boss) || !boss.client || boss.stat == DEAD)
+	if(QDELETED(boss) || !boss.client)
 		return FALSE
 	boss_paid = TRUE
 	var/turf/boss_turf = get_turf(boss)
-	to_chat(boss, span_danger("<b>The hunting party came for you and could not finish you. You escape to safety and earn [NOTORIOUS_BOUNTY_SURVIVAL_TRIUMPH] TRIUMPH.</b>"))
-	boss.adjust_triumphs(NOTORIOUS_BOUNTY_SURVIVAL_TRIUMPH, TRUE, "notorious bounty: outlasted the hunt")
-	message_admins("[key_name_admin(boss)] outlasted notorious bounty '[boss_name]' at [ADMIN_COORDJMP(boss_turf)] ([region]).")
+	var/fell = boss.stat == DEAD
+	if(fell)
+		to_chat(boss, span_danger("<b>You fought them them and fell in glorious battle. You earn [NOTORIOUS_BOUNTY_TRIUMPH] TRIUMPH.</b>"))
+	else
+		to_chat(boss, span_danger("<b>The hunting party could not end you. You escape to safety and earn [NOTORIOUS_BOUNTY_TRIUMPH] TRIUMPH.</b>"))
+	boss.adjust_triumphs(NOTORIOUS_BOUNTY_TRIUMPH, TRUE, fell ? "notorious bounty: fought and died" : "notorious bounty: survived the hunters")
+	message_admins("[key_name_admin(boss)] [fell ? "fought and died in" : "outlasted"] notorious bounty '[boss_name]' at [ADMIN_COORDJMP(boss_turf)] ([region]).")
 	return TRUE
 
 /datum/quest/kill/notorious_bounty/faction_fits(datum/quest_faction/F, datum/threat_region/TR)
