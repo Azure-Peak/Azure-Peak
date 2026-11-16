@@ -308,7 +308,7 @@
 
 /datum/action/cooldown/spell/matthios/mammonite
 	name = "Mammonite"
-	desc = "Invoke Matthios's name and invest 10 to 200 mammon from your possessions and treasury into your next strike (based on your intent, min. 'Weak', max. 'Strong'). The attack penetrates armor equal to 75% of the mammon spent and grows stronger with the value of the offering. Offering over 80 mammon in one strike has a chance to obliterate the mindless."
+	desc = "Invoke Matthios's name and invest 10 to 200 mammon from your possessions and treasury into your next strike (based on your intent, min. 'Weak', max. 'Strong'). The attack penetrates armor equal to 75% of the mammon spent and grows stronger with the value of the offering."
 	fluff_desc = "The faithful tell of a merchant cornered by death, bereft of allies, steel, and hope. With nothing left but his fortune and his faith in Matthios, he offered both in desperate prayer. The coins vanished, and in their place came strength enough to fell those who would have slain him. Thus Mammonite serves as a reminder that wealth is never truly powerless in the hands of the devoted. Through greed, you proliferate His ambition, His name."
 
 	button_icon_state = "mammonite"
@@ -395,7 +395,6 @@
 	var/datum/status_effect/buff/mammonite/E = H.apply_status_effect(/datum/status_effect/buff/mammonite)
 	if(E)
 		E.bonus_damage = round(mammon_used * 3)
-		E.cap = max_mammon
 
 	var/source_text = ""
 

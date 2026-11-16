@@ -359,7 +359,6 @@
 	duration = 20 SECONDS
 	status_type = STATUS_EFFECT_UNIQUE
 	var/bonus_damage
-	var/cap
 
 /datum/status_effect/buff/mammonite/on_apply()
 	. = ..()
@@ -393,37 +392,8 @@
 /datum/status_effect/buff/mammonite/proc/resolve_attack(mob/living/target, obj/item/weapon)
 	if(QDELETED(src) || QDELETED(owner) || QDELETED(target))
 		return
-	if(should_mammon_gib(target))
-		do_mammon_execution(target)
-	else
-		do_mammon_strike(target, weapon)
+	do_mammon_strike(target, weapon)
 	consume()
-
-/datum/status_effect/buff/mammonite/proc/should_mammon_gib(mob/living/target)
-	if(target.mind)
-		return FALSE
-	var/mammon_spent = round(bonus_damage / 3)
-	if(mammon_spent <= 79)
-		return FALSE
-	var/mid_cap = cap * 0.5
-	var/gib_chance
-	if(mammon_spent >= mid_cap)
-		gib_chance = 100
-	else
-		gib_chance = 20 + (mammon_spent - 80) * (80 / (mid_cap - 80))
-	gib_chance = clamp(gib_chance, 20, 100)
-	return prob(gib_chance)
-
-/datum/status_effect/buff/mammonite/proc/do_mammon_execution(mob/living/target)
-	if(QDELETED(owner) || QDELETED(target))
-		return
-	owner.visible_message(span_boldwarning("[target] suddenly contorts and twists as gilded flames light them up--!"), span_notice("BEHOLD! THE WEIGHT OF THINE GREED!"))
-	target.emote("superagony")
-	mammon_coin_burst(get_turf(target))
-	playsound(get_turf(target), 'sound/combat/hits/burn (2).ogg', 60, TRUE)
-	target.fire_act(20, 20)
-	target.Stun(100)
-	target.safe_throw_at(target, 3, 1, owner, force = MOVE_FORCE_EXTREMELY_STRONG)
 
 /datum/status_effect/buff/mammonite/proc/do_mammon_strike(mob/living/target, obj/item/weapon)
 	if(QDELETED(owner) || QDELETED(target))
@@ -431,7 +401,7 @@
 
 	var/damage = bonus_damage
 	var/mammon_spent = round(bonus_damage / 3)
-	var/npc_mult = target.mind ? 1 : 2
+	var/simple_animal_mult = isanimal(target) ? 2 : 1
 	var/apen = clamp(round(mammon_spent / 20), PEN_NONE, PEN_BSTEEL)
 	var/bclass = BCLASS_BLUNT
 	var/damtype = BRUTE
@@ -439,7 +409,7 @@
 		bclass = BCLASS_BURN
 		damtype = BURN
 
-	arcyne_strike(owner, target, weapon, damage, owner.zone_selected, bclass, apen, "Mammonite", FALSE, FALSE, FALSE, damtype, npc_mult, 1)
+	arcyne_strike(owner, target, weapon, damage, owner.zone_selected, bclass, apen, "Mammonite", FALSE, FALSE, FALSE, damtype, simple_animal_mult, 1)
 	owner.visible_message(span_danger("[owner]'s strike crashes down with the weight of greed!"), span_notice("My investment pays off in full!"))
 	mammon_coin_burst(get_turf(target))
 	playsound(get_turf(target), 'sound/combat/hits/burn (2).ogg', 60, TRUE)
