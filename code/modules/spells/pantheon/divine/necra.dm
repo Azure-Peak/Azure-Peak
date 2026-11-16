@@ -1190,7 +1190,7 @@ GLOBAL_DATUM_INIT(_corpse_sort_ref, /mob, null)
 
 /datum/status_effect/buff/vengeful_ward
 	id = "vengeful_ward"
-	duration = 30 SECONDS
+	duration = 60 SECONDS
 	tick_interval = -1
 	alert_type = /atom/movable/screen/alert/status_effect/buff/vengeful_ward
 	var/crow_form = FALSE
