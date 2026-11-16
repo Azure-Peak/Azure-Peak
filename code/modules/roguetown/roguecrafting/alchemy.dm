@@ -20,6 +20,7 @@
 
 /datum/crafting_recipe/roguetown/alchemy/bbomb_3x //intentionally somewhat cheap, so you can have these in bulk. healthier than pre-emptively having a thousand high-end ones in PVP and better for PVE for advs.
 	name = "bottle bomb (3x)"
+	required_trait = TRAIT_BOMBER_EXPERT
 	category = "Table"
 	result = list(
 					/obj/item/explosive/fused/bottle,
@@ -32,7 +33,7 @@
 				/obj/item/natural/ash = 3,
 				/obj/item/natural/cloth = 2,
 	)
-	craftdiff = 3 //bombardier has just below the minimal req for this if they pass the intcheck, aronist virtue will usually have to work for it.
+	craftdiff = 3 //Bomber exclusive recipe, takes a fair bit of effort to make en-mass (virtue/pass int check/grind for advs). Jury rigs for bomb specialists /can/ be faster but this is more efficent w/ a setup.
 
 /datum/crafting_recipe/roguetown/alchemy/ozium
 	name = "ozium"
