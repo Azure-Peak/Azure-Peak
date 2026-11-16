@@ -391,7 +391,7 @@
 
 /datum/action/cooldown/spell/projectile/gallows_humor
 	name = "Gallows Humor"
-	desc = "Share a terrible secret of lyfe with your target stressing them out. Mindless creechers get immobilized for 5 seconds."
+	desc = "Share a terrible secret of lyfe with your target stressing them out."
 	fluff_desc = "Psydonia is a place of many joys but underneath the facade lies true terror, lying in wait for another to stumble upon it. During his antics in the underworld Xylix stumbled upon one such horror, deep within realm of Necra laid great archive from times of Psydon filled to the brim with knowledge not meant for the eyes of mortals. Ignoring warnings given by Noc he bestowed such a gift towards his followers in hopes they use it well, for one only underestimates the poet once."
 	background_icon = 'icons/mob/actions/undividedmiracles.dmi'
 	button_icon = 'icons/mob/actions/undividedmiracles.dmi'
@@ -457,11 +457,6 @@
 			playsound(get_turf(target), 'sound/magic/magic_nulled.ogg', 100)
 			qdel(src)
 			return BULLET_ACT_BLOCK
-		if(!M.mind)
-			M.Immobilize(5 SECONDS)
-			M.emote("cry", forced = TRUE)
-			qdel(src)
-			return TRUE
 		if(M.has_status_effect(/datum/status_effect/debuff/gallowshumor))
 			visible_message(span_warning("They already heard this one!"))
 			qdel(src)
