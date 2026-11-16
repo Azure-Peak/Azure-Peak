@@ -1,4 +1,0 @@
-author: "jinxynii"
-delete-after: True
-changes:
-  - bugfix: "Conjure Arcyne Ward no longer drops its arm coverage when you wear sleeved body armour. Only bracers replace the ward on the arms, as it should."

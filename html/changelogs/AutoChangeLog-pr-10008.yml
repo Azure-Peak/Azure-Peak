@@ -1,4 +1,0 @@
-author: "WeNeedMorePhoron"
-delete-after: True
-changes:
-  - bugfix: "Fixed an exploit letting you buy more spells in a point buy aspect than you should be able to"
