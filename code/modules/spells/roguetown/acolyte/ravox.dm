@@ -27,7 +27,7 @@
 
 /datum/action/cooldown/spell/ravox/judgement
 	name = "Judgement"
-	desc = "Bless your next strike to apply a debilitating pressure upon your enemy. On hit, applies a status that reduces their Movement Speed by 50% for 15 seconds. Attacking the mindless will cause them to be smited, dealing bonus damage."
+	desc = "Bless your next strike to apply a debilitating pressure upon your enemy. On hit, applies a status that reduces their Movement Speed by 50% for 15 seconds. Attacking beasts will cause them to be smited, dealing bonus damage."
 	fluff_desc = "A miracle wrought from willpower tempered in another's moral compass. A servant of the Justicar may channel this force through their strikes, branding their prey with their own past burdens. So they can stand and fight. So they can face their sins head on. For justice is never good nor evil, but fair."
 	button_icon_state = "judgement"
 	sound = 'sound/magic/battletrance.ogg'
@@ -97,7 +97,7 @@
 	if(!isliving(target))
 		return
 	var/mob/living/D = target
-	if(!D.mind)
+	if(isanimal(D))
 		D.adjustBruteLoss(20)
 		D.adjustFireLoss(20)
 		D.apply_status_effect(/datum/status_effect/debuff/judgement)
@@ -117,17 +117,8 @@
 		return
 	if(!istype(user.used_intent, INTENT_HARM))
 		return
-	if(!D.mind)
-		D.adjustBruteLoss(20)
-		D.adjustFireLoss(20)
-		D.apply_status_effect(/datum/status_effect/debuff/judgement)
-		D.visible_message(span_warning("[user]'s fist smites [D]!"), vision_distance = COMBAT_MESSAGE_RANGE)
-		var/turf/target_turf = get_turf(D)
-		new /obj/effect/temp_visual/thunderstrike_actual(target_turf)
-		playsound(target_turf, 'sound/magic/lightning.ogg', 50)
-	else
-		D.apply_status_effect(/datum/status_effect/debuff/judgement)
-		D.visible_message(span_warning("The strike from [user]'s fist causes [D] to go stiff!"), vision_distance = COMBAT_MESSAGE_RANGE)
+	D.apply_status_effect(/datum/status_effect/debuff/judgement)
+	D.visible_message(span_warning("The strike from [user]'s fist causes [D] to go stiff!"), vision_distance = COMBAT_MESSAGE_RANGE)
 	qdel(src)
 
 /atom/movable/screen/alert/status_effect/debuff/judgement
