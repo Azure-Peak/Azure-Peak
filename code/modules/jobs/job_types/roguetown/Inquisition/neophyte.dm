@@ -223,7 +223,7 @@
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/diagnose/secular)
 
 /obj/item/inqarticles/inqslip_kit
-	name = "Inquisitorial Slip Kit"
+	name = "inquisitorial slip kit"
 	desc = "A collection of tools used to draft and issue Inquisitorial slips and forms in the field. Only those initiated into the Inquisition should know how to properly use its contents."
 	icon = 'icons/roguetown/items/misc.dmi'
 	icon_state = "slip_kit"
