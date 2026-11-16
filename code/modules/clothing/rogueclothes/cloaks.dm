@@ -392,15 +392,15 @@
 	icon_state = "necratabard"
 
 /obj/item/clothing/cloak/templar/necrancleric
+	name = "necran cloak"
+	desc = "A dark, battle-worn cloak secured with a silver buckle. Marked with the somber symbols of Necra, its frayed hem bears testament to endless skirmishes with death."
+	icon_state = "necraclerictabard"
+	boobed = FALSE
 	mob_overlay_icon = 'icons/roguetown/clothing/onmob/cloaks.dmi'
 	alternate_worn_layer = CLOAK_BEHIND_LAYER
 	slot_flags = ITEM_SLOT_BACK_R|ITEM_SLOT_CLOAK
 	sleeved = 'icons/roguetown/clothing/onmob/cloaks.dmi'
 	sleevetype = "shirt"
-	name = "necran cloak"
-	desc = "A dark, battle-worn cloak secured with a silver buckle. Marked with the somber symbols of Necra, its frayed hem bears testament to endless skirmishes with death."
-	icon_state = "necraclerictabard"
-	boobed = FALSE
 
 /obj/item/clothing/cloak/templar/pestran
 	mob_overlay_icon = 'icons/roguetown/clothing/onmob/cloaks.dmi'
@@ -930,6 +930,14 @@
 		var/mob/L = loc
 		L.update_inv_cloak()
 
+/obj/item/clothing/cloak/tabard/stabard/overvestments
+	name = "overvestments"
+	desc = "A heavy surcoat that offers complete modesty and protection against the weather, but leaves the thinner-framed with sorer shoulders. Commonly seen upon \
+	the bods of paladin-errants, priests, and pilgrims across Psydonia's more intemperate climates."
+	icon_state = "priest_surcoat"
+	sleeved = 'icons/roguetown/clothing/onmob/cloaks.dmi'
+	mob_overlay_icon = 'icons/roguetown/clothing/onmob/cloaks.dmi'
+	custom_design = TRUE
 
 ////////////////
 /// SURCOATS ///
@@ -1252,12 +1260,6 @@
 	GLOB.lordcolor -= src
 	return ..()
 
-/obj/item/clothing/cloak/cape/puritan
-	icon_state = "puritan_cape"
-	allowed_race = CLOTHED_RACES_TYPES
-	salvage_result = /obj/item/natural/silk
-	salvage_amount = 1
-
 /obj/item/clothing/cloak/cape/archivist
 	icon_state = "puritan_cape"
 	color = CLOTHING_BLACK
@@ -1275,27 +1277,21 @@
 	nodismemsleeves = TRUE
 	inhand_mod = TRUE
 
-/obj/item/clothing/cloak/cape/inquisitorgold
-	name = "golden order cloak"
-	desc = "A time honored cloak inlaid with golden threading, the stitchwork tethers it to the Golden Orders; a catch-all term for the various faith-militances that \
-	ward Psydonia from heathens, cultists, and the ever-looming threat of another calamity."
-	icon_state = "inquisitor_cloak"
-	icon = 'icons/roguetown/clothing/cloaks.dmi'
-	mob_overlay_icon = 'icons/roguetown/clothing/onmob/cloaks.dmi'
-	sleeved = 'icons/roguetown/clothing/onmob/cloaks.dmi'
-	sleevetype = "inquisitor"
-	color = null
+/obj/item/clothing/cloak/cape/puritan
+	icon_state = "puritan_cape"
+	allowed_race = CLOTHED_RACES_TYPES
+	salvage_result = /obj/item/natural/silk
+	salvage_amount = 1
 
-/obj/item/clothing/cloak/cape/inquisitorsilver
+/obj/item/clothing/cloak/cape/puritan/gold
+	name = "golden order cloak"
+	desc = "A time-honored cloak inlaid with golden threading, worn by those who ward Psydonia from heathens, cultists, and calamities-yet-foreseen."
+	icon_state = "inquisitor_cloak"
+
+/obj/item/clothing/cloak/cape/puritan/silver
 	name = "silver order cloak"
-	desc = "A time honored cloak inlaid with silver threading, the stitchwork tethers it to the Silver Orders; a catch-all term for the various faith-militances that \
-	ward Psydonia from monsters, creechers, and the ever-looming threat of the Archdevil's return."
+	desc = "A time-honored cloak inlaid with silver threading, worn by those who ward Psydonia from monsters, creechers, and archdevils-yet-revived."
 	icon_state = "sinquisitor_cloak"
-	icon = 'icons/roguetown/clothing/cloaks.dmi'
-	mob_overlay_icon = 'icons/roguetown/clothing/onmob/cloaks.dmi'
-	sleeved = 'icons/roguetown/clothing/onmob/cloaks.dmi'
-	sleevetype = "inquisitor"
-	color = null
 
 /obj/item/clothing/cloak/cape/rogue
 	name = "cape"

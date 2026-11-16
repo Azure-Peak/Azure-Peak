@@ -484,3 +484,211 @@
   saltprjak:
   - bugfix: Magician's Brick and Aetherknife melee damage now properly scale with
       INT. Heavy is the hand that holds the brick.
+2026-11-15:
+  ?.:
+  - code_imp: Necran Excommunicated can do lesser Necran rituals now, and spawn with
+      a chalk.
+  BobProductive:
+  - rscadd: Climbing gear now lets you attach to walls via jumping/leaping
+  - rscadd: Climbing gear now gives you leaper
+  - rscdel: Removed the stamina reduction when climbing with climbing gear
+  Ketrai:
+  - rscadd: Added Nodachi as a kazengun weapon option to eastern warrior, mercenary
+      gun-in & kouken, mistwalkers, disgraced knight, kazengun trading ships and the
+      merchant silverface.
+  OMEGATHERION:
+  - rscadd: more emote sounds in gnoll voicepack.dm
+  - rscadd: Track *sniffs if you aren't sneaking
+  - bugfix: pouch items spawning in one slot for zigboxes and healing pouches
+  - bugfix: gnoll shaman's rite chalk spawning on the ground instead of their hand
+  - bugfix: gnoll knight's default cmode music
+  Ollanius:
+  - bugfix: (I'm baaa-a-aaack!) - Overvestments no longer have a mysterious white
+      cloak hanging over them.
+  - bugfix: Padded undervestments no longer have flickering sleeves when facing to
+      the right.
+  - bugfix: Cloaks of the Silver- and Gold-type Orders now function again, solving
+      the month-long case of Late Stage Back!Norwoodism.
+  - code_imp: Repathed the Overvestments and Cloaks to 'stabard/overvestments' and
+      'cape/puritan/silver + /gold', respectively.
+  - code_imp: Reduced the girth of the Ordered Surcoat's descriptions. The Loadout's
+      Cloak section should be much more tidy, now.
+  - rscadd: Dedicated smallfolk sprites for the Puritan Cape. Dwarves and rousladies,
+      fear no more!
+  - rscadd: Puritan capes are now craftable (under the listing of 'formal').
+  - code_imp: Puritan capes require two silk threads to craft, which has been added
+      to the Cloak-forked recipes as well.
+  Ryan180602:
+  - code_imp: Clean up vote/god code.
+  - code_imp: High Intensity rolled on low pop now rolls Standard.
+  - bugfix: Masq Lite rolls again on Medium.
+  - code_imp: Add Renegade lite on Medium.
+  ToasterStrudes:
+  - rscadd: Added a new donator item for Toasterstrudes
+  - rscdel: Deprecated donator item for Toasterstrudes
+  WeNeedMorePhoron:
+  - rscadd: Added mage NPC including all 3 variants of spellblades and 6 schools to
+      all complex mobs NPC factions. Aiming formula were tweaked to feel more human
+      like with higher possibility of missing.
+  - rscadd: Added Graggarite Cleric NPC
+  - bugfix: Fixes goblin pyromancers and all throwing weapons using NPCs, which has
+      been broken for months.
+  - rscadd: Added higher threat mobs to several factions lacking them. Added proper
+      threat to goblin faction subtypes of mob so reward scales properly.
+  - rscadd: Ambush now check for any ongoing PVE fight nearby in 9 tiles and block
+      itself from spawning if there's one ongoing already.
+  - rscadd: Ported Ochre Valley's doppelganger mob, with the doppel heart given as
+      a sellable rewards on death. They do not give any yield or such.
+  - rscadd: Adjusted NPC kick, intent switching and other logic to add in a delay
+      that imitate human reaction time and delay, so that they subtly feels a bit
+      fairer.
+  - bugfix: Masochist should fire its timer properly and Sadist / Masochist are more
+      easily satisfied by beating / being beaten now.
+  - bugfix: Narsie font (Vampire Telepathy) text is no longer insanely large
+  - rscdel: Removed the shipping fluctuation event which was causing one or two random
+      supply pack to goes utterly overpriced. We're in a new economic era, babe.
+  - bugfix: Pouch can no longer collect and delete coin inside of itself
+  - rscadd: Refactored and fixed some grammar / typos on Master's Rod and Court Magician's
+      staff. The shock intent on the CM's staff now reuse the SHOCK icon. Also added
+      description.
+  - rscadd: Templars / Acolytes / Sexton have access to the institutional fund of
+      the Church subject to the same minimum balance limit, up to 50m a day by default.
+  - bugfix: Fix Beam Runtime.
+  - rscadd: All towner roles will now have the Take Apprentice Spell. Take a merc
+      along on your fishing trip.
+  - rscadd: Added item stats and intents preview to Commissioner / Silverface / Goldface
+      / Encyclopedia. Cleaned up intents examine to show less useless stats.
+  borneblood:
+  - balance: Colorblind toggle for Darksight virtue lets you actually see better in
+      the dark.
+  changelingonberry:
+  - balance: Forlorne can be taken by gnolls and wretches now.
+  - bugfix: Forlorne gives you a 30 second immunity to ambushes on spawn.
+  - bugfix: Items that can be repaired both via needle and hammer can now be repaired
+      via their respective kits too.
+  jinxynii:
+  - rscadd: The Light orb can now be tinted. Use it in hand to cycle between white,
+      salt-gold, copper-green, tin-blue, cinnabar-rose and manganese-violet. Your
+      choice carries over when you recast.
+  - rscadd: The Prestidigitation magelight mote can be tinted the same way. With Light
+      selected and the mote released, use the hand in hand to cycle arcyne-blue, salt-gold,
+      copper-green, cinnabar-rose and manganese-violet.
+  - image: Added recoloured wisp sprites for each magelight mote tint, and tinted
+      the Light orb sprite to match its glow.
+  kilozombie:
+  - balance: Gronnic talismans now have different names from each other, letting you
+      tell them apart at a glance (without giving away the meaning of each)
+  string-thing:
+  - rscadd: Added axe skill to shovels
+2026-11-16:
+  BurpleBineapple:
+  - bugfix: fogbeasts with colour no longer look broken clientside when riding one.
+  Fi:
+  - rscadd: Added a new feature, alongside a few mechanics related to it and tweaks
+      to existing ones, called "Secrets" within the Character Creator that is very
+      similar to "Rumours & Noble Gossip". Players can input secrets for their characters
+      that their correlative antagonists can read, some of which from afar.
+  - bugfix: Fixed a missing space between the "Flavor Text" and its vertical bar in
+      the Player Panel.
+  - bugfix: Fixed a few classes' mechanics being unable to target the Man at Arms
+      role.
+  - bugfix: Man at Arms is now a properly restricted role from the Assassin event.
+      (It was prior but wasn't titled properly.)
+  Quinalion:
+  - qol: Players can now turn Light Steps on and off whenever they want.
+  WeNeedMorePhoron:
+  - rscadd: Trollslayer's troll head spawn in their headhook now
+  - rscadd: Reduced cases where Forlorne may leave your gears behind on floor
+  - bugfix: Fixed an exploit letting you buy more spells in a point buy aspect than
+      you should be able to
+  - bugfix: Ranged Conjuration NPCS' weapon no longer disappear in hands
+  - bugfix: Ranged Conjuration NPC is not disarmable, like their melee counterpart
+  - bugfix: Fixed NPC spellfists picking up weapons and then doing 0 damage
+  - rscadd: Added bog cream recipe for 1 tallow 1 leech and 1 artemisia / pipeweed.
+      It makes you leech immune for 30 minutes. Levies start with one in their backpack.
+  - rscadd: Mercenaries may now only take on one contract on their own every 30 minutes.
+      They may still take towner postings without restriction or manually handed over
+      contracts. This restriction is lifted at 30 pop or below. They must take and
+      split contracts with a non-mercenary led fellowship.
+  - rscadd: Added Mercenary contract mechanics which allows you to sign a contract
+      as a Mercenary with someone. With certain roles that have no good source of
+      funding being funded by an external funder who gives you a stipend. This stipend
+      depends on a presence check to avoid the most egregious exploit. Mercenary contracts
+      forces you into their fellowship, split pay, and ensure they cannot kick you.
+      It can be ended in the MEISTER. Mercenary gives +25% bonus to their split pay
+      when they finish a quest while under contract (Also count if the contract expired
+      afterward but was active during). Mercenary Contract can also hold a day of
+      pay and set daily rate on top of stipend, if any.
+  - rscadd: Removed the old writ of commendation which needs to be bought from the
+      Merchant and then signed for a triumphg bonus. As a mercenary, if you have served
+      more than 2 days under contract, you will automatically receive the triumphs
+      and the medal in the mail instead. This should be a far more visible mechanic
+      now.
+  - rscadd: University, Inquisition, Church and Upper Duchy members may no longer
+      take contracts under any circumstances.
+  - rscadd: Adjusted, and lowered contract rewards scaling. Increased difficulty on
+      some contracts.
+  - rscadd: Only fellowship leader make take on contracts now to avoid exploits and
+      make the group scaling works properly. Now the scaling is +2 for first member
+      and +1 after.
+  - rscadd: Added preview for how group scaling works. Added "Veteran" difficulty
+      which adds +50% threat points and slightly more rewards to all quests.
+  - rscadd: Ported Mercenary statue advertisement and remote Update Mercenary Status
+      verb from Ochre Valley. Statues outside of tavern can be muted.
+  - balance: Notorious Contracts mob are nerfed to Expert skills and 13 stats or below
+      if a player take them over.
+  - rscadd: When a human issued contract is made, and there's no available landmark,
+      it will "bump" an auto-generated contract out of its way and take over the landmark.
+      This should reduce the amount of "No Available Landmark" issues occurring by
+      a lot.
+  - rscadd: Made migrant mercenary actually the mercenary job and added a framework
+      for doing so for future migration wave. This should resolve a lot of janky issues
+      associated with the old wave.
+  - rscadd: Only a fellowship's leader can take on contracts now to avoid epxloit
+  - rscadd: Increased time limit on non blockade kill quest to 20 minutes. Added an
+      overtime mechanic to extend it to 30 minutes as long as a kill was made recently
+      or one or more enemy is close to one of the participant.
+  - rscadd: Improved contract scaling to fellowship to be consistently scaling to
+      fellowship only in Blockade. Increased range from 14 to 21. It is now z-level
+      insensitive.
+  - rscadd: You may play instruments with something in your offhand now.
+  - bugfix: You are no longer told about the pretax instead of posttax number when
+      ledger tell you about your split pay with a members not in a party
+  borneblood:
+  - bugfix: Fixes an oversight with Lesser Ritualist.
+  jinxynii:
+  - bugfix: Conjure Arcyne Ward no longer drops its arm coverage when you wear sleeved
+      body armour. Only bracers replace the ward on the arms, as it should.
+  radarseas:
+  - rscadd: Added new examine texts + deadite reanimation flavor when standing up
+      again, this includes animals!
+  - rscadd: Non-murkling deadites now bleed black blood!
+  - rscadd: Zombies have more varience when they try to speak anything but Zizocant.
+  - rscadd: More zombie racial examine obfusications
+  - rscadd: Lich/Skeleton races are now obfuscated to everyone else, you can only
+      see an ancient corpse, not whatever they were in life.
+  - rscadd: Added SEEK THE LYVING, a spell zombies get to put their ability to track
+      people on their UI, it also has a cooldown so you can't just spam a check every
+      humen off-the-list constantly.
+  - rscdel: Removed zombie seek verb, it was old and janky as fuck man.
+  - qol: zombies get less text spam + clearer text on spawning in to what you're supposed
+      to do
+  - qol: using items you're not meant to as a zombie drops them so you don't fumble
+      too hard if people throw stuff on the floor.
+  - balance: Zombie seek verb now tracks actual players you can infect, not random
+      NPCs
+  - balance: Zombies can't even tell origins anymore, you are actively rotting away.
+  - balance: Deadite grace 3 minutes -> 2 minutes.
+  - balance: Skeletons can now see other races without it being obfusicated
+  - bugfix: skeletons are now zombie_immune so they don't clog deadites up with false
+      information about having to attack them.
+  - bugfix: zombie seek verb now respects zombie immune people and doesn't track NPCs
+      anymore.
+  - bugfix: zombie antag datum and manic (if it ever gets granted) no longer obfuscate
+      examines in dchat. This means you're no longer unable to tell anyone's race
+      while dead and watching as a ghost.
+  - image: re-used old zizoblind into zombie_spells, a new file if you want to give
+      zombies abilities they can use. Think faking death and hiding their examine
+      for ambushes, regenerating rapidly by standing still, etc, etc. Its currently
+      only used for seeking people out.
+  - refactor: Zombie Seek - Verb -> Spell

@@ -489,9 +489,9 @@
 	ckeywhitelist = list("toasterstrudes")
 
 /datum/loadout_item/donator/strudel3
-	name = "Donator Kit - Etruscan Design Cloak"
+	name = "Donator Kit - Experimental Azurian Fellowshippe Staff"
 	path = /obj/item/enchantingkit/strudel3
-	ckeywhitelist = list("toasterstrudes")
+	ckeywhitelist = list("toasterstrudes", "pogoco25")
 
 /datum/loadout_item/donator/strudel4
 	name = "Donator Kit - Form-fitting Padded Gambeson"

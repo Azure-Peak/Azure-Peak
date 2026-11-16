@@ -126,6 +126,19 @@
 #define BB_HUMAN_BEG_TARGET "human_beg_target"
 #define BB_HUMAN_NPC_SWINGS_TAKEN		"human_npc_swings_taken"
 #define BB_ABILITY_COMMITTED_UNTIL		"ability_committed_until"
+#define BB_CASTER_NEXT_CAST				"caster_next_cast"
+#define BB_CASTER_RESERVE				"caster_stamina_reserve"
+#define BB_CASTER_SPELL_TARGET			"caster_spell_target"
+#define BB_CASTER_BIG_READY_AT			"caster_big_ready_at"
+#define BB_CASTER_HOLD_UNTIL			"caster_hold_until"
+#define BB_CASTER_MELEE					"caster_melee"
+#define BB_MELEE_CLOSE_IN_UNTIL			"melee_close_in_until"
+#define BB_NPC_WINDED					"npc_winded"
+#define BB_NPC_WINDED_AT				"npc_winded_at"
+#define BB_STRAFE_SIDE					"strafe_side"
+#define BB_STRAFE_KEEP_DISTANCE			"strafe_keep_distance"
+#define BB_STRAFE_STEPS_LEFT			"strafe_steps_left"
+#define BB_STRAFE_RESUME_AT				"strafe_resume_at"
 /// Last time anything landed a hit on us, melee included. Written by on_pawn_attacked.
 #define BB_LAST_HIT_TIME					"bb_last_hit_time"
 /// Swings thrown since we last repositioned.
@@ -141,6 +154,11 @@
 #define BB_HUMAN_NPC_FEINT_COOLDOWN		"human_npc_feint_cooldown"
 #define BB_HUMAN_NPC_TECHNIQUE_CD		"human_npc_technique_cd"
 #define BB_HUMAN_NPC_SPECIAL_EVAL_AT		"human_npc_special_eval_at"
+#define BB_HUMAN_NPC_STAND_UP_AT			"human_npc_stand_up_at"
+#define BB_HUMAN_NPC_ATTACK_INTENT_SWINGS_LEFT	"human_npc_attack_intent_swings_left"
+#define BB_NPC_INPUT_FREE_AT				"npc_input_free_at"
+#define NPC_STAND_UP_DELAY_MIN			(2 SECONDS)
+#define NPC_STAND_UP_DELAY_MAX			(4 SECONDS)
 #define BB_AI_ALERT_MODE_UNTIL			"ai_alert_mode_until"
 #define AI_ALERT_MODE_DURATION			(30 SECONDS)
 #define BB_HUMAN_NPC_CURRENT_INTENT_ATTACKS_LEFT "human_npc_intent_attacks"

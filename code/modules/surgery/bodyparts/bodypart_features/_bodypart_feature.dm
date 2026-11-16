@@ -78,6 +78,15 @@
 		owner.update_body()
 	return TRUE
 
+/datum/bodypart_feature/proc/copy_feature()
+	var/datum/bodypart_feature/copy = new type()
+	copy.accessory_type = accessory_type
+	copy.accessory_colors = accessory_colors
+	return copy
+
+/obj/item/bodypart/proc/clone_bodypart_feature(datum/bodypart_feature/feature)
+	return add_bodypart_feature(feature.copy_feature())
+
 /obj/item/bodypart/proc/remove_bodypart_feature(datum/bodypart_feature/feature)
 	if(!(feature in bodypart_features))
 		return

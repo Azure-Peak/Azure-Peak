@@ -20,6 +20,8 @@
 
 /datum/element/interrupt_on_damage/proc/on_do_after_begin(mob/living/source)
 	SIGNAL_HANDLER
+	if(source.resting)
+		return
 	RegisterSignal(source, COMSIG_ATOM_WAS_ATTACKED, PROC_REF(on_attacked), override = TRUE)
 	RegisterSignal(source, COMSIG_DO_AFTER_ENDED, PROC_REF(on_do_after_end), override = TRUE)
 

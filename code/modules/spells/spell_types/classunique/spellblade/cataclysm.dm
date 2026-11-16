@@ -103,6 +103,10 @@
 	addtimer(CALLBACK(src, PROC_REF(do_hammer_throw), H, held_weapon, T, final_damage, def_zone, empowered), delay)
 	. = ..()
 
+/datum/action/cooldown/spell/cataclysm/get_impact_turfs(atom/center)
+	. = get_visible_area_turfs(get_turf(center), area_of_effect)
+	. -= get_turf(owner)
+
 /datum/action/cooldown/spell/cataclysm/proc/do_hammer_throw(mob/living/carbon/human/user, obj/item/weapon, turf/dest, final_damage, def_zone, empowered)
 	if(QDELETED(user) || user.stat == DEAD)
 		return

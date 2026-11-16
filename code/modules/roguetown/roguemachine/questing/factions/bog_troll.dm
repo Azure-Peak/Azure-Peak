@@ -7,4 +7,5 @@
 	category = FACTION_CAT_BEAST
 	mob_types = list(
 		/mob/living/simple_animal/hostile/retaliate/rogue/troll/bog = 100,
+		/mob/living/simple_animal/hostile/retaliate/rogue/troll/undead = 5,
 	)

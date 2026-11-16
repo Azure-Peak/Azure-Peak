@@ -69,6 +69,9 @@
 		holder.maptext_x = 5
 		holder.color = label_color
 
+/datum/action/cooldown/spell/verglas/get_impact_turfs(atom/center)
+	return get_visible_area_turfs(get_turf(center), verglas_radius)
+
 /datum/action/cooldown/spell/verglas/cast(atom/cast_on)
 	. = ..()
 	var/mob/living/carbon/human/H = owner

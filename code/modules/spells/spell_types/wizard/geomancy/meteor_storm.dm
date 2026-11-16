@@ -45,6 +45,7 @@
 	displayed_damage = SPELL_DMG(120)
 	var/fragment_damage = SPELL_DMG(15)
 	var/impact_count = 12
+	impact_radius = METEOR_STRIKE_RADIUS + METEOR_SPLASH_RADIUS
 
 /datum/action/cooldown/spell/meteor_strike/cast(atom/cast_on)
 	. = ..()

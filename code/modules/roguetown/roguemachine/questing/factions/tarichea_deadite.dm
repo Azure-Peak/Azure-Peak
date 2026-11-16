@@ -11,4 +11,6 @@
 		/mob/living/carbon/human/species/skeleton/npc/hard = 35,
 		/mob/living/carbon/human/species/skeleton/npc/hardspread = 10,
 		/mob/living/carbon/human/species/skeleton/npc/archer = 20,
+		/mob/living/carbon/human/species/dwarfskeleton/ambush = 10,
+		/mob/living/simple_animal/hostile/retaliate/rogue/troll/undead = 5,
 	)
