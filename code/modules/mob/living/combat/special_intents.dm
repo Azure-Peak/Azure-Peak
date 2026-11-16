@@ -373,22 +373,63 @@ This allows the devs to draw whatever shape they want at the cost of it feeling 
 ///!This proc is inherently tied to iparent as a rogueweapon type!
 ///!Do NOT use this for generic "magic" type of damage or if it's called from an obj like a trap!
 /datum/special_intent/proc/apply_generic_weapon_damage(mob/living/target, dam, d_type, zone, bclass, no_pen = FALSE, full_pen = FALSE)
-	if(!istype(iparent, /obj/item/rogueweapon))
+	if(!istype(iparent, /obj/item/rogueweapon) && !istype(src, /datum/special_intent/upper_cut))
 		return
+
 	var/obj/item/rogueweapon/W = iparent
+	var/obj/item/clothing/gloves/U = null
+	var/unarmed = FALSE
+
+	// HACKY SOLUTION:
+	// MAKE A DIRECT EXAMINATION TO GET OUR SECONDARY WEAPON SINCE KNUCKLES AREN'T PART OF OBJ/ITEM/ROGUEWEAPON/
+	if(istype(src, /datum/special_intent/upper_cut))
+		var/obj/item/clothing/gloves/search = howner.get_item_by_slot(SLOT_GLOVES)
+
+		if(istype(search, /obj/item/clothing/gloves/roguetown/knuckles) && !istype(W, /obj/item/rogueweapon/katar)) // IF WE HAVE KNUCKLES ON AND NO KATAR.
+			U = search
+
+		if(!istype(W, /obj/item/rogueweapon/katar) && !U)
+			unarmed = TRUE
+
 	var/msg = ("<font color = '#c2663c'>[name] strikes [target] in the [span_combatsecondarybp(parse_zone(zone))]!")
 	if(ishuman(target))
 		var/mob/living/carbon/human/HT = target
 		var/obj/item/bodypart/affecting = HT.get_bodypart(zone)
 		if(!affecting)
 			affecting = HT.get_bodypart(BODY_ZONE_CHEST)//fallback for if we're targeting a missing limb
-		var/armor_block = HT.run_armor_check(zone, d_type, 0, damage = dam, used_weapon = W, armor_penetration = (no_pen ? PEN_NONE : 0))
+
+		var/armor_block
+		// KNUKCLES, WEAPONS, UNARMED.
+		if(U)
+			armor_block = HT.run_armor_check(zone, d_type, 0, damage = dam, used_weapon = U, armor_penetration = (no_pen ? PEN_NONE : 0))
+		if(W && !U && !unarmed)
+			armor_block = HT.run_armor_check(zone, d_type, 0, damage = dam, used_weapon = W, armor_penetration = (no_pen ? PEN_NONE : 0))
+		if(unarmed)
+			armor_block = HT.run_armor_check(zone, d_type, 0, damage = dam, used_weapon = null, armor_penetration = (no_pen ? PEN_NONE : 0))
+
 		if(full_pen)
 			armor_block = 0		//You block NOTHING, sir!
-		if(HT.apply_damage(dam, W.damtype, affecting, armor_block))
-			affecting.bodypart_attacked_by(bclass, dam, howner, armor = armor_block, crit_message = TRUE, weapon = W)
-			msg += "<b> It pierces through to their flesh!</b>"
-			playsound(HT, pick(W.hitsound), 80, TRUE)
+
+		// KNUCKLES
+		if(U)
+			if(HT.apply_damage(dam, BRUTE, affecting, armor_block))
+				affecting.bodypart_attacked_by(bclass, dam, howner, armor = armor_block, crit_message = TRUE, weapon = U)
+				msg += "<b> It slams on against their flesh!</b>"
+				playsound(HT, 'sound/combat/hits/pick/genpick (1).ogg', 80, TRUE)
+
+		// UNARMED
+		if(unarmed)
+			if(HT.apply_damage(dam, BRUTE, affecting, armor_block))
+				affecting.bodypart_attacked_by(bclass, dam, howner, armor = armor_block, crit_message = TRUE)
+				msg += "<b> It socks against their flesh!</b>"
+				playsound(HT, 'sound/combat/hits/punch/punch_hard (2).ogg', 80, TRUE)
+
+		// ACTUAL WEAPONS
+		if(W && !U && !unarmed)
+			if(HT.apply_damage(dam, W.damtype, affecting, armor_block))
+				affecting.bodypart_attacked_by(bclass, dam, howner, armor = armor_block, crit_message = TRUE, weapon = W)
+				msg += "<b> It pierces through to their flesh!</b>"
+				playsound(HT, pick(W.hitsound), 80, TRUE)
 	else
 		target.attacked_by(W, howner)
 	msg += "</font>"
@@ -1408,7 +1449,9 @@ tile_coordinates = list(list(1,1), list(-1,1), list(-1,-1), list(1,-1),list(0,0)
 
 
 /datum/special_intent/upper_cut/apply_hit(turf/T)
-
+	var/obj/item/rogueweapon/katar/_katar
+	if(istype(_katar, howner.get_active_held_item()))
+		iparent = _katar
 
 	for(var/mob/living/L in T)
 		if(L != howner)
@@ -1425,7 +1468,6 @@ tile_coordinates = list(list(1,1), list(-1,1), list(-1,-1), list(1,-1),list(0,0)
 				playsound(howner, 'sound/combat/tf2crit.ogg', 100, TRUE)
 				L.remove_status_effect(/datum/status_effect/debuff/exposed)
 				L.remove_status_effect(/datum/status_effect/debuff/vulnerable)
-
 			apply_generic_weapon_damage(L, dam, "blunt", target_zone, bclass = BCLASS_BLUNT, no_pen = TRUE)
 			L.safe_throw_at(throwtarget, throwdist, 1, howner, force = MOVE_FORCE_EXTREMELY_STRONG) // small pushback and 50 damage on non exposed
 
@@ -1488,7 +1530,7 @@ tile_coordinates = list(list(1,1), list(-1,1), list(-1,-1), list(1,-1),list(0,0)
 		if(L.has_status_effect(/datum/status_effect/debuff/exposed) || L.has_status_effect(/datum/status_effect/debuff/vulnerable))
 			L.Knockdown(KD_dur)
 			throwdist = rand(2,4)
-			hit_damage = 200
+			hit_damage = 100
 			target_zone = BODY_ZONE_HEAD
 			playsound(howner, 'sound/misc/meteorimpact.ogg', 100, TRUE)
 			if(istype(iparent, /obj/item/rogueweapon/spellbook))

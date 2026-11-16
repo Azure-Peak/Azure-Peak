@@ -286,6 +286,7 @@
 	grid_height = 64
 	grid_width = 32
 	sharpness_mod = 2	//Can't parry, so it decays quicker on-hit.
+	special = /datum/special_intent/upper_cut
 
 /obj/item/rogueweapon/katar/getonmobprop(tag)
 	. = ..()
