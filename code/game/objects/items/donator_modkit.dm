@@ -74,6 +74,11 @@
 		R.name += " <font size = 1>([I.name])</font>"
 	else
 		R.name = R.name
+	if(I.polished)
+		R.polished = I.polished
+		R.polish_bonus = I.polish_bonus
+	if(I.has_item_quality)
+		R.item_quality = I.item_quality
 	qdel(I)
 	if(!user.put_in_hands(R))
 		R.forceMove(get_turf(user))
