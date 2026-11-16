@@ -28,7 +28,6 @@ GLOBAL_LIST_INIT(averse_factions, list(
 	var/ui_fa_icon = null // FontAwesome icon to use in the pref menu, null gives a question mark
 	var/ephemeral = FALSE // This flaw is currently disabled and will not process
 	var/needs_extra_vice = FALSE
-	var/relocates_owner = FALSE
 	/// For voyeur vice examines only. Format is "[name] is " + this + "...", leave blank to use the flaw's name.
 	/// Intended for addiction types only.
 	var/voyeur_descriptor
@@ -215,7 +214,7 @@ GLOBAL_LIST_INIT(averse_factions, list(
 	if(!H.wear_mask)
 		H.equip_to_slot_or_del(new glasses_type(H), SLOT_WEAR_MASK)
 	else
-		new glasses_type(get_turf(H))
+		H.put_in_hands(new glasses_type(H))
 
 /datum/charflaw/proc/get_nearby_humans(mob/user, range)
 	. = list()
@@ -931,7 +930,6 @@ GLOBAL_LIST_INIT(averse_factions, list(
 	\nNO HEALS WILL BE GIVEN OUT FOR UNLUCKY SPAWNS. USE AT YOUR OWN PERIL."
 	ui_fa_icon = "map-location-dot"
 	needs_extra_vice = TRUE
-	relocates_owner = TRUE
 	var/turf/origin_turf
 	var/turf/forlorne_turf
 	var/triumph_given = FALSE
