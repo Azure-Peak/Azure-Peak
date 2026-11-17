@@ -14,9 +14,3 @@
 		/mob/living/carbon/human/species/human/northern/highwayman/spellblade/boss/macebearer = 25,
 		/mob/living/carbon/human/species/human/northern/highwayman/spellblade/boss/spellfist = 25,
 	)
-	boss_title_templates = list(
-		"%N the Undefeated",
-		"%N the Spellsword",
-		"%N the Blade",
-		"%N the Hexknight"
-	)

@@ -30,10 +30,4 @@
 		/mob/living/carbon/human/species/human/northern/highwayman/spellblade/boss/macebearer = 4,
 		/mob/living/carbon/human/species/human/northern/highwayman/spellblade/boss/spellfist = 4,
 	)
-	boss_title_templates = list(
-		"Sergeant %N",
-		"Captain %N",
-		"%N the Bogman",
-		"%N the Marshwalker",
-	)
 	boss_name_file = "strings/rt/names/human/humnorm.txt"

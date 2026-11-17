@@ -37,10 +37,4 @@
 		/datum/quest_faction_variant/rogue_coven = 10,
 		/datum/quest_faction_variant/rogue_azurcaephan = 10,
 	)
-	boss_title_templates = list(
-		"%N the Ironclad",
-		"%N Stonebreaker",
-		"%N the Bear",
-		"%N the Keen Eye",
-	)
 	boss_name_file = "strings/rt/names/human/humnorm.txt"

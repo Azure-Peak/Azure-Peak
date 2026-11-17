@@ -16,10 +16,3 @@
 		/mob/living/carbon/human/species/human/northern/highwayman/caster/boss/telomancer = 20,
 		/mob/living/carbon/human/species/human/northern/highwayman/caster/boss/cryomancer = 20,
 	)
-	boss_title_templates = list(
-		"%N the Magister",
-		"%N the Hexer",
-		"%N the Magi",
-		"%N the Great",
-		"%N the Ancient"
-	)

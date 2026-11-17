@@ -8,7 +8,6 @@ GLOBAL_LIST_EMPTY(quest_factions)
 	var/faction_tag
 	var/list/mob_types = list()
 	var/list/boss_mob_types = list()
-	var/list/boss_title_templates = list()
 	var/boss_name_file
 	var/notorious_bounty_amount = 0
 	var/can_blockade = FALSE
@@ -58,8 +57,6 @@ GLOBAL_LIST_EMPTY(quest_factions)
 
 /datum/quest_faction/proc/generate_boss_name(boss_type)
 	var/list/templates = get_boss_class_titles(boss_type)
-	if(!length(templates))
-		templates = boss_title_templates
 	if(!length(templates))
 		templates = get_boss_class_titles(pick_boss_mob_type())
 	var/template = length(templates) ? pick(templates) : "%N"
