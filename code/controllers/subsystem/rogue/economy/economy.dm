@@ -90,7 +90,7 @@ SUBSYSTEM_DEF(economy)
 				var/datum/economic_region/region = GLOB.economic_regions[region_id]
 				if(region_order_count(region_id) >= STANDING_ORDERS_MAX_PER_REGION)
 					continue
-				if(!length(region.possible_standing_order_types) && !length(request_goods(region)))
+				if(!length(region.request_kinds) && !length(request_goods(region)))
 					continue
 				eligible_ids += region_id
 			if(!length(eligible_ids))
@@ -341,29 +341,21 @@ SUBSYSTEM_DEF(economy)
 
 /datum/controller/subsystem/economy/proc/roll_standing_order(datum/economic_region/region)
 	var/list/goods = request_goods(region)
-	var/list/kinds = region.possible_standing_order_types.Copy()
+	var/list/kinds = region.request_kinds.Copy()
 	if(length(goods))
-		kinds[/datum/standing_order/request] = STANDING_ORDER_REQUEST_WEIGHT
+		kinds[REQUEST_KIND_GOODS] = REQUEST_WEIGHT_GOODS
 	if(!length(kinds))
 		return null
 	var/kind = pickweight(kinds)
-	if(kind == /datum/standing_order/request)
+	if(kind == REQUEST_KIND_GOODS)
 		return instantiate_request(region, pickweight(goods))
-	return instantiate_standing_order(kind, region)
+	return instantiate_kind_request(region, kind)
 
-/// Returns the new order, or null if the template's item mix came up empty (caller decides
-/// whether that's a skip or a refund).
-/datum/controller/subsystem/economy/proc/instantiate_standing_order(template, datum/economic_region/region, petitioned = FALSE)
-	if(!template || !region)
+/datum/controller/subsystem/economy/proc/instantiate_kind_request(datum/economic_region/region, kind, petitioned = FALSE)
+	var/datum/request_kind/request_kind = GLOB.request_kinds[kind]
+	if(!request_kind || !length(request_kind.goods))
 		return null
-	var/datum/standing_order/O = new template()
-	O.region_id = region.region_id
-	O.petitioned = petitioned
-	O.required_items = O.generate_item_mix()
-	if(!length(O.required_items))
-		qdel(O)
-		return null
-	return post_standing_order(O, region)
+	return instantiate_request(region, pick(request_kind.goods), petitioned)
 
 /datum/controller/subsystem/economy/proc/instantiate_request(datum/economic_region/region, good_id, petitioned = FALSE)
 	var/price = good_steady_price(good_id)
@@ -587,19 +579,6 @@ SUBSYSTEM_DEF(economy)
 		credit_economic_event_saturation(good_id, delivered)
 	SStreasury.dirty_market_view()
 
-/datum/controller/subsystem/economy/proc/order_is_equipment(datum/standing_order/order)
-	for(var/good_id in order.required_items)
-		var/datum/trade_good/tg = GLOB.trade_goods[good_id]
-		if(tg?.behavior == TRADE_BEHAVIOR_EQUIPMENT)
-			return TRUE
-	return FALSE
-
-/datum/controller/subsystem/economy/proc/order_is_alchemical(datum/standing_order/order)
-	for(var/good_id in order.required_items)
-		var/datum/trade_good/tg = GLOB.trade_goods[good_id]
-		if(tg?.behavior == TRADE_BEHAVIOR_POTION)
-			return TRUE
-	return FALSE
 /datum/controller/subsystem/economy/proc/get_good_route(good_id)
 	var/datum/trade_good/tg = GLOB.trade_goods[good_id]
 	if(tg?.behavior == TRADE_BEHAVIOR_EQUIPMENT || tg?.behavior == TRADE_BEHAVIOR_POTION)

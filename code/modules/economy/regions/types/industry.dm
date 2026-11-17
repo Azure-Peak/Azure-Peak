@@ -75,8 +75,8 @@
 		TRADE_GOOD_COAL = TG_VOLUME_STANDARD,
 		TRADE_GOOD_WOOD = TG_VOLUME_MASS,
 	)
-	standing_orders = list(
-		/datum/standing_order/demand_artificery,
+	request_kinds = list(
+		/datum/request_kind/artificery,
 	)
 
 /datum/region_type/industry/brewery

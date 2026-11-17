@@ -59,17 +59,16 @@
 	var/list/petition_categories = list()
 	for(var/cat_id in GLOB.petition_categories)
 		var/list/cat = GLOB.petition_categories[cat_id]
-		var/list/cat_templates = cat["templates"]
 		var/list/templates = list()
-		for(var/template in cat_templates)
+		for(var/kind in cat["kinds"])
 			var/list/region_ids = list()
 			for(var/region_id in GLOB.economic_regions)
 				var/datum/economic_region/region = GLOB.economic_regions[region_id]
-				if(template in region.possible_standing_order_types)
+				if(kind in region.request_kinds)
 					region_ids += region_id
 			templates += list(list(
-				"id" = "[template]",
-				"label" = cat_templates[template],
+				"id" = "[kind]",
+				"label" = SSeconomy.petition_kind_label(kind),
 				"region_ids" = region_ids,
 			))
 		petition_categories += list(list(
@@ -252,7 +251,7 @@
 	if(selected_template && SSeconomy.petition_category_of(selected_template))
 		for(var/region_id in GLOB.economic_regions)
 			var/datum/economic_region/region = GLOB.economic_regions[region_id]
-			if(!(selected_template in region.possible_standing_order_types))
+			if(!(selected_template in region.request_kinds))
 				continue
 			offers += list(list(
 				"region_id" = region_id,

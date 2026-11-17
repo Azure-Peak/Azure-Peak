@@ -126,9 +126,7 @@
 <div>
 		<h3>Types</h3>
 		<ul>
-			<li><b>Regular</b> - rolled each dawn, more in a busier realm. Most ask
-			for a single good the region needs. They last a couple of days and pay
-			well above the market price.</li>
+			<li><b>Regular</b> - rolled each dawn, more the more players are active .</li>
 			<li><b>Urgent</b> - spawned by shortage events. No more than
 			[STANDING_ORDERS_MAX_URGENT] stand at a time. Lasts [URGENT_ORDER_DURATION]
 			days. Payout: base x shortage price multiplier per unit
@@ -154,11 +152,10 @@
 		and how much.</p>
 
 		<p><b>Partial delivery:</b> an order can be delivered in parts. Each unit
-		is paid in full, and the rest stays open until the order expires.</p>
+		is paid in full and an order stay open until it expires.</p>
 
 		<h3>Limits</h3>
-		<p>Each region holds one order at a time, and the realm caps how many stand
-		at once. Blockaded regions can hold orders but cannot be delivered to.</p>
+		<p>Each region will have one order at a time. Blockaded regions can have orders but cannot be delivered to.</p>
 		</div>
 	"}
 

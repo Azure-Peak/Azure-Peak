@@ -23,7 +23,7 @@ GLOBAL_LIST_INIT(economic_regions, init_economic_regions())
 	var/list/supply_sources = list()
 	var/list/demand_sources = list()
 	var/list/gifts = list()
-	var/list/possible_standing_order_types = list()
+	var/list/request_kinds = list()
 	var/associated_marker_id
 	var/is_region_blockaded = FALSE
 	/// Null = this region cannot be blockaded.
@@ -48,8 +48,8 @@ GLOBAL_LIST_INIT(economic_regions, init_economic_regions())
 		var/datum/region_type/region_type = new type_path()
 		add_type_volumes(supply, supply_sources, region_type, region_type.produces, multiplier)
 		add_type_volumes(demand, demand_sources, region_type, region_type.demands, multiplier)
-		for(var/datum/standing_order/template as anything in region_type.standing_orders)
-			possible_standing_order_types[template] = initial(template.roll_weight)
+		for(var/datum/request_kind/kind as anything in region_type.request_kinds)
+			request_kinds[kind] = initial(kind.roll_weight)
 	for(var/good_id in supply)
 		demand -= good_id
 		demand_sources -= good_id

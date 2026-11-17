@@ -5,7 +5,7 @@
 	var/list/demands = list()
 	var/list/seasonal_produces = list()
 	var/list/seasonal_demands = list()
-	var/list/standing_orders = list()
+	var/list/request_kinds = list()
 
 /datum/region_type/New()
 	. = ..()

@@ -6,49 +6,45 @@ GLOBAL_LIST_INIT(petition_categories, build_petition_categories())
 		"label" = "Materials",
 		"description" = "Artificery.",
 		"cost" = PETITION_COST_MATERIALS,
-		"templates" = list(
-			/datum/standing_order/demand_artificery = "Artificer's Workshop",
+		"kinds" = list(
+			/datum/request_kind/artificery,
 		),
 	)
 	cats[PETITION_CATEGORY_ARMS] = list(
 		"label" = "Arms & Harness",
-		"description" = "Finished weapons and armor - garrison kit, frontier muster, harness orders.",
+		"description" = "Finished weapons and armor.",
 		"cost" = PETITION_COST_ARMS,
-		"templates" = list(
-			/datum/standing_order/demand_equipment_armaments = "Arms Order",
-			/datum/standing_order/demand_equipment_armor_heavy = "Harness Order",
-			/datum/standing_order/demand_equipment_armor_light = "Levy Tunics",
-			/datum/standing_order/demand_frontier_gear = "Frontier Garrison Kit",
+		"kinds" = list(
+			/datum/request_kind/arms,
+			/datum/request_kind/heavy_armor,
+			/datum/request_kind/light_armor,
 		),
 	)
 	cats[PETITION_CATEGORY_LUXURIES] = list(
 		"label" = "Luxuries",
-		"description" = "Court finery, jewelry and name day tributes.",
+		"description" = "Court finery and jewelry.",
 		"cost" = PETITION_COST_LUXURIES,
-		"templates" = list(
-			/datum/standing_order/demand_court_finery = "Court Finery",
-			/datum/standing_order/demand_jewelry = "Jewelers' Commission",
-			/datum/standing_order/demand_birthday_gift = "Birthday Tribute",
+		"kinds" = list(
+			/datum/request_kind/finery,
+			/datum/request_kind/jewelry,
 		),
 	)
 	cats[PETITION_CATEGORY_ALCHEMY] = list(
 		"label" = "Alchemy & Care",
 		"description" = "Finished potions and prosthetics.",
 		"cost" = PETITION_COST_ALCHEMY,
-		"templates" = list(
-			/datum/standing_order/demand_alchemical = "Apothecary Order",
-			/datum/standing_order/demand_alchemical_warband = "Warband Draughts",
-			/datum/standing_order/demand_prosthetic_run = "Infirmary's Order",
+		"kinds" = list(
+			/datum/request_kind/potions,
+			/datum/request_kind/prosthetics,
 		),
 	)
 	cats[PETITION_CATEGORY_MASTERWORK] = list(
 		"label" = "Masterwork",
-		"description" = "Showpiece commissions - artificed panoply, tournament arms, hunt trophies.",
+		"description" = "Showpiece commissions - artificed panoply, hunt trophies.",
 		"cost" = PETITION_COST_MASTERWORK,
-		"templates" = list(
-			/datum/standing_order/demand_artificed_panoply = "Artificed Panoply",
-			/datum/standing_order/demand_tournament_arms = "Tournament",
-			/datum/standing_order/demand_trophy_heads = "Hunt Trophies",
+		"kinds" = list(
+			/datum/request_kind/artificed_panoply,
+			/datum/request_kind/hunt_trophies,
 		),
 	)
 	return cats
@@ -58,24 +54,28 @@ GLOBAL_LIST_INIT(petition_categories, build_petition_categories())
 		return PETITIONS_PER_DAY
 	return max(0, PETITIONS_PER_DAY - petitions_today)
 
-/datum/controller/subsystem/economy/proc/petition_category_of(template)
+/datum/controller/subsystem/economy/proc/petition_category_of(kind)
 	for(var/cat_id in GLOB.petition_categories)
 		var/list/cat = GLOB.petition_categories[cat_id]
-		if(template in cat["templates"])
+		if(kind in cat["kinds"])
 			return cat_id
 	return null
 
-/datum/controller/subsystem/economy/proc/petition_blocker(region_id, template)
+/datum/controller/subsystem/economy/proc/petition_kind_label(kind)
+	var/datum/request_kind/request_kind = GLOB.request_kinds[kind]
+	return request_kind ? request_kind.name : "[kind]"
+
+/datum/controller/subsystem/economy/proc/petition_blocker(region_id, kind)
 	if(petitions_remaining_today() <= 0)
 		return "no petitions left today"
-	var/list/cat = GLOB.petition_categories[petition_category_of(template)]
+	var/list/cat = GLOB.petition_categories[petition_category_of(kind)]
 	if(!cat)
 		return "unknown petition category"
 	var/datum/economic_region/region = GLOB.economic_regions[region_id]
 	if(!region)
 		return "unknown region"
-	if(!(template in region.possible_standing_order_types))
-		return "[region.name] does not deal in [cat["templates"][template]]"
+	if(!(kind in region.request_kinds))
+		return "[region.name] does not deal in [petition_kind_label(kind)]"
 	if(region.is_region_blockaded)
 		return "[region.name] is blockaded"
 	if(region.day_last_cleared >= 0)
@@ -94,14 +94,14 @@ GLOBAL_LIST_INIT(petition_categories, build_petition_categories())
 		return "not enough Burgher Pledge (need [cost]p)"
 	return null
 
-/datum/controller/subsystem/economy/proc/petition_for_order(mob/user, region_id, template)
-	var/blocker = petition_blocker(region_id, template)
+/datum/controller/subsystem/economy/proc/petition_for_order(mob/user, region_id, kind)
+	var/blocker = petition_blocker(region_id, kind)
 	if(blocker)
 		if(user)
 			to_chat(user, span_warning("Petition refused: [blocker]."))
 		return FALSE
-	var/list/cat = GLOB.petition_categories[petition_category_of(template)]
-	var/label = cat["templates"][template]
+	var/list/cat = GLOB.petition_categories[petition_category_of(kind)]
+	var/label = petition_kind_label(kind)
 	var/cost = cat["cost"]
 	var/datum/economic_region/region = GLOB.economic_regions[region_id]
 	if(!SStreasury.burn(SStreasury.burgher_pledge_fund, cost, "Steward petition - [label] in [region.name]", ledger_acct(LEDGER_BOOK_PLEDGE, LEDGER_KEY_EXPENSE)))
@@ -114,7 +114,7 @@ GLOBAL_LIST_INIT(petition_categories, build_petition_categories())
 		petitions_today = 0
 		last_petition_day = GLOB.dayspassed
 	petitions_today++
-	var/datum/standing_order/O = instantiate_standing_order(template, region, petitioned = TRUE)
+	var/datum/standing_order/O = instantiate_kind_request(region, kind, petitioned = TRUE)
 	if(!O)
 		SStreasury.mint(SStreasury.burgher_pledge_fund, cost, "Steward petition refund - no order found", null, ledger_acct(LEDGER_BOOK_PLEDGE, LEDGER_KEY_EXPENSE))
 		record_round_statistic(STATS_PLEDGE_CONSUMED, -cost)

@@ -5,9 +5,6 @@
 		TRADE_GOOD_CLOTH = TG_VOLUME_BULK,
 		TRADE_GOOD_IRON_INGOT = TG_VOLUME_STANDARD,
 	)
-	standing_orders = list(
-		/datum/standing_order/demand_birthday_gift,
-	)
 
 /datum/region_type/population/garrison
 	name = "Garrison"
@@ -28,14 +25,12 @@
 		TRADE_GOOD_COAL = TG_VOLUME_STANDARD,
 		TRADE_GOOD_CLAY = TG_VOLUME_STANDARD,
 	)
-	standing_orders = list(
-		/datum/standing_order/demand_equipment_armaments,
-		/datum/standing_order/demand_equipment_armor_heavy,
-		/datum/standing_order/demand_equipment_armor_light,
-		/datum/standing_order/demand_frontier_gear,
-		/datum/standing_order/demand_prosthetic_run,
-		/datum/standing_order/demand_alchemical,
-		/datum/standing_order/demand_alchemical_warband,
+	request_kinds = list(
+		/datum/request_kind/arms,
+		/datum/request_kind/heavy_armor,
+		/datum/request_kind/light_armor,
+		/datum/request_kind/prosthetics,
+		/datum/request_kind/potions,
 	)
 
 /datum/region_type/population/mariners
@@ -68,9 +63,9 @@
 		TRADE_GOOD_FISH_FILET = TG_VOLUME_HEAVY,
 		TRADE_GOOD_FISH_MINCE = TG_VOLUME_HEAVY,
 	)
-	standing_orders = list(
-		/datum/standing_order/demand_artificery,
-		/datum/standing_order/demand_alchemical,
+	request_kinds = list(
+		/datum/request_kind/artificery,
+		/datum/request_kind/potions,
 	)
 
 /datum/region_type/population/noble_presence
@@ -87,11 +82,10 @@
 		TRADE_GOOD_GLASS_BATCH = TG_VOLUME_LOW,
 		TRADE_GOOD_DENDOR_ESSENCE = TG_VOLUME_LOW,
 	)
-	standing_orders = list(
-		/datum/standing_order/demand_court_finery,
-		/datum/standing_order/demand_jewelry,
-		/datum/standing_order/demand_tournament_arms,
-		/datum/standing_order/demand_trophy_heads,
-		/datum/standing_order/demand_arcane_commission,
-		/datum/standing_order/demand_artificed_panoply,
+	request_kinds = list(
+		/datum/request_kind/finery,
+		/datum/request_kind/jewelry,
+		/datum/request_kind/hunt_trophies,
+		/datum/request_kind/enchantment_scrolls,
+		/datum/request_kind/artificed_panoply,
 	)
