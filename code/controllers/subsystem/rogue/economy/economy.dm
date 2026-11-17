@@ -13,6 +13,7 @@ SUBSYSTEM_DEF(economy)
 	var/list/event_path_cooldowns = list()
 	var/caravan_fleet = CARAVAN_FLEET_START
 	var/list/caravan_trips = list()
+	var/list/escorted_subroutes = list()
 
 
 /datum/controller/subsystem/economy/proc/get_effective_player_count()
@@ -409,9 +410,10 @@ SUBSYSTEM_DEF(economy)
 		else
 			stock_goods += good_id
 
-	var/list/equip_avail = length(equip_goods) ? scan_equipment_availability(order, equip_goods) : list()
-	var/list/potion_avail = length(potion_goods) ? scan_potion_availability(order, potion_goods) : list()
-	var/list/stock_avail = length(stock_goods) ? scan_stockpile_availability(order, stock_goods) : list()
+	var/list/needs = order_needs(order)
+	var/list/equip_avail = length(equip_goods) ? scan_equipment_availability(needs, equip_goods) : list()
+	var/list/potion_avail = length(potion_goods) ? scan_potion_availability(needs, potion_goods) : list()
+	var/list/stock_avail = length(stock_goods) ? scan_stockpile_availability(needs, stock_goods) : list()
 
 	var/units = 0
 	var/payout = compute_equipment_delivered_value(order, equip_avail)
@@ -454,7 +456,7 @@ SUBSYSTEM_DEF(economy)
 	GLOB.standing_order_pool -= order
 	return TRUE
 
-/datum/controller/subsystem/economy/proc/scan_equipment_availability(datum/standing_order/order, list/goods)
+/datum/controller/subsystem/economy/proc/scan_equipment_availability(list/needs, list/goods)
 	var/list/out = list()
 	var/list/matched_by_good = list()
 	var/list/found_by_good = list()
@@ -476,14 +478,14 @@ SUBSYSTEM_DEF(economy)
 				// Crown treats each tier as one fungible commodity).
 				if(!tg.accept_subtypes && I.type != tg.item_type)
 					continue
-				if(found_by_good[good_id] >= order.required_items[good_id])
+				if(found_by_good[good_id] >= needs[good_id])
 					continue
 				found_by_good[good_id]++
 				matched_by_good[good_id] += I
 				break
 
 	for(var/good_id in goods)
-		var/need = order.required_items[good_id]
+		var/need = needs[good_id]
 		var/have = found_by_good[good_id]
 		out[good_id] = list(
 			"payload" = matched_by_good[good_id],
@@ -493,14 +495,14 @@ SUBSYSTEM_DEF(economy)
 		)
 	return out
 
-/datum/controller/subsystem/economy/proc/scan_potion_availability(datum/standing_order/order, list/goods)
+/datum/controller/subsystem/economy/proc/scan_potion_availability(list/needs, list/goods)
 	var/list/out = list()
 	var/list/required_volume_by_good = list()
 	var/list/found_volume_by_good = list()
 	var/list/matched_containers_by_good = list()
 	for(var/good_id in goods)
 		var/datum/trade_good/tg = GLOB.trade_goods[good_id]
-		required_volume_by_good[good_id] = order.required_items[good_id] * tg.required_volume
+		required_volume_by_good[good_id] = needs[good_id] * tg.required_volume
 		found_volume_by_good[good_id] = 0
 		matched_containers_by_good[good_id] = list()
 
@@ -523,7 +525,7 @@ SUBSYSTEM_DEF(economy)
 
 	for(var/good_id in goods)
 		var/datum/trade_good/tg = GLOB.trade_goods[good_id]
-		var/need_units = order.required_items[good_id]
+		var/need_units = needs[good_id]
 		var/found_volume = found_volume_by_good[good_id]
 		var/delivered_units = min(need_units, round(found_volume / tg.required_volume))
 		out[good_id] = list(
@@ -534,10 +536,10 @@ SUBSYSTEM_DEF(economy)
 		)
 	return out
 
-/datum/controller/subsystem/economy/proc/scan_stockpile_availability(datum/standing_order/order, list/goods)
+/datum/controller/subsystem/economy/proc/scan_stockpile_availability(list/needs, list/goods)
 	var/list/out = list()
 	for(var/good_id in goods)
-		var/need = order.required_items[good_id]
+		var/need = needs[good_id]
 		var/datum/roguestock/stockpile_entry = find_stockpile_by_trade_good(good_id)
 		var/have = stockpile_entry ? stockpile_entry.royal_stock : 0
 		out[good_id] = list(

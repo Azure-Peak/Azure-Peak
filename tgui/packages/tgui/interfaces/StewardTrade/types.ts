@@ -225,6 +225,7 @@ export type Order = {
   items: OrderItem[];
   petitioned: BooleanLike;
   extend_blocker: string;
+  halved: BooleanLike;
 };
 
 export type ActiveOffer = {
@@ -234,6 +235,7 @@ export type ActiveOffer = {
   units: number;
   unit_price: number;
   total_price: number;
+  halved: BooleanLike;
 };
 
 export type TributeLine = {
@@ -241,10 +243,17 @@ export type TributeLine = {
   units: number;
 };
 
+export type CaravanEscort = {
+  escorted: BooleanLike;
+  fee: number;
+  blocker: string;
+};
+
 export type RegionCaravanState = {
   blockaded: BooleanLike;
   tribute: TributeLine[];
   tribute_blocker: string;
+  escorted: BooleanLike;
 };
 
 export type CaravanTrip = {
@@ -408,6 +417,7 @@ export type Data = StaticData & {
   active_orders: Order[];
   active_offers: ActiveOffer[];
   region_caravan: Record<string, RegionCaravanState>;
+  caravan_escorts: Record<string, CaravanEscort>;
   caravans: CaravanState;
   caravan_quote: CaravanQuote;
   market_rows: MarketRow[];

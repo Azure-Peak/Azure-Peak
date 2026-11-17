@@ -109,6 +109,10 @@
 		region along it. Multiple blockades may exist at once. One scroll per
 		blockade at a time. Mid round blockade will be announced a dae before.</p>
 
+		<p>The Steward can hire an escort to get caravans through a blockaded road
+		until the next day. The escort costs more the longer the blockade remains. Deals in a
+		blockaded region are halved in size, and no tribute comes through.</p>
+
 		<p>A Blockade Scroll may be withdrawn from Your Postings until the first wave
 		begins. The waves begin when the holder arrives. Each wave must be broken
 		within [BLOCKADE_WAVE_TIMER_DS / 600] minutes of spawning. There are warnings

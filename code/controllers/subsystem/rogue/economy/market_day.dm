@@ -43,7 +43,7 @@
 		if(!region.produces[trade_good_id])
 			continue
 		producers++
-		if(!region.is_region_blockaded)
+		if(!region.is_region_blockaded || SSeconomy.subroute_escorted(region.subroute, GLOB.dayspassed - 1))
 			open++
 	if(!producers)
 		return null

@@ -200,8 +200,9 @@
 		var/list/items = list()
 		var/has_warehouse = FALSE
 		var/has_stockpile = FALSE
-		for(var/good_id in O.required_items)
-			var/needed = O.required_items[good_id]
+		var/list/needs = SSeconomy.order_needs(O)
+		for(var/good_id in needs)
+			var/needed = needs[good_id]
 			var/have = 0
 			var/route = SSeconomy.get_good_route(good_id)
 			if(route == "warehouse")
@@ -228,7 +229,8 @@
 			"has_warehouse" = has_warehouse,
 			"has_stockpile" = has_stockpile,
 			"days_left" = days_left,
-			"payout" = O.total_payout,
+			"payout" = SSeconomy.order_needs_payout(O),
+			"halved" = is_blockaded,
 			"items" = items,
 			"petitioned" = O.petitioned ? TRUE : FALSE,
 			"extend_blocker" = SSeconomy.extend_blocker(O) || "",
@@ -241,9 +243,10 @@
 			"ref" = REF(offer),
 			"region_id" = offer.region_id,
 			"good_id" = offer.good_id,
-			"units" = offer.units,
+			"units" = SSeconomy.offer_units_now(offer),
 			"unit_price" = offer.unit_price,
-			"total_price" = offer.total_price,
+			"total_price" = SSeconomy.offer_price_now(offer),
+			"halved" = SSeconomy.region_raided(offer.region_id) ? TRUE : FALSE,
 		))
 	data["active_offers"] = offer_rows
 
@@ -258,8 +261,18 @@
 			"blockaded" = region.is_region_blockaded ? TRUE : FALSE,
 			"tribute" = tribute,
 			"tribute_blocker" = region.tribute_blocker() || "",
+			"escorted" = SSeconomy.subroute_escorted(region.subroute) ? TRUE : FALSE,
 		)
 	data["region_caravan"] = region_caravan
+
+	var/list/caravan_escorts = list()
+	for(var/datum/blockade/B as anything in GLOB.active_blockades)
+		caravan_escorts["[B.subroute]"] = list(
+			"escorted" = SSeconomy.subroute_escorted(B.subroute) ? TRUE : FALSE,
+			"fee" = SSeconomy.escort_fee(B.subroute),
+			"blocker" = SSeconomy.escort_blocker(B.subroute) || "",
+		)
+	data["caravan_escorts"] = caravan_escorts
 
 	var/list/trips = list()
 	for(var/datum/caravan_trip/trip as anything in SSeconomy.caravan_trips)
@@ -338,8 +351,9 @@
 	if(request && !request.is_fulfilled)
 		var/list/scan = SSeconomy.scan_order(request)
 		var/list/plan = SSeconomy.order_fill_plan(request)
+		var/list/needs = SSeconomy.order_needs(request)
 		var/list/items = list()
-		for(var/good_id in request.required_items)
+		for(var/good_id in needs)
 			var/route = SSeconomy.get_good_route(good_id)
 			var/loaded = 0
 			for(var/list/avail_set in list(scan["equip"], scan["potion"], scan["stock"]))
@@ -348,7 +362,7 @@
 					loaded = entry["delivered_units"]
 			var/list/item = list(
 				"good_id" = good_id,
-				"needed" = request.required_items[good_id],
+				"needed" = needs[good_id],
 				"route" = route,
 				"unit_pay" = SSeconomy.compute_good_unit_payout(request, good_id),
 				"loaded" = loaded,
@@ -382,15 +396,16 @@
 		)
 
 	var/datum/region_offer/offer = picked["offer"] ? (locate(picked["offer"]) in GLOB.region_offer_pool) : null
+	var/offer_units = offer ? SSeconomy.offer_units_now(offer) : 0
 	if(offer)
 		var/datum/roguestock/D = SSeconomy.find_stockpile_by_trade_good(offer.good_id)
 		var/closed = !D || D.market_never_supplies
 		quote["offer"] = list(
 			"ref" = picked["offer"],
 			"market_closed" = closed ? TRUE : FALSE,
-			"sale_total" = closed ? 0 : D.market_bid(offer.units),
+			"sale_total" = closed ? 0 : D.market_bid(offer_units),
 			"bid_first" = closed ? 0 : stockpile_price(D.market_unit_ask(D.market_stock + 1) * STOCKPILE_BID_RATIO),
-			"bid_last" = closed ? 0 : stockpile_price(D.market_unit_ask(D.market_stock + offer.units) * STOCKPILE_BID_RATIO),
+			"bid_last" = closed ? 0 : stockpile_price(D.market_unit_ask(D.market_stock + offer_units) * STOCKPILE_BID_RATIO),
 		)
 
 	var/datum/economic_region/tribute_region = picked["tribute"] ? GLOB.economic_regions[picked["tribute"]] : null
@@ -401,7 +416,7 @@
 			var/datum/roguestock/D = SSeconomy.find_stockpile_by_trade_good(good_id)
 			if(!D || D.market_never_supplies)
 				continue
-			var/offset = (offer && offer.good_id == good_id) ? offer.units : 0
+			var/offset = (offer && offer.good_id == good_id) ? offer_units : 0
 			sale_total += D.market_bid(tribute_units[good_id], offset)
 		quote["tribute"] = list(
 			"region_id" = picked["tribute"],
@@ -523,6 +538,12 @@ GLOBAL_LIST_INIT(steward_trade_sequestration_locked_actions, list(
 			return TRUE
 		if("caravan_select")
 			caravan_view[usr.ckey] = list("request" = "[params["request"]]", "offer" = "[params["offer"]]", "tribute" = "[params["tribute"]]")
+			return TRUE
+		if("buy_escort")
+			var/subroute = text2path(params["subroute"])
+			if(ispath(subroute, /datum/trade_subroute) && SSeconomy.buy_escort(usr, subroute))
+				playsound(src, 'sound/misc/coindispense.ogg', 60, FALSE, -1)
+			SStgui.update_uis(src)
 			return TRUE
 		if("send_caravan")
 			var/route = text2path(params["route"])

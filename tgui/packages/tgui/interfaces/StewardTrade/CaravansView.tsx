@@ -478,7 +478,11 @@ const RouteBlock = (props: {
   onOffer: (ref: string) => void;
   onTribute: (id: string) => void;
 }) => {
+  const { act } = useBackend<Data>();
   const { route, data, locked, loading, goodName, regionName } = props;
+  const raidedSubroutes = route.subroutes.filter(
+    (sub) => data.caravan_escorts?.[sub.id],
+  );
   const blockadedCount = route.subroutes.reduce(
     (n, sub) =>
       n + sub.region_ids.filter((id) => data.region_caravan[id]?.blockaded).length,
@@ -519,6 +523,43 @@ const RouteBlock = (props: {
           {loading ? 'Loading' : ''}
         </span>
       </div>
+      {raidedSubroutes.length > 0 && (
+        <div
+          style={{
+            display: 'flex',
+            flexWrap: 'wrap',
+            alignItems: 'center',
+            gap: '6px',
+            padding: '0 0 4px',
+          }}
+        >
+          {raidedSubroutes.map((sub) => {
+            const escort = data.caravan_escorts[sub.id];
+            if (escort.escorted) {
+              return (
+                <span key={sub.id} style={tagStyle(SEAL_GREEN)}>
+                  {sub.name} escorted until dawn
+                </span>
+              );
+            }
+            return (
+              <button
+                key={sub.id}
+                type="button"
+                disabled={!!escort.blocker}
+                title={escort.blocker || undefined}
+                onClick={() => act('buy_escort', { subroute: sub.id })}
+                style={inkButtonStyle({
+                  color: SEAL_RED,
+                  disabled: !!escort.blocker,
+                })}
+              >
+                Escort {sub.name} - {mammon(escort.fee)}
+              </button>
+            );
+          })}
+        </div>
+      )}
       {route.subroutes.map((sub) =>
         sub.region_ids.map((regionId, i) => {
           const state = data.region_caravan[regionId];
@@ -528,7 +569,7 @@ const RouteBlock = (props: {
           );
           const offer = data.active_offers.find((o) => o.region_id === regionId);
           const tributeBlocker = state?.tribute_blocker ?? '';
-          const cellDisabled = blockaded || locked;
+          const cellDisabled = (blockaded && !state?.escorted) || locked;
           return (
             <div
               key={regionId}
@@ -581,6 +622,7 @@ const RouteBlock = (props: {
                     {!!o.petitioned && (
                       <span style={tagStyle(PETITION_PURPLE)}>PETITIONED</span>
                     )}
+                    {!!o.halved && <span style={tagStyle(SEAL_RED)}>HALF</span>}
                     <span style={metaStyle}>{requestMeta(o)}</span>
                   </button>
                 ))}
@@ -598,6 +640,9 @@ const RouteBlock = (props: {
                     <span style={ellipsisCellStyle}>
                       {offerLabel(offer, goodName)}
                     </span>
+                    {!!offer.halved && (
+                      <span style={tagStyle(SEAL_RED)}>HALF</span>
+                    )}
                     <span style={metaStyle}>{offerMeta(offer)}</span>
                   </button>
                 ) : (
