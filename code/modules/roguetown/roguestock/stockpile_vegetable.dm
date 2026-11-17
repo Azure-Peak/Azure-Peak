@@ -8,7 +8,7 @@
 	desc = "Spelt grain."
 	item_type = /obj/item/reagent_containers/food/snacks/grown/wheat
 	trade_good_id = TRADE_GOOD_GRAIN
-	royal_stock = 25
+	market_stock = 25
 	category = "Vegetable" //Not entirely accurate but it looks prettier in UI
 
 /datum/roguestock/stockpile/oat
@@ -17,7 +17,7 @@
 	desc = "A cereal grain."
 	item_type = /obj/item/reagent_containers/food/snacks/grown/oat
 	trade_good_id = TRADE_GOOD_OATS
-	royal_stock = 15
+	market_stock = 15
 	category = "Vegetable"
 
 /datum/roguestock/stockpile/rice
@@ -26,7 +26,7 @@
 	desc = "A grain used for cooking."
 	item_type = /obj/item/reagent_containers/food/snacks/grown/rice
 	trade_good_id = TRADE_GOOD_RICE
-	royal_stock = 15
+	market_stock = 15
 	category = "Vegetable"
 
 /datum/roguestock/stockpile/maize
@@ -35,7 +35,7 @@
 	desc = "Cob of maize."
 	item_type = /obj/item/reagent_containers/food/snacks/grown/maize
 	trade_good_id = TRADE_GOOD_MAIZE
-	royal_stock = 15
+	market_stock = 15
 	category = "Vegetable"
 
 /datum/roguestock/stockpile/mushroom
@@ -44,7 +44,6 @@
 	desc = "A fungus that goes well in soups or grilled."
 	item_type = /obj/item/reagent_containers/food/snacks/rogue/mushroom
 	trade_good_id = TRADE_GOOD_MUSHROOM
-	royal_stock = 0
 	category = "Vegetable"
 
 /datum/roguestock/stockpile/cabbage
@@ -53,7 +52,7 @@
 	desc = "A leafy vegetable."
 	item_type = /obj/item/reagent_containers/food/snacks/grown/cabbage/rogue
 	trade_good_id = TRADE_GOOD_CABBAGE
-	royal_stock = 10
+	market_stock = 10
 	category = "Vegetable"
 
 /datum/roguestock/stockpile/potato
@@ -62,7 +61,7 @@
 	desc = "An interesting tuber."
 	item_type = /obj/item/reagent_containers/food/snacks/grown/potato/rogue
 	trade_good_id = TRADE_GOOD_POTATO
-	royal_stock = 10
+	market_stock = 10
 	category = "Vegetable"
 
 /datum/roguestock/stockpile/onion
@@ -71,7 +70,7 @@
 	desc = "A bulb vegetable."
 	item_type = /obj/item/reagent_containers/food/snacks/grown/onion/rogue
 	trade_good_id = TRADE_GOOD_ONION
-	royal_stock = 10
+	market_stock = 10
 	category = "Vegetable"
 
 /datum/roguestock/stockpile/garlick
@@ -80,7 +79,7 @@
 	desc = "A pungent root vegetable."
 	item_type = /obj/item/reagent_containers/food/snacks/grown/garlick/rogue
 	trade_good_id = TRADE_GOOD_GARLICK
-	royal_stock = 10
+	market_stock = 10
 	category = "Vegetable"
 
 /datum/roguestock/stockpile/turnip
@@ -89,7 +88,7 @@
 	desc = "A hardy root vegetable suitable for soups. Favored by the poor."
 	item_type = /obj/item/reagent_containers/food/snacks/grown/vegetable/turnip
 	trade_good_id = TRADE_GOOD_TURNIP
-	royal_stock = 10
+	market_stock = 10
 	category = "Vegetable"
 
 /datum/roguestock/stockpile/carrot
@@ -98,7 +97,7 @@
 	desc = "A long vegetable said to help with eyesight."
 	item_type = /obj/item/reagent_containers/food/snacks/grown/carrot
 	trade_good_id = TRADE_GOOD_CARROT
-	royal_stock = 10
+	market_stock = 10
 	category = "Vegetable"
 
 /datum/roguestock/stockpile/cucumber
@@ -107,7 +106,7 @@
 	desc = "A refreshing, long and green vegetable."
 	item_type = /obj/item/reagent_containers/food/snacks/grown/cucumber
 	trade_good_id = TRADE_GOOD_CUCUMBER
-	royal_stock = 10
+	market_stock = 10
 	category = "Vegetable"
 
 /datum/roguestock/stockpile/eggplant
@@ -116,7 +115,7 @@
 	desc = "A large, purple vegetable with a mild taste."
 	item_type = /obj/item/reagent_containers/food/snacks/grown/eggplant
 	trade_good_id = TRADE_GOOD_EGGPLANT
-	royal_stock = 10
+	market_stock = 10
 	category = "Vegetable"
 
 /datum/roguestock/stockpile/sugar
@@ -125,7 +124,7 @@
 	desc = "A sweet powder milled from sugarcane."
 	item_type = /obj/item/reagent_containers/food/snacks/sugar
 	trade_good_id = TRADE_GOOD_SUGAR
-	royal_stock = 5
+	market_stock = 5
 	category = "Vegetable"
 
 /datum/roguestock/stockpile/coffee
@@ -134,7 +133,7 @@
 	desc = "The seed of the coffee plant. It makes a stimulating drink."
 	item_type = /obj/item/reagent_containers/food/snacks/grown/coffeebeans
 	trade_good_id = TRADE_GOOD_COFFEE
-	royal_stock = 10
+	market_stock = 10
 	category = "Vegetable"
 
 /datum/roguestock/stockpile/tea
@@ -143,7 +142,7 @@
 	desc = "Dried tea leaves from the tea plant. Can be ground and brewed to make tea."
 	item_type = /obj/item/reagent_containers/food/snacks/grown/rogue/tealeaves_dry
 	trade_good_id = TRADE_GOOD_TEA
-	royal_stock = 10
+	market_stock = 10
 	category = "Vegetable"
 
 /datum/roguestock/stockpile/poppy
@@ -152,7 +151,7 @@
 	desc = "A seed with a sedative effect."
 	item_type = /obj/item/reagent_containers/food/snacks/grown/rogue/poppy
 	trade_good_id = TRADE_GOOD_POPPY
-	royal_stock = 10
+	market_stock = 10
 	category = "Vegetable"
 
 /datum/roguestock/stockpile/rocknut
@@ -161,7 +160,7 @@
 	desc = "A nut with mild stimulant properties."
 	item_type = /obj/item/reagent_containers/food/snacks/grown/nut
 	trade_good_id = TRADE_GOOD_ROCKNUT
-	royal_stock = 5
+	market_stock = 5
 	category = "Vegetable"
 
 /datum/roguestock/stockpile/beans
@@ -170,7 +169,6 @@
 	desc = "Red beans from Naledi."
 	item_type = /obj/item/reagent_containers/food/snacks/grown/beans
 	trade_good_id = TRADE_GOOD_BEANS
-	royal_stock = 0
 	category = "Vegetable"
 
 /datum/roguestock/stockpile/lentils
@@ -178,5 +176,4 @@
 	desc = "Multicolored nutty lentils from Naledi."
 	item_type = /obj/item/reagent_containers/food/snacks/grown/lentils
 	trade_good_id = TRADE_GOOD_LENTILS
-	royal_stock = 0
 	category = "Vegetable"

@@ -20,7 +20,6 @@
 		var/datum/trade_good/tg = GLOB.trade_goods[trade_good_id]
 		if(tg)
 			compute_auto_prices(tg)
-	market_stock = market_target
 	return
 
 /datum/roguestock/proc/get_quality_settlement(obj/item/I, baseline)
