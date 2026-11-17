@@ -208,15 +208,23 @@ GLOBAL_DATUM_INIT(openspace_backdrop_one_for_all, /atom/movable/openspace_backdr
 	if(!climber.wallpressed) // There is probably a better way to do this, but it fixes climbing gear not working when you pass by multiple walls
 		var/turf/tile_under_climber = climber.loc
 		tile_under_climber.zFall(climber)
+
 	while(climber.is_jumping) //demonic while loop with sleep, needed cuz this proc procs multiple times
 		sleep(1)
 	sleep(1)
+
 	var/turf/open/transparent/openspace/landing_turf = get_turf(climber)
-	var/has_adjacent_wall = FALSE
-	for(var/turf/closed/adjacent_wall in get_adjacent_turfs(landing_turf)) //get walls
-		has_adjacent_wall = TRUE //theres walls, hooray, we dont need any extra checks because this proc won't run unless we passed all the checks
-		break
-	if(!has_adjacent_wall) //if there are none, fall
+	var/climbable_wall = FALSE
+	var/climbing_skill = max(climber.get_skill_level(/datum/skill/misc/climbing), SKILL_LEVEL_NOVICE)
+
+	for(var/turf/closed/adjacent_wall in get_adjacent_turfs(landing_turf)) //lets look if we are surrounded by walls when we land
+		var/wall_skill_requirement = adjacent_wall.climbdiff
+		if(climbing_skill != 6) //despite there already being checks for wall skill, if we pass a wall that we can can climb and end up near a wall that we cannot climb, we won't be dropped down.
+			wall_skill_requirement += 1
+		if(climbing_skill >= wall_skill_requirement)
+			climbable_wall = TRUE
+			break
+	if(!climbable_wall) //if there are none, fall
 		landing_turf.zFall(climber) //there is no need for zfalling = FALSE as zfall does that for us
 
 /turf/open/transparent/openspace/MouseDrop_T(atom/movable/O, mob/user)
