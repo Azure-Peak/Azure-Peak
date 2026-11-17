@@ -9,7 +9,10 @@
 		/mob/living/carbon/human/species/human/northern/highwayman/ambush = 27,
 	)
 	boss_mob_types = list(
-		/mob/living/carbon/human/species/human/northern/highwayman/spellblade/champion = 100,
+		/mob/living/carbon/human/species/human/northern/highwayman/spellblade/boss/blade = 25,
+		/mob/living/carbon/human/species/human/northern/highwayman/spellblade/boss/phalangite = 25,
+		/mob/living/carbon/human/species/human/northern/highwayman/spellblade/boss/macebearer = 25,
+		/mob/living/carbon/human/species/human/northern/highwayman/spellblade/boss/spellfist = 25,
 	)
 	boss_title_templates = list(
 		"%N the Undefeated",

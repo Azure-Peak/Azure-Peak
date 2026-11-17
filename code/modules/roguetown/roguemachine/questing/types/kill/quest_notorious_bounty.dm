@@ -122,7 +122,7 @@
 	if(!length(boss_pool))
 		return FALSE
 	target_mob_type = pickweight(boss_pool)
-	boss_name = faction.generate_boss_name()
+	boss_name = faction.generate_boss_name(target_mob_type)
 	progress_required = 1
 	finalize_preview_title()
 	return TRUE
@@ -309,9 +309,14 @@
 		switch(skill_type)
 			if(/datum/skill/combat/shields)
 				cap = NOTORIOUS_BOUNTY_PLAYER_SHIELD_SKILL_CAP
-			if(/datum/skill/combat/wrestling, /datum/skill/combat/unarmed)
+			if(/datum/skill/combat/wrestling)
 				cap = NOTORIOUS_BOUNTY_PLAYER_BRAWL_SKILL_CAP
+			if(/datum/skill/combat/unarmed)
+				if(!HAS_TRAIT(boss, TRAIT_CIVILIZEDBARBARIAN))
+					cap = NOTORIOUS_BOUNTY_PLAYER_BRAWL_SKILL_CAP
 		boss.adjust_skillrank_down_to(skill_type, cap, TRUE)
+	for(var/skill_type in subtypesof(/datum/skill/magic))
+		boss.adjust_skillrank_down_to(skill_type, NOTORIOUS_BOUNTY_PLAYER_MAGIC_SKILL_CAP, TRUE)
 
 /datum/quest/kill/notorious_bounty/proc/leash_boss(mob/living/boss)
 	if(boss.stat == DEAD)
