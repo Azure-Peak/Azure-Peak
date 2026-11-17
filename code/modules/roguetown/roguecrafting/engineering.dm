@@ -1059,10 +1059,9 @@
 	skillcraft = /datum/skill/craft/engineering
 	craftdiff = 4
 
-//can only make 2 at a time, despite fyritus being somewhat hard this should prevent them being too spammable into one-man armies (since shrapnel stops miracles too) - Bomb experts will benefit from jury-rigging more.
-//they still retain 1x1 size so you can hand them out to cause problems, it keeps artificers in buisness as well as rewards bombardiers going for the rarer choices at least, but they're still encouraged to firebombs
+//despite fyritus being somewhat hard, the risk of shrapnel makes bomb experts have to consider and in general bomb experts will benefit from jury-rigging more. Artificers struggle for mats more being often situated w/ an endless line at the guild.
 /datum/crafting_recipe/roguetown/engineering/impactexplosive
-	name = "impact grenades (x2)"
+	name = "impact grenades (x3)"
 	category = "Explosives"
 	display_category = ITEM_CAT_ENG_COMBAT
 	result = list(

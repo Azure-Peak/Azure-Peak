@@ -18,20 +18,21 @@
 	)
 	craftdiff = 2
 
-/datum/crafting_recipe/roguetown/alchemy/bbomb_3x //intentionally somewhat cheap, so you can have these in bulk. healthier than pre-emptively having a thousand high-end ones in PVP and better for PVE for advs.
-	name = "bottle bomb (3x)"
+/datum/crafting_recipe/roguetown/alchemy/bbomb_4x //intentionally somewhat cheap for a lot, so you can have these in bulk. healthier than pre-emptively having a thousand high-end ones in PVP and better for PVE for advs.
+	name = "bottle bomb (4x)"
 	required_trait = TRAIT_BOMBER_EXPERT
 	category = "Table"
 	result = list(
 					/obj/item/explosive/fused/bottle,
 					/obj/item/explosive/fused/bottle,
 					/obj/item/explosive/fused/bottle,
+					/obj/item/explosive/fused/bottle,
 	)
 	reqs = list(
-				/obj/item/reagent_containers/glass/bottle = 3,
+				/obj/item/reagent_containers/glass/bottle = 4,
 				/obj/item/alch/coaldust = 2,
 				/obj/item/natural/ash = 3,
-				/obj/item/natural/cloth = 2,
+				/obj/item/natural/cloth = 3,
 	)
 	craftdiff = 3 //Bomber exclusive recipe, takes a fair bit of effort to make en-mass (virtue/pass int check/grind for advs). Jury rigs for bomb specialists /can/ be faster but this is more efficent w/ a setup.
 
