@@ -13,6 +13,7 @@ GLOBAL_LIST_INIT(large_goblin_aggro, list(
 
 /mob/living/carbon/human/species/goblin/npc/large
 	threat_point = THREAT_ELITE
+	boss_class = BOSS_CLASS_GOBLIN_CHIEF
 	name = "unusually large goblin"
 	npc_archetype = null // Bespoke boss, keeps its own outfit below
 	var/gob_outfit = /datum/outfit/job/roguetown/npc/mini_boss/large_goblin
@@ -40,9 +41,11 @@ GLOBAL_LIST_INIT(large_goblin_aggro, list(
 
 /mob/living/carbon/human/species/goblin/npc/large/hell
 	race = /datum/species/goblin/hell
+	boss_class = BOSS_CLASS_HELL_GOBLIN_CHIEF
 
 /mob/living/carbon/human/species/goblin/npc/large/moon
 	race = /datum/species/goblin/moon
+	boss_class = BOSS_CLASS_MOON_GOBLIN_CHIEF
 
 /mob/living/carbon/human/species/goblin/npc/large/cave
 	race = /datum/species/goblin/cave

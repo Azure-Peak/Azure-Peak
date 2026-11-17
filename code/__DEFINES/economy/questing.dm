@@ -293,6 +293,13 @@
 #define BOSS_CLASS_PHALANGITE "phalangite"
 #define BOSS_CLASS_MACEBEARER "macebearer"
 #define BOSS_CLASS_SPELLFIST "spellfist"
+#define BOSS_CLASS_GOBLIN_CHIEF "goblin_chief"
+#define BOSS_CLASS_MOON_GOBLIN_CHIEF "moon_goblin_chief"
+#define BOSS_CLASS_HELL_GOBLIN_CHIEF "hell_goblin_chief"
+#define BOSS_CLASS_WARLORD "warlord"
+#define BOSS_CLASS_SCOURGE "scourge"
+#define BOSS_CLASS_LICH "lich"
+#define BOSS_CLASS_WATCHER "watcher"
 
 #define NOTORIOUS_BOUNTY_TRIUMPH 1
 #define NOTORIOUS_BOUNTY_ENGAGE_RANGE 10

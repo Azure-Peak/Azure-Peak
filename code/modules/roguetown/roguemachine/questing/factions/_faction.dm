@@ -60,6 +60,8 @@ GLOBAL_LIST_EMPTY(quest_factions)
 	var/list/templates = get_boss_class_titles(boss_type)
 	if(!length(templates))
 		templates = boss_title_templates
+	if(!length(templates))
+		templates = get_boss_class_titles(pick_boss_mob_type())
 	var/template = length(templates) ? pick(templates) : "%N"
 	var/name = pick_boss_name()
 	if(!name)

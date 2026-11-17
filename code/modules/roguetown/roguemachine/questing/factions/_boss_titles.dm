@@ -11,6 +11,13 @@ GLOBAL_LIST_INIT(boss_class_titles, list(
 	BOSS_CLASS_PHALANGITE = list("%N the Phalangite", "%N the Spellpike", "%N the Spellberdier"),
 	BOSS_CLASS_MACEBEARER = list("%N the Macebearer", "%N the Magehammer", "%N the Spellhammer"),
 	BOSS_CLASS_SPELLFIST = list("%N the Spellfist", "%N the Magefist", "%N the Disciple of Naledi", "%N, Master of Arcyne Fist"),
+	BOSS_CLASS_GOBLIN_CHIEF = list("Chief %N", "Grug-%N", "%N-Biter", "Big %N"),
+	BOSS_CLASS_MOON_GOBLIN_CHIEF = list("Moonchief %N", "%N-Under-the-Dark", "%N the Pale", "%N of the Vaults"),
+	BOSS_CLASS_HELL_GOBLIN_CHIEF = list("Hellchief %N", "%N of the Ember", "%N the Scorched"),
+	BOSS_CLASS_WARLORD = list("Warlord %N", "%N Skullcleaver", "%N the Mighty", "%N the Pillager", "Chieftain %N"),
+	BOSS_CLASS_SCOURGE = list("%N the Scourge", "%N the Venomed", "%N of the Shadow", "Matron %N", "%N the Spiderkin"),
+	BOSS_CLASS_LICH = list("%N the Lich", "%N the Unsleeping", "%N the Bound", "Sir %N", "%N the Forsworn"),
+	BOSS_CLASS_WATCHER = list("%N the Watcher", "%N the Watchful", "%N of the Ember", "%N the Cinder Eye"),
 ))
 
 /proc/get_boss_class_titles(boss_type)
