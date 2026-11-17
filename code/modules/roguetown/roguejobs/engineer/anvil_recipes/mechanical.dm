@@ -197,11 +197,11 @@
 	display_category = ITEM_CAT_TOOLS_COOKWARE
 
 /datum/anvil_recipe/engineering/bronze/smokebomb
-	name = "gas belcher shells (+4 Gear, +1 Bronze, +1 Tin, +1 Copper, +1 Gold)"
+	name = "gas belcher shells (+4 Gear, +1 Steel/Copper/Tin/Gold)"
 	category = "Engineering"
 	req_bar = /obj/item/ingot/bronze
 	created_item = /obj/item/smokeshell
-	additional_items = list(/obj/item/roguegear, /obj/item/ingot/bronze, /obj/item/roguegear, /obj/item/ingot/tin, /obj/item/roguegear, /obj/item/ingot/copper, /obj/item/roguegear, /obj/item/ingot/gold)
+	additional_items = list(/obj/item/roguegear, /obj/item/ingot/steel, /obj/item/roguegear, /obj/item/ingot/tin, /obj/item/roguegear, /obj/item/ingot/copper, /obj/item/roguegear, /obj/item/ingot/gold)
 	createditem_num = 1
 	craftdiff = 3
 	display_category = ITEM_CAT_ENG_COMBAT

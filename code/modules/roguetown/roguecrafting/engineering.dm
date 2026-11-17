@@ -1125,19 +1125,8 @@
 	name = "smoke grenades, healing (x3)"
 	category = "Explosives"
 	display_category = ITEM_CAT_ENG_COMBAT
-	result = list(
-		/obj/item/explosive/impact/smoke/healing_gas,
-		/obj/item/explosive/impact/smoke/healing_gas,
-		/obj/item/explosive/impact/smoke/healing_gas,
-	)
-	reqs = list(
-		/obj/item/smokeshell = 3,
-		/obj/item/alch/coaldust = 1,
-		/obj/item/natural/ash = 1,
-		/obj/item/alch/viscera = 2,
-		/obj/item/alch/bonemeal = 2,
-		/datum/reagent/water = 48,
-	)
+	result = list(/obj/item/explosive/impact/smoke/healing_gas, /obj/item/explosive/impact/smoke/healing_gas, /obj/item/explosive/impact/smoke/healing_gas,)
+	reqs = list(/obj/item/smokeshell = 3, /obj/item/alch/coaldust = 1, /obj/item/natural/ash = 1, /obj/item/alch/viscera = 2, /obj/item/alch/bonemeal = 2, /datum/reagent/water = 48)
 	structurecraft = /obj/structure/artificer_table
 	skillcraft = /datum/skill/craft/engineering
 	craftdiff = 4
