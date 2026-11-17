@@ -211,9 +211,6 @@ export type Order = {
   days_left: number;
   payout: number;
   items: OrderItem[];
-  can_fulfill: BooleanLike;
-  deliverable_payout: number;
-  shortfall_text: string;
   petitioned: BooleanLike;
   extend_blocker: string;
 };

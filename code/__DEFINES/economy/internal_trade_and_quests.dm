@@ -40,10 +40,11 @@
 #define TRADE_REGION_HEARTFELT "heartfelt"
 #define TRADE_REGION_HAGENWALD "hagenwald"
 
-#define TRADE_ROUTE_TRIP_NORTHERN_SEAWAY (20 MINUTES)
-#define TRADE_ROUTE_TRIP_SOUTHERN_SEAWAY (15 MINUTES)
-#define TRADE_ROUTE_TRIP_ORE_ROAD (20 MINUTES)
-#define TRADE_ROUTE_TRIP_RIVER_AZUR (30 MINUTES)
+// How many caravans you start with - 4 for a decent amount of Steward agency
+// You get +1 per day, up to a maximum of 8. This way Steward don't need to compete and gain increased economic power as the round goes on
+#define CARAVAN_FLEET_START 4
+#define CARAVAN_FLEET_PER_DAY 1
+#define CARAVAN_FLEET_MAX 8
 
 #define STANDING_ORDER_DURATION 2
 #define URGENT_ORDER_DURATION 1
@@ -93,9 +94,6 @@
 #define REQUEST_WEIGHT_JEWELRY 2
 #define REQUEST_WEIGHT_SCROLLS 2
 #define REQUEST_WEIGHT_TROPHIES 1
-
-// Anti lag spam because every click would do a sweep and that could potentially get expensive
-#define STANDING_ORDER_FULFILL_RETRY_COOLDOWN (2 SECONDS)
 
 
 

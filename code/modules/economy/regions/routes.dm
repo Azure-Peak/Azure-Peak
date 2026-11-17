@@ -1,27 +1,22 @@
 /datum/trade_route
 	var/name
 	var/threat_region_id
-	var/trip_time
 
 /datum/trade_route/northern_seaway
 	name = "Northern Seaway"
 	threat_region_id = THREAT_REGION_AZUREAN_COAST
-	trip_time = TRADE_ROUTE_TRIP_NORTHERN_SEAWAY
 
 /datum/trade_route/southern_seaway
 	name = "Southern Seaway"
 	threat_region_id = THREAT_REGION_AZURE_GROVE
-	trip_time = TRADE_ROUTE_TRIP_SOUTHERN_SEAWAY
 
 /datum/trade_route/ore_road
 	name = "The Ore Road"
 	threat_region_id = THREAT_REGION_UNDERDARK
-	trip_time = TRADE_ROUTE_TRIP_ORE_ROAD
 
 /datum/trade_route/river_azur
 	name = "River Azur"
 	threat_region_id = THREAT_REGION_MOUNT_DECAP
-	trip_time = TRADE_ROUTE_TRIP_RIVER_AZUR
 
 /datum/trade_subroute
 	var/name
@@ -80,3 +75,13 @@
 /datum/trade_subroute/east_bank_of_arwin
 	name = "East Bank of Arwin"
 	route = /datum/trade_route/river_azur
+
+/proc/get_region_route(datum/economic_region/region)
+	if(!region?.subroute)
+		return null
+	var/datum/trade_subroute/subroute_path = region.subroute
+	return initial(subroute_path.route)
+
+/proc/get_route_name(route)
+	var/datum/trade_route/route_path = route
+	return initial(route_path.name)

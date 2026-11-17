@@ -185,15 +185,11 @@
 		var/days_left = max(0, O.day_expires - GLOB.dayspassed)
 
 		var/list/items = list()
-		var/can_fulfill = TRUE
-		var/shortfall = ""
-		var/deliverable_payout = 0
 		var/has_warehouse = FALSE
 		var/has_stockpile = FALSE
 		for(var/good_id in O.required_items)
 			var/needed = O.required_items[good_id]
 			var/have = 0
-			var/unit_pay = SSeconomy.compute_good_unit_payout(O, good_id)
 			var/route = SSeconomy.get_good_route(good_id)
 			if(route == "warehouse")
 				has_warehouse = TRUE
@@ -202,20 +198,12 @@
 				has_stockpile = TRUE
 				var/datum/roguestock/entry = SSeconomy.find_stockpile_by_trade_good(good_id)
 				have = entry ? entry.royal_stock : 0
-				if(have < needed)
-					can_fulfill = FALSE
-					var/datum/trade_good/tg = GLOB.trade_goods[good_id]
-					var/label = tg ? tg.name : good_id
-					if(shortfall != "")
-						shortfall += ", "
-					shortfall += "need [needed - have] more [label]"
-				deliverable_payout += unit_pay * min(have, needed)
 			items += list(list(
 				"good_id" = good_id,
 				"needed" = needed,
 				"have" = have,
 				"route" = route,
-				"unit_pay" = unit_pay,
+				"unit_pay" = SSeconomy.compute_good_unit_payout(O, good_id),
 			))
 
 		orders += list(list(
@@ -229,9 +217,6 @@
 			"days_left" = days_left,
 			"payout" = O.total_payout,
 			"items" = items,
-			"can_fulfill" = can_fulfill,
-			"deliverable_payout" = mammon_round(deliverable_payout),
-			"shortfall_text" = shortfall,
 			"petitioned" = O.petitioned ? TRUE : FALSE,
 			"extend_blocker" = SSeconomy.extend_blocker(O) || "",
 		))
@@ -375,33 +360,9 @@ GLOBAL_LIST_INIT(steward_trade_sequestration_locked_actions, list(
 	if(SStreasury.is_in_receivership() && (action in GLOB.steward_trade_sequestration_locked_actions))
 		to_chat(usr, span_warning("Trade controls are locked under sequestration. Petitions, taxes and fines still work."))
 		return TRUE
-	if(action == "fulfill_order" || (action in GLOB.steward_trade_sequestration_locked_actions))
+	if(action in GLOB.steward_trade_sequestration_locked_actions)
 		SStreasury.dirty_market_view()
 	switch(action)
-		if("fulfill_order")
-			if(!COOLDOWN_FINISHED(src, fulfill_retry_cooldown))
-				to_chat(usr, span_warning("You just tried to fulfill an order. Wait a moment and try again."))
-				return TRUE
-			var/datum/standing_order/O = locate(params["ref"]) in GLOB.standing_order_pool
-			if(O)
-				var/order_name = O.name
-				var/list/result = SSeconomy.fulfill_order(usr, O)
-				if(islist(result))
-					var/q_delta = result["quality_delta"]
-					var/q_suffix = ""
-					if(q_delta > 0)
-						q_suffix = " (quality bonus: +[format_mammon(q_delta)]m)"
-					else if(q_delta < 0)
-						q_suffix = " (quality penalty: [format_mammon(q_delta)]m)"
-					if(result["status"] == "full")
-						scom_announce("Standing Order fulfilled: [order_name] (+[format_mammon(result["payout"])]m)[q_suffix].")
-					else
-						scom_announce("Standing Order part delivered: [order_name] (+[format_mammon(result["payout"])]m)[q_suffix].")
-					playsound(src, 'sound/misc/coindispense.ogg', 60, FALSE, -1)
-				else
-					COOLDOWN_START(src, fulfill_retry_cooldown, STANDING_ORDER_FULFILL_RETRY_COOLDOWN)
-			SStgui.update_uis(src)
-			return TRUE
 		if("sell_to_market")
 			var/quantity = text2num("[params["quantity"]]")
 			if(quantity)

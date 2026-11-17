@@ -69,15 +69,11 @@ GLOBAL_LIST_INIT(economic_regions, init_economic_regions())
 /datum/economic_region/proc/scaled_volume(volume, multiplier)
 	return max(1, round(volume * multiplier, 1))
 
-/proc/tribute_pop_mult()
-	var/progress = (SSeconomy.get_effective_player_count() - TRIBUTE_POP_SCALE_START) / (TRIBUTE_POP_SCALE_FULL - TRIBUTE_POP_SCALE_START)
-	return 1 + clamp(progress, 0, 1) * (TRIBUTE_POP_MAX_MULT - 1)
-
 /datum/economic_region/proc/tribute_units()
 	var/list/units = list()
 	if(!length(tribute_goods))
 		return units
-	var/value = TRIBUTE_VALUE * tribute_pop_mult() / length(tribute_goods)
+	var/value = TRIBUTE_VALUE * SSeconomy.tribute_pop_mult() / length(tribute_goods)
 	for(var/good_id in tribute_goods)
 		var/price = SSeconomy.good_steady_price(good_id)
 		if(price <= 0)
@@ -85,19 +81,20 @@ GLOBAL_LIST_INIT(economic_regions, init_economic_regions())
 		units[good_id] = max(1, round(value / price))
 	return units
 
-/datum/economic_region/proc/collect_tribute(mob/user)
+/datum/economic_region/proc/tribute_blocker()
+	if(!length(tribute_goods))
+		return "[name] has no tribute."
 	if(is_region_blockaded)
-		if(user)
-			to_chat(user, span_warning("[name] is blockaded. No tribute will come through until it is  cleared."))
-		return FALSE
+		return "[name] is blockaded. No tribute will come through until it is cleared."
 	if(tribute_day == GLOB.dayspassed)
-		if(user)
-			to_chat(user, span_warning("[name] has already sent its tribute today."))
-		return FALSE
-	var/list/units = tribute_units()
-	if(!length(units))
-		return FALSE
+		return "[name] has already sent its tribute today."
+	return null
+
+/datum/economic_region/proc/take_tribute()
 	tribute_day = GLOB.dayspassed
+	return tribute_units()
+
+/datum/economic_region/proc/deliver_tribute(list/units)
 	for(var/good_id in units)
 		var/datum/roguestock/D = SSeconomy.find_stockpile_by_trade_good(good_id)
 		if(!D)
@@ -105,9 +102,6 @@ GLOBAL_LIST_INIT(economic_regions, init_economic_regions())
 		D.royal_stock += units[good_id]
 		record_material_flow(MATERIAL_FLOW_IN, MATERIAL_SOURCE_LOCAL_IMPORT, D.item_type, units[good_id])
 	deliver_gifts()
-	SStreasury.dirty_market_view()
-	log_game("TRIBUTE collected from [name] by [user ? key_name(user) : "system"]")
-	return TRUE
 
 /datum/economic_region/proc/deliver_gifts()
 	if(!length(gifts))

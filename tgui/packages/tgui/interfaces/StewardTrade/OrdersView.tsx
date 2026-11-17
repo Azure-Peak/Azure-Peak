@@ -38,7 +38,6 @@ export const OrdersView = (props: { data: Data }) => {
             order={o}
             regionCatalog={region_catalog}
             goodCatalog={good_catalog}
-            onFulfill={() => act('fulfill_order', { ref: o.ref })}
             onExtend={() => act('extend_order', { ref: o.ref })}
           />
         ))
@@ -51,7 +50,6 @@ type CardProps = {
   order: Order;
   regionCatalog: Data['region_catalog'];
   goodCatalog: Data['good_catalog'];
-  onFulfill: () => void;
   onExtend: () => void;
 };
 
@@ -161,7 +159,6 @@ const OrderCard = (props: CardProps) => {
         </div>
       )}
       <div style={{ marginTop: '8px', display: 'flex', gap: '6px' }}>
-        <FulfillButton order={o} onFulfill={props.onFulfill} />
         <ZadButton
           order={o}
           cost={data.order_extend_cost}
@@ -192,67 +189,6 @@ const ZadButton = (props: {
       style={inkButtonStyle({ color: SEAL_AMBER, disabled: !!blocker })}
     >
       Send a zad - {cost}p
-    </button>
-  );
-};
-
-const FulfillButton = (props: { order: Order; onFulfill: () => void }) => {
-  const o = props.order;
-  if (o.region_blockaded) {
-    return (
-      <button
-        type="button"
-        disabled
-        style={inkButtonStyle({ color: SEAL_RED, disabled: true })}
-      >
-        Fulfill - road blockaded
-      </button>
-    );
-  }
-  if (o.has_warehouse) {
-    return (
-      <button
-        type="button"
-        onClick={props.onFulfill}
-        style={inkButtonStyle({ color: SEAL_BLUE })}
-      >
-        {o.has_stockpile
-          ? 'Fulfill (Warehouse + Stockpile)'
-          : 'Fulfill from Warehouse'}
-      </button>
-    );
-  }
-  if (o.can_fulfill) {
-    return (
-      <button
-        type="button"
-        onClick={props.onFulfill}
-        style={inkButtonStyle({ color: SEAL_GREEN })}
-      >
-        Fulfill from Stockpile
-      </button>
-    );
-  }
-  if (o.deliverable_payout > 0) {
-    return (
-      <button
-        type="button"
-        onClick={props.onFulfill}
-        title={o.shortfall_text}
-        style={inkButtonStyle({ color: SEAL_AMBER })}
-      >
-        Deliver part - {formatMammon(o.deliverable_payout)}m
-      </button>
-    );
-  }
-  return (
-    <button
-      type="button"
-      disabled
-      title={o.shortfall_text}
-      style={inkButtonStyle({ disabled: true })}
-    >
-      Fulfill - {o.shortfall_text || 'insufficient stock'}
     </button>
   );
 };

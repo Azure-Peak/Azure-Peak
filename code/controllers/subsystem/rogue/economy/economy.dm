@@ -11,12 +11,18 @@ SUBSYSTEM_DEF(economy)
 	var/blockade_replenish_spent = 0
 	var/list/gathering_blockades = list()
 	var/list/event_path_cooldowns = list()
+	var/caravan_fleet = CARAVAN_FLEET_START
+	var/list/caravan_trips = list()
 
 
 /datum/controller/subsystem/economy/proc/get_effective_player_count()
 	if(simulated_player_scalar > 0)
 		return simulated_player_scalar
 	return get_active_player_count()
+
+/datum/controller/subsystem/economy/proc/tribute_pop_mult()
+	var/progress = (get_effective_player_count() - TRIBUTE_POP_SCALE_START) / (TRIBUTE_POP_SCALE_FULL - TRIBUTE_POP_SCALE_START)
+	return 1 + clamp(progress, 0, 1) * (TRIBUTE_POP_MAX_MULT - 1)
 
 /datum/controller/subsystem/economy/Initialize(mapload)
 	daily_report_diff = list(
@@ -57,6 +63,8 @@ SUBSYSTEM_DEF(economy)
 	daily_report_diff["day"] = GLOB.dayspassed
 
 	var/effective_pop = get_effective_player_count()
+
+	resolve_caravans()
 
 	var/list/expired = list()
 	for(var/datum/standing_order/O as anything in GLOB.standing_order_pool)
@@ -385,53 +393,51 @@ SUBSYSTEM_DEF(economy)
 	return O
 
 
-/datum/controller/subsystem/economy/proc/fulfill_order(mob/user, datum/standing_order/order)
-	if(!order || order.is_fulfilled)
-		return FALSE
-	var/datum/economic_region/ER = GLOB.economic_regions[order.region_id]
-	if(ER?.is_region_blockaded)
-		if(user)
-			to_chat(user, span_warning("[ER.name] is blockaded. You can't deliver this order until the road is cleared."))
-		return FALSE
-
+/datum/controller/subsystem/economy/proc/scan_order(datum/standing_order/order)
 	var/list/equip_goods = list()
 	var/list/potion_goods = list()
 	var/list/stock_goods = list()
+	var/has_dock = length(GLOB.steward_export_machines)
 	for(var/good_id in order.required_items)
 		var/datum/trade_good/tg = GLOB.trade_goods[good_id]
 		if(tg?.behavior == TRADE_BEHAVIOR_EQUIPMENT)
-			equip_goods += good_id
+			if(has_dock)
+				equip_goods += good_id
 		else if(tg?.behavior == TRADE_BEHAVIOR_POTION)
-			potion_goods += good_id
+			if(has_dock)
+				potion_goods += good_id
 		else
 			stock_goods += good_id
-
-	if((length(equip_goods) || length(potion_goods)) && !length(GLOB.steward_export_machines))
-		if(user)
-			to_chat(user, span_warning("There's no warehouse dock manifest, so you can't fulfill warehouse orders."))
-		return FALSE
 
 	var/list/equip_avail = length(equip_goods) ? scan_equipment_availability(order, equip_goods) : list()
 	var/list/potion_avail = length(potion_goods) ? scan_potion_availability(order, potion_goods) : list()
 	var/list/stock_avail = length(stock_goods) ? scan_stockpile_availability(order, stock_goods) : list()
 
-	var/delivered_units = 0
+	var/units = 0
 	var/payout = compute_equipment_delivered_value(order, equip_avail)
 	var/quality_delta = payout
 	for(var/good_id in equip_avail)
 		var/list/entry = equip_avail[good_id]
 		quality_delta -= compute_good_unit_payout(order, good_id) * entry["delivered_units"]
-		delivered_units += entry["delivered_units"]
+		units += entry["delivered_units"]
 	for(var/list/avail_set in list(potion_avail, stock_avail))
 		for(var/good_id in avail_set)
 			var/list/entry = avail_set[good_id]
 			payout += compute_good_unit_payout(order, good_id) * entry["delivered_units"]
-			delivered_units += entry["delivered_units"]
-	if(!delivered_units)
-		if(user)
-			to_chat(user, span_warning("You have none of the goods for this order."))
-		return FALSE
+			units += entry["delivered_units"]
+	return list(
+		"equip" = equip_avail,
+		"potion" = potion_avail,
+		"stock" = stock_avail,
+		"units" = units,
+		"payout" = max(0, mammon_round(payout)),
+		"quality_delta" = mammon_round(quality_delta),
+	)
 
+/datum/controller/subsystem/economy/proc/load_order(datum/standing_order/order, list/scan)
+	var/list/equip_avail = scan["equip"]
+	var/list/potion_avail = scan["potion"]
+	var/list/stock_avail = scan["stock"]
 	consume_equipment_payload(equip_avail)
 	consume_potion_payload(potion_avail)
 	consume_stockpile_payload(stock_avail)
@@ -441,28 +447,12 @@ SUBSYSTEM_DEF(economy)
 			order.required_items[good_id] -= entry["delivered_units"]
 			if(order.required_items[good_id] <= 0)
 				order.required_items -= good_id
-	payout = max(0, mammon_round(payout))
-	quality_delta = mammon_round(quality_delta)
-	SStreasury.mint(SStreasury.discretionary_fund, payout, "Standing Order: [order.name]", null, LEDGER_CROWN_REV_STANDING_ORDERS)
-	record_round_statistic(STATS_STANDING_ORDER_REVENUE, payout)
-	var/finished = !length(order.required_items)
-	if(finished)
-		record_round_statistic(STATS_STANDING_ORDERS_FULFILLED, 1)
-		order.is_fulfilled = TRUE
-		GLOB.standing_order_pool -= order
-	else
+	if(length(order.required_items))
 		order.total_payout = compute_order_payout(order)
-	if(user)
-		if(finished)
-			to_chat(user, span_notice("Order fulfilled: [format_mammon(payout)]m paid to the Treasury."))
-		else
-			to_chat(user, span_notice("Part delivered: [format_mammon(payout)]m paid to the Treasury."))
-		if(quality_delta > 0)
-			to_chat(user, span_green("Quality bonus: +[format_mammon(quality_delta)]m for quality goods."))
-		else if(quality_delta < 0)
-			to_chat(user, span_warning("Quality penalty: [format_mammon(quality_delta)]m for shoddy goods."))
-		log_game("STANDING ORDER [finished ? "FULFILLED" : "PART DELIVERED"] by [user.ckey]: [order.name] (+[format_mammon(payout)]m, quality_delta=[format_mammon(quality_delta)]m)")
-	return list("status" = finished ? "full" : "partial", "payout" = payout, "quality_delta" = quality_delta)
+		return FALSE
+	order.is_fulfilled = TRUE
+	GLOB.standing_order_pool -= order
+	return TRUE
 
 /datum/controller/subsystem/economy/proc/scan_equipment_availability(datum/standing_order/order, list/goods)
 	var/list/out = list()

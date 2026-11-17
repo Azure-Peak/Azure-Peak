@@ -27,7 +27,6 @@
 	var/residency_print_cooldown = 0
 	var/list/ledger_view = list()
 	var/list/petition_view = list()
-	COOLDOWN_DECLARE(fulfill_retry_cooldown)
 
 /obj/structure/roguemachine/steward/Initialize(mapload)
 	. = ..()
