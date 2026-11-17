@@ -110,6 +110,8 @@
 	sleep(1)
 	if(QDELETED(src))
 		return
+	if(isliving(thrower) && HAS_TRAIT(thrower, TRAIT_JURY_RIGGER))
+		prob2fail = 0
 	if(prob(prob2fail))
 		extinguish()
 		return
@@ -202,8 +204,9 @@
 		detonate(TRUE)
 		return PROCESS_KILL
 
-/obj/item/explosive/fused/bottle/shard // jury rig unique, so these bottlebombs have a chance to be recycled in pve combat
+/obj/item/explosive/fused/bottle/rigged // jury rig unique, so these bottlebombs have a chance to be recycled in pve combat
 	spawn_shard = TRUE
+	prob2fail = 80
 
 /obj/item/explosive/fused/bottle
 	name = "bottle bomb"
@@ -211,7 +214,7 @@
 	icon_state = "bbomb"
 	flags_ai_inventory = AI_ITEM_THROWING
 	fragile = TRUE
-	prob2fail = 5
+	prob2fail = 30
 	var/spawn_shard = FALSE
 	/// Radius of the weak fire left behind
 	var/firerange = 3
