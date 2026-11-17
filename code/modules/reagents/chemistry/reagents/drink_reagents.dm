@@ -84,7 +84,7 @@
 
 /datum/reagent/consumable/milk
 	name = "milk"
-	description = "An opaque white liquid produced by the mammary glands of mammals."
+	description = "Ichor of the udder."
 	color = "#DFDFDF" // rgb: 223, 223, 223
 	taste_description = "milk"
 	glass_icon_state = "glass_white"
@@ -117,99 +117,99 @@
 	hydration_factor = 10
 
 /datum/reagent/consumable/juice/lemon
-	cuisine = CUISINE_ETRUSCAN
-	name = "Lemon juice"
-	description = "An extremely tangy liquified lemon."
+	name = "juice of lemon"
+	description = "The sweet juice of a crushed lemon."
 	color = "#FFFF00"
 	quality = DRINK_NICE
-	taste_description = "extreme tangy-ness"
+	cuisine = CUISINE_ETRUSCAN
+	taste_description = "citrused sweetness"
 	metabolization_rate = 0.8 * REAGENTS_METABOLISM
 	hydration_factor = 8
 
 /datum/reagent/consumable/juice/lime
-	cuisine = CUISINE_RANESHENI
-	name = "Lime juice"
-	description = "An extremely tangy liquified lime."
+	name = "juice of lime"
+	description = "The sweetly tart juice of a crushed lime."
 	color = "#00FF00"
 	quality = DRINK_NICE
-	taste_description = "extreme tangy-ness"
+	cuisine = CUISINE_RANESHENI
+	taste_description = "citrused tartness"
 	metabolization_rate = 0.8 * REAGENTS_METABOLISM
 	hydration_factor = 8
 
 /datum/reagent/consumable/juice/tomato
-	cuisine = CUISINE_ETRUSCAN
-	name = "Tomato juice"
-	description = "A liquified tomato, thinner than tomato sauce, commonly used for mixed drinks."
+	name = "juice of tomato"
+	description = "The tangy juice of a crushed tomato, better suited for mixing drinks over saucing meals."
 	color = "#CD5320"
 	quality = DRINK_NICE
-	taste_description = "pure unfiltered tomato"
+	cuisine = CUISINE_ETRUSCAN
+	taste_description = "tangy tomatoness"
 	metabolization_rate = 0.8 * REAGENTS_METABOLISM
 	hydration_factor = 8
 
 /datum/reagent/consumable/juice/strawberry
-	cuisine = CUISINE_NORTH_IMPERIAL
-	name = "Strawberry juice"
-	description = "An extremely sweet liquified strawberry."
+	name = "juice of strawberry"
+	description = "The overwhemingly sweet juice of a crushed strawberry."
 	color = "#9A1B00"
 	quality = DRINK_NICE
-	taste_description = "extreme strawberry"
+	cuisine = CUISINE_NORTH_IMPERIAL
+	taste_description = "extreme sweetness"
 
 /datum/reagent/consumable/juice/pear
-	cuisine = CUISINE_SOUTHEASTERN
-	name = "Pear juice"
-	description = "A slightly tart and bittersweet pale juice from a pear."
+	name = "juice of pear"
+	description = "The slightly tart and bittersweet juice of a crushed pear."
 	color = "#D2B48C"
+	cuisine = CUISINE_SOUTHEASTERN
 	taste_description = "tarty sweetness"
 
 /datum/reagent/consumable/juice/apple
-	cuisine = CUISINE_SOUTHEASTERN
-	name = "Apple juice"
-	description = "A crisp and sweet golden juice from an apple."
+	name = "juice of apple"
+	description = "The crisp and sweet juice of a crushed apple."
 	color = "#E0BE6D"
+	cuisine = CUISINE_SOUTHEASTERN
 	taste_description = "pleasantly crisp appleness"
 
 /datum/reagent/consumable/juice/plum
-	cuisine = CUISINE_SOUTHEASTERN
-	name = "Plum juice"
-	description = "A very tart and bittersweet dark juice from a plum."
+	name = "juice of plum"
+	description = "The very tart and bittersweet juice of a crushed plum."
 	color = "#8B008B"
+	cuisine = CUISINE_SOUTHEASTERN
 	taste_description = "very tart with a little sweet"
 
 /datum/reagent/consumable/juice/blackberry
-	cuisine = CUISINE_NORTH_IMPERIAL|CUISINE_OTAVAIS
-	name = "Blackberry juice"
-	description = "A slightly tart and sweet dark juice from a blackberry."
+	name = "juice of blackberry"
+	description = "The slightly sweet and tart juice of a crushed blackberry."
 	color = "#272C3F"
+	cuisine = CUISINE_NORTH_IMPERIAL|CUISINE_OTAVAIS
 	taste_description = "slightly tart and very sweet"
 
 /datum/reagent/consumable/juice/raspberry
-	cuisine = CUISINE_SOUTHEASTERN
-	name = "Raspberry juice"
-	description = "A slightly tart and sweet red juice from a raspberry."
+	name = "juice of raspberry"
+	description = "The slightly tart and sweet juice of a crushed raspberry."
 	color = "#A01600"
+	cuisine = CUISINE_SOUTHEASTERN
 	taste_description = "slightly tart and a bit sweet"
 
 /datum/reagent/consumable/juice/jackberry
-	cuisine = CUISINE_SOUTH_IMPERIAL
-	name = "Jackberry juice"
-	description = "Juiced jackberries, the most azurian juice.."
+	name = "juice of jacksberry"
+	description = "Juiced jacksberries, churned from Azuria's favorite fruit."
 	color = "#4A3D63"
-	taste_description = "certainly not poisoned..."
+	cuisine = CUISINE_SOUTH_IMPERIAL
+	taste_description = "quintessential fruitiness"
 
 /datum/reagent/consumable/juice/pomegranate
-	cuisine = CUISINE_SOUTH_IMPERIAL
-	name = "Pomegranate juice"
-	description = "Blessed by Eora this juice is the most romantic of all juices."
+	name = "juice of pomegranate"
+	description = "Born from Eora's own blessed fruits, this juice is said to be the most romantic of all juices."
 	color = "#B3163A"
-	taste_description = "juicy and slightly bitter viscous liquid"
+	taste_description = "refreshingly tart"
+	cuisine = CUISINE_SOUTH_IMPERIAL
 	hydration_factor = 20
 
 /datum/reagent/consumable/juice/orange
-	cuisine = CUISINE_SOUTH_IMPERIAL
-	name = "Orange juice"
-	description = "A tangy and energizing juice of a tangerine."
+	name = "juice of orange"
+	description = "The tangy and energizing juice of a crushed tangerine."
 	color = "#FFA500"
-	taste_description = "citrusy sweetness."
+	taste_description = "citrused sweetness"
+	cuisine = CUISINE_SOUTH_IMPERIAL
 	hydration_factor = 12
 
 //drink mixes - post reagent reaction
