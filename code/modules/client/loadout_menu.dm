@@ -10,7 +10,6 @@
 /datum/loadout_menu
 	var/client/owner
 	var/list/gear_list = list()
-	var/preview = FALSE
 
 /datum/loadout_menu/New(client/C)
 	owner = C
@@ -140,7 +139,6 @@
 	data["total_triumph_cost"] = total_triumph_cost
 	data["effective_triumph_cost"] = max(0, total_triumph_cost - triumph_discount)
 	data["player_triumphs"] = user.get_triumphs() || 0
-	data["preview"] = preview
 	return data
 
 /datum/loadout_menu/ui_act(action, list/params, datum/tgui/ui, datum/ui_state/state)
@@ -248,9 +246,6 @@
 				owner.prefs.update_pref_data_for_all_viewers()
 			ui.close()
 			return TRUE
-
-		if("preview")
-			preview = !preview
 
 #undef LOADOUT_MAX_POINTS
 #undef LOADOUT_MAX_NAME_LEN

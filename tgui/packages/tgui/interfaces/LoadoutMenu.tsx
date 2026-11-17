@@ -117,7 +117,6 @@ type Data = {
   total_triumph_cost: number;
   effective_triumph_cost: number;
   player_triumphs: number;
-  preview: boolean;
 };
 
 export const LoadoutMenu = () => {
@@ -222,10 +221,10 @@ const TweakRow = (props: {
   itemName: string;
   meta: SelectedItem | undefined;
   colorChannels: string[];
+  preview: boolean;
 }) => {
-  const { itemName, meta, colorChannels } = props;
-  const { act, data } = useBackend<Data>();
-  const { preview } = data;
+  const { itemName, meta, colorChannels, preview } = props;
+  const { act } = useBackend<Data>();
 
   const [localName, setLocalName] = useState(meta?.custom_name || '');
   const [localDesc, setLocalDesc] = useState(meta?.custom_desc || '');
@@ -397,6 +396,7 @@ const LoadoutDisplay = () => {
   const [search, setSearch] = useState('');
   const [activeCategory, setActiveCategory] = useState('');
   const [compact, setCompact] = useState(false);
+  const [previewText, setPreviewText] = useState(false);
 
   const { act, data } = useBackend<Data>();
   const {
@@ -411,7 +411,6 @@ const LoadoutDisplay = () => {
     is_donator,
     triumph_discount,
     donator_bonus,
-    preview,
   } = data;
 
   const currentCategory = activeCategory || categories[0] || '';
@@ -490,8 +489,12 @@ const LoadoutDisplay = () => {
             </Button>
           </Stack.Item>
           <Stack.Item>
-            <Button color="good" fontSize={1.1} onClick={() => act('preview')}>
-              {preview ? '\u2713' : '\u25CB'} Toggle Preview
+            <Button
+              color="good"
+              fontSize={1.1}
+              onClick={() => setPreviewText(!previewText)}
+            >
+              {previewText ? '\u2713' : '\u25CB'} Preview Text
             </Button>
           </Stack.Item>
         </Stack>
@@ -586,6 +589,7 @@ const LoadoutDisplay = () => {
                       itemName={item.name}
                       meta={meta}
                       colorChannels={channelsMap.get(item.name) || ['primary']}
+                      preview={previewText}
                     />
                   ),
                 ];
