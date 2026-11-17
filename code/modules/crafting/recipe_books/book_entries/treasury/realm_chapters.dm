@@ -391,8 +391,7 @@
 
 		<p>A <b>drift</b> that is not zero means coin moved without being written down, or something
 		was written down that never happened. Common causes are an admin editing a balance directly,
-		an account vanishing without being closed out, or an entry refused as unbalanced. The morning
-		report warns when a line is out by half a mammon or more.</p>
+		an account vanishing without being closed out, or an entry refused as unbalanced.</p>
 		</div>
 	"}
 

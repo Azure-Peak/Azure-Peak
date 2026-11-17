@@ -71,7 +71,7 @@ GLOBAL_LIST_EMPTY(active_economic_events)
 		SSeconomy.event_path_cooldowns[type] = ECONOMY_DAY + ECON_EVENT_REROLL_COOLDOWN_DAYS
 	if(event_type == ECON_EVENT_SHORTAGE)
 		record_round_statistic(STATS_SHORTAGES_ENDED, 1)
-	var/list/diff = SSeconomy?.daily_report_diff
+	var/list/diff = SSeconomy?.dawn_digest
 	if(diff)
 		var/list/relieved = diff["events_relieved"]
 		if(!relieved)

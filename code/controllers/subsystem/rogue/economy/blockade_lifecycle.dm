@@ -60,9 +60,6 @@
 		return FALSE
 	gathering_blockades[subroute] = fid
 	var/datum/quest_faction/F = get_quest_faction(fid)
-	if(daily_report_diff)
-		var/list/gathering = daily_report_diff["blockades_gathering"]
-		gathering += "[get_subroute_name(subroute)] ([get_subroute_region_names(subroute)]) - [F ? "[F.group_word] of [F.name_plural]" : "raiders"]"
 	if(F)
 		scom_announce("<font color='#c44'>The scouts report a [F.group_word] of [F.name_plural] massing on the road to [get_subroute_region_names(subroute)]. It will be blocked at the next dawn.</font>")
 	return TRUE
@@ -92,10 +89,6 @@
 		ER.is_region_blockaded = TRUE
 	SStreasury.dirty_market_view()
 	record_round_statistic(STATS_BLOCKADES_FIRED, 1)
-	if(daily_report_diff)
-		var/list/fired = daily_report_diff["blockades_fired"]
-		var/datum/quest_faction/F = B.get_faction()
-		fired += "[B.get_name()] ([B.get_region_names()]) - [F ? "[F.group_word] of [F.name_plural]" : "raiders"]"
 	announce_blockade_start(B)
 	return B
 
@@ -109,9 +102,6 @@
 	GLOB.active_blockades -= B
 	if(reason == "cleared")
 		record_round_statistic(STATS_BLOCKADES_CLEARED, 1)
-		if(daily_report_diff)
-			var/list/cleared = daily_report_diff["blockades_cleared"]
-			cleared += "[B.get_name()] ([B.get_region_names()])"
 		announce_blockade_cleared(B)
 	qdel(B)
 

@@ -41,8 +41,6 @@
 	offer.day_issued = ECONOMY_DAY
 	offer.day_expires = ECONOMY_DAY + OFFER_DURATION
 	GLOB.region_offer_pool += offer
-	if(daily_report_diff)
-		daily_report_diff["offers_rolled"] = (daily_report_diff["offers_rolled"] || 0) + 1
 	return offer
 
 /datum/controller/subsystem/economy/proc/deliver_offer(good_id, units)

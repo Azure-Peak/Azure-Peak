@@ -5,7 +5,7 @@ SUBSYSTEM_DEF(economy)
 	var/last_processed_day = 0
 	var/roundstart_events_fired = FALSE
 	var/simulated_player_scalar = 0
-	var/list/daily_report_diff = null
+	var/list/dawn_digest = null
 	var/last_petition_day = -1
 	var/petitions_today = 0
 	var/blockade_replenish_spent = 0
@@ -27,16 +27,7 @@ SUBSYSTEM_DEF(economy)
 	return 1 + clamp(progress, 0, 1) * (TRIBUTE_POP_MAX_MULT - 1)
 
 /datum/controller/subsystem/economy/Initialize(mapload)
-	daily_report_diff = list(
-		"day" = ECONOMY_DAY,
-		"events_fired" = list(),
-		"events_expired" = list(),
-		"blockades_fired" = list(),
-		"blockades_cleared" = list(),
-		"blockades_gathering" = list(),
-		"orders_rolled" = 0,
-		"regular_orders_by_region" = list(),
-	)
+	dawn_digest = list("regular_orders_by_region" = list())
 	roundstart_events()
 	roundstart_blockades()
 	return ..()
@@ -46,19 +37,8 @@ SUBSYSTEM_DEF(economy)
 		return
 	last_processed_day = GLOB.dayspassed
 
-	// Roundstart Initialize pre-allocates the diff so Day 0 rolls are captured. Subsequent
-	// ticks allocate a fresh diff here. Either way, the day is stamped to the current one.
-	if(!daily_report_diff)
-		daily_report_diff = list(
-			"events_fired" = list(),
-			"events_expired" = list(),
-			"blockades_fired" = list(),
-			"blockades_cleared" = list(),
-			"blockades_gathering" = list(),
-			"orders_rolled" = 0,
-			"regular_orders_by_region" = list(),
-		)
-	daily_report_diff["day"] = ECONOMY_DAY
+	if(!dawn_digest)
+		dawn_digest = list("regular_orders_by_region" = list())
 
 	var/effective_pop = get_effective_player_count()
 
@@ -107,8 +87,8 @@ SUBSYSTEM_DEF(economy)
 
 	tick_offers(effective_pop)
 
-	var/list/relieved_today = daily_report_diff["events_relieved"]
-	var/list/by_region = daily_report_diff["regular_orders_by_region"]
+	var/list/relieved_today = dawn_digest["events_relieved"]
+	var/list/by_region = dawn_digest["regular_orders_by_region"]
 	var/list/dawn_parts = list()
 	if(length(by_region))
 		var/total_regular = 0
@@ -120,8 +100,7 @@ SUBSYSTEM_DEF(economy)
 	if(length(relieved_today))
 		scom_announce("<font color='#5cb85c'>RELIEF: [jointext(relieved_today, ", ")] ended. Prices are back to normal.</font>")
 
-	print_steward_report(daily_report_diff)
-	daily_report_diff = null
+	dawn_digest = null
 
 	if(SSmerchant_trade)
 		SSmerchant_trade.daily_tick()
@@ -173,15 +152,6 @@ SUBSYSTEM_DEF(economy)
 	GLOB.active_economic_events += E
 	E.on_apply()
 	record_round_statistic(STATS_ECON_EVENTS_FIRED, 1)
-	if(daily_report_diff)
-		var/list/fired = daily_report_diff["events_fired"]
-		fired += "[E.name] ([E.event_type == ECON_EVENT_SHORTAGE ? "shortage" : "glut"])"
-		var/bucket_key = E.event_type == ECON_EVENT_SHORTAGE ? "fired_shortage_names" : "fired_glut_names"
-		var/list/bucket = daily_report_diff[bucket_key]
-		if(!bucket)
-			bucket = list()
-			daily_report_diff[bucket_key] = bucket
-		bucket += E.name
 	return TRUE
 
 /datum/controller/subsystem/economy/proc/expire_economic_events()
@@ -194,9 +164,6 @@ SUBSYSTEM_DEF(economy)
 		GLOB.active_economic_events -= E
 		event_path_cooldowns[E.type] = ECONOMY_DAY + ECON_EVENT_REROLL_COOLDOWN_DAYS
 		record_round_statistic(STATS_ECON_EVENTS_EXPIRED, 1)
-		if(daily_report_diff)
-			var/list/ended = daily_report_diff["events_expired"]
-			ended += E.name
 
 /datum/controller/subsystem/economy/proc/good_steady_price(good_id)
 	var/datum/trade_good/tg = GLOB.trade_goods[good_id]
@@ -297,11 +264,9 @@ SUBSYSTEM_DEF(economy)
 	O.day_expires = ECONOMY_DAY + STANDING_ORDER_DURATION
 	O.total_payout = compute_order_payout(O)
 	GLOB.standing_order_pool += O
-	if(daily_report_diff)
-		daily_report_diff["orders_rolled"] = (daily_report_diff["orders_rolled"] || 0) + 1
-		if(!O.petitioned)
-			var/list/by_region = daily_report_diff["regular_orders_by_region"]
-			by_region[region.name] = (by_region[region.name] || 0) + 1
+	if(dawn_digest && !O.petitioned)
+		var/list/by_region = dawn_digest["regular_orders_by_region"]
+		by_region[region.name] = (by_region[region.name] || 0) + 1
 	return O
 
 
