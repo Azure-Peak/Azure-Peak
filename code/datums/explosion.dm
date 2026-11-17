@@ -171,7 +171,7 @@ GLOBAL_LIST_EMPTY(explosions)
 	//flash mobs
 	if(flash_range)
 		for(var/mob/living/L in viewers(flash_range, epicenter))
-			if(L == bomb_owner && HAS_TRAIT(L, TRAIT_BOMBER_EXPERT))
+			if(L == bomb_owner && HAS_TRAIT(L, TRAIT_BOMBER_EXPERT)) ///bomb experts get to avoid their own blasts blinding them.
 				continue
 			L.flash_act()
 
@@ -181,8 +181,7 @@ GLOBAL_LIST_EMPTY(explosions)
 	var/burn
 	if(!isnull(extreme_impact_range))
 		for(var/mob/living/L in viewers(extreme_impact_range, epicenter))
-			if(L == bomb_owner && HAS_TRAIT(L, TRAIT_BOMBER_EXPERT))
-				continue
+			///sadar: if you're in an extreme damage zone as the bomb-thrower, you are doing something extremely wrong. Throwing bombs for a living doesn't make you immune to dropping a nuclear bomb on yourself.
 			dist_epi = get_dist(L, epicenter)
 			brute = rand(100,250) / 5
 			burn = rand(100,250) / 5
@@ -193,10 +192,16 @@ GLOBAL_LIST_EMPTY(explosions)
 
 	if(!isnull(heavy_impact_range))
 		for(var/mob/living/L in viewers(heavy_impact_range, epicenter))
-			if(L == bomb_owner && HAS_TRAIT(L, TRAIT_BOMBER_EXPERT))
-				continue
 			dist_epi = get_dist(L, epicenter)
 			if(dist_epi <= extreme_impact_range)
+				continue
+			if(L == bomb_owner && HAS_TRAIT(L, TRAIT_BOMBER_EXPERT)) ///bomb experts take less damage from their own, sitting on a pile of 40 of them is still going to instantly obliterate you.
+				brute = rand(20,50) / 5
+				burn = rand(35,80) / 5
+				for(var/i in 1 to 5)
+					var/zone = pick(BODY_ZONE_HEAD,	BODY_ZONE_CHEST, BODY_ZONE_L_ARM, BODY_ZONE_R_ARM, BODY_ZONE_L_LEG, BODY_ZONE_R_LEG)
+					arcyne_strike(L, L, null, brute, zone, BCLASS_BLUNT, PEN_HEAVY, "heavy concussive impact", TRUE, TRUE, FALSE, BRUTE, null, TRUE)
+					arcyne_strike(L, L, null, burn, zone, BCLASS_BURN, PEN_HEAVY, "heavy concussive blast", TRUE, TRUE, FALSE, BURN, null, TRUE)
 				continue
 			brute = rand(30,120) / 5
 			burn = rand(50,180) / 5
@@ -207,7 +212,7 @@ GLOBAL_LIST_EMPTY(explosions)
 
 	if(!isnull(light_impact_range))
 		for(var/mob/living/L in viewers(light_impact_range, epicenter))
-			if(L == bomb_owner && HAS_TRAIT(L, TRAIT_BOMBER_EXPERT))
+			if(L == bomb_owner && HAS_TRAIT(L, TRAIT_BOMBER_EXPERT)) ///bomb experts can ignore their own light-impact ranges entirely.
 				continue
 			dist_epi = get_dist(L, epicenter)
 			if(dist_epi <= heavy_impact_range)

@@ -451,11 +451,12 @@
 	abstract_type = /obj/item/explosive/impact
 	fragile = TRUE
 	/// Bomber experts refuse to set this off in their hands
+	/// Also artificers, because they make these for a living
 	var/cautious = TRUE
 
 /obj/item/explosive/impact/attack_self(mob/user)
 	. = ..()
-	if(cautious && HAS_TRAIT(user, TRAIT_BOMBER_EXPERT))
+	if(cautious && (HAS_TRAIT(user, TRAIT_BOMBER_EXPERT) || HAS_TRAIT(user, TRAIT_ARTIFICER)))
 		to_chat(user, span_warning("Out of all the things you'd want to be fiddling with, you choose the worst? Bad idea."))
 		return
 	detonate()
