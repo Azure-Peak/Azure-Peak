@@ -39,6 +39,7 @@ export const OrdersView = (props: { data: Data }) => {
             regionCatalog={region_catalog}
             goodCatalog={good_catalog}
             onFulfill={() => act('fulfill_order', { ref: o.ref })}
+            onExtend={() => act('extend_order', { ref: o.ref })}
           />
         ))
       )}
@@ -51,6 +52,7 @@ type CardProps = {
   regionCatalog: Data['region_catalog'];
   goodCatalog: Data['good_catalog'];
   onFulfill: () => void;
+  onExtend: () => void;
 };
 
 const OrderCard = (props: CardProps) => {
@@ -158,10 +160,39 @@ const OrderCard = (props: CardProps) => {
           based on the quality of submitted items.
         </div>
       )}
-      <div style={{ marginTop: '8px' }}>
+      <div style={{ marginTop: '8px', display: 'flex', gap: '6px' }}>
         <FulfillButton order={o} onFulfill={props.onFulfill} />
+        <ZadButton
+          order={o}
+          cost={data.order_extend_cost}
+          isOfficial={!!data.petition?.is_steward_role}
+          onExtend={props.onExtend}
+        />
       </div>
     </div>
+  );
+};
+
+const ZadButton = (props: {
+  order: Order;
+  cost: number;
+  isOfficial: boolean;
+  onExtend: () => void;
+}) => {
+  const { order, cost, isOfficial } = props;
+  const blocker = !isOfficial
+    ? 'Only Crown officials can send a zad.'
+    : order.extend_blocker;
+  return (
+    <button
+      type="button"
+      disabled={!!blocker}
+      onClick={props.onExtend}
+      title={blocker || 'Send a zad to extend the request by one dae.'}
+      style={inkButtonStyle({ color: SEAL_AMBER, disabled: !!blocker })}
+    >
+      Send a zad - {cost}p
+    </button>
   );
 };
 

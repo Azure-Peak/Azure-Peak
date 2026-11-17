@@ -128,3 +128,31 @@ GLOBAL_LIST_INIT(petition_categories, build_petition_categories())
 	if(user)
 		to_chat(user, span_notice("Petition accepted: [O.name] posted at the warehouse for [O.total_payout]m."))
 	return TRUE
+
+/datum/controller/subsystem/economy/proc/extend_blocker(datum/standing_order/order)
+	if(!order || order.is_fulfilled || !(order in GLOB.standing_order_pool))
+		return "the order is gone"
+	if(istype(order, /datum/standing_order/urgent))
+		return "urgent orders can't be extended"
+	if(!SStreasury.burgher_pledge_fund)
+		return "Odd! There's no burgher's pledge fund."
+	if(SStreasury.burgher_pledge_fund.balance < STANDING_ORDER_EXTEND_COST)
+		return "not enough Burgher Pledge (need [STANDING_ORDER_EXTEND_COST]p)"
+	return null
+
+/datum/controller/subsystem/economy/proc/extend_order(mob/user, datum/standing_order/order)
+	var/blocker = extend_blocker(order)
+	if(blocker)
+		if(user)
+			to_chat(user, span_warning("No zad sent: [blocker]."))
+		return FALSE
+	if(!SStreasury.burn(SStreasury.burgher_pledge_fund, STANDING_ORDER_EXTEND_COST, "Order extension - [order.name]", ledger_acct(LEDGER_BOOK_PLEDGE, LEDGER_KEY_EXPENSE)))
+		if(user)
+			to_chat(user, span_warning("No zad sent: the Burgher Pledge could not cover the cost."))
+		return FALSE
+	record_round_statistic(STATS_PLEDGE_CONSUMED, STANDING_ORDER_EXTEND_COST)
+	order.day_expires += STANDING_ORDER_EXTEND_DAYS
+	log_game("ORDER EXTENDED: [user ? key_name(user) : "system"] extended [order.name] to day [order.day_expires] (-[STANDING_ORDER_EXTEND_COST]p)")
+	if(user)
+		to_chat(user, span_notice("A zad flies off. [order.name] lasts another dae."))
+	return TRUE

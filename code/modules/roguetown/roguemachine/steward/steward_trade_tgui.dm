@@ -23,6 +23,7 @@
 /obj/structure/roguemachine/steward/ui_static_data(mob/user)
 	var/list/data = list()
 	data["order_pool_cap"] = STANDING_ORDERS_POOL_CAP
+	data["order_extend_cost"] = STANDING_ORDER_EXTEND_COST
 	data["quality_payouts"] = list(
 		list("label" = "worn", "pct" = round(ITEM_QUALITY_MULT_WORN * 100)),
 		list("label" = "ruined", "pct" = round(ITEM_QUALITY_MULT_RUINED * 100)),
@@ -232,6 +233,7 @@
 			"deliverable_payout" = mammon_round(deliverable_payout),
 			"shortfall_text" = shortfall,
 			"petitioned" = O.petitioned ? TRUE : FALSE,
+			"extend_blocker" = SSeconomy.extend_blocker(O) || "",
 		))
 	data["active_orders"] = orders
 
@@ -418,6 +420,15 @@ GLOBAL_LIST_INIT(steward_trade_sequestration_locked_actions, list(
 				petition_view[usr.ckey] = template
 			else
 				petition_view -= usr.ckey
+			SStgui.update_uis(src)
+			return TRUE
+		if("extend_order")
+			if(!(usr.job in GLOB.crown_authority_roles))
+				to_chat(usr, span_warning("Only Crown officials can send a zad."))
+				return TRUE
+			var/datum/standing_order/O = locate(params["ref"]) in GLOB.standing_order_pool
+			if(O)
+				SSeconomy.extend_order(usr, O)
 			SStgui.update_uis(src)
 			return TRUE
 		if("petition_for_order")

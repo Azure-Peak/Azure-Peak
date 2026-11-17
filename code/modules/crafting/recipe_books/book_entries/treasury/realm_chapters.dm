@@ -154,6 +154,9 @@
 		<p><b>Partial delivery:</b> an order can be delivered in parts. Each unit
 		is paid in full and an order stay open until it expires.</p>
 
+		<p><b>Extension:</b> Crown officials can spend Burgher Pledge at the Nerve
+		Master to send a zad and keep an order open another dae.</p>
+
 		<h3>Limits</h3>
 		<p>Each region will have one order at a time. Blockaded regions can have orders but cannot be delivered to.</p>
 		</div>

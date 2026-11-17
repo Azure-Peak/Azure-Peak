@@ -182,6 +182,7 @@ export type LedgerPage = {
 
 export type StaticData = {
   order_pool_cap: number;
+  order_extend_cost: number;
   quality_payouts: { label: string; pct: number }[];
   good_catalog: Record<string, GoodCatalogEntry>;
   region_catalog: Record<string, RegionCatalogEntry>;
@@ -214,6 +215,7 @@ export type Order = {
   deliverable_payout: number;
   shortfall_text: string;
   petitioned: BooleanLike;
+  extend_blocker: string;
 };
 
 export type EconomicEvent = {
