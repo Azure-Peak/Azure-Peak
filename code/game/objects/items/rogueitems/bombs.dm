@@ -464,6 +464,7 @@
 /obj/item/explosive/impact/shrapnel
 	/// Number of shrapnel fragments flung outwards on detonation
 	var/shards = 10
+	grid_height = 64 //for now, we have bombardier holsters for these - belchers require bronze at least
 
 /obj/item/explosive/impact/shrapnel/blast(turf/T, forced)
 	var/critbang = 0
