@@ -105,6 +105,8 @@
 #define MARKET_RATIO_STEADY 80
 #define MARKET_RATIO_LOW 65
 #define MARKET_RATIO_SCARCE 50
+// How much stock can dip below 0 relative to the target before you completely run out of stock. This put some limit on market elasticity to avoid infinite goods supply.
+#define MARKET_RATIO_OUT_OF_STOCK -50
 
 #define MARKET_GLUT_SHOCK 300
 

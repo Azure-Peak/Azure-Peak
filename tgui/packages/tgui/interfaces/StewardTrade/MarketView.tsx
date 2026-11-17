@@ -139,7 +139,7 @@ const StockpileStrip = (props: { row: MarketRow }) => {
   const buyFromMarket = () => {
     if (cannotBuy) return;
     const raw = window.prompt(
-      `Buy how many ${goodName} from the market? The Treasury pays.`,
+      `Buy how many ${goodName} from the market? ${row.market_left} left before it is out of stock. This is paid from the treasury.`,
       '1',
     );
     if (raw === null) return;
@@ -171,8 +171,8 @@ const StockpileStrip = (props: { row: MarketRow }) => {
         onClick={sellToMarket}
         title={
           row.never_supplied
-            ? 'The market does not take this good.'
-            : `Sell royal stock to the market. The first sells for ${formatMammon(row.market_sell)}m, and the price falls as the market fills.`
+            ? 'The market is closed.'
+            : `Sell royal stock to the market. The first sells for ${formatMammon(row.market_sell)}m.`
         }
       >
         Sell to Market
@@ -184,10 +184,10 @@ const StockpileStrip = (props: { row: MarketRow }) => {
         onClick={buyFromMarket}
         title={
           row.never_supplied
-            ? 'The market does not supply this good.'
+            ? 'The market is closed.'
             : row.sold_out
-              ? 'The market is out of this good.'
-              : `Buy from the market into royal stock, paid by the Treasury. The first costs ${formatMammon(row.market_buy)}m, and the price rises as the market empties.`
+              ? 'The market is out of stock.'
+              : `Buy from the market into royal stock, paid by the Treasury. The first costs ${formatMammon(row.market_buy)}m.`
         }
       >
         Buy from Market

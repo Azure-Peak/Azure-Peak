@@ -339,7 +339,8 @@
 			"market_buy" = entry.market_ask(1),
 			"market_sell" = entry.market_bid(1),
 			"never_supplied" = entry.market_never_supplies ? TRUE : FALSE,
-			"sold_out" = (entry.market_stock <= 0 && !entry.market_has_supply()) ? TRUE : FALSE,
+			"market_left" = entry.market_available(),
+			"sold_out" = entry.market_available() <= 0 ? TRUE : FALSE,
 			"event_tag" = event_tag,
 		))
 

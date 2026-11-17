@@ -691,7 +691,7 @@ SUBSYSTEM_DEF(economy)
 	if(!D)
 		return 0
 	if(D.market_never_supplies)
-		to_chat(user, span_warning("The market does not take [D.name]."))
+		to_chat(user, span_warning("The market is closed."))
 		return 0
 	if(D.royal_stock <= 0)
 		to_chat(user, span_warning("There is no [D.name] in the royal stockpile."))
@@ -715,20 +715,18 @@ SUBSYSTEM_DEF(economy)
 	if(!D)
 		return 0
 	if(D.market_never_supplies)
-		to_chat(user, span_warning("The market does not supply [D.name]."))
+		to_chat(user, span_warning("The market is closed."))
 		return 0
 	D.refresh_auto_price()
-	quantity = min(round(quantity), TRADE_MAX_BULK_UNITS)
-	if(!D.market_has_supply())
-		quantity = min(quantity, D.market_stock)
+	quantity = min(round(quantity), TRADE_MAX_BULK_UNITS, D.market_available())
 	if(quantity <= 0)
-		to_chat(user, span_warning("The market is out of [D.name]."))
+		to_chat(user, span_warning("[D.name] is out of stock."))
 		return 0
 	var/cost = D.market_ask(quantity)
 	if(!SStreasury.burn(SStreasury.discretionary_fund, cost, "Market Purchase: [quantity] [D.name] by [user.real_name]", LEDGER_CROWN_EXP_STOCKPILE))
 		to_chat(user, span_warning("The Treasury can't afford this. It has [format_mammon(SStreasury.discretionary_fund.balance)]m and needs [format_mammon(cost)]m."))
 		return 0
-	D.market_stock = max(0, D.market_stock - quantity)
+	D.market_stock -= quantity
 	D.royal_stock += quantity
 	D.check_glut_relief()
 	SStreasury.dirty_market_view()

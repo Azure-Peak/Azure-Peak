@@ -15,7 +15,7 @@
 	. += span_info("Left-click with an open hand to see the stockpile. Put in mammon to buy goods from it.")
 	. += span_info("Left-click the machine with an item to sell it into the stockpile. You're paid into your MEISTER account. The machine won't take your goods unless you have an account.")
 	. += span_info("Right-clicking the machine will automatically load all adjacent items into the stockpile at once.")
-	. += span_info("Goods sold here go into the market or the royal stockpile. This changes the market price.")
+	. += span_info("Goods sold here go into the market. Roles with royal subsidy sell into the royal stockpile instead.")
 /obj/structure/roguemachine/stockpile/Initialize(mapload)
 	. = ..()
 	SSroguemachine.stock_machines += src
@@ -77,7 +77,7 @@
 			"limit" = R.market_target,
 			"royal_amount" = R.royal_stock,
 			"never_supplied" = R.market_never_supplies ? TRUE : FALSE,
-			"sold_out" = (R.market_stock <= 0 && !R.market_has_supply()) ? TRUE : FALSE,
+			"sold_out" = R.market_available() <= 0 ? TRUE : FALSE,
 			"next_buy" = R.market_next_buy_change(),
 			"next_sell" = R.market_next_sell_change(),
 			"segments" = R.market_segments(),

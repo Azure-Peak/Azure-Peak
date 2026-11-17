@@ -63,6 +63,14 @@
 			return TRUE
 	return FALSE
 
+/datum/roguestock/proc/market_out_of_stock_level()
+	if(!market_has_supply())
+		return 0
+	return CEILING(market_target * MARKET_RATIO_OUT_OF_STOCK / 100, 1)
+
+/datum/roguestock/proc/market_available()
+	return max(0, market_stock - market_out_of_stock_level())
+
 /datum/roguestock/proc/market_step(stock)
 	var/ratio = stock * 100 / market_target
 	if(ratio >= MARKET_RATIO_OVERSTOCKED)
@@ -181,7 +189,10 @@
 	return stockpile_price(market_base_price() * market_step_multiplier(step) / 100)
 
 /datum/roguestock/proc/market_next_buy_change()
-	var/stock = max(0, market_stock) - 1
+	var/out_of_stock = market_out_of_stock_level()
+	if(market_stock <= out_of_stock)
+		return null
+	var/stock = market_stock - 1
 	var/step = market_step(stock)
 	var/price = market_unit_ask(stock)
 	var/count = 0
@@ -192,10 +203,13 @@
 		var/next_price = market_unit_ask(stock)
 		if(next_price != price)
 			return list("count" = count, "price" = next_price)
-	return null
+	count += stock - out_of_stock + 1
+	if(count <= 0)
+		return null
+	return list("count" = count, "price" = null)
 
 /datum/roguestock/proc/market_next_sell_change()
-	var/stock = max(0, market_stock) + 1
+	var/stock = market_stock + 1
 	var/step = market_step(stock)
 	var/price = stockpile_price(market_unit_ask(stock) * STOCKPILE_BID_RATIO)
 	var/count = 0
@@ -215,7 +229,7 @@
 		var/shown = market_zone_step(step)
 		segments += list(list(
 			"label" = market_step_label(shown),
-			"from" = market_step_min_stock(step),
+			"from" = step == MARKET_STEP_VERY_SCARCE ? market_out_of_stock_level() : market_step_min_stock(step),
 			"to" = step == MARKET_STEP_OVERSTOCKED ? null : market_step_min_stock(step - 1) - 1,
 			"price" = market_step_unit_ask(shown),
 		))

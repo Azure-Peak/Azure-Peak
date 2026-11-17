@@ -249,6 +249,7 @@ export type MarketRow = {
   market_buy: number;
   market_sell: number;
   never_supplied: BooleanLike;
+  market_left: number;
   sold_out: BooleanLike;
   event_tag: string;
 };

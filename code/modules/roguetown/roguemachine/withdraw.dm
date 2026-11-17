@@ -79,7 +79,7 @@
 			"limit" = R.market_target,
 			"royal_amount" = R.royal_stock,
 			"never_supplied" = R.market_never_supplies ? TRUE : FALSE,
-			"sold_out" = (R.market_stock <= 0 && !R.market_has_supply()) ? TRUE : FALSE,
+			"sold_out" = R.market_available() <= 0 ? TRUE : FALSE,
 			"next_buy" = R.market_next_buy_change(),
 			"next_sell" = R.market_next_sell_change(),
 			"segments" = R.market_segments(),

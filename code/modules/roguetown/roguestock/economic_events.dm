@@ -67,7 +67,7 @@ GLOBAL_LIST_EMPTY(active_economic_events)
 		if(event_type == ECON_EVENT_OVERSUPPLY)
 			D.market_stock = max(D.market_stock, CEILING(D.market_target * MARKET_GLUT_SHOCK / 100, 1))
 		else if(event_type == ECON_EVENT_SHORTAGE)
-			D.market_stock = 0
+			D.market_stock = min(D.market_stock, 0)
 	SStreasury.dirty_market_view()
 
 /datum/economic_event/proc/end_with_relief()

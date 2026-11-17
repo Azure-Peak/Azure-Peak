@@ -36,7 +36,7 @@ type StockRow = {
   royal_amount: number;
   never_supplied: BooleanLike;
   sold_out: BooleanLike;
-  next_buy: PriceChange | null;
+  next_buy: BuyChange | null;
   next_sell: PriceChange | null;
   segments: MarketSegment[];
   market_label: string;
@@ -49,6 +49,11 @@ type StockRow = {
 type PriceChange = {
   count: number;
   price: number;
+};
+
+type BuyChange = {
+  count: number;
+  price: number | null;
 };
 
 type MarketSegment = {
@@ -99,6 +104,13 @@ const StockRowView = (props: {
   const canWithdraw =
     !embargoed &&
     ((!row.sold_out && row.withdraw_price <= data.budget) || subsidyCovers);
+  const subsidyUnits = Math.min(
+    Math.floor(
+      Math.round(data.subsidy_remaining * 100) /
+        Math.round(row.withdraw_price * 100),
+    ),
+    row.royal_amount > 0 ? row.royal_amount : (row.next_buy?.count ?? 1),
+  );
   return (
     <div
       style={{
@@ -182,8 +194,8 @@ const StockRowView = (props: {
             }}
             title={
               row.next_sell
-                ? `The next ${row.next_sell.count} sell for ${formatMammon(row.deposit_price)}m each. After that, ${formatMammon(row.next_sell.price)}m.`
-                : 'The price will not fall further.'
+                ? `Next ${row.next_sell.count} at ${formatMammon(row.deposit_price)}m. After that, ${formatMammon(row.next_sell.price)}m.`
+                : undefined
             }
           >
             Sell {formatMammon(row.deposit_price)}m
@@ -201,10 +213,12 @@ const StockRowView = (props: {
           onClick={() => act('withdraw', { ref: row.ref })}
           title={
             subsidyCovers
-              ? `Your royal subsidy pays. ${formatMammon(data.subsidy_remaining)}m of it left today.`
+              ? `Next ${subsidyUnits} at ${formatMammon(row.withdraw_price)}m. Paid from royal subsidy.`
               : row.next_buy
-                ? `The next ${row.next_buy.count} cost ${formatMammon(row.withdraw_price)}m each. After that, ${formatMammon(row.next_buy.price)}m.`
-                : 'The price will not rise further.'
+                ? row.next_buy.price === null
+                  ? `Last ${row.next_buy.count} at ${formatMammon(row.withdraw_price)}m.`
+                  : `Next ${row.next_buy.count} at ${formatMammon(row.withdraw_price)}m. After that, ${formatMammon(row.next_buy.price)}m.`
+                : 'The market is out of stock.'
           }
         >
           {embargoed
@@ -225,12 +239,14 @@ const MarketBar = (props: { row: StockRow }) => {
   if (!segments.length) {
     return null;
   }
+  const first = segments[0];
   const last = segments[segments.length - 1];
   const tail = Math.max(2, Math.round(last.from * 0.25));
-  const span = last.from + tail;
+  const span = last.from - first.from + tail;
   const width = (seg: MarketSegment) =>
     ((seg.to === null ? tail : seg.to - seg.from + 1) / span) * 100;
-  const marker = (Math.min(Math.max(row.amount, 0), span) / span) * 100;
+  const marker =
+    (Math.min(Math.max(row.amount - first.from, 0), span) / span) * 100;
   return (
     <div
       style={{
@@ -249,7 +265,7 @@ const MarketBar = (props: { row: StockRow }) => {
         return (
           <div
             key={seg.label}
-            title={`${seg.label}: ${seg.from}${seg.to === null ? '+' : `-${seg.to}`} in stock, buy ${formatMammon(seg.price)}m`}
+            title={`${seg.label}: ${seg.from}${seg.to === null ? '+' : ` to ${seg.to}`} in stock, buy ${formatMammon(seg.price)}m`}
             style={{
               width: `${width(seg)}%`,
               background: color,
@@ -321,17 +337,17 @@ export const Stockpile = () => {
             {!!data.food_stipend && (
               <span
                 style={{ color: SEAL_GREEN }}
-                title={`Roles with royal subsidy purchase from the market using treasury fund, so long as there's enough fund above the treasury floor (${formatMammon(data.treasury_floor)}m) to cover the cost. Selling goods will go directly into the royal stockpile instead of the market`}
+                title={`Roles with royal subsidy will pull from the royal stockpile, and then buy from the market using treasury money if the royal stock is empty, so long as there's enough fund above the treasury floor (${formatMammon(data.treasury_floor)}m) to cover the cost. Selling goods will go directly into the royal stockpile instead of the market`}
               >
                 Royal Subsidy {formatMammon(data.subsidy_remaining)}m
               </span>
             )}
             {!!data.food_stipend && !!data.below_floor && (
-              <span style={{ color: SEAL_RED }}>crown ledger thin</span>
+              <span style={{ color: SEAL_RED }}>The Crown is broke</span>
             )}
             <span
               style={{ color: INK_SOFT }}
-              title="Every dae other traders will correct the market and adjust the stocks and price toward the norm, according to regional demand and supply. This will only apply on non-blockaded region"
+              title="Every dae traders will arrive and adjust the stocks and price toward the norm, according to regional supply and demand. This will only apply on non-blockaded region"
             >
               Next market dae in {data.next_market_day_minutes}{' '}
               {data.next_market_day_minutes === 1 ? 'minute' : 'minutes'}
