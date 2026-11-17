@@ -202,6 +202,9 @@
 		detonate(TRUE)
 		return PROCESS_KILL
 
+/obj/item/explosive/fused/bottle/shard // jury rig unique, so these bottlebombs have a chance to be recycled in pve combat
+	spawn_shard = TRUE
+
 /obj/item/explosive/fused/bottle
 	name = "bottle bomb"
 	desc = "A fiery explosion waiting to be coaxed from its glass prison."
@@ -235,12 +238,9 @@
 	for(var/mob/living/target in range(1, T))
 		if(target == thrower && can_crit)
 			continue
-		if(target.mob_timers[MT_BOMB_HIT] && world.time < target.mob_timers[MT_BOMB_HIT] + BOMB_HIT_IMMUNITY_DURATION)
-			continue
-		target.mob_timers[MT_BOMB_HIT] = world.time
 
 		if(spawn_shard)
-			embed_bomb_shrapnel(target, /obj/item/natural/glass_shard/shrapnel)
+			embed_bomb_shrapnel(target, /obj/item/natural/glass_shard)
 
 		var/scorched = get_scorch_stacks(target)
 		var/armor = target.run_armor_check(BODY_ZONE_CHEST, "fire", blade_dulling = BCLASS_BURN, damage = PVE_damage, no_debuff = TRUE)
@@ -462,7 +462,7 @@
 
 /obj/item/explosive/impact/shrapnel
 	/// Number of shrapnel fragments flung outwards on detonation
-	var/shards = 10
+	var/shards = 5 // reduced to 5 from 10
 
 /obj/item/explosive/impact/shrapnel/blast(turf/T, forced)
 	var/critbang = 0
@@ -583,21 +583,6 @@
 	smokesound = 'sound/items/smokebomb.ogg'
 	smokevol = 50
 
-/obj/item/natural/glass_shard/shrapnel
-	name = "jagged shard"
-	embedding = list("embedded_pain_multiplier" = 1.2, "embed_chance" = 100, "embedded_fall_chance" = 0)
-
-/obj/item/natural/glass_shard/shrapnel/dropped(mob/user)
-	. = ..()
-	if(QDELETED(src))
-		return
-	if(prob(25))
-		return
-	var/turf/T = get_turf(user)
-	qdel(src)
-	if(T)
-		new /obj/effect/decal/cleanable/debris/glassy(T)
-
 /obj/item/bomb_shrapnel
 	name = "jagged shrapnel"
 	desc = "A jagged fragment of explosive debris. Tough luck..."
@@ -615,7 +600,7 @@
 		new /obj/effect/decal/cleanable/debris/stony(T)
 
 // speshul embed that checks your armor durability percentage and tries to go through it, the more damaged your armor(s), the more likely you'll get shrapnel, and vice versa
-/proc/embed_bomb_shrapnel(mob/living/target, shrapnel_type = /obj/item/natural/glass_shard/shrapnel, most = 3)
+/proc/embed_bomb_shrapnel(mob/living/target, shrapnel_type = /obj/item/natural/glass_shard, most = 3)
 	if(!target || !iscarbon(target))
 		return FALSE
 

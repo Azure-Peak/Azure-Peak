@@ -489,25 +489,23 @@ GLOBAL_LIST_EMPTY(explosions)
 // 5 explosion power is a (0, 1, 3) explosion.
 // 1 explosion power is a (0, 0, 1) explosion.
 
-#define BLAST_LENIENCE_MAX_STACKS 8
-#define BLAST_LENIENCE_MULTIPLIER_PER_STACK 0.5
+#define BLAST_LENIENCE_MULTIPLIER_PER_STACK 0.5 // we can adjust the percentage here
 
 /// no buff means 100% dmg taken so call this BEFORE gain_blast_lenience() so the first hit is full dmg
 /mob/living/proc/get_blast_lenience_multiplier()
 	var/datum/status_effect/buff/blast_lenience/B = has_status_effect(/datum/status_effect/buff/blast_lenience)
-	var/mult = B ? B.get_multiplier() : 1
-	return mult
+	return B ? B.get_multiplier() : 1
 
 /mob/living/proc/gain_blast_lenience()
 	var/datum/status_effect/buff/blast_lenience/B = has_status_effect(/datum/status_effect/buff/blast_lenience)
 	if(B)
 		B.add_stack()
 	else
-		var/datum/status_effect/buff/blast_lenience/new_buff = apply_status_effect(/datum/status_effect/buff/blast_lenience)
+		apply_status_effect(/datum/status_effect/buff/blast_lenience)
 
 /atom/movable/screen/alert/status_effect/buff/blast_lenience
-	name = "Blast Lenience"
-	desc = "I'm dazed and braced from the last explosion. The next blast will hurt less."
+	name = "Bracing"
+	desc = "I'm dazed and braced from the last explosion. The next blasts within this duration will hurt less."
 	icon_state = "buff"
 
 /datum/status_effect/buff/blast_lenience
@@ -518,19 +516,12 @@ GLOBAL_LIST_EMPTY(explosions)
 	examine_text = null
 	var/stacks = 1
 
-/datum/status_effect/buff/blast_lenience/on_apply()
-	. = ..()
-
-/datum/status_effect/buff/blast_lenience/on_remove()
-	. = ..()
-
-/// adds a stack w/o touching the timer, so the grace period runs from the first explosion, this is to encourage people to space out their bombs a little
+/// adds a stack w/o touching the timer, so the 5s grace period runs from the first explosion, this is to encourage people to space out their explosions a little and make this more fair
 /datum/status_effect/buff/blast_lenience/proc/add_stack()
-	stacks = min(stacks + 1, BLAST_LENIENCE_MAX_STACKS)
+	stacks += 1
 
 /// 1 stack = 50%, 2 stacks = 25%, 3 stacks = 12.5%, so on so forth, until its dealing negligible damage
 /datum/status_effect/buff/blast_lenience/proc/get_multiplier()
 	return BLAST_LENIENCE_MULTIPLIER_PER_STACK ** stacks
 
-#undef BLAST_LENIENCE_MAX_STACKS
 #undef BLAST_LENIENCE_MULTIPLIER_PER_STACK

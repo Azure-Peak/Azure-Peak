@@ -72,7 +72,7 @@
 
 //................	Glass shard	............... //
 /obj/item/natural/glass_shard
-	name = "shard"
+	name = "glass shard"
 	desc = "A sharp shard of glass. Mind the jagged edge, especially if you lack a tough sole."
 	icon = 'icons/roguetown/items/crafting.dmi'
 	experimental_inhand = FALSE
@@ -88,6 +88,7 @@
 	max_integrity = 40
 	smeltresult = /obj/item/natural/glass
 	dropshrink = 0.8
+	embedding = list("embedded_unsafe_removal_time" = 20, "embedded_pain_chance" = 10, "embedded_pain_multiplier" = 1, "embed_chance" = 35, "embedded_fall_chance" = 0) // same as thorn
 
 /obj/item/natural/glass_shard/Initialize(mapload)
 	. = ..()
