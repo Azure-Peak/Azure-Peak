@@ -1084,26 +1084,28 @@ GLOBAL_DATUM_INIT(_corpse_sort_ref, /mob, null)
 /datum/action/cooldown/spell/necra/vengeful_spirits/cast(atom/cast_on)
 	. = ..()
 	var/mob/living/user = owner
-	if(!istype(user))
-		return FALSE
-	if(!isliving(cast_on))
-		to_chat(user, span_warning("The spirits need a target to gather around."))
-		return FALSE
 	var/mob/living/target = cast_on
+	if(!istype(user) || !istype(target))
+		return FALSE
 	if(target.stat == DEAD)
 		to_chat(user, span_warning("The dead should be left to rest. You know what to do."))
 		return FALSE
-	var/mob/living/ward_target = user
-	if(target != user && user.current_fellowship && target.current_fellowship == user.current_fellowship)
-		ward_target = target
-	if(ward_target.has_status_effect(/datum/status_effect/buff/vengeful_ward))
-		to_chat(user, span_warning(ward_target == user ? "The spirits already circle me." : "The spirits already circle them."))
-		return FALSE
-	ward_target.apply_status_effect(/datum/status_effect/buff/vengeful_ward, crow_mode)
+
+	// Ward: self, fellowship ally, or caster not in cmode. Hostile: someone else, caster in cmode.
+	var/is_ward = (target == user) || !user.cmode || (user.current_fellowship && target.current_fellowship == user.current_fellowship)
+
+	if(is_ward)
+		if(target.has_status_effect(/datum/status_effect/buff/vengeful_ward))
+			to_chat(user, span_warning(target == user ? "The spirits already circle me." : "The spirits already circle them."))
+			return FALSE
+		target.apply_status_effect(/datum/status_effect/buff/vengeful_ward, crow_mode)
+
 	play_summon_sound(user, crow_mode)
-	for(var/turf/T as anything in get_spawn_turfs(user))
-		var/mob/living/simple_animal/hostile/rogue/spirit_vengeance/avenging/spirit = new(T, user, crow_mode)
-		spirit.assign_target(target)
+	var/atom/center = is_ward ? target : user
+	for(var/turf/T as anything in get_spawn_turfs(center))
+		var/mob/living/simple_animal/hostile/rogue/spirit_vengeance/avenging/spirit = new(T, center, crow_mode)
+		if(!is_ward)
+			spirit.assign_target(target)
 	return TRUE
 
 /datum/action/cooldown/spell/necra/vengeful_spirits/proc/play_summon_sound(mob/living/user, crow)
@@ -1131,10 +1133,10 @@ GLOBAL_DATUM_INIT(_corpse_sort_ref, /mob, null)
 /datum/status_effect/debuff/vengeful_spirit
 	id = "vengeful_spirit"
 	status_type = STATUS_EFFECT_MULTIPLE
-	duration = 30 SECONDS
-	tick_interval = 5 SECONDS // slowed this down due to noise spam
 	alert_type = null // managed manually below cause of a runtime
-	var/tick_damage = 2.25 // deals 2.25 fire and 2.25 brute damage every 5 seconds for 30 seconds, totaling 27 damage at 1 stack and 81 damage at 3 stacks (using Sacred Fire as the capstone)
+	duration = 30 SECONDS
+	tick_interval = 4 SECONDS
+	var/tick_damage = 2 // 2 fire + 2 brute every 4 seconds for 30 seconds (7 ticks), totaling 28 damage at 1 stack and 84 at 3 stacks
 	var/crow_form = FALSE
 	var/obj/effect/vengeful_orbiter/orbiter
 
