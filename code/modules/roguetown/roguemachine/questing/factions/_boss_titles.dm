@@ -16,7 +16,7 @@ GLOBAL_LIST_INIT(boss_class_titles, list(
 	BOSS_CLASS_HELL_GOBLIN_CHIEF = list("Hellchief %N", "%N of the Ember", "%N the Scorched"),
 	BOSS_CLASS_WARLORD = list("Warlord %N", "%N Skullcleaver", "%N the Mighty", "%N the Pillager", "Chieftain %N"),
 	BOSS_CLASS_SCOURGE = list("%N the Scourge", "%N the Venomed", "%N of the Shadow", "Matron %N", "%N the Spiderkin"),
-	BOSS_CLASS_LICH = list("%N the Lich", "%N the Unsleeping", "%N the Bound", "Sir %N", "%N the Forsworn"),
+	BOSS_CLASS_LICH = list("%N the Deathknight", "%N the Unsleeping", "%N the Bound", "%N the Undying"),
 	BOSS_CLASS_WATCHER = list("%N the Watcher", "%N the Watchful", "%N of the Ember", "%N the Cinder Eye"),
 ))
 
