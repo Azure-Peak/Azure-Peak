@@ -184,12 +184,14 @@ GLOBAL_LIST_EMPTY(explosions)
 			if(L == bomb_owner && HAS_TRAIT(L, TRAIT_BOMBER_EXPERT))
 				continue
 			dist_epi = get_dist(L, epicenter)
-			brute = rand(100,250) / 5
-			burn = rand(100,250) / 5
+			var/lenience = L.get_blast_lenience_multiplier()
+			brute = (rand(100,250) / 5) * lenience
+			burn = (rand(100,250) / 5) * lenience
 			for(var/i in 1 to 5)
 				var/zone = pick(BODY_ZONE_HEAD, BODY_ZONE_CHEST, BODY_ZONE_L_ARM, BODY_ZONE_R_ARM, BODY_ZONE_L_LEG, BODY_ZONE_R_LEG)
 				arcyne_strike(L, L, null, brute, zone, BCLASS_BLUNT, PEN_BSTEEL, "extreme concussive impact", TRUE, TRUE, FALSE, BRUTE, null, TRUE)
 				arcyne_strike(L, L, null, burn, zone, BCLASS_BURN, PEN_BSTEEL, "extreme concussive blast", TRUE, TRUE, FALSE, BURN, null, TRUE)
+			L.gain_blast_lenience()
 
 	if(!isnull(heavy_impact_range))
 		for(var/mob/living/L in viewers(heavy_impact_range, epicenter))
@@ -198,12 +200,14 @@ GLOBAL_LIST_EMPTY(explosions)
 			dist_epi = get_dist(L, epicenter)
 			if(dist_epi <= extreme_impact_range)
 				continue
-			brute = rand(30,120) / 5
-			burn = rand(50,180) / 5
+			var/lenience = L.get_blast_lenience_multiplier()
+			brute = (rand(30,120) / 5) * lenience
+			burn = (rand(50,180) / 5) * lenience
 			for(var/i in 1 to 5)
 				var/zone = pick(BODY_ZONE_HEAD,	BODY_ZONE_CHEST, BODY_ZONE_L_ARM, BODY_ZONE_R_ARM, BODY_ZONE_L_LEG, BODY_ZONE_R_LEG)
 				arcyne_strike(L, L, null, brute, zone, BCLASS_BLUNT, PEN_HEAVY, "heavy concussive impact", TRUE, TRUE, FALSE, BRUTE, null, TRUE)
 				arcyne_strike(L, L, null, burn, zone, BCLASS_BURN, PEN_HEAVY, "heavy concussive blast", TRUE, TRUE, FALSE, BURN, null, TRUE)
+			L.gain_blast_lenience()
 
 	if(!isnull(light_impact_range))
 		for(var/mob/living/L in viewers(light_impact_range, epicenter))
@@ -212,12 +216,14 @@ GLOBAL_LIST_EMPTY(explosions)
 			dist_epi = get_dist(L, epicenter)
 			if(dist_epi <= heavy_impact_range)
 				continue
-			brute = rand(15,60) / 5
-			burn = rand(25,90) / 5
+			var/lenience = L.get_blast_lenience_multiplier()
+			brute = (rand(15,60) / 5) * lenience
+			burn = (rand(25,90) / 5) * lenience
 			for(var/i in 1 to 5)
 				var/zone = pick(BODY_ZONE_HEAD, BODY_ZONE_CHEST, BODY_ZONE_L_ARM, BODY_ZONE_R_ARM, BODY_ZONE_L_LEG, BODY_ZONE_R_LEG)
 				arcyne_strike(L, L, null, brute, zone, BCLASS_BLUNT, PEN_NONE, "concussive impact", TRUE, TRUE, FALSE, BRUTE, null, TRUE)
 				arcyne_strike(L, L, null, burn, zone, BCLASS_BURN, PEN_NONE, "concussive blast", TRUE, TRUE, FALSE, BURN, null, TRUE)
+			L.gain_blast_lenience()
 
 	EX_PREPROCESS_CHECK_TICK
 
@@ -482,3 +488,49 @@ GLOBAL_LIST_EMPTY(explosions)
 // 10 explosion power is a (1, 3, 6) explosion.
 // 5 explosion power is a (0, 1, 3) explosion.
 // 1 explosion power is a (0, 0, 1) explosion.
+
+#define BLAST_LENIENCE_MAX_STACKS 8
+#define BLAST_LENIENCE_MULTIPLIER_PER_STACK 0.5
+
+/// no buff means 100% dmg taken so call this BEFORE gain_blast_lenience() so the first hit is full dmg
+/mob/living/proc/get_blast_lenience_multiplier()
+	var/datum/status_effect/buff/blast_lenience/B = has_status_effect(/datum/status_effect/buff/blast_lenience)
+	var/mult = B ? B.get_multiplier() : 1
+	return mult
+
+/mob/living/proc/gain_blast_lenience()
+	var/datum/status_effect/buff/blast_lenience/B = has_status_effect(/datum/status_effect/buff/blast_lenience)
+	if(B)
+		B.add_stack()
+	else
+		var/datum/status_effect/buff/blast_lenience/new_buff = apply_status_effect(/datum/status_effect/buff/blast_lenience)
+
+/atom/movable/screen/alert/status_effect/buff/blast_lenience
+	name = "Blast Lenience"
+	desc = "I'm dazed and braced from the last explosion. The next blast will hurt less."
+	icon_state = "buff"
+
+/datum/status_effect/buff/blast_lenience
+	id = "blast_lenience"
+	alert_type = /atom/movable/screen/alert/status_effect/buff/blast_lenience
+	status_type = STATUS_EFFECT_UNIQUE
+	duration = 5 SECONDS
+	examine_text = null
+	var/stacks = 1
+
+/datum/status_effect/buff/blast_lenience/on_apply()
+	. = ..()
+
+/datum/status_effect/buff/blast_lenience/on_remove()
+	. = ..()
+
+/// adds a stack w/o touching the timer, so the grace period runs from the first explosion, this is to encourage people to space out their bombs a little
+/datum/status_effect/buff/blast_lenience/proc/add_stack()
+	stacks = min(stacks + 1, BLAST_LENIENCE_MAX_STACKS)
+
+/// 1 stack = 50%, 2 stacks = 25%, 3 stacks = 12.5%, so on so forth, until its dealing negligible damage
+/datum/status_effect/buff/blast_lenience/proc/get_multiplier()
+	return BLAST_LENIENCE_MULTIPLIER_PER_STACK ** stacks
+
+#undef BLAST_LENIENCE_MAX_STACKS
+#undef BLAST_LENIENCE_MULTIPLIER_PER_STACK
