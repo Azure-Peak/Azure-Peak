@@ -66,7 +66,7 @@ GLOBAL_LIST_INIT(large_goblin_aggro, list(
 	H.STALUC = 10
 	// Gives it armor for some much needed buff
 	armor = /obj/item/clothing/suit/roguetown/armor/plate/cuirass/iron/goblin
-	head = /obj/item/clothing/head/roguetown/helmet/goblin/chieftain
+	head = /obj/item/clothing/head/roguetown/helmet/goblin
 	belt = /obj/item/storage/belt/rogue/leather
 	var/loadout = rand(1, 4)
 	switch(loadout)
