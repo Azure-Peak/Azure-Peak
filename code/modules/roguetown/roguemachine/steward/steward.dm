@@ -27,6 +27,7 @@
 	var/residency_print_cooldown = 0
 	var/list/ledger_view = list()
 	var/list/petition_view = list()
+	var/list/caravan_view = list()
 
 /obj/structure/roguemachine/steward/Initialize(mapload)
 	. = ..()

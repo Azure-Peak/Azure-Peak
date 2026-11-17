@@ -261,6 +261,47 @@ export type CaravanState = {
   trips: CaravanTrip[];
 };
 
+export type RequestQuoteItem = {
+  good_id: string;
+  needed: number;
+  route: 'warehouse' | 'stockpile';
+  unit_pay: number;
+  loaded: number;
+  have: number;
+  market_closed: BooleanLike;
+  market_left: number;
+  fill_units: number;
+  fill_cost: number;
+  ask_first: number;
+  ask_last: number;
+};
+
+export type RequestQuote = {
+  ref: string;
+  load_units: number;
+  load_payout: number;
+  items: RequestQuoteItem[];
+};
+
+export type OfferQuote = {
+  ref: string;
+  market_closed: BooleanLike;
+  sale_total: number;
+  bid_first: number;
+  bid_last: number;
+};
+
+export type TributeQuote = {
+  region_id: string;
+  sale_total: number;
+};
+
+export type CaravanQuote = {
+  request: RequestQuote | null;
+  offer: OfferQuote | null;
+  tribute: TributeQuote | null;
+};
+
 export type EconomicEvent = {
   name: string;
   description: string;
@@ -271,9 +312,16 @@ export type EconomicEvent = {
   saturation_progress: number;
 };
 
+export type BanditryRow = {
+  region: string;
+  level: string;
+  cost: number;
+  detail: string;
+};
+
 export type BanditryProjection = {
   total: number;
-  lines: string[];
+  rows: BanditryRow[];
   debt: number;
   hoard_total: number;
 };
@@ -355,13 +403,13 @@ export type Data = StaticData & {
   day: number;
   expected_rural_revenue: number;
   expected_wage_outlay: number;
-  blockaded_regions: string[];
   banditry_projection: BanditryProjection;
   active_events: EconomicEvent[];
   active_orders: Order[];
   active_offers: ActiveOffer[];
   region_caravan: Record<string, RegionCaravanState>;
   caravans: CaravanState;
+  caravan_quote: CaravanQuote;
   market_rows: MarketRow[];
   region_rows: RegionRow[];
   petition_categories: PetitionCategory[];
@@ -374,6 +422,7 @@ export type Data = StaticData & {
 
 export type TabKey =
   | 'caravans'
+  | 'dispatches'
   | 'market'
   | 'regions'
   | 'petition'

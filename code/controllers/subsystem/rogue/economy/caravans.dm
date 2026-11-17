@@ -44,12 +44,46 @@
 			return tribute_reason
 	return null
 
-/datum/controller/subsystem/economy/proc/send_caravan(mob/user, route, datum/standing_order/request, datum/region_offer/offer, datum/economic_region/tribute_region)
+/datum/controller/subsystem/economy/proc/order_fill_plan(datum/standing_order/order)
+	var/list/plan = list()
+	for(var/good_id in order.required_items)
+		if(get_good_route(good_id) != "stockpile")
+			continue
+		var/datum/roguestock/D = find_stockpile_by_trade_good(good_id)
+		if(!D || D.market_never_supplies)
+			continue
+		var/units = min(order.required_items[good_id] - max(0, D.royal_stock), D.market_available())
+		if(units > 0)
+			plan[good_id] = units
+	return plan
+
+/datum/controller/subsystem/economy/proc/fill_plan_cost(list/plan)
+	var/total = 0
+	for(var/good_id in plan)
+		var/datum/roguestock/D = find_stockpile_by_trade_good(good_id)
+		total += D.market_ask(plan[good_id])
+	return mammon_round(total)
+
+/datum/controller/subsystem/economy/proc/send_caravan(mob/user, route, datum/standing_order/request, datum/region_offer/offer, datum/economic_region/tribute_region, fill = FALSE)
 	var/blocker = caravan_send_blocker(route, request, offer, tribute_region)
 	if(blocker)
 		if(user)
 			to_chat(user, span_warning(blocker))
 		return FALSE
+	if(request && fill)
+		if(SStreasury.is_in_receivership())
+			if(user)
+				to_chat(user, span_warning("Trade controls are locked under sequestration. Petitions, taxes and fines still work."))
+			return FALSE
+		var/list/plan = order_fill_plan(request)
+		if(length(plan))
+			var/needed = fill_plan_cost(plan) + (offer ? offer.total_price : 0)
+			if(SStreasury.discretionary_fund.balance < needed)
+				if(user)
+					to_chat(user, span_warning("The Treasury can't afford this. It has [format_mammon(SStreasury.discretionary_fund.balance)]m and needs [format_mammon(needed)]m."))
+				return FALSE
+			for(var/good_id in plan)
+				buy_from_market(user, good_id, plan[good_id], FALSE)
 	var/list/scan
 	if(request)
 		scan = scan_order(request)

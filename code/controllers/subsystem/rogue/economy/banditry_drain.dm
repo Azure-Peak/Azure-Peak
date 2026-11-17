@@ -1,5 +1,5 @@
 /datum/controller/subsystem/economy/proc/preview_banditry_drain()
-	var/list/result = list("total" = 0, "lines" = list(), "debt" = SStreasury?.banditry_debt || 0, "by_region" = list(), "hoard_total" = 0, "skim_pct" = round(BANDITRY_DEBT_SKIM_RATE * 100))
+	var/list/result = list("total" = 0, "lines" = list(), "rows" = list(), "debt" = SStreasury?.banditry_debt || 0, "by_region" = list(), "hoard_total" = 0, "skim_pct" = round(BANDITRY_DEBT_SKIM_RATE * 100))
 	// Respects simulated_player_scalar so admin testing can drive it, matching get_effective_player_count().
 	var/pop = (simulated_player_scalar > 0) ? simulated_player_scalar : get_active_player_count(alive_check = TRUE, afk_check = TRUE, human_check = TRUE)
 	for(var/datum/threat_region/TR as anything in SSregionthreat.threat_regions)
@@ -20,6 +20,12 @@
 		result["total"] += cost
 		result["by_region"][TR.region_name] = cost
 		result["lines"] += "[TR.region_name] ([level]) -[cost]m ([base_cost]m base, plus [per_player]m per active person for [pop] active people)"
+		result["rows"] += list(list(
+			"region" = TR.region_name,
+			"level" = level,
+			"cost" = cost,
+			"detail" = "[base_cost]m base, plus [per_player]m per active person for [pop] active people",
+		))
 	return result
 
 /datum/controller/subsystem/economy/proc/total_banditry_hoard()

@@ -606,7 +606,7 @@ SUBSYSTEM_DEF(economy)
 	to_chat(user, span_notice("Sold [quantity] [D.name] to the market for [format_mammon(revenue)]m."))
 	return revenue
 
-/datum/controller/subsystem/economy/proc/buy_from_market(mob/user, good_id, quantity)
+/datum/controller/subsystem/economy/proc/buy_from_market(mob/user, good_id, quantity, bulk_capped = TRUE)
 	var/datum/roguestock/D = find_stockpile_by_trade_good(good_id)
 	if(!D)
 		return 0
@@ -614,7 +614,9 @@ SUBSYSTEM_DEF(economy)
 		to_chat(user, span_warning("The market is closed."))
 		return 0
 	D.refresh_auto_price()
-	quantity = min(round(quantity), TRADE_MAX_BULK_UNITS, D.market_available())
+	quantity = min(round(quantity), D.market_available())
+	if(bulk_capped)
+		quantity = min(quantity, TRADE_MAX_BULK_UNITS)
 	if(quantity <= 0)
 		to_chat(user, span_warning("[D.name] is out of stock."))
 		return 0

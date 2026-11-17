@@ -2,21 +2,17 @@ import { useEffect, useState } from 'react';
 
 import { useBackend } from '../backend';
 import { Window } from '../layouts';
+import { formatMammon } from './common/format';
 import {
-  FONT_BODY,
-  INK_FAINT,
+  INK_SOFT,
   pageStyle,
-  rulerStyle,
   SEAL_AMBER,
-  subtitleStyle,
-  titleStyle,
+  TITLE,
+  TITLE_FONT,
 } from './common/parchment';
 import { ArrearsBanner } from './StewardTrade/ArrearsBanner';
-import { ATCLoanBanner } from './StewardTrade/ATCLoanBanner';
-import { BanditryBanner } from './StewardTrade/BanditryBanner';
-import { BlockadeBanner } from './StewardTrade/BlockadeBanner';
 import { CaravansView } from './StewardTrade/CaravansView';
-import { EventsBanner } from './StewardTrade/EventsBanner';
+import { dispatchCount, DispatchesView } from './StewardTrade/DispatchesView';
 import { LedgerView } from './StewardTrade/LedgerView';
 import { MarketView } from './StewardTrade/MarketView';
 import { PetitionView } from './StewardTrade/PetitionView';
@@ -25,7 +21,6 @@ import { SequesteredOverlay } from './StewardTrade/SequesteredOverlay';
 import { SequestrationBanner } from './StewardTrade/SequestrationBanner';
 import { TabBar } from './StewardTrade/TabBar';
 import type { Data, TabKey } from './StewardTrade/types';
-import { formatMammon } from './common/format';
 
 export const StewardTrade = () => {
   const { data, act } = useBackend<Data>();
@@ -38,63 +33,82 @@ export const StewardTrade = () => {
     }
   }, [tab, act]);
 
+  const net = data.expected_rural_revenue - data.expected_wage_outlay;
+
   return (
     <Window title="Market Scroll" width={860} height={820} theme="parchment">
       <Window.Content scrollable>
-        <div style={pageStyle}>
-          <div style={titleStyle}>Market & Stockpile</div>
-          <div style={subtitleStyle}>
-            Day {data.day} &middot; Treasury:{' '}
-            <span style={{ color: SEAL_AMBER, fontWeight: 'bold' }}>
-              {formatMammon(data.treasury)}m
-            </span>
-          </div>
+        <div style={{ ...pageStyle, padding: '12px 20px 16px 20px' }}>
           <div
             style={{
-              ...subtitleStyle,
-              color: INK_FAINT,
-              fontSize: FONT_BODY,
-              marginTop: '2px',
+              display: 'flex',
+              flexWrap: 'wrap',
+              alignItems: 'baseline',
+              justifyContent: 'space-between',
+              gap: '4px 16px',
             }}
           >
-            At dawn:{' '}
-            <span style={{ color: SEAL_AMBER }}>
-              +{formatMammon(data.expected_rural_revenue)}m
-            </span>{' '}
-            <span
-              style={{ cursor: 'help' }}
-              title="A modest stipend from the countryside manors, sent while the Steward's own hand is thin on the ground. It dwindles as the guilds and artisans fill their benches - once enough hands are at the forge, the loom, and the apothecary's counter to sustain trade themselves, the lands keep what they raise."
+            <div
+              style={{
+                fontFamily: TITLE_FONT,
+                fontSize: '22px',
+                fontWeight: 'bold',
+                color: TITLE,
+              }}
             >
-              rural subsidy
-            </span>{' '}
-            &middot;{' '}
-            <span style={{ color: SEAL_AMBER }}>
-              -{formatMammon(data.expected_wage_outlay)}m
-            </span>{' '}
-            wages &middot; Net{' '}
-            <span style={{ color: SEAL_AMBER, fontWeight: 'bold' }}>
-              {data.expected_rural_revenue - data.expected_wage_outlay >= 0
-                ? '+'
-                : ''}
-              {formatMammon(data.expected_rural_revenue - data.expected_wage_outlay)}m
-            </span>
+              Market & Stockpile
+            </div>
+            <div
+              style={{
+                display: 'flex',
+                flexWrap: 'wrap',
+                alignItems: 'baseline',
+                gap: '2px 12px',
+                color: INK_SOFT,
+              }}
+            >
+              <span>Day {data.day}</span>
+              <span>
+                Treasury:{' '}
+                <span style={{ color: SEAL_AMBER, fontWeight: 'bold' }}>
+                  {formatMammon(data.treasury)}m
+                </span>
+              </span>
+              <span>
+                At dawn:{' '}
+                <span style={{ color: SEAL_AMBER }}>
+                  +{formatMammon(data.expected_rural_revenue)}m
+                </span>{' '}
+                <span
+                  style={{ cursor: 'help' }}
+                  title="A modest stipend from the countryside manors, sent while the Steward's own hand is thin on the ground. It dwindles as the guilds and artisans fill their benches - once enough hands are at the forge, the loom, and the apothecary's counter to sustain trade themselves, the lands keep what they raise."
+                >
+                  rural subsidy
+                </span>{' '}
+                &middot;{' '}
+                <span style={{ color: SEAL_AMBER }}>
+                  -{formatMammon(data.expected_wage_outlay)}m
+                </span>{' '}
+                wages &middot; Net{' '}
+                <span style={{ color: SEAL_AMBER, fontWeight: 'bold' }}>
+                  {net >= 0 ? '+' : ''}
+                  {formatMammon(net)}m
+                </span>
+              </span>
+            </div>
           </div>
-          <hr style={rulerStyle} />
 
           <SequestrationBanner sequestration={data.sequestration} />
           <ArrearsBanner sequestration={data.sequestration} />
-          <ATCLoanBanner atc_loan={data.atc_loan} />
-          <BlockadeBanner regions={data.blockaded_regions} />
-          <BanditryBanner projection={data.banditry_projection} />
-          <EventsBanner
-            events={data.active_events}
-            goodCatalog={data.good_catalog}
+
+          <TabBar
+            tab={tab}
+            onSwitch={setTab}
+            dispatchCount={dispatchCount(data)}
           />
 
-          <TabBar tab={tab} onSwitch={setTab} />
-          <hr style={rulerStyle} />
-
           {tab === 'caravans' && <CaravansView data={data} />}
+          {tab === 'dispatches' && <DispatchesView data={data} />}
           {tab === 'market' && (
             <SequesteredOverlay
               active={!!data.sequestration?.active}

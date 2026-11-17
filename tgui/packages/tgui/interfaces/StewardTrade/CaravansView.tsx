@@ -1,63 +1,198 @@
 import type { CSSProperties, ReactNode } from 'react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { useBackend } from '../../backend';
+import { formatMammon } from '../common/format';
 import {
-  badgeStyle,
-  cardStyle,
+  ellipsisCellStyle,
   FONT_BODY,
+  FONT_SMALL,
   INK,
   INK_FAINT,
   INK_SOFT,
   inkButtonStyle,
+  PARCHMENT,
   PARCHMENT_SHADOW,
   SEAL_AMBER,
   SEAL_BLUE,
   SEAL_GREEN,
   SEAL_RED,
-  sectionHeaderStyle,
-  subTabBarStyle,
-  subTabStyle,
+  SERIF,
+  TITLE,
 } from '../common/parchment';
-import type { ActiveOffer, Data, Order, RegionCaravanState } from './types';
-import { formatMammon } from '../common/format';
+import type {
+  ActiveOffer,
+  CaravanRoute,
+  Data,
+  OfferQuote,
+  Order,
+  RegionCaravanState,
+  RequestQuote,
+} from './types';
 
 type Namer = (id: string) => string;
 
-const requestText = (o: Order, goodName: Namer) =>
-  `${o.items
+const GRID = '104px minmax(0, 1.6fr) minmax(0, 1fr) minmax(0, 0.95fr)';
+const PETITION_PURPLE = '#a872c4';
+
+const mammon = (n: number) => `${formatMammon(n)}m`;
+const signed = (n: number) =>
+  `${n >= 0 ? '+' : '-'}${formatMammon(Math.abs(n))}m`;
+const signColor = (n: number) =>
+  n > 0 ? SEAL_GREEN : n < 0 ? SEAL_RED : INK_SOFT;
+const priceRange = (a: number, b: number, word: string) =>
+  a === b ? mammon(a) : `${mammon(a)} ${word} ${mammon(b)}`;
+const sum = <T,>(list: T[], pick: (t: T) => number) =>
+  list.reduce((total, t) => total + pick(t), 0);
+
+const requestLabel = (o: Order, goodName: Namer) =>
+  o.items
     .map(
       (it) =>
         `${it.needed} ${goodName(it.good_id)}${it.route === 'stockpile' ? ` (${it.have})` : ''}`,
     )
-    .join(', ')} · ${formatMammon(o.payout)}m · ${o.days_left}d left`;
+    .join(', ');
 
-const offerText = (offer: ActiveOffer, goodName: Namer) =>
-  `${offer.units} ${goodName(offer.good_id)} at ${formatMammon(offer.unit_price)}m · ${formatMammon(offer.total_price)}m`;
+const requestMeta = (o: Order) =>
+  `${formatMammon(o.payout)}m · ${o.days_left}d left`;
+
+const offerLabel = (offer: ActiveOffer, goodName: Namer) =>
+  `${offer.units} ${goodName(offer.good_id)}`;
+
+const offerMeta = (offer: ActiveOffer) =>
+  `at ${formatMammon(offer.unit_price)}m · ${formatMammon(offer.total_price)}m`;
 
 const tributeText = (state: RegionCaravanState | undefined, goodName: Namer) =>
   (state?.tribute ?? [])
     .map((t) => `${t.units} ${goodName(t.good_id)}`)
     .join(', ');
 
+const tributeShort = (state: RegionCaravanState | undefined) => {
+  if (!state?.tribute?.length) return '-';
+  if (state.blockaded) return 'Blockaded';
+  return 'Sent today';
+};
+
+const labelStyle: CSSProperties = {
+  flex: '0 0 auto',
+  fontSize: FONT_SMALL,
+  letterSpacing: '0.08em',
+  textTransform: 'uppercase',
+  color: INK_SOFT,
+};
+
+const cellStyle = (selected: boolean, disabled: boolean): CSSProperties => ({
+  width: '100%',
+  minWidth: 0,
+  display: 'flex',
+  alignItems: 'center',
+  gap: '6px',
+  padding: '1px 6px',
+  fontFamily: SERIF,
+  fontSize: FONT_BODY,
+  textAlign: 'left',
+  borderRadius: '2px',
+  cursor: disabled ? 'default' : 'pointer',
+  color: INK,
+  fontWeight: selected ? 'bold' : 'normal',
+  background: selected ? 'var(--p-tab-active-bg)' : 'var(--p-card-bg)',
+  border: `1px solid ${selected ? SEAL_AMBER : PARCHMENT_SHADOW}`,
+  opacity: disabled ? 0.5 : 1,
+});
+
+const metaStyle: CSSProperties = {
+  marginLeft: 'auto',
+  flex: '0 0 auto',
+  whiteSpace: 'nowrap',
+  fontSize: FONT_SMALL,
+  fontWeight: 'normal',
+  color: INK_SOFT,
+};
+
+const tagStyle = (color: string): CSSProperties => ({
+  flex: '0 0 auto',
+  fontSize: FONT_SMALL,
+  fontWeight: 'normal',
+  letterSpacing: '0.04em',
+  color,
+});
+
 export const CaravansView = (props: { data: Data }) => {
   const { act } = useBackend<Data>();
   const { data } = props;
   const routes = data.caravan_routes || [];
-  const [routeId, setRouteId] = useState<string>(routes[0]?.id ?? '');
   const [requestRef, setRequestRef] = useState<string | null>(null);
   const [offerRef, setOfferRef] = useState<string | null>(null);
   const [tributeId, setTributeId] = useState<string | null>(null);
+  const [fillByRef, setFillByRef] = useState<Record<string, boolean>>({});
 
-  const route = routes.find((r) => r.id === routeId) ?? routes[0];
+  useEffect(() => {
+    act('caravan_select', {
+      request: requestRef ?? '',
+      offer: offerRef ?? '',
+      tribute: tributeId ?? '',
+    });
+  }, [requestRef, offerRef, tributeId]);
+
   const { fleet, home, trips, return_minutes } = data.caravans;
   const goodName: Namer = (id) => data.good_catalog[id]?.name ?? id;
   const regionName: Namer = (id) => data.region_catalog[id]?.name ?? id;
+  const sequestered = !!data.sequestration?.active;
+
+  const routeOfRegion: Record<string, string> = {};
+  for (const r of routes) {
+    for (const sub of r.subroutes) {
+      for (const id of sub.region_ids) routeOfRegion[id] = r.id;
+    }
+  }
+
+  const shortageGoods = new Set<string>();
+  for (const e of data.active_events || []) {
+    if (e.event_type === 'shortage') {
+      for (const gid of e.affected_goods || []) shortageGoods.add(gid);
+    }
+  }
 
   const selectedRequest = data.active_orders.find((o) => o.ref === requestRef);
   const selectedOffer = data.active_offers.find((o) => o.ref === offerRef);
-  const nothing = !selectedRequest && !selectedOffer && !tributeId;
-  const canSend = home > 0 && !nothing;
+  const tributeState = tributeId ? data.region_caravan[tributeId] : undefined;
+  const selectedTribute = tributeState && !tributeState.tribute_blocker ? tributeId : null;
+
+  const pickedRegions = [
+    selectedRequest?.region_id,
+    selectedOffer?.region_id,
+    selectedTribute,
+  ].filter(Boolean) as string[];
+  const lockRoute = pickedRegions.length ? routeOfRegion[pickedRegions[0]] : null;
+  const lockRouteName = routes.find((r) => r.id === lockRoute)?.name ?? '';
+
+  const requestQuote =
+    selectedRequest && data.caravan_quote?.request?.ref === selectedRequest.ref
+      ? data.caravan_quote.request
+      : null;
+  const offerQuote =
+    selectedOffer && data.caravan_quote?.offer?.ref === selectedOffer.ref
+      ? data.caravan_quote.offer
+      : null;
+
+  const reckon = requestQuote
+    ? reckonRequest(requestQuote, !!fillByRef[requestQuote.ref], sequestered)
+    : null;
+  const offerNet = selectedOffer
+    ? offerQuote && !offerQuote.market_closed
+      ? offerQuote.sale_total - selectedOffer.total_price
+      : -selectedOffer.total_price
+    : 0;
+  const tributeQuote =
+    selectedTribute && data.caravan_quote?.tribute?.region_id === selectedTribute
+      ? data.caravan_quote.tribute
+      : null;
+  const tributeResale = tributeQuote ? tributeQuote.sale_total : 0;
+
+  const anyPick = !!(selectedRequest || selectedOffer || selectedTribute);
+  const nothingToDeliver = !!reckon && reckon.delivered === 0;
+  const canSend = anyPick && home > 0 && !nothingToDeliver;
+  const projected = (reckon ? reckon.net : 0) + offerNet + tributeResale;
 
   const clear = () => {
     setRequestRef(null);
@@ -65,303 +200,797 @@ export const CaravansView = (props: { data: Data }) => {
     setTributeId(null);
   };
 
-  const switchRoute = (id: string) => {
-    setRouteId(id);
-    clear();
-  };
-
   const send = () => {
-    if (!route || !canSend) return;
+    if (!canSend || !lockRoute) return;
     act('send_caravan', {
-      route: route.id,
+      route: lockRoute,
       request: selectedRequest?.ref ?? '',
       offer: selectedOffer?.ref ?? '',
-      tribute: tributeId ?? '',
+      tribute: selectedTribute ?? '',
+      fill: reckon?.fillOn ? 1 : 0,
     });
     clear();
   };
 
+  const sendNote =
+    home <= 0
+      ? 'No caravans are ready.'
+      : nothingToDeliver
+        ? 'Nothing to deliver'
+        : lockRoute
+          ? `on ${lockRouteName}`
+          : `${home} of ${fleet} home`;
+
   return (
     <div>
-      <div style={sectionHeaderStyle}>Caravans</div>
-      <div style={{ color: INK_SOFT, fontSize: FONT_BODY, marginBottom: '6px' }}>
-        {home} of {fleet} home &middot; {trips.length} en route, return in{' '}
-        {return_minutes} {return_minutes === 1 ? 'minute' : 'minutes'}
-      </div>
-      <div style={subTabBarStyle}>
-        {routes.map((r) => (
-          <div
-            key={r.id}
-            style={subTabStyle(r.id === route?.id)}
-            onClick={() => switchRoute(r.id)}
-          >
-            {r.name}
-          </div>
+      <div
+        style={{
+          display: 'flex',
+          flexWrap: 'wrap',
+          alignItems: 'center',
+          gap: '2px 10px',
+          padding: '8px 0 6px',
+          color: INK_SOFT,
+        }}
+      >
+        <span style={{ display: 'inline-flex', gap: '3px' }}>
+          {Array.from({ length: fleet }, (_, i) => (
+            <span
+              key={i}
+              style={{
+                display: 'block',
+                width: '9px',
+                height: '9px',
+                borderRadius: '50%',
+                border: `1px solid ${SEAL_AMBER}`,
+                background: i < home ? SEAL_AMBER : 'transparent',
+              }}
+            />
+          ))}
+        </span>
+        <span>
+          {home} of {fleet} home &middot; {trips.length} en route, return in{' '}
+          {return_minutes} {return_minutes === 1 ? 'minute' : 'minutes'}
+        </span>
+        {trips.map((trip, i) => (
+          <span key={i} style={{ fontSize: FONT_SMALL }}>
+            &middot; <span style={{ color: INK }}>{trip.route}:</span>{' '}
+            {[trip.request, trip.offer, trip.tribute && `${trip.tribute} tribute`]
+              .filter(Boolean)
+              .join(' · ')}
+          </span>
         ))}
       </div>
-      <div style={{ ...cardStyle, textAlign: 'center' }}>
+
+      <div
+        style={{
+          display: 'grid',
+          gridTemplateColumns: GRID,
+          gap: '6px',
+          paddingBottom: '3px',
+          borderBottom: `1px solid ${INK_FAINT}`,
+          ...labelStyle,
+        }}
+      >
+        <span>Region</span>
+        <span>Request</span>
+        <span>Offer</span>
+        <span>Tribute</span>
+      </div>
+
+      {routes.map((route) => (
+        <RouteBlock
+          key={route.id}
+          route={route}
+          data={data}
+          locked={!!lockRoute && lockRoute !== route.id}
+          loading={lockRoute === route.id}
+          goodName={goodName}
+          regionName={regionName}
+          shortageGoods={shortageGoods}
+          requestRef={requestRef}
+          offerRef={offerRef}
+          tributeId={selectedTribute}
+          onRequest={(ref) => setRequestRef(requestRef === ref ? null : ref)}
+          onOffer={(ref) => setOfferRef(offerRef === ref ? null : ref)}
+          onTribute={(id) => setTributeId(selectedTribute === id ? null : id)}
+        />
+      ))}
+      <div style={{ height: '10px' }} />
+
+      <div
+        style={{
+          position: 'sticky',
+          bottom: 0,
+          zIndex: 1,
+          margin: '0 -20px',
+          padding: '8px 20px',
+          background: PARCHMENT,
+          borderTop: `1px solid ${INK_FAINT}`,
+          boxShadow: '0 -4px 10px var(--p-card-shadow)',
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '8px',
+        }}
+      >
         <div
           style={{
-            display: 'inline-grid',
-            gridTemplateColumns: 'auto auto',
-            columnGap: '10px',
-            rowGap: '2px',
-            textAlign: 'left',
-            fontSize: FONT_BODY,
+            display: 'grid',
+            gridTemplateColumns: 'minmax(0, 1.3fr) minmax(0, 1fr)',
+            gap: '12px',
           }}
         >
-          <ManifestLine
-            label="Request"
-            value={
+          <RequestPanel
+            order={selectedRequest}
+            quote={requestQuote}
+            reckon={reckon}
+            sequestered={sequestered}
+            goodName={goodName}
+            regionName={regionName}
+            onToggleFill={() =>
               selectedRequest &&
-              `${regionName(selectedRequest.region_id)} · ${requestText(selectedRequest, goodName)}`
+              setFillByRef({
+                ...fillByRef,
+                [selectedRequest.ref]: !fillByRef[selectedRequest.ref],
+              })
+            }
+            onExtend={() =>
+              selectedRequest && act('extend_order', { ref: selectedRequest.ref })
             }
           />
-          <ManifestLine
-            label="Offer"
-            value={
-              selectedOffer &&
-              `${regionName(selectedOffer.region_id)} · ${offerText(selectedOffer, goodName)}`
-            }
-          />
-          <ManifestLine
-            label="Tribute"
-            value={
-              tributeId &&
-              `${regionName(tributeId)} · ${tributeText(data.region_caravan[tributeId], goodName)}`
-            }
+          <OfferPanel
+            offer={selectedOffer}
+            quote={offerQuote}
+            net={offerNet}
+            goodName={goodName}
+            regionName={regionName}
           />
         </div>
-        <div style={{ marginTop: '8px' }}>
+        <div
+          style={{ display: 'flex', alignItems: 'center', gap: '12px', minWidth: 0 }}
+        >
+          <span style={labelStyle}>Tribute</span>
+          <span
+            style={{
+              ...ellipsisCellStyle,
+              color: selectedTribute ? INK : INK_FAINT,
+            }}
+          >
+            {selectedTribute
+              ? `${regionName(selectedTribute)} · ${tributeText(data.region_caravan[selectedTribute], goodName)}`
+              : 'None'}
+          </span>
+          {tributeResale > 0 && (
+            <span
+              style={{ flex: '0 0 auto', fontSize: FONT_SMALL, color: INK_SOFT }}
+            >
+              Resale{' '}
+              <span style={{ color: SEAL_GREEN }}>+{mammon(tributeResale)}</span>
+            </span>
+          )}
+          <span style={{ flex: '0 0 auto', color: INK_SOFT }}>
+            Projected net{' '}
+            <b style={{ color: anyPick ? signColor(projected) : INK_SOFT }}>
+              {anyPick ? signed(projected) : '-'}
+            </b>
+          </span>
+          <button
+            type="button"
+            disabled={!anyPick}
+            onClick={clear}
+            style={{
+              ...inkButtonStyle({ color: INK_SOFT, disabled: !anyPick }),
+              flex: '0 0 auto',
+              fontWeight: 'normal',
+            }}
+          >
+            Clear
+          </button>
           <button
             type="button"
             disabled={!canSend}
             onClick={send}
-            title={home > 0 ? undefined : 'No caravans are ready.'}
-            style={inkButtonStyle({ color: SEAL_GREEN, disabled: !canSend })}
+            style={{
+              ...inkButtonStyle({ color: SEAL_GREEN, disabled: !canSend }),
+              flex: '0 0 auto',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              lineHeight: 1.25,
+            }}
           >
-            Send caravan
+            <span>Send caravan</span>
+            <span
+              style={{ fontSize: FONT_SMALL, fontWeight: 'normal', color: INK_SOFT }}
+            >
+              {sendNote}
+            </span>
           </button>
         </div>
       </div>
-      {route?.subroutes.map((sub) => (
-        <div key={sub.id} style={{ marginTop: '8px' }}>
-          <div
-            style={{
-              color: INK_SOFT,
-              fontWeight: 'bold',
-              fontSize: FONT_BODY,
-              borderBottom: `1px solid ${INK_FAINT}`,
-              paddingBottom: '2px',
-              marginBottom: '4px',
-            }}
-          >
-            {sub.name}
-          </div>
-          {sub.region_ids.map((regionId) => (
-            <RegionCard
-              key={regionId}
-              name={regionName(regionId)}
-              state={data.region_caravan[regionId]}
-              orders={data.active_orders.filter(
-                (o) => o.region_id === regionId,
-              )}
-              offer={data.active_offers.find((o) => o.region_id === regionId)}
-              goodName={goodName}
-              requestRef={requestRef}
-              offerRef={offerRef}
-              tributeSelected={tributeId === regionId}
-              onRequest={(ref) =>
-                setRequestRef(requestRef === ref ? null : ref)
-              }
-              onOffer={(ref) => setOfferRef(offerRef === ref ? null : ref)}
-              onTribute={() =>
-                setTributeId(tributeId === regionId ? null : regionId)
-              }
-              onExtend={(ref) => act('extend_order', { ref })}
-            />
-          ))}
-        </div>
-      ))}
-      {trips.length > 0 && (
-        <>
-          <div style={{ ...sectionHeaderStyle, marginTop: '12px' }}>
-            En route
-          </div>
-          {trips.map((trip, i) => (
-            <div
-              key={i}
-              style={{ fontSize: FONT_BODY, color: INK_SOFT, padding: '2px 6px' }}
-            >
-              {trip.route}:{' '}
-              {[trip.request, trip.offer, trip.tribute && `${trip.tribute} tribute`]
-                .filter(Boolean)
-                .join(' · ')}
-            </div>
-          ))}
-        </>
-      )}
     </div>
   );
 };
 
-const ManifestLine = (props: {
-  label: string;
-  value: string | null | undefined | false;
-}) => (
-  <>
-    <span style={{ color: INK_FAINT, textAlign: 'right' }}>{props.label}</span>
-    <span style={{ color: props.value ? INK : INK_FAINT }}>
-      {props.value || 'None'}
-    </span>
-  </>
-);
+type Reckoning = {
+  need: number;
+  fillUnits: number;
+  canFill: boolean;
+  fillOn: boolean;
+  delivered: number;
+  payout: number;
+  cost: number;
+  net: number;
+  toggleNote: string;
+};
 
-const RegionCard = (props: {
-  name: string;
-  state: RegionCaravanState | undefined;
-  orders: Order[];
-  offer: ActiveOffer | undefined;
+const reckonRequest = (
+  quote: RequestQuote,
+  wantFill: boolean,
+  sequestered: boolean,
+): Reckoning => {
+  const stockItems = quote.items.filter((i) => i.route === 'stockpile');
+  const fillUnits = sum(stockItems, (i) => i.fill_units);
+  const fillCost = sum(stockItems, (i) => i.fill_cost);
+  const fillPayout = sum(stockItems, (i) => i.fill_units * i.unit_pay);
+  const canFill = !sequestered && fillUnits > 0;
+  const fillOn = canFill && wantFill;
+  const delivered = quote.load_units + (fillOn ? fillUnits : 0);
+  const payout = quote.load_payout + (fillOn ? fillPayout : 0);
+  const cost = fillOn ? fillCost : 0;
+  let toggleNote = '';
+  if (sequestered) {
+    toggleNote = 'Locked under sequestration.';
+  } else if (!fillUnits) {
+    if (stockItems.every((i) => i.have >= i.needed)) {
+      toggleNote = 'Enough in royal stock.';
+    } else if (stockItems.every((i) => i.market_closed)) {
+      toggleNote = 'The market is closed.';
+    } else {
+      toggleNote = 'The Market is sold out.';
+    }
+  }
+  return {
+    need: sum(quote.items, (i) => i.needed),
+    fillUnits,
+    canFill,
+    fillOn,
+    delivered,
+    payout,
+    cost,
+    net: payout - cost,
+    toggleNote,
+  };
+};
+
+const RouteBlock = (props: {
+  route: CaravanRoute;
+  data: Data;
+  locked: boolean;
+  loading: boolean;
   goodName: Namer;
+  regionName: Namer;
+  shortageGoods: Set<string>;
   requestRef: string | null;
   offerRef: string | null;
-  tributeSelected: boolean;
+  tributeId: string | null;
   onRequest: (ref: string) => void;
   onOffer: (ref: string) => void;
-  onTribute: () => void;
-  onExtend: (ref: string) => void;
+  onTribute: (id: string) => void;
 }) => {
-  const { data } = useBackend<Data>();
-  const { name, state, orders, offer, goodName } = props;
-  const blockaded = !!state?.blockaded;
-  const tributeBlocker = state?.tribute_blocker ?? '';
+  const { route, data, locked, loading, goodName, regionName } = props;
+  const blockadedCount = route.subroutes.reduce(
+    (n, sub) =>
+      n + sub.region_ids.filter((id) => data.region_caravan[id]?.blockaded).length,
+    0,
+  );
   const payouts = data.quality_payouts || [];
   const qualityTooltip = [
     'Payout by quality:',
     ...payouts.map((q) => `  ${q.label} ${q.pct}%`),
   ].join('\n');
+
   return (
-    <div
-      style={{
-        ...cardStyle,
-        borderLeft: `4px solid ${blockaded ? SEAL_RED : PARCHMENT_SHADOW}`,
-      }}
-    >
-      <div style={{ marginBottom: '4px' }}>
-        <span style={{ fontWeight: 'bold', fontSize: FONT_BODY }}>{name}</span>
-        {blockaded && <span style={badgeStyle(SEAL_RED)}>BLOCKADED</span>}
-      </div>
-      {orders.map((o) => (
-        <ChoiceRow key={o.ref} label="Request">
-          <PickButton
-            selected={props.requestRef === o.ref}
-            disabled={blockaded}
-            title={o.has_warehouse ? qualityTooltip : undefined}
-            onClick={() => props.onRequest(o.ref)}
-          >
-            {requestText(o, goodName)}
-          </PickButton>
-          {!!o.has_warehouse && (
-            <span style={badgeStyle(SEAL_BLUE)}>WAREHOUSE</span>
-          )}
-          {!!o.petitioned && (
-            <span style={badgeStyle('#a872c4')}>PETITIONED</span>
-          )}
-          <ZadButton
-            order={o}
-            cost={data.order_extend_cost}
-            isOfficial={!!data.petition?.is_steward_role}
-            onExtend={() => props.onExtend(o.ref)}
-          />
-        </ChoiceRow>
-      ))}
-      {offer && (
-        <ChoiceRow label="Offer">
-          <PickButton
-            selected={props.offerRef === offer.ref}
-            disabled={blockaded}
-            onClick={() => props.onOffer(offer.ref)}
-          >
-            {offerText(offer, goodName)}
-          </PickButton>
-        </ChoiceRow>
-      )}
-      <ChoiceRow label="Tribute">
-        <PickButton
-          selected={props.tributeSelected}
-          disabled={!!tributeBlocker}
-          onClick={props.onTribute}
+    <div style={{ opacity: locked ? 0.5 : 1 }}>
+      <div
+        style={{
+          display: 'flex',
+          alignItems: 'baseline',
+          gap: '8px',
+          padding: '7px 0 2px',
+        }}
+      >
+        <b style={{ color: TITLE }}>{route.name}</b>
+        <span style={{ fontSize: FONT_SMALL, color: INK_SOFT }}>
+          {route.subroutes.map((s) => s.name).join(' · ')}
+        </span>
+        {blockadedCount > 0 && (
+          <span style={{ fontSize: FONT_SMALL, color: SEAL_RED }}>
+            {blockadedCount} blockaded
+          </span>
+        )}
+        <span
+          style={{
+            marginLeft: 'auto',
+            fontSize: FONT_SMALL,
+            color: loading ? SEAL_AMBER : INK_SOFT,
+          }}
         >
-          {tributeBlocker || tributeText(state, goodName)}
-        </PickButton>
-      </ChoiceRow>
+          {loading ? 'Loading' : ''}
+        </span>
+      </div>
+      {route.subroutes.map((sub) =>
+        sub.region_ids.map((regionId, i) => {
+          const state = data.region_caravan[regionId];
+          const blockaded = !!state?.blockaded;
+          const orders = data.active_orders.filter(
+            (o) => o.region_id === regionId,
+          );
+          const offer = data.active_offers.find((o) => o.region_id === regionId);
+          const tributeBlocker = state?.tribute_blocker ?? '';
+          const cellDisabled = blockaded || locked;
+          return (
+            <div
+              key={regionId}
+              style={{
+                display: 'grid',
+                gridTemplateColumns: GRID,
+                gap: '6px',
+                alignItems: 'start',
+                padding: '2px 0',
+                borderTop: `1px ${i === 0 ? 'solid' : 'dashed'} ${PARCHMENT_SHADOW}`,
+              }}
+            >
+              <span
+                title={blockaded ? 'Blockaded' : undefined}
+                style={{
+                  padding: '2px 0',
+                  fontWeight: 'bold',
+                  color: blockaded ? SEAL_RED : INK,
+                }}
+              >
+                {regionName(regionId)}
+              </span>
+
+              <div
+                style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: '2px',
+                  minWidth: 0,
+                }}
+              >
+                {orders.map((o) => (
+                  <button
+                    key={o.ref}
+                    type="button"
+                    disabled={cellDisabled}
+                    title={o.has_warehouse ? qualityTooltip : undefined}
+                    onClick={() => props.onRequest(o.ref)}
+                    style={cellStyle(props.requestRef === o.ref, cellDisabled)}
+                  >
+                    <span style={ellipsisCellStyle}>
+                      {requestLabel(o, goodName)}
+                    </span>
+                    {o.items.some((it) => props.shortageGoods.has(it.good_id)) && (
+                      <span style={tagStyle(SEAL_RED)}>SHORTAGE</span>
+                    )}
+                    {!!o.has_warehouse && (
+                      <span style={tagStyle(SEAL_BLUE)}>WAREHOUSE</span>
+                    )}
+                    {!!o.petitioned && (
+                      <span style={tagStyle(PETITION_PURPLE)}>PETITIONED</span>
+                    )}
+                    <span style={metaStyle}>{requestMeta(o)}</span>
+                  </button>
+                ))}
+                {!orders.length && <Empty />}
+              </div>
+
+              <div style={{ minWidth: 0 }}>
+                {offer ? (
+                  <button
+                    type="button"
+                    disabled={cellDisabled}
+                    onClick={() => props.onOffer(offer.ref)}
+                    style={cellStyle(props.offerRef === offer.ref, cellDisabled)}
+                  >
+                    <span style={ellipsisCellStyle}>
+                      {offerLabel(offer, goodName)}
+                    </span>
+                    <span style={metaStyle}>{offerMeta(offer)}</span>
+                  </button>
+                ) : (
+                  <Empty />
+                )}
+              </div>
+
+              <div style={{ minWidth: 0 }}>
+                {tributeBlocker ? (
+                  <span
+                    title={tributeBlocker}
+                    style={{
+                      display: 'block',
+                      padding: '2px 6px',
+                      fontSize: FONT_SMALL,
+                      fontStyle: 'italic',
+                      color: INK_FAINT,
+                    }}
+                  >
+                    {tributeShort(state)}
+                  </span>
+                ) : (
+                  <button
+                    type="button"
+                    disabled={locked}
+                    onClick={() => props.onTribute(regionId)}
+                    style={cellStyle(props.tributeId === regionId, locked)}
+                  >
+                    <span style={ellipsisCellStyle}>
+                      {tributeText(state, goodName)}
+                    </span>
+                  </button>
+                )}
+              </div>
+            </div>
+          );
+        }),
+      )}
     </div>
   );
 };
 
-const ChoiceRow = (props: { label: string; children: ReactNode }) => (
-  <div
-    style={{
-      display: 'flex',
-      flexWrap: 'wrap',
-      alignItems: 'center',
-      gap: '6px',
-      marginBottom: '4px',
-      fontSize: FONT_BODY,
-    }}
-  >
-    <span style={{ color: INK_FAINT, flex: '0 0 60px' }}>{props.label}</span>
-    {props.children}
+const Empty = () => (
+  <span style={{ display: 'block', padding: '1px 6px', color: INK_FAINT }}>
+    -
+  </span>
+);
+
+const panelStyle = (active: boolean): CSSProperties => ({
+  minWidth: 0,
+  minHeight: '96px',
+  boxSizing: 'border-box',
+  padding: '6px 10px',
+  border: `1px solid ${active ? SEAL_AMBER : PARCHMENT_SHADOW}`,
+  background: active ? 'var(--p-card-bg)' : 'transparent',
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '3px',
+  overflow: 'hidden',
+});
+
+const rowStyle: CSSProperties = {
+  display: 'flex',
+  alignItems: 'center',
+  gap: '8px',
+  minWidth: 0,
+};
+
+const lineStyle: CSSProperties = {
+  ...ellipsisCellStyle,
+  flex: '0 0 auto',
+  fontSize: FONT_SMALL,
+  color: INK_SOFT,
+};
+
+const PanelHead = (props: {
+  label: string;
+  title?: string;
+  terms?: string;
+  tag?: ReactNode;
+}) => (
+  <div style={{ display: 'flex', alignItems: 'baseline', gap: '8px', minWidth: 0 }}>
+    <span style={labelStyle}>{props.label}</span>
+    {props.title && <b style={ellipsisCellStyle}>{props.title}</b>}
+    {props.tag}
+    {props.terms && (
+      <span
+        style={{
+          flex: '0 0 auto',
+          fontSize: FONT_SMALL,
+          color: INK_SOFT,
+          whiteSpace: 'nowrap',
+        }}
+      >
+        {props.terms}
+      </span>
+    )}
   </div>
 );
 
-const pickButtonStyle = (
-  selected: boolean,
-  disabled: boolean,
-): CSSProperties => ({
-  ...inkButtonStyle({ color: selected ? SEAL_GREEN : INK, disabled }),
-  fontWeight: selected ? 'bold' : 'normal',
-  textAlign: 'left',
-  ...(selected ? { background: 'rgba(200,170,100,0.35)' } : {}),
-});
+const Projection = (props: {
+  parts: { label: string; amount: string; color: string; bold?: boolean }[];
+}) => (
+  <div
+    style={{
+      display: 'flex',
+      alignItems: 'center',
+      gap: '0 6px',
+      minWidth: 0,
+      overflow: 'hidden',
+      fontSize: FONT_SMALL,
+      marginTop: 'auto',
+    }}
+  >
+    {props.parts.map((p, i) => (
+      <span key={p.label} style={{ whiteSpace: 'nowrap' }}>
+        {i > 0 && <span style={{ color: INK_FAINT }}>&middot; </span>}
+        <span style={{ color: INK_SOFT }}>{p.label}</span>{' '}
+        <span style={{ color: p.color, fontWeight: p.bold ? 'bold' : 'normal' }}>
+          {p.amount}
+        </span>
+      </span>
+    ))}
+  </div>
+);
 
-const PickButton = (props: {
-  selected: boolean;
-  disabled?: boolean;
-  title?: string;
-  onClick: () => void;
-  children: ReactNode;
+const RequestPanel = (props: {
+  order: Order | undefined;
+  quote: RequestQuote | null;
+  reckon: Reckoning | null;
+  sequestered: boolean;
+  goodName: Namer;
+  regionName: Namer;
+  onToggleFill: () => void;
+  onExtend: () => void;
+}) => {
+  const { data } = useBackend<Data>();
+  const { order, quote, reckon, goodName } = props;
+  if (!order) {
+    return (
+      <div style={panelStyle(false)}>
+        <PanelHead label="Request" />
+        <span style={{ color: INK_FAINT }}>None</span>
+      </div>
+    );
+  }
+  const single = order.items.length === 1 ? order.items[0] : null;
+  const title = single
+    ? `${props.regionName(order.region_id)} · up to ${single.needed} ${goodName(single.good_id)}`
+    : `${props.regionName(order.region_id)} · ${order.items.length} goods`;
+  const terms = single
+    ? `${formatMammon(single.unit_pay)}m each · ${order.days_left}d left`
+    : `${formatMammon(order.payout)}m · ${order.days_left}d left`;
+  const zadBlocker = !data.petition?.is_steward_role
+    ? 'Only Crown officials can send a zad.'
+    : order.extend_blocker;
+  const zad = (
+    <button
+      type="button"
+      disabled={!!zadBlocker}
+      onClick={props.onExtend}
+      title={zadBlocker || 'Send a zad to extend the request by one dae.'}
+      style={{
+        ...inkButtonStyle({ color: SEAL_AMBER, disabled: !!zadBlocker }),
+        flex: '0 0 auto',
+        padding: '0 8px',
+        fontSize: FONT_SMALL,
+        fontWeight: 'normal',
+        lineHeight: 1.3,
+        whiteSpace: 'nowrap',
+      }}
+    >
+      Extend request - {data.order_extend_cost}p
+    </button>
+  );
+
+  if (!quote || !reckon) {
+    return (
+      <div style={panelStyle(true)}>
+        <PanelHead label="Request" title={title} terms={terms} />
+        <div style={rowStyle}>
+          <span style={{ ...ellipsisCellStyle, color: INK_FAINT }}>...</span>
+          {zad}
+        </div>
+      </div>
+    );
+  }
+
+  const stockLines = quote.items.map((it) => {
+    const prefix = single ? '' : `${it.needed} ${goodName(it.good_id)}: `;
+    if (it.route === 'warehouse') {
+      return `${prefix}On the warehouse dock: ${it.loaded}`;
+    }
+    const market = it.market_closed
+      ? 'closed'
+      : it.market_left > 0
+        ? `${it.market_left} left at ${priceRange(it.ask_first, it.ask_last, 'to')} each`
+        : 'sold out';
+    return `${prefix}Royal stock ${it.have} · Market ${market}`;
+  });
+  const hasStockpile = quote.items.some((it) => it.route === 'stockpile');
+  const outcome =
+    reckon.delivered === 0
+      ? 'You have none of the goods for this order.'
+      : `${reckon.delivered} of ${reckon.need} loaded${
+          reckon.delivered < reckon.need
+            ? ` · ${reckon.need - reckon.delivered} remaining`
+            : ''
+        }`;
+
+  return (
+    <div style={panelStyle(true)}>
+      <PanelHead label="Request" title={title} terms={terms} />
+      {stockLines.map((line, i) => (
+        <div key={i} style={rowStyle}>
+          <span
+            style={{
+              ...ellipsisCellStyle,
+              fontSize: FONT_SMALL,
+              color: INK_SOFT,
+            }}
+            title={line}
+          >
+            {line}
+          </span>
+          {i === 0 && zad}
+        </div>
+      ))}
+      <div style={{ ...rowStyle, gap: '10px' }}>
+        {hasStockpile && (
+          <FillToggle
+            on={reckon.fillOn}
+            disabled={!reckon.canFill}
+            note={reckon.toggleNote}
+            onToggle={props.onToggleFill}
+          />
+        )}
+        <span
+          style={{
+            ...ellipsisCellStyle,
+            fontSize: FONT_SMALL,
+            color: reckon.delivered === 0 ? SEAL_RED : INK_SOFT,
+          }}
+        >
+          {outcome}
+        </span>
+      </div>
+      <Projection
+        parts={[
+          {
+            label: `Payout (${reckon.delivered})`,
+            amount: reckon.payout > 0 ? `+${mammon(reckon.payout)}` : '0m',
+            color: reckon.payout > 0 ? SEAL_GREEN : INK_SOFT,
+          },
+          {
+            label: reckon.fillOn ? `Market (${reckon.fillUnits})` : 'Market',
+            amount: reckon.cost ? `-${mammon(reckon.cost)}` : '-',
+            color: reckon.cost ? SEAL_RED : INK_SOFT,
+          },
+          {
+            label: 'Net',
+            amount: signed(reckon.net),
+            color: signColor(reckon.net),
+            bold: true,
+          },
+        ]}
+      />
+    </div>
+  );
+};
+
+const FillToggle = (props: {
+  on: boolean;
+  disabled: boolean;
+  note: string;
+  onToggle: () => void;
 }) => (
   <button
     type="button"
+    role="switch"
+    aria-checked={props.on}
     disabled={props.disabled}
-    title={props.title}
-    onClick={props.onClick}
-    style={pickButtonStyle(props.selected, !!props.disabled)}
+    onClick={props.onToggle}
+    title={props.note || undefined}
+    style={{
+      flex: '0 0 auto',
+      display: 'inline-flex',
+      alignItems: 'center',
+      gap: '7px',
+      padding: 0,
+      fontFamily: SERIF,
+      fontSize: FONT_BODY,
+      color: props.disabled ? INK_FAINT : INK,
+      background: 'transparent',
+      border: 'none',
+      cursor: props.disabled ? 'default' : 'pointer',
+    }}
   >
-    {props.children}
+    <span
+      style={{
+        position: 'relative',
+        display: 'inline-block',
+        width: '28px',
+        height: '14px',
+        borderRadius: '7px',
+        background: props.on ? 'rgba(106,149,96,0.35)' : 'transparent',
+        border: `1px solid ${props.on ? SEAL_GREEN : INK_FAINT}`,
+      }}
+    >
+      <span
+        style={{
+          position: 'absolute',
+          top: '1px',
+          left: props.on ? '15px' : '1px',
+          width: '10px',
+          height: '10px',
+          borderRadius: '50%',
+          background: props.on ? SEAL_GREEN : INK_FAINT,
+        }}
+      />
+    </span>
+    Fill partial from Market
   </button>
 );
 
-const ZadButton = (props: {
-  order: Order;
-  cost: number;
-  isOfficial: boolean;
-  onExtend: () => void;
+const OfferPanel = (props: {
+  offer: ActiveOffer | undefined;
+  quote: OfferQuote | null;
+  net: number;
+  goodName: Namer;
+  regionName: Namer;
 }) => {
-  const { order, cost, isOfficial } = props;
-  const blocker = !isOfficial
-    ? 'Only Crown officials can send a zad.'
-    : order.extend_blocker;
+  const { offer, quote } = props;
+  if (!offer) {
+    return (
+      <div style={panelStyle(false)}>
+        <PanelHead label="Offer" />
+        <span style={{ color: INK_FAINT }}>None</span>
+      </div>
+    );
+  }
+  const title = `${props.regionName(offer.region_id)} · ${offerLabel(offer, props.goodName)}`;
+  const terms = `at ${formatMammon(offer.unit_price)}m · ${formatMammon(offer.total_price)}m at send`;
+  if (!quote) {
+    return (
+      <div style={panelStyle(true)}>
+        <PanelHead label="Offer" title={title} terms={terms} />
+        <span style={{ color: INK_FAINT }}>...</span>
+      </div>
+    );
+  }
+  const average = Math.round((quote.sale_total / offer.units) * 10) / 10;
+  const resaleLine = quote.market_closed
+    ? 'The market is closed.'
+    : `Market pays about ${mammon(average)} each`;
+  const bidHover = quote.market_closed
+    ? undefined
+    : `Market bid ${priceRange(quote.bid_first, quote.bid_last, 'falling to')}${
+        quote.bid_first !== quote.bid_last ? ' as the stock fills' : ' each'
+      }`;
+  const parts = quote.market_closed
+    ? [
+        {
+          label: 'Cost',
+          amount: `-${mammon(offer.total_price)}`,
+          color: SEAL_RED,
+        },
+      ]
+    : [
+        {
+          label: `Sale (${offer.units})`,
+          amount: `+${mammon(quote.sale_total)}`,
+          color: SEAL_GREEN,
+        },
+        {
+          label: 'Cost',
+          amount: `-${mammon(offer.total_price)}`,
+          color: SEAL_RED,
+        },
+        {
+          label: 'Net',
+          amount: signed(props.net),
+          color: signColor(props.net),
+          bold: true,
+        },
+      ];
   return (
-    <button
-      type="button"
-      disabled={!!blocker}
-      onClick={props.onExtend}
-      title={blocker || 'Send a zad to extend the request by one dae.'}
-      style={inkButtonStyle({ color: SEAL_AMBER, disabled: !!blocker })}
-    >
-      Send a zad - {cost}p
-    </button>
+    <div style={panelStyle(true)}>
+      <PanelHead label="Offer" title={title} terms={terms} />
+      <span style={lineStyle} title={bidHover}>
+        {resaleLine}
+      </span>
+      <Projection parts={parts} />
+    </div>
   );
 };

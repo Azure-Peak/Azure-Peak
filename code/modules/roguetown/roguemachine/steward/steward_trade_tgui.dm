@@ -174,13 +174,6 @@
 	data["expected_rural_revenue"] = SStreasury?.get_rural_tax_amount() || 0
 	data["expected_wage_outlay"] = SStreasury?.get_expected_wage_outlay() || 0
 
-	var/list/blockaded = list()
-	for(var/region_id in GLOB.economic_regions)
-		var/datum/economic_region/region = GLOB.economic_regions[region_id]
-		if(region.is_region_blockaded)
-			blockaded += region.name
-	data["blockaded_regions"] = blockaded
-
 	data["banditry_projection"] = SSeconomy.preview_banditry_drain()
 
 	var/list/events = list()
@@ -284,6 +277,7 @@
 		"return_minutes" = max(1, CEILING(seconds_until_dawn() / 60, 1)),
 		"trips" = trips,
 	)
+	data["caravan_quote"] = build_caravan_quote(user.ckey)
 
 	// Caching more for performance
 	if(SStreasury.market_view_dirty || isnull(SStreasury.cached_market_rows))
@@ -333,6 +327,87 @@
 	)
 
 	return data
+
+/obj/structure/roguemachine/steward/proc/build_caravan_quote(ckey)
+	var/list/quote = list("request" = null, "offer" = null, "tribute" = null)
+	var/list/picked = caravan_view[ckey]
+	if(!picked)
+		return quote
+
+	var/datum/standing_order/request = picked["request"] ? (locate(picked["request"]) in GLOB.standing_order_pool) : null
+	if(request && !request.is_fulfilled)
+		var/list/scan = SSeconomy.scan_order(request)
+		var/list/plan = SSeconomy.order_fill_plan(request)
+		var/list/items = list()
+		for(var/good_id in request.required_items)
+			var/route = SSeconomy.get_good_route(good_id)
+			var/loaded = 0
+			for(var/list/avail_set in list(scan["equip"], scan["potion"], scan["stock"]))
+				var/list/entry = avail_set[good_id]
+				if(entry)
+					loaded = entry["delivered_units"]
+			var/list/item = list(
+				"good_id" = good_id,
+				"needed" = request.required_items[good_id],
+				"route" = route,
+				"unit_pay" = SSeconomy.compute_good_unit_payout(request, good_id),
+				"loaded" = loaded,
+				"have" = loaded,
+				"market_closed" = TRUE,
+				"market_left" = 0,
+				"fill_units" = 0,
+				"fill_cost" = 0,
+				"ask_first" = 0,
+				"ask_last" = 0,
+			)
+			var/datum/roguestock/D = route == "stockpile" ? SSeconomy.find_stockpile_by_trade_good(good_id) : null
+			if(D)
+				item["have"] = D.royal_stock
+				if(!D.market_never_supplies)
+					var/left = D.market_available()
+					var/fill_units = plan[good_id] || 0
+					item["market_closed"] = FALSE
+					item["market_left"] = left
+					item["fill_units"] = fill_units
+					item["fill_cost"] = fill_units ? D.market_ask(fill_units) : 0
+					if(left)
+						item["ask_first"] = D.market_unit_ask(D.market_stock - 1)
+						item["ask_last"] = D.market_unit_ask(D.market_stock - max(1, fill_units))
+			items += list(item)
+		quote["request"] = list(
+			"ref" = picked["request"],
+			"load_units" = scan["units"],
+			"load_payout" = scan["payout"],
+			"items" = items,
+		)
+
+	var/datum/region_offer/offer = picked["offer"] ? (locate(picked["offer"]) in GLOB.region_offer_pool) : null
+	if(offer)
+		var/datum/roguestock/D = SSeconomy.find_stockpile_by_trade_good(offer.good_id)
+		var/closed = !D || D.market_never_supplies
+		quote["offer"] = list(
+			"ref" = picked["offer"],
+			"market_closed" = closed ? TRUE : FALSE,
+			"sale_total" = closed ? 0 : D.market_bid(offer.units),
+			"bid_first" = closed ? 0 : stockpile_price(D.market_unit_ask(D.market_stock + 1) * STOCKPILE_BID_RATIO),
+			"bid_last" = closed ? 0 : stockpile_price(D.market_unit_ask(D.market_stock + offer.units) * STOCKPILE_BID_RATIO),
+		)
+
+	var/datum/economic_region/tribute_region = picked["tribute"] ? GLOB.economic_regions[picked["tribute"]] : null
+	if(tribute_region)
+		var/list/tribute_units = tribute_region.tribute_units()
+		var/sale_total = 0
+		for(var/good_id in tribute_units)
+			var/datum/roguestock/D = SSeconomy.find_stockpile_by_trade_good(good_id)
+			if(!D || D.market_never_supplies)
+				continue
+			var/offset = (offer && offer.good_id == good_id) ? offer.units : 0
+			sale_total += D.market_bid(tribute_units[good_id], offset)
+		quote["tribute"] = list(
+			"region_id" = picked["tribute"],
+			"sale_total" = mammon_round(sale_total),
+		)
+	return quote
 
 /// Rebuild SStreasury's cached_market_rows + cached_region_rows
 /// from current world state and clear market_view_dirty. Heavy work (~3ms); called only when
@@ -446,6 +521,9 @@ GLOBAL_LIST_INIT(steward_trade_sequestration_locked_actions, list(
 				petition_view -= usr.ckey
 			SStgui.update_uis(src)
 			return TRUE
+		if("caravan_select")
+			caravan_view[usr.ckey] = list("request" = "[params["request"]]", "offer" = "[params["offer"]]", "tribute" = "[params["tribute"]]")
+			return TRUE
 		if("send_caravan")
 			var/route = text2path(params["route"])
 			if(!ispath(route, /datum/trade_route))
@@ -467,7 +545,7 @@ GLOBAL_LIST_INIT(steward_trade_sequestration_locked_actions, list(
 			var/datum/economic_region/tribute_region
 			if(params["tribute"])
 				tribute_region = GLOB.economic_regions[params["tribute"]]
-			if(SSeconomy.send_caravan(usr, route, request, offer, tribute_region))
+			if(SSeconomy.send_caravan(usr, route, request, offer, tribute_region, params["fill"] ? TRUE : FALSE))
 				playsound(src, 'sound/misc/coindispense.ogg', 60, FALSE, -1)
 			SStgui.update_uis(src)
 			return TRUE
