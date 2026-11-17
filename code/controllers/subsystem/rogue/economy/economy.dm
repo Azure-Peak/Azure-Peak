@@ -90,12 +90,14 @@ SUBSYSTEM_DEF(economy)
 				var/datum/economic_region/region = GLOB.economic_regions[region_id]
 				if(region_order_count(region_id) >= STANDING_ORDERS_MAX_PER_REGION)
 					continue
-				if(!length(region.request_kinds) && !length(request_goods(region)))
+				if(!length(region.request_kinds) && !length(stockpile_goods(region.demands)))
 					continue
 				eligible_ids += region_id
 			if(!length(eligible_ids))
 				break
 			roll_standing_order(GLOB.economic_regions[pick(eligible_ids)])
+
+	tick_offers(effective_pop)
 
 	var/list/relieved_today = daily_report_diff["events_relieved"]
 	var/list/by_region = daily_report_diff["regular_orders_by_region"]
@@ -327,20 +329,20 @@ SUBSYSTEM_DEF(economy)
 			count++
 	return count
 
-/datum/controller/subsystem/economy/proc/request_goods(datum/economic_region/region)
+/datum/controller/subsystem/economy/proc/stockpile_goods(list/volumes)
 	var/list/goods = list()
-	for(var/good_id in region.demands)
+	for(var/good_id in volumes)
 		if(!SStreasury.stockpile_by_trade_good[good_id])
 			continue
 		if(get_good_route(good_id) != "stockpile")
 			continue
 		if(good_steady_price(good_id) <= 0)
 			continue
-		goods[good_id] = region.demands[good_id]
+		goods[good_id] = volumes[good_id]
 	return goods
 
 /datum/controller/subsystem/economy/proc/roll_standing_order(datum/economic_region/region)
-	var/list/goods = request_goods(region)
+	var/list/goods = stockpile_goods(region.demands)
 	var/list/kinds = region.request_kinds.Copy()
 	if(length(goods))
 		kinds[REQUEST_KIND_GOODS] = REQUEST_WEIGHT_GOODS
