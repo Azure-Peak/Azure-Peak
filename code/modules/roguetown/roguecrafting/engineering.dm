@@ -1277,62 +1277,102 @@
 	skillcraft = /datum/skill/craft/engineering
 	craftdiff = 6
 
-/datum/crafting_recipe/roguetown/engineering/bbomb_expert
-	name = "bottle bomb (clod jury rig)"
+/datum/crafting_recipe/roguetown/engineering/bbomb_expert_a1
+	name = "bottle bomb (jury rig A1)"
 	category = "Explosives"
-	required_trait = TRAIT_BOMBER_EXPERT
+	required_trait = TRAIT_JURY_RIGGER
 	display_category = ITEM_CAT_ENG_COMBAT
 	result = list(/obj/item/explosive/fused/bottle)
-	reqs = list(/obj/item/natural/dirtclod = 3, /obj/item/natural/ash = 2, /obj/item/natural/fibers = 2)
+	reqs = list(/obj/item/reagent_containers/glass/bottle = 1, /obj/item/alch/coaldust = 1, /obj/item/natural/cloth = 1)
 	skillcraft = /datum/skill/craft/engineering
 	craftdiff = 4
 
-/datum/crafting_recipe/roguetown/engineering/bbomb_expert_2
-	name = "bottle bomb (glass jury rig)"
+/datum/crafting_recipe/roguetown/engineering/bbomb_expert_a2
+	name = "bottle bomb (jury rig A2)"
 	category = "Explosives"
-	required_trait = TRAIT_BOMBER_EXPERT
+	required_trait = TRAIT_JURY_RIGGER
 	display_category = ITEM_CAT_ENG_COMBAT
 	result = list(/obj/item/explosive/fused/bottle)
-	reqs = list(/obj/item/natural/glass_shard = 1, /obj/item/natural/ash = 2, /obj/item/natural/fibers = 2)
+	reqs = list(/obj/item/reagent_containers/glass/bottle/alchemical = 1, /obj/item/alch/coaldust = 1, /obj/item/natural/cloth = 1)
 	skillcraft = /datum/skill/craft/engineering
 	craftdiff = 4
 
-/datum/crafting_recipe/roguetown/engineering/bbomb_expert_3
-	name = "bottle bomb (shard jury rig)"
+/datum/crafting_recipe/roguetown/engineering/bbomb_expert_b
+	name = "bottle bomb (jury rig B)"
 	category = "Explosives"
-	required_trait = TRAIT_BOMBER_EXPERT
+	required_trait = TRAIT_JURY_RIGGER
 	display_category = ITEM_CAT_ENG_COMBAT
 	result = list(/obj/item/explosive/fused/bottle)
-	reqs = list(/obj/item/natural/glass_shard/shrapnel = 1, /obj/item/natural/ash = 2, /obj/item/natural/fibers = 2)
+	reqs = list(/obj/item/natural/glass_shard = 1, /obj/item/alch/coaldust = 1, /obj/item/natural/cloth = 1)
 	skillcraft = /datum/skill/craft/engineering
 	craftdiff = 4
 
-/datum/crafting_recipe/roguetown/engineering/impactexplosive_expert
-	name = "impact grenades (fyritius jury rig)"
+/datum/crafting_recipe/roguetown/engineering/bbomb_expert_c
+	name = "bottle bomb (jury rig C)"
 	category = "Explosives"
-	required_trait = TRAIT_BOMBER_EXPERT
+	required_trait = TRAIT_JURY_RIGGER
 	display_category = ITEM_CAT_ENG_COMBAT
-	result = list(/obj/item/explosive/impact/shrapnel)
-	reqs = list(/obj/item/scrap = 1, /obj/item/reagent_containers/food/snacks/grown/rogue/fyritius = 1, /obj/item/natural/fibers = 3)
+	result = list(/obj/item/explosive/fused/bottle)
+	reqs = list(/obj/item/natural/clay = 3, /obj/item/alch/coaldust = 1, /obj/item/natural/cloth = 1)
 	skillcraft = /datum/skill/craft/engineering
 	craftdiff = 4
 
-/datum/crafting_recipe/roguetown/engineering/impactexplosive_expert_2
-	name = "impact grenades (infernal jury rig)"
+/datum/crafting_recipe/roguetown/engineering/bbomb_expert_d
+	name = "bottle bomb (jury rig D)"
 	category = "Explosives"
-	required_trait = TRAIT_BOMBER_EXPERT
+	required_trait = TRAIT_JURY_RIGGER
 	display_category = ITEM_CAT_ENG_COMBAT
-	result = list(/obj/item/explosive/impact/shrapnel)
-	reqs = list(/obj/item/scrap = 1, /obj/item/magic/infernal/ash = 1, /obj/item/natural/fibers = 3)
+	result = list(/obj/item/explosive/fused/bottle)
+	reqs = list(/obj/item/natural/dirtclod = 6, /obj/item/alch/coaldust = 1, /obj/item/natural/cloth = 1)
 	skillcraft = /datum/skill/craft/engineering
 	craftdiff = 4
 
-/datum/crafting_recipe/roguetown/engineering/impactexplosive_expert_3
-	name = "impact grenades (coal dust jury rig)"
+/datum/crafting_recipe/roguetown/engineering/bbomb_expert_e1
+	name = "bottle bomb (jury rig E1)"
 	category = "Explosives"
-	required_trait = TRAIT_BOMBER_EXPERT
+	required_trait = TRAIT_JURY_RIGGER
 	display_category = ITEM_CAT_ENG_COMBAT
-	result = list(/obj/item/explosive/impact/shrapnel)
-	reqs = list(/obj/item/scrap = 1, /obj/item/alch/coaldust = 1, /obj/item/natural/fibers = 3)
+	result = list(/obj/item/explosive/fused/bottle)
+	reqs = list(/obj/item/reagent_containers/glass/bottle = 1, /obj/item/magic/infernal/ash = 1, /obj/item/natural/cloth = 1)
+	skillcraft = /datum/skill/craft/engineering
+	craftdiff = 4
+
+/datum/crafting_recipe/roguetown/engineering/bbomb_expert_e2
+	name = "bottle bomb (jury rig E2)"
+	category = "Explosives"
+	required_trait = TRAIT_JURY_RIGGER
+	display_category = ITEM_CAT_ENG_COMBAT
+	result = list(/obj/item/explosive/fused/bottle)
+	reqs = list(/obj/item/reagent_containers/glass/bottle/alchemical = 1, /obj/item/magic/infernal/ash = 1, /obj/item/natural/cloth = 1)
+	skillcraft = /datum/skill/craft/engineering
+	craftdiff = 4
+
+/datum/crafting_recipe/roguetown/engineering/bbomb_expert_f
+	name = "bottle bomb (jury rig F)"
+	category = "Explosives"
+	required_trait = TRAIT_JURY_RIGGER
+	display_category = ITEM_CAT_ENG_COMBAT
+	result = list(/obj/item/explosive/fused/bottle)
+	reqs = list(/obj/item/natural/glass_shard = 1, /obj/item/magic/infernal/ash = 1, /obj/item/natural/cloth = 1)
+	skillcraft = /datum/skill/craft/engineering
+	craftdiff = 4
+
+/datum/crafting_recipe/roguetown/engineering/bbomb_expert_g
+	name = "bottle bomb (jury rig G)"
+	category = "Explosives"
+	required_trait = TRAIT_JURY_RIGGER
+	display_category = ITEM_CAT_ENG_COMBAT
+	result = list(/obj/item/explosive/fused/bottle)
+	reqs = list(/obj/item/natural/clay = 3, /obj/item/magic/infernal/ash = 1, /obj/item/natural/cloth = 1)
+	skillcraft = /datum/skill/craft/engineering
+	craftdiff = 4
+
+/datum/crafting_recipe/roguetown/engineering/bbomb_expert_h
+	name = "bottle bomb (jury rig H)"
+	category = "Explosives"
+	required_trait = TRAIT_JURY_RIGGER
+	display_category = ITEM_CAT_ENG_COMBAT
+	result = list(/obj/item/explosive/fused/bottle)
+	reqs = list(/obj/item/natural/dirtclod = 6, /obj/item/magic/infernal/ash = 1, /obj/item/natural/cloth = 1)
 	skillcraft = /datum/skill/craft/engineering
 	craftdiff = 4

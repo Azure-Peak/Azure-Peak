@@ -16,6 +16,7 @@
 #define TRAIT_EXPLOSIVE_SUPPLY "Explosive Supply"
 #define TRAIT_DRUG_SUPPLY "Drug Supply"
 #define TRAIT_BOMBER_EXPERT "Explosives Specialist"
+#define TRAIT_JURY_RIGGER "Creative Fella"
 #define TRAIT_SKILLBLESSED "Skill Blessed"
 #define TRAIT_NASTY_EATER "Inhumen Digestion" //can eat rotten/raw/burned food, organs, and drink murky water. Does NOT protect against actual poisons.
 #define TRAIT_WILD_EATER "Beastly Digestion" //can eat raw and rotten food and drink murky water
@@ -549,7 +550,8 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_GOOD_MASSEUR = span_info("My massage skills are honed by years of practice. My massages will make my clients feel and perform better."),
 	TRAIT_EXPLOSIVE_SUPPLY = span_info("I have very good friends! I get explosives on my HERMES every day."),
 	TRAIT_DRUG_SUPPLY = span_info("The Guild keeps me supplied. I get a fresh drug delivery from HERMES each day."),
-	TRAIT_BOMBER_EXPERT = span_info("I have trained my whole lyfe in the explosive arts, both in safety and otherwise. I can more readily prepare bombs through jury-rigged crafting, and I can prepare and handle tripwire traps with greater dexterity. My bombs can also sometimes critically strike certain enemies, causing fatal damage."),
+	TRAIT_BOMBER_EXPERT = span_info("I have trained my whole lyfe in the explosive arts, both in safety and otherwise. I can prepare and handle tripwire traps with greater dexterity. My bombs can also sometimes critically strike certain enemies, causing fatal damage."),
+	TRAIT_JURY_RIGGER = span_info("I'm quite savvy with my creations, I can make a bunch of things no one else normally can. They're mostly set to explode or perform poorly in some way, however."),
 	TRAIT_BREADY = span_info("Defensive stance does not passively fatigue me. I regain energy slowly over time."),
 	TRAIT_HIGHER_CMODE_DRAIN = span_warning("Defensive stance passively fatigues me. I lose energy quicker over time."),
 	TRAIT_ARMOUR_LIKED = span_greentext("I'm wearing something more suited to my style."),
