@@ -10,7 +10,6 @@ GLOBAL_LIST_EMPTY(active_economic_events)
 	var/duration_days = ECON_EVENT_DURATION
 	var/day_started = 0
 	var/day_expires = 0
-	var/datum/weakref/urgent_order_ref
 	var/saturation_target = 0
 	var/saturation_progress = 0
 	var/relief_triggered = FALSE

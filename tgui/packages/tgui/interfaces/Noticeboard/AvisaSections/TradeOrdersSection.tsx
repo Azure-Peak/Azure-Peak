@@ -27,9 +27,8 @@ const orderGridStyle: React.CSSProperties = {
 };
 
 const orderBucket = (o: TradeOrder): number => {
-  if (o.blockaded) return 2;
-  if (o.urgent) return 0;
-  return 1;
+  if (o.blockaded) return 1;
+  return 0;
 };
 
 export const TradeOrdersSection = ({ data }: { data: NoticeboardData }) => {
@@ -84,7 +83,6 @@ const OrderCard = ({ order }: { order: TradeOrder }) => {
       <div
         style={{ display: 'flex', alignItems: 'baseline', flexWrap: 'wrap' }}
       >
-        {!!order.urgent && <span style={badgeStyle(SEAL_RED)}>URGENT</span>}
         {!!order.blockaded && (
           <span style={badgeStyle(SEAL_RED)}>BLOCKADED</span>
         )}

@@ -81,8 +81,6 @@
 /datum/controller/subsystem/economy/proc/extend_blocker(datum/standing_order/order)
 	if(!order || order.is_fulfilled || !(order in GLOB.standing_order_pool))
 		return "the order is gone"
-	if(istype(order, /datum/standing_order/urgent))
-		return "urgent orders can't be extended"
 	if(!SStreasury.burgher_pledge_fund)
 		return "Odd! There's no burgher's pledge fund."
 	if(SStreasury.burgher_pledge_fund.balance < STANDING_ORDER_EXTEND_COST)

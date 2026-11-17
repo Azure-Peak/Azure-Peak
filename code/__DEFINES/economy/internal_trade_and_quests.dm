@@ -51,7 +51,6 @@
 #define RAID_DEAL_SIZE_PERCENT 50
 
 #define STANDING_ORDER_DURATION 2
-#define URGENT_ORDER_DURATION 1
 
 // Order SIZE is not scaled but
 #define STANDING_ORDERS_BASE_PER_DAY 4
@@ -59,8 +58,6 @@
 #define STANDING_ORDERS_MAX_PER_DAY 13
 #define STANDING_ORDERS_POOL_CAP 13
 #define STANDING_ORDERS_MAX_PER_REGION 1
-// Avoid spamming too many urgent orders
-#define STANDING_ORDERS_MAX_URGENT 2
 
 #define STANDING_ORDER_BASE_BONUS 1.5
 

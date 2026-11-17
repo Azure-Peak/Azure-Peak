@@ -121,7 +121,6 @@
 #define STATS_PLEDGE_CONSUMED "pledge_consumed"
 #define STATS_ECON_EVENTS_FIRED "econ_events_fired"
 #define STATS_ECON_EVENTS_EXPIRED "econ_events_expired"
-#define STATS_URGENT_ORDERS_SPAWNED "urgent_orders_spawned"
 #define STATS_SHORTAGES_ENDED "shortages_ended"
 #define STATS_BLOCKADES_FIRED "blockades_fired"
 #define STATS_BLOCKADES_CLEARED "blockades_cleared"

@@ -50,7 +50,6 @@ export type TradeOrder = {
   description: string;
   days_left: number;
   total_payout: number;
-  urgent: boolean;
   blockaded: boolean;
   warehouse: boolean;
   stockpile: boolean;

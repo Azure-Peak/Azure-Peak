@@ -131,10 +131,7 @@
 		<h3>Types</h3>
 		<ul>
 			<li><b>Regular</b> - rolled each dawn, more the more players are active .</li>
-			<li><b>Urgent</b> - spawned by shortage events. No more than
-			[STANDING_ORDERS_MAX_URGENT] stand at a time. Lasts [URGENT_ORDER_DURATION]
-			days. Payout: base x shortage price multiplier per unit
-			([ECON_SHORTAGE_MINOR]-[ECON_SHORTAGE_CRISIS]x).</li> <li><b>Warehouse</b> -
+			<li><b>Warehouse</b> -
 			for finished goods (equipment, potions, trophy heads). Settled from the
 			export warehouse (Behind the Stewardry), not the stockpile.</li>
 			<li><b>Petitioned</b> - spawned on demand by the Steward burning Burgher

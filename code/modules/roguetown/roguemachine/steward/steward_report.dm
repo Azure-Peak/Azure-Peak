@@ -44,7 +44,6 @@
 	var/banditry_debt_accrued = diff["banditry_drain_accrued_debt"] || 0
 	var/banditry_hoard = diff["banditry_hoard_total"] || 0
 	var/orders_rolled = diff["orders_rolled"] || 0
-	var/urgent_rolled = diff["urgent_rolled"] || 0
 	var/day = diff["day"] || GLOB.dayspassed
 	var/list/finance = diff["finance"]
 
@@ -90,8 +89,6 @@
 		body += "<b>Brigand Hoard:</b> <font color='#c44'>[banditry_hoard]m</font> across their hoards. Recovering a hoard or breaking a blockade reclaims it, and the Crown taxes a share as Recovered Spoils.<br><br>"
 	if(orders_rolled)
 		body += "<b>Standing orders posted this morning:</b> [orders_rolled]"
-		if(urgent_rolled)
-			body += " ([urgent_rolled] urgent)"
 		body += "<br><br>"
 	if(!length(blockades_fired) && !length(blockades_cleared) && !length(blockades_gathering) && !length(events_fired) && !length(events_expired) && !orders_rolled && banditry_total <= 0 && banditry_hoard <= 0)
 		body += "<i>The roads are quiet. No shipment was disturbed overnight.</i><br>"

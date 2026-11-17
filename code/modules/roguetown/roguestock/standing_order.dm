@@ -37,26 +37,6 @@ GLOBAL_LIST_INIT(request_kinds, init_request_kinds())
 /datum/standing_order/request/generate_description(datum/economic_region/region)
 	return ""
 
-
-// ============================================================================
-// urgent - emergency requisition spawned by a shortage economic event.
-// Carries a weakref to its source event; item mix and payout are set by
-// SSeconomy.spawn_urgent_for_event() from the event's affected_goods.
-// ============================================================================
-/datum/standing_order/urgent
-	var/datum/weakref/source_event_ref
-
-/datum/standing_order/urgent/generate_name(datum/economic_region/region)
-	return "[uppertext(region.name)] - URGENT REQUISITION"
-
-/datum/standing_order/urgent/generate_description(datum/economic_region/region)
-	var/list/buyers = list("Local notables", "The town's merchants", "The guild elders", "Desperate burghers", "Local magnates")
-	var/buyer = pick(buyers)
-	var/datum/economic_event/E = source_event_ref?.resolve()
-	if(E)
-		return "[region.name] is suffering from [E.name]. [buyer] are paying a premium for relief."
-	return "[buyer] in [region.name] need goods urgently and will pay extra."
-
 /datum/request_kind
 	var/name
 	var/roll_weight = 1

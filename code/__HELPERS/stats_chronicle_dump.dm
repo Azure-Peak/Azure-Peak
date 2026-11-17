@@ -286,7 +286,6 @@
 	var/list/out = list()
 	out += chronicle_section_header("Econ Events & Blockades")
 	out += chronicle_kv("Econ events fired / expired", "[GLOB.azure_round_stats[STATS_ECON_EVENTS_FIRED]] / [GLOB.azure_round_stats[STATS_ECON_EVENTS_EXPIRED]]")
-	out += chronicle_kv("Urgent orders spawned", "[GLOB.azure_round_stats[STATS_URGENT_ORDERS_SPAWNED]]")
 	out += chronicle_kv("Shortages ended", "[GLOB.azure_round_stats[STATS_SHORTAGES_ENDED]]")
 	out += chronicle_kv("Blockades fired / cleared", "[GLOB.azure_round_stats[STATS_BLOCKADES_FIRED]] / [GLOB.azure_round_stats[STATS_BLOCKADES_CLEARED]]")
 	out += chronicle_kv("Blockade contracts failed", "[GLOB.azure_round_stats[STATS_BLOCKADE_CONTRACTS_FAILED]]")

@@ -158,7 +158,6 @@
 		row["description"] = O.description || ""
 		row["days_left"] = max(0, O.day_expires - GLOB.dayspassed)
 		row["total_payout"] = O.total_payout
-		row["urgent"] = istype(O, /datum/standing_order/urgent) ? TRUE : FALSE
 		row["blockaded"] = (region?.is_region_blockaded) ? TRUE : FALSE
 		row["petitioned"] = O.petitioned ? TRUE : FALSE
 		var/has_warehouse = FALSE

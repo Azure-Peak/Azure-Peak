@@ -34,9 +34,7 @@ SUBSYSTEM_DEF(economy)
 		"blockades_cleared" = list(),
 		"blockades_gathering" = list(),
 		"orders_rolled" = 0,
-		"urgent_rolled" = 0,
 		"regular_orders_by_region" = list(),
-		"urgent_orders_today" = list(),
 	)
 	roundstart_events()
 	roundstart_blockades()
@@ -57,9 +55,7 @@ SUBSYSTEM_DEF(economy)
 			"blockades_cleared" = list(),
 			"blockades_gathering" = list(),
 			"orders_rolled" = 0,
-			"urgent_rolled" = 0,
 			"regular_orders_by_region" = list(),
-			"urgent_orders_today" = list(),
 		)
 	daily_report_diff["day"] = GLOB.dayspassed
 
@@ -110,16 +106,12 @@ SUBSYSTEM_DEF(economy)
 
 	var/list/relieved_today = daily_report_diff["events_relieved"]
 	var/list/by_region = daily_report_diff["regular_orders_by_region"]
-	var/list/urgents_today = daily_report_diff["urgent_orders_today"]
 	var/list/dawn_parts = list()
-	if(length(by_region) || length(urgents_today))
+	if(length(by_region))
 		var/total_regular = 0
 		for(var/region_name in by_region)
 			total_regular += by_region[region_name]
-		var/order_line = "[total_regular] new standing order\s"
-		if(length(urgents_today))
-			order_line += " ([length(urgents_today)] URGENT)"
-		dawn_parts += order_line
+		dawn_parts += "[total_regular] new standing order\s"
 	if(length(dawn_parts))
 		scom_announce("[jointext(dawn_parts, " - ")].")
 	if(length(relieved_today))
@@ -187,83 +179,7 @@ SUBSYSTEM_DEF(economy)
 			bucket = list()
 			daily_report_diff[bucket_key] = bucket
 		bucket += E.name
-	if(E.event_type == ECON_EVENT_SHORTAGE)
-		spawn_urgent_for_event(E)
 	return TRUE
-
-/datum/controller/subsystem/economy/proc/spawn_urgent_for_event(datum/economic_event/E)
-	if(!E || !length(E.affected_goods))
-		return
-	var/current_urgent = 0
-	for(var/datum/standing_order/O as anything in GLOB.standing_order_pool)
-		if(istype(O, /datum/standing_order/urgent))
-			current_urgent++
-	if(current_urgent >= STANDING_ORDERS_MAX_URGENT)
-		return
-	// Pick a region that demands any of the affected goods; fallback to one that produces them.
-	var/list/candidate_regions = list()
-	for(var/region_id in GLOB.economic_regions)
-		var/datum/economic_region/region = GLOB.economic_regions[region_id]
-		if(region.is_region_blockaded)
-			continue
-		for(var/good in E.affected_goods)
-			if(region.demands[good])
-				candidate_regions += region_id
-				break
-	if(!length(candidate_regions))
-		for(var/region_id in GLOB.economic_regions)
-			var/datum/economic_region/region = GLOB.economic_regions[region_id]
-			if(region.is_region_blockaded)
-				continue
-			for(var/good in E.affected_goods)
-				if(region.produces[good])
-					candidate_regions += region_id
-					break
-	if(!length(candidate_regions))
-		return
-	var/chosen_region_id = pick(candidate_regions)
-	var/datum/economic_region/region = GLOB.economic_regions[chosen_region_id]
-	var/datum/standing_order/urgent/O = new()
-	O.region_id = chosen_region_id
-	O.source_event_ref = WEAKREF(E)
-	var/list/mix = list()
-	for(var/good in E.affected_goods)
-		var/datum/trade_good/tg = GLOB.trade_goods[good]
-		// Scale qty inversely with base_price so high-value goods (gems, dendor) land
-		// in small order sizes instead of blowing out the payout math.
-		var/base = tg ? tg.base_price : 5
-		var/qty_lo
-		var/qty_hi
-		if(base >= 40)
-			qty_lo = 3
-			qty_hi = 5
-		else if(base >= 15)
-			qty_lo = 6
-			qty_hi = 12
-		else
-			qty_lo = 12
-			qty_hi = 25
-		mix[good] = rand(qty_lo, qty_hi)
-	O.required_items = mix
-	O.name = O.generate_name(region)
-	O.description = O.generate_description(region)
-	O.day_issued = GLOB.dayspassed
-	O.day_expires = GLOB.dayspassed + URGENT_ORDER_DURATION
-	O.total_payout = compute_order_payout(O)
-	GLOB.standing_order_pool += O
-	E.urgent_order_ref = WEAKREF(O)
-	record_round_statistic(STATS_URGENT_ORDERS_SPAWNED, 1)
-	if(daily_report_diff)
-		var/list/items_text = list()
-		for(var/good_id in O.required_items)
-			var/datum/trade_good/tg = GLOB.trade_goods[good_id]
-			items_text += "[O.required_items[good_id]] [tg ? tg.name : good_id]"
-		var/list/urgents = daily_report_diff["urgent_orders_today"]
-		urgents += list(list(
-			"region" = region.name,
-			"items" = jointext(items_text, ", "),
-			"payout" = O.total_payout,
-		))
 
 /datum/controller/subsystem/economy/proc/expire_economic_events()
 	var/list/expired = list()
@@ -278,9 +194,6 @@ SUBSYSTEM_DEF(economy)
 		if(daily_report_diff)
 			var/list/ended = daily_report_diff["events_expired"]
 			ended += E.name
-		var/datum/standing_order/urgent/O = E.urgent_order_ref?.resolve()
-		if(O && !O.is_fulfilled)
-			GLOB.standing_order_pool -= O
 
 /datum/controller/subsystem/economy/proc/good_steady_price(good_id)
 	var/datum/trade_good/tg = GLOB.trade_goods[good_id]
@@ -289,14 +202,9 @@ SUBSYSTEM_DEF(economy)
 	return (tg.item_type && GLOB.derived_sellprices[tg.item_type]) || tg.base_price
 
 /datum/controller/subsystem/economy/proc/compute_good_unit_payout(datum/standing_order/order, good_id)
-	var/datum/trade_good/tg = GLOB.trade_goods[good_id]
-	if(!tg)
+	if(!GLOB.trade_goods[good_id])
 		return 0
-	var/unit_mult
-	if(istype(order, /datum/standing_order/urgent))
-		unit_mult = max(1.0, tg.global_price_mod)
-	else
-		unit_mult = 1 + STANDING_ORDER_BASE_BONUS
+	var/unit_mult = 1 + STANDING_ORDER_BASE_BONUS
 	if(order.petitioned)
 		unit_mult *= PETITION_TAX_MULT
 	return mammon_round(good_steady_price(good_id) * unit_mult)
@@ -334,7 +242,7 @@ SUBSYSTEM_DEF(economy)
 /datum/controller/subsystem/economy/proc/region_order_count(region_id)
 	var/count = 0
 	for(var/datum/standing_order/O as anything in GLOB.standing_order_pool)
-		if(O.region_id == region_id && !istype(O, /datum/standing_order/urgent))
+		if(O.region_id == region_id)
 			count++
 	return count
 

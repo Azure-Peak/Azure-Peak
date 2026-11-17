@@ -173,12 +173,8 @@
 		<p>Economic events last [ECON_EVENT_DURATION] day(s) and are posted on the noticeboard under <b>Economic Events</b>.</p>
 
 		<ul>
-			<li><b>Shortage</b> - affected goods spike in price. One urgent standing
-			order is posted against the afflicted region, <b>provided fewer than
-			[STANDING_ORDERS_MAX_URGENT] urgent orders are already standing</b>. Past
-			that limit, prices still spike. No urgent order is posted and regular
-			standing orders keep their slots.</li> <li><b>Oversupply</b> - affected goods
-			drop in price.</li>
+			<li><b>Shortage</b> - affected goods spike in price.</li>
+			<li><b>Oversupply</b> - affected goods drop in price.</li>
 		</ul>
 
 		<h3>Ending a Shortage Early</h3> <p>A shortage does not have to run its full
@@ -186,8 +182,6 @@
 		supplying the goods. Every unit of an affected good counts toward relief when
 		the Crown <b>exports</b> it to a region that demands it or delivers it to a
 		standing order.</p>
-
-		<p>The urgent order stays up when a shortage ends early.</p>
 
 		<p>Once cumulative deliveries cross <b>[round(ECON_EVENT_SATURATION_MULT * 100)]% of the average stockpile limit across the affected goods</b>, the
 		shortage ends immediately: prices return to normal and SCOM announces the
