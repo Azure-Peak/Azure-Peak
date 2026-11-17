@@ -62,7 +62,7 @@
 	data["treasury_floor"] = SStreasury.stockpile_purchase_floor
 	data["below_floor"] = (SStreasury.discretionary_fund.balance < SStreasury.stockpile_purchase_floor) ? TRUE : FALSE
 	data["no_deposit"] = TRUE
-	data["next_market_day_minutes"] = max(1, CEILING(seconds_until_dawn() / 60, 1))
+	data["next_market_day_minutes"] = max(1, CEILING(seconds_until_market_day() / 60, 1))
 	data["title"] = "Vomitorium"
 	data["subtitle"] = "Put in mammon, then withdraw goods from the local stockpile."
 

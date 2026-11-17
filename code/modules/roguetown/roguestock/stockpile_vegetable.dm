@@ -12,30 +12,30 @@
 	category = "Vegetable" //Not entirely accurate but it looks prettier in UI
 
 /datum/roguestock/stockpile/oat
-	market_target = MARKET_TARGET_LOW
+	market_target = MARKET_TARGET_STAPLE
 	name = "Oats"
 	desc = "A cereal grain."
 	item_type = /obj/item/reagent_containers/food/snacks/grown/oat
 	trade_good_id = TRADE_GOOD_OATS
-	market_stock = 15
+	market_stock = 12
 	category = "Vegetable"
 
 /datum/roguestock/stockpile/rice
-	market_target = MARKET_TARGET_LOW
+	market_target = MARKET_TARGET_STAPLE
 	name = "Rice"
 	desc = "A grain used for cooking."
 	item_type = /obj/item/reagent_containers/food/snacks/grown/rice
 	trade_good_id = TRADE_GOOD_RICE
-	market_stock = 15
+	market_stock = 12
 	category = "Vegetable"
 
 /datum/roguestock/stockpile/maize
-	market_target = MARKET_TARGET_LOW
+	market_target = MARKET_TARGET_STAPLE
 	name = "Maize"
 	desc = "Cob of maize."
 	item_type = /obj/item/reagent_containers/food/snacks/grown/maize
 	trade_good_id = TRADE_GOOD_MAIZE
-	market_stock = 15
+	market_stock = 12
 	category = "Vegetable"
 
 /datum/roguestock/stockpile/mushroom
@@ -56,12 +56,12 @@
 	category = "Vegetable"
 
 /datum/roguestock/stockpile/potato
-	market_target = MARKET_TARGET_LOW
+	market_target = MARKET_TARGET_STAPLE
 	name = "Potato"
 	desc = "An interesting tuber."
 	item_type = /obj/item/reagent_containers/food/snacks/grown/potato/rogue
 	trade_good_id = TRADE_GOOD_POTATO
-	market_stock = 10
+	market_stock = 12
 	category = "Vegetable"
 
 /datum/roguestock/stockpile/onion
@@ -164,7 +164,8 @@
 	category = "Vegetable"
 
 /datum/roguestock/stockpile/beans
-	market_target = MARKET_TARGET_LOW
+	market_target = MARKET_TARGET_STAPLE
+	market_stock = 12
 	name = "Beans"
 	desc = "Red beans from Naledi."
 	item_type = /obj/item/reagent_containers/food/snacks/grown/beans
@@ -172,6 +173,8 @@
 	category = "Vegetable"
 
 /datum/roguestock/stockpile/lentils
+	market_target = MARKET_TARGET_STAPLE
+	market_stock = 12
 	name = "Lentils"
 	desc = "Multicolored nutty lentils from Naledi."
 	item_type = /obj/item/reagent_containers/food/snacks/grown/lentils

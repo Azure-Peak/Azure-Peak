@@ -101,6 +101,7 @@
 
 #define MARKET_TARGET_RARE 10
 #define MARKET_TARGET_LOW 15
+#define MARKET_TARGET_STAPLE 20
 #define MARKET_TARGET_MODEST 25
 #define MARKET_TARGET_STANDARD 40
 #define MARKET_TARGET_BULK 80
@@ -130,6 +131,7 @@
 
 #define MARKET_DAY_RATE 50
 #define MARKET_DAY_FLOOR 25
+#define MARKET_DAY_GRACE_DAYS 1
 
 // Price multiplier based on market condition
 #define MARKET_MULT_GLUT 25

@@ -88,7 +88,7 @@
 	desc = "A red mineral used to make quicksilver."
 	item_type = /obj/item/rogueore/cinnabar
 	trade_good_id = TRADE_GOOD_CINNABAR
-	market_stock = 20
+	market_stock = 10
 
 /datum/roguestock/stockpile/cloth
 	name = "Cloth"
