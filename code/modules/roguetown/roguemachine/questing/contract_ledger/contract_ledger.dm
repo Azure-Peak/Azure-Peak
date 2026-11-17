@@ -101,6 +101,11 @@
 /obj/structure/roguemachine/contractledger/ui_state(mob/user)
 	return GLOB.human_adjacent_state
 
+/obj/structure/roguemachine/contractledger/ui_status(mob/user, datum/ui_state/state)
+	if(!isliving(user))
+		return UI_CLOSE
+	return ..()
+
 /obj/structure/roguemachine/contractledger/ui_interact(mob/user, datum/tgui/ui)
 	ui = SStgui.try_update_ui(user, src, ui)
 	if(!ui)
