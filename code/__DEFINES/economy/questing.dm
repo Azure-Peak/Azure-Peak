@@ -253,6 +253,7 @@
 #define QUEST_MOB_FRESHSPAWN_TIME (60 SECONDS)
 // Rename after a delay so subtype after_creation() timers don't override it.
 #define QUEST_BOSS_RENAME_DELAY (2 SECONDS)
+#define QUEST_RINGLEADER_MAX_BUDGET_SHARE 0.5
 
 #define QUEST_LANDMARK_MAX_LOCK_DURATION (60 MINUTES)
 
