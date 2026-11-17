@@ -227,9 +227,10 @@
 		span_notice("[caster]'s sunlit touch sears the wounds on my [parse_zone(zone)] shut!"), vision_distance = COMBAT_MESSAGE_RANGE)
 	for(var/datum/wound/bleeder in bodypart.wounds)
 		bleeder.cauterize_wound()
+		bleeder.cauterize_wound()
 		damages++
 	bodypart.receive_damage(burn = (15 * damages)) // painful, but the wounds go away, ALSO dmg multiplier per wound, so normal cautery isn't powercrept
-	if(C.has_status_effect(/datum/status_effect/buff/ozium))
+	if(C.has_status_effect(/datum/status_effect/buff/ozium) || HAS_TRAIT(C, TRAIT_NOPAINSTUN) || HAS_TRAIT(C, TRAIT_NOPAIN) || HAS_TRAIT(C, TRAIT_APRICITY) || HAS_TRAIT(C, TRAIT_PSYDONIAN_GRIT) || HAS_TRAIT(C, TRAIT_MATTHIOS_EYES))
 		C.emote("groan")
 	else
 		C.emote("scream")
