@@ -196,12 +196,12 @@ GLOBAL_LIST_EMPTY(explosions)
 			if(dist_epi <= extreme_impact_range)
 				continue
 			if(L == bomb_owner && HAS_TRAIT(L, TRAIT_BOMBER_EXPERT)) ///bomb experts take less damage from their own, sitting on a pile of 40 of them is still going to instantly obliterate you.
-				brute = rand(20,50) / 5
+				brute = rand(30,60) / 5
 				burn = rand(35,80) / 5
 				for(var/i in 1 to 5)
 					var/zone = pick(BODY_ZONE_HEAD,	BODY_ZONE_CHEST, BODY_ZONE_L_ARM, BODY_ZONE_R_ARM, BODY_ZONE_L_LEG, BODY_ZONE_R_LEG)
-					arcyne_strike(L, L, null, brute, zone, BCLASS_BLUNT, PEN_HEAVY, "heavy concussive impact", TRUE, TRUE, FALSE, BRUTE, null, TRUE)
-					arcyne_strike(L, L, null, burn, zone, BCLASS_BURN, PEN_HEAVY, "heavy concussive blast", TRUE, TRUE, FALSE, BURN, null, TRUE)
+					arcyne_strike(L, L, null, brute, zone, BCLASS_BLUNT, PEN_MEDIUM, "self-resisted heavy concussive impact", TRUE, TRUE, FALSE, BRUTE, null, TRUE) //so you know why they took less :P
+					arcyne_strike(L, L, null, burn, zone, BCLASS_BURN, PEN_MEDIUM, "self-resisted heavy concussive blast", TRUE, TRUE, FALSE, BURN, null, TRUE)
 				continue
 			brute = rand(30,120) / 5
 			burn = rand(50,180) / 5
