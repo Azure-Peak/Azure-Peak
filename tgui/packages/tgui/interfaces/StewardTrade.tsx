@@ -15,10 +15,10 @@ import { ArrearsBanner } from './StewardTrade/ArrearsBanner';
 import { ATCLoanBanner } from './StewardTrade/ATCLoanBanner';
 import { BanditryBanner } from './StewardTrade/BanditryBanner';
 import { BlockadeBanner } from './StewardTrade/BlockadeBanner';
+import { CaravansView } from './StewardTrade/CaravansView';
 import { EventsBanner } from './StewardTrade/EventsBanner';
 import { LedgerView } from './StewardTrade/LedgerView';
 import { MarketView } from './StewardTrade/MarketView';
-import { OrdersView } from './StewardTrade/OrdersView';
 import { PetitionView } from './StewardTrade/PetitionView';
 import { RegionsView } from './StewardTrade/RegionsView';
 import { SequesteredOverlay } from './StewardTrade/SequesteredOverlay';
@@ -29,7 +29,7 @@ import { formatMammon } from './common/format';
 
 export const StewardTrade = () => {
   const { data, act } = useBackend<Data>();
-  const [tab, setTab] = useState<TabKey>('orders');
+  const [tab, setTab] = useState<TabKey>('caravans');
 
   useEffect(() => {
     if (tab === 'ledger') {
@@ -94,7 +94,7 @@ export const StewardTrade = () => {
           <TabBar tab={tab} onSwitch={setTab} />
           <hr style={rulerStyle} />
 
-          {tab === 'orders' && <OrdersView data={data} />}
+          {tab === 'caravans' && <CaravansView data={data} />}
           {tab === 'market' && (
             <SequesteredOverlay
               active={!!data.sequestration?.active}

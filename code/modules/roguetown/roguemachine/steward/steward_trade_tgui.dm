@@ -22,7 +22,6 @@
 /// hardcoded caps. TGUI caches this and doesn't re-ship it per tick.
 /obj/structure/roguemachine/steward/ui_static_data(mob/user)
 	var/list/data = list()
-	data["order_pool_cap"] = STANDING_ORDERS_POOL_CAP
 	data["order_extend_cost"] = STANDING_ORDER_EXTEND_COST
 	data["quality_payouts"] = list(
 		list("label" = "worn", "pct" = round(ITEM_QUALITY_MULT_WORN * 100)),
@@ -56,6 +55,27 @@
 			"description" = region.description,
 		)
 	data["region_catalog"] = region_catalog
+
+	var/list/caravan_routes = list()
+	for(var/route in subtypesof(/datum/trade_route))
+		var/list/subroutes = list()
+		for(var/datum/trade_subroute/subroute as anything in subtypesof(/datum/trade_subroute))
+			if(initial(subroute.route) != route)
+				continue
+			var/list/region_ids = list()
+			for(var/datum/economic_region/region as anything in get_subroute_regions(subroute))
+				region_ids += region.region_id
+			subroutes += list(list(
+				"id" = "[subroute]",
+				"name" = initial(subroute.name),
+				"region_ids" = region_ids,
+			))
+		caravan_routes += list(list(
+			"id" = "[route]",
+			"name" = get_route_name(route),
+			"subroutes" = subroutes,
+		))
+	data["caravan_routes"] = caravan_routes
 
 	var/list/petition_categories = list()
 	for(var/cat_id in GLOB.petition_categories)
@@ -222,6 +242,49 @@
 		))
 	data["active_orders"] = orders
 
+	var/list/offer_rows = list()
+	for(var/datum/region_offer/offer as anything in GLOB.region_offer_pool)
+		offer_rows += list(list(
+			"ref" = REF(offer),
+			"region_id" = offer.region_id,
+			"good_id" = offer.good_id,
+			"units" = offer.units,
+			"unit_price" = offer.unit_price,
+			"total_price" = offer.total_price,
+		))
+	data["active_offers"] = offer_rows
+
+	var/list/region_caravan = list()
+	for(var/region_id in GLOB.economic_regions)
+		var/datum/economic_region/region = GLOB.economic_regions[region_id]
+		var/list/tribute = list()
+		var/list/tribute_units = region.tribute_units()
+		for(var/good_id in tribute_units)
+			tribute += list(list("good_id" = good_id, "units" = tribute_units[good_id]))
+		region_caravan[region_id] = list(
+			"blockaded" = region.is_region_blockaded ? TRUE : FALSE,
+			"tribute" = tribute,
+			"tribute_blocker" = region.tribute_blocker() || "",
+		)
+	data["region_caravan"] = region_caravan
+
+	var/list/trips = list()
+	for(var/datum/caravan_trip/trip as anything in SSeconomy.caravan_trips)
+		var/datum/trade_good/offer_good = trip.offer_good_id ? GLOB.trade_goods[trip.offer_good_id] : null
+		var/datum/economic_region/tribute_region = trip.tribute_region_id ? GLOB.economic_regions[trip.tribute_region_id] : null
+		trips += list(list(
+			"route" = get_route_name(trip.route),
+			"request" = trip.request_name,
+			"offer" = trip.offer_good_id ? "[trip.offer_units] [offer_good ? offer_good.name : trip.offer_good_id]" : null,
+			"tribute" = tribute_region?.name,
+		))
+	data["caravans"] = list(
+		"fleet" = SSeconomy.caravan_fleet,
+		"home" = SSeconomy.caravans_home(),
+		"return_minutes" = max(1, CEILING(seconds_until_dawn() / 60, 1)),
+		"trips" = trips,
+	)
+
 	// Caching more for performance
 	if(SStreasury.market_view_dirty || isnull(SStreasury.cached_market_rows))
 		rebuild_market_view()
@@ -381,6 +444,31 @@ GLOBAL_LIST_INIT(steward_trade_sequestration_locked_actions, list(
 				petition_view[usr.ckey] = template
 			else
 				petition_view -= usr.ckey
+			SStgui.update_uis(src)
+			return TRUE
+		if("send_caravan")
+			var/route = text2path(params["route"])
+			if(!ispath(route, /datum/trade_route))
+				return TRUE
+			var/datum/standing_order/request
+			if(params["request"])
+				request = locate(params["request"]) in GLOB.standing_order_pool
+				if(!request)
+					to_chat(usr, span_warning("That order is gone."))
+					SStgui.update_uis(src)
+					return TRUE
+			var/datum/region_offer/offer
+			if(params["offer"])
+				offer = locate(params["offer"]) in GLOB.region_offer_pool
+				if(!offer)
+					to_chat(usr, span_warning("That offer is gone."))
+					SStgui.update_uis(src)
+					return TRUE
+			var/datum/economic_region/tribute_region
+			if(params["tribute"])
+				tribute_region = GLOB.economic_regions[params["tribute"]]
+			if(SSeconomy.send_caravan(usr, route, request, offer, tribute_region))
+				playsound(src, 'sound/misc/coindispense.ogg', 60, FALSE, -1)
 			SStgui.update_uis(src)
 			return TRUE
 		if("extend_order")

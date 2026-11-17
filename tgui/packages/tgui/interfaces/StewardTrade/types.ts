@@ -180,9 +180,21 @@ export type LedgerPage = {
   subsidiary?: Subsidiary;
 };
 
+export type CaravanSubroute = {
+  id: string;
+  name: string;
+  region_ids: string[];
+};
+
+export type CaravanRoute = {
+  id: string;
+  name: string;
+  subroutes: CaravanSubroute[];
+};
+
 export type StaticData = {
-  order_pool_cap: number;
   order_extend_cost: number;
+  caravan_routes: CaravanRoute[];
   quality_payouts: { label: string; pct: number }[];
   good_catalog: Record<string, GoodCatalogEntry>;
   region_catalog: Record<string, RegionCatalogEntry>;
@@ -213,6 +225,40 @@ export type Order = {
   items: OrderItem[];
   petitioned: BooleanLike;
   extend_blocker: string;
+};
+
+export type ActiveOffer = {
+  ref: string;
+  region_id: string;
+  good_id: string;
+  units: number;
+  unit_price: number;
+  total_price: number;
+};
+
+export type TributeLine = {
+  good_id: string;
+  units: number;
+};
+
+export type RegionCaravanState = {
+  blockaded: BooleanLike;
+  tribute: TributeLine[];
+  tribute_blocker: string;
+};
+
+export type CaravanTrip = {
+  route: string;
+  request: string | null;
+  offer: string | null;
+  tribute: string | null;
+};
+
+export type CaravanState = {
+  fleet: number;
+  home: number;
+  return_minutes: number;
+  trips: CaravanTrip[];
 };
 
 export type EconomicEvent = {
@@ -313,6 +359,9 @@ export type Data = StaticData & {
   banditry_projection: BanditryProjection;
   active_events: EconomicEvent[];
   active_orders: Order[];
+  active_offers: ActiveOffer[];
+  region_caravan: Record<string, RegionCaravanState>;
+  caravans: CaravanState;
   market_rows: MarketRow[];
   region_rows: RegionRow[];
   petition_categories: PetitionCategory[];
@@ -323,4 +372,9 @@ export type Data = StaticData & {
   atc_loan: AtcLoanState;
 };
 
-export type TabKey = 'orders' | 'market' | 'regions' | 'petition' | 'ledger';
+export type TabKey =
+  | 'caravans'
+  | 'market'
+  | 'regions'
+  | 'petition'
+  | 'ledger';

@@ -35,10 +35,10 @@ export const TabBar = (props: {
   return (
     <div style={tabBarStyle}>
       <div
-        style={tabStyle(tab === 'orders')}
-        onClick={() => onSwitch('orders')}
+        style={tabStyle(tab === 'caravans')}
+        onClick={() => onSwitch('caravans')}
       >
-        Standing Orders
+        Caravans
       </div>
       <div
         style={tabStyle(tab === 'market')}

@@ -201,9 +201,8 @@ const HelpPanel = () => (
     }}
   >
     <p style={{ margin: '0 0 6px 0' }}>
-      Standing orders are demands posted by the realm&apos;s stockpiles and
-      merchants. Speak with the Steward or Clerk at the Nerve Master to fulfill
-      a stockpile order.
+      Standing orders are demands posted by the realm&apos;s regions. The
+      Steward fills them by caravan from the Nerve Master.
     </p>
     <p style={{ margin: '0 0 6px 0' }}>
       <b>WAREHOUSE</b>-tagged orders require finished goods to be left at the

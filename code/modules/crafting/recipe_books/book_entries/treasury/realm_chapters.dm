@@ -146,10 +146,10 @@
 		goods come from those templates.</p>
 
 		<h3>Fulfillment</h3>
-		<p>Stockpile orders: deposit goods and confirm at the Nerve Master. The payout
-		goes into the Treasury. Warehouse orders: settled automatically on sweep. The
-		Treasury is paid directly. The Steward decides who gets a share of the profit
-		and how much.</p>
+		<p>Orders are delivered by caravan from the Nerve Master. A caravan carries one
+		order, one offer and one region's tribute along a route, and returns the next dawn.
+		Stockpile goods leave from the royal stockpile, and finished goods leave from the
+		warehouse dock. The payout goes into the Treasury.</p>
 
 		<p><b>Partial delivery:</b> an order can be delivered in parts. Each unit
 		is paid in full and an order stay open until it expires.</p>

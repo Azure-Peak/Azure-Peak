@@ -42,7 +42,7 @@
 
 // How many caravans you start with - 4 for a decent amount of Steward agency
 // You get +1 per day, up to a maximum of 8. This way Steward don't need to compete and gain increased economic power as the round goes on
-#define CARAVAN_FLEET_START 4
+#define CARAVAN_FLEET_START 3
 #define CARAVAN_FLEET_PER_DAY 1
 #define CARAVAN_FLEET_MAX 8
 
