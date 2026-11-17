@@ -467,12 +467,28 @@
 		if(max(abs(hunter_turf.x - leash_origin.x), abs(hunter_turf.y - leash_origin.y)) > NOTORIOUS_BOUNTY_LEASH_RANGE)
 			continue
 		if(M.stat == DEAD)
+			if(ishuman(M) && !M.get_bodypart(BODY_ZONE_HEAD))
+				reattach_head(M)
+			if(M.mind?.current != M)
+				continue
 			M.grab_ghost(force = TRUE)
 			M.revive(full_heal = TRUE, admin_revive = TRUE)
 			to_chat(M, span_boldnotice("The scroll spends the last of its magicka dragging you back from Necra's door. You draw breath again."))
 			continue
 		M.fully_heal()
 		to_chat(M, span_boldnotice("The scroll spends the last of its magicka keeping you breathing. You come to."))
+
+/datum/quest/kill/notorious_bounty/proc/reattach_head(mob/living/carbon/human/M)
+	var/mob/living/brain/B = M.last_mind?.current
+	if(!istype(B))
+		return FALSE
+	var/obj/item/bodypart/head/H = B.loc
+	if(!istype(H) || QDELETED(H) || H.owner || !H.brain)
+		return FALSE
+	if(ismob(H.loc))
+		var/mob/holder = H.loc
+		holder.temporarilyRemoveItemFromInventory(H, TRUE)
+	return H.attach_limb(M)
 
 /datum/quest/kill/notorious_bounty/proc/grant_darkvision(mob/living/M)
 	if(QDELETED(M))
