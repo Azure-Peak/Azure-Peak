@@ -132,6 +132,8 @@
 	// Add some visual variety
 	pixel_x = rand(-6, 6)
 	pixel_y = rand(-6, 6)
+	if(trail_depth == 0 && is_snowy_turf(get_turf(src)))
+		icon_state = "[icon_state]_s"
 
 /obj/effect/hunting_track/Destroy()
 	clear_party_images()
@@ -274,7 +276,7 @@
 			next_trail.hunt_category = src.hunt_category
 			next_trail.locked_track_icon = src.locked_track_icon
 			next_trail.linked_areas = src.linked_areas
-			next_trail.color = "#ff9100"
+			next_trail.color = is_snowy_turf(T) ? "#aebfc2" : "#ff9100"
 			next_trail.linked_areas = src.linked_areas
 			next_trail.plane = GAME_PLANE_HIGHEST
 			next_trail.setup_hunter_visibility()
@@ -355,8 +357,9 @@
 
 	invisibility = 0
 	plane = GAME_PLANE
-	icon_state = locked_track_icon
-	name = "[icon_state] tracks"
+	var/base_icon = locked_track_icon
+	icon_state = is_snowy_turf(get_turf(src)) ? "[base_icon]_s" : base_icon
+	name = "[base_icon] tracks"
 	desc = "Fresh prints leading away into the wilderness."
 	color = null
 
@@ -531,3 +534,10 @@
 		qdel(I)
 
 	party_images.Cut()
+
+/obj/effect/hunting_track/proc/is_snowy_turf(turf/T)
+	if(!T)
+		return FALSE
+	return istype(T, /turf/open/floor/rogue/grasscold) || \
+		istype(T, /turf/open/floor/rogue/snow) || \
+		istype(T, /turf/open/floor/rogue/snowpatchy)
