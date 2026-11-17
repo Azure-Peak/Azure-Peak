@@ -22,7 +22,9 @@ GLOBAL_LIST_INIT(economic_regions, init_economic_regions())
 	var/list/demands = list()
 	var/list/supply_sources = list()
 	var/list/demand_sources = list()
+	var/list/tribute_goods = list()
 	var/list/gifts = list()
+	var/tribute_day = -1
 	var/list/request_kinds = list()
 	var/associated_marker_id
 	var/is_region_blockaded = FALSE
@@ -66,6 +68,61 @@ GLOBAL_LIST_INIT(economic_regions, init_economic_regions())
 
 /datum/economic_region/proc/scaled_volume(volume, multiplier)
 	return max(1, round(volume * multiplier, 1))
+
+/proc/tribute_pop_mult()
+	var/progress = (SSeconomy.get_effective_player_count() - TRIBUTE_POP_SCALE_START) / (TRIBUTE_POP_SCALE_FULL - TRIBUTE_POP_SCALE_START)
+	return 1 + clamp(progress, 0, 1) * (TRIBUTE_POP_MAX_MULT - 1)
+
+/datum/economic_region/proc/tribute_units()
+	var/list/units = list()
+	if(!length(tribute_goods))
+		return units
+	var/value = TRIBUTE_VALUE * tribute_pop_mult() / length(tribute_goods)
+	for(var/good_id in tribute_goods)
+		var/price = SSeconomy.good_steady_price(good_id)
+		if(price <= 0)
+			continue
+		units[good_id] = max(1, round(value / price))
+	return units
+
+/datum/economic_region/proc/collect_tribute(mob/user)
+	if(is_region_blockaded)
+		if(user)
+			to_chat(user, span_warning("[name] is blockaded. No tribute will come through until it is  cleared."))
+		return FALSE
+	if(tribute_day == GLOB.dayspassed)
+		if(user)
+			to_chat(user, span_warning("[name] has already sent its tribute today."))
+		return FALSE
+	var/list/units = tribute_units()
+	if(!length(units))
+		return FALSE
+	tribute_day = GLOB.dayspassed
+	for(var/good_id in units)
+		var/datum/roguestock/D = SSeconomy.find_stockpile_by_trade_good(good_id)
+		if(!D)
+			continue
+		D.royal_stock += units[good_id]
+		record_material_flow(MATERIAL_FLOW_IN, MATERIAL_SOURCE_LOCAL_IMPORT, D.item_type, units[good_id])
+	deliver_gifts()
+	SStreasury.dirty_market_view()
+	log_game("TRIBUTE collected from [name] by [user ? key_name(user) : "system"]")
+	return TRUE
+
+/datum/economic_region/proc/deliver_gifts()
+	if(!length(gifts))
+		return
+	var/area/warehouse = GLOB.areas_by_type[/area/rogue/indoors/town/warehouse]
+	if(!warehouse)
+		return
+	var/list/turfs = list()
+	for(var/turf/T in warehouse)
+		turfs += T
+	if(!length(turfs))
+		return
+	for(var/gift_type in gifts)
+		var/obj/item/gift = new gift_type(pick(turfs))
+		gift.AddComponent(/datum/component/unsellable)
 
 /// Builds the AZURIA'S REGIONS section of the Lore Primer from the economic_region datums,
 /// so steward UI prose and primer prose stay in sync from a single source.
