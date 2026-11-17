@@ -1,4 +1,5 @@
 /datum/roguestock/stockpile/viscera
+	market_target = MARKET_TARGET_MODEST
 	name = "Viscera"
 	desc = "Fresh organs and offal. Alchemists value them."
 	item_type = /obj/item/alch/viscera
@@ -6,6 +7,7 @@
 	category = "Alchemy"
 
 /datum/roguestock/stockpile/sinew
+	market_target = MARKET_TARGET_MODEST
 	name = "Sinew"
 	desc = "Tough animal tendon. Alchemists and crafters have some use for it."
 	item_type = /obj/item/alch/sinew
@@ -13,6 +15,7 @@
 	category = "Alchemy"
 
 /datum/roguestock/stockpile/calendula
+	market_target = MARKET_TARGET_LOW
 	name = "Calendula"
 	desc = "Golden marigold flowers prized by apothecaries for healing salves."
 	item_type = /obj/item/alch/calendula

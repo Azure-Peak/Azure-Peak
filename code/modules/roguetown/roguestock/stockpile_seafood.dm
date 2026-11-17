@@ -13,6 +13,7 @@
 	category = "Seafood"
 
 /datum/roguestock/stockpile/dried_fish
+	market_target = MARKET_TARGET_MODEST
 	name = "Dried Fish Filet"
 	desc = "Fish cured in salt for the fleet's long voyages."
 	item_type = /obj/item/reagent_containers/food/snacks/rogue/meat/driedfishfilet
@@ -20,6 +21,7 @@
 	category = "Seafood"
 
 /datum/roguestock/stockpile/salmon
+	market_target = MARKET_TARGET_MODEST
 	name = "Salmon"
 	desc = "Whole slab of salmon."
 	item_type = /obj/item/reagent_containers/food/snacks/fish/salmon
@@ -27,6 +29,7 @@
 	category = "Seafood"
 
 /datum/roguestock/stockpile/bass
+	market_target = MARKET_TARGET_MODEST
 	name = "Seabass"
 	desc = "Whole slab of bass."
 	item_type = /obj/item/reagent_containers/food/snacks/fish/bass
@@ -34,6 +37,7 @@
 	category = "Seafood"
 
 /datum/roguestock/stockpile/carp
+	market_target = MARKET_TARGET_MODEST
 	name = "Carp"
 	desc = "Whole slab of carp."
 	item_type = /obj/item/reagent_containers/food/snacks/fish/carp
@@ -41,6 +45,7 @@
 	category = "Seafood"
 
 /datum/roguestock/stockpile/sole
+	market_target = MARKET_TARGET_MODEST
 	name = "Sole"
 	desc = "Whole slab of sole."
 	item_type = /obj/item/reagent_containers/food/snacks/fish/sole
@@ -48,6 +53,7 @@
 	category = "Seafood"
 
 /datum/roguestock/stockpile/cod
+	market_target = MARKET_TARGET_MODEST
 	name = "Cod"
 	desc = "Whole slab of cod."
 	item_type = /obj/item/reagent_containers/food/snacks/fish/cod
@@ -55,6 +61,7 @@
 	category = "Seafood"
 
 /datum/roguestock/stockpile/crab
+	market_target = MARKET_TARGET_MODEST
 	name = "Crab"
 	desc = "Whole slab of crab."
 	item_type = /obj/item/reagent_containers/food/snacks/fish/crab
@@ -62,6 +69,7 @@
 	category = "Seafood"
 
 /datum/roguestock/stockpile/clam
+	market_target = MARKET_TARGET_MODEST
 	name = "Clam"
 	desc = "Whole slab of clam."
 	item_type = /obj/item/reagent_containers/food/snacks/fish/clam
@@ -69,6 +77,7 @@
 	category = "Seafood"
 
 /datum/roguestock/stockpile/lobster
+	market_target = MARKET_TARGET_MODEST
 	name = "Lobster"
 	desc = "Whole slab of lobster."
 	item_type = /obj/item/reagent_containers/food/snacks/fish/lobster
@@ -76,6 +85,7 @@
 	category = "Seafood"
 
 /datum/roguestock/stockpile/shrimp
+	market_target = MARKET_TARGET_MODEST
 	name = "Shrimp"
 	desc = "A handful of whole shrimp."
 	item_type = /obj/item/reagent_containers/food/snacks/fish/shrimp
@@ -83,6 +93,7 @@
 	category = "Seafood"
 
 /datum/roguestock/stockpile/mudskipper
+	market_target = MARKET_TARGET_MODEST
 	name = "Mudskipper"
 	desc = "Whole slab of mudskipper."
 	item_type = /obj/item/reagent_containers/food/snacks/fish/mudskipper
@@ -90,6 +101,7 @@
 	category = "Seafood"
 
 /datum/roguestock/stockpile/swamp_shrimp
+	market_target = MARKET_TARGET_MODEST
 	name = "Swamp Shrimp"
 	desc = "A handful of whole swamp shrimp."
 	item_type = /obj/item/reagent_containers/food/snacks/fish/swamp_shrimp
@@ -97,6 +109,7 @@
 	category = "Seafood"
 
 /datum/roguestock/stockpile/swamp_mother
+	market_target = MARKET_TARGET_MODEST
 	name = "Swamp Mother"
 	desc = "Whole slab of swamp mother."
 	item_type = /obj/item/reagent_containers/food/snacks/fish/swamp_mother
@@ -104,6 +117,7 @@
 	category = "Seafood"
 
 /datum/roguestock/stockpile/eel
+	market_target = MARKET_TARGET_MODEST
 	name = "Eel"
 	desc = "Whole slab of eel."
 	item_type = /obj/item/reagent_containers/food/snacks/fish/eel
@@ -111,6 +125,7 @@
 	category = "Seafood"
 
 /datum/roguestock/stockpile/black_bass
+	market_target = MARKET_TARGET_MODEST
 	name = "Black Bass"
 	desc = "Whole slab of black bass."
 	item_type = /obj/item/reagent_containers/food/snacks/fish/black_bass
@@ -118,6 +133,7 @@
 	category = "Seafood"
 
 /datum/roguestock/stockpile/flounder
+	market_target = MARKET_TARGET_MODEST
 	name = "Flounder"
 	desc = "Whole slab of flounder."
 	item_type = /obj/item/reagent_containers/food/snacks/fish/flounder
@@ -125,6 +141,7 @@
 	category = "Seafood"
 
 /datum/roguestock/stockpile/mackerel
+	market_target = MARKET_TARGET_MODEST
 	name = "Mackerel"
 	desc = "Whole slab of mackerel."
 	item_type = /obj/item/reagent_containers/food/snacks/fish/mackerel

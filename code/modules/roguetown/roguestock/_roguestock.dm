@@ -6,7 +6,7 @@
 	var/royal_stock = 0
 	// The amount held by the market, used for computing market price
 	var/market_stock = 0
-	var/market_target = 0
+	var/market_target = MARKET_TARGET_STANDARD
 	// Only the stockpile can ever purchase these goods. The market will never supply them
 	var/market_never_supplies = FALSE
 	var/payout_price = 1
@@ -20,8 +20,6 @@
 		var/datum/trade_good/tg = GLOB.trade_goods[trade_good_id]
 		if(tg)
 			compute_auto_prices(tg)
-	if(!market_target)
-		market_target = compute_market_target()
 	market_stock = market_target
 	return
 
@@ -42,14 +40,6 @@
 	out["seller_payout"] = stockpile_price(seller_payout)
 	out["q_mult"] = q_mult
 	return out
-
-/datum/roguestock/proc/compute_market_target()
-	var/total = 0
-	if(trade_good_id)
-		for(var/region_id in GLOB.economic_regions)
-			var/datum/economic_region/region = GLOB.economic_regions[region_id]
-			total += (region.produces[trade_good_id] || 0) + (region.demands[trade_good_id] || 0)
-	return clamp(total, MARKET_TARGET_MIN, MARKET_TARGET_MAX)
 
 /datum/roguestock/proc/market_has_supply()
 	if(!trade_good_id)

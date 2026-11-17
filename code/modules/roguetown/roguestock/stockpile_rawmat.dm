@@ -1,4 +1,5 @@
 /datum/roguestock/stockpile/wood
+	market_target = MARKET_TARGET_MASS
 	name = "Wood"
 	desc = "Wooden logs cut short for transport."
 	item_type = /obj/item/grown/log/tree/small
@@ -6,6 +7,7 @@
 	royal_stock = 10
 
 /datum/roguestock/stockpile/coal
+	market_target = MARKET_TARGET_BULK
 	name = "Coal"
 	desc = "Chunks of coal used for fuel and alloying."
 	item_type = /obj/item/rogueore/coal
@@ -13,6 +15,7 @@
 	royal_stock = 10
 
 /datum/roguestock/stockpile/stone
+	market_target = MARKET_TARGET_BULK
 	name = "Stone"
 	desc = "Stones. Used for construction"
 	item_type = /obj/item/natural/stone
@@ -41,6 +44,7 @@
 	royal_stock = 5
 
 /datum/roguestock/stockpile/iron
+	market_target = MARKET_TARGET_BULK
 	name = "Raw Iron"
 	desc = "Chunks of iron used for smithing."
 	item_type = /obj/item/rogueore/iron
@@ -79,6 +83,7 @@
 	market_never_supplies = TRUE
 
 /datum/roguestock/stockpile/cinnabar
+	market_target = MARKET_TARGET_MODEST
 	name = "Cinnabar"
 	desc = "A red mineral used to make quicksilver."
 	item_type = /obj/item/rogueore/cinnabar
@@ -100,6 +105,7 @@
 	royal_stock = 10
 
 /datum/roguestock/stockpile/silk
+	market_target = MARKET_TARGET_MODEST
 	name = "Silk"
 	desc = "Strands of spider silk used to make exotic clothes."
 	item_type = /obj/item/natural/silk

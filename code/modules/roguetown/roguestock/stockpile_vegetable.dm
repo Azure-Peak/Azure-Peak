@@ -12,6 +12,7 @@
 	category = "Vegetable" //Not entirely accurate but it looks prettier in UI
 
 /datum/roguestock/stockpile/oat
+	market_target = MARKET_TARGET_LOW
 	name = "Oats"
 	desc = "A cereal grain."
 	item_type = /obj/item/reagent_containers/food/snacks/grown/oat
@@ -20,6 +21,7 @@
 	category = "Vegetable"
 
 /datum/roguestock/stockpile/rice
+	market_target = MARKET_TARGET_LOW
 	name = "Rice"
 	desc = "A grain used for cooking."
 	item_type = /obj/item/reagent_containers/food/snacks/grown/rice
@@ -28,6 +30,7 @@
 	category = "Vegetable"
 
 /datum/roguestock/stockpile/maize
+	market_target = MARKET_TARGET_LOW
 	name = "Maize"
 	desc = "Cob of maize."
 	item_type = /obj/item/reagent_containers/food/snacks/grown/maize
@@ -36,6 +39,7 @@
 	category = "Vegetable"
 
 /datum/roguestock/stockpile/mushroom
+	market_target = MARKET_TARGET_LOW
 	name = "Mushroom"
 	desc = "A fungus that goes well in soups or grilled."
 	item_type = /obj/item/reagent_containers/food/snacks/rogue/mushroom
@@ -44,6 +48,7 @@
 	category = "Vegetable"
 
 /datum/roguestock/stockpile/cabbage
+	market_target = MARKET_TARGET_LOW
 	name = "Cabbage"
 	desc = "A leafy vegetable."
 	item_type = /obj/item/reagent_containers/food/snacks/grown/cabbage/rogue
@@ -52,6 +57,7 @@
 	category = "Vegetable"
 
 /datum/roguestock/stockpile/potato
+	market_target = MARKET_TARGET_LOW
 	name = "Potato"
 	desc = "An interesting tuber."
 	item_type = /obj/item/reagent_containers/food/snacks/grown/potato/rogue
@@ -60,6 +66,7 @@
 	category = "Vegetable"
 
 /datum/roguestock/stockpile/onion
+	market_target = MARKET_TARGET_LOW
 	name = "Onion"
 	desc = "A bulb vegetable."
 	item_type = /obj/item/reagent_containers/food/snacks/grown/onion/rogue
@@ -68,6 +75,7 @@
 	category = "Vegetable"
 
 /datum/roguestock/stockpile/garlick
+	market_target = MARKET_TARGET_LOW
 	name = "Garlick"
 	desc = "A pungent root vegetable."
 	item_type = /obj/item/reagent_containers/food/snacks/grown/garlick/rogue
@@ -76,6 +84,7 @@
 	category = "Vegetable"
 
 /datum/roguestock/stockpile/turnip
+	market_target = MARKET_TARGET_LOW
 	name = "Turnip"
 	desc = "A hardy root vegetable suitable for soups. Favored by the poor."
 	item_type = /obj/item/reagent_containers/food/snacks/grown/vegetable/turnip
@@ -84,6 +93,7 @@
 	category = "Vegetable"
 
 /datum/roguestock/stockpile/carrot
+	market_target = MARKET_TARGET_LOW
 	name = "Carrot"
 	desc = "A long vegetable said to help with eyesight."
 	item_type = /obj/item/reagent_containers/food/snacks/grown/carrot
@@ -92,6 +102,7 @@
 	category = "Vegetable"
 
 /datum/roguestock/stockpile/cucumber
+	market_target = MARKET_TARGET_LOW
 	name = "Cucumber"
 	desc = "A refreshing, long and green vegetable."
 	item_type = /obj/item/reagent_containers/food/snacks/grown/cucumber
@@ -100,6 +111,7 @@
 	category = "Vegetable"
 
 /datum/roguestock/stockpile/eggplant
+	market_target = MARKET_TARGET_LOW
 	name = "Eggplant"
 	desc = "A large, purple vegetable with a mild taste."
 	item_type = /obj/item/reagent_containers/food/snacks/grown/eggplant
@@ -108,6 +120,7 @@
 	category = "Vegetable"
 
 /datum/roguestock/stockpile/sugar
+	market_target = MARKET_TARGET_LOW
 	name = "Sugar"
 	desc = "A sweet powder milled from sugarcane."
 	item_type = /obj/item/reagent_containers/food/snacks/sugar
@@ -116,6 +129,7 @@
 	category = "Vegetable"
 
 /datum/roguestock/stockpile/coffee
+	market_target = MARKET_TARGET_LOW
 	name = "Coffee Beans"
 	desc = "The seed of the coffee plant. It makes a stimulating drink."
 	item_type = /obj/item/reagent_containers/food/snacks/grown/coffeebeans
@@ -124,6 +138,7 @@
 	category = "Vegetable"
 
 /datum/roguestock/stockpile/tea
+	market_target = MARKET_TARGET_LOW
 	name = "Dried Tea Leaves"
 	desc = "Dried tea leaves from the tea plant. Can be ground and brewed to make tea."
 	item_type = /obj/item/reagent_containers/food/snacks/grown/rogue/tealeaves_dry
@@ -132,6 +147,7 @@
 	category = "Vegetable"
 
 /datum/roguestock/stockpile/poppy
+	market_target = MARKET_TARGET_LOW
 	name = "Poppy"
 	desc = "A seed with a sedative effect."
 	item_type = /obj/item/reagent_containers/food/snacks/grown/rogue/poppy
@@ -140,6 +156,7 @@
 	category = "Vegetable"
 
 /datum/roguestock/stockpile/rocknut
+	market_target = MARKET_TARGET_LOW
 	name = "Rocknut"
 	desc = "A nut with mild stimulant properties."
 	item_type = /obj/item/reagent_containers/food/snacks/grown/nut
@@ -148,6 +165,7 @@
 	category = "Vegetable"
 
 /datum/roguestock/stockpile/beans
+	market_target = MARKET_TARGET_LOW
 	name = "Beans"
 	desc = "Red beans from Naledi."
 	item_type = /obj/item/reagent_containers/food/snacks/grown/beans
