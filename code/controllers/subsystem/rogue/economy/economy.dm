@@ -14,6 +14,7 @@ SUBSYSTEM_DEF(economy)
 	var/caravan_fleet = CARAVAN_FLEET_START
 	var/list/caravan_trips = list()
 	var/list/escorted_subroutes = list()
+	var/list/commission_orders = list()
 
 
 /datum/controller/subsystem/economy/proc/get_effective_player_count()
@@ -27,7 +28,7 @@ SUBSYSTEM_DEF(economy)
 
 /datum/controller/subsystem/economy/Initialize(mapload)
 	daily_report_diff = list(
-		"day" = GLOB.dayspassed,
+		"day" = ECONOMY_DAY,
 		"events_fired" = list(),
 		"events_expired" = list(),
 		"blockades_fired" = list(),
@@ -57,18 +58,20 @@ SUBSYSTEM_DEF(economy)
 			"orders_rolled" = 0,
 			"regular_orders_by_region" = list(),
 		)
-	daily_report_diff["day"] = GLOB.dayspassed
+	daily_report_diff["day"] = ECONOMY_DAY
 
 	var/effective_pop = get_effective_player_count()
 
 	resolve_caravans()
+	restock_crown_imports()
+	restock_commissions()
 
 	var/list/expired = list()
 	for(var/datum/standing_order/O as anything in GLOB.standing_order_pool)
 		if(O.is_fulfilled)
 			expired += O
 			continue
-		if(O.day_expires <= GLOB.dayspassed)
+		if(O.day_expires <= ECONOMY_DAY)
 			expired += O
 	for(var/datum/standing_order/O as anything in expired)
 		if(!O.is_fulfilled)
@@ -146,7 +149,7 @@ SUBSYSTEM_DEF(economy)
 		if(initial(probe.event_type) == ECON_EVENT_NARRATIVE)
 			continue	// narrative events don't roll in v1
 		var/cooled_until = event_path_cooldowns[path]
-		if(cooled_until && GLOB.dayspassed < cooled_until)
+		if(cooled_until && ECONOMY_DAY < cooled_until)
 			continue
 		var/datum/economic_event/tentative = new path()
 		var/clash = FALSE
@@ -165,8 +168,8 @@ SUBSYSTEM_DEF(economy)
 		return FALSE
 	var/chosen_path = pick(eligible)
 	var/datum/economic_event/E = new chosen_path()
-	E.day_started = GLOB.dayspassed
-	E.day_expires = GLOB.dayspassed + E.duration_days
+	E.day_started = ECONOMY_DAY
+	E.day_expires = ECONOMY_DAY + E.duration_days
 	GLOB.active_economic_events += E
 	E.on_apply()
 	record_round_statistic(STATS_ECON_EVENTS_FIRED, 1)
@@ -184,12 +187,12 @@ SUBSYSTEM_DEF(economy)
 /datum/controller/subsystem/economy/proc/expire_economic_events()
 	var/list/expired = list()
 	for(var/datum/economic_event/E as anything in GLOB.active_economic_events)
-		if(E.day_expires <= GLOB.dayspassed)
+		if(E.day_expires <= ECONOMY_DAY)
 			expired += E
 	for(var/datum/economic_event/E as anything in expired)
 		E.on_expire()
 		GLOB.active_economic_events -= E
-		event_path_cooldowns[E.type] = GLOB.dayspassed + ECON_EVENT_REROLL_COOLDOWN_DAYS
+		event_path_cooldowns[E.type] = ECONOMY_DAY + ECON_EVENT_REROLL_COOLDOWN_DAYS
 		record_round_statistic(STATS_ECON_EVENTS_EXPIRED, 1)
 		if(daily_report_diff)
 			var/list/ended = daily_report_diff["events_expired"]
@@ -290,8 +293,8 @@ SUBSYSTEM_DEF(economy)
 /datum/controller/subsystem/economy/proc/post_standing_order(datum/standing_order/O, datum/economic_region/region)
 	O.name = O.generate_name(region)
 	O.description = O.generate_description(region)
-	O.day_issued = GLOB.dayspassed
-	O.day_expires = GLOB.dayspassed + STANDING_ORDER_DURATION
+	O.day_issued = ECONOMY_DAY
+	O.day_expires = ECONOMY_DAY + STANDING_ORDER_DURATION
 	O.total_payout = compute_order_payout(O)
 	GLOB.standing_order_pool += O
 	if(daily_report_diff)

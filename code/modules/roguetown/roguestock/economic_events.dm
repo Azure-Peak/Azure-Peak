@@ -68,7 +68,7 @@ GLOBAL_LIST_EMPTY(active_economic_events)
 	on_expire()
 	GLOB.active_economic_events -= src
 	if(SSeconomy)
-		SSeconomy.event_path_cooldowns[type] = GLOB.dayspassed + ECON_EVENT_REROLL_COOLDOWN_DAYS
+		SSeconomy.event_path_cooldowns[type] = ECONOMY_DAY + ECON_EVENT_REROLL_COOLDOWN_DAYS
 	if(event_type == ECON_EVENT_SHORTAGE)
 		record_round_statistic(STATS_SHORTAGES_ENDED, 1)
 	var/list/diff = SSeconomy?.daily_report_diff

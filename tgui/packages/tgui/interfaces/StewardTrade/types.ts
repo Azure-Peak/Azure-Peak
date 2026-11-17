@@ -256,6 +256,28 @@ export type RegionCaravanState = {
   escorted: BooleanLike;
 };
 
+export type CommissionKit = {
+  ref: string;
+  name: string;
+  desc: string;
+  stock: number;
+  daily_stock: number;
+  price: number;
+  blocker: string;
+  contents: { name: string; count: number }[];
+};
+
+export type CommissionOrder = {
+  name: string;
+  minutes_left: number;
+};
+
+export type CommissionState = {
+  kits: CommissionKit[];
+  orders: CommissionOrder[];
+  lead_minutes: number;
+};
+
 export type CaravanTrip = {
   route: string;
   request: string | null;
@@ -418,6 +440,7 @@ export type Data = StaticData & {
   active_offers: ActiveOffer[];
   region_caravan: Record<string, RegionCaravanState>;
   caravan_escorts: Record<string, CaravanEscort>;
+  commissions: CommissionState;
   caravans: CaravanState;
   caravan_quote: CaravanQuote;
   market_rows: MarketRow[];
@@ -432,6 +455,7 @@ export type Data = StaticData & {
 
 export type TabKey =
   | 'caravans'
+  | 'commissions'
   | 'dispatches'
   | 'market'
   | 'regions'

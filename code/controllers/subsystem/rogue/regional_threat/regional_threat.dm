@@ -207,7 +207,7 @@ SUBSYSTEM_DEF(regionthreat)
 				"writ_out" = B.has_active_scroll() ? TRUE : FALSE,
 				"faction_label" = F ? "[F.group_word] of [F.name_plural]" : (B.faction_id || ""),
 				"region_label" = B.get_region_names(),
-				"days_active" = max(0, GLOB.dayspassed - B.day_started),
+				"days_active" = max(0, ECONOMY_DAY - B.day_started),
 			))
 		for(var/subroute in SSeconomy?.gathering_blockades)
 			if(get_subroute_threat_region(subroute) != TR.region_name)

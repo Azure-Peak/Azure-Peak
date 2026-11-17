@@ -27,7 +27,7 @@
 			continue
 		var/recently_cleared = FALSE
 		for(var/datum/economic_region/ER as anything in regions)
-			if(ER.day_last_cleared >= 0 && (GLOB.dayspassed - ER.day_last_cleared) < BLOCKADE_RECLEAR_COOLDOWN)
+			if(ER.day_last_cleared >= 0 && (ECONOMY_DAY - ER.day_last_cleared) < BLOCKADE_RECLEAR_COOLDOWN)
 				recently_cleared = TRUE
 				break
 		if(recently_cleared)
@@ -86,7 +86,7 @@
 	B.subroute = subroute
 	B.threat_region_name = threat_region_id
 	B.faction_id = faction_id
-	B.day_started = GLOB.dayspassed
+	B.day_started = ECONOMY_DAY
 	GLOB.active_blockades += B
 	for(var/datum/economic_region/ER as anything in regions)
 		ER.is_region_blockaded = TRUE
@@ -104,7 +104,7 @@
 		return
 	for(var/datum/economic_region/ER as anything in B.get_regions())
 		ER.is_region_blockaded = FALSE
-		ER.day_last_cleared = GLOB.dayspassed
+		ER.day_last_cleared = ECONOMY_DAY
 	SStreasury.dirty_market_view()
 	GLOB.active_blockades -= B
 	if(reason == "cleared")
@@ -123,7 +123,7 @@
 
 /datum/controller/subsystem/economy/proc/tick_blockade_replenish()
 	land_gathering_blockades()
-	var/strike_day = GLOB.dayspassed + 1
+	var/strike_day = ECONOMY_DAY + 1
 	if(strike_day < BLOCKADE_REPLENISH_FIRST_DAY || strike_day > BLOCKADE_REPLENISH_LAST_DAY)
 		return
 	if(length(GLOB.active_blockades) >= BLOCKADE_REPLENISH_FLOOR)

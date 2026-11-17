@@ -1,5 +1,5 @@
 /datum/controller/subsystem/economy/proc/run_market_day()
-	if(GLOB.dayspassed <= MARKET_DAY_GRACE_DAYS)
+	if(ECONOMY_DAY <= MARKET_DAY_GRACE_DAYS)
 		return
 	for(var/datum/roguestock/D as anything in SStreasury.stockpile_datums)
 		D.market_day_step(MARKET_DAY_RATE)
@@ -7,7 +7,7 @@
 
 /proc/seconds_until_market_day()
 	var/seconds = seconds_until_dawn()
-	var/skipped_dawns = MARKET_DAY_GRACE_DAYS - GLOB.dayspassed
+	var/skipped_dawns = MARKET_DAY_GRACE_DAYS - ECONOMY_DAY
 	if(skipped_dawns <= 0)
 		return seconds
 	var/rate = SSticker?.station_time_rate_multiplier || 1
@@ -43,7 +43,7 @@
 		if(!region.produces[trade_good_id])
 			continue
 		producers++
-		if(!region.is_region_blockaded || SSeconomy.subroute_escorted(region.subroute, GLOB.dayspassed - 1))
+		if(!region.is_region_blockaded || SSeconomy.subroute_escorted(region.subroute, ECONOMY_DAY - 1))
 			open++
 	if(!producers)
 		return null

@@ -40,7 +40,7 @@
 /datum/controller/subsystem/economy/proc/offer_price_now(datum/region_offer/offer)
 	return mammon_round(offer.unit_price * offer_units_now(offer))
 
-/datum/controller/subsystem/economy/proc/subroute_escorted(subroute, day = GLOB.dayspassed)
+/datum/controller/subsystem/economy/proc/subroute_escorted(subroute, day = ECONOMY_DAY)
 	return escorted_subroutes[subroute] == day
 
 /datum/controller/subsystem/economy/proc/region_reachable(datum/economic_region/region)
@@ -50,7 +50,7 @@
 	var/datum/blockade/B = find_blockade_for_subroute(subroute)
 	if(!B)
 		return 0
-	return ESCORT_FEE_BASE + ESCORT_FEE_PER_DAY * max(0, GLOB.dayspassed - B.day_started)
+	return ESCORT_FEE_BASE + ESCORT_FEE_PER_DAY * max(0, ECONOMY_DAY - B.day_started)
 
 /datum/controller/subsystem/economy/proc/escort_blocker(subroute)
 	if(!find_blockade_for_subroute(subroute))
@@ -73,7 +73,7 @@
 		if(user)
 			to_chat(user, span_warning("The Treasury can't afford this. It has [format_mammon(SStreasury.discretionary_fund.balance)]m and needs [format_mammon(fee)]m."))
 		return FALSE
-	escorted_subroutes[subroute] = GLOB.dayspassed
+	escorted_subroutes[subroute] = ECONOMY_DAY
 	log_game("CARAVAN ESCORT hired for [get_subroute_name(subroute)] by [user ? key_name(user) : "system"] (-[format_mammon(fee)]m)")
 	if(user)
 		to_chat(user, span_notice("An escort is hired for [get_subroute_name(subroute)] until dawn."))
@@ -84,6 +84,9 @@
 		return "No caravans are home."
 	if(!request && !offer && !tribute_region)
 		return "The caravan has nothing to carry."
+	var/spend = offer ? offer_price_now(offer) : 0
+	if(spend > 0 && SStreasury.discretionary_fund.balance < spend)
+		return "The Treasury can't afford this. It has [format_mammon(SStreasury.discretionary_fund.balance)]m and needs [format_mammon(spend)]m."
 	if(request)
 		if(request.is_fulfilled || !(request in GLOB.standing_order_pool))
 			return "That order is gone."
@@ -100,9 +103,6 @@
 			return "That offer is not on this route."
 		if(!region_reachable(offer_region))
 			return "[offer_region.name] is blockaded. You can't take this offer until the road is cleared or escorted."
-		var/offer_price = offer_price_now(offer)
-		if(SStreasury.discretionary_fund.balance < offer_price)
-			return "The Treasury can't afford this. It has [format_mammon(SStreasury.discretionary_fund.balance)]m and needs [format_mammon(offer_price)]m."
 	if(tribute_region)
 		if(get_region_route(tribute_region) != route)
 			return "[tribute_region.name] is not on this route."
@@ -214,3 +214,7 @@
 	caravan_trips.Cut()
 	caravan_fleet = min(CARAVAN_FLEET_MAX, caravan_fleet + CARAVAN_FLEET_PER_DAY)
 	SStreasury.dirty_market_view()
+
+/datum/controller/subsystem/economy/proc/restock_crown_imports()
+	for(var/datum/crown_import/D as anything in GLOB.crown_imports)
+		D.restock()

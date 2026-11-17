@@ -12,6 +12,7 @@ import {
 } from './common/parchment';
 import { ArrearsBanner } from './StewardTrade/ArrearsBanner';
 import { CaravansView } from './StewardTrade/CaravansView';
+import { CommissionsView } from './StewardTrade/CommissionsView';
 import { dispatchCount, DispatchesView } from './StewardTrade/DispatchesView';
 import { LedgerView } from './StewardTrade/LedgerView';
 import { MarketView } from './StewardTrade/MarketView';
@@ -108,6 +109,7 @@ export const StewardTrade = () => {
           />
 
           {tab === 'caravans' && <CaravansView data={data} />}
+          {tab === 'commissions' && <CommissionsView data={data} />}
           {tab === 'dispatches' && <DispatchesView data={data} />}
           {tab === 'market' && (
             <SequesteredOverlay

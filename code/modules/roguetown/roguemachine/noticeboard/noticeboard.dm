@@ -156,7 +156,7 @@
 		row["name"] = O.name
 		row["region_label"] = region ? region.name : O.region_id
 		row["description"] = O.description || ""
-		row["days_left"] = max(0, O.day_expires - GLOB.dayspassed)
+		row["days_left"] = max(0, O.day_expires - ECONOMY_DAY)
 		row["total_payout"] = O.total_payout
 		row["blockaded"] = (region?.is_region_blockaded) ? TRUE : FALSE
 		row["petitioned"] = O.petitioned ? TRUE : FALSE
@@ -252,7 +252,7 @@
 			"name" = E.name,
 			"description" = E.description || "",
 			"event_type" = E.event_type,
-			"days_left" = max(0, E.day_expires - GLOB.dayspassed),
+			"days_left" = max(0, E.day_expires - ECONOMY_DAY),
 			"affected_goods" = affected,
 		))
 	return rows

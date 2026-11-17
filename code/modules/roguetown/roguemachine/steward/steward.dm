@@ -123,14 +123,17 @@
 		var/datum/crown_import/D = locate(href_list["import"]) in GLOB.crown_imports
 		if(!D)
 			return
+		if(D.stock <= 0)
+			say("None left today.")
+			return
 		var/amt = D.get_import_price()
 		if(!SStreasury.burn(SStreasury.discretionary_fund, amt, "imported [D.name]", LEDGER_CROWN_EXP_IMPORTS))
 			say("The Treasury can't afford this.")
 			return
+		D.stock--
 		SStreasury.total_import += amt
 		record_round_statistic(STATS_STOCKPILE_IMPORTS_VALUE, amt)
 		record_treasury_expense(TREASURY_FLOW_IMPORT, treasury_role_of(usr), amt)
-		D.raise_demand()
 		addtimer(CALLBACK(src, PROC_REF(do_import), D.type), 10 SECONDS)
 	if(href_list["givemoney"])
 		var/X = locate(href_list["givemoney"])
@@ -507,18 +510,12 @@
 			contents += " <a href='?src=\ref[src];compact=1'>\[Compact: [compact? "ENABLED" : "DISABLED"]\]</a><BR>"
 			contents += "<center>Imports<BR>"
 			contents += "--------------<BR>"
-			if(compact)
-				contents += "Treasury: [format_mammon(SStreasury.discretionary_fund.balance)]m</center><BR>"
-				for(var/datum/crown_import/A in GLOB.crown_imports)
-					var/blockade_tag = A.is_blockaded() ? " <font color='#c44'>(BLOCKADED)</font>" : ""
-					contents += "<b>[A.name][blockade_tag]:</b>"
-					contents += " <a href='?src=\ref[src];import=\ref[A]'>\[Import [A.import_amt] ([A.get_import_price()])\]</a><BR>"
-			else
-				contents += "Treasury: [format_mammon(SStreasury.discretionary_fund.balance)]m</center><BR>"
-				for(var/datum/crown_import/A in GLOB.crown_imports)
-					var/blockade_tag_full = A.is_blockaded() ? " <font color='#c44'>(BLOCKADED - 2x COST)</font>" : ""
-					contents += "<b>[A.name][blockade_tag_full]</b> - <i>[A.desc]</i> "
-					contents += "<a href='?src=\ref[src];import=\ref[A]'>\[Import [A.import_amt] ([A.get_import_price()])\]</a><BR>"
+			contents += "Treasury: [format_mammon(SStreasury.discretionary_fund.balance)]m</center><BR>"
+			for(var/datum/crown_import/A in GLOB.crown_imports)
+				contents += "<b>[A.name]</b>"
+				if(!compact)
+					contents += " - <i>[A.desc]</i>"
+				contents += " <a href='?src=\ref[src];import=\ref[A]'>\[Import [A.import_amt] ([A.get_import_price()])\]</a> [A.stock] left<BR>"
 		if(TAB_FISCAL)
 			contents += "<a href='?src=\ref[src];switchtab=[TAB_MAIN]'>\[Return\]</a><BR>"
 			var/list/snap = SStreasury.compute_fiscal_snapshot()

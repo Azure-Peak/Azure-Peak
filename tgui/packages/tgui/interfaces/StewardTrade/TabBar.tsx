@@ -11,6 +11,7 @@ import type { TabKey } from './types';
 
 const TABS: { key: TabKey; label: string }[] = [
   { key: 'caravans', label: 'Caravans' },
+  { key: 'commissions', label: 'Commission' },
   { key: 'dispatches', label: 'Dispatches' },
   { key: 'market', label: 'Market' },
   { key: 'ledger', label: 'Ledger' },

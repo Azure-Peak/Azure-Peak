@@ -76,6 +76,7 @@
 #define LEDGER_CROWN_EXP_IMPORTS "crown_exp_imports"
 #define LEDGER_CROWN_EXP_BANDITRY "crown_exp_banditry"
 #define LEDGER_CROWN_EXP_ESCORTS "crown_exp_escorts"
+#define LEDGER_CROWN_EXP_COMMISSIONS "crown_exp_commissions"
 #define LEDGER_CROWN_EXP_CONTRACTS "crown_exp_contracts"
 #define LEDGER_CROWN_EXP_TITHE "crown_exp_tithe"
 #define LEDGER_CROWN_EXP_WITHDRAWALS "crown_exp_withdrawals"

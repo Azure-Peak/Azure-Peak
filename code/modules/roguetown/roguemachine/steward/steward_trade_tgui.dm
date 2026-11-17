@@ -170,7 +170,7 @@
 		ledger_state["dirty"] = FALSE
 		data["ledger_page"] = build_ledger_page(user.ckey)
 	data["treasury"] = SStreasury?.discretionary_fund?.balance || 0
-	data["day"] = GLOB.dayspassed
+	data["day"] = ECONOMY_DAY
 	data["expected_rural_revenue"] = SStreasury?.get_rural_tax_amount() || 0
 	data["expected_wage_outlay"] = SStreasury?.get_expected_wage_outlay() || 0
 
@@ -182,7 +182,7 @@
 			"name" = E.name,
 			"description" = E.description,
 			"event_type" = E.event_type,
-			"days_left" = max(0, E.day_expires - GLOB.dayspassed),
+			"days_left" = max(0, E.day_expires - ECONOMY_DAY),
 			"affected_goods" = E.affected_goods ? E.affected_goods.Copy() : list(),
 			"saturation_target" = E.saturation_target,
 			"saturation_progress" = E.saturation_progress,
@@ -195,7 +195,7 @@
 			continue
 		var/datum/economic_region/order_region = GLOB.economic_regions[O.region_id]
 		var/is_blockaded = order_region?.is_region_blockaded ? TRUE : FALSE
-		var/days_left = max(0, O.day_expires - GLOB.dayspassed)
+		var/days_left = max(0, O.day_expires - ECONOMY_DAY)
 
 		var/list/items = list()
 		var/has_warehouse = FALSE
@@ -273,6 +273,30 @@
 			"blocker" = SSeconomy.escort_blocker(B.subroute) || "",
 		)
 	data["caravan_escorts"] = caravan_escorts
+
+	var/list/commission_rows = list()
+	for(var/datum/royal_commission/C as anything in GLOB.royal_commissions)
+		commission_rows += list(list(
+			"ref" = REF(C),
+			"name" = C.name,
+			"desc" = C.desc,
+			"stock" = C.stock,
+			"daily_stock" = C.daily_stock,
+			"price" = C.get_price(),
+			"blocker" = SSeconomy.commission_blocker(C) || "",
+			"contents" = C.content_rows(),
+		))
+	var/list/commission_order_rows = list()
+	for(var/datum/commission_order/order as anything in SSeconomy.commission_orders)
+		commission_order_rows += list(list(
+			"name" = order.commission.name,
+			"minutes_left" = max(1, CEILING((order.arrive_at - world.time) / (1 MINUTES), 1)),
+		))
+	data["commissions"] = list(
+		"kits" = commission_rows,
+		"orders" = commission_order_rows,
+		"lead_minutes" = round(COMMISSION_LEAD_TIME / (1 MINUTES)),
+	)
 
 	var/list/trips = list()
 	for(var/datum/caravan_trip/trip as anything in SSeconomy.caravan_trips)
@@ -567,6 +591,12 @@ GLOBAL_LIST_INIT(steward_trade_sequestration_locked_actions, list(
 			if(params["tribute"])
 				tribute_region = GLOB.economic_regions[params["tribute"]]
 			if(SSeconomy.send_caravan(usr, route, request, offer, tribute_region, params["fill"] ? TRUE : FALSE))
+				playsound(src, 'sound/misc/coindispense.ogg', 60, FALSE, -1)
+			SStgui.update_uis(src)
+			return TRUE
+		if("place_commission")
+			var/datum/royal_commission/C = locate(params["ref"]) in GLOB.royal_commissions
+			if(C && SSeconomy.place_commission(usr, C))
 				playsound(src, 'sound/misc/coindispense.ogg', 60, FALSE, -1)
 			SStgui.update_uis(src)
 			return TRUE

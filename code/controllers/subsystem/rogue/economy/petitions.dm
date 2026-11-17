@@ -1,5 +1,5 @@
 /datum/controller/subsystem/economy/proc/petitions_remaining_today()
-	if(last_petition_day != GLOB.dayspassed)
+	if(last_petition_day != ECONOMY_DAY)
 		return PETITIONS_PER_DAY
 	return max(0, PETITIONS_PER_DAY - petitions_today)
 
@@ -28,7 +28,7 @@
 	if(region.is_region_blockaded)
 		return "[region.name] is blockaded"
 	if(region.day_last_cleared >= 0)
-		var/since = GLOB.dayspassed - region.day_last_cleared
+		var/since = ECONOMY_DAY - region.day_last_cleared
 		if(since < PETITION_BLOCKADE_RECOVERY_DAYS)
 			var/wait_days = PETITION_BLOCKADE_RECOVERY_DAYS - since
 			return "[region.name] is recovering from blockade, [wait_days] more days"
@@ -59,9 +59,9 @@
 		return FALSE
 	record_round_statistic(STATS_PLEDGE_CONSUMED, cost)
 	record_round_statistic(STATS_PETITION_PLEDGE_SPENT, cost)
-	if(last_petition_day != GLOB.dayspassed)
+	if(last_petition_day != ECONOMY_DAY)
 		petitions_today = 0
-		last_petition_day = GLOB.dayspassed
+		last_petition_day = ECONOMY_DAY
 	petitions_today++
 	var/datum/standing_order/O = instantiate_kind_request(region, kind, petitioned = TRUE)
 	if(!O)

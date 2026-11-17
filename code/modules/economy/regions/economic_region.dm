@@ -86,12 +86,12 @@ GLOBAL_LIST_INIT(economic_regions, init_economic_regions())
 		return "[name] has no tribute."
 	if(is_region_blockaded)
 		return "[name] is blockaded. No tribute will come through until it is cleared."
-	if(tribute_day == GLOB.dayspassed)
+	if(tribute_day == ECONOMY_DAY)
 		return "[name] has already sent its tribute today."
 	return null
 
 /datum/economic_region/proc/take_tribute()
-	tribute_day = GLOB.dayspassed
+	tribute_day = ECONOMY_DAY
 	return tribute_units()
 
 /datum/economic_region/proc/deliver_tribute(list/units)

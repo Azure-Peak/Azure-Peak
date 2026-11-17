@@ -7,7 +7,7 @@
 
 /datum/controller/subsystem/economy/proc/tick_offers(effective_pop)
 	for(var/datum/region_offer/offer as anything in GLOB.region_offer_pool.Copy())
-		if(offer.day_expires <= GLOB.dayspassed)
+		if(offer.day_expires <= ECONOMY_DAY)
 			GLOB.region_offer_pool -= offer
 	var/total_to_roll = min(OFFERS_MAX_PER_DAY, OFFERS_BASE_PER_DAY + round(effective_pop * OFFERS_PER_ACTIVE_PLAYER))
 	for(var/i in 1 to total_to_roll)
@@ -38,8 +38,8 @@
 	offer.units = max(1, round(rand(OFFER_VALUE_MIN, OFFER_VALUE_MAX) / price))
 	offer.unit_price = mammon_round(price * OFFER_PRICE_MULT)
 	offer.total_price = mammon_round(offer.unit_price * offer.units)
-	offer.day_issued = GLOB.dayspassed
-	offer.day_expires = GLOB.dayspassed + OFFER_DURATION
+	offer.day_issued = ECONOMY_DAY
+	offer.day_expires = ECONOMY_DAY + OFFER_DURATION
 	GLOB.region_offer_pool += offer
 	if(daily_report_diff)
 		daily_report_diff["offers_rolled"] = (daily_report_diff["offers_rolled"] || 0) + 1

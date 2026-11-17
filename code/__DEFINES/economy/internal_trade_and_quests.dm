@@ -40,6 +40,8 @@
 #define TRADE_REGION_HEARTFELT "heartfelt"
 #define TRADE_REGION_HAGENWALD "hagenwald"
 
+#define ECONOMY_DAY (max(1, GLOB.dayspassed))
+
 // How many caravans you start with - 4 for a decent amount of Steward agency
 // You get +1 per day, up to a maximum of 8. This way Steward don't need to compete and gain increased economic power as the round goes on
 #define CARAVAN_FLEET_START 3
@@ -150,13 +152,13 @@
 
 #define TRADE_MAX_BULK_UNITS 50
 
-// Blockade region are tradeable but at a punitive rate.
-#define BLOCKADE_IMPORT_MULT 2.0
+#define CROWN_IMPORT_DAILY_STOCK 2
+
+#define COMMISSION_DAILY_STOCK 2
+#define COMMISSION_PRICE_MARKUP 1.5
+#define COMMISSION_LEAD_TIME (20 MINUTES)
 
 #define TRADE_STOCKPILE_BUY_DISCOUNT 0.75
-
-// Buying the same import = escalating price
-#define CROWN_IMPORT_ELASTICITY 0.25
 
 #define ECON_EVENT_DURATION 2
 #define ECON_EVENT_SHORTAGE "shortage"

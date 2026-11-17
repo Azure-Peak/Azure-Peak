@@ -45,13 +45,11 @@ const priceRange = (a: number, b: number, word: string) =>
 const sum = <T,>(list: T[], pick: (t: T) => number) =>
   list.reduce((total, t) => total + pick(t), 0);
 
-const requestLabel = (o: Order, goodName: Namer) =>
-  o.items
-    .map(
-      (it) =>
-        `${it.needed} ${goodName(it.good_id)}${it.route === 'stockpile' ? ` (${it.have})` : ''}`,
-    )
-    .join(', ');
+const requestParts = (o: Order, goodName: Namer) =>
+  o.items.map(
+    (it) =>
+      `${it.needed} ${goodName(it.good_id)}${it.route === 'stockpile' ? ` (${it.have})` : ''}`,
+  );
 
 const requestMeta = (o: Order) =>
   `${formatMammon(o.payout)}m · ${o.days_left}d left`;
@@ -62,10 +60,11 @@ const offerLabel = (offer: ActiveOffer, goodName: Namer) =>
 const offerMeta = (offer: ActiveOffer) =>
   `at ${formatMammon(offer.unit_price)}m · ${formatMammon(offer.total_price)}m`;
 
+const tributeParts = (state: RegionCaravanState | undefined, goodName: Namer) =>
+  (state?.tribute ?? []).map((t) => `${t.units} ${goodName(t.good_id)}`);
+
 const tributeText = (state: RegionCaravanState | undefined, goodName: Namer) =>
-  (state?.tribute ?? [])
-    .map((t) => `${t.units} ${goodName(t.good_id)}`)
-    .join(', ');
+  tributeParts(state, goodName).join(', ');
 
 const tributeShort = (state: RegionCaravanState | undefined) => {
   if (!state?.tribute?.length) return '-';
@@ -85,8 +84,9 @@ const cellStyle = (selected: boolean, disabled: boolean): CSSProperties => ({
   width: '100%',
   minWidth: 0,
   display: 'flex',
+  flexWrap: 'wrap',
   alignItems: 'center',
-  gap: '6px',
+  gap: '0 6px',
   padding: '1px 6px',
   fontFamily: SERIF,
   fontSize: FONT_BODY,
@@ -94,7 +94,7 @@ const cellStyle = (selected: boolean, disabled: boolean): CSSProperties => ({
   borderRadius: '2px',
   cursor: disabled ? 'default' : 'pointer',
   color: INK,
-  fontWeight: selected ? 'bold' : 'normal',
+  fontWeight: 'normal',
   background: selected ? 'var(--p-tab-active-bg)' : 'var(--p-card-bg)',
   border: `1px solid ${selected ? SEAL_AMBER : PARCHMENT_SHADOW}`,
   opacity: disabled ? 0.5 : 1,
@@ -108,6 +108,19 @@ const metaStyle: CSSProperties = {
   fontWeight: 'normal',
   color: INK_SOFT,
 };
+
+const Phrases = (props: { parts: string[] }) => (
+  <span style={{ minWidth: 0, whiteSpace: 'normal' }}>
+    {props.parts.map((part, i) => (
+      <span key={i}>
+        <span style={{ display: 'inline-block', maxWidth: '100%' }}>
+          {part}
+          {i < props.parts.length - 1 ? ',' : ''}
+        </span>{' '}
+      </span>
+    ))}
+  </span>
+);
 
 const tagStyle = (color: string): CSSProperties => ({
   flex: '0 0 auto',
@@ -255,7 +268,11 @@ export const CaravansView = (props: { data: Data }) => {
         {trips.map((trip, i) => (
           <span key={i} style={{ fontSize: FONT_SMALL }}>
             &middot; <span style={{ color: INK }}>{trip.route}:</span>{' '}
-            {[trip.request, trip.offer, trip.tribute && `${trip.tribute} tribute`]
+            {[
+              trip.request,
+              trip.offer,
+              trip.tribute && `${trip.tribute} tribute`,
+            ]
               .filter(Boolean)
               .join(' · ')}
           </span>
@@ -610,9 +627,7 @@ const RouteBlock = (props: {
                     onClick={() => props.onRequest(o.ref)}
                     style={cellStyle(props.requestRef === o.ref, cellDisabled)}
                   >
-                    <span style={ellipsisCellStyle}>
-                      {requestLabel(o, goodName)}
-                    </span>
+                    <Phrases parts={requestParts(o, goodName)} />
                     {o.items.some((it) => props.shortageGoods.has(it.good_id)) && (
                       <span style={tagStyle(SEAL_RED)}>SHORTAGE</span>
                     )}
@@ -637,9 +652,7 @@ const RouteBlock = (props: {
                     onClick={() => props.onOffer(offer.ref)}
                     style={cellStyle(props.offerRef === offer.ref, cellDisabled)}
                   >
-                    <span style={ellipsisCellStyle}>
-                      {offerLabel(offer, goodName)}
-                    </span>
+                    <Phrases parts={[offerLabel(offer, goodName)]} />
                     {!!offer.halved && (
                       <span style={tagStyle(SEAL_RED)}>HALF</span>
                     )}
@@ -671,12 +684,11 @@ const RouteBlock = (props: {
                     onClick={() => props.onTribute(regionId)}
                     style={cellStyle(props.tributeId === regionId, locked)}
                   >
-                    <span style={ellipsisCellStyle}>
-                      {tributeText(state, goodName)}
-                    </span>
+                    <Phrases parts={tributeParts(state, goodName)} />
                   </button>
                 )}
               </div>
+
             </div>
           );
         }),
@@ -726,7 +738,11 @@ const PanelHead = (props: {
 }) => (
   <div style={{ display: 'flex', alignItems: 'baseline', gap: '8px', minWidth: 0 }}>
     <span style={labelStyle}>{props.label}</span>
-    {props.title && <b style={ellipsisCellStyle}>{props.title}</b>}
+    {props.title && (
+      <b style={ellipsisCellStyle} title={props.title}>
+        {props.title}
+      </b>
+    )}
     {props.tag}
     {props.terms && (
       <span
