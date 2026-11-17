@@ -24,7 +24,7 @@
 	craftdiff = 2
 
 /datum/crafting_recipe/roguetown/cooking/blend/eoralovefake
-	name = "Eora's love blend (Fake)"
+	name = "Eora's love blend (fake)"
 	reqs = list(
 		/obj/item/reagent_containers/food/snacks/grown/rogue/blend/eoragrace = 1,
 		/obj/item/reagent_containers/food/snacks/sugar = 1)

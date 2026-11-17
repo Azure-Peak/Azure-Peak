@@ -26,7 +26,7 @@
 	. = ..()
 	var/area/AR = get_area(user)
 	var/datum/threat_region/TR = SSregionthreat.get_region(AR.threat_region)
-	if(!TR || TR.fixed_ambush)
+	if(!TR || TR.fixed_ambush || (!length(AR.ambush_mobs) && isnull(AR.ambush_factions)))
 		to_chat(user, span_warning("There's no point in sounding the horn here."))
 		return
 	if(user.get_will_block_ambush())

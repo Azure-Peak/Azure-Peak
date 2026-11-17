@@ -1,7 +1,6 @@
 ///////////////////
 // UNIVERSAL	 //
 ///////////////////
-
 /obj/item/herbseed/rosa/azure
 	name = "azurosa seeds"
 	seed_identity = "azurosa seeds"
@@ -24,7 +23,6 @@
 	one thing: a donation from the inner lands."
 	icon_state = "azurosa_plant"
 	icon = 'icons/obj/items/donor_objects.dmi'
-
 	herbtype = /obj/item/alch/rosa/azure
 
 /obj/item/alch/rosa/azure
@@ -5173,3 +5171,65 @@ As Excaliber."
 	icon = 'icons/clothing/donor_clothes.dmi'
 	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
 	icon_state = "bluelily"
+
+/obj/item/clothing/head/roguetown/circlet/sigholt_coronet
+	name = "blacksteel coronet"
+	desc = "A blacksteel coronet inlaid with holy sylver. A mark of office, or ostentation?"
+	icon_state = "sigholtcoronet_0"
+	item_state = "sigholtcoronet_0"
+	icon = 'icons/clothing/donor_clothes.dmi'
+	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
+	unique_reskin = list(
+		"blacksteel" = "sigholtcoronet_0",
+		"gold" = "sigholtcoronet_1",
+		"silver" = "sigholtcoronet_2",
+	)
+	current_skin = "blacksteel"
+
+/obj/item/clothing/head/roguetown/circlet/sigholt_coronet/rmb_self(mob/user, keybind = FALSE)
+	. = ..()
+	if(unique_reskin && user.canUseTopic(src, BE_CLOSE, NO_DEXTERITY))
+		reskin_obj(user)
+
+/obj/item/clothing/head/roguetown/circlet/sigholt_coronet/reskin_obj(mob/M)
+	if(!unique_reskin || !length(unique_reskin))
+		return
+
+	var/list/keys = unique_reskin
+	var/idx = keys.Find(current_skin)
+	idx = idx ? (idx % length(keys)) + 1 : 1
+	var/choice = keys[idx]
+
+	current_skin = choice
+	icon_state = unique_reskin[choice]
+	item_state = icon_state
+
+	var/metal_name = choice
+	to_chat(M, span_info("You adjust the [src]."))
+	name = "[metal_name] coronet"
+	desc = "A [metal_name] coronet inlaid with holy sylver. A mark of office, or ostentation?"
+
+	if(ishuman(M))
+		var/mob/living/carbon/human/H = M
+		H.update_inv_head()
+		H.update_inv_hands()
+
+/obj/item/clothing/head/roguetown/circlet/sigholt_coronet/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Right-clicking in hand allows you to select the coronet's metal between blacksteel, gold, and silver.")
+
+/obj/item/clothing/head/roguetown/circlet/sigholt_coronet/equipped(mob/user, slot, initial = FALSE)
+	. = ..()
+	if(current_skin && unique_reskin && unique_reskin[current_skin])
+		icon_state = unique_reskin[current_skin]
+		item_state = icon_state
+	if(ishuman(user))
+		var/mob/living/carbon/human/H = user
+		H.update_inv_head()
+		H.update_inv_hands()
+
+/obj/item/clothing/head/roguetown/circlet/sigholt_coronet/update_icon()
+	if(current_skin && unique_reskin && unique_reskin[current_skin])
+		icon_state = unique_reskin[current_skin]
+		item_state = icon_state
+	return ..()
