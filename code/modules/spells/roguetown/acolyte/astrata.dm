@@ -279,6 +279,7 @@
 
 /datum/status_effect/debuff/sunbrand_scorch/tick()
 	apply_scorch_stack(owner, 1)
+	owner.adjustFireLoss(8, TRUE)
 
 /datum/status_effect/debuff/sunbrand_scorch/on_remove()
 	. = ..()
