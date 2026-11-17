@@ -254,6 +254,7 @@
 			eligible += M
 	if(!length(eligible))
 		spawn_reinforcements()
+		notify_spectators(boss)
 		return
 	var/mob/dead/chosen = pick(eligible)
 	if(istype(chosen, /mob/dead/new_player))
@@ -288,6 +289,13 @@
 	var/datum/fellowship/F = bearer?.current_fellowship
 	var/mob/living/party_leader = F?.get_leader()
 	message_admins("[key_name_admin(boss)] has taken over notorious bounty '[boss_name]' at [ADMIN_COORDJMP(boss_turf)] ([region]), fighting a fellowship led by [party_leader ? key_name_admin(party_leader) : "an unknown party"].")
+	notify_spectators(boss)
+
+/datum/quest/kill/notorious_bounty/proc/notify_spectators(mob/living/boss)
+	if(QDELETED(boss) || boss.stat == DEAD)
+		return
+	var/area_name = get_area_name(boss, TRUE)
+	notify_ghosts("A hunting party has found [boss_name || "a notorious outlaw"][area_name ? " in [area_name]" : ""].", source = boss, action = NOTIFY_ORBIT, header = "Notorious Bounty", ignore_key = POLL_IGNORE_NOTORIOUS_BOUNTY)
 
 /datum/quest/kill/notorious_bounty/proc/temper_player_boss(mob/living/carbon/human/boss)
 	if(istype(boss, /mob/living/carbon/human/species/goblin/npc/large))
@@ -454,11 +462,12 @@
 		if(QDELETED(M) || M.stat == CONSCIOUS)
 			continue
 		var/turf/hunter_turf = get_turf(M)
-		if(!hunter_turf || hunter_turf.z != leash_origin.z)
+		if(!hunter_turf)
 			continue
-		if(get_dist(hunter_turf, leash_origin) > NOTORIOUS_BOUNTY_LEASH_RANGE)
+		if(max(abs(hunter_turf.x - leash_origin.x), abs(hunter_turf.y - leash_origin.y)) > NOTORIOUS_BOUNTY_LEASH_RANGE)
 			continue
 		if(M.stat == DEAD)
+			M.grab_ghost(force = TRUE)
 			M.revive(full_heal = TRUE, admin_revive = TRUE)
 			to_chat(M, span_boldnotice("The scroll spends the last of its magicka dragging you back from Necra's door. You draw breath again."))
 			continue
