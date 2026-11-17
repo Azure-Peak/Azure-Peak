@@ -1,0 +1,6 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - rscadd: "Ambush should respect minimal distance"
+  - rscadd: "Ambush no longer occurs in the hamlet, as intended"
+  - rscadd: "Horn should actually tell you if you cannot spawn ambush immediately in say, the hamlet"
