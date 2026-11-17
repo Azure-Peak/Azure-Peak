@@ -1282,7 +1282,7 @@
 	category = "Explosives"
 	required_trait = TRAIT_JURY_RIGGER
 	display_category = ITEM_CAT_ENG_COMBAT
-	result = list(/obj/item/explosive/fused/bottle/shard)
+	result = list(/obj/item/explosive/fused/bottle/rigged)
 	reqs = list(/obj/item/reagent_containers/glass/bottle = 1, /obj/item/alch/coaldust = 1, /obj/item/natural/cloth = 1)
 	skillcraft = /datum/skill/craft/engineering
 	craftdiff = 4
@@ -1292,7 +1292,7 @@
 	category = "Explosives"
 	required_trait = TRAIT_JURY_RIGGER
 	display_category = ITEM_CAT_ENG_COMBAT
-	result = list(/obj/item/explosive/fused/bottle/shard)
+	result = list(/obj/item/explosive/fused/bottle/rigged)
 	reqs = list(/obj/item/reagent_containers/glass/bottle/alchemical = 1, /obj/item/alch/coaldust = 1, /obj/item/natural/cloth = 1)
 	skillcraft = /datum/skill/craft/engineering
 	craftdiff = 4
@@ -1302,7 +1302,7 @@
 	category = "Explosives"
 	required_trait = TRAIT_JURY_RIGGER
 	display_category = ITEM_CAT_ENG_COMBAT
-	result = list(/obj/item/explosive/fused/bottle/shard)
+	result = list(/obj/item/explosive/fused/bottle/rigged)
 	reqs = list(/obj/item/natural/glass_shard = 1, /obj/item/alch/coaldust = 1, /obj/item/natural/cloth = 1)
 	skillcraft = /datum/skill/craft/engineering
 	craftdiff = 4
@@ -1312,7 +1312,7 @@
 	category = "Explosives"
 	required_trait = TRAIT_JURY_RIGGER
 	display_category = ITEM_CAT_ENG_COMBAT
-	result = list(/obj/item/explosive/fused/bottle/shard)
+	result = list(/obj/item/explosive/fused/bottle/rigged)
 	reqs = list(/obj/item/natural/clay = 3, /obj/item/alch/coaldust = 1, /obj/item/natural/cloth = 1)
 	skillcraft = /datum/skill/craft/engineering
 	craftdiff = 4
@@ -1322,7 +1322,7 @@
 	category = "Explosives"
 	required_trait = TRAIT_JURY_RIGGER
 	display_category = ITEM_CAT_ENG_COMBAT
-	result = list(/obj/item/explosive/fused/bottle/shard)
+	result = list(/obj/item/explosive/fused/bottle/rigged)
 	reqs = list(/obj/item/natural/dirtclod = 6, /obj/item/alch/coaldust = 1, /obj/item/natural/cloth = 1)
 	skillcraft = /datum/skill/craft/engineering
 	craftdiff = 4
@@ -1332,7 +1332,7 @@
 	category = "Explosives"
 	required_trait = TRAIT_JURY_RIGGER
 	display_category = ITEM_CAT_ENG_COMBAT
-	result = list(/obj/item/explosive/fused/bottle/shard)
+	result = list(/obj/item/explosive/fused/bottle/rigged)
 	reqs = list(/obj/item/reagent_containers/glass/bottle = 1, /obj/item/magic/infernal/ash = 1, /obj/item/natural/cloth = 1)
 	skillcraft = /datum/skill/craft/engineering
 	craftdiff = 4
@@ -1342,7 +1342,7 @@
 	category = "Explosives"
 	required_trait = TRAIT_JURY_RIGGER
 	display_category = ITEM_CAT_ENG_COMBAT
-	result = list(/obj/item/explosive/fused/bottle/shard)
+	result = list(/obj/item/explosive/fused/bottle/rigged)
 	reqs = list(/obj/item/reagent_containers/glass/bottle/alchemical = 1, /obj/item/magic/infernal/ash = 1, /obj/item/natural/cloth = 1)
 	skillcraft = /datum/skill/craft/engineering
 	craftdiff = 4
@@ -1352,7 +1352,7 @@
 	category = "Explosives"
 	required_trait = TRAIT_JURY_RIGGER
 	display_category = ITEM_CAT_ENG_COMBAT
-	result = list(/obj/item/explosive/fused/bottle/shard)
+	result = list(/obj/item/explosive/fused/bottle/rigged)
 	reqs = list(/obj/item/natural/glass_shard = 1, /obj/item/magic/infernal/ash = 1, /obj/item/natural/cloth = 1)
 	skillcraft = /datum/skill/craft/engineering
 	craftdiff = 4
@@ -1362,7 +1362,7 @@
 	category = "Explosives"
 	required_trait = TRAIT_JURY_RIGGER
 	display_category = ITEM_CAT_ENG_COMBAT
-	result = list(/obj/item/explosive/fused/bottle/shard)
+	result = list(/obj/item/explosive/fused/bottle/rigged)
 	reqs = list(/obj/item/natural/clay = 3, /obj/item/magic/infernal/ash = 1, /obj/item/natural/cloth = 1)
 	skillcraft = /datum/skill/craft/engineering
 	craftdiff = 4
@@ -1372,7 +1372,7 @@
 	category = "Explosives"
 	required_trait = TRAIT_JURY_RIGGER
 	display_category = ITEM_CAT_ENG_COMBAT
-	result = list(/obj/item/explosive/fused/bottle/shard)
+	result = list(/obj/item/explosive/fused/bottle/rigged)
 	reqs = list(/obj/item/natural/dirtclod = 6, /obj/item/magic/infernal/ash = 1, /obj/item/natural/cloth = 1)
 	skillcraft = /datum/skill/craft/engineering
 	craftdiff = 4
