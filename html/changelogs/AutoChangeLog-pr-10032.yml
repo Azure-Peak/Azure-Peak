@@ -1,4 +1,0 @@
-author: "awwlie"
-delete-after: True
-changes:
-  - bugfix: "heretics and clerics now spawn with 'psydonic armet' instead of a bascients when selecting the armet."
