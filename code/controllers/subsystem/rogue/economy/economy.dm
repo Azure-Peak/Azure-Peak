@@ -478,7 +478,6 @@ SUBSYSTEM_DEF(economy)
 		if(stockpile_entry)
 			stockpile_entry.royal_stock -= delivered
 			record_material_flow(MATERIAL_FLOW_OUT, MATERIAL_SOURCE_STANDING_ORDER, stockpile_entry.item_type, delivered)
-		credit_economic_event_saturation(good_id, delivered)
 	SStreasury.dirty_market_view()
 
 /datum/controller/subsystem/economy/proc/get_good_route(good_id)

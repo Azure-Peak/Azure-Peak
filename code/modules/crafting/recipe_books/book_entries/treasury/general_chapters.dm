@@ -177,18 +177,11 @@
 			<li><b>Oversupply</b> - affected goods drop in price.</li>
 		</ul>
 
-		<h3>Ending a Shortage Early</h3> <p>A shortage does not have to run its full
-		course of [ECON_EVENT_DURATION] days. The realm can <b>end it</b> early by
-		supplying the goods. Every unit of an affected good counts toward relief when
-		the Crown <b>exports</b> it to a region that demands it or delivers it to a
-		standing order.</p>
+		<h3>Ending a Shortage Early</h3> <p>A shortage ends early once enough of the
+		affected goods are sold to the market. Every unit sold at the stockpile
+		counts, and the shortage badge shows how much is still needed. When it ends, prices return to normal and SCOM announces the end of the shortage.</p>
 
-		<p>Once cumulative deliveries cross <b>[round(ECON_EVENT_SATURATION_MULT * 100)]% of the average stockpile limit across the affected goods</b>, the
-		shortage ends immediately: prices return to normal and SCOM announces the
-		relief. The target is for the whole realm. Any mix of the affected goods
-		counts.</p>
-
-		<p>The <b>Market Scroll</b> at the Nerve Master shows live buy/sell prices for every good in every region.</p>
+		<p>The <b>Market Scroll</b> at the Nerve Master shows live market prices.</p>
 		</div>
 	"}
 
