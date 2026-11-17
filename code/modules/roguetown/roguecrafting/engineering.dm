@@ -1276,6 +1276,7 @@
 	skillcraft = /datum/skill/craft/engineering
 	craftdiff = 6
 
+///bottlebomb rigs should be fine, these are more on the saner-side of things.
 /datum/crafting_recipe/roguetown/engineering/bbomb_expert
 	name = "bottle bomb (clod jury rig)"
 	category = "Explosives"
@@ -1284,7 +1285,7 @@
 	result = list(/obj/item/explosive/fused/bottle)
 	reqs = list(/obj/item/natural/dirtclod = 3, /obj/item/natural/ash = 2, /obj/item/natural/fibers = 1)
 	skillcraft = /datum/skill/craft/engineering
-	craftdiff = 4
+	craftdiff = 2
 
 /datum/crafting_recipe/roguetown/engineering/bbomb_expert_2
 	name = "bottle bomb (glass jury rig)"
@@ -1294,7 +1295,7 @@
 	result = list(/obj/item/explosive/fused/bottle)
 	reqs = list(/obj/item/natural/glass_shard = 1, /obj/item/natural/ash = 2, /obj/item/natural/fibers = 1)
 	skillcraft = /datum/skill/craft/engineering
-	craftdiff = 4
+	craftdiff = 2
 
 /datum/crafting_recipe/roguetown/engineering/bbomb_expert_3
 	name = "bottle bomb (shard jury rig)"
@@ -1304,34 +1305,4 @@
 	result = list(/obj/item/explosive/fused/bottle)
 	reqs = list(/obj/item/natural/glass_shard/shrapnel = 1, /obj/item/natural/ash = 2, /obj/item/natural/fibers = 1)
 	skillcraft = /datum/skill/craft/engineering
-	craftdiff = 4
-
-/datum/crafting_recipe/roguetown/engineering/impactexplosive_expert
-	name = "impact grenades (fyritius jury rig)"
-	category = "Explosives"
-	required_trait = TRAIT_BOMBER_EXPERT
-	display_category = ITEM_CAT_ENG_COMBAT
-	result = list(/obj/item/explosive/impact/shrapnel)
-	reqs = list(/obj/item/scrap = 1, /obj/item/reagent_containers/food/snacks/grown/rogue/fyritius = 1, /obj/item/natural/fibers = 3)
-	skillcraft = /datum/skill/craft/engineering
-	craftdiff = 4
-
-/datum/crafting_recipe/roguetown/engineering/impactexplosive_expert_2
-	name = "impact grenades (infernal jury rig)"
-	category = "Explosives"
-	required_trait = TRAIT_BOMBER_EXPERT
-	display_category = ITEM_CAT_ENG_COMBAT
-	result = list(/obj/item/explosive/impact/shrapnel)
-	reqs = list(/obj/item/scrap = 1, /obj/item/magic/infernal/ash = 1, /obj/item/natural/fibers = 3)
-	skillcraft = /datum/skill/craft/engineering
-	craftdiff = 4
-
-/datum/crafting_recipe/roguetown/engineering/impactexplosive_expert_3
-	name = "impact grenades (coal dust jury rig)"
-	category = "Explosives"
-	required_trait = TRAIT_BOMBER_EXPERT
-	display_category = ITEM_CAT_ENG_COMBAT
-	result = list(/obj/item/explosive/impact/shrapnel)
-	reqs = list(/obj/item/scrap = 1, /obj/item/alch/coaldust = 1, /obj/item/natural/fibers = 3)
-	skillcraft = /datum/skill/craft/engineering
-	craftdiff = 4
+	craftdiff = 2

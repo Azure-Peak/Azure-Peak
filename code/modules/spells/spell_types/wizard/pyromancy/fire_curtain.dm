@@ -177,7 +177,7 @@
 
 /obj/effect/curtain_fire/proc/burn_occupant(mob/living/L, involuntary = FALSE)
 	var/mob/living/caster = caster_ref?.resolve()
-	if(L == caster && HAS_TRAIT(caster, TRAIT_BOMBER_EXPERT))
+	if(L == caster && HAS_TRAIT(caster, TRAIT_BOMBER_EXPERT)) //this is where bombardiers become fire immune to their own bombs
 		return
 	if(HAS_TRAIT(L, TRAIT_NOFIRE))
 		return
