@@ -178,8 +178,8 @@
 		</ul>
 
 		<h3>Ending a Shortage Early</h3> <p>A shortage ends early once enough of the
-		affected goods are sold to the market. Every unit sold at the stockpile
-		counts, and the shortage badge shows how much is still needed. When it ends, prices return to normal and SCOM announces the end of the shortage.</p>
+		affected goods are sold to the market, counted by value. Every sale to the
+		market counts, and the shortage badge shows how much is still needed. When it ends, prices return to normal and SCOM announces the end of the shortage.</p>
 
 		<p>The <b>Market Scroll</b> at the Nerve Master shows live market prices.</p>
 		</div>

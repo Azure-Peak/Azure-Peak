@@ -177,12 +177,12 @@
 				stock_announce("[bundle_amt] units of [R.name] have been stockpiled.")
 			if(sound == TRUE)
 				playsound(loc, 'sound/misc/hiss.ogg', 100, FALSE, -1)
-			credit_economic_event_saturation(R.trade_good_id, bundle_amt)
 			if(HAS_TRAIT(H, TRAIT_ROYAL_SUBSIDY))
 				deposit_to_royal_stock(R, bundle_amt, H)
 				return
 			var/amt = R.market_bid(bundle_amt)
 			R.market_stock += bundle_amt
+			credit_economic_event_saturation(R.trade_good_id, bundle_amt)
 			var/paid = pay_seller(H, amt, "from selling [bundle_amt] [R.name]")
 			SStreasury.economic_output += paid
 			return
@@ -205,11 +205,11 @@
 				stock_announce("[R.name] has been stockpiled.")
 			if(sound == TRUE)
 				playsound(loc, 'sound/misc/hiss.ogg', 100, FALSE, -1)
-			credit_economic_event_saturation(R.trade_good_id, 1)
 			if(HAS_TRAIT(H, TRAIT_ROYAL_SUBSIDY))
 				deposit_to_royal_stock(R, 1, H)
 				return
 			R.market_stock += 1
+			credit_economic_event_saturation(R.trade_good_id, 1)
 			SStreasury.economic_output += true_value
 			var/reason = "from selling [R.name]"
 			var/seller_delta = mammon_round(amt - quality_baseline)

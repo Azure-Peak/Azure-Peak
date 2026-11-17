@@ -22,20 +22,12 @@ GLOBAL_LIST_EMPTY(active_economic_events)
 	refresh_affected_stockpile_caches()
 	shock_market_stock()
 	if(event_type == ECON_EVENT_SHORTAGE)
-		var/effective_pop = SSeconomy ? SSeconomy.get_effective_player_count() : get_active_player_count()
-		var/pop_mult = min(REGION_POP_SCALE_MAX, 1.0 + (effective_pop * REGION_POP_SCALE_PER_PLAYER))
-		var/demand_sum = 0
-		var/demand_count = 0
+		var/market_value = 0
 		for(var/good_id in affected_goods)
-			var/total_demand = 0
-			for(var/region_id in GLOB.economic_regions)
-				var/datum/economic_region/region = GLOB.economic_regions[region_id]
-				total_demand += region.demands[good_id] || 0
-			if(total_demand <= 0)
-				continue
-			demand_sum += total_demand * pop_mult * duration_days
-			demand_count++
-		saturation_target = demand_count > 0 ? clamp(round(demand_sum * ECON_EVENT_SATURATION_MULT / demand_count), ECON_EVENT_SATURATION_MIN, ECON_EVENT_SATURATION_MAX) : 1
+			var/datum/roguestock/D = SStreasury.stockpile_by_trade_good[good_id]
+			if(D)
+				market_value += D.market_target * SSeconomy.good_steady_price(good_id)
+		saturation_target = max(1, round(market_value * ECON_EVENT_RELIEF_PERCENT / 100))
 	if(announcement)
 		scom_announce(announcement)
 
@@ -100,7 +92,7 @@ GLOBAL_LIST_EMPTY(active_economic_events)
 			continue
 		if(!(good_id in E.affected_goods))
 			continue
-		E.saturation_progress += units
+		E.saturation_progress = mammon_round(E.saturation_progress + units * SSeconomy.good_steady_price(good_id))
 		if(E.saturation_progress >= E.saturation_target)
 			relieved += E
 	for(var/datum/economic_event/E as anything in relieved)

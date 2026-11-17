@@ -150,7 +150,8 @@ const StockRowView = (props: {
             {row.event_tag}
             {row.event_tag === 'SHORTAGE' && row.shortage_target > 0 && (
               <span style={{ marginLeft: '4px', fontWeight: 'normal' }}>
-                ({row.shortage_progress} / {row.shortage_target})
+                ({formatMammon(Math.round(row.shortage_progress))}m /{' '}
+                {formatMammon(Math.round(row.shortage_target))}m)
               </span>
             )}
           </span>

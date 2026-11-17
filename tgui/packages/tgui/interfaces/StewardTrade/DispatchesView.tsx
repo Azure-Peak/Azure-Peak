@@ -14,6 +14,7 @@ import {
 } from '../common/parchment';
 import { ATCLoanBanner } from './ATCLoanBanner';
 import type { Data, EconomicEvent } from './types';
+import { formatMammon } from '../common/format';
 
 export const dispatchCount = (data: Data) =>
   (data.atc_loan?.available ? 1 : 0) +
@@ -156,7 +157,7 @@ const EventRow = (props: {
       ? Math.min(100, Math.round((progress / target) * 100))
       : 0;
   const affected = (e.affected_goods || []).map(props.goodName).join(', ');
-  const relief = `Relief: ${progress} / ${target} units delivered (${pct}%). Accepts: ${affected}`;
+  const relief = `Relief: ${formatMammon(Math.round(progress))}m / ${formatMammon(Math.round(target))}m sold (${pct}%). Accepts: ${affected}`;
   return (
     <div
       style={{
@@ -183,17 +184,18 @@ const EventRow = (props: {
         <div
           style={{
             display: 'flex',
-            alignItems: 'center',
+            alignItems: 'flex-start',
             gap: '8px',
             ...smallSoft,
           }}
         >
-          <span style={ellipsisCellStyle} title={relief}>
+          <span style={{ flex: '1 1 auto', minWidth: 0, overflowWrap: 'anywhere' }}>
             {relief}
           </span>
           <div
             style={{
               flex: '0 0 100px',
+              marginTop: '6px',
               height: '4px',
               background: '#3a2a1a',
               border: '1px solid #5a4a3a',
