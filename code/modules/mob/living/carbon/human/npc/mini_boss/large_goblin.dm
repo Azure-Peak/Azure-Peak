@@ -33,6 +33,8 @@ GLOBAL_LIST_INIT(large_goblin_aggro, list(
 	ADD_TRAIT(src, TRAIT_LEECHIMMUNE, INNATE_TRAIT)
 	ADD_TRAIT(src, TRAIT_BREADY, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_CRITICAL_RESISTANCE, TRAIT_GENERIC)
+	REMOVE_TRAIT(src, TRAIT_CRITICAL_WEAKNESS, SPECIES_TRAIT)
+	REMOVE_TRAIT(src, TRAIT_CRITICAL_WEAKNESS, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_NOPAIN, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_NOPAINSTUN, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_NPC_EXAMINE, TRAIT_GENERIC)
@@ -61,10 +63,10 @@ GLOBAL_LIST_INIT(large_goblin_aggro, list(
 	H.STAWIL = 12
 	H.STAPER = 6
 	H.STAINT = 8 // I am Evil
-	H.STALUC = 4
+	H.STALUC = 10
 	// Gives it armor for some much needed buff
 	armor = /obj/item/clothing/suit/roguetown/armor/plate/cuirass/iron/goblin
-	head = /obj/item/clothing/head/roguetown/helmet/goblin
+	head = /obj/item/clothing/head/roguetown/helmet/goblin/chieftain
 	belt = /obj/item/storage/belt/rogue/leather
 	var/loadout = rand(1, 4)
 	switch(loadout)
