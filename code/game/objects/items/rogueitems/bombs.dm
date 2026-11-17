@@ -508,7 +508,7 @@
 		//return
 	. = ..()
 	if(target == firer && HAS_TRAIT(firer, TRAIT_BOMBER_EXPERT)) //expert has a 10% of embedding into themselves vs 50% - only if you get unlucky or about 40 of these go off that you'll feel it.
-		if(isliving(target) && prob(10))
+		if(isliving(target) && prob(15))
 			embed_bomb_shrapnel(target, /obj/item/bomb_shrapnel, 1)
 		return
 	if(isliving(target) && prob(50))
