@@ -1059,35 +1059,12 @@
 	skillcraft = /datum/skill/craft/engineering
 	craftdiff = 4
 
-//seperates for everyone else, who can only make 2 at a time. less efficently too. - Bomb experts will benefit from jury-rigging more.
+//can only make 2 at a time, despite fyritus being somewhat hard this should prevent them being too spammable (since shrapnel stops miracles too) - Bomb experts will benefit from jury-rigging more.
 /datum/crafting_recipe/roguetown/engineering/impactexplosive
 	name = "impact grenades (x2)"
 	category = "Explosives"
 	display_category = ITEM_CAT_ENG_COMBAT
 	result = list(
-		/obj/item/explosive/impact/shrapnel,
-		/obj/item/explosive/impact/shrapnel,
-	)
-	reqs = list(
-		/obj/item/natural/clay = 1,
-		/obj/item/paper = 1,
-		/obj/item/alch/coaldust = 1,
-		/obj/item/alch/firedust = 1,
-		/obj/item/reagent_containers/food/snacks/grown/rogue/fyritius = 1,
-	)
-	structurecraft = /obj/structure/artificer_table
-	skillcraft = /datum/skill/craft/engineering
-	craftdiff = 4
-
-//guild artificers are uniquely the only role in the game with access to this, due to the effort it takes to get fyritius and firedust as a guildie. Intended to prevent ungated one-man armies with a million shrapnel grenades.
-//if you get an artificer renegade or whatever, IDRC. they can still die to their own bombs easily vs a proper bombardier, so yeah its a whatever case in comparison to an arsonist wretch killing the entire server after 30 minutes of grinding.
-/datum/crafting_recipe/roguetown/engineering/impactexplosive_arti
-	name = "impact grenades (x3) (Trained Artificer recipe)"
-	category = "Explosives"
-	required_trait = TRAIT_ARTIFICER
-	display_category = ITEM_CAT_ENG_COMBAT
-	result = list(
-		/obj/item/explosive/impact/shrapnel,
 		/obj/item/explosive/impact/shrapnel,
 		/obj/item/explosive/impact/shrapnel,
 	)

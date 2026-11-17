@@ -456,7 +456,7 @@
 
 /obj/item/explosive/impact/attack_self(mob/user)
 	. = ..()
-	if(cautious && (HAS_TRAIT(user, TRAIT_BOMBER_EXPERT) || HAS_TRAIT(user, TRAIT_ARTIFICER)))
+	if(cautious && HAS_TRAIT(user, TRAIT_BOMBER_EXPERT))
 		to_chat(user, span_warning("Out of all the things you'd want to be fiddling with, you choose the worst? Bad idea."))
 		return
 	detonate()
