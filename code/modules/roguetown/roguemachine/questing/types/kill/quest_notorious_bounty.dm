@@ -15,7 +15,6 @@
 	tp_budget = QUEST_TP_BUDGET_NOTORIOUS_GOONS
 	threat_bands_cleared = QUEST_BANDS_NOTORIOUS
 	required_fellowship_size = 2
-	fellowship_threat_rate = QUEST_FELLOWSHIP_THREAT_PER_EXTRA_HARD
 	fellowship_reward_rate = QUEST_FELLOWSHIP_REWARD_PER_EXTRA
 	hunt_duration = NOTORIOUS_BOUNTY_HUNT_TIMER
 	hunt_overtime_max = 0
@@ -33,6 +32,7 @@
 	var/takeover_resolved = FALSE
 	var/hunt_tick_id
 	var/party_down_since = 0
+	var/escort_settled = FALSE
 
 /datum/quest/kill/notorious_bounty/Destroy()
 	stop_hunt_tick()
@@ -51,7 +51,9 @@
 	clear_boss_marker()
 
 /datum/quest/kill/notorious_bounty/on_first_pop()
-	settle_fellowship_arrival(pending_landmark_ref?.resolve())
+	var/obj/effect/landmark/quest_spawner/landmark = pending_landmark_ref?.resolve()
+	settle_fellowship_arrival(landmark)
+	spawn_extra_escort(landmark)
 	. = ..()
 	if(complete || hunt_tick_id)
 		return
@@ -145,8 +147,36 @@
 	if(!target_mob_type)
 		return 0
 	var/boss_threat = initial(target_mob_type.threat_point) || 0
-	var/goon_threat = (total_spawned_tp > 0) ? total_spawned_tp : round(tp_budget * veteran_threat_mult())
+	var/goon_threat = (total_spawned_tp > 0) ? total_spawned_tp : scaled_threat_budget()
+	if(!escort_settled)
+		goon_threat += scaled_threat_budget(extra_escort_tp(fellowship_extras))
 	return (boss_threat * QUEST_NOTORIOUS_BOUNTY_THREAT_MULT) + kill_tp_reward(goon_threat) + (faction?.notorious_bounty_amount || 0)
+
+/datum/quest/kill/notorious_bounty/scaled_threat_budget(budget = tp_budget)
+	. = round(budget * veteran_threat_mult())
+	var/max_tp = faction?.max_threat_point()
+	if(max_tp > 0)
+		. = min(., round(QUEST_KILL_MAX_MOBS * max_tp))
+
+/datum/quest/kill/notorious_bounty/group_threat_mult(extras)
+	var/base_tp = tp_budget + (target_mob_type ? (initial(target_mob_type.threat_point) || 0) : 0)
+	if(extras <= 0 || base_tp <= 0)
+		return 1
+	return 1 + extra_escort_tp(extras) / base_tp
+
+/datum/quest/kill/notorious_bounty/proc/extra_escort_tp(extras)
+	if(extras <= 0)
+		return 0
+	var/datum/threat_region/TR = SSregionthreat.get_region(region)
+	return round(extras * NOTORIOUS_BOUNTY_ESCORT_TP_PER_EXTRA * (TR ? region_scale(TR) : 1))
+
+/datum/quest/kill/notorious_bounty/proc/spawn_extra_escort(obj/effect/landmark/quest_spawner/landmark)
+	if(escort_settled)
+		return
+	escort_settled = TRUE
+	var/budget = extra_escort_tp(fellowship_extras)
+	if(budget > 0 && !QDELETED(landmark))
+		spawn_goons(landmark, budget, QUEST_KILL_MAX_MOBS)
 
 /datum/quest/kill/notorious_bounty/estimate_mob_count()
 	return 1
