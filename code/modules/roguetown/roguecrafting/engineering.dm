@@ -1065,7 +1065,7 @@
 	category = "Explosives"
 	display_category = ITEM_CAT_ENG_COMBAT
 	result = list(/obj/item/explosive/impact/shrapnel)
-	reqs = list(/obj/item/natural/clay = 1, /obj/item/paper = 1, /obj/item/alch/coaldust = 1, /obj/item/alch/firedust = 1, /obj/item/reagent_containers/food/snacks/grown/rogue/fyritius = 1)
+	reqs = list(/obj/item/scrap = 3, /obj/item/natural/clay = 1, /obj/item/paper = 1, /obj/item/alch/coaldust = 1, /obj/item/alch/firedust = 1, /obj/item/reagent_containers/food/snacks/grown/rogue/fyritius = 1)
 	structurecraft = /obj/structure/artificer_table
 	skillcraft = /datum/skill/craft/engineering
 	craftdiff = 4
