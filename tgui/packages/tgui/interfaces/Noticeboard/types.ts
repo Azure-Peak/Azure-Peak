@@ -153,8 +153,6 @@ export type NoticeboardData = {
   mercenary_roster: MercenaryRoster;
   market_data: MarketData;
   market_refresh_cooldown: number;
-  partial_threshold_pct: number;
-  partial_payout_pct: number;
   can_post_listing: boolean;
   can_authority_remove: boolean;
   user_real_name: string;

@@ -7,9 +7,6 @@
 	demands = list(
 		TRADE_GOOD_MEAT = TG_VOLUME_BULK,
 	)
-	standing_orders = list(
-		/datum/standing_order/demand_victualling_mines,
-	)
 
 /datum/region_type/mining/copper_tin
 	name = "Minerals (Copper and Tin)"
@@ -19,9 +16,6 @@
 	)
 	demands = list(
 		TRADE_GOOD_MEAT = TG_VOLUME_BULK,
-	)
-	standing_orders = list(
-		/datum/standing_order/demand_victualling_mines,
 	)
 
 /datum/region_type/mining/precious_veins

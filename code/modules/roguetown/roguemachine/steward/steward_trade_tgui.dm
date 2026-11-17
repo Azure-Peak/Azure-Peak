@@ -187,12 +187,13 @@
 		var/list/items = list()
 		var/can_fulfill = TRUE
 		var/shortfall = ""
-		var/delivered_value = 0
+		var/deliverable_payout = 0
 		var/has_warehouse = FALSE
 		var/has_stockpile = FALSE
 		for(var/good_id in O.required_items)
 			var/needed = O.required_items[good_id]
 			var/have = 0
+			var/unit_pay = SSeconomy.compute_good_unit_payout(O, good_id)
 			var/route = SSeconomy.get_good_route(good_id)
 			if(route == "warehouse")
 				has_warehouse = TRUE
@@ -208,25 +209,14 @@
 					if(shortfall != "")
 						shortfall += ", "
 					shortfall += "need [needed - have] more [label]"
-				delivered_value += SSeconomy.compute_good_unit_payout(O, good_id) * min(have, needed)
+				deliverable_payout += unit_pay * min(have, needed)
 			items += list(list(
 				"good_id" = good_id,
 				"needed" = needed,
 				"have" = have,
 				"route" = route,
+				"unit_pay" = unit_pay,
 			))
-
-		// Partial settlement applies only to the stockpile portion's coverage; warehouse goods are all-or-nothing.
-		var/can_partial = FALSE
-		var/partial_pct = 0
-		var/partial_payout_preview = 0
-		if(has_stockpile && !can_fulfill && O.total_payout > 0)
-			var/petitioned_value = O.petitioned ? mammon_round(delivered_value * PETITION_TAX_MULT) : delivered_value
-			var/coverage = petitioned_value / O.total_payout
-			if(coverage >= STANDING_ORDER_PARTIAL_THRESHOLD)
-				can_partial = TRUE
-				partial_pct = round(coverage * 100)
-				partial_payout_preview = mammon_round(petitioned_value * STANDING_ORDER_PARTIAL_PAYOUT_MULT)
 
 		orders += list(list(
 			"ref" = REF(O),
@@ -238,18 +228,11 @@
 			"has_stockpile" = has_stockpile,
 			"days_left" = days_left,
 			"payout" = O.total_payout,
-			"base_payout" = O.base_payout,
-			"scarcity_bonus_pct" = O.scarcity_bonus_pct,
 			"items" = items,
 			"can_fulfill" = can_fulfill,
+			"deliverable_payout" = mammon_round(deliverable_payout),
 			"shortfall_text" = shortfall,
 			"petitioned" = O.petitioned ? TRUE : FALSE,
-			"can_partial" = can_partial,
-			"partial_pct" = partial_pct,
-			"partial_payout_pct" = round(STANDING_ORDER_PARTIAL_PAYOUT_MULT * 100),
-			"partial_payout_preview" = partial_payout_preview,
-			"pair_id" = O.pair_id,
-			"pair_label" = O.pair_label,
 		))
 	data["active_orders"] = orders
 
@@ -400,37 +383,19 @@ GLOBAL_LIST_INIT(steward_trade_sequestration_locked_actions, list(
 				return TRUE
 			var/datum/standing_order/O = locate(params["ref"]) in GLOB.standing_order_pool
 			if(O)
-				var/wants_partial = !!params["partial"]
-				var/result = SSeconomy.fulfill_order(usr, O, wants_partial)
-				if(result == STANDING_ORDER_FULFILL_NEEDS_PARTIAL_PROMPT)
-					var/list/preview = SSeconomy.preview_partial_fulfillment(O)
-					var/coverage_pct = preview["coverage_pct"]
-					var/preview_payout = preview["payout"]
-					var/missing_text = preview["missing_text"]
-					var/confirm = alert(usr, "You have [coverage_pct]% of the goods for [O.name]. Send them now for [preview_payout]m, [round(STANDING_ORDER_PARTIAL_PAYOUT_MULT * 100)]% of their value? Still missing: [missing_text].", "Partial Delivery", "Send", "Wait")
-					if(confirm == "Send")
-						var/list/partial_result = SSeconomy.fulfill_order(usr, O, TRUE)
-						if(islist(partial_result) && partial_result["status"] == "partial")
-							var/pq_delta = partial_result["quality_delta"]
-							var/pq_suffix = ""
-							if(pq_delta > 0)
-								pq_suffix = " (quality bonus: +[pq_delta]m)"
-							else if(pq_delta < 0)
-								pq_suffix = " (quality penalty: [pq_delta]m)"
-							scom_announce("Standing Order partially fulfilled: [O.name] (+[partial_result["payout"]]m)[pq_suffix].")
-							playsound(src, 'sound/misc/coindispense.ogg', 60, FALSE, -1)
-						else
-							COOLDOWN_START(src, fulfill_retry_cooldown, STANDING_ORDER_FULFILL_RETRY_COOLDOWN)
-					SStgui.update_uis(src)
-					return TRUE
-				if(islist(result) && result["status"] == "full")
+				var/order_name = O.name
+				var/list/result = SSeconomy.fulfill_order(usr, O)
+				if(islist(result))
 					var/q_delta = result["quality_delta"]
 					var/q_suffix = ""
 					if(q_delta > 0)
-						q_suffix = " (quality bonus: +[q_delta]m)"
+						q_suffix = " (quality bonus: +[format_mammon(q_delta)]m)"
 					else if(q_delta < 0)
-						q_suffix = " (quality penalty: [q_delta]m)"
-					scom_announce("Standing Order fulfilled: [O.name] (+[result["payout"]]m)[q_suffix].")
+						q_suffix = " (quality penalty: [format_mammon(q_delta)]m)"
+					if(result["status"] == "full")
+						scom_announce("Standing Order fulfilled: [order_name] (+[format_mammon(result["payout"])]m)[q_suffix].")
+					else
+						scom_announce("Standing Order part delivered: [order_name] (+[format_mammon(result["payout"])]m)[q_suffix].")
 					playsound(src, 'sound/misc/coindispense.ogg', 60, FALSE, -1)
 				else
 					COOLDOWN_START(src, fulfill_retry_cooldown, STANDING_ORDER_FULFILL_RETRY_COOLDOWN)

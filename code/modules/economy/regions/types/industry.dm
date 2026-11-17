@@ -47,10 +47,6 @@
 		TRADE_GOOD_PORK = TG_VOLUME_STANDARD,
 		TRADE_GOOD_FISH_FILET = TG_VOLUME_HEAVY,
 	)
-	standing_orders = list(
-		/datum/standing_order/demand_fishery,
-		/datum/standing_order/demand_salt,
-	)
 
 /datum/region_type/industry/tannery
 	name = "Tannery"
@@ -80,7 +76,6 @@
 		TRADE_GOOD_WOOD = TG_VOLUME_MASS,
 	)
 	standing_orders = list(
-		/datum/standing_order/demand_smithing,
 		/datum/standing_order/demand_artificery,
 	)
 

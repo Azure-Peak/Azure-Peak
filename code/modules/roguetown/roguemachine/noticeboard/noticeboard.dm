@@ -102,8 +102,6 @@
 	data["realm_name"] = SSticker.realm_name
 	data["market_data"] = build_market_data()
 	data["market_refresh_cooldown"] = MARKET_REFRESH_COOLDOWN / (1 SECONDS)
-	data["partial_threshold_pct"] = round(STANDING_ORDER_PARTIAL_THRESHOLD * 100)
-	data["partial_payout_pct"] = round(STANDING_ORDER_PARTIAL_PAYOUT_MULT * 100)
 	return data
 
 /obj/structure/roguemachine/noticeboard/ui_data(mob/user)

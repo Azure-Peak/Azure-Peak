@@ -1,5 +1,3 @@
-import type { ReactNode } from 'react';
-
 import { useBackend } from '../../backend';
 import {
   badgeStyle,
@@ -18,49 +16,11 @@ import {
 import type { Data, Order } from './types';
 import { formatMammon } from '../common/format';
 
-const PAIR_ACCENT = '#7a5a2f';
-
 export const OrdersView = (props: { data: Data }) => {
   const { act } = useBackend<Data>();
   const { active_orders, order_pool_cap, good_catalog, region_catalog } =
     props.data;
   const count = active_orders.length;
-
-  const onFulfill = (ref: string) => act('fulfill_order', { ref });
-
-  const consumed = new Set<string>();
-  const rendered: ReactNode[] = [];
-  for (const o of active_orders) {
-    if (consumed.has(o.ref)) continue;
-    if (o.pair_id) {
-      const sibling = active_orders.find(
-        (s) => s.pair_id === o.pair_id && s.ref !== o.ref,
-      );
-      consumed.add(o.ref);
-      if (sibling) consumed.add(sibling.ref);
-      rendered.push(
-        <PairGroup
-          key={o.pair_id}
-          primary={o}
-          sibling={sibling}
-          regionCatalog={region_catalog}
-          goodCatalog={good_catalog}
-          onFulfill={onFulfill}
-        />,
-      );
-    } else {
-      consumed.add(o.ref);
-      rendered.push(
-        <OrderCard
-          key={o.ref}
-          order={o}
-          regionCatalog={region_catalog}
-          goodCatalog={good_catalog}
-          onFulfill={onFulfill}
-        />,
-      );
-    }
-  }
 
   return (
     <div>
@@ -72,7 +32,15 @@ export const OrdersView = (props: { data: Data }) => {
           No active orders. Check back tomorrow.
         </div>
       ) : (
-        rendered
+        active_orders.map((o) => (
+          <OrderCard
+            key={o.ref}
+            order={o}
+            regionCatalog={region_catalog}
+            goodCatalog={good_catalog}
+            onFulfill={() => act('fulfill_order', { ref: o.ref })}
+          />
+        ))
       )}
     </div>
   );
@@ -82,8 +50,7 @@ type CardProps = {
   order: Order;
   regionCatalog: Data['region_catalog'];
   goodCatalog: Data['good_catalog'];
-  onFulfill: (ref: string) => void;
-  embedded?: boolean;
+  onFulfill: () => void;
 };
 
 const OrderCard = (props: CardProps) => {
@@ -109,20 +76,8 @@ const OrderCard = (props: CardProps) => {
       : isUrgent
         ? SEAL_RED_SOFT
         : INK_SOFT;
-  const style = props.embedded
-    ? {
-        ...cardStyle,
-        borderLeft: `4px solid ${barColor}`,
-        marginTop: 0,
-        marginBottom: '6px',
-        boxShadow: 'none',
-      }
-    : {
-        ...cardStyle,
-        borderLeft: `4px solid ${barColor}`,
-      };
   return (
-    <div style={style}>
+    <div style={{ ...cardStyle, borderLeft: `4px solid ${barColor}` }}>
       <div style={{ marginBottom: '4px' }}>
         <span style={{ fontWeight: 'bold', fontSize: FONT_BODY }}>
           {o.name}
@@ -160,15 +115,6 @@ const OrderCard = (props: CardProps) => {
         <span style={{ color: SEAL_AMBER, fontWeight: 'bold' }}>
           {formatMammon(o.payout)}m
         </span>
-        {o.scarcity_bonus_pct > 0 && (
-          <span
-            style={{ color: INK_FAINT, cursor: 'help' }}
-            title="Scarcity bonus: boosts the Crown's payout as active population drops, recalculated daily. Never affects the goods required to fulfill the order."
-          >
-            {' '}
-            ({o.base_payout}m + {o.scarcity_bonus_pct}% scarcity bonus)
-          </span>
-        )}
       </div>
       <div style={{ marginTop: '4px' }}>
         <span style={{ color: INK_FAINT, fontSize: FONT_BODY }}>Items: </span>
@@ -186,6 +132,10 @@ const OrderCard = (props: CardProps) => {
               >
                 {it.needed} {label}
                 {isStockpileItem && ` (${it.have})`}
+              </span>
+              <span style={{ color: INK_FAINT }}>
+                {' '}
+                at {formatMammon(it.unit_pay)}m
               </span>
               {i < o.items.length - 1 && (
                 <span style={{ color: INK_FAINT }}>, </span>
@@ -209,50 +159,8 @@ const OrderCard = (props: CardProps) => {
         </div>
       )}
       <div style={{ marginTop: '8px' }}>
-        <FulfillButton order={o} onFulfill={() => props.onFulfill(o.ref)} />
+        <FulfillButton order={o} onFulfill={props.onFulfill} />
       </div>
-    </div>
-  );
-};
-
-const PairGroup = (props: {
-  primary: Order;
-  sibling?: Order;
-  regionCatalog: Data['region_catalog'];
-  goodCatalog: Data['good_catalog'];
-  onFulfill: (ref: string) => void;
-}) => {
-  const { primary, sibling } = props;
-  const label = primary.pair_label ?? sibling?.pair_label ?? 'Linked Pair';
-  const regionName =
-    props.regionCatalog[primary.region_id]?.name ?? primary.region_id;
-  const totalPayout = primary.payout + (sibling?.payout ?? 0);
-  return (
-    <div
-      style={{
-        ...cardStyle,
-        borderLeft: `4px solid ${PAIR_ACCENT}`,
-        padding: '6px 8px',
-      }}
-    >
-      <div
-        style={{
-          fontWeight: 'bold',
-          fontSize: FONT_BODY,
-          color: PAIR_ACCENT,
-          marginBottom: '4px',
-          textTransform: 'uppercase',
-          letterSpacing: '1px',
-        }}
-      >
-        {label} &middot; {regionName} &middot;{' '}
-        <span style={{ color: SEAL_AMBER }}>{totalPayout}m total</span>{' '}
-        <span style={{ color: INK_FAINT, fontWeight: 'normal' }}>
-          (linked pair, one slot)
-        </span>
-      </div>
-      <OrderCard {...props} order={primary} embedded />
-      {sibling && <OrderCard {...props} order={sibling} embedded />}
     </div>
   );
 };
@@ -270,16 +178,16 @@ const FulfillButton = (props: { order: Order; onFulfill: () => void }) => {
       </button>
     );
   }
-  const pureWarehouse = !!o.has_warehouse && !o.has_stockpile;
-  const mixed = !!o.has_warehouse && !!o.has_stockpile;
-  if (pureWarehouse) {
+  if (o.has_warehouse) {
     return (
       <button
         type="button"
         onClick={props.onFulfill}
         style={inkButtonStyle({ color: SEAL_BLUE })}
       >
-        Fulfill from Warehouse
+        {o.has_stockpile
+          ? 'Fulfill (Warehouse + Stockpile)'
+          : 'Fulfill from Warehouse'}
       </button>
     );
   }
@@ -290,19 +198,19 @@ const FulfillButton = (props: { order: Order; onFulfill: () => void }) => {
         onClick={props.onFulfill}
         style={inkButtonStyle({ color: SEAL_GREEN })}
       >
-        {mixed ? 'Fulfill (Warehouse + Stockpile)' : 'Fulfill from Stockpile'}
+        Fulfill from Stockpile
       </button>
     );
   }
-  if (o.can_partial) {
+  if (o.deliverable_payout > 0) {
     return (
       <button
         type="button"
         onClick={props.onFulfill}
-        title={`You have ${o.partial_pct}% of the goods. Sending them now pays ${o.partial_payout_pct}% of their value. Missing: ${o.shortfall_text}`}
+        title={o.shortfall_text}
         style={inkButtonStyle({ color: SEAL_AMBER })}
       >
-        Fulfill Partial - {o.partial_pct}% ({formatMammon(o.partial_payout_preview)}m)
+        Deliver part - {formatMammon(o.deliverable_payout)}m
       </button>
     );
   }

@@ -196,6 +196,7 @@ export type OrderItem = {
   needed: number;
   have: number;
   route: 'warehouse' | 'stockpile';
+  unit_pay: number;
 };
 
 export type Order = {
@@ -208,19 +209,11 @@ export type Order = {
   has_stockpile: BooleanLike;
   days_left: number;
   payout: number;
-  // base_payout * (1 + scarcity_bonus_pct/100) == payout. Bonus is 0 at/above reference pop.
-  base_payout: number;
-  scarcity_bonus_pct: number;
   items: OrderItem[];
   can_fulfill: BooleanLike;
+  deliverable_payout: number;
   shortfall_text: string;
   petitioned: BooleanLike;
-  can_partial: BooleanLike;
-  partial_pct: number;
-  partial_payout_pct: number;
-  partial_payout_preview: number;
-  pair_id: string | null;
-  pair_label: string | null;
 };
 
 export type EconomicEvent = {

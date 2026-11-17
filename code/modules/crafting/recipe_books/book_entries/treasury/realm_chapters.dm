@@ -126,10 +126,9 @@
 <div>
 		<h3>Types</h3>
 		<ul>
-			<li><b>Regular</b> - rolled each dawn ([STANDING_ORDERS_BASE_PER_DAY] base,
-			+1 per ~[round(1 / STANDING_ORDERS_PER_ACTIVE_PLAYER)] active people, capped
-			at [STANDING_ORDERS_MAX_PER_DAY]/day). Lasts [STANDING_ORDER_DURATION] days.
-			Payout: base x[1 + STANDING_ORDER_BASE_BONUS] per unit.</li>
+			<li><b>Regular</b> - rolled each dawn, more in a busier realm. Most ask
+			for a single good the region needs. They last a couple of days and pay
+			well above the market price.</li>
 			<li><b>Urgent</b> - spawned by shortage events. No more than
 			[STANDING_ORDERS_MAX_URGENT] stand at a time. Lasts [URGENT_ORDER_DURATION]
 			days. Payout: base x shortage price multiplier per unit
@@ -154,15 +153,12 @@
 		Treasury is paid directly. The Steward decides who gets a share of the profit
 		and how much.</p>
 
-		<p><b>Partial fulfillment:</b> if the goods on hand cover at least
-		[round(STANDING_ORDER_PARTIAL_THRESHOLD * 100)]% of an order's posted value,
-		the Steward may settle it anyway. The buyer pays
-		[round(STANDING_ORDER_PARTIAL_PAYOUT_MULT * 100)]% of the delivered share's
-		value and nothing is paid for the missing share. A failed attempt locks
-		fulfillment for [DisplayTimeText(STANDING_ORDER_FULFILL_RETRY_COOLDOWN)].</p>
+		<p><b>Partial delivery:</b> an order can be delivered in parts. Each unit
+		is paid in full, and the rest stays open until the order expires.</p>
 
 		<h3>Limits</h3>
-		<p>Max [STANDING_ORDERS_MAX_PER_REGION] orders per region. Max [STANDING_ORDERS_POOL_CAP] orders in the realm. Blockaded regions can hold orders but cannot be delivered to.</p>
+		<p>Each region holds one order at a time, and the realm caps how many stand
+		at once. Blockaded regions can hold orders but cannot be delivered to.</p>
 		</div>
 	"}
 

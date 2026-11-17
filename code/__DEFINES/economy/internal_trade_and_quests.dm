@@ -53,29 +53,18 @@
 #define STANDING_ORDERS_PER_ACTIVE_PLAYER 0.05
 #define STANDING_ORDERS_MAX_PER_DAY 13
 #define STANDING_ORDERS_POOL_CAP 13
-#define STANDING_ORDERS_MAX_PER_REGION 3
+#define STANDING_ORDERS_MAX_PER_REGION 1
 // Avoid spamming too many urgent orders
 #define STANDING_ORDERS_MAX_URGENT 2
 
-// Old defines for scaling order SIZE with pop. No longer used in favor of just adding more raw orders.
-#define STANDING_ORDER_POP_SCALE_PER_PLAYER 0
-#define STANDING_ORDER_POP_SCALE_MAX 3.0
-
 #define STANDING_ORDER_BASE_BONUS 1.5
 
-// Scarcity bonus: boosts order PAYOUT (never required quantity) below reference pop, ramping
-// linearly up to +MAX_BONUS at pop 0. Crown income only, no player-side cut.
-#define STANDING_ORDER_SCARCITY_REFERENCE_POP 30
-#define STANDING_ORDER_SCARCITY_MAX_BONUS 0.4
+#define STANDING_ORDER_VALUE_MIN 200
+#define STANDING_ORDER_VALUE_MAX 400
+#define STANDING_ORDER_REQUEST_WEIGHT 6
 
-// Partial Fulfillment: Let players fulfill an order with 50% by VALUE for 85% payout
-// So that steward / towners are still soft encouraged to fulfill the whole order
-// But don't feel ripped off because they cannot fetch everything at once
-#define STANDING_ORDER_PARTIAL_THRESHOLD 0.50
-#define STANDING_ORDER_PARTIAL_PAYOUT_MULT 0.85
 // Anti lag spam because every click would do a sweep and that could potentially get expensive
 #define STANDING_ORDER_FULFILL_RETRY_COOLDOWN (2 SECONDS)
-#define STANDING_ORDER_FULFILL_NEEDS_PARTIAL_PROMPT "needs_partial_prompt"
 
 
 
@@ -200,14 +189,12 @@
 #define PETITION_TAX_MULT 0.80
 #define PETITION_BLOCKADE_RECOVERY_DAYS 2
 
-#define PETITION_CATEGORY_PROVISIONS "provisions"
 #define PETITION_CATEGORY_MATERIALS "materials"
 #define PETITION_CATEGORY_ARMS "arms"
 #define PETITION_CATEGORY_LUXURIES "luxuries"
 #define PETITION_CATEGORY_ALCHEMY "alchemy"
 #define PETITION_CATEGORY_MASTERWORK "masterwork"
 
-#define PETITION_COST_PROVISIONS 200
 #define PETITION_COST_MATERIALS 250
 #define PETITION_COST_ARMS 300
 #define PETITION_COST_LUXURIES 350

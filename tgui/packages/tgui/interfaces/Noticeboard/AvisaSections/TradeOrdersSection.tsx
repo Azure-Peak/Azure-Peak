@@ -62,7 +62,7 @@ export const TradeOrdersSection = ({ data }: { data: NoticeboardData }) => {
         >
           {helpOpen ? 'Hide About Trade Orders' : 'About Trade Orders'}
         </button>
-        {helpOpen && <HelpPanel data={data} />}
+        {helpOpen && <HelpPanel />}
       </div>
 
       {orders.length === 0 ? (
@@ -188,7 +188,7 @@ const EmptyMessage = ({ text }: { text: string }) => (
   </div>
 );
 
-const HelpPanel = ({ data }: { data: NoticeboardData }) => (
+const HelpPanel = () => (
   <div
     style={{
       marginTop: 8,
@@ -211,9 +211,8 @@ const HelpPanel = ({ data }: { data: NoticeboardData }) => (
       still be delivered to the stockpile.
     </p>
     <p style={{ margin: '0 0 6px 0' }}>
-      Once you have at least {data.partial_threshold_pct}% of an order's goods
-      by value, you can send them early. They pay {data.partial_payout_pct}% of
-      their value.
+      Orders can be delivered in parts. Each unit is paid in full, and the
+      rest stays open until the order expires.
     </p>
     <p style={{ margin: 0 }}>
       <b>BLOCKADED</b> regions cannot be reached by trade caravans until the

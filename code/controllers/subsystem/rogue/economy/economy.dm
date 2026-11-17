@@ -57,7 +57,6 @@ SUBSYSTEM_DEF(economy)
 	daily_report_diff["day"] = GLOB.dayspassed
 
 	var/effective_pop = get_effective_player_count()
-	var/order_size_mult = min(STANDING_ORDER_POP_SCALE_MAX, 1.0 + (effective_pop * STANDING_ORDER_POP_SCALE_PER_PLAYER))
 
 	var/list/expired = list()
 	for(var/datum/standing_order/O as anything in GLOB.standing_order_pool)
@@ -89,30 +88,14 @@ SUBSYSTEM_DEF(economy)
 			var/list/eligible_ids = list()
 			for(var/region_id in GLOB.economic_regions)
 				var/datum/economic_region/region = GLOB.economic_regions[region_id]
-				if(!length(region.possible_standing_order_types))
+				if(region_order_count(region_id) >= STANDING_ORDERS_MAX_PER_REGION)
 					continue
-				var/active_count = 0
-				var/list/seen_pairs = list()
-				for(var/datum/standing_order/O as anything in GLOB.standing_order_pool)
-					if(O.region_id != region_id)
-						continue
-					if(O.pair_id)
-						if(seen_pairs[O.pair_id])
-							continue
-						seen_pairs[O.pair_id] = TRUE
-					active_count++
-				if(active_count < STANDING_ORDERS_MAX_PER_REGION)
-					eligible_ids += region_id
+				if(!length(region.possible_standing_order_types) && !length(request_goods(region)))
+					continue
+				eligible_ids += region_id
 			if(!length(eligible_ids))
 				break
-			var/chosen_region_id = pick(eligible_ids)
-			var/datum/economic_region/region = GLOB.economic_regions[chosen_region_id]
-			var/template = pickweight(region.possible_standing_order_types)
-			var/datum/standing_order/probe = template
-			if(initial(probe.pair_sibling_type))
-				instantiate_standing_order_pair(template, initial(probe.pair_sibling_type), region, order_size_mult)
-			else
-				instantiate_standing_order(template, region, order_size_mult)
+			roll_standing_order(GLOB.economic_regions[pick(eligible_ids)])
 
 	var/list/relieved_today = daily_report_diff["events_relieved"]
 	var/list/by_region = daily_report_diff["regular_orders_by_region"]
@@ -233,7 +216,6 @@ SUBSYSTEM_DEF(economy)
 	O.region_id = chosen_region_id
 	O.source_event_ref = WEAKREF(E)
 	var/list/mix = list()
-	var/order_size_mult = min(STANDING_ORDER_POP_SCALE_MAX, 1.0 + (get_effective_player_count() * STANDING_ORDER_POP_SCALE_PER_PLAYER))
 	for(var/good in E.affected_goods)
 		var/datum/trade_good/tg = GLOB.trade_goods[good]
 		// Scale qty inversely with base_price so high-value goods (gems, dendor) land
@@ -250,13 +232,13 @@ SUBSYSTEM_DEF(economy)
 		else
 			qty_lo = 12
 			qty_hi = 25
-		mix[good] = max(1, round(rand(qty_lo, qty_hi) * order_size_mult))
+		mix[good] = rand(qty_lo, qty_hi)
 	O.required_items = mix
 	O.name = O.generate_name(region)
 	O.description = O.generate_description(region)
 	O.day_issued = GLOB.dayspassed
 	O.day_expires = GLOB.dayspassed + URGENT_ORDER_DURATION
-	O.total_payout = compute_order_payout(O, region)
+	O.total_payout = compute_order_payout(O)
 	GLOB.standing_order_pool += O
 	E.urgent_order_ref = WEAKREF(O)
 	record_round_statistic(STATS_URGENT_ORDERS_SPAWNED, 1)
@@ -289,17 +271,24 @@ SUBSYSTEM_DEF(economy)
 		if(O && !O.is_fulfilled)
 			GLOB.standing_order_pool -= O
 
+/datum/controller/subsystem/economy/proc/good_steady_price(good_id)
+	var/datum/trade_good/tg = GLOB.trade_goods[good_id]
+	if(!tg)
+		return 0
+	return (tg.item_type && GLOB.derived_sellprices[tg.item_type]) || tg.base_price
+
 /datum/controller/subsystem/economy/proc/compute_good_unit_payout(datum/standing_order/order, good_id)
 	var/datum/trade_good/tg = GLOB.trade_goods[good_id]
 	if(!tg)
 		return 0
-	var/unit_price = (tg.item_type && GLOB.derived_sellprices[tg.item_type]) || tg.base_price
 	var/unit_mult
 	if(istype(order, /datum/standing_order/urgent))
 		unit_mult = max(1.0, tg.global_price_mod)
 	else
 		unit_mult = 1 + STANDING_ORDER_BASE_BONUS
-	return mammon_round(unit_price * unit_mult)
+	if(order.petitioned)
+		unit_mult *= PETITION_TAX_MULT
+	return mammon_round(good_steady_price(good_id) * unit_mult)
 
 /datum/controller/subsystem/economy/proc/compute_equipment_delivered_value(datum/standing_order/order, list/equip_avail)
 	var/total = 0
@@ -317,19 +306,11 @@ SUBSYSTEM_DEF(economy)
 			counted++
 	return total
 
-/// Also stamps order.base_payout/scarcity_bonus_pct as a side effect, so the UI and daily
-/// recompute don't need to re-derive the breakdown separately.
-/datum/controller/subsystem/economy/proc/compute_order_payout(datum/standing_order/order, datum/economic_region/region)
+/datum/controller/subsystem/economy/proc/compute_order_payout(datum/standing_order/order)
 	var/total = 0
 	for(var/good_id in order.required_items)
 		total += compute_good_unit_payout(order, good_id) * order.required_items[good_id]
-	if(order.petitioned)
-		total = mammon_round(total * PETITION_TAX_MULT)
-	order.base_payout = mammon_round(total)
-	// Boosts payout (never required quantity) below reference pop - Crown income only.
-	var/scarcity_mult = clamp(1.0 + (STANDING_ORDER_SCARCITY_REFERENCE_POP - get_effective_player_count()) / STANDING_ORDER_SCARCITY_REFERENCE_POP * STANDING_ORDER_SCARCITY_MAX_BONUS, 1.0, 1.0 + STANDING_ORDER_SCARCITY_MAX_BONUS)
-	order.scarcity_bonus_pct = round((scarcity_mult - 1) * 100)
-	return mammon_round(total * scarcity_mult)
+	return mammon_round(total)
 
 /// Payouts used to lock in at roll time and never catch up to later pop/price shifts while an
 /// order sat unfulfilled. Recompute daily so active orders stay current.
@@ -337,14 +318,42 @@ SUBSYSTEM_DEF(economy)
 	for(var/datum/standing_order/O as anything in GLOB.standing_order_pool)
 		if(O.is_fulfilled)
 			continue
-		var/datum/economic_region/region = GLOB.economic_regions[O.region_id]
-		if(!region)
+		O.total_payout = compute_order_payout(O)
+
+/datum/controller/subsystem/economy/proc/region_order_count(region_id)
+	var/count = 0
+	for(var/datum/standing_order/O as anything in GLOB.standing_order_pool)
+		if(O.region_id == region_id && !istype(O, /datum/standing_order/urgent))
+			count++
+	return count
+
+/datum/controller/subsystem/economy/proc/request_goods(datum/economic_region/region)
+	var/list/goods = list()
+	for(var/good_id in region.demands)
+		if(!SStreasury.stockpile_by_trade_good[good_id])
 			continue
-		O.total_payout = compute_order_payout(O, region)
+		if(get_good_route(good_id) != "stockpile")
+			continue
+		if(good_steady_price(good_id) <= 0)
+			continue
+		goods[good_id] = region.demands[good_id]
+	return goods
+
+/datum/controller/subsystem/economy/proc/roll_standing_order(datum/economic_region/region)
+	var/list/goods = request_goods(region)
+	var/list/kinds = region.possible_standing_order_types.Copy()
+	if(length(goods))
+		kinds[/datum/standing_order/request] = STANDING_ORDER_REQUEST_WEIGHT
+	if(!length(kinds))
+		return null
+	var/kind = pickweight(kinds)
+	if(kind == /datum/standing_order/request)
+		return instantiate_request(region, pickweight(goods))
+	return instantiate_standing_order(kind, region)
 
 /// Returns the new order, or null if the template's item mix came up empty (caller decides
 /// whether that's a skip or a refund).
-/datum/controller/subsystem/economy/proc/instantiate_standing_order(template, datum/economic_region/region, order_size_mult, petitioned = FALSE)
+/datum/controller/subsystem/economy/proc/instantiate_standing_order(template, datum/economic_region/region, petitioned = FALSE)
 	if(!template || !region)
 		return null
 	var/datum/standing_order/O = new template()
@@ -354,38 +363,35 @@ SUBSYSTEM_DEF(economy)
 	if(!length(O.required_items))
 		qdel(O)
 		return null
-	for(var/good_id in O.required_items)
-		O.required_items[good_id] = max(1, round(O.required_items[good_id] * order_size_mult))
+	return post_standing_order(O, region)
+
+/datum/controller/subsystem/economy/proc/instantiate_request(datum/economic_region/region, good_id, petitioned = FALSE)
+	var/price = good_steady_price(good_id)
+	if(!region || price <= 0)
+		return null
+	var/datum/standing_order/request/O = new()
+	O.region_id = region.region_id
+	O.good_id = good_id
+	O.petitioned = petitioned
+	O.required_items[good_id] = max(1, round(rand(STANDING_ORDER_VALUE_MIN, STANDING_ORDER_VALUE_MAX) / price))
+	return post_standing_order(O, region)
+
+/datum/controller/subsystem/economy/proc/post_standing_order(datum/standing_order/O, datum/economic_region/region)
 	O.name = O.generate_name(region)
 	O.description = O.generate_description(region)
 	O.day_issued = GLOB.dayspassed
 	O.day_expires = GLOB.dayspassed + STANDING_ORDER_DURATION
-	O.total_payout = compute_order_payout(O, region)
+	O.total_payout = compute_order_payout(O)
 	GLOB.standing_order_pool += O
 	if(daily_report_diff)
 		daily_report_diff["orders_rolled"] = (daily_report_diff["orders_rolled"] || 0) + 1
-		if(!petitioned)
+		if(!O.petitioned)
 			var/list/by_region = daily_report_diff["regular_orders_by_region"]
 			by_region[region.name] = (by_region[region.name] || 0) + 1
 	return O
 
-/datum/controller/subsystem/economy/proc/instantiate_standing_order_pair(template_a, template_b, datum/economic_region/region, order_size_mult, petitioned = FALSE)
-	var/datum/standing_order/A = instantiate_standing_order(template_a, region, order_size_mult, petitioned)
-	if(!A)
-		return null
-	var/datum/standing_order/B = instantiate_standing_order(template_b, region, order_size_mult, petitioned)
-	if(!B)
-		GLOB.standing_order_pool -= A
-		qdel(A)
-		return null
-	var/pid = "pair_[GLOB.dayspassed]_[world.time]_[rand(1, 99999)]"
-	A.pair_id = pid
-	B.pair_id = pid
-	B.day_expires = A.day_expires
-	return A
 
-
-/datum/controller/subsystem/economy/proc/fulfill_order(mob/user, datum/standing_order/order, partial = FALSE)
+/datum/controller/subsystem/economy/proc/fulfill_order(mob/user, datum/standing_order/order)
 	if(!order || order.is_fulfilled)
 		return FALSE
 	var/datum/economic_region/ER = GLOB.economic_regions[order.region_id]
@@ -415,89 +421,54 @@ SUBSYSTEM_DEF(economy)
 	var/list/potion_avail = length(potion_goods) ? scan_potion_availability(order, potion_goods) : list()
 	var/list/stock_avail = length(stock_goods) ? scan_stockpile_availability(order, stock_goods) : list()
 
-	var/missing_count = 0
-	var/list/missing_labels = list()
-	var/delivered_pretax = 0
-	var/equip_delivered_value = compute_equipment_delivered_value(order, equip_avail)
-	delivered_pretax += equip_delivered_value
+	var/delivered_units = 0
+	var/payout = compute_equipment_delivered_value(order, equip_avail)
+	var/quality_delta = payout
+	for(var/good_id in equip_avail)
+		var/list/entry = equip_avail[good_id]
+		quality_delta -= compute_good_unit_payout(order, good_id) * entry["delivered_units"]
+		delivered_units += entry["delivered_units"]
 	for(var/list/avail_set in list(potion_avail, stock_avail))
 		for(var/good_id in avail_set)
 			var/list/entry = avail_set[good_id]
-			delivered_pretax += compute_good_unit_payout(order, good_id) * entry["delivered_units"]
-			if(!entry["satisfied"])
-				missing_count++
-				var/datum/trade_good/tg = GLOB.trade_goods[good_id]
-				missing_labels += tg ? tg.name : good_id
-	for(var/good_id in equip_avail)
-		var/list/entry = equip_avail[good_id]
-		if(!entry["satisfied"])
-			missing_count++
-			var/datum/trade_good/tg = GLOB.trade_goods[good_id]
-			missing_labels += tg ? tg.name : good_id
-
-	if(!missing_count)
-		consume_equipment_payload(equip_avail)
-		consume_potion_payload(potion_avail)
-		consume_stockpile_payload(stock_avail)
-		var/canonical_equip_value = 0
-		for(var/good_id in equip_avail)
-			var/list/entry = equip_avail[good_id]
-			canonical_equip_value += compute_good_unit_payout(order, good_id) * entry["delivered_units"]
-		var/quality_delta = equip_delivered_value - canonical_equip_value
-		if(order.petitioned)
-			quality_delta = mammon_round(quality_delta * PETITION_TAX_MULT)
-		var/full_payout = max(0, mammon_round(order.total_payout + quality_delta))
-		SStreasury.mint(SStreasury.discretionary_fund, full_payout, "Standing Order: [order.name]", null, LEDGER_CROWN_REV_STANDING_ORDERS)
-		record_round_statistic(STATS_STANDING_ORDER_REVENUE, full_payout)
-		record_round_statistic(STATS_STANDING_ORDERS_FULFILLED, 1)
-		order.is_fulfilled = TRUE
-		GLOB.standing_order_pool -= order
+			payout += compute_good_unit_payout(order, good_id) * entry["delivered_units"]
+			delivered_units += entry["delivered_units"]
+	if(!delivered_units)
 		if(user)
-			to_chat(user, span_notice("Order fulfilled: [format_mammon(full_payout)]m paid to the Treasury."))
-			if(quality_delta > 0)
-				to_chat(user, span_green("Quality bonus: +[format_mammon(quality_delta)]m for quality goods."))
-			else if(quality_delta < 0)
-				to_chat(user, span_warning("Quality penalty: [format_mammon(quality_delta)]m for shoddy goods."))
-			log_game("STANDING ORDER FULFILLED by [user.ckey]: [order.name] (+[format_mammon(full_payout)]m, quality_delta=[format_mammon(quality_delta)]m)")
-		return list("status" = "full", "payout" = full_payout, "quality_delta" = quality_delta)
-
-	var/delivered_value = order.petitioned ? mammon_round(delivered_pretax * PETITION_TAX_MULT) : delivered_pretax
-	var/total_value = order.total_payout
-	var/coverage = total_value > 0 ? (delivered_value / total_value) : 0
-
-	if(coverage < STANDING_ORDER_PARTIAL_THRESHOLD)
-		if(user)
-			to_chat(user, span_warning("You only have [round(coverage * 100)]% of the goods. You need at least [round(STANDING_ORDER_PARTIAL_THRESHOLD * 100)]% to send part of an order. Missing: [english_list(missing_labels)]."))
+			to_chat(user, span_warning("You have none of the goods for this order."))
 		return FALSE
 
-	if(!partial)
-		return STANDING_ORDER_FULFILL_NEEDS_PARTIAL_PROMPT
-
-	var/payout = mammon_round(delivered_value * STANDING_ORDER_PARTIAL_PAYOUT_MULT)
-	var/canonical_equip_value_partial = 0
-	for(var/good_id in equip_avail)
-		var/list/entry = equip_avail[good_id]
-		canonical_equip_value_partial += compute_good_unit_payout(order, good_id) * entry["delivered_units"]
-	var/quality_delta_partial = equip_delivered_value - canonical_equip_value_partial
-	if(order.petitioned)
-		quality_delta_partial = mammon_round(quality_delta_partial * PETITION_TAX_MULT)
-	quality_delta_partial = mammon_round(quality_delta_partial * STANDING_ORDER_PARTIAL_PAYOUT_MULT)
 	consume_equipment_payload(equip_avail)
 	consume_potion_payload(potion_avail)
 	consume_stockpile_payload(stock_avail)
-	SStreasury.mint(SStreasury.discretionary_fund, payout, "Standing Order (Partial): [order.name]", null, LEDGER_CROWN_REV_STANDING_ORDERS)
+	for(var/list/avail_set in list(equip_avail, potion_avail, stock_avail))
+		for(var/good_id in avail_set)
+			var/list/entry = avail_set[good_id]
+			order.required_items[good_id] -= entry["delivered_units"]
+			if(order.required_items[good_id] <= 0)
+				order.required_items -= good_id
+	payout = max(0, mammon_round(payout))
+	quality_delta = mammon_round(quality_delta)
+	SStreasury.mint(SStreasury.discretionary_fund, payout, "Standing Order: [order.name]", null, LEDGER_CROWN_REV_STANDING_ORDERS)
 	record_round_statistic(STATS_STANDING_ORDER_REVENUE, payout)
-	record_round_statistic(STATS_STANDING_ORDERS_FULFILLED, 1)
-	order.is_fulfilled = TRUE
-	GLOB.standing_order_pool -= order
+	var/finished = !length(order.required_items)
+	if(finished)
+		record_round_statistic(STATS_STANDING_ORDERS_FULFILLED, 1)
+		order.is_fulfilled = TRUE
+		GLOB.standing_order_pool -= order
+	else
+		order.total_payout = compute_order_payout(order)
 	if(user)
-		to_chat(user, span_notice("Order partially fulfilled: you sent [round(coverage * 100)]% of the goods and [format_mammon(payout)]m went to the Treasury ([round(STANDING_ORDER_PARTIAL_PAYOUT_MULT * 100)]% of their value)."))
-		if(quality_delta_partial > 0)
-			to_chat(user, span_green("Quality bonus: +[format_mammon(quality_delta_partial)]m for above-standard goods."))
-		else if(quality_delta_partial < 0)
-			to_chat(user, span_warning("Quality penalty: [format_mammon(quality_delta_partial)]m for shoddy goods."))
-		log_game("STANDING ORDER PARTIAL FULFILLED by [user.ckey]: [order.name] (+[format_mammon(payout)]m, [round(coverage * 100)]% coverage, quality_delta=[format_mammon(quality_delta_partial)]m)")
-	return list("status" = "partial", "payout" = payout, "coverage_pct" = round(coverage * 100), "quality_delta" = quality_delta_partial)
+		if(finished)
+			to_chat(user, span_notice("Order fulfilled: [format_mammon(payout)]m paid to the Treasury."))
+		else
+			to_chat(user, span_notice("Part delivered: [format_mammon(payout)]m paid to the Treasury."))
+		if(quality_delta > 0)
+			to_chat(user, span_green("Quality bonus: +[format_mammon(quality_delta)]m for quality goods."))
+		else if(quality_delta < 0)
+			to_chat(user, span_warning("Quality penalty: [format_mammon(quality_delta)]m for shoddy goods."))
+		log_game("STANDING ORDER [finished ? "FULFILLED" : "PART DELIVERED"] by [user.ckey]: [order.name] (+[format_mammon(payout)]m, quality_delta=[format_mammon(quality_delta)]m)")
+	return list("status" = finished ? "full" : "partial", "payout" = payout, "quality_delta" = quality_delta)
 
 /datum/controller/subsystem/economy/proc/scan_equipment_availability(datum/standing_order/order, list/goods)
 	var/list/out = list()
@@ -615,52 +586,6 @@ SUBSYSTEM_DEF(economy)
 			record_material_flow(MATERIAL_FLOW_OUT, MATERIAL_SOURCE_STANDING_ORDER, stockpile_entry.item_type, delivered)
 		credit_economic_event_saturation(good_id, delivered)
 	SStreasury.dirty_market_view()
-
-/datum/controller/subsystem/economy/proc/preview_partial_fulfillment(datum/standing_order/order)
-	var/list/equip_goods = list()
-	var/list/potion_goods = list()
-	var/list/stock_goods = list()
-	for(var/good_id in order.required_items)
-		var/datum/trade_good/tg = GLOB.trade_goods[good_id]
-		if(tg?.behavior == TRADE_BEHAVIOR_EQUIPMENT)
-			equip_goods += good_id
-		else if(tg?.behavior == TRADE_BEHAVIOR_POTION)
-			potion_goods += good_id
-		else
-			stock_goods += good_id
-
-	var/list/equip_avail = length(equip_goods) ? scan_equipment_availability(order, equip_goods) : list()
-	var/list/potion_avail = length(potion_goods) ? scan_potion_availability(order, potion_goods) : list()
-	var/list/stock_avail = length(stock_goods) ? scan_stockpile_availability(order, stock_goods) : list()
-
-	var/delivered_pretax = 0
-	var/list/missing_labels = list()
-	delivered_pretax += compute_equipment_delivered_value(order, equip_avail)
-	for(var/list/avail_set in list(potion_avail, stock_avail))
-		for(var/good_id in avail_set)
-			var/list/entry = avail_set[good_id]
-			delivered_pretax += compute_good_unit_payout(order, good_id) * entry["delivered_units"]
-			if(!entry["satisfied"])
-				var/datum/trade_good/tg = GLOB.trade_goods[good_id]
-				var/short_units = entry["need_units"] - entry["delivered_units"]
-				missing_labels += "[short_units] [tg ? tg.name : good_id]"
-	for(var/good_id in equip_avail)
-		var/list/entry = equip_avail[good_id]
-		if(!entry["satisfied"])
-			var/datum/trade_good/tg = GLOB.trade_goods[good_id]
-			var/short_units = entry["need_units"] - entry["delivered_units"]
-			missing_labels += "[short_units] [tg ? tg.name : good_id]"
-	var/delivered_value = order.petitioned ? mammon_round(delivered_pretax * PETITION_TAX_MULT) : delivered_pretax
-	var/total_value = order.total_payout
-	var/coverage = total_value > 0 ? (delivered_value / total_value) : 0
-	var/payout = mammon_round(delivered_value * STANDING_ORDER_PARTIAL_PAYOUT_MULT)
-
-	return list(
-		"coverage_pct" = round(coverage * 100),
-		"payout" = payout,
-		"missing_text" = length(missing_labels) ? english_list(missing_labels) : "nothing",
-	)
-
 
 /datum/controller/subsystem/economy/proc/order_is_equipment(datum/standing_order/order)
 	for(var/good_id in order.required_items)
