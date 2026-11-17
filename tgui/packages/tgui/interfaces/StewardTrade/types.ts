@@ -256,7 +256,7 @@ export type RegionCaravanState = {
   escorted: BooleanLike;
 };
 
-export type CommissionKit = {
+export type CommissionRow = {
   ref: string;
   name: string;
   desc: string;
@@ -264,6 +264,9 @@ export type CommissionKit = {
   daily_stock: number;
   price: number;
   blocker: string;
+};
+
+export type CommissionKit = CommissionRow & {
   contents: { name: string; count: number }[];
 };
 
@@ -274,6 +277,7 @@ export type CommissionOrder = {
 
 export type CommissionState = {
   kits: CommissionKit[];
+  local: CommissionRow[];
   orders: CommissionOrder[];
   lead_minutes: number;
 };

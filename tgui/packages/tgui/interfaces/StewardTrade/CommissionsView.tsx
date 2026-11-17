@@ -14,17 +14,110 @@ import {
   sectionHeaderStyle,
   SERIF,
 } from '../common/parchment';
-import type { Data } from './types';
+import type { CommissionRow, Data } from './types';
 
 const ROW = 'minmax(0, 1fr) 80px 110px 120px';
 
 const minutes = (n: number) => `${n} ${n === 1 ? 'minute' : 'minutes'}`;
 const capitalize = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
 
+const CommissionLine = (props: {
+  row: CommissionRow;
+  first: boolean;
+  contents?: { name: string; count: number }[];
+  open: boolean;
+  onToggle: () => void;
+  onCommission: () => void;
+}) => {
+  const { row, contents, open } = props;
+  const expandable = !!contents?.length;
+  return (
+    <div
+      style={{
+        display: 'grid',
+        gridTemplateColumns: ROW,
+        gap: '8px',
+        alignItems: 'center',
+        padding: '4px 0',
+        borderTop: `1px ${props.first ? 'solid' : 'dashed'} ${PARCHMENT_SHADOW}`,
+      }}
+    >
+      <button
+        type="button"
+        onClick={expandable ? props.onToggle : undefined}
+        style={{
+          minWidth: 0,
+          padding: 0,
+          border: 'none',
+          background: 'transparent',
+          textAlign: 'left',
+          cursor: expandable ? 'pointer' : 'default',
+          fontFamily: SERIF,
+          fontSize: FONT_BODY,
+          color: INK,
+        }}
+      >
+        <b>{row.name}</b>
+        {expandable && (
+          <span style={{ fontSize: FONT_SMALL, color: INK_SOFT }}>
+            {' '}
+            {open ? '▴' : '▾'}
+          </span>
+        )}
+        <div style={{ fontSize: FONT_SMALL, color: INK_SOFT }}>{row.desc}</div>
+      </button>
+      <span style={{ textAlign: 'right', color: INK }}>
+        {formatMammon(row.price)}m
+      </span>
+      <span
+        style={{
+          fontSize: FONT_SMALL,
+          color: row.stock > 0 ? INK_SOFT : INK_FAINT,
+        }}
+      >
+        {row.stock} of {row.daily_stock} left today
+      </span>
+      <button
+        type="button"
+        disabled={!!row.blocker}
+        title={row.blocker || undefined}
+        onClick={props.onCommission}
+        style={{
+          ...inkButtonStyle({ color: SEAL_AMBER, disabled: !!row.blocker }),
+          width: '100%',
+        }}
+      >
+        Commission
+      </button>
+      {open && contents && contents.length > 0 && (
+        <div
+          style={{
+            gridColumn: '1 / -1',
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))',
+            gap: '2px 12px',
+            padding: '0 0 4px 12px',
+            fontSize: FONT_SMALL,
+            color: INK_SOFT,
+          }}
+        >
+          {contents.map((item, j) => (
+            <span key={j}>
+              {capitalize(item.name)}
+              {item.count > 1 ? ` ×${item.count}` : ''}
+            </span>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+};
+
 export const CommissionsView = (props: { data: Data }) => {
   const { act } = useBackend<Data>();
-  const { kits, orders, lead_minutes } = props.data.commissions;
+  const { kits, local, orders, lead_minutes } = props.data.commissions;
   const [open, setOpen] = useState<Record<string, boolean>>({});
+  const toggle = (ref: string) => setOpen({ ...open, [ref]: !open[ref] });
 
   return (
     <div>
@@ -33,86 +126,33 @@ export const CommissionsView = (props: { data: Data }) => {
         Orders are delivered from the Royal Armoury {minutes(lead_minutes)}{' '}
         after a commission.
       </div>
-
       {kits.map((kit, i) => (
-        <div
+        <CommissionLine
           key={kit.ref}
-          style={{
-            display: 'grid',
-            gridTemplateColumns: ROW,
-            gap: '8px',
-            alignItems: 'center',
-            padding: '4px 0',
-            borderTop: `1px ${i === 0 ? 'solid' : 'dashed'} ${PARCHMENT_SHADOW}`,
-          }}
-        >
-          <button
-            type="button"
-            onClick={() => setOpen({ ...open, [kit.ref]: !open[kit.ref] })}
-            style={{
-              minWidth: 0,
-              padding: 0,
-              border: 'none',
-              background: 'transparent',
-              textAlign: 'left',
-              cursor: 'pointer',
-              fontFamily: SERIF,
-              fontSize: FONT_BODY,
-              color: INK,
-            }}
-          >
-            <b>{kit.name}</b>{' '}
-            <span style={{ fontSize: FONT_SMALL, color: INK_SOFT }}>
-              {open[kit.ref] ? '▴' : '▾'}
-            </span>
-            <div style={{ fontSize: FONT_SMALL, color: INK_SOFT }}>
-              {kit.desc}
-            </div>
-          </button>
-          <span style={{ textAlign: 'right', color: INK }}>
-            {formatMammon(kit.price)}m
-          </span>
-          <span
-            style={{
-              fontSize: FONT_SMALL,
-              color: kit.stock > 0 ? INK_SOFT : INK_FAINT,
-            }}
-          >
-            {kit.stock} of {kit.daily_stock} left today
-          </span>
-          <button
-            type="button"
-            disabled={!!kit.blocker}
-            title={kit.blocker || undefined}
-            onClick={() => act('place_commission', { ref: kit.ref })}
-            style={{
-              ...inkButtonStyle({ color: SEAL_AMBER, disabled: !!kit.blocker }),
-              width: '100%',
-            }}
-          >
-            Commission
-          </button>
-          {open[kit.ref] && (
-            <div
-              style={{
-                gridColumn: '1 / -1',
-                display: 'grid',
-                gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))',
-                gap: '2px 12px',
-                padding: '0 0 4px 12px',
-                fontSize: FONT_SMALL,
-                color: INK_SOFT,
-              }}
-            >
-              {kit.contents.map((item, j) => (
-                <span key={j}>
-                  {capitalize(item.name)}
-                  {item.count > 1 ? ` ×${item.count}` : ''}
-                </span>
-              ))}
-            </div>
-          )}
-        </div>
+          row={kit}
+          first={i === 0}
+          contents={kit.contents}
+          open={!!open[kit.ref]}
+          onToggle={() => toggle(kit.ref)}
+          onCommission={() => act('place_commission', { ref: kit.ref })}
+        />
+      ))}
+
+      <div style={{ ...sectionHeaderStyle, marginTop: '16px' }}>
+        Local Commission
+      </div>
+      <div style={{ color: INK_SOFT, marginBottom: '8px' }}>
+        Delivered to the warehouse at once.
+      </div>
+      {(local || []).map((row, i) => (
+        <CommissionLine
+          key={row.ref}
+          row={row}
+          first={i === 0}
+          open={false}
+          onToggle={() => undefined}
+          onCommission={() => act('place_local_commission', { ref: row.ref })}
+        />
       ))}
 
       <div style={{ ...sectionHeaderStyle, marginTop: '16px' }}>On Order</div>

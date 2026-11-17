@@ -1,6 +1,5 @@
 #define TAB_MAIN 1
 #define TAB_BANK 2
-#define TAB_IMPORT 3
 #define TAB_FISCAL 6
 #define TAB_PAYDAY 7
 #define TAB_DEBT 8
@@ -119,22 +118,6 @@
 		return
 	if(href_list["switchtab"])
 		current_tab = text2num(href_list["switchtab"])
-	if(href_list["import"])
-		var/datum/crown_import/D = locate(href_list["import"]) in GLOB.crown_imports
-		if(!D)
-			return
-		if(D.stock <= 0)
-			say("None left today.")
-			return
-		var/amt = D.get_import_price()
-		if(!SStreasury.burn(SStreasury.discretionary_fund, amt, "imported [D.name]", LEDGER_CROWN_EXP_IMPORTS))
-			say("The Treasury can't afford this.")
-			return
-		D.stock--
-		SStreasury.total_import += amt
-		record_round_statistic(STATS_STOCKPILE_IMPORTS_VALUE, amt)
-		record_treasury_expense(TREASURY_FLOW_IMPORT, treasury_role_of(usr), amt)
-		addtimer(CALLBACK(src, PROC_REF(do_import), D.type), 10 SECONDS)
 	if(href_list["givemoney"])
 		var/X = locate(href_list["givemoney"])
 		if(!X)
@@ -357,30 +340,6 @@
 
 	return attack_hand(usr)
 
-/obj/structure/roguemachine/steward/proc/do_import(datum/crown_import/D, number)
-	if(!D)
-		return
-	D = new D
-	if(number > D.import_amt)
-		return
-
-	if(!number)
-		number = 1
-	var/area/A = GLOB.areas_by_type[/area/rogue/indoors/town/warehouse]
-	if(!A)
-		return
-	var/obj/item/I = new D.item_type()
-	record_material_flow(MATERIAL_FLOW_IN, MATERIAL_SOURCE_LOCAL_IMPORT, D.item_type, 1)
-	var/list/turfs = list()
-	for(var/turf/T in A)
-		turfs += T
-	var/turf/T = pick(turfs)
-	I.forceMove(T)
-	playsound(T, 'sound/misc/hiss.ogg', 100, FALSE, -1)
-	number += 1
-
-	addtimer(CALLBACK(src, PROC_REF(do_import), D.type, number), 3 SECONDS)
-
 /obj/structure/roguemachine/steward/attack_hand(mob/living/user)
 	. = ..()
 	if(.)
@@ -398,7 +357,6 @@
 			contents += "--------------<BR>"
 			contents += "<a href='?src=\ref[src];switchtab=[TAB_BANK]'>\[Bank\]</a><BR>"
 			contents += "<a href='?src=\ref[src];trade_tgui=1'>\[Trade & Stockpile\]</a><BR>"
-			contents += "<a href='?src=\ref[src];switchtab=[TAB_IMPORT]'>\[Import\]</a><BR>"
 			contents += "<a href='?src=\ref[src];switchtab=[TAB_PAYDAY]'>\[Daily Payments\]</a><BR>"
 			contents += "<a href='?src=\ref[src];switchtab=[TAB_FISCAL]'>\[Fiscal Ledger\]</a><BR>"
 			contents += "<a href='?src=\ref[src];switchtab=[TAB_DEBT]'>\[Debts &amp; Arrears\]</a><BR>"
@@ -505,17 +463,6 @@
 			contents += "<font color='gray'><i>(Forgives their loan and poll levy arrears and removes the defaulter mark.)</i></font><BR>"
 			contents += "<a href='?src=\ref[src];clearpolllevy=1'>\[Clear Poll Levy Obligation\]</a><BR>"
 			contents += "<font color='gray'><i>(Wipes a subject's poll levy arrears.)</i></font><BR>"
-		if(TAB_IMPORT)
-			contents += "<a href='?src=\ref[src];switchtab=[TAB_MAIN]'>\[Return\]</a>"
-			contents += " <a href='?src=\ref[src];compact=1'>\[Compact: [compact? "ENABLED" : "DISABLED"]\]</a><BR>"
-			contents += "<center>Imports<BR>"
-			contents += "--------------<BR>"
-			contents += "Treasury: [format_mammon(SStreasury.discretionary_fund.balance)]m</center><BR>"
-			for(var/datum/crown_import/A in GLOB.crown_imports)
-				contents += "<b>[A.name]</b>"
-				if(!compact)
-					contents += " - <i>[A.desc]</i>"
-				contents += " <a href='?src=\ref[src];import=\ref[A]'>\[Import [A.import_amt] ([A.get_import_price()])\]</a> [A.stock] left<BR>"
 		if(TAB_FISCAL)
 			contents += "<a href='?src=\ref[src];switchtab=[TAB_MAIN]'>\[Return\]</a><BR>"
 			var/list/snap = SStreasury.compute_fiscal_snapshot()
@@ -711,7 +658,6 @@
 
 #undef TAB_MAIN
 #undef TAB_BANK
-#undef TAB_IMPORT
 #undef TAB_FISCAL
 #undef TAB_PAYDAY
 #undef TAB_DEBT

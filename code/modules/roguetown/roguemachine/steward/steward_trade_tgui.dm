@@ -292,8 +292,20 @@
 			"name" = order.commission.name,
 			"minutes_left" = max(1, CEILING((order.arrive_at - world.time) / (1 MINUTES), 1)),
 		))
+	var/list/local_rows = list()
+	for(var/datum/crown_import/D as anything in GLOB.crown_imports)
+		local_rows += list(list(
+			"ref" = REF(D),
+			"name" = D.name,
+			"desc" = D.desc,
+			"stock" = D.stock,
+			"daily_stock" = D.daily_stock,
+			"price" = D.get_import_price(),
+			"blocker" = SSeconomy.local_commission_blocker(D) || "",
+		))
 	data["commissions"] = list(
 		"kits" = commission_rows,
+		"local" = local_rows,
 		"orders" = commission_order_rows,
 		"lead_minutes" = round(COMMISSION_LEAD_TIME / (1 MINUTES)),
 	)
@@ -597,6 +609,12 @@ GLOBAL_LIST_INIT(steward_trade_sequestration_locked_actions, list(
 		if("place_commission")
 			var/datum/royal_commission/C = locate(params["ref"]) in GLOB.royal_commissions
 			if(C && SSeconomy.place_commission(usr, C))
+				playsound(src, 'sound/misc/coindispense.ogg', 60, FALSE, -1)
+			SStgui.update_uis(src)
+			return TRUE
+		if("place_local_commission")
+			var/datum/crown_import/D = locate(params["ref"]) in GLOB.crown_imports
+			if(D && SSeconomy.place_local_commission(usr, D))
 				playsound(src, 'sound/misc/coindispense.ogg', 60, FALSE, -1)
 			SStgui.update_uis(src)
 			return TRUE
