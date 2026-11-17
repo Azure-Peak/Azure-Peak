@@ -528,7 +528,7 @@
 	var/datum/effect_system/smoke_spread/smoke_type = /datum/effect_system/smoke_spread
 	var/smokerange = 2
 	/// Left behind once the payload is spent
-	var/residue = /obj/item/smokeshell
+	var/residue = /obj/item/natural/ash
 	var/smokesound = 'sound/misc/explode/incendiary (1).ogg'
 	var/smokevol = 100
 
