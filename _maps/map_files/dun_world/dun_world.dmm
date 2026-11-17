@@ -95950,6 +95950,10 @@
 /obj/item/roguekey/bathworker,
 /obj/item/roguekey/bathworker,
 /obj/item/roguekey/bathmaster,
+/obj/item/roguekey/bathmaster,
+/obj/item/roguekey/bathmaster,
+/obj/item/roguekey/bathmaster,
+/obj/item/roguekey/bathmaster,
 /turf/open/floor/rogue/churchbrick{
 	icon_state = "concretefloor1"
 	},
