@@ -1,7 +1,8 @@
 // Unarmed base weapon defense equivalents — fed into the same (skill * 20) + (wdef * 10) formula as weapons
 
 /// Share of the parried attack's damage that rattles back into one of our arms
-#define MINERALCLAWS_PARRY_ARM_DAMAGE_FRAC 0.1
+#define MINERALCLAWS_PARRY_ARM_DAMAGE_FRAC 0.2 // 20% of the damage parried goes right into your arms
+
 /// Used when the attacker is unarmed and we can't read their punch damage
 #define MINERALCLAWS_UNARMED_FALLBACK_DAMAGE 5
 
@@ -41,6 +42,7 @@
 	var/list/arms = get_mineral_claw_arms()
 	if(!length(arms))
 		return
+	damage += rand(-5, 5) // xylix take the wheel
 	var/obj/item/bodypart/arm = pick(arms)
 	apply_damage(damage * MINERALCLAWS_PARRY_ARM_DAMAGE_FRAC, BRUTE, arm)
 	to_chat(src, span_warning("The blow rattles through my claws, jarring my [arm.name]!"))
