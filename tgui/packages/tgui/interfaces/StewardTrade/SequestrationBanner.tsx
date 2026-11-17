@@ -42,9 +42,8 @@ export const SequestrationBanner = (props: {
       </div>
       <div style={{ fontVariant: 'normal' }}>
         The Crown defaulted, so the ATC now collects the realm&apos;s revenues
-        until the {sequestration.debt}m debt is repaid. You can&apos;t change
-        trade settings or stockpile prices until then. Petitions, taxes and
-        fines still work.
+        until the {sequestration.debt}m debt is repaid. You can&apos;t trade
+        with the market until then. Petitions, taxes and fines still work.
       </div>
     </div>
   );

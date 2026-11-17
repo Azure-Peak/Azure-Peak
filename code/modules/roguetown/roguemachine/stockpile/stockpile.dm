@@ -1,6 +1,6 @@
 /obj/structure/roguemachine/stockpile
 	name = "stockpile"
-	desc = "A magickal device connected to the trade network of the city. You can buy and sell basic goods, crafting materials and other things here with the market of the city."
+	desc = "A magickal device connected to the city's trade network. Buy and sell goods with the market here."
 	icon = 'icons/roguetown/misc/machines.dmi'
 	icon_state = "stockpile_vendor"
 	density = FALSE

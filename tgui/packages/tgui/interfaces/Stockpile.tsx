@@ -143,7 +143,7 @@ const StockRowView = (props: {
             }}
             title={
               row.event_tag === 'SHORTAGE' && row.shortage_target > 0
-                ? 'Shortage ends once sufficient goods are supplied to the market'
+                ? 'Ends once enough is sold to the market.'
                 : undefined
             }
           >
