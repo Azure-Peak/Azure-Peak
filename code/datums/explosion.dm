@@ -195,8 +195,8 @@ GLOBAL_LIST_EMPTY(explosions)
 			dist_epi = get_dist(L, epicenter)
 			if(dist_epi <= extreme_impact_range)
 				continue
-			if(L == bomb_owner && HAS_TRAIT(L, TRAIT_BOMBER_EXPERT)) ///bomb experts take less damage from their own, sitting on a pile of 40 of them is still going to instantly obliterate you.
-				brute = rand(30,60) / 5
+			if(L == bomb_owner && HAS_TRAIT(L, TRAIT_BOMBER_EXPERT)) ///bomb experts take less damage from their own, sitting on a pile of of them is still going to likely obliterate you.
+				brute = rand(30,60) / 5 //heavily reduced + lower pen, you WILL feel this but it'll only kill you when about 5 to 8+ go off on your own tile somehow
 				burn = rand(35,80) / 5
 				for(var/i in 1 to 5)
 					var/zone = pick(BODY_ZONE_HEAD,	BODY_ZONE_CHEST, BODY_ZONE_L_ARM, BODY_ZONE_R_ARM, BODY_ZONE_L_LEG, BODY_ZONE_R_LEG)
@@ -212,9 +212,15 @@ GLOBAL_LIST_EMPTY(explosions)
 
 	if(!isnull(light_impact_range))
 		for(var/mob/living/L in viewers(light_impact_range, epicenter))
-			if(L == bomb_owner && HAS_TRAIT(L, TRAIT_BOMBER_EXPERT)) ///bomb experts can ignore their own light-impact ranges entirely.
-				continue
 			dist_epi = get_dist(L, epicenter)
+			if(L == bomb_owner && HAS_TRAIT(L, TRAIT_BOMBER_EXPERT)) ///bomb experts can almost ignore their own light-impact ranges entirely.
+				brute = rand(5,30) / 5 //heavily reduced, you'll feel this when 20+ go off next to/on you rather than 1.
+				burn = rand(10,50) / 5
+				for(var/i in 1 to 5)
+					var/zone = pick(BODY_ZONE_HEAD, BODY_ZONE_CHEST, BODY_ZONE_L_ARM, BODY_ZONE_R_ARM, BODY_ZONE_L_LEG, BODY_ZONE_R_LEG)
+					arcyne_strike(L, L, null, brute, zone, BCLASS_BLUNT, PEN_NONE, "self-resisted concussive impact", TRUE, TRUE, FALSE, BRUTE, null, TRUE) //so you know why they took less :P
+					arcyne_strike(L, L, null, burn, zone, BCLASS_BURN, PEN_NONE, "self-resisted concussive blast", TRUE, TRUE, FALSE, BURN, null, TRUE)
+				continue
 			if(dist_epi <= heavy_impact_range)
 				continue
 			brute = rand(15,60) / 5
