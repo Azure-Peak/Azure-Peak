@@ -1354,3 +1354,23 @@
 
 /atom/movable/screen/alert/status_effect/debuff/knockout
 	name = "Drowsy"
+
+/atom/movable/screen/alert/status_effect/debuff/cityhatred
+	name = "Unwelcoming Environment"
+	desc = "I hate this place. I can't think straight. So many unfamiliar smells and loud noises..."
+	icon_state = "arousalimbalance"
+
+/datum/status_effect/debuff/cityhatred
+	id = "cityhatred"
+	alert_type = /atom/movable/screen/alert/status_effect/debuff/cityhatred
+	effectedstats = list(STATKEY_WIL = -6, STATKEY_INT = -9, STATKEY_PER = -4)
+
+/datum/status_effect/debuff/cityhatred/on_apply()
+	. = ..()
+	if(!.)
+		return
+	owner.add_stress(/datum/stressevent/cityhatred)
+
+/datum/status_effect/debuff/cityhatred/on_remove()
+	owner.remove_stress(/datum/stressevent/cityhatred)
+	return ..()

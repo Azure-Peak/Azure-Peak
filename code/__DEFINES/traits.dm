@@ -180,6 +180,7 @@
 #define TRAIT_TAVERN_FIGHTER "Tavern Fighter"
 #define TRAIT_ANTHRAXI "Apex Predator" //underdark boon
 #define TRAIT_DUNGEONMASTER "Ruthless Jailor"
+#define TRAIT_WILDFOLK "Wildfolk" // hates being in the city, gets severely debuffed for doing that
 
 //Levy Callouts
 #define TRAIT_LEVY "Azurean Militia"
@@ -191,6 +192,8 @@
 
 // ROGUEspecialTRAITS (description when rmb skills button)
 #define TRAIT_CIVILIZEDBARBARIAN "Expert Pugilist"
+#define TRAIT_NATURALCLAWS "Natural Claws"
+#define TRAIT_MINERALCLAWS "Mineral Claws"
 #define TRAIT_ANNOYINGVOICE "Annoying Voice"
 #define TRAIT_WATERBREATHING "Water Breathing"
 
@@ -507,6 +510,7 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_TAVERN_FIGHTER = span_info("I am vigilant in my duties. The Tavern is my home, none shall dare oppose me or skip out on payment."),
 	TRAIT_GUARDSMAN = span_info("I am vigilant in my duties. In the town of Azure Peak, my abilities are sharper due to my routine and familiarity."),
 	TRAIT_GUARDSMAN_DISGRACED = span_warning("I have betrayed my oath. My vigilance falters in the town. I must beg forgiveness to restore my honor, or see my betrayal through to the end."),
+	TRAIT_WILDFOLK = span_info("I have rejected their civilized ways. While I am in the town of Azure Peak, my abilities are hindered and I am constantly bemused. I long for the freedom of the wilds."),
 	TRAIT_WOODSMAN = span_info("I am vigilant in my duties. In the grove and coast of Azure Peak, my abilities are sharper due to my routine and familiarity."),
 	TRAIT_ANTHRAXI = span_info("I am the deadliest being in the underdark. No beast or foe can ever hope to match me in the caves."),
 	TRAIT_DEATHBARGAIN = span_info("A horrible deal has been prepared in your name. May you never see it fulfilled..."),
@@ -617,6 +621,8 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_PERFECT_TRACKER = span_info("I am a master at pursuing those I hunt. I can discern every last detail within a spotted track, and any attempts to hide said-tracks will fail to deceive me."),//Hearthstone port.
 	TRAIT_ZIZOSIGHT = span_info("Zizo blesses my eyes to be unburdened by the night. I can also somewhat judge if a corpse can be reanimated or not."), //Hearthstone change.
 	TRAIT_CIVILIZEDBARBARIAN = span_info("My rigorous training in the martial arts has turned me into a living weapon. No limb is out of reach for my fists and feet, and my unarmed strikes are now stronger (+4 Unarmed Damage). My parrying with bracers, knuckles, or bandages is significantly more effective."),
+	TRAIT_NATURALCLAWS = span_info("My unarmed strikes are stronger (+4 Unarmed Damage) and they can cut down my foes. My parrying is also more effective, although parrying will cause minor recoil damage to my arms. If I right-attack dirt while out of combat, I'll try to dig up tasty truffles!"),
+	TRAIT_MINERALCLAWS = span_info("My unarmed strikes are stronger (+4 Unarmed Damage) and they can cut down my foes. My parrying is also more effective, although parrying will cause minor recoil damage to my arms. If I right-attack dirt while out of combat, I'll try to dig up magic stones!"),
 	TRAIT_ANNOYINGVOICE = span_sans("I am cursed with an odd voice."),
 	TRAIT_SQUIRE_REPAIR = span_info("Trained at my Master's side, I can restore any kind of gears with time and polish them until they gleam like new."),
 	TRAIT_WATERBREATHING = span_info("I do not drown in bodies of water."),

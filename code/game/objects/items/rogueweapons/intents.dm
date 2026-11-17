@@ -645,22 +645,23 @@
 
 /datum/intent/unarmed
 	unarmed = TRUE
+	intent_intdamage_factor = PUNCH_INT_DAMAGEFACTOR
+	rmb_ranged = TRUE //for taunt sovl
+	noaa = FALSE
+	candodge = TRUE
+	canparry = TRUE
 
 /datum/intent/unarmed/punch
 	name = "punch"
 	icon_state = "inpunch"
 	attack_verb = list("punches", "jabs", "clocks", "strikes")
 	chargetime = 0
-	noaa = FALSE
 	animname = "bite"
 	hitsound = list('sound/combat/hits/punch/punch_hard (1).ogg', 'sound/combat/hits/punch/punch_hard (2).ogg', 'sound/combat/hits/punch/punch_hard (3).ogg')
 	misscost = 1
 	releasedrain = 1
 	swingdelay = 0
 	clickcd = CLICK_CD_FAST // Same speed as katar — fists are the free unarmed weapon
-	rmb_ranged = TRUE
-	candodge = TRUE
-	canparry = TRUE
 	blade_class = BCLASS_PUNCH
 	miss_text = "swing a fist at the air"
 	miss_sound = "punchwoosh"
@@ -764,18 +765,16 @@
 
 /datum/intent/unarmed/claw
 	name = "claw"
-	//icon_state
-	attack_verb = list("mauls", "scratches", "claws")
+	icon_state = "incut"
+	attack_verb = list("mauls", "slashes", "claws", "rends")
 	chargetime = 0
-	animname = "cut"
-	hitsound = list('sound/combat/hits/punch/punch (1).ogg', 'sound/combat/hits/punch/punch (2).ogg', 'sound/combat/hits/punch/punch (3).ogg')
+	animname = ATTACK_EFFECT_CLAW
+	hitsound = list('sound/combat/hits/bladed/smallslash (1).ogg', 'sound/combat/hits/bladed/smallslash (2).ogg', 'sound/combat/hits/bladed/smallslash (3).ogg')
 	misscost = 1
 	releasedrain = 1	//More than punch cus pen factor.
 	swingdelay = 0
-	penfactor = PEN_NONE
-	rmb_ranged = TRUE //for taunt sovl
-	candodge = TRUE
-	canparry = TRUE
+	clickcd = CLICK_CD_QUICK // bit slower than normal fists, please.
+	penfactor = PEN_LIGHT // someone forgot to give this pen back.
 	blade_class = BCLASS_CUT
 	miss_text = "claws at the air"
 	miss_sound = "punchwoosh"

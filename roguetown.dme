@@ -3775,6 +3775,7 @@
 #include "code\modules\virtues\thief.dm"
 #include "code\modules\virtues\utility.dm"
 #include "code\modules\virtues\virtue_helpers\virtue_components.dm"
+#include "code\modules\virtues\virtue_helpers\virtue_misc.dm"
 #include "interface\interface.dm"
 #include "interface\LOOC.dm"
 #include "interface\menu.dm"

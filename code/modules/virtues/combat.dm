@@ -199,3 +199,18 @@
 
 /datum/virtue/combat/combat_aware/apply_to_human(mob/living/carbon/human/recipient)
 	add_verb(recipient, /mob/living/carbon/human/proc/togglecombatawareness)
+
+/datum/virtue/combat/wildfolk_brawler
+	name = "Wildfolk Brawler"
+	desc = "Your upbringing is one with the wilds. Your body has naturally adapted to fighting like a beast when you are cornered."
+	ui_fa_icon = "eye-o"
+	custom_text = "Grants a toggle skill that changes your punch intent to claw slash intent. Claw attacks from this virtue do not benefit from Unarmed skill, nor protection to your arms such as bracers."
+	added_traits = list(TRAIT_COMBAT_NONEWSKILLS, TRAIT_WILD_EATER, TRAIT_WILDFOLK)
+
+/datum/virtue/combat/wildfolk_brawler/apply_to_human(mob/living/carbon/human/recipient)
+	if(!recipient.mind)
+		return
+	if(istype(recipient.dna?.species, /datum/species/construct/metal))
+		recipient.mind.AddSpell(new /datum/action/cooldown/spell/mineral_claws)
+	else
+		recipient.mind.AddSpell(new /datum/action/cooldown/spell/natural_claws)

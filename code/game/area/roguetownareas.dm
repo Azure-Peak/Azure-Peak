@@ -35,6 +35,8 @@ GLOBAL_LIST_INIT(roguetown_areas_typecache, typecacheof(list(/area/rogue/indoors
 	var/mob/living/carbon/human/guy = AM
 	if((src.town_area == TRUE) && HAS_TRAIT(guy, TRAIT_GUARDSMAN) && !guy.has_status_effect(/datum/status_effect/buff/guardbuffone)) //man at arms
 		guy.apply_status_effect(/datum/status_effect/buff/guardbuffone)
+	if((src.town_area == TRUE) && HAS_TRAIT(guy, TRAIT_WILDFOLK) && !guy.has_status_effect(/datum/status_effect/debuff/cityhatred)) //wildfolk
+		guy.apply_status_effect(/datum/status_effect/debuff/cityhatred)
 	if(GLOB.roguetown_areas_typecache[type]) // risen peasant rebels regain their fervor in town and its underways
 		var/datum/antagonist/prebel/rebel_datum = guy.mind ? guy.mind.has_antag_datum(/datum/antagonist/prebel) : null
 		if(rebel_datum && rebel_datum.uprisen)
