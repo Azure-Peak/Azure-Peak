@@ -205,7 +205,7 @@ GLOBAL_DATUM_INIT(openspace_backdrop_one_for_all, /atom/movable/openspace_backdr
 	var/turf/fucking_turf = get_turf(climber)
 	if(!istype(fucking_turf, /turf/open/transparent/openspace/)) //oh yeah, if u land on anything which isnt openspace, you should probably fall
 		climber.zfalling = FALSE
-	if(fucking_turf == src) //if we are still on the same turf, climb, other wise no climb.//if we are still on the same turf, climb, other wise no climb.
+	if(fucking_turf == src) //if we are still on the same turf, climb, other wise no climb.
 		wallpress(climber, TRUE) //tell the proc that we need to quick climb.
 		climber.zfalling = FALSE //we can remove zfalling because we are now on the wall and let wallpress() deal with the rest
 	if(!climber.wallpressed) // There is probably a better way to do this, but it fixes climbing gear not working when you pass by multiple walls
