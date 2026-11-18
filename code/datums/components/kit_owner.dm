@@ -26,3 +26,19 @@ GLOBAL_LIST_EMPTY(kit_registry)
 	if(registry_key && GLOB.kit_registry[registry_key] == parent)
 		GLOB.kit_registry -= registry_key
 	return ..()
+
+/proc/tag_kit_items(mob/living/carbon/human/target, list/ritual_items, list/ritual_slot_keys)
+	var/target_ckey = ckey(target?.ckey)
+	if(!target_ckey || !ritual_slot_keys)
+		return
+	for(var/slot_key in ritual_slot_keys)
+		var/obj/item/previous_item = GLOB.kit_registry["[target_ckey]-[slot_key]"]
+		if(previous_item && !QDELETED(previous_item))
+			qdel(previous_item)
+	if(!ritual_items)
+		return
+	for(var/slot_key in ritual_items)
+		var/obj/item/ritual_item = ritual_items[slot_key]
+		if(!ritual_item)
+			continue
+		ritual_item.AddComponent(/datum/component/kit_owner, target_ckey, slot_key)

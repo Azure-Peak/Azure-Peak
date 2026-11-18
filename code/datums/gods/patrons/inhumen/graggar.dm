@@ -14,6 +14,7 @@
 					/datum/action/cooldown/spell/graggar/graggar_battlecry		= CLERIC_T2,
 					/datum/action/cooldown/spell/graggar/exsanguinate				= CLERIC_T3,
 					/datum/action/cooldown/spell/graggar/avatar					= CLERIC_T4,
+					/datum/action/cooldown/spell/graggar/luxplate				= CLERIC_T4,
 					/obj/effect/proc_holder/spell/invoked/resurrect/graggar		= CLERIC_T4,
 	)
 	confess_lines = list(

@@ -462,7 +462,7 @@
 		perform_fling(H, max_range)
 
 /// Actual proc for flinging the item off. This shouldn't really 'fail' if it is getting called.
-/obj/item/clothing/proc/perform_fling(mob/living/carbon/human/H, max_range)
+/obj/item/clothing/proc/perform_fling(mob/living/carbon/human/H, max_range, datum/callback/on_land)
 	if(H.dropItemToGround(src, silent = TRUE))
 		H.update_fov_angles()
 		if(material_category == ARMOR_MAT_PLATE || material_category == ARMOR_MAT_CHAINMAIL)
@@ -473,7 +473,7 @@
 		var/current_turf = get_turf(H)
 		var/target_turf = get_ranged_target_turf(current_turf, turndir, dist)
 		playsound(get_turf(H), 'sound/misc/obj_toss.ogg', 100, TRUE)
-		throw_at(target_turf, dist, 6, H, FALSE)
+		. = throw_at(target_turf, dist, 6, H, FALSE, callback = on_land)
 
 /obj/item/clothing/obj_break(damage_flag)
 	original_armor = armor

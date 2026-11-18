@@ -186,6 +186,11 @@
 	layer = CRIT_LAYER
 	plane = FULLSCREEN_PLANE
 
+/atom/movable/screen/fullscreen/awoo
+	icon_state = "awoo"
+	layer = CRIT_LAYER
+	plane = FULLSCREEN_PLANE
+
 /atom/movable/screen/fullscreen/curse
 	icon_state = "curse"
 	layer = CURSE_LAYER

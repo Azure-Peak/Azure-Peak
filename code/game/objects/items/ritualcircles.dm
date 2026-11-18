@@ -58,23 +58,6 @@
 		playsound(loc, 'sound/foley/cloth_wipe (1).ogg', 100, TRUE)
 		qdel(src)
 
-
-/obj/structure/ritualcircle/proc/tag_kit_items(mob/living/carbon/human/target, list/ritual_items, list/ritual_slot_keys)
-	var/target_ckey = ckey(target?.ckey)
-	if(!target_ckey || !ritual_slot_keys)
-		return
-	for(var/slot_key in ritual_slot_keys)
-		var/obj/item/previous_item = GLOB.kit_registry["[target_ckey]-[slot_key]"]
-		if(previous_item && !QDELETED(previous_item))
-			qdel(previous_item)
-	if(!ritual_items)
-		return
-	for(var/slot_key in ritual_items)
-		var/obj/item/ritual_item = ritual_items[slot_key]
-		if(!ritual_item)
-			continue
-		ritual_item.AddComponent(/datum/component/kit_owner, target_ckey, slot_key)
-
 // This'll be our tutorial ritual for those who want to make more later, let's go into details in comments, mm? - Onutsio
 /obj/structure/ritualcircle/astrata
 	name = "Rune of the Sun" // defines name of the circle itself
@@ -1921,7 +1904,7 @@ More uniquely, her rites always cut out the light in the room, then proc. 10 sec
 	name = "Rune of Violence"
 	desc = "A holy rune of <font color='969d7f'>Graggar.</font> </br> <i>Fate broken once, His gift is true freedom for all.</i>"
 	icon_state = "graggar_chalky"
-	var/graggarrites = list("Rite of Armaments", "War Ritual")
+	var/graggarrites = list("War Ritual")
 
 /obj/structure/ritualcircle/graggar/attack_hand(mob/living/user)
 	if(!..())
@@ -1937,55 +1920,6 @@ More uniquely, her rites always cut out the light in the room, then proc. 10 sec
 		return
 	var/riteselection = input(user, "Rituals of Violence", src) as null|anything in graggarrites
 	switch(riteselection) // put ur rite selection here
-		if("Rite of Armaments")
-			if(user.has_status_effect(/datum/status_effect/debuff/armamentrites))
-				to_chat(user, span_warning("I am not yet ready to perform this rite."))
-				return
-			var/onrune = view(1, loc)
-			var/list/folksonrune = list()
-			var/is_spy = istype(user.mind?.picked_advclass, /datum/advclass/wretch/heretic/spy)
-			for(var/mob/living/carbon/human/persononrune in onrune)
-				if(is_spy && persononrune == user)
-					continue
-				if(HAS_TRAIT(persononrune, TRAIT_HORDE))
-					folksonrune += persononrune
-			var/mob/living/carbon/human/target = input(user, "Choose a host") as null|anything in folksonrune
-			if(!target)
-				return
-			if(!do_after(user, 5 SECONDS))
-				return
-			var/list/helm_options = list(
-				"Vicious Helmet" = image(icon = 'icons/roguetown/clothing/head.dmi', icon_state = "graggarplatehelm"),
-				"Vicious Skullhelm" = image(icon = 'icons/roguetown/clothing/head.dmi', icon_state = "graggarplatehelm_heavy"),
-			)
-			var/helm_choice = show_radial_menu(user, src, helm_options, require_near = TRUE, tooltips = TRUE)
-			if(!helm_choice)
-				return
-
-			var/list/armor_options = list(
-				"Vicious Half-Plate" = image(icon = 'icons/roguetown/clothing/armor.dmi', icon_state = "graggarplate"),
-				"Vicious Full-Plate" = image(icon = 'icons/roguetown/clothing/armor.dmi', icon_state = "graggarplate_heavy"),
-			)
-			var/armor_choice = show_radial_menu(user, src, armor_options, require_near = TRUE, tooltips = TRUE)
-			if(!armor_choice)
-				armor_choice = "Vicious Full-Plate"
-			user.say("MOTIVE FORCE, O' VIOLENCE!!")
-			if(!do_after(user, 5 SECONDS))
-				return
-			user.say("A GORGEOUS FEAST OF VIOLENCE, FOR YOU, FOR YOU!!")
-			if(!do_after(user, 5 SECONDS))
-				return
-			user.say("GIFT ME THE POWER, FOR A SLAUGHTER AWAAAIIIIIITS!!") // see the numbers taste the violence
-			if(!do_after(user, 5 SECONDS))
-				return
-			icon_state = "graggar_active"
-			user.apply_status_effect(/datum/status_effect/debuff/ritesexpended)
-			var/is_heretic = istype(user.mind?.picked_advclass, /datum/advclass/wretch/heretic || /datum/advclass/wretch/heretic/spy || /datum/advclass/gnoll/shaman)
-			if(is_heretic)
-				user.apply_status_effect(/datum/status_effect/debuff/armamentrites)
-			graggararmor(target, helm_choice, armor_choice)
-			spawn(120)
-				icon_state = "graggar_chalky"
 		if("War Ritual")
 			to_chat(user, span_userdanger("This rite will get me more tired than usual... I wonder, should I proceed?"))
 			if(!do_after(user, 5 SECONDS))
@@ -2006,58 +1940,6 @@ More uniquely, her rites always cut out the light in the room, then proc. 10 sec
 				to_chat(user, span_warning("The ritual fails. A noble, a member of the Inquisition or a Tennite clergy member must be in the center of the circle!"))
 			spawn(120)
 				icon_state = "graggar_chalky"
-
-/obj/structure/ritualcircle/graggar/proc/graggararmor(mob/living/carbon/human/target, helm_choice, armor_choice)
-	if(!HAS_TRAIT(target, TRAIT_HORDE))
-		loc.visible_message(span_cult("THE RITE REJECTS ONE WITHOUT SLAUGHTER IN THEIR HEART!!"))
-		return
-	var/obj/item/clothing/head/roguetown/helmet/heavy/helm_path
-	var/outfit_path
-	switch(helm_choice)
-		if("Vicious Helmet")
-			helm_path = /obj/item/clothing/head/roguetown/helmet/heavy/graggar
-		if("Vicious Skullhelm")
-			helm_path = /obj/item/clothing/head/roguetown/helmet/heavy/graggar/skull
-	switch(armor_choice)
-		if("Vicious Half-Plate")
-			outfit_path = /datum/outfit/job/roguetown/viciousrite
-		if("Vicious Full-Plate")
-			outfit_path = /datum/outfit/job/roguetown/viciousrite/heavy
-	if(!helm_path)
-		helm_path = /obj/item/clothing/head/roguetown/helmet/heavy/graggar
-	if(!outfit_path)
-		outfit_path = /datum/outfit/job/roguetown/viciousrite
-	target.Stun(60)
-	target.Knockdown(60)
-	to_chat(target, span_userdanger("UNIMAGINABLE PAIN!"))
-	target.emote("superagony")
-	playsound(loc, 'sound/misc/smelter_fin.ogg', 50)
-	loc.visible_message(span_cult("[target]'s lux pours from their nose and into the rune! The motive force manifests across their body, chaining it with shackles of vicious plate!"))
-	spawn(20)
-		playsound(loc, 'sound/combat/hits/onmetal/grille (2).ogg', 50)
-		var/datum/outfit/job/roguetown/viciousrite/ritual_outfit = new outfit_path()
-		ritual_outfit.selected_helm_path = helm_path
-		target.equipOutfit(ritual_outfit)
-		tag_kit_items(target, list(
-			"armor" = target.get_item_by_slot(SLOT_ARMOR),
-			"shirt" = target.get_item_by_slot(SLOT_SHIRT),
-			"pants" = target.get_item_by_slot(SLOT_PANTS),
-			"shoes" = target.get_item_by_slot(SLOT_SHOES),
-			"wrists" = target.get_item_by_slot(SLOT_WRISTS),
-			"gloves" = target.get_item_by_slot(SLOT_GLOVES),
-			"head" = target.get_item_by_slot(SLOT_HEAD),
-			"mask" = target.get_item_by_slot(SLOT_WEAR_MASK),
-			"neck" = target.get_item_by_slot(SLOT_NECK),
-			"cloak" = target.get_item_by_slot(SLOT_CLOAK),
-			"r_hand" = target.get_item_for_held_index(2),
-			"l_hand" = target.get_item_for_held_index(1),
-		), list("armor", "shirt", "pants", "shoes", "wrists", "gloves", "head", "mask", "neck", "cloak", "r_hand", "l_hand"))
-		target.adjust_skillrank_up_to(/datum/skill/combat/axes, SKILL_LEVEL_EXPERT, TRUE)
-		spawn(40)
-			to_chat(target, span_cult("Break them."))
-
-	if(!target.mind.has_spell(/datum/action/cooldown/spell/miracle/intervention) && target.devotion.max_devotion == CLERIC_REQ_4)	// Devotion check to make sure we give it to the HWretch not some Guy
-		target.mind.AddSpell(new /datum/action/cooldown/spell/miracle/intervention)
 
 /// Performs the war ritual, which requires a noble, clergy, or inquisition member in the center of the circle. TRUE on success, FALSE on failure.
 /obj/structure/ritualcircle/graggar/proc/perform_warritual()
@@ -2098,46 +1980,6 @@ More uniquely, her rites always cut out the light in the room, then proc. 10 sec
 	sleep(2 SECONDS)
 	victim.emote("painscream", forced = TRUE)
 	return TRUE
-
-/datum/outfit/job/roguetown/viciousrite
-	var/obj/item/clothing/head/roguetown/helmet/heavy/selected_helm_path = /obj/item/clothing/head/roguetown/helmet/heavy/graggar
-
-/datum/outfit/job/roguetown/viciousrite/pre_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
-	..()
-	var/list/items = list()
-	items |= H.get_equipped_items(TRUE)
-	for(var/I in items)
-		H.dropItemToGround(I, TRUE)
-	H.drop_all_held_items()
-	armor = /obj/item/clothing/suit/roguetown/armor/plate/fluted/graggar
-	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/graggar
-	pants = /obj/item/clothing/under/roguetown/platelegs/graggar
-	shoes = /obj/item/clothing/shoes/roguetown/boots/armor/graggar
-	wrists = /obj/item/clothing/wrists/roguetown/bracers/graggar
-	gloves = /obj/item/clothing/gloves/roguetown/plate/graggar
-	head = selected_helm_path
-	neck = /obj/item/clothing/neck/roguetown/gorget/steel/graggar
-	cloak = /obj/item/clothing/cloak/graggar
-	r_hand = /obj/item/rogueweapon/greataxe/steel/doublehead/graggar
-
-	H.mind.RemoveSpell(new /datum/action/cooldown/spell/mending/lesser)
-
-/datum/outfit/job/roguetown/viciousrite/heavy/pre_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
-	..()
-	armor = /obj/item/clothing/suit/roguetown/armor/plate/full/graggar
-	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/graggar
-	pants = /obj/item/clothing/under/roguetown/platelegs/graggar
-	shoes = /obj/item/clothing/shoes/roguetown/boots/armor/graggar
-	wrists = /obj/item/clothing/wrists/roguetown/bracers/graggar/heavy
-	gloves = /obj/item/clothing/gloves/roguetown/plate/graggar/heavy
-	head = selected_helm_path
-	mask = /obj/item/clothing/mask/rogue/facemask/steel/graggar
-	neck = /obj/item/clothing/neck/roguetown/gorget/steel/graggar
-	cloak = /obj/item/clothing/cloak/graggar/heavy
-	r_hand = /obj/item/rogueweapon/stoneaxe/woodcut/steel/graggar
-	l_hand = /obj/item/rogueweapon/shield/iron/graggar
-
-	H.mind.AddSpell(new /datum/action/cooldown/spell/mending/lesser)
 
 /obj/structure/ritualcircle/baotha
 	name = "Rune of Hedonism"

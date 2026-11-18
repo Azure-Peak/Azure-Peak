@@ -496,3 +496,115 @@
 	owner.Slowdown(3)
 
 #undef BLOODRAGE_FILTER
+
+//////////////////////
+// T4 - Luxplate	//
+//////////////////////
+
+/datum/action/cooldown/spell/graggar/luxplate
+	name = "Luxplate"
+	desc = "GRAGGAR GRAGGAR GRAGGAR! BREAK MY CHAINS AND MY CLOTHES! RELEASE MY POTENT! UNLEASH MY POWER! FREEDOM FOR ME! SLAUGHTER FOR MY FOES!"
+	button_icon_state = "luxplate"
+	glow_intensity = GLOW_INTENSITY_MEDIUM
+
+	click_to_activate = FALSE
+	cast_range = SPELL_RANGE_ADJACENT
+	self_cast_possible = TRUE
+
+	primary_resource_cost = SPELLCOST_MIRACLE_LEGENDARY
+
+	secondary_resource_cost = SPELLCOST_CANTRIP
+
+	charge_required = TRUE
+	charge_time = LUXPLATE_CHANT_TIME
+	charge_swingdelay_type = SWINGDELAY_CANCEL
+	cooldown_time = LUXPLATE_COOLDOWN
+
+	check_flags = AB_CHECK_CONSCIOUS
+	spell_requirements = SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
+
+/datum/action/cooldown/spell/graggar/luxplate/on_start_charge()
+	. = ..()
+	owner.say("GRAGGAR GRAGGAR GRAGGAR!", forced = "spell ([src])", language = /datum/language/common)
+
+/datum/action/cooldown/spell/graggar/luxplate/cast(atom/cast_on)
+	. = ..()
+	var/mob/living/carbon/human/user = owner
+	if(!istype(user))
+		return FALSE
+	user.overlay_fullscreen("awoo", /atom/movable/screen/fullscreen/awoo)
+	addtimer(CALLBACK(user, TYPE_PROC_REF(/mob, clear_fullscreen), "awoo"), LUXPLATE_FLASH_DURATION)
+	playsound(user, pick('sound/vo/mobs/wwolf/howl (1).ogg', 'sound/vo/mobs/wwolf/howl (2).ogg'), 100, TRUE, LUXPLATE_HOWL_RANGE - world.view)
+	var/howl = "AWOOOOOOOOOOOOOOO!!"
+	if(user.can_speak_vocal(howl))
+		user.log_talk(howl, LOG_SAY, forced_by = "spell ([src])")
+		user.send_speech(howl, LUXPLATE_HOWL_RANGE - SAY_EXCLAIM_RANGE_BONUS, user, spans = list(user.speech_span), message_language = /datum/language/common)
+	user.visible_message(span_cult("[user] tears out of their garb!"))
+	for(var/obj/item/clothing/garb in user.get_equipped_items(include_beltslots = FALSE))
+		burst_garb(user, garb)
+	addtimer(CALLBACK(src, PROC_REF(don_luxplate), user), LUXPLATE_DON_DELAY)
+	return TRUE
+
+/datum/action/cooldown/spell/graggar/luxplate/proc/burst_garb(mob/living/carbon/human/user, obj/item/clothing/garb)
+	var/throwforce_was = garb.throwforce
+	var/penetration_was = garb.armor_penetration
+	var/damage_flag_was = garb.thrown_damage_flag
+	garb.throwforce = LUXPLATE_BURST_DAMAGE
+	garb.armor_penetration = LUXPLATE_BURST_PENETRATION
+	garb.thrown_damage_flag = "stab"
+	if(!garb.perform_fling(user, LUXPLATE_BURST_RANGE, CALLBACK(src, PROC_REF(settle_garb), garb, throwforce_was, penetration_was, damage_flag_was)))
+		settle_garb(garb, throwforce_was, penetration_was, damage_flag_was)
+
+/datum/action/cooldown/spell/graggar/luxplate/proc/settle_garb(obj/item/clothing/garb, throwforce_was, penetration_was, damage_flag_was)
+	if(QDELETED(garb))
+		return
+	garb.throwforce = throwforce_was
+	garb.armor_penetration = penetration_was
+	garb.thrown_damage_flag = damage_flag_was
+
+/datum/action/cooldown/spell/graggar/luxplate/proc/don_luxplate(mob/living/carbon/human/user)
+	if(QDELETED(user) || user.stat == DEAD)
+		return
+	playsound(user, 'sound/combat/hits/onmetal/grille (2).ogg', 50)
+	user.visible_message(span_cult("[user]'s lux pours from their nose! The motive force chains their body in vicious plate!"))
+	user.equipOutfit(/datum/outfit/job/roguetown/viciousrite)
+	tag_kit_items(user, list(
+		"armor" = user.get_item_by_slot(SLOT_ARMOR),
+		"shirt" = user.get_item_by_slot(SLOT_SHIRT),
+		"pants" = user.get_item_by_slot(SLOT_PANTS),
+		"shoes" = user.get_item_by_slot(SLOT_SHOES),
+		"wrists" = user.get_item_by_slot(SLOT_WRISTS),
+		"gloves" = user.get_item_by_slot(SLOT_GLOVES),
+		"head" = user.get_item_by_slot(SLOT_HEAD),
+		"mask" = user.get_item_by_slot(SLOT_WEAR_MASK),
+		"neck" = user.get_item_by_slot(SLOT_NECK),
+		"cloak" = user.get_item_by_slot(SLOT_CLOAK),
+		"r_hand" = user.get_item_for_held_index(2),
+		"l_hand" = user.get_item_for_held_index(1),
+	), list("armor", "shirt", "pants", "shoes", "wrists", "gloves", "head", "mask", "neck", "cloak", "r_hand", "l_hand"))
+	user.adjust_skillrank_up_to(/datum/skill/combat/axes, SKILL_LEVEL_EXPERT, TRUE)
+	if(user.mind && !user.mind.has_spell(/datum/action/cooldown/spell/miracle/intervention) && user.devotion?.max_devotion == CLERIC_REQ_4)
+		user.mind.AddSpell(new /datum/action/cooldown/spell/miracle/intervention)
+	to_chat(user, span_cult("Break them."))
+
+/datum/outfit/job/roguetown/viciousrite/pre_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
+	..()
+	var/list/items = list()
+	items |= H.get_equipped_items(TRUE)
+	for(var/I in items)
+		H.dropItemToGround(I, TRUE)
+	H.drop_all_held_items()
+	armor = /obj/item/clothing/suit/roguetown/armor/plate/full/graggar
+	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/graggar
+	pants = /obj/item/clothing/under/roguetown/platelegs/graggar
+	shoes = /obj/item/clothing/shoes/roguetown/boots/armor/graggar
+	wrists = /obj/item/clothing/wrists/roguetown/bracers/graggar/heavy
+	gloves = /obj/item/clothing/gloves/roguetown/plate/graggar/heavy
+	head = /obj/item/clothing/head/roguetown/helmet/heavy/graggar
+	mask = /obj/item/clothing/mask/rogue/facemask/steel/graggar
+	neck = /obj/item/clothing/neck/roguetown/gorget/steel/graggar
+	cloak = /obj/item/clothing/cloak/graggar/heavy
+	r_hand = /obj/item/rogueweapon/stoneaxe/woodcut/steel/graggar
+	l_hand = /obj/item/rogueweapon/shield/iron/graggar
+
+	H.mind.AddSpell(new /datum/action/cooldown/spell/mending/lesser)

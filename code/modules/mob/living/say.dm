@@ -387,10 +387,10 @@ GLOBAL_LIST_INIT(department_radio_keys, list(
 	if(message_mode != MODE_WHISPER)
 		Zs_too = TRUE
 		if(say_test(message) == "2")	//CIT CHANGE - ditto
-			message_range += 10
+			message_range += SAY_EXCLAIM_RANGE_BONUS
 			Zs_yell = TRUE
 		if(say_test(message) == "3")	//Big "!!" shout
-			message_range += 10
+			message_range += SAY_EXCLAIM_RANGE_BONUS
 			Zs_all = TRUE
 
 	// AZURE EDIT: thaumaturgical loudness (from orisons)
