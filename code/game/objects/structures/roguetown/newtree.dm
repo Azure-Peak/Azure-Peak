@@ -143,11 +143,10 @@
 	if(!mind)
 		return 3 SECONDS
 	var/climbing_skill = get_skill_level(/datum/skill/misc/climbing)
-	var/obj/structure/table/table = locate() in loc
-	var/obj/structure/chair/chair = locate() in loc
-	if(table || chair)
-		climbing_skill++
-	return max(70 - climbing_skill * 10 - STASPD * 3, HAS_TRAIT(src, TRAIT_WOODWALKER) ? 15 : 30)
+	var/minimum_time = 3 SECONDS
+	if(HAS_TRAIT(src, TRAIT_WOODWALKER))
+		minimum_time = 1.5 SECONDS
+	return max(70 - climbing_skill * 10 - STASPD * 3, minimum_time)
 
 /obj/structure/flora/newtree/attacked_by(obj/item/I, mob/living/user)
 	var/was_destroyed = obj_destroyed
