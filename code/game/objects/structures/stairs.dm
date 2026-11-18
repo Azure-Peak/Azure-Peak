@@ -147,7 +147,8 @@
 	if(L.loc != newtarg)
 		return
 	if(pulling && !(pulling in L.buckled_mobs))
-		L.stop_pulling()
+		if(cord)
+			L.stop_pulling()
 		if(isliving(pulling))
 			var/mob/living/pulled_mob = pulling
 			pulled_mob.travel_z_with_riders(newtarg)
@@ -156,8 +157,6 @@
 		if(cord)
 			if(!cord.wrap(L, pulling))
 				cord.wipeslate(L)
-		else
-			L.start_pulling(pulling, supress_message = TRUE)
 
 /mob/living/proc/travel_z_with_riders(turf/destination)
 	var/atom/origin = loc
