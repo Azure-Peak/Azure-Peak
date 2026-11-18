@@ -3171,6 +3171,7 @@
 #include "code\modules\roguetown\roguemachine\questing\contract_ledger\sign.dm"
 #include "code\modules\roguetown\roguemachine\questing\contract_ledger\steward.dm"
 #include "code\modules\roguetown\roguemachine\questing\contract_ledger\towner.dm"
+#include "code\modules\roguetown\roguemachine\questing\factions\_boss_titles.dm"
 #include "code\modules\roguetown\roguemachine\questing\factions\_circumstance.dm"
 #include "code\modules\roguetown\roguemachine\questing\factions\_crime.dm"
 #include "code\modules\roguetown\roguemachine\questing\factions\_faction.dm"

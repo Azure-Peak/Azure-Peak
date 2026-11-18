@@ -22,9 +22,4 @@
 		/mob/living/simple_animal/hostile/retaliate/rogue/infernal/watcher = 60,
 		/mob/living/carbon/human/species/goblin/npc/large/hell = 40,
 	)
-	boss_title_templates = list(
-		"%N the Watchful",
-		"%N of the Ember",
-		"%N the Cinder Eye",
-	)
 	boss_name_file = "strings/rt/names/other/devilm.txt"

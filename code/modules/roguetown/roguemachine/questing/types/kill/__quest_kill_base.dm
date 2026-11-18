@@ -21,6 +21,7 @@
 	var/hunt_overtime_max = QUEST_KILL_HUNT_OVERTIME_MAX
 	var/hunt_overtime_used = 0
 	var/last_guardian_kill = 0
+	var/ringleader_type
 	var/leash_tick_id
 	var/list/leash_strayed_since = list()
 	var/last_trigger_block_warning = 0
@@ -384,10 +385,31 @@
 	if(!target_mob_type)
 		return FALSE
 	progress_required = estimate_mob_count()
-	if(faction.boss_name_file)
-		band_leader_name = faction.generate_boss_name()
+	pick_ringleader()
 	finalize_preview_title()
 	return TRUE
+
+/datum/quest/kill/proc/pick_ringleader()
+	ringleader_type = null
+	band_leader_name = ""
+	if(writ_type != WRIT_TYPE_OUTLAWRY || !faction.boss_name_file)
+		return
+	var/max_tp = tp_budget * QUEST_RINGLEADER_MAX_BUDGET_SHARE
+	var/list/affordable = list()
+	for(var/boss_path in faction.boss_mob_types)
+		if(initial_threat_point(boss_path) <= max_tp)
+			affordable[boss_path] = faction.boss_mob_types[boss_path]
+	if(!length(affordable))
+		return
+	ringleader_type = pickweight(affordable)
+	band_leader_name = faction.generate_boss_name(ringleader_type)
+
+/datum/quest/kill/proc/rename_quest_boss(datum/weakref/boss_ref, boss_name)
+	var/mob/living/boss = boss_ref?.resolve()
+	if(QDELETED(boss) || !boss_name)
+		return
+	boss.real_name = boss_name
+	boss.name = boss_name
 
 /datum/quest/kill/region_scale(datum/threat_region/TR)
 	if(max_region_tp_mult)
@@ -445,9 +467,17 @@
 	return max(tp, QUEST_MOB_MIN_TP)
 
 /datum/quest/kill/proc/spawn_kill_mobs(obj/effect/landmark/quest_spawner/landmark)
-	var/list/to_spawn = compose_warband()
+	var/ringleader_tp = ringleader_type ? initial_threat_point(ringleader_type) : 0
+	var/list/to_spawn = compose_warband(ringleader_tp)
 	var/spawned = 0
 	total_spawned_tp = 0
+	if(ringleader_type)
+		var/mob/living/leader = spawn_hidden_mob(landmark, ringleader_type)
+		ringleader_type = null
+		if(leader)
+			total_spawned_tp += ringleader_tp
+			spawned++
+			addtimer(CALLBACK(src, PROC_REF(rename_quest_boss), WEAKREF(leader), band_leader_name), QUEST_BOSS_RENAME_DELAY)
 	for(var/mob_path in to_spawn)
 		var/mob/living/new_mob = spawn_hidden_mob(landmark, mob_path)
 		if(!new_mob)
@@ -502,11 +532,11 @@
 	var/datum/npc_archetype/archetype = initial(living_path.npc_archetype)
 	return ispath(archetype) && ispath(initial(archetype.ai_controller), /datum/ai_controller/human_npc/archer)
 
-/datum/quest/kill/proc/compose_warband()
+/datum/quest/kill/proc/compose_warband(reserved_tp = 0)
 	var/list/result = list()
 	if(!faction || !length(faction.mob_types) || tp_budget <= 0)
 		return result
-	var/budget = scaled_threat_budget()
+	var/budget = scaled_threat_budget() - reserved_tp
 	var/list/candidates = compose_candidates()
 	if(!length(candidates))
 		return result
