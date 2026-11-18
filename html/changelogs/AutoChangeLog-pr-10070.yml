@@ -1,0 +1,6 @@
+author: "Quinalion"
+delete-after: True
+changes:
+  - bugfix: "Repeated prayer attempts no longer extend the prayer cooldown."
+  - bugfix: "Accepted prayers consistently restart the one-minute cooldown."
+  - qol: "Praying during the cooldown now shows the remaining wait."
