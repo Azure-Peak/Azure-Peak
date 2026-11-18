@@ -50,6 +50,7 @@
 	var/fragile = FALSE
 	/// Chance a thrown fragile explosive fails to go off
 	var/prob2fail = 0
+	var/explodes_in_sacks = FALSE
 
 /obj/item/explosive/proc/stowed()
 	for(var/atom/A = loc; A; A = A.loc)
@@ -98,6 +99,8 @@
 	target.apply_damage(PVE_damage, damtype, BODY_ZONE_CHEST, armor)
 
 /obj/item/explosive/ex_act()
+	if(isobj(loc) && !explodes_in_sacks)
+		return
 	if(!stowed())
 		detonate(TRUE)
 
@@ -162,6 +165,7 @@
 	throw_speed = 0.5
 	grid_height = 64
 	abstract_type = /obj/item/explosive/fused
+	explodes_in_sacks = TRUE
 	var/fuze = 50
 	var/lit = FALSE
 
@@ -189,6 +193,8 @@
 		M.update_inv_hands()
 
 /obj/item/explosive/fused/fire_act()
+	if(isobj(loc) && !explodes_in_sacks)
+		return
 	if(!stowed())
 		light()
 
@@ -268,6 +274,7 @@
 	/// Radius in which mobs take blast damage, falling off with distance
 	var/blastrange = 3
 	/// Structures in the blast radius take damage too
+	explodes_in_sacks = TRUE
 	var/razes = FALSE
 	var/devrange = 0
 	var/heavyrange = 1
