@@ -246,7 +246,6 @@
 				standing.add_overlay(thing_appearance)
 	return standing
 
-
 /obj/item/clothing/neck/roguetown/chaincoif/paalloy
 	name = "ancient coif"
 	desc = "Polished gilbranze rings, linked together to form a billowing hood. Let it not be a crown of thorns that saves this dying world, but a crown of progress; of fettered metal and stained bone, rejuvenated by Zizo's will to herald Her greatest works yet."
