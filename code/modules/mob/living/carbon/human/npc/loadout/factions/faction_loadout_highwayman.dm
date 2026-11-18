@@ -97,7 +97,7 @@
 	brawl = SKILL_LEVEL_JOURNEYMAN
 	skills = list(
 		/datum/skill/combat/wrestling = SKILL_LEVEL_EXPERT,
-		/datum/skill/combat/swords = SKILL_LEVEL_MASTER,
+		/datum/skill/combat/swords = SKILL_LEVEL_EXPERT,
 		/datum/skill/combat/shields = SKILL_LEVEL_EXPERT,
 	)
 	loadouts = list(
