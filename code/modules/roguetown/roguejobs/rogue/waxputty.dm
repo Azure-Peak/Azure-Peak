@@ -151,6 +151,7 @@
 	if(target)
 		target.key_imprint_valid_until = world.time - 0.1 SECONDS // Regardless of outcome, the target shouldn't be "safe" imprintable again.
 	if(forced_success)
+		message_admins("[key_name(user)] successfully and safely wax imprinted [key_name(target)].")
 		imprint(user, keyhash)
 		return
 
@@ -164,8 +165,10 @@
 	final_prob = clamp(final_prob, 10, 60) // This isn't the main way to use puddy at all, it's more for thiefbaiting and immersive sim play.
 
 	if(prob(final_prob))
+		message_admins("[key_name(user)] successfully and UNSAFELY wax imprinted [key_name(target)].")
 		imprint(user, keyhash)
 	else
+		message_admins("[key_name(user)] FAILED to wax imprint [key_name(target)].")
 		failed_attempt(user, target)
 
 
@@ -180,16 +183,22 @@
 	playsound(user, pick('sound/effects/thief_alert1.ogg', 'sound/effects/thief_alert2.ogg'), 100, TRUE)
 	user.visible_message(span_alert("A THIEF!"), ignored_mobs = list(user), vision_distance = 5)
 	user.apply_status_effect(/datum/status_effect/debuff/thiefalert)
-	var/bad_luck = 50 - ((user.STALUC - 10) * 10) + ((target.STALUC - 10) * 10)
+	var/bad_luck = 60 - ((user.STALUC - 10) * 10) + ((target.STALUC - 10) * 10)
 	if(prob(bad_luck))
 		new /obj/item/waxputty_used(get_turf(user))
 		qdel(src)
+
+/atom/movable/screen/alert/status_effect/debuff/thiefalert
+	name = "Caught Red-Handed"
+	desc = "I've been caught in an act of sleight of hand! I can't flee as easily -- they know!"
+	icon_state = "thiefalert"
 
 /datum/status_effect/debuff/thiefalert
 	id = "thiefalert"
 	mob_effect_icon_state = "eff_thiefalert"
 	mob_effect_offset_y = 30
 	duration = 10 SECONDS
+	alert_type = /atom/movable/screen/alert/status_effect/debuff/thiefalert
 
 /datum/status_effect/debuff/thiefalert/on_apply()
 	. = ..()
