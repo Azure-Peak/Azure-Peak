@@ -139,10 +139,15 @@
 			if(L.mind) // idk just following whats going on above
 				L.mind.add_sleep_experience(/datum/skill/misc/climbing, exp_to_gain, FALSE)
 
-/mob/living/proc/get_tree_climb_time()
+/mob/living/proc/get_tree_climb_time(use_furniture = TRUE)
 	if(!mind)
 		return 3 SECONDS
 	var/climbing_skill = get_skill_level(/datum/skill/misc/climbing)
+	if(use_furniture)
+		var/obj/structure/table/table = locate() in loc
+		var/obj/structure/chair/chair = locate() in loc
+		if(table || chair)
+			climbing_skill++
 	var/minimum_time = 3 SECONDS
 	if(HAS_TRAIT(src, TRAIT_WOODWALKER))
 		minimum_time = 1.5 SECONDS
@@ -353,7 +358,9 @@
 	if(climber.m_intent != MOVE_INTENT_SNEAK)
 		playsound(climber, 'sound/foley/climb.ogg', 100, TRUE)
 		climber.visible_message(span_warning("[climber] starts climbing onto [src]."), span_warning("I start climbing onto [src]..."))
-	var/climbed = do_after(climber, climber.get_tree_climb_time(), target = src, extra_checks = climber.climb_check_callback())
+	var/climbed = do_after(climber,
+		climber.get_tree_climb_time(use_furniture = FALSE), target = src,
+		extra_checks = climber.climb_check_callback())
 	climber.end_climb()
 	if(!climbed || QDELETED(src) || !climber.Adjacent(src))
 		return
