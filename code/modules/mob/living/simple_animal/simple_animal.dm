@@ -531,7 +531,7 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 
 	var/rotstuff = FALSE
 	var/datum/component/rot/simple/CR = GetComponent(/datum/component/rot/simple)
-	if(CR && CR.amount >= 10 MINUTES)
+	if(CR && CR.amount >= CR.rot_start)
 		rotstuff = TRUE
 	var/atom/Tsec = drop_location()
 
@@ -613,7 +613,7 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 	var/botch_chance = 50
 	var/rotstuff = FALSE
 	var/datum/component/rot/simple/CR = GetComponent(/datum/component/rot/simple)
-	if(CR && CR.amount >= 10 MINUTES)
+	if(CR && CR.amount >= CR.rot_start)
 		rotstuff = TRUE
 
 	for(var/path in butcher_results)
