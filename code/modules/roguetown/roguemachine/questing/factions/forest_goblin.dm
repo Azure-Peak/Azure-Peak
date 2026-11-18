@@ -17,10 +17,4 @@
 	boss_mob_types = list(
 		/mob/living/carbon/human/species/goblin/npc/large = 100,
 	)
-	boss_title_templates = list(
-		"Chief %N",
-		"Grug-%N",
-		"%N-Biter",
-		"Big %N",
-	)
 	boss_name_file = "strings/rt/names/other/goblinm.txt"

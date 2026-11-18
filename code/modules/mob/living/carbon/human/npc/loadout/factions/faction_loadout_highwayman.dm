@@ -97,7 +97,7 @@
 	brawl = SKILL_LEVEL_JOURNEYMAN
 	skills = list(
 		/datum/skill/combat/wrestling = SKILL_LEVEL_EXPERT,
-		/datum/skill/combat/swords = SKILL_LEVEL_MASTER,
+		/datum/skill/combat/swords = SKILL_LEVEL_EXPERT,
 		/datum/skill/combat/shields = SKILL_LEVEL_EXPERT,
 	)
 	loadouts = list(
@@ -276,6 +276,124 @@
 			/datum/npc_loadout/kit/spellblade/blade = 2,
 			/datum/npc_loadout/kit/spellblade/phalangite = 2,
 			/datum/npc_loadout/kit/spellblade/macebearer = 2,
+			/datum/npc_loadout/kit/spellblade/spellfist/katar/expert = 1,
+			/datum/npc_loadout/kit/spellblade/spellfist/knuckles/expert = 1,
+		),
+		/datum/npc_loadout/kit/spellblade_champion,
+	)
+
+/datum/npc_archetype/highwayman/caster/boss
+	abstract_type = /datum/npc_archetype/highwayman/caster/boss
+	threat_point = THREAT_ELITE + THREAT_CASTER_PREMIUM
+	statpack = /datum/npc_statpack/caster/t4
+	magic = SKILL_LEVEL_MASTER
+
+/datum/npc_archetype/highwayman/caster/boss/mixed
+	name = "Highwayman Boss Mage"
+	variants = list(
+		/datum/npc_archetype/highwayman/caster/boss/pyromancer = 1,
+		/datum/npc_archetype/highwayman/caster/boss/fulgurmancer = 1,
+		/datum/npc_archetype/highwayman/caster/boss/geomancer = 1,
+		/datum/npc_archetype/highwayman/caster/boss/telomancer = 1,
+		/datum/npc_archetype/highwayman/caster/boss/cryomancer = 1,
+	)
+
+/datum/npc_archetype/highwayman/caster/boss/pyromancer
+	name = "Highwayman Boss Mage (Pyromancer)"
+	job = "Highwayman Pyromancer"
+	loadouts = list(
+		/datum/npc_loadout/kit/bandit_flavor,
+		/datum/npc_loadout/kit/caster/pyromancer,
+		/datum/npc_loadout/kit/caster_magister,
+	)
+
+/datum/npc_archetype/highwayman/caster/boss/fulgurmancer
+	name = "Highwayman Boss Mage (Fulgurmancer)"
+	job = "Highwayman Fulgurmancer"
+	loadouts = list(
+		/datum/npc_loadout/kit/bandit_flavor,
+		/datum/npc_loadout/kit/caster/fulgurmancer,
+		/datum/npc_loadout/kit/caster_magister,
+	)
+
+/datum/npc_archetype/highwayman/caster/boss/geomancer
+	name = "Highwayman Boss Mage (Geomancer)"
+	job = "Highwayman Geomancer"
+	loadouts = list(
+		/datum/npc_loadout/kit/bandit_flavor,
+		/datum/npc_loadout/kit/caster/geomancer,
+		/datum/npc_loadout/kit/caster_magister,
+	)
+
+/datum/npc_archetype/highwayman/caster/boss/telomancer
+	name = "Highwayman Boss Mage (Telomancer)"
+	job = "Highwayman Telomancer"
+	loadouts = list(
+		/datum/npc_loadout/kit/bandit_flavor,
+		/datum/npc_loadout/kit/caster/telomancer,
+		/datum/npc_loadout/kit/caster_magister,
+	)
+
+/datum/npc_archetype/highwayman/caster/boss/cryomancer
+	name = "Highwayman Boss Mage (Cryomancer)"
+	job = "Highwayman Cryomancer"
+	loadouts = list(
+		/datum/npc_loadout/kit/bandit_flavor,
+		/datum/npc_loadout/kit/caster/cryomancer,
+		/datum/npc_loadout/kit/caster_magister,
+	)
+
+/datum/npc_archetype/highwayman/spellblade/boss
+	abstract_type = /datum/npc_archetype/highwayman/spellblade/boss
+	threat_point = THREAT_ELITE + THREAT_CASTER_PREMIUM + THREAT_SPELLBLADE_PREMIUM
+	statpack = /datum/npc_statpack/spellblade/t4
+	armor_training = ARMOR_CLASS_MEDIUM
+	melee = SKILL_LEVEL_MASTER
+	magic = SKILL_LEVEL_EXPERT
+
+/datum/npc_archetype/highwayman/spellblade/boss/mixed
+	name = "Highwayman Boss Spellblade"
+	variants = list(
+		/datum/npc_archetype/highwayman/spellblade/boss/blade = 1,
+		/datum/npc_archetype/highwayman/spellblade/boss/phalangite = 1,
+		/datum/npc_archetype/highwayman/spellblade/boss/macebearer = 1,
+		/datum/npc_archetype/highwayman/spellblade/boss/spellfist = 1,
+	)
+
+/datum/npc_archetype/highwayman/spellblade/boss/blade
+	name = "Highwayman Boss Spellblade (Blade)"
+	job = "Highwayman Spellblade"
+	loadouts = list(
+		/datum/npc_loadout/kit/bandit_flavor,
+		/datum/npc_loadout/kit/spellblade/blade,
+		/datum/npc_loadout/kit/spellblade_champion,
+	)
+
+/datum/npc_archetype/highwayman/spellblade/boss/phalangite
+	name = "Highwayman Boss Spellblade (Phalangite)"
+	job = "Highwayman Phalangite"
+	loadouts = list(
+		/datum/npc_loadout/kit/bandit_flavor,
+		/datum/npc_loadout/kit/spellblade/phalangite,
+		/datum/npc_loadout/kit/spellblade_champion,
+	)
+
+/datum/npc_archetype/highwayman/spellblade/boss/macebearer
+	name = "Highwayman Boss Spellblade (Macebearer)"
+	job = "Highwayman Macebearer"
+	loadouts = list(
+		/datum/npc_loadout/kit/bandit_flavor,
+		/datum/npc_loadout/kit/spellblade/macebearer,
+		/datum/npc_loadout/kit/spellblade_champion,
+	)
+
+/datum/npc_archetype/highwayman/spellblade/boss/spellfist
+	name = "Highwayman Boss Spellblade (Spellfist)"
+	job = "Highwayman Spellfist"
+	brawl = SKILL_LEVEL_MASTER
+	loadouts = list(
+		/datum/npc_loadout/kit/bandit_flavor,
+		list(
 			/datum/npc_loadout/kit/spellblade/spellfist/katar/expert = 1,
 			/datum/npc_loadout/kit/spellblade/spellfist/knuckles/expert = 1,
 		),

@@ -13,12 +13,14 @@ GLOBAL_LIST_INIT(large_goblin_aggro, list(
 
 /mob/living/carbon/human/species/goblin/npc/large
 	threat_point = THREAT_ELITE
+	boss_class = BOSS_CLASS_GOBLIN_CHIEF
 	name = "unusually large goblin"
 	npc_archetype = null // Bespoke boss, keeps its own outfit below
 	var/gob_outfit = /datum/outfit/job/roguetown/npc/mini_boss/large_goblin
 	faction = list(FACTION_DUNDEAD, FACTION_ORCS)
 	dodgetime = 20
 	d_intent = INTENT_PARRY
+	ai_controller = /datum/ai_controller/human_npc/melee/abilities
 
 /mob/living/carbon/human/species/goblin/npc/large/after_creation()
 	..()
@@ -32,17 +34,27 @@ GLOBAL_LIST_INIT(large_goblin_aggro, list(
 	ADD_TRAIT(src, TRAIT_LEECHIMMUNE, INNATE_TRAIT)
 	ADD_TRAIT(src, TRAIT_BREADY, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_CRITICAL_RESISTANCE, TRAIT_GENERIC)
+	REMOVE_TRAIT(src, TRAIT_CRITICAL_WEAKNESS, SPECIES_TRAIT)
+	REMOVE_TRAIT(src, TRAIT_CRITICAL_WEAKNESS, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_NOPAIN, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_NOPAINSTUN, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_NPC_EXAMINE, TRAIT_GENERIC)
+	ADD_TRAIT(src, TRAIT_RAGE, TRAIT_GENERIC)
+	if(!skin_armor)
+		skin_armor = new /obj/item/clothing/suit/roguetown/armor/skin_armor/goblin_skin(src)
+	if(!(locate(/datum/action/cooldown/spell/rage) in actions))
+		var/datum/action/cooldown/spell/rage/rage = new(src)
+		rage.Grant(src)
 	src.transform = src.transform.Scale(1.25, 1.25)
 	src.pixel_y += round(0.25 * 16)
 
 /mob/living/carbon/human/species/goblin/npc/large/hell
 	race = /datum/species/goblin/hell
+	boss_class = BOSS_CLASS_HELL_GOBLIN_CHIEF
 
 /mob/living/carbon/human/species/goblin/npc/large/moon
 	race = /datum/species/goblin/moon
+	boss_class = BOSS_CLASS_MOON_GOBLIN_CHIEF
 
 /mob/living/carbon/human/species/goblin/npc/large/cave
 	race = /datum/species/goblin/cave
@@ -58,7 +70,7 @@ GLOBAL_LIST_INIT(large_goblin_aggro, list(
 	H.STAWIL = 12
 	H.STAPER = 6
 	H.STAINT = 8 // I am Evil
-	H.STALUC = 4
+	H.STALUC = 10
 	// Gives it armor for some much needed buff
 	armor = /obj/item/clothing/suit/roguetown/armor/plate/cuirass/iron/goblin
 	head = /obj/item/clothing/head/roguetown/helmet/goblin

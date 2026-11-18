@@ -144,6 +144,7 @@
 	// Update the aggro table
 	victim.ai_controller.blackboard[BB_MOB_AGGRO_TABLE] = aggro_table
 
+	victim.ai_controller.reveal_target(attacker)
 	if(!victim.ai_controller.blackboard[BB_BASIC_MOB_CURRENT_TARGET])
 		victim.ai_controller.set_blackboard_key(BB_BASIC_MOB_CURRENT_TARGET, attacker)
 
@@ -153,6 +154,14 @@
 
 	// Update highest threat mob
 	update_highest_threat(victim)
+
+/datum/component/ai_aggro_system/proc/forget_threat(mob/target)
+	var/mob/living/living_mob = parent
+	var/list/aggro_table = living_mob.ai_controller?.blackboard[BB_MOB_AGGRO_TABLE]
+	if(!aggro_table?[target])
+		return
+	aggro_table -= target
+	update_highest_threat(living_mob)
 
 /// Periodically decays threat levels
 /datum/component/ai_aggro_system/process()

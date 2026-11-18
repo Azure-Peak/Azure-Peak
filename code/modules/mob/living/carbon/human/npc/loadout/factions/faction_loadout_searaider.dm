@@ -65,7 +65,7 @@
 	traits = list(TRAIT_BADTRAINER)
 	brawl = SKILL_LEVEL_EXPERT
 	skills = list(
-		/datum/skill/combat/swords = SKILL_LEVEL_MASTER,
+		/datum/skill/combat/swords = SKILL_LEVEL_EXPERT,
 		/datum/skill/combat/axes = SKILL_LEVEL_EXPERT,
 	)
 	loadouts = list(

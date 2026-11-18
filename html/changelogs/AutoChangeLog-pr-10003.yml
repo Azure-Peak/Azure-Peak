@@ -1,0 +1,4 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - rscadd: "Added a toggle to disable ERP Panel in Cmode. Default is OFF. (I.e. you can use it in cmode)"

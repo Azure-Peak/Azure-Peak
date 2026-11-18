@@ -397,12 +397,14 @@ GLOBAL_LIST_INIT(goblin_magos_aggro, list(
 				if(istype(T))
 					T.pollute_turf(/datum/pollutant/rot, 1)
 	if(should_update)
-		if(amount > 20 MINUTES)
-			C.update_body()
+		C.update_body()
+	if(amount > 20 MINUTES)
+		if(C.mind || C.last_mind || C.ckey)
 			qdel(src)
 			return
-		else if(amount > 12 MINUTES)
-			C.update_body()
+		if(amount > 25 MINUTES)
+			qdel(src)
+			C.dust(drop_items = FALSE)
 
 
 //////////////////	OUTFITS	//////////////////

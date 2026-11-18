@@ -561,9 +561,7 @@ GLOBAL_LIST_INIT(ballmer_windows_me_msg, list("Yo man, what if, we like, uh, put
 	if (!client) // not really relevant to NPCs at the moment
 		return
 
-	var/datum/charflaw/sleepless/sleepless_flaw = get_flaw()
-	if(!istype(sleepless_flaw, /datum/charflaw/sleepless))
-		sleepless_flaw = null
+	var/datum/charflaw/sleepless/sleepless_flaw = get_flaw(/datum/charflaw/sleepless)
 	if(HAS_TRAIT(src, TRAIT_NOSLEEP))
 		if(!(mobility_flags & MOBILITY_STAND))
 			energy_add(5)
@@ -587,9 +585,9 @@ GLOBAL_LIST_INIT(ballmer_windows_me_msg, list("Yo man, what if, we like, uh, put
 			var/list/limb_list = list(BODY_ZONE_R_ARM, BODY_ZONE_L_ARM, BODY_ZONE_R_LEG, BODY_ZONE_L_LEG)
 			for(var/zone in limb_list)
 				var/obj/item/bodypart/limb = get_bodypart(zone)
-				if(!limb && nutrition > 250)
+				if(!limb && nutrition > 100)
 					regenerate_limb(zone)
-					nutrition -= 250
+					nutrition -= 100
 		else if(isturf(loc)) //No illegal tech.
 			var/obj/structure/bed/rogue/bed = locate() in loc
 			if(bed)

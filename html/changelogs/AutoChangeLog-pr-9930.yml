@@ -1,0 +1,9 @@
+author: "fffelinid"
+delete-after: True
+changes:
+  - rscadd: "Murklings can now change color depending on reagents they consume."
+  - rscadd: "Added 'regrow limbs' ability for murklings."
+  - rscadd: "Added 'shapeshift' ability for murklings."
+  - rscadd: "Added amorphous landing greater quirk for murklings."
+  - rscadd: "Murklings now have their own unique corpse-raising mechanic."
+  - balance: "Murklings have bones now, and can receive chest/head fractures as normal."

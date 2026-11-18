@@ -15,8 +15,10 @@
 		THREAT_REGION_UNDERDARK,
 	)
 	tp_budget = QUEST_TP_BUDGET_CLEAR_OUT
+	max_region_tp_mult = QUEST_MEDIUM_MAX_REGION_TP_MULT
 	threat_bands_cleared = QUEST_BANDS_CLEAR_OUT
-	fellowship_threat_rate = QUEST_FELLOWSHIP_THREAT_PER_EXTRA_MEDIUM
+	fellowship_threat_rate_first = QUEST_SOLO_SCALE_THREAT_FIRST
+	fellowship_threat_rate = QUEST_SOLO_SCALE_THREAT_AFTER
 	fellowship_reward_rate = QUEST_FELLOWSHIP_REWARD_PER_EXTRA
 
 /datum/quest/kill/clearout/get_title()

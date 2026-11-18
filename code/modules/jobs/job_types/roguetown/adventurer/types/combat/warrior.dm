@@ -258,7 +258,7 @@
 	to_chat(H, span_warning("You are a brutal warrior, who has foregone armor in favor of pure strength. Crush your enemies, see them driven before you, and hear the lamentations of their women! Oh, and you can specialize in unarmed combat and wrestling."))
 	H.dna.species.soundpack_m = GLOB.voice_packs[/datum/voicepack/male/warrior]
 	H.set_blindness(0)
-	H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/rage)
+	H.mind.AddSpell(new /datum/action/cooldown/spell/rage)
 	if(!H.mind)
 		return
 
