@@ -1,0 +1,4 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - rscadd: "Increase Humanoid Rot / Dusting time and simple animal rot / dustingtime. Makes goblins / hobgoblins actually despawn."
