@@ -16,6 +16,12 @@
 			added = round(added * 0.5, 1)
 		if(HAS_TRAIT(src, TRAIT_MONK_ROBE))
 			added = round(added * 1.25, 1)
+		if(ishuman(src))
+			var/mob/living/carbon/human/H = src
+			if(H.has_status_effect(/datum/status_effect/debuff/sleepytime/t2))
+				added = round(added * 0.8, 1)
+			else if(H.has_status_effect(/datum/status_effect/debuff/sleepytime/t3))
+				added = round(added * 0.7, 1)
 		if(stamina >= 1)
 			stamina_add(added)
 		else

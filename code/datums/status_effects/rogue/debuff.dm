@@ -317,6 +317,32 @@
 	desc = "I should get some rest."
 	icon_state = "sleepy"
 
+/atom/movable/screen/alert/status_effect/debuff/sleepytimet2
+	name = "Fatigued"
+	desc = "When was the last time I even slept...?"
+	icon_state = "sleepy2"
+
+/atom/movable/screen/alert/status_effect/debuff/sleepytimet3
+	name = "Exhausted"
+	desc = "Just... one little quick nap... five minute rest... please..."
+	icon_state = "sleepy3"
+
+/datum/status_effect/debuff/sleepytime/t2
+	id = "sleepytime2"
+	alert_type = /atom/movable/screen/alert/status_effect/debuff/sleepytimet2
+
+/datum/status_effect/debuff/sleepytime/t3
+	id = "sleepytime3"
+	alert_type = /atom/movable/screen/alert/status_effect/debuff/sleepytimet3
+
+/datum/status_effect/debuff/sleepytime/t3/on_apply()
+	. = ..()
+	owner.add_movespeed_modifier("SLEEP_TIER3", update=TRUE, priority=100, multiplicative_slowdown=1.25)
+
+/datum/status_effect/debuff/sleepytime/t3/on_remove()
+	owner.remove_movespeed_modifier("SLEEP_TIER3")
+	return ..()
+
 /datum/status_effect/debuff/muscle_sore
 	id = "muscle_sore"
 	alert_type = /atom/movable/screen/alert/status_effect/debuff/muscle_sore

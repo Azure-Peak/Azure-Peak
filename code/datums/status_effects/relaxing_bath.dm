@@ -86,12 +86,20 @@ dreaming. Still have to go to sleep to learn skills. Also gives healing tickrate
 		if(src.energy < src.max_energy)
 			src.energy_add(100) // Refilling our blue bar
 
-		if(soak_count >= soak_threshold && !ultimate_soak && src.has_status_effect(/datum/status_effect/debuff/sleepytime))
-			to_chat(src, span_green("I feel completely refreshed from my soak!"))
-			src.visible_message(span_info("[src] looks completely refreshed, the exhaustion lifting from [src.p_them()]."))
-			src.remove_status_effect(/datum/status_effect/debuff/sleepytime)
-			src.remove_stress(/datum/stressevent/sleepytime)
-			src.adjust_triumphs(1)
-			if(src.mind?.sleep_adv)
-				src.mind.sleep_adv.sleep_adv_points += 3
-			ultimate_soak = TRUE
+		if(soak_count >= soak_threshold && !ultimate_soak)
+			if(has_status_effect(/datum/status_effect/debuff/sleepytime))
+				to_chat(src, span_green("I feel completely refreshed from my soak!"))
+				src.visible_message(span_info("[src] looks completely refreshed, the exhaustion lifting from [src.p_them()]."))
+				remove_sleep_deprivation()
+				src.adjust_triumphs(1)
+				if(src.mind?.sleep_adv)
+					src.mind.sleep_adv.sleep_adv_points += 3
+				ultimate_soak = TRUE
+			else if(has_status_effect(/datum/status_effect/debuff/sleepytime/t2) || has_status_effect(/datum/status_effect/debuff/sleepytime/t3))
+				to_chat(src, span_green("I feel pretty refreshed... just a little bit more."))
+				src.visible_message(span_info("[src] looks more refreshed than before, some exhaustion lifting from [src.p_them()]."))
+				remove_sleep_deprivation()
+				src.adjust_triumphs(1)
+				if(src.mind?.sleep_adv)
+					src.mind.sleep_adv.sleep_adv_points += 3
+				soak_count = 3 //reset the counter, but don't obtain the ultimate soak, meaning we can keep bathing to get the rest of the tiredness off

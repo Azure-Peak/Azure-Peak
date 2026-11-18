@@ -115,6 +115,9 @@
 			used_vitae = used_vitae * CLIENT_VITAE_MULTIPLIER
 		adjust_bloodpool(used_vitae)
 		adjust_hydration(used_vitae * 0.1)
+		if(ishuman(src))
+			var/mob/living/carbon/human/H = src
+			H.remove_sleep_deprivation(TRUE)
 	else // Successful diablerie, yes, you can become a vampire lord by sucking him dry. Intentional!
 		if(VVictim)
 			AdjustMasquerade(-1)

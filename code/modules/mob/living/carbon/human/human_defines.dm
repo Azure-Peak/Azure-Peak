@@ -226,6 +226,9 @@
 	/// bait stacks for aimed intent
 	var/bait_stacks
 
+	/// Time since last sleep.
+	var/last_sleep
+
 	/// werewolf mob storage (this is bad and probably causes hard dels)
 	var/mob/stored_mob = null
 
