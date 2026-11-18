@@ -136,13 +136,6 @@
 	color_key_names = list("Ears", "Inner", "Fluff")
 	relevant_layers = list(BODY_ADJ_LAYER)
 
-/datum/sprite_accessory/ears/big/fennec_biggest
-	icon_state = "fenbig3"
-	name = "Fennec (Biggest)"
-	color_keys = 3
-	color_key_names = list("Ears", "Inner", "Fluff")
-	relevant_layers = list(BODY_ADJ_LAYER)
-
 /datum/sprite_accessory/ears/fish
 	name = "Fish"
 	icon_state = "fish"
