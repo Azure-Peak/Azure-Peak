@@ -28,7 +28,6 @@ GLOBAL_LIST_INIT(averse_factions, list(
 	var/ui_fa_icon = null // FontAwesome icon to use in the pref menu, null gives a question mark
 	var/ephemeral = FALSE // This flaw is currently disabled and will not process
 	var/needs_extra_vice = FALSE
-	var/relocates_owner = FALSE
 	/// For voyeur vice examines only. Format is "[name] is " + this + "...", leave blank to use the flaw's name.
 	/// Intended for addiction types only.
 	var/voyeur_descriptor
@@ -215,7 +214,7 @@ GLOBAL_LIST_INIT(averse_factions, list(
 	if(!H.wear_mask)
 		H.equip_to_slot_or_del(new glasses_type(H), SLOT_WEAR_MASK)
 	else
-		new glasses_type(get_turf(H))
+		H.put_in_hands(new glasses_type(H))
 
 /datum/charflaw/proc/get_nearby_humans(mob/user, range)
 	. = list()
@@ -931,7 +930,6 @@ GLOBAL_LIST_INIT(averse_factions, list(
 	\nNO HEALS WILL BE GIVEN OUT FOR UNLUCKY SPAWNS. USE AT YOUR OWN PERIL."
 	ui_fa_icon = "map-location-dot"
 	needs_extra_vice = TRUE
-	relocates_owner = TRUE
 	var/turf/origin_turf
 	var/turf/forlorne_turf
 	var/triumph_given = FALSE
@@ -940,20 +938,28 @@ GLOBAL_LIST_INIT(averse_factions, list(
 	. = ..()
 	user.adjust_triumphs(1)
 	triumph_given = TRUE
-	origin_turf = get_turf(user)
+	send_away(user)
+	if(!forlorne_turf)
+		return
+	ADD_TRAIT(user, TRAIT_NO_AMBUSH, "forlorne")
+	addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(___TraitRemove), user, TRAIT_NO_AMBUSH, "forlorne"), 30 SECONDS)
+	to_chat(user, span_userdanger("I am lost..."))
+	to_chat(user, span_warning("No heals will be given out for unlucky spawns."))
+
+/// Called before the outfit is equipped so nothing dropped during equipping is left behind at the original spawn.
+/datum/charflaw/forlorne/proc/send_away(mob/user)
+	if(forlorne_turf)
+		return
 	var/list/spots = list()
 	for(var/obj/effect/landmark/forlorne/L as anything in GLOB.forlorne_landmarks)
 		if(isturf(L.loc))
 			spots += L.loc
 	if(!length(spots))
 		return
+	origin_turf = get_turf(user)
 	forlorne_turf = pick(spots)
 	user.forceMove(forlorne_turf)
 	new /obj/item/flashlight/flare/light/forlorne(forlorne_turf)
-	ADD_TRAIT(user, TRAIT_NO_AMBUSH, "forlorne")
-	addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(___TraitRemove), user, TRAIT_NO_AMBUSH, "forlorne"), 30 SECONDS)
-	to_chat(user, span_userdanger("I am lost..."))
-	to_chat(user, span_warning("No heals will be given out for unlucky spawns."))
 
 /// Becoming certain antagonists cancels this vice: the triumph is refunded and, if they haven't moved yet, they go back to where they would have spawned.
 /datum/charflaw/forlorne/proc/antag_override(mob/living/carbon/human/user)
