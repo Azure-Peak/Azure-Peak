@@ -649,7 +649,7 @@ GLOBAL_LIST_INIT(averse_factions, list(
 
 /datum/charflaw/sleepless
 	name = "Sleepless"
-	desc = "I do not sleep. I cannot sleep. I've tried everything."
+	desc = "I do not sleep. I cannot sleep. Only potent alchemical creations can grant me any rest."
 	ui_fa_icon = "face-tired"
 	var/drugged_up = FALSE
 	var/dream_prob = 1000
@@ -658,7 +658,7 @@ GLOBAL_LIST_INIT(averse_factions, list(
 	ADD_TRAIT(user, TRAIT_NOSLEEP, TRAIT_GENERIC)
 
 /proc/sleepless_drug_up(mob/living/living)
-	var/datum/charflaw/sleepless/sleeper = living.get_flaw()
+	var/datum/charflaw/sleepless/sleeper = living.get_flaw(/datum/charflaw/sleepless)
 	if (!istype(sleeper, /datum/charflaw/sleepless))
 		return
 	sleeper.drugged_up = TRUE

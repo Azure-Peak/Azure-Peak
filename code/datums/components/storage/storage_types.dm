@@ -59,7 +59,7 @@
 
 /datum/component/storage/concrete/roguetown/coin_pouch/New(list/raw_args)
 	. = ..()
-	cant_hold = typecacheof(list(/obj/item/smallDelivery))
+	cant_hold = typecacheof(list(/obj/item/smallDelivery, /obj/item/roguekey/waxkey))
 
 /datum/component/storage/concrete/roguetown/coin_pouch/cloth
 	screen_max_rows = 2
@@ -87,6 +87,7 @@
 /datum/component/storage/concrete/roguetown/keyring/New(datum/P, ...)
 	. = ..()
 	can_hold = typecacheof(list(/obj/item/roguekey))
+	cant_hold = typecacheof(list(/obj/item/roguekey/waxkey))
 
 /datum/component/storage/concrete/roguetown/belt/tossbelt
 	screen_max_rows = 3		//Lets you hold a regular knife + keys basically.

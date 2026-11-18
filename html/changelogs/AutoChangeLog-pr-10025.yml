@@ -1,6 +1,0 @@
-author: "Ketrai"
-delete-after: True
-changes:
-  - rscadd: "Added a mountaineer cloak as a general donor item. Recolorable!"
-  - image: "Updated the ranger cloak grayscale to be less aggressively dark."
-  - image: "Updated the ranger cloak sprites to better cover masculine bodytypes."

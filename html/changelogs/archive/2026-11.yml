@@ -692,3 +692,36 @@
       for ambushes, regenerating rapidly by standing still, etc, etc. Its currently
       only used for seeking people out.
   - refactor: Zombie Seek - Verb -> Spell
+2026-11-17:
+  FreeStylaLT:
+  - rscadd: Falling asleep, waking up and closing / opening eyes has distinct messages
+      now.
+  Ketrai:
+  - rscadd: Added a mountaineer cloak as a general donor item. Recolorable!
+  - image: Updated the ranger cloak grayscale to be less aggressively dark.
+  - image: Updated the ranger cloak sprites to better cover masculine bodytypes.
+  Ollanius:
+  - bugfix: Naman's unique Lance now properly renders its detail icon. Turns out that
+      the Lance got updated to use "_detail" instead of "detail" fairly recently,
+      which caused the glitch in question.
+  - refactor: Cleans up formatting for some reagent-related .dm files.
+  - rscadd: Adjusts the naming scheme (and some descriptions) for drinks and reagents,
+      in order to bring them more in line with the current style.
+  awwlie:
+  - rscadd: added the UNIQUE_RENAME obj_flag to instruments/
+  - bugfix: 'fixed /obj/item/enchantingkit''s deleting polish and item quality: they
+      now force an inherit of polish and item_quality'
+  - bugfix: heretics and clerics now spawn with 'psydonic armet' instead of a bascients
+      when selecting the armet.
+2026-11-18:
+  BobProductive:
+  - bugfix: Climbing gear no longer lets you fly
+  Clem-The-Duck:
+  - bugfix: Duelist Cape pixels
+  Ryan180602:
+  - refactor: boardgame code + UI
+  WeNeedMorePhoron:
+  - rscadd: Ambush should respect minimal distance
+  - rscadd: Ambush no longer occurs in the hamlet, as intended
+  - rscadd: Horn should actually tell you if you cannot spawn ambush immediately in
+      say, the hamlet
