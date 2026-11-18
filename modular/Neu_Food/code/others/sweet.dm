@@ -432,3 +432,17 @@
 	desc = "A decorative piece of sugarglass, meticulously fashioned to mimic a thriving tree. Deliciously natural!"
 	icon_state = "sugarstatuetree"
 	bitesize = 3
+
+/* .............	Murkling Jelly	................ */
+/obj/item/reagent_containers/food/snacks/rogue/murkling_jelly
+	name = "primordial jelly"
+	desc = "A translucent, sweet jelly said to return Murklings to their first hue. Just don't ask how it's made."
+	icon = 'modular/Neu_Food/icons/others/sweet.dmi'
+	icon_state = "oozejelly" //Placeholder coder sprite.
+	dish_type = DISH_SWEET|DISH_MEAT
+	bitesize = 1
+	tastes = list("goop" = 1)
+	list_reagents = list(
+		/datum/reagent/consumable/nutriment = 2,
+		/datum/reagent/consumable/murkling_color_restore = 1,
+	)
