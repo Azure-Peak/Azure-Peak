@@ -247,6 +247,8 @@
 #define QUEST_GUARDIAN_LEASH_GRACE (2 MINUTES)
 #define QUEST_GUARDIAN_LEASH_TICK (10 SECONDS)
 #define QUEST_GUARDIAN_LEASH_WATCH_RANGE 9
+#define QUEST_TRIGGER_BLOCK_RANGE 15
+#define QUEST_TRIGGER_BLOCK_WARN_COOLDOWN (20 SECONDS)
 // Measured as the time deducted from the timer
 #define QUEST_KILL_HUNT_WARN_EARLY (2 MINUTES)
 #define QUEST_KILL_HUNT_WARN_FINAL (30 SECONDS)
@@ -353,6 +355,7 @@
 
 // Incentivizes Mercenary to be hired out by others to complete contracts
 #define MERC_CONTRACT_SHARE_BONUS 0.25
+#define MERC_CONTRACT_SHARE_BONUS_LINE "You will get a +[round(MERC_CONTRACT_SHARE_BONUS * 100)]% bonus from your share of any contracts completed by anyone in the fellowship that isn't yourself."
 
 #define MERC_CONTRACT_MEDAL_DAYS 2
 #define MERC_CONTRACT_MEDAL_TRIUMPHS 3
