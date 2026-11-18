@@ -20,6 +20,7 @@ GLOBAL_LIST_INIT(large_goblin_aggro, list(
 	faction = list(FACTION_DUNDEAD, FACTION_ORCS)
 	dodgetime = 20
 	d_intent = INTENT_PARRY
+	ai_controller = /datum/ai_controller/human_npc/melee/abilities
 
 /mob/living/carbon/human/species/goblin/npc/large/after_creation()
 	..()
@@ -38,6 +39,12 @@ GLOBAL_LIST_INIT(large_goblin_aggro, list(
 	ADD_TRAIT(src, TRAIT_NOPAIN, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_NOPAINSTUN, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_NPC_EXAMINE, TRAIT_GENERIC)
+	ADD_TRAIT(src, TRAIT_RAGE, TRAIT_GENERIC)
+	if(!skin_armor)
+		skin_armor = new /obj/item/clothing/suit/roguetown/armor/skin_armor/goblin_skin(src)
+	if(!(locate(/datum/action/cooldown/spell/rage) in actions))
+		var/datum/action/cooldown/spell/rage/rage = new(src)
+		rage.Grant(src)
 	src.transform = src.transform.Scale(1.25, 1.25)
 	src.pixel_y += round(0.25 * 16)
 
