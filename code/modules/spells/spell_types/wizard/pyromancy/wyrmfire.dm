@@ -186,6 +186,8 @@
 	charge_slowdown = mode["slowdown"]
 	sound = mode["sound"]
 	invocations = list(mode["invocation"])
+	var/obj/projectile/magic/aoe/fireball/rogue/ball = mode["proj"]
+	impact_radius = mode["ground"] ? pillar_radius : initial(ball.arcyne_aoe_radius)
 	build_all_button_icons()
 	update_mode_maptext(mode["tag"])
 
@@ -214,10 +216,11 @@
 	var/turf/epicenter = get_turf(target)
 	if(!epicenter)
 		return FALSE
-	for(var/turf/T in range(pillar_radius, epicenter))
+	var/list/pillar_turfs = get_impact_turfs(epicenter)
+	for(var/turf/T as anything in pillar_turfs)
 		new /obj/effect/temp_visual/telegraph/pillar/fadein(T, pillar_delay)
 	playsound(epicenter, 'sound/magic/charging_fire.ogg', 80, TRUE)
-	addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(pillar_of_flame_erupt), epicenter, owner, pillar_radius, pillar_damage, owner.zone_selected), pillar_delay)
+	addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(pillar_of_flame_erupt), epicenter, owner, pillar_turfs, pillar_damage, owner.zone_selected), pillar_delay)
 	return TRUE
 
 /obj/effect/temp_visual/telegraph/pillar
@@ -235,13 +238,13 @@
 	duration = 1 SECONDS
 	layer = MASSIVE_OBJ_LAYER
 
-/proc/pillar_of_flame_erupt(turf/epicenter, mob/living/carbon/human/caster, radius, damage, aim_zone)
+/proc/pillar_of_flame_erupt(turf/epicenter, mob/living/carbon/human/caster, list/turfs, damage, aim_zone)
 	if(!epicenter)
 		return
 	new /obj/effect/temp_visual/explosion(epicenter)
 	new /obj/effect/temp_visual/fire_pillar(epicenter)
 	playsound(epicenter, pick('sound/misc/explode/incendiary (1).ogg', 'sound/misc/explode/incendiary (2).ogg'), 100, TRUE, 5)
-	for(var/turf/T in range(radius, epicenter))
+	for(var/turf/T as anything in turfs)
 		new /obj/effect/temp_visual/dragonfire(T)
 		new /obj/effect/curtain_fire(T, PILLAR_OF_FLAME_CURTAIN_LIFE, caster, aim_zone)
 		T.fire_act()
@@ -381,7 +384,7 @@
 	if(!istype(caster))
 		return FALSE
 	var/list/warnings = list()
-	for(var/turf/T in blast_turfs(epicenter))
+	for(var/turf/T as anything in get_impact_turfs(epicenter))
 		warnings += new /obj/effect/temp_visual/telegraph/pillar/fadein(T, chant_time)
 	playsound(get_turf(caster), 'sound/magic/charging_fire.ogg', 80, TRUE)
 	INVOKE_ASYNC(src, PROC_REF(perform_chant), caster, epicenter, warnings)
@@ -440,7 +443,7 @@
 		if(dist > max_shake_dist)
 			continue
 		shake_camera(M, 25, CLAMP(6 - (dist * 0.5), 1, 6))
-	var/list/hit = blast_turfs(epicenter)
+	var/list/hit = get_impact_turfs(epicenter)
 	for(var/turf/T in hit)
 		new /obj/effect/temp_visual/dragonfire(T)
 		new /obj/effect/temp_visual/fire(T)
@@ -477,6 +480,10 @@
 		return
 	caster.energy_add(-caster.energy)
 	caster.stamina_add(caster.max_stamina)
+
+/datum/action/cooldown/spell/projectile/pyroclasm/get_impact_turfs(atom/center)
+	var/turf/epicenter = get_turf(center)
+	return epicenter ? blast_turfs(epicenter) : list()
 
 /datum/action/cooldown/spell/projectile/pyroclasm/proc/blast_turfs(turf/epicenter)
 	var/list/affected = list()

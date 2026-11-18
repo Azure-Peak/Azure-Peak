@@ -1,4 +1,4 @@
-// A skill, currently meant to be for towner towner (excluding towner, the more freeform role atm)
+// A skill, currently meant to be for economic roles
 // Allows you to take on an apprentice, giving them one of the skill gating traits
 // And giving them Novice in corresponding skills.
 // Meant to be used once per round per character. Cannot have more than one apprentice per character.
@@ -89,6 +89,7 @@
 	if(!length(choices))
 		to_chat(user, span_warning("Somehow, you do not have any traits that [L.name] can learn."))
 		revert_cast()
+		return
 
 	var/chosen_trait = input(user, "Choose a trait for [L.name] to learn.", "IMPART YOUR KNOWLEDGE") as null|anything in choices
 	if(alert(L, "[user.name] is offering to take you as an apprentice, teaching you the basics of being a [chosen_trait]. Do you accept?", "Apprenticeship", "SERVE AND LEARN", "I REFUSE") == "I REFUSE")

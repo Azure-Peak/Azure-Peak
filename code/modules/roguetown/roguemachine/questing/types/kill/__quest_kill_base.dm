@@ -1,10 +1,13 @@
 /datum/quest/kill
 	abstract_type = /datum/quest/kill
+	veteran_allowed = TRUE
 	var/tp_budget = 0
+	var/max_region_tp_mult
 	var/min_mobs = 1
 	var/threat_bands_cleared = 0
 	var/total_spawned_tp = 0
 	var/kills_count_progress = TRUE
+	var/rolls_faction_variants = TRUE
 	var/objective_verb = "Eliminate"
 	var/failed = FALSE
 	var/armed = FALSE
@@ -15,8 +18,13 @@
 	var/hunt_timer_label = "Quarry slips away in"
 	var/hunt_warn_text = "before your targets scatter"
 	var/hunt_timeout_text = "<b>Your targets have scattered.</b> The scroll crumbles to ash in your hand."
+	var/hunt_overtime_max = QUEST_KILL_HUNT_OVERTIME_MAX
+	var/hunt_overtime_used = 0
+	var/last_guardian_kill = 0
+	var/ringleader_type
 	var/leash_tick_id
 	var/list/leash_strayed_since = list()
+	var/last_trigger_block_warning = 0
 
 /datum/quest/kill/Destroy()
 	clear_hunt_timers()
@@ -42,8 +50,44 @@
 	start_hunt_timer(hunt_duration)
 	announce_to_bearer("<b>The hunt has begun.</b> You have [DisplayTimeText(hunt_duration)] to kill them before they scatter and the contract fails.")
 
+/datum/quest/kill/may_trigger(turf/scroll_turf)
+	if(engaged)
+		return TRUE
+	var/mob/living/carrier = get(quest_scroll_ref?.resolve(), /mob/living)
+	var/mob/living/receiver = quest_receiver_reference?.resolve()
+	for(var/obj/item/quest_writ/other as anything in GLOB.quest_scrolls)
+		var/datum/quest/other_quest = other.assigned_quest
+		if(!other_quest || other_quest == src)
+			continue
+		if(!(carrier && get(other, /mob/living) == carrier) && !(receiver && other_quest.quest_receiver_reference?.resolve() == receiver))
+			continue
+		if(!other_quest.fight_underway_near(scroll_turf))
+			continue
+		warn_trigger_blocked(carrier || receiver, other_quest)
+		return FALSE
+	return TRUE
+
+/datum/quest/kill/fight_underway_near(turf/T)
+	if(!T || !engaged || complete || failed)
+		return FALSE
+	for(var/datum/weakref/W in tracked_atoms)
+		var/mob/living/M = W.resolve()
+		if(!istype(M) || M.stat == DEAD)
+			continue
+		var/turf/MT = get_turf(M)
+		if(MT && MT.z == T.z && get_dist(MT, T) <= QUEST_TRIGGER_BLOCK_RANGE)
+			return TRUE
+	return FALSE
+
+/datum/quest/kill/proc/warn_trigger_blocked(mob/living/target, datum/quest/blocker)
+	if(!target || world.time < last_trigger_block_warning + QUEST_TRIGGER_BLOCK_WARN_COOLDOWN)
+		return
+	last_trigger_block_warning = world.time
+	to_chat(target, span_warning("You have another contract underway nearby. Finish <b>[blocker.get_title()]</b> before <b>[get_title()]</b> can begin."))
+
 /datum/quest/kill/proc/start_hunt_timer(duration)
 	clear_hunt_timers()
+	hunt_overtime_used = 0
 	hunt_timer_id = addtimer(CALLBACK(src, PROC_REF(on_hunt_timeout)), duration, TIMER_STOPPABLE)
 	hunt_warn_2m_id = addtimer(CALLBACK(src, PROC_REF(warn_hunt_time_left), "[DisplayTimeText(QUEST_KILL_HUNT_WARN_EARLY)]"), duration - QUEST_KILL_HUNT_WARN_EARLY, TIMER_STOPPABLE)
 	hunt_warn_30s_id = addtimer(CALLBACK(src, PROC_REF(warn_hunt_time_left), "[DisplayTimeText(QUEST_KILL_HUNT_WARN_FINAL)]"), duration - QUEST_KILL_HUNT_WARN_FINAL, TIMER_STOPPABLE)
@@ -64,11 +108,36 @@
 		return
 	announce_to_bearer("<b>[label] left</b> [hunt_warn_text].")
 
-/datum/quest/kill/proc/on_hunt_timeout()
+/datum/quest/kill/proc/on_hunt_timeout(force = FALSE)
 	if(complete)
 		return
 	hunt_timer_id = null
+	if(!force && try_hunt_overtime())
+		return
 	fail_hunt(hunt_timeout_text)
+
+/datum/quest/kill/proc/try_hunt_overtime()
+	if(failed || hunt_overtime_used >= hunt_overtime_max)
+		return FALSE
+	if(!hunt_still_contested())
+		return FALSE
+	clear_hunt_timers()
+	hunt_overtime_used++
+	hunt_timer_id = addtimer(CALLBACK(src, PROC_REF(on_hunt_timeout)), QUEST_KILL_HUNT_OVERTIME, TIMER_STOPPABLE)
+	hunt_warn_30s_id = addtimer(CALLBACK(src, PROC_REF(warn_hunt_time_left), "[DisplayTimeText(QUEST_KILL_HUNT_WARN_FINAL)]"), QUEST_KILL_HUNT_OVERTIME - QUEST_KILL_HUNT_WARN_FINAL, TIMER_STOPPABLE)
+	announce_to_bearer("<b>You're still fighting.</b> You have [DisplayTimeText(QUEST_KILL_HUNT_OVERTIME)] more [hunt_warn_text].")
+	quest_scroll?.update_quest_text()
+	return TRUE
+
+/datum/quest/kill/proc/hunt_still_contested()
+	var/recent_kill = last_guardian_kill && (world.time - last_guardian_kill <= QUEST_KILL_HUNT_OVERTIME_RECENT_KILL)
+	for(var/datum/weakref/W in tracked_atoms)
+		var/mob/living/M = W.resolve()
+		if(!istype(M) || QDELETED(M) || M.stat == DEAD)
+			continue
+		if(recent_kill || player_watching(get_turf(M), QUEST_KILL_HUNT_OVERTIME_RANGE))
+			return TRUE
+	return FALSE
 
 /datum/quest/kill/proc/fail_hunt(message)
 	if(complete || failed)
@@ -143,14 +212,14 @@
 		leash_strayed_since -= W
 		return_guardian_home(M, landmark)
 
-/datum/quest/kill/proc/player_watching(turf/T)
+/datum/quest/kill/proc/player_watching(turf/T, range = QUEST_GUARDIAN_LEASH_WATCH_RANGE)
 	if(!T)
 		return FALSE
 	for(var/mob/living/L in GLOB.player_list)
 		if(L.stat == DEAD)
 			continue
 		var/turf/LT = get_turf(L)
-		if(LT && LT.z == T.z && get_dist(LT, T) <= QUEST_GUARDIAN_LEASH_WATCH_RANGE)
+		if(LT && LT.z == T.z && get_dist(LT, T) <= range)
 			return TRUE
 	return FALSE
 
@@ -194,11 +263,12 @@
 
 /datum/quest/kill/project_fellowship_objective(mob/living/user)
 	var/extras = count_fellowship_extras(user)
-	if(!extras || !fellowship_threat_rate || !kills_count_progress)
+	var/missing = count_fellowship_missing(user)
+	if(!kills_count_progress || (!veteran && ((!extras && !missing) || !fellowship_threat_rate)))
 		return get_objective_text()
 	var/saved_required = progress_required
-	var/scaled = estimate_mob_count(round(tp_budget * (1 + fellowship_threat_rate * extras)))
-	progress_required = min(max(scaled, estimate_mob_count() + extras), QUEST_KILL_MAX_MOBS)
+	var/scaled = estimate_mob_count(round(tp_budget * group_threat_mult(extras - missing) * veteran_threat_mult()))
+	progress_required = missing ? scaled : min(max(scaled, estimate_mob_count() + extras), QUEST_KILL_MAX_MOBS)
 	. = get_objective_text()
 	progress_required = saved_required
 
@@ -234,7 +304,7 @@
 	quest_scroll?.update_quest_text()
 
 /datum/quest/kill/proc/settle_fellowship_arrival(obj/effect/landmark/quest_spawner/landmark)
-	if(!fellowship_threat_rate && !fellowship_reward_rate)
+	if(!fellowship_threat_rate && !fellowship_reward_rate && !(signed_at_ledger && required_fellowship_size > 1))
 		return
 	var/mob/living/bearer = quest_receiver_reference?.resolve()
 	if(!istype(bearer))
@@ -244,10 +314,19 @@
 	fellowship_roster = list()
 	for(var/mob/living/M as anything in present)
 		fellowship_roster += WEAKREF(M)
+	roster_fellowship_ref = WEAKREF(bearer.current_fellowship)
 	fellowship_extras = max(0, length(present) - max(1, required_fellowship_size))
-	if(fellowship_extras == before)
+	fellowship_missing = signed_at_ledger ? max(0, required_fellowship_size - length(present)) : 0
+	if(fellowship_missing)
+		fellowship_threat_mult = group_threat_mult(-fellowship_missing)
+		fellowship_reward_mult = 1
+		if(!is_directive && (fellowship_threat_rate || fellowship_reward_rate))
+			reward_amount = calculate_reward(reward_origin_turf, reward_target_turf)
+		scale_for_missing_crew(length(present))
 		return
-	fellowship_threat_mult = 1 + fellowship_threat_rate * fellowship_extras
+	if(fellowship_extras == before || (!fellowship_threat_rate && !fellowship_reward_rate))
+		return
+	fellowship_threat_mult = group_threat_mult(fellowship_extras)
 	fellowship_reward_mult = group_reward_mult(fellowship_extras)
 	if(!is_directive)
 		reward_amount = calculate_reward(reward_origin_turf, reward_target_turf)
@@ -256,6 +335,10 @@
 		announce_to_bearer("<b>[diff] of your fellowship member\s [diff == 1 ? "was" : "were"] absent.</b> The contract has been scaled down.")
 	else
 		announce_to_bearer("<b>[diff] more members than expected were in your fellowship.</b> The contract has been scaled up.")
+
+/datum/quest/kill/proc/scale_for_missing_crew(present_count)
+	reward_amount = round(reward_amount * present_count / required_fellowship_size)
+	announce_to_bearer("<b>[fellowship_missing] of the [required_fellowship_size] members this contract needs [fellowship_missing == 1 ? "was" : "were"] absent.</b> The threat and reward has been scaled down.")
 
 /datum/quest/kill/proc/present_fellowship_members(mob/living/bearer, obj/effect/landmark/quest_spawner/landmark)
 	. = list(bearer)
@@ -266,7 +349,7 @@
 		if(M == bearer || M.stat == DEAD)
 			continue
 		var/turf/T = get_turf(M)
-		if(!T || T.z != center.z || get_dist(T, center) > QUEST_ARRIVAL_SCAN_RANGE)
+		if(!T || !is_in_zweb(T.z, center.z) || get_dist(T, center) > QUEST_ARRIVAL_SCAN_RANGE)
 			continue
 		. += M
 
@@ -297,15 +380,41 @@
 		return FALSE
 	faction_id = faction.id
 	// Scale by regional danger, then roll per-quest variance so two same-difficulty quests differ.
-	tp_budget = roll_tp_budget(tp_budget, TR.tp_budget_multiplier)
+	tp_budget = roll_tp_budget(tp_budget, region_scale(TR))
 	target_mob_type = faction.pick_mob_type()
 	if(!target_mob_type)
 		return FALSE
 	progress_required = estimate_mob_count()
-	if(faction.boss_name_file)
-		band_leader_name = faction.generate_boss_name()
+	pick_ringleader()
 	finalize_preview_title()
 	return TRUE
+
+/datum/quest/kill/proc/pick_ringleader()
+	ringleader_type = null
+	band_leader_name = ""
+	if(writ_type != WRIT_TYPE_OUTLAWRY || !faction.boss_name_file)
+		return
+	var/max_tp = tp_budget * QUEST_RINGLEADER_MAX_BUDGET_SHARE
+	var/list/affordable = list()
+	for(var/boss_path in faction.boss_mob_types)
+		if(initial_threat_point(boss_path) <= max_tp)
+			affordable[boss_path] = faction.boss_mob_types[boss_path]
+	if(!length(affordable))
+		return
+	ringleader_type = pickweight(affordable)
+	band_leader_name = faction.generate_boss_name(ringleader_type)
+
+/datum/quest/kill/proc/rename_quest_boss(datum/weakref/boss_ref, boss_name)
+	var/mob/living/boss = boss_ref?.resolve()
+	if(QDELETED(boss) || !boss_name)
+		return
+	boss.real_name = boss_name
+	boss.name = boss_name
+
+/datum/quest/kill/region_scale(datum/threat_region/TR)
+	if(max_region_tp_mult)
+		return min(TR.tp_budget_multiplier, max_region_tp_mult)
+	return TR.tp_budget_multiplier
 
 /datum/quest/kill/proc/roll_tp_budget(base_budget, region_mult = 1.0)
 	if(base_budget <= 0)
@@ -318,38 +427,30 @@
 	var/list/weights = list()
 	for(var/id in TR.faction_weights)
 		var/datum/quest_faction/F = get_quest_faction(id)
-		if(!F || !faction_fits(F))
+		if(!F || !faction_fits(F, TR))
 			continue
 		weights[id] = TR.faction_weights[id]
 	if(!length(weights))
 		return null
-	return get_quest_faction(pickweight(weights))
+	var/datum/quest_faction/picked = get_quest_faction(pickweight(weights))
+	if(!rolls_faction_variants)
+		return picked
+	return picked?.roll_variant()
 
-/datum/quest/kill/proc/faction_fits(datum/quest_faction/F)
+/datum/quest/kill/proc/faction_fits(datum/quest_faction/F, datum/threat_region/TR)
 	return TRUE
 
 /datum/quest/kill/fits_region(datum/threat_region/TR)
 	return ..() && !!pick_region_faction_for(TR)
 
 /datum/quest/kill/proc/average_threat_point()
-	if(!faction || !length(faction.mob_types))
-		return 0
-	var/total_weight = 0
-	var/weighted_tp = 0
-	for(var/mob_path in faction.mob_types)
-		var/weight = faction.mob_types[mob_path]
-		var/tp = initial_threat_point(mob_path)
-		total_weight += weight
-		weighted_tp += weight * tp
-	if(total_weight <= 0 || weighted_tp <= 0)
-		return 0
-	return weighted_tp / total_weight
+	return faction ? faction.average_threat_point() : 0
 
 /datum/quest/kill/proc/scaled_threat_budget(budget = tp_budget)
-	. = round(budget * fellowship_threat_mult)
-	var/avg_tp = average_threat_point()
-	if(avg_tp > 0)
-		. = min(., round(QUEST_KILL_MAX_MOBS * avg_tp))
+	. = round(budget * fellowship_threat_mult * veteran_threat_mult())
+	var/max_tp = faction?.max_threat_point()
+	if(max_tp > 0)
+		. = min(., round(QUEST_KILL_MAX_MOBS * max_tp))
 
 /datum/quest/kill/proc/estimate_mob_count(budget = tp_budget)
 	if(budget <= 0)
@@ -366,14 +467,22 @@
 	return max(tp, QUEST_MOB_MIN_TP)
 
 /datum/quest/kill/proc/spawn_kill_mobs(obj/effect/landmark/quest_spawner/landmark)
-	var/list/to_spawn = compose_warband()
+	var/ringleader_tp = ringleader_type ? initial_threat_point(ringleader_type) : 0
+	var/list/to_spawn = compose_warband(ringleader_tp)
 	var/spawned = 0
 	total_spawned_tp = 0
+	if(ringleader_type)
+		var/mob/living/leader = spawn_hidden_mob(landmark, ringleader_type)
+		ringleader_type = null
+		if(leader)
+			total_spawned_tp += ringleader_tp
+			spawned++
+			addtimer(CALLBACK(src, PROC_REF(rename_quest_boss), WEAKREF(leader), band_leader_name), QUEST_BOSS_RENAME_DELAY)
 	for(var/mob_path in to_spawn)
 		var/mob/living/new_mob = spawn_hidden_mob(landmark, mob_path)
 		if(!new_mob)
 			continue
-		total_spawned_tp += initial(new_mob.threat_point) || 0
+		total_spawned_tp += initial_threat_point(new_mob.type)
 		spawned++
 		sleep(1)
 	if(spawned > 0 && kills_count_progress)
@@ -401,13 +510,33 @@
 	return new_mob
 
 /datum/quest/kill/proc/compose_candidates()
-	return faction.mob_types.Copy()
+	var/list/base = faction.mob_types.Copy()
+	if(!veteran)
+		return base
+	var/avg_tp = average_threat_point()
+	var/list/out = list()
+	for(var/path in base)
+		var/weight = base[path]
+		if(avg_tp > 0)
+			weight *= (max(initial_threat_point(path), 1) / avg_tp) ** QUEST_VETERAN_ELITE_BIAS
+		if(is_ranged_mob_type(path))
+			weight *= QUEST_VETERAN_RANGED_WEIGHT_MULT
+		out[path] = max(1, round(weight))
+	return out
 
-/datum/quest/kill/proc/compose_warband()
+/proc/is_ranged_mob_type(mob_path)
+	if(ispath(mob_path, /mob/living/simple_animal/hostile))
+		var/mob/living/simple_animal/hostile/hostile_path = mob_path
+		return initial(hostile_path.ranged)
+	var/mob/living/living_path = mob_path
+	var/datum/npc_archetype/archetype = initial(living_path.npc_archetype)
+	return ispath(archetype) && ispath(initial(archetype.ai_controller), /datum/ai_controller/human_npc/archer)
+
+/datum/quest/kill/proc/compose_warband(reserved_tp = 0)
 	var/list/result = list()
 	if(!faction || !length(faction.mob_types) || tp_budget <= 0)
 		return result
-	var/budget = scaled_threat_budget()
+	var/budget = scaled_threat_budget() - reserved_tp
 	var/list/candidates = compose_candidates()
 	if(!length(candidates))
 		return result
@@ -429,6 +558,8 @@
 				break
 		result += picked
 		budget -= cost
+	if(budget > 0 && length(result) >= QUEST_KILL_MAX_MOBS)
+		upgrade_warband(result, candidates, budget)
 	// Top up to min_mobs even if budget is spent — ensures e.g. Easy Kill always has ≥2 targets.
 	while(length(result) < min_mobs && length(result) < QUEST_KILL_MAX_MOBS)
 		var/picked = pickweight(candidates)
@@ -441,8 +572,34 @@
 			result += pickweight(candidates)
 	return result
 
+/datum/quest/kill/proc/upgrade_warband(list/result, list/candidates, budget)
+	while(budget > 0)
+		var/cheapest_index = 0
+		var/cheapest_cost = INFINITY
+		for(var/i in 1 to length(result))
+			var/cost = initial_threat_point(result[i])
+			if(cost < cheapest_cost)
+				cheapest_cost = cost
+				cheapest_index = i
+		var/list/upgrades = list()
+		for(var/path in candidates)
+			var/cost = initial_threat_point(path)
+			if(cost > cheapest_cost && cost - cheapest_cost <= budget)
+				upgrades[path] = candidates[path]
+		if(!length(upgrades))
+			return
+		var/picked = pickweight(upgrades)
+		budget -= initial_threat_point(picked) - cheapest_cost
+		result[cheapest_index] = picked
+
 /datum/quest/kill/get_additional_reward(turf/origin_turf, turf/target_turf)
 	if(total_spawned_tp > 0)
-		return total_spawned_tp * QUEST_KILL_THREAT_MULT
+		return kill_tp_reward(total_spawned_tp)
 	// Preview-time estimate: assume we'll spend the full budget.
-	return scaled_threat_budget() * QUEST_KILL_THREAT_MULT
+	return kill_tp_reward(scaled_threat_budget())
+
+/datum/quest/kill/proc/kill_tp_reward(tp)
+	if(!veteran)
+		return tp * QUEST_KILL_THREAT_MULT
+	var/standard_tp = tp / QUEST_VETERAN_THREAT_MULT
+	return standard_tp * QUEST_KILL_THREAT_MULT + (tp - standard_tp) * QUEST_VETERAN_THREAT_REWARD_MULT

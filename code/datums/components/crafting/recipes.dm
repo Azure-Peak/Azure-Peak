@@ -190,78 +190,6 @@
 				<span>[initial(created_stationary.desc)]</span>
 				<div>
 			"}
-	var/obj/item/clothing/suit/roguetown/armor/bookarmor = initial(created_stuff)
-	var/obj/item/rogueweapon/bookweapon = initial(created_stuff)
-
-	if(!(bookarmor?.armor == "")&&!isnull(bookarmor?.armor) )
-		var/obj/item/clothing/C = initial(created_stuff)
-		if(C.body_parts_covered)
-			html += "\n<b>COVERAGE: </b>"
-			html += " | "
-			for(var/zone in body_parts_covered2organ_names(body_parts_covered2organ_names(C.body_parts_covered)))
-				html += "<b>[capitalize(zone)]</b> | "
-			html += "<br>"
-		html += "INTEGRITY: [bookarmor.max_integrity]<br>"
-		if(bookarmor.armor_class == ARMOR_CLASS_HEAVY)
-			html += "<b>AC: </b>HEAVY<br>"
-		if(bookarmor.armor_class == ARMOR_CLASS_MEDIUM)
-			html += "<b>AC: </b>MEDIUM<br>"
-		if(bookarmor.armor_class == ARMOR_CLASS_LIGHT)
-			html += "<b>AC: </b> LIGHT<br>"
-	else if (!isnull(bookweapon) && bookweapon.force>1)
-		html += "Combat Properties<br>"
-		if(bookweapon.minstr)
-			html += "\n<b>MIN.STR:</b> [bookweapon.minstr]<br>"
-
-		if(bookweapon.force)
-			html += "\n<b>FORCE:</b> [bookweapon.force]<br>"
-		if(bookweapon.gripped_intents && !bookweapon.wielded)
-			if(bookweapon.force_wielded)
-				html += "\n<b>WIELDED FORCE:</b> [bookweapon.force_wielded]<br>"
-
-		if(bookweapon.wbalance)
-			html += "\n<b>BALANCE: </b>"
-			if(bookweapon.wbalance == WBALANCE_HEAVY)
-				html += "Heavy<br>"
-			if(bookweapon.wbalance == WBALANCE_SWIFT)
-				html += "Swift<br>"
-
-
-		if(bookweapon.wlength != WLENGTH_NORMAL)
-			html += "\n<b>LENGTH:</b> "
-			switch(bookweapon.wlength)
-				if(WLENGTH_SHORT)
-					html += "Short<br>"
-				if(WLENGTH_LONG)
-					html += "Long<br>"
-				if(WLENGTH_GREAT)
-					html += "Great<br>"
-
-		if(!ispath(bookweapon) && bookweapon.has_altgrip_modes())
-			html += "\n<b>GRIP: ALT-GRIP (RCLICK/HOTKEY(B)/CTRL+SCRLWHL)</b><br>"
-			var/list/alt_grip_lines = bookweapon.get_altgrip_lines(src, user)
-			if(length(alt_grip_lines))
-				for(var/alt_grip_line in alt_grip_lines)
-					html += "[alt_grip_line]<br>"
-		if(bookweapon.gripped_intents)
-			html += "\n<b>TWO-HANDED: Yes</b><br>"
-
-		var/shafttext = get_blade_dulling_text(bookweapon, verbose = TRUE)
-		if(shafttext)
-			html += "\n<b>SHAFT:</b> [shafttext] <br>"
-
-		if(bookweapon.twohands_required)
-			html += "\n<b>BULKY</b><br>"
-		if(bookweapon.can_parry)
-			html += "\n<b>DEFENSE:</b> [bookweapon.wdefense]<br>"
-		if(bookweapon.associated_skill && bookweapon.associated_skill.name)
-			html += "\n<b>SKILL:</b> [bookweapon.associated_skill.name]<br>"
-
-		if(bookweapon.intdamage_factor != 1 && bookweapon.force >= 5)
-			html += "\n<b>INTEGRITY DAMAGE:</b> [bookweapon.intdamage_factor * 100]%<br>"
-
-		if(bookweapon.antibeast_factor != 1 && bookweapon.force >= 5)
-			html += "\n<b>ANTI-BEAST MODIFIER:</b> [bookweapon.antibeast_factor * 100]%<br>"
 
 	if(craftdiff > 0)
 		html += "<br><b>Skills Required:</b> [capitalize(SSskills.level_names_plain[craftdiff])]<br>"
@@ -299,9 +227,9 @@
 				"}
 		for(var/atom/path as anything in tools)
 			if(subtype_reqs)
-				html += "[icon2html(new path, user)] any [initial(path.name)]<br>"
+				html += "[recipe_icon_html(path, user)] any [initial(path.name)]<br>"
 			else
-				html += "[icon2html(new path, user)] [initial(path.name)]<br>"
+				html += "[recipe_icon_html(path, user)] [initial(path.name)]<br>"
 		html += {"
 			</div>
 		<div>
@@ -324,7 +252,7 @@
 
 	if(structurecraft)
 		var/obj/structure = structurecraft
-		html += "<br><strong>Start the process next to a:</strong><br>[icon2html(new structurecraft, user)] [initial(structure.name)]<br>"
+		html += "<br><strong>Start the process next to a:</strong><br>[recipe_icon_html(structurecraft, user)] [initial(structure.name)]<br>"
 	if(req_table)
 		html += "<br><strong>Start the process next to a table.</strong><br>"
 	if(wallcraft)
@@ -343,31 +271,6 @@
 	</html>
 	"}
 	return html
-
-/datum/crafting_recipe/proc/get_altgrip_preview_item()
-	var/result_path
-	if(islist(result))
-		var/list/result_list = result
-		if(result_list.len)
-			result_path = result_list[1]
-	else
-		result_path = result
-	if(!ispath(result_path, /obj/item))
-		return null
-	var/obj/item/preview_item = new result_path()
-	if(!preview_item.has_altgrip_modes())
-		qdel(preview_item)
-		return null
-	return preview_item
-
-/datum/crafting_recipe/Topic(href, href_list)
-	. = ..()
-	if(href_list["showaltgrip"])
-		var/obj/item/preview_item = get_altgrip_preview_item()
-		if(!preview_item)
-			return
-		preview_item.show_altgrip(usr, href_list["showaltgrip"])
-		qdel(preview_item)
 
 /datum/crafting_recipe/proc/show_menu(mob/user)
 	user << browse(generate_html(user),"window=new_recipe;size=500x810")

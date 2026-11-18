@@ -8,17 +8,31 @@ GLOBAL_LIST_EMPTY(quest_factions)
 	var/faction_tag
 	var/list/mob_types = list()
 	var/list/boss_mob_types = list()
-	var/list/boss_title_templates = list()
 	var/boss_name_file
 	var/notorious_bounty_amount = 0
 	var/can_blockade = FALSE
 	var/category = FACTION_CAT_HUMANOID
 	var/list/crime_weights
 	var/progress_noun = "malefactors"
+	var/list/variant_chances
+	var/list/variant_factions
 
 /datum/quest_faction/New()
 	if(!id)
 		CRASH("Quest faction created without id: [type]")
+
+/datum/quest_faction/proc/build_variants()
+	for(var/variant_type in variant_chances)
+		var/datum/quest_faction_variant/variant = new variant_type()
+		LAZYSET(variant_factions, variant_type, variant.make_faction(src))
+
+/datum/quest_faction/proc/roll_variant()
+	var/roll = rand(1, 100)
+	for(var/variant_type in variant_factions)
+		roll -= variant_chances[variant_type]
+		if(roll <= 0)
+			return variant_factions[variant_type]
+	return src
 
 /datum/quest_faction/proc/pick_boss_mob_type()
 	if(!length(boss_mob_types))
@@ -41,8 +55,11 @@ GLOBAL_LIST_EMPTY(quest_factions)
 		return null
 	return pick(names)
 
-/datum/quest_faction/proc/generate_boss_name()
-	var/template = length(boss_title_templates) ? pick(boss_title_templates) : "%N"
+/datum/quest_faction/proc/generate_boss_name(boss_type)
+	var/list/templates = get_boss_class_titles(boss_type)
+	if(!length(templates))
+		templates = get_boss_class_titles(pick_boss_mob_type())
+	var/template = length(templates) ? pick(templates) : "%N"
 	var/name = pick_boss_name()
 	if(!name)
 		return "a notorious [name_singular]"
@@ -57,6 +74,22 @@ GLOBAL_LIST_EMPTY(quest_factions)
 	if(!length(mob_types))
 		return null
 	return pickweight(mob_types)
+
+/datum/quest_faction/proc/average_threat_point()
+	var/total_weight = 0
+	var/weighted_tp = 0
+	for(var/mob_path in mob_types)
+		var/weight = mob_types[mob_path]
+		total_weight += weight
+		weighted_tp += weight * initial_threat_point(mob_path)
+	if(total_weight <= 0 || weighted_tp <= 0)
+		return 0
+	return weighted_tp / total_weight
+
+/datum/quest_faction/proc/max_threat_point()
+	. = 0
+	for(var/mob_path in mob_types)
+		. = max(., initial_threat_point(mob_path))
 
 /datum/quest_faction/proc/pick_crimes(count = 3)
 	if(!length(crime_weights) || count <= 0)
@@ -119,6 +152,7 @@ GLOBAL_LIST_EMPTY(quest_factions)
 		if(GLOB.quest_factions[F.id])
 			CRASH("Duplicate quest_faction id: [F.id]")
 		GLOB.quest_factions[F.id] = F
+		F.build_variants()
 
 /proc/get_quest_faction(id)
 	return GLOB.quest_factions[id]

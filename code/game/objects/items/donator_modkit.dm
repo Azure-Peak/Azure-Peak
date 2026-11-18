@@ -74,6 +74,12 @@
 		R.name += " <font size = 1>([I.name])</font>"
 	else
 		R.name = R.name
+	if(I.polished == 4)
+		R.apply_full_polish()
+	else
+		I.polished = R.polished
+	if(I.has_item_quality)
+		R.item_quality = I.item_quality
 	qdel(I)
 	if(!user.put_in_hands(R))
 		R.forceMove(get_turf(user))
@@ -661,9 +667,16 @@
 	result_item = /obj/item/clothing/cloak/templar/xylixian/faux
 
 /obj/item/enchantingkit/strudel3
-	name = "'Etruscan Design Cloak' morphing elixir"
-	target_items = list(/obj/item/clothing/cloak/poncho)
-	result_item = /obj/item/clothing/cloak/poncho/dittocloak
+	name = "'Experimental Azurian Fellowshippe Staff' morphing elixir"
+	desc = "A small container of special morphing dust, perfect to make a specific item. It can be used to alter the appearance of a mage staff."
+	target_items = list(
+		/obj/item/rogueweapon/woodstaff/implement/greater/		= /obj/item/rogueweapon/woodstaff/implement/greater/fellowshippe,
+		/obj/item/rogueweapon/woodstaff/implement/grand/		= /obj/item/rogueweapon/woodstaff/implement/grand/fellowshippe,
+		/obj/item/rogueweapon/woodstaff/implement/grand/magos	= /obj/item/rogueweapon/woodstaff/implement/grand/magos/fellowshippe,
+		/obj/item/rogueweapon/woodstaff/implement				= /obj/item/rogueweapon/woodstaff/implement/fellowshippe
+	)
+	result_item = null
+	custom_name = TRUE
 
 /obj/item/enchantingkit/strudel4
 	name = "'Form-Fitting Padded Gambeson' morphing elixir"
@@ -1449,15 +1462,6 @@
 		/obj/item/clothing/mask/rogue/facemask/steel/maille/fluted
 	)
 	result_item = /obj/item/clothing/mask/rogue/facemask/steel/maille/birdmask
-
-// RosySaturniidae - Rosestone Clasped Collar
-/obj/item/enchantingkit/rosy/rosecollar
-	name = "'Rosestone Clasped Collar' morphing elixir"
-	desc = "A small container of special morphing dust, perfect to make a specific item. It can be used to alter the appearance of an Amulet of Eora."
-	target_items = list(
-		/obj/item/clothing/neck/roguetown/psicross/eora
-	)
-	result_item = /obj/item/clothing/neck/roguetown/psicross/eora/rosecollar
 
 // Noire and Co.
 /obj/item/enchantingkit/nero_woodlandbrig

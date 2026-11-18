@@ -46,12 +46,12 @@ GLOBAL_LIST_INIT(quest_bounty_goblin_goons, list(
 		goblin_warlord_variant = TRUE
 		target_mob_type = /mob/living/carbon/human/species/goblin/npc/large
 		var/datum/quest_faction/goblin_faction = get_quest_faction(QUEST_FACTION_FOREST_GOBLIN)
-		boss_name = goblin_faction ? goblin_faction.generate_boss_name() : "the Goblin Warchief"
+		boss_name = goblin_faction ? goblin_faction.generate_boss_name(target_mob_type) : "the Goblin Warchief"
 	else
 		target_mob_type = faction.pick_boss_mob_type()
 		if(!target_mob_type)
 			return FALSE
-		boss_name = faction.generate_boss_name()
+		boss_name = faction.generate_boss_name(target_mob_type)
 	progress_required = 1
 	finalize_preview_title()
 	return TRUE
@@ -76,7 +76,7 @@ GLOBAL_LIST_INIT(quest_bounty_goblin_goons, list(
 		return 0
 	var/boss_threat = initial(target_mob_type.threat_point) || 0
 	var/goon_threat = (total_spawned_tp > 0) ? total_spawned_tp : scaled_threat_budget()
-	return (boss_threat * QUEST_BOUNTY_THREAT_MULT) + (goon_threat * QUEST_KILL_THREAT_MULT)
+	return (boss_threat * QUEST_BOUNTY_THREAT_MULT) + kill_tp_reward(goon_threat)
 
 /datum/quest/kill/bounty/estimate_mob_count()
 	return 1
@@ -113,14 +113,14 @@ GLOBAL_LIST_INIT(quest_bounty_goblin_goons, list(
 	for(var/goon_type in to_spawn)
 		var/mob/living/goon = spawn_hidden_mob(landmark, goon_type, is_target = FALSE)
 		if(goon)
-			total_spawned_tp += initial(goon.threat_point) || 0
+			total_spawned_tp += initial_threat_point(goon.type)
 
 /datum/quest/kill/bounty/proc/spawn_goblin_horde(obj/effect/landmark/quest_spawner/landmark)
 	total_spawned_tp = 0
 	for(var/i in 1 to rand(5, 9))
 		var/mob/living/goon = spawn_hidden_mob(landmark, pick(GLOB.quest_bounty_goblin_goons), is_target = FALSE, tag_faction = FALSE)
 		if(goon)
-			total_spawned_tp += initial(goon.threat_point) || 0
+			total_spawned_tp += initial_threat_point(goon.type)
 
-/datum/quest/kill/bounty/faction_fits(datum/quest_faction/F)
+/datum/quest/kill/bounty/faction_fits(datum/quest_faction/F, datum/threat_region/TR)
 	return ..() && length(F.boss_mob_types)

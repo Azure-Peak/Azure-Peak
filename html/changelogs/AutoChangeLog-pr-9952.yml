@@ -1,4 +1,0 @@
-author: "changelingonberry"
-delete-after: True
-changes:
-  - bugfix: "Reapply preferences no longer renames the character or makes them drop their gloves."

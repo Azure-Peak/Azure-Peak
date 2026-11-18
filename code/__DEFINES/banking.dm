@@ -151,3 +151,9 @@
 #define BATHHOUSE_AGENT_DAILY_WITHDRAW_DEFAULT 50
 /// Default daily withdrawal cap for Bathhouse workers drawing from the bathhouse fund.
 #define BATHHOUSE_WORKER_DAILY_WITHDRAW_DEFAULT 50
+/// Default daily withdrawal cap for clergy below the Bishop and Martyr drawing from the church fund.
+#define CHURCH_WORKER_DAILY_WITHDRAW_DEFAULT 50
+
+#define ALLOWANCE_GROUP_WORKER "worker"
+#define ALLOWANCE_GROUP_AGENT "agent"
+#define ALLOWANCE_LIMIT_MAX 10000

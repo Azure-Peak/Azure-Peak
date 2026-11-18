@@ -1,0 +1,4 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - balance: "Two types of mobs no longer have master level skills disproportional to their budget."

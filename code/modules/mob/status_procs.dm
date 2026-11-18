@@ -102,7 +102,12 @@
 	GW = locate(/atom/movable/screen/plane_master/game_world_above) in client.screen
 	if(GW)
 		GW.backdrop(src)
-
+	var/atom/movable/screen/plane_master/game_world/GWW = locate(/atom/movable/screen/plane_master/game_world_walls) in client.screen
+	if(GWW)
+		GWW.backdrop(src)
+	var/atom/movable/screen/plane_master/game_world/GWB = locate(/atom/movable/screen/plane_master/game_world_below) in client.screen
+	if(GWB)
+		GWB.backdrop(src)
 ///Adjust the drugginess of a mob
 /mob/proc/adjust_drugginess(amount)
 	return

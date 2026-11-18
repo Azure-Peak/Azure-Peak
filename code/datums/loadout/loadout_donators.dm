@@ -440,6 +440,9 @@
 	name = "Gift - Regional, Hatanga Coat"
 	path = /obj/item/clothing/suit/roguetown/armor/leather/heavy/coat/steppe/loadout
 
+/datum/loadout_item/donator/universal/mountaineer
+	name = "Gift - Mountaineer Cloak"
+	path = /obj/item/clothing/cloak/mountaineer
 
 /////////////////////////////
 // ! Player / Donor Kits ! //
@@ -489,9 +492,9 @@
 	ckeywhitelist = list("toasterstrudes")
 
 /datum/loadout_item/donator/strudel3
-	name = "Donator Kit - Etruscan Design Cloak"
+	name = "Donator Kit - Experimental Azurian Fellowshippe Staff"
 	path = /obj/item/enchantingkit/strudel3
-	ckeywhitelist = list("toasterstrudes")
+	ckeywhitelist = list("toasterstrudes", "pogoco25")
 
 /datum/loadout_item/donator/strudel4
 	name = "Donator Kit - Form-fitting Padded Gambeson"
@@ -1315,7 +1318,6 @@
 	path = /obj/item/clothing/cloak/tabard/limeastratatabard
 	ckeywhitelist = list("limetease")
 
-
 /datum/loadout_item/donator/limetabard
 	name = "Donator Item - Leathery Tabard"
 	path = /obj/item/clothing/cloak/tabard/limetabard
@@ -1348,18 +1350,18 @@
 /datum/loadout_item/donator/lockwoodcloak
 	name = "Donator Item - Courtly Cloak"
 	path = /obj/item/clothing/cloak/rosa/two
-	ckeywhitelist = list("XLockwoodx")
+	ckeywhitelist = list("xlockwoodx")
 
 /datum/loadout_item/donator/lockwoodjacket
 	name = "Donator Item - Sanguine Jacket"
 	path = /obj/item/clothing/suit/roguetown/armor/leather/heavy/jacket/courtphysician/female/lockwood
-	ckeywhitelist = list("XLockwoodx")
+	ckeywhitelist = list("xlockwoodx")
 
 // Was asked to make this for all donors, dont complain about lack of other gem amulets
 /datum/loadout_item/donator/universal/lockwoodamulet
 	name = "Donator Item - Onyxa Amulet"
 	path = /obj/item/clothing/neck/roguetown/carved/onyxaamulet
-	ckeywhitelist = list("XLockwoodx")
+	ckeywhitelist = list("xlockwoodx")
 
 // Solar Dominion Items
 /datum/loadout_item/donator/universal/dominion_sword
@@ -1385,3 +1387,18 @@
 /datum/loadout_item/donator/universal/dominion_cestus
 	name = "Elixir - Dominion Cestus"
 	path = /obj/item/enchantingkit/dominion_cestus
+
+/datum/loadout_item/donator/rosy/bluelily
+	name = "Donator Item - Tufted Blue-lily"
+	path = /obj/item/clothing/head/roguetown/decoration/bluelily
+	ckeywhitelist = list("rosysaturniidae")
+
+/datum/loadout_item/donator/rosy/rosecollar
+	name = "Donator Item - Clasped Rosestone Collar"
+	path = /obj/item/clothing/neck/roguetown/psicross/eora/rosecollar
+	ckeywhitelist = list("rosysaturniidae")
+
+/datum/loadout_item/donator/sigholtcoronet
+	name = "Donator Item - Adjustable Blacksteel Coronet"
+	path = /obj/item/clothing/head/roguetown/circlet/sigholt_coronet
+	ckeywhitelist = list("sigholtstarsong")

@@ -1,6 +1,8 @@
 GLOBAL_VAR_INIT(ambush_chance_pct, 20) // Please don't raise this over 100 admins :')
 GLOBAL_VAR_INIT(ambush_mobconsider_cooldown, 2 MINUTES) // Cooldown for each individual mob being considered for an ambush
 
+#define AMBUSH_FIGHT_RANGE 9
+
 GLOBAL_LIST_INIT(melee_combat_skills, list( \
 	/datum/skill/combat/swords, \
 	/datum/skill/combat/axes, \
@@ -109,7 +111,7 @@ GLOBAL_LIST_INIT(melee_combat_skills, list( \
 		return FALSE
 	if(!mind)
 		return FALSE
-	if(HAS_TRAIT(src, TRAIT_RUN_FOR_IT))
+	if(HAS_TRAIT(src, TRAIT_RUN_FOR_IT) || HAS_TRAIT(src, TRAIT_NO_AMBUSH))
 		return FALSE
 	return ambushable
 
@@ -141,6 +143,8 @@ GLOBAL_LIST_INIT(melee_combat_skills, list( \
 			return FALSE
 		if(world.time > last_client_interact + 0.3 SECONDS)
 			return FALSE // unmoving afks can't trigger random ambushes i.e. when being pulled/kicked/etc
+		if(ambush_blocked_by_fight())
+			return FALSE
 	if(get_will_block_ambush())
 		return FALSE
 	if(mob_timers["ambush_check"] && !ignore_cooldown)
@@ -297,27 +301,45 @@ GLOBAL_LIST_INIT(melee_combat_skills, list( \
 	if(campfires > 0)
 		return TRUE
 
+/mob/living/proc/ambush_blocked_by_fight()
+	if(locate(/obj/effect/quest_spawn) in range(AMBUSH_FIGHT_RANGE, src))
+		return TRUE
+	for(var/mob/living/L in range(AMBUSH_FIGHT_RANGE, src))
+		if(L == src || L.stat == DEAD)
+			continue
+		if(L.contract_spawned)
+			return TRUE
+		var/mob/living/fighting
+		if(istype(L.ai_controller, /datum/ai_controller))
+			fighting = L.ai_controller.blackboard[BB_BASIC_MOB_CURRENT_TARGET]
+		var/mob/living/simple_animal/hostile/hostile = L
+		if(!fighting && istype(hostile))
+			fighting = hostile.target
+		if(isliving(fighting) && fighting.mind)
+			return TRUE
+	return FALSE
+
 /mob/living/proc/get_possible_ambush_spawn(min_dist = 2, max_dist = 7)
 	var/list/possible_targets = list()
 	for(var/obj/structure/flora/roguetree/RT in orange(max_dist, src))
 		if(istype(RT,/obj/structure/flora/roguetree/stump))
 			continue
-		if(isturf(RT.loc) && !get_dist(RT.loc, src) < min_dist)
+		if(isturf(RT.loc) && get_dist(RT.loc, src) >= min_dist)
 			possible_targets += get_adjacent_ambush_turfs(RT.loc)
 	for(var/obj/structure/flora/roguegrass/bush/RB in orange(max_dist, src))
-		if(isturf(RB.loc) && !get_dist(RB.loc, src) < min_dist)
+		if(isturf(RB.loc) && get_dist(RB.loc, src) >= min_dist)
 			possible_targets += get_adjacent_ambush_turfs(RB.loc)
 	for(var/obj/structure/flora/rogueshroom/RX in orange(max_dist, src))
-		if(isturf(RX.loc) && !get_dist(RX.loc, src) < min_dist)
+		if(isturf(RX.loc) && get_dist(RX.loc, src) >= min_dist)
 			possible_targets += get_adjacent_ambush_turfs(RX.loc)
 	for(var/obj/structure/flora/newtree/RS in orange(max_dist, src))
 		if(!RS.density)
 			continue
-		if(isturf(RS.loc) && !get_dist(RS.loc, src) < min_dist)
+		if(isturf(RS.loc) && get_dist(RS.loc, src) >= min_dist)
 			possible_targets += get_adjacent_ambush_turfs(RS.loc)
 	// Ambush mobs can spawn in aquatic foliage, so they can still occur on the coast which lacks all other objects.
 	for(var/obj/structure/flora/roguegrass/water/WF in orange(max_dist, src))
-		if(isturf(WF.loc) && !get_dist(WF.loc, src) < min_dist)
+		if(isturf(WF.loc) && get_dist(WF.loc, src) >= min_dist)
 			possible_targets += get_adjacent_ambush_turfs(WF.loc)
 	return possible_targets
 
@@ -328,3 +350,5 @@ GLOBAL_LIST_INIT(melee_combat_skills, list( \
 			continue
 		adjacent += AT
 	return adjacent
+
+#undef AMBUSH_FIGHT_RANGE

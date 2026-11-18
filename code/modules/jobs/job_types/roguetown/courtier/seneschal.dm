@@ -41,6 +41,9 @@
 		STATKEY_LCK = 1, // Usual leadership carrot.
 		STATKEY_SPD = 1
 	)
+	subclass_stashed_items = list(
+		"Wax Putty" = /obj/item/waxputty,
+	)
 	subclass_skills = list(
 		/datum/skill/combat/knives = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/reading = SKILL_LEVEL_EXPERT,
@@ -83,6 +86,9 @@
 		STATKEY_LCK = 1, // Usual leadership carrot.
 		STATKEY_SPD = 1
 	)
+	subclass_stashed_items = list(
+		"Wax Putty" = /obj/item/waxputty,
+	)
 	subclass_skills = list(
 		/datum/skill/combat/knives = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/reading = SKILL_LEVEL_EXPERT,
@@ -121,6 +127,9 @@
 		STATKEY_PER = 2,
 		STATKEY_LCK = 1, // Usual leadership carrot.
 		STATKEY_SPD = 1
+	)
+	subclass_stashed_items = list(
+		"Wax Putty" = /obj/item/waxputty,
 	)
 	subclass_skills = list(
 		/datum/skill/combat/knives = SKILL_LEVEL_JOURNEYMAN,

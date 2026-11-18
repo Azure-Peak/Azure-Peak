@@ -94,6 +94,12 @@
 	var/dist = get_dist(pawn, target)
 	var/is_crossbow = istype(bow, /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow)
 
+	var/has_sight = controller.track_target_sight(target)
+	if(!has_sight && controller.target_sight_lapsed(target) && !controller.in_hot_pursuit(target))
+		AI_THINK(pawn, "BOW: lost track of [target]")
+		controller.forget_target(target)
+		return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_FAILED
+
 	if(!bow.chambered)
 		if(is_crossbow)
 			if(!_quiver_has_ammo(pawn))
@@ -106,7 +112,7 @@
 	pawn.face_atom(target)
 
 	var/has_lane = _archer_has_firing_lane(get_turf(pawn), target)
-	var/has_los = can_see(pawn, target, ARCHER_NPC_SHOOT_RANGE)
+	var/has_los = has_sight && dist <= ARCHER_NPC_SHOOT_RANGE
 
 	if(has_lane && bow.chambered && world.time >= controller.blackboard[BB_ARCHER_NPC_NEXT_SHOT] && has_los)
 		var/release_at = controller.blackboard[BB_ARCHER_NPC_AIM_RELEASE]
@@ -132,7 +138,7 @@
 	else
 		pawn.remove_movespeed_modifier(MOVESPEED_ID_CHARGING)
 
-	if(!has_lane)
+	if(!has_lane && has_sight)
 		controller.clear_blackboard_key(BB_ARCHER_NPC_AIM_LOCK_TURF)
 		controller.clear_blackboard_key(BB_ARCHER_NPC_AIM_RELEASE)
 		var/turf/lane = _archer_firing_lane_turf(pawn, target)
@@ -141,7 +147,7 @@
 			return AI_BEHAVIOR_DELAY
 
 	if(dist > ARCHER_NPC_SHOOT_RANGE)
-		set_movement_target(controller, target)
+		set_movement_target(controller, has_sight ? target : controller.last_seen_position(target))
 		return AI_BEHAVIOR_DELAY
 	var/turf/juke_to = controller.blackboard[BB_ARCHER_NPC_REPOSITION_TURF]
 	if(juke_to && world.time < controller.blackboard[BB_ARCHER_NPC_REPOSITION_UNTIL] && get_turf(pawn) != juke_to && !juke_to.is_blocked_turf(exclude_mobs = TRUE))
@@ -151,8 +157,9 @@
 		_archer_end_burst(controller, dist > ARCHER_NPC_KITE_FLOOR)
 
 	if(!has_los && dist > ARCHER_NPC_KITE_RANGE)
-		var/turf/vantage = _archer_los_turf(pawn, target)
-		set_movement_target(controller, vantage || target) // sight blocked - sidestep for an angle, or push in until one opens
+		var/turf/last_seen = controller.last_seen_position(target)
+		var/turf/vantage = _archer_los_turf(pawn, last_seen)
+		set_movement_target(controller, vantage || last_seen) // sight blocked - sidestep for an angle, or push in until one opens
 		return AI_BEHAVIOR_DELAY
 
 	var/plant_until = controller.blackboard[BB_ARCHER_NPC_HOLD_UNTIL]
@@ -164,6 +171,8 @@
 
 	if(dist > ARCHER_NPC_KITE_RANGE)
 		controller.ai_movement.stop_moving_towards(controller) // in the pocket (kite < dist <= shoot) - hold and loose
+		if(!controller.blackboard[BB_ARCHER_NPC_AIM_RELEASE] && COOLDOWN_FINISHED(controller, movement_cooldown) && ai_strafe_step(controller, target, ARCHER_NPC_KITE_RANGE + 1))
+			set_movement_target(controller, get_turf(pawn))
 		return AI_BEHAVIOR_DELAY
 	var/turf/retreat = _archer_retreat_turf(pawn, target)
 	if(retreat)

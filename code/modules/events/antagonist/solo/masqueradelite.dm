@@ -8,7 +8,7 @@
 	roundstart = TRUE
 	antag_flag = ROLE_VAMPIRE
 	shared_occurence_type = SHARED_MINOR_THREAT
-	storyteller_antag_flags = STORYTELLER_ANTAG_ROUNDSTART | STORYTELLER_ANTAG_MEDIUM
+	storyteller_antag_flags = STORYTELLER_ANTAG_LITE
 	storyteller_pill_label = "Masquerade Lite"
 	storyteller_rumour_name = "a vampire masquerade with only towners"
 	storyteller_slot_key = "Masquerade Lite"
@@ -18,7 +18,6 @@
 	denominator = 20
 
 	base_antags = 0
-	maximum_antags = 6
 
 	earliest_start = 0 SECONDS
 

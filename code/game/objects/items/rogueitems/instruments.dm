@@ -27,6 +27,7 @@
 	var/playing = FALSE
 	grid_height = 64
 	grid_width = 32
+	obj_flags = UNIQUE_RENAME
 
 /obj/item/rogue/instrument/equipped(mob/living/user, slot)
 	. = ..()
@@ -117,7 +118,7 @@
 			if(!choice || !user)
 				return
 
-			if(playing || !(src in user.held_items) || user.get_inactive_held_item())
+			if(playing || !(src in user.held_items))
 				return
 
 			if(choice == "Upload New Song")
@@ -128,7 +129,7 @@
 				var/newfile = music_upload(user, src)
 				if(!newfile)
 					return
-				if(playing || !(src in user.held_items) || user.get_inactive_held_item())
+				if(playing || !(src in user.held_items))
 					return
 
 				lastfilechange = world.time
@@ -146,11 +147,6 @@
 
 			curfile = song_list[choice]
 			if(!user || playing || !(src in user.held_items))
-				return
-			if(user.get_inactive_held_item())
-				playing = FALSE
-				soundloop.stop()
-				user.remove_status_effect(/datum/status_effect/buff/playing_music)
 				return
 			if(curfile)
 				playing = TRUE

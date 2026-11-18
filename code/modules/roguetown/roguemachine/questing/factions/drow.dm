@@ -13,14 +13,10 @@
 		/mob/living/simple_animal/hostile/retaliate/rogue/drider = 15,
 		/mob/living/simple_animal/hostile/retaliate/rogue/troll/cave = 10,
 		/mob/living/simple_animal/hostile/retaliate/rogue/minotaur = 5,
+		/mob/living/carbon/human/species/elf/dark/drowraider/caster = 7,
+		/mob/living/carbon/human/species/elf/dark/drowraider/spellblade = 5,
 	)
 	boss_mob_types = list(
 		/mob/living/carbon/human/species/elf/dark/drowraider/scourge = 100,
-	)
-	boss_title_templates = list(
-		"%N the Venomed",
-		"%N of the Shadow",
-		"Matron %N",
-		"%N the Spiderkin",
 	)
 	boss_name_file = "strings/rt/names/elf/elfdm.txt"

@@ -17,11 +17,4 @@
 	boss_mob_types = list(
 		/mob/living/carbon/human/species/orc/npc/warlord = 100,
 	)
-	boss_title_templates = list(
-		"Warlord %N",
-		"%N Skullcleaver",
-		"%N the Mighty",
-		"%N the Pillager",
-		"Chieftain %N",
-	)
 	boss_name_file = "strings/rt/names/other/halforcm.txt"

@@ -281,12 +281,76 @@ have ways of interacting with a specific atom and control it. They posses a blac
 /datum/ai_controller/proc/check_target_max_distance()
 	if(get_dist_3d(pawn, current_movement_target) <= max_target_distance)
 		return
-	var/last_hit = blackboard["bb_last_ranged_hit_time"] || 0
-	var/mob/last_shooter = blackboard["bb_last_ranged_attacker"]
-	var/commanded_travel = (current_movement_target == blackboard[BB_TRAVEL_DESTINATION])
-	if(commanded_travel || (last_shooter == current_movement_target && (world.time - last_hit < 15 SECONDS)))
+	if(current_movement_target == blackboard[BB_TRAVEL_DESTINATION] || in_hot_pursuit(current_movement_target))
 		return
 	CancelActions()
+
+/datum/ai_controller/proc/in_hot_pursuit(atom/target)
+	if(!target || blackboard["bb_last_ranged_attacker"] != target)
+		return FALSE
+	return world.time - (blackboard["bb_last_ranged_hit_time"] || 0) < AI_HOT_PURSUIT_GRACE
+
+/datum/ai_controller/proc/remember_target_at(atom/target)
+	if(blackboard[BB_TARGET_LAST_SEEN] != target)
+		set_blackboard_key(BB_TARGET_LAST_SEEN, target)
+	var/turf/seen_at = get_turf(target)
+	if(blackboard[BB_TARGET_LAST_SEEN_TURF] != seen_at)
+		set_blackboard_key(BB_TARGET_LAST_SEEN_TURF, seen_at)
+	set_blackboard_key(BB_TARGET_LAST_SEEN_TIME, world.time)
+
+/// Something gave away where target is, such as it attacking us or an ally calling it out.
+/datum/ai_controller/proc/reveal_target(atom/target)
+	if(blackboard[BB_TARGET_LAST_SEEN] == target)
+		remember_target_at(target)
+
+/// TRUE while target is in sight. A target we hold no memory of yet is remembered where it stands now.
+/datum/ai_controller/proc/track_target_sight(atom/target)
+	var/in_sight = can_see(pawn, target, max_target_distance)
+	if(in_sight || blackboard[BB_TARGET_LAST_SEEN] != target)
+		remember_target_at(target)
+	return in_sight
+
+/datum/ai_controller/proc/refresh_target_sight(atom/target)
+	if(blackboard[BB_TARGET_LAST_SEEN] == target && can_see(pawn, target, max_target_distance))
+		remember_target_at(target)
+
+/datum/ai_controller/proc/target_sight_lapsed(atom/target)
+	if(blackboard[BB_TARGET_LAST_SEEN] != target)
+		return TRUE
+	return world.time - blackboard[BB_TARGET_LAST_SEEN_TIME] > AI_TARGET_SIGHT_MEMORY
+
+/datum/ai_controller/proc/last_seen_position(atom/target)
+	if(blackboard[BB_TARGET_LAST_SEEN] == target && blackboard[BB_TARGET_LAST_SEEN_TURF])
+		return blackboard[BB_TARGET_LAST_SEEN_TURF]
+	return get_turf(target)
+
+/datum/ai_controller/proc/search_quarry()
+	if(!blackboard[BB_TARGET_SEARCH_TURF])
+		return null
+	return blackboard[BB_TARGET_LAST_SEEN]
+
+/datum/ai_controller/proc/search_for_target(atom/target)
+	var/turf/last_seen = blackboard[BB_TARGET_LAST_SEEN_TURF]
+	if(blackboard[BB_TARGET_SEARCH_TURF] != last_seen)
+		set_blackboard_key(BB_TARGET_SEARCH_TURF, last_seen)
+	if(blackboard[BB_BASIC_MOB_CURRENT_TARGET] != target)
+		return
+	AI_THINK(pawn, "SIGHT: lost sight of [target], searching [last_seen]")
+	clear_blackboard_key(BB_BASIC_MOB_CURRENT_TARGET)
+	clear_blackboard_key(BB_BASIC_MOB_CURRENT_TARGET_HIDING_LOCATION)
+
+/datum/ai_controller/proc/forget_target(atom/target)
+	clear_blackboard_key(BB_TARGET_SEARCH_TURF)
+	if(blackboard[BB_TARGET_LAST_SEEN] == target)
+		clear_blackboard_key(BB_TARGET_LAST_SEEN)
+		clear_blackboard_key(BB_TARGET_LAST_SEEN_TURF)
+	if(blackboard[BB_BASIC_MOB_CURRENT_TARGET] == target)
+		clear_blackboard_key(BB_BASIC_MOB_CURRENT_TARGET)
+		clear_blackboard_key(BB_BASIC_MOB_CURRENT_TARGET_HIDING_LOCATION)
+	if(blackboard[BB_HIGHEST_THREAT_MOB] == target)
+		clear_blackboard_key(BB_HIGHEST_THREAT_MOB)
+	var/datum/component/ai_aggro_system/aggro = pawn.GetComponent(/datum/component/ai_aggro_system)
+	aggro?.forget_threat(target)
 
 /datum/ai_controller/proc/on_movement_target_delete(atom/source)
 	SIGNAL_HANDLER
@@ -596,7 +660,7 @@ have ways of interacting with a specific atom and control it. They posses a blac
 			if(iscarbon(moving_pawn) && isliving(current_movement_target))
 				var/mob/living/carbon/carbon_pawn = moving_pawn
 				var/intent_reach = carbon_pawn.used_intent?.reach || 1
-				if(intent_reach > effective_required_distance)
+				if(intent_reach > effective_required_distance && world.time >= blackboard[BB_MELEE_CLOSE_IN_UNTIL])
 					effective_required_distance = intent_reach
 			if(((can_reach && effective_required_distance >= get_dist(moving_pawn, current_movement_target))) || failed_sneak_check > 4) ///Are we close
 				if(ai_movement.moving_controllers[src] == current_movement_target) //We are close enough, if we're moving stop.

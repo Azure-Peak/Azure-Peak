@@ -1,0 +1,4 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - rscadd: "Added changes to make AI not automatically know your exact location after you break LOS, should make fight in bog a bit more manageable and fair."
