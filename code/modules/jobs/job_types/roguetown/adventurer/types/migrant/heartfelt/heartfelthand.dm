@@ -10,7 +10,7 @@
 	total_positions = 1
 	spawn_positions = 0
 	job_traits = list(TRAIT_NOBLE, TRAIT_HEARTFELT)
-	noble_income = 22
+	estate_tier = ESTATE_TIER_HIGH
 	advclass_cat_rolls = list(CTAG_HFT_HAND)
 
 	job_subclasses = list(

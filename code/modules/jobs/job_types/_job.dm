@@ -101,6 +101,7 @@
 	var/announce_latejoin = TRUE
 	var/give_bank_account = FALSE
 	var/noble_income = FALSE //Passive income every day from noble estate
+	var/estate_tier = ESTATE_TIER_NONE
 
 	var/can_random = TRUE
 
@@ -340,9 +341,8 @@
 		else
 			SStreasury.create_bank_account(H)
 
-		if(noble_income)
-			SStreasury.noble_incomes[H] = noble_income
-			SStreasury.grant_estate_income(H, noble_income, TRUE)
+		if(estate_tier || noble_income)
+			SSeconomy.register_estate(H, estate_tier, noble_income, TRUE, M?.client)
 
 	if(show_in_credits && H.ckey && isnull(SScrediticons.processing[H.ckey]))
 		SScrediticons.processing[H.ckey] = FALSE

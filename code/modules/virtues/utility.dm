@@ -46,9 +46,7 @@
 			recipient.mind?.special_items[choice] = extra_choices[choice]
 	if(HAS_TRAIT(recipient, TRAIT_OUTLAW))
 		return
-	var/already_has_income = !isnull(SStreasury.noble_incomes[recipient])
-	SStreasury.noble_incomes[recipient] = (SStreasury.noble_incomes[recipient] || 0) + 15
-	SStreasury.grant_estate_income(recipient, 15, !already_has_income)
+	SSeconomy.register_estate(recipient, ESTATE_TIER_NORMAL)
 
 #define NOTABLE_RESIDENCY "Residency"
 #define NOTABLE_SHREWD "Shrewd Lyfestyle"

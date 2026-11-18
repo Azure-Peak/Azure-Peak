@@ -85,7 +85,6 @@ SUBSYSTEM_DEF(treasury)
 	/// Account totals at the close of each day: day -> list(account id -> list(debits, credits)).
 	var/list/day_snapshots = list()
 	var/ledger_closed_day = -1
-	var/list/noble_incomes = list()
 	var/list/decrees = list()
 	var/list/stockpile_datums = list()
 	var/list/stockpile_by_trade_good = list()
@@ -434,10 +433,6 @@ SUBSYSTEM_DEF(treasury)
 	send_ooc_note("<b>MEISTER:</b> You received [format_mammon(payout)]m. ([source])", name = recipient.real_name)
 	return TRUE
 
-/datum/controller/subsystem/treasury/proc/distribute_estate_incomes()
-	for(var/mob/living/welfare_dependant in noble_incomes)
-		grant_estate_income(welfare_dependant, noble_incomes[welfare_dependant])
-
 /datum/controller/subsystem/treasury/proc/distribute_daily_payments()
 	if(!discretionary_fund)
 		return
@@ -522,7 +517,8 @@ SUBSYSTEM_DEF(treasury)
 
 /datum/controller/subsystem/treasury/proc/remove_person(mob/living/person)
 	retire_fund(bank_accounts[person])
-	noble_incomes -= person
+	if(SSeconomy)
+		SSeconomy.estates -= person
 	bank_accounts -= person
 	write_off_poll_levy_receivable(poll_levy_owed[person] || 0, "Poll levy arrears written off (departed)")
 	poll_levy_owed -= person

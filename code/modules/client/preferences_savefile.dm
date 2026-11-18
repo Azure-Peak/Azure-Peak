@@ -550,6 +550,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	S["clothes_pref"]		>> clothes_pref
 	S["voice_type"]			>> voice_type
 	S["voice_pack"]			>> voice_pack
+	S["estate_region"]		>> estate_region
 	S["nickname"]			>> nickname
 	S["highlight_color"]	>> highlight_color
 	S["taur_type"]			>> taur_type
@@ -755,6 +756,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	clothes_pref	= sanitize_inlist(clothes_pref, GLOB.clothespref_list, CLOTHES_M)
 	voice_type		= sanitize_inlist(voice_type, GLOB.voice_types_list, VOICE_TYPE_MASC)
 	voice_pack		= sanitize_inlist(voice_pack, GLOB.voice_packs_list, VOICE_PACK_DEFAULT)
+	estate_region	= sanitize_inlist(estate_region, GLOB.economic_regions, TRADE_REGION_KINGSFIELD)
 	race_bonus		= sanitize_inlist_no_pick(race_bonus, pref_species.custom_selection, initial(race_bonus))
 	examine_theme	= sanitize_inlist_no_pick(examine_theme, GLOB.tgui_themes, initial(examine_theme))
 	taur_type		= sanitize_inlist_no_pick(taur_type, pref_species.get_taur_list(), null)
@@ -958,6 +960,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	WRITE_FILE(S["examine_theme"] , examine_theme)
 	WRITE_FILE(S["voice_type"] , voice_type)
 	WRITE_FILE(S["voice_pack"] , voice_pack)
+	WRITE_FILE(S["estate_region"] , estate_region)
 	WRITE_FILE(S["pronouns"] , pronouns)
 	WRITE_FILE(S["titles_pref"] , titles_pref)
 	WRITE_FILE(S["clothes_pref"] , clothes_pref)

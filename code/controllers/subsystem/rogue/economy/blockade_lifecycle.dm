@@ -100,6 +100,7 @@
 		ER.day_last_cleared = ECONOMY_DAY
 	SStreasury.dirty_market_view()
 	GLOB.active_blockades -= B
+	release_estate_backlogs()
 	if(reason == "cleared")
 		record_round_statistic(STATS_BLOCKADES_CLEARED, 1)
 		announce_blockade_cleared(B)

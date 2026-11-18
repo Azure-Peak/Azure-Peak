@@ -116,6 +116,18 @@
 						to_chat(user, "In a place as lethal as PSYDONIA, the elderly are all but marvels... or beneficiaries of the habitually privileged. (-1 STR, -2 SPE, -1 PER, -2 CON, +2 INT, +1 FOR)")
 			return CHARACTER_ACT_DATA_UPDATE
 
+		if("estate_region")
+			var/list/choices = list()
+			for(var/region_id in GLOB.economic_regions)
+				var/datum/economic_region/region = GLOB.economic_regions[region_id]
+				choices[region.name] = region_id
+			var/datum/economic_region/current = GLOB.economic_regions[estate_region]
+			var/chosen = tgui_input_list(user, "Choose the region of your estate. Only nobles hold one.", "ESTATE", choices, current?.name)
+			if(chosen && choices[chosen])
+				verbose_pref_log_change(user, "notice", "Estate", current?.name, chosen)
+				estate_region = choices[chosen]
+			return CHARACTER_ACT_DATA_UPDATE
+
 		if("domhand")
 			if(domhand == 1)
 				domhand = 2

@@ -5,7 +5,7 @@
 	forbidden_races = list(RACES_CONSTRUCT RACES_DESPISED)
 	outfit = /datum/outfit/job/roguetown/adventurer/noble
 	traits_applied = list(TRAIT_NOBLE, TRAIT_NUTCRACKER)
-	noble_income = 15
+	estate_tier = ESTATE_TIER_NORMAL
 	class_select_category = CLASS_CAT_NOBLE
 	category_tags = list(CTAG_ADVENTURER, CTAG_COURTAGENT, CTAG_LICKER_WRETCH)
 
@@ -405,7 +405,7 @@
 	tutorial = "You are a knight from a distant land, a scion of a noble house visiting Azuria for one reason or another."
 	outfit = /datum/outfit/job/roguetown/adventurer/knighte
 	traits_applied = list(TRAIT_NOBLE, TRAIT_HEAVYARMOR, TRAIT_STEELHEARTED)
-	noble_income = 15
+	estate_tier = ESTATE_TIER_NORMAL
 	subclass_stats = list(
 		STATKEY_STR = 2,
 		STATKEY_CON = 1,

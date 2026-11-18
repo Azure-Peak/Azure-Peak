@@ -256,6 +256,7 @@ export type IdentityData = {
 
   virtue_origin: string;
   free_language: string;
+  estate_region_name: string;
 
   selected_faith: string;
   selected_patron: string;

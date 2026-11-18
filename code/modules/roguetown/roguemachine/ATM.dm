@@ -53,8 +53,8 @@
 		SStreasury.create_bank_account(H, defer_levies = FALSE)
 		if(H.mind)
 			var/datum/job/target_job = SSjob.GetJob(H.mind.assigned_role)
-			if(target_job && target_job.noble_income)
-				SStreasury.noble_incomes[H] = target_job.noble_income
+			if(target_job && (target_job.estate_tier || target_job.noble_income))
+				SSeconomy.register_estate(H, target_job.estate_tier, target_job.noble_income, FALSE)
 		var/levy_summary = SStreasury.apply_past_poll_levies(H, announce = FALSE)
 		spawn(5)
 			say(levy_summary ? "New account created. [levy_summary]" : "New account created.")

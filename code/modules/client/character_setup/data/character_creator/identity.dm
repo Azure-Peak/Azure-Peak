@@ -1,4 +1,5 @@
 /datum/preferences/proc/ui_data_character_creator_identity(mob/user)
+	var/datum/economic_region/estate = GLOB.economic_regions[estate_region]
 	var/list/data = list(
 		"species_base_name" = pref_species.base_name,
 		"species_sub_name" = pref_species.sub_name,
@@ -29,6 +30,7 @@
 
 		"virtue_origin" = "[virtue_origin]",
 		"free_language" = "None",
+		"estate_region_name" = estate?.name || "Kingsfield",
 
 		"voice_type" = voice_type,
 		"voice_color" = voice_color,

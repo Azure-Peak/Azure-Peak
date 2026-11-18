@@ -239,6 +239,7 @@ export const SubtabIdentityCardGameplay = () => {
     age,
     combat_music,
     domhand,
+    estate_region_name,
     free_language,
     loadout_cost,
     loadout_tri_cost,
@@ -301,6 +302,11 @@ export const SubtabIdentityCardGameplay = () => {
             <LabeledGridList.Item label="Free Language">
               <Button fluid onClick={() => act('extra_language')}>
                 {free_language}
+              </Button>
+            </LabeledGridList.Item>
+            <LabeledGridList.Item label="Estate">
+              <Button fluid icon="bars" onClick={() => act('estate_region')}>
+                {estate_region_name}
               </Button>
             </LabeledGridList.Item>
             <SubtabIdentityCardGameplayCardCulinary />

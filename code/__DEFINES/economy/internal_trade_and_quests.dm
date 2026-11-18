@@ -83,6 +83,21 @@
 #define TRIBUTE_POP_SCALE_START 60
 #define TRIBUTE_POP_SCALE_FULL 120
 #define TRIBUTE_POP_MAX_MULT 2
+
+// Number tweaking or tuning for noble essay, for the value and the interval of their gifts
+#define ESTATE_TIER_NONE 0
+#define ESTATE_TIER_NORMAL 1
+#define ESTATE_TIER_HIGH 2
+#define ESTATE_TIER_LORD 3
+#define ESTATE_COIN_NORMAL 15
+#define ESTATE_COIN_HIGH 30
+#define ESTATE_COIN_LORD 50
+#define ESTATE_PARCELS_NORMAL 1
+#define ESTATE_PARCELS_HIGH 2
+#define ESTATE_PARCELS_LORD 3
+#define ESTATE_PARCEL_VALUE 15
+#define ESTATE_GIFT_INTERVAL 3
+
 #define REQUEST_KIND_GOODS "goods"
 
 #define REQUEST_WEIGHT_GOODS 6

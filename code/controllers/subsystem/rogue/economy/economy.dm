@@ -15,6 +15,7 @@ SUBSYSTEM_DEF(economy)
 	var/list/caravan_trips = list()
 	var/list/escorted_subroutes = list()
 	var/list/commission_orders = list()
+	var/list/estates = list()
 
 
 /datum/controller/subsystem/economy/proc/get_effective_player_count()
