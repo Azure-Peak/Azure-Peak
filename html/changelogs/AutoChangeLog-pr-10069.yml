@@ -1,0 +1,4 @@
+author: "Quinalion"
+delete-after: True
+changes:
+  - bugfix: "Thrown nets now respect successful shield blocks and Limbguard interceptions."
