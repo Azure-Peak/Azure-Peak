@@ -713,3 +713,15 @@
       now force an inherit of polish and item_quality'
   - bugfix: heretics and clerics now spawn with 'psydonic armet' instead of a bascients
       when selecting the armet.
+2026-11-18:
+  BobProductive:
+  - bugfix: Climbing gear no longer lets you fly
+  Clem-The-Duck:
+  - bugfix: Duelist Cape pixels
+  Ryan180602:
+  - refactor: boardgame code + UI
+  WeNeedMorePhoron:
+  - rscadd: Ambush should respect minimal distance
+  - rscadd: Ambush no longer occurs in the hamlet, as intended
+  - rscadd: Horn should actually tell you if you cannot spawn ambush immediately in
+      say, the hamlet
