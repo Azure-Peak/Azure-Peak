@@ -33,6 +33,9 @@
 	reset_perspective()
 	original.clear_orphaned_actions()															// if remove_spells = FALSE this will be needed to prevent a familiar getting all the CM's spells for example
 	remove_verb(src, /mob/living/carbon/human/proc/release_vessel)								// well, you're already released. what do you want?
+	// unlike possession we log AFTER the swap here so the names and ckeys are correct
+	message_admins("[ADMIN_LOOKUPFLW(original)] has released possession of [ADMIN_LOOKUPFLW(src)].")
+	log_game("[key_name(original)] has released possession of [key_name(src)].")
 	return TRUE
 
 ///src is the possessing mob, vessel is the mob to be possessed. role-agnostic and can be called on non-hags safely, have fun. set remove_spells to FALSE if you want the possessor to have access to the possessee's spells. set vessel_skills to TRUE if you want the vessel's skills to be used instead of the possessor's
@@ -53,6 +56,10 @@
 			else if(istype(X, /obj/effect/proc_holder/spell))
 				var/obj/effect/proc_holder/spell/S = X
 				S.action?.Remove(vessel)
+
+	// log 2 admins here before we do the actual possession so the names and keys are correct
+	message_admins("[ADMIN_LOOKUPFLW(src)] has possessed [ADMIN_LOOKUPFLW(vessel)].")
+	log_game("[key_name(src)] has possessed [key_name(vessel)].")
 
 	// ok so here's how this works. first, we ghostize the vessel and force them to orbit their old body.
 	// we store a copy of the things that change (voice color and descriptor) using the namesteal datum, then transfer over the hag's.
