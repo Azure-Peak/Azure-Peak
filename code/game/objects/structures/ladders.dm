@@ -223,7 +223,7 @@
 
 /obj/structure/rope_ladder
 	name = "rope"
-	desc = "A length of rope that has been lowered against a surface to allow climbing."
+	desc = "A length of rope that has been lowered to allow climbing."
 	icon = 'icons/roguetown/misc/structure.dmi'
 	icon_state = "pillar"
 	anchored = TRUE
@@ -231,9 +231,37 @@
 	max_integrity = 50
 	blade_dulling = DULLING_BASHCHOP
 
+/obj/structure/rope_ladder/attack_hand(mob/user) //no idea why this wasnt a feature before, but ok
+	. = ..()
+	if(!isliving(user) || user.get_active_held_item()) //we dont want dead people climbing ropes.
+		return
+	var/mob/living/living_user = user
+	if(!in_range(src, living_user) || living_user.buckled) //no climbing buckled
+		return
+	var/turf/above_turf = GET_TURF_ABOVE(get_turf(src)) //get the turf above the rope
+	var/turf/landing_turf //the turf on which we actually end up climbing on.
+	for(var/turf/adjacent_turf in get_adjacent_turfs(above_turf)) //get adjacent turfs
+		if(!istype(adjacent_turf, /turf/open/floor) || adjacent_turf.is_blocked_turf(source_atom = living_user))
+			continue //if its blocked or if it isnt a floor on which we can stand do nothing
+		landing_turf = adjacent_turf //otherwise set adjacent turf as landing turf.
+		break //if we have multiple adjacent climbable turfs, it picks the first one, this might cause some funky climbing, I dont see this happening often, and if it does happen other than looking weird, i dont see a situation where it causes an issue.
+	if(!landing_turf) //no climbable turf, no climbing.
+		to_chat(living_user, span_warning("I am unable to climb up."))
+		return
+	playsound(src, 'sound/foley/noose_idle.ogg', 100, FALSE) //noise used for hanging mobs, but its the one used for rope assisted climbing of walls.
+	to_chat(living_user, span_warning("I begin climbing up [src]..."))
+	if(!do_after(living_user, 90, TRUE, src)) //9 seconds, a while, but not too long, finding a wall is still better.
+		return
+	if(!in_range(src, living_user) || living_user.buckled)
+		return
+	living_user.visible_message(span_notice("[living_user] climbs up [src]."), span_notice("I climb up [src]."))
+	movable_travel_z_level(living_user, landing_turf)
+
 /obj/structure/rope_ladder/get_mechanics_examine(mob/user)
 	. = ..()
 	. += "The rope can be retrieved by dragging it onto yourself."
+	. += "The rope makes walls easier to climb."
+	. += "Even if there are no walls around, you are still able to climb up the rope, albeit it takes longer."
 
 /obj/structure/rope_ladder/MouseDrop(atom/over)
 	if(usr != over)

@@ -370,6 +370,28 @@
 	min_range = MIN_SPLINTER_RANGE
 	max_range = MAX_SPLINTER_RANGE
 
+/obj/item/ammo_casing/caseless/rogue/arrow/rope
+	name = "rope arrow"
+	desc = "An arrow attached to a length of rope, made to leave a climbing line when fired upward."
+	projectile_type = /obj/projectile/bullet/reusable/arrow/rope
+
+/obj/projectile/bullet/arrow/rope
+	name = "rope arrow"
+	ammo_type = /obj/item/ammo_casing/caseless/rogue/arrow/rope
+
+/obj/projectile/bullet/arrow/rope/on_hit(atom/target)
+	..()
+	if(!isturf(target) || !starting) //starting is the starting turf of a projectile
+		return
+	var/turf/hit_turf = target //the turf we actually hit
+	var/turf/source_projection = locate(starting.x, starting.y, hit_turf.z) //we want to get the z level of where the arrow struck in the very likely case we fired it up
+	var/turf/open_space = get_step_towards(hit_turf, source_projection)//this moves the tile we struck a tile towards from where we fired the arrow
+	if(!istype(open_space, /turf/open/transparent/openspace))
+		return
+	var/turf/below_turf = GET_TURF_BELOW(open_space)
+	if(!below_turf || locate(/obj/structure/rope_ladder) in below_turf)
+		return
+	new /obj/structure/rope_ladder(below_turf)
 
 /obj/item/ammo_casing/caseless/rogue/arrow/water
 	name = "water arrow"
