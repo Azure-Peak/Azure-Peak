@@ -1773,7 +1773,8 @@
 	detail_color = CLOTHING_WHITE
 
 /obj/item/rogueweapon/woodstaff/implement/fellowshippe
-	name = "Experimental Azurian Fellowshippe Staff"
+	name = "\improper Experimental Azurian Fellowshippe Staff"
+	base_implement_name = "\improper Experimental Azurian Fellowshippe Staff"
 	desc = "A sleek, purpose driven staff with a blacksteel shaft running the entirety of it's lenght. \
 	Using a special crystalization technique and a gating system, a thin feeder duct exists in \
 	the middle of the shaft allowing a alchemically synthetsized dorpel to run the full lenght,  \
@@ -1783,7 +1784,8 @@
 	icon = 'icons/obj/items/donor_weapons_64.dmi'
 
 /obj/item/rogueweapon/woodstaff/implement/greater/fellowshippe
-	name = "Experimental Azurian Fellowshippe Staff"
+	name = "\improper Experimental Azurian Fellowshippe Staff"
+	base_implement_name = "\improper Experimental Azurian Fellowshippe Staff"
 	desc = "A sleek, purpose driven staff with a blacksteel shaft running the entirety of it's lenght. \
 	Using a special crystalization technique and a gating system, a thin feeder duct exists in \
 	the middle of the shaft allowing a alchemically synthetsized dorpel to run the full lenght,  \
@@ -1793,7 +1795,8 @@
 	icon = 'icons/obj/items/donor_weapons_64.dmi'
 
 /obj/item/rogueweapon/woodstaff/implement/grand/fellowshippe
-	name = "Experimental Azurian Fellowshippe Staff"
+	name = "\improper Experimental Azurian Fellowshippe Staff"
+	base_implement_name = "\improper Experimental Azurian Fellowshippe Staff"
 	desc = "A sleek, purpose driven staff with a blacksteel shaft running the entirety of it's lenght. \
 	Using a special crystalization technique and a gating system, a thin feeder duct exists in \
 	the middle of the shaft allowing a alchemically synthetsized dorpel to run the full lenght,  \
@@ -1803,7 +1806,8 @@
 	icon = 'icons/obj/items/donor_weapons_64.dmi'
 
 /obj/item/rogueweapon/woodstaff/implement/grand/magos/fellowshippe
-	name = "Experimental Azurian Fellowshippe Staff"
+	name = "\improper Experimental Azurian Fellowshippe Staff"
+	base_implement_name = "\improper Experimental Azurian Fellowshippe Staff"
 	desc = "A sleek, purpose driven staff with a blacksteel shaft running the entirety of it's lenght. \
 	Using a special crystalization technique and a gating system, a thin feeder duct exists in \
 	the middle of the shaft allowing a alchemically synthetsized dorpel to run the full lenght,  \
