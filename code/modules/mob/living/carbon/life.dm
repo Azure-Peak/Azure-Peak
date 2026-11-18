@@ -561,9 +561,7 @@ GLOBAL_LIST_INIT(ballmer_windows_me_msg, list("Yo man, what if, we like, uh, put
 	if (!client) // not really relevant to NPCs at the moment
 		return
 
-	var/datum/charflaw/sleepless/sleepless_flaw = get_flaw()
-	if(!istype(sleepless_flaw, /datum/charflaw/sleepless))
-		sleepless_flaw = null
+	var/datum/charflaw/sleepless/sleepless_flaw = get_flaw(/datum/charflaw/sleepless)
 	if(HAS_TRAIT(src, TRAIT_NOSLEEP))
 		if(!(mobility_flags & MOBILITY_STAND))
 			energy_add(5)
