@@ -219,6 +219,8 @@
 		ADD_TRAIT(H, TRAIT_WATERBREATHING, TRAIT_GENERIC)
 		H.grant_language(/datum/language/abyssal)
 	if(H.patron?.type == /datum/patron/divine/necra) // Death and Moving on - grave diggers.
+		H.mind.AddSpell(new /datum/action/cooldown/spell/projectile/divine_blast)
+		H.mind.RemoveSpell(new /datum/action/cooldown/spell/projectile/divine_bolt)
 		ADD_TRAIT(H, TRAIT_NOSTINK, TRAIT_GENERIC)
 		ADD_TRAIT(H, TRAIT_SOUL_EXAMINE, TRAIT_GENERIC)
 		H.adjust_skillrank(/datum/skill/misc/athletics, SKILL_LEVEL_APPRENTICE, TRUE) // digging graves and carrying bodies builds muscles probably.
