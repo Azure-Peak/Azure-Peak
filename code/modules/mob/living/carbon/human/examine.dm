@@ -1194,9 +1194,9 @@
 		return
 	if(HAS_TRAIT(src, TRAIT_FREEMAN) && HAS_TRAIT(examiner, TRAIT_FREEMAN))
 		heretic_text += "⚖️"
-	if(HAS_TRAIT(src, TRAIT_FEYTOUCHED) && (HAS_TRAIT(examiner, TRAIT_ANCIENT_HAG) || HAS_TRAIT(examiner, TRAIT_FEYTOUCHED)))
+	if(HAS_TRAIT(src, TRAIT_FEYTOUCHED) && (HAS_TRAIT(examiner, TRAIT_ANCIENT_HAG) || HAS_TRAIT(examiner, TRAIT_FEYTOUCHED) || HAS_TRAIT(examiner, TRAIT_FEYBOUND)))
 		heretic_text += "🌿"
-	if(HAS_TRAIT(src, TRAIT_ANCIENT_HAG) && (HAS_TRAIT(examiner, TRAIT_ANCIENT_HAG) || HAS_TRAIT(examiner, TRAIT_FEYTOUCHED)))
+	if(HAS_TRAIT(src, TRAIT_ANCIENT_HAG) && (HAS_TRAIT(examiner, TRAIT_ANCIENT_HAG) || HAS_TRAIT(examiner, TRAIT_FEYTOUCHED) || HAS_TRAIT(examiner, TRAIT_FEYBOUND)))
 		heretic_text += "🌳"
 
 	return heretic_text
