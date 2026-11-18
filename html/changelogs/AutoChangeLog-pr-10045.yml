@@ -1,0 +1,5 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - rscadd: "Added ability to preview sprites of loadout items. Does not respect color."
+  - rscadd: "Improved the performance of the text / markdown preview on the loadout menu"
