@@ -1,0 +1,5 @@
+author: "Quinalion"
+delete-after: True
+changes:
+  - qol: "The Adjudicator class no longer forces a voicepack."
+  - sound: "T87-Sulfurhead - God is Dead as the Psyaltrist's combat music."
