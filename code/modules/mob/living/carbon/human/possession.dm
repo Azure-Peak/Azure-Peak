@@ -1,8 +1,11 @@
-///src is the vessel, currently-possessed, that we want to restore. given as a verb as a fallback for if spells or other options don't make sense
-/mob/living/carbon/human/proc/release_vessel(dying = FALSE)
+/// hi did you know verbs can't have parameters even if said parameter has a default value. i hate dm
+/mob/living/carbon/human/proc/release_vessel_verb()
 	set name = "Release Vessel"
 	set category = "RoleUnique.Displaced Soul"
+	release_vessel(FALSE)
 
+///src is the vessel, currently-possessed, that we want to restore. given as a verb as a fallback for if spells or other options don't make sense
+/mob/living/carbon/human/proc/release_vessel(dying = FALSE)
 	if(!HAS_TRAIT(src, TRAIT_POSSESSED))
 		return // just to be safe against spamclicks and thelike
 	var/mob/dead/observer/eye/screye/displaced_soul/estranged_lux
@@ -32,7 +35,7 @@
 	original.reset_perspective()																// needed for revs and such
 	reset_perspective()
 	original.clear_orphaned_actions()															// if remove_spells = FALSE this will be needed to prevent a familiar getting all the CM's spells for example
-	remove_verb(src, /mob/living/carbon/human/proc/release_vessel)								// well, you're already released. what do you want?
+	remove_verb(src, /mob/living/carbon/human/proc/release_vessel_verb)							// well, you're already released. what do you want?
 	// unlike possession we log AFTER the swap here so the names and ckeys are correct
 	message_admins("[ADMIN_LOOKUPFLW(original)] has released possession of [ADMIN_LOOKUPFLW(src)].")
 	log_game("[key_name(original)] has released possession of [key_name(src)].")
@@ -98,7 +101,7 @@
 	vessel.reset_perspective() // needed for revs and such
 	ADD_TRAIT(vessel, TRAIT_POSSESSED, trait_source)
 	SEND_SIGNAL(vessel, COMSIG_MOB_POSSESS, dsoul, src)
-	add_verb(vessel, /mob/living/carbon/human/proc/release_vessel) // failsafe: if a possession method doesn't add a revert method, they'll have a verb for it
+	add_verb(vessel, /mob/living/carbon/human/proc/release_vessel_verb) // failsafe: if a possession method doesn't add a revert method, they'll have a verb for it
 	add_verb(dsoul, /mob/dead/observer/eye/screye/displaced_soul/proc/resist_possession) // failsafe: if a possessor is badfaithing/afk, or in certain ic circumstances, you can resist. what that does depends on the possession source
 	return dsoul
 
