@@ -56,7 +56,7 @@
 	desc = "\"SOD THE HAND, AIM FOR THE NECK!\""
 	body_parts_covered = FULL_BODY_NO_CHEST
 	body_parts_inherent = FULL_BODY_NO_CHEST
-	max_integrity = 375
+	max_integrity = 400
 
 /obj/item/clothing/suit/roguetown/armor/vampiric/gnoll/knight
 	name = "knight's hearthide"
@@ -88,7 +88,7 @@
 /obj/item/clothing/suit/roguetown/armor/vampiric/gnoll/limb/templar
 	name = "templar's hide extremities"
 	desc = "Drop the brand. Take off the maille. Forsake the banner."
-	max_integrity = 500
+	max_integrity = 525
 
 /obj/item/clothing/suit/roguetown/armor/vampiric/gnoll/shaman
 	name = "shaman's hearthide"
@@ -100,5 +100,5 @@
 /obj/item/clothing/suit/roguetown/armor/vampiric/gnoll/limb/shaman
 	name = "shaman's hide extremities"
 	desc = "Where He walks, you walk. There is no other way."
-	max_integrity = 300
+	max_integrity = 350
 	armor = ARMOR_GNOLL_WEAK
