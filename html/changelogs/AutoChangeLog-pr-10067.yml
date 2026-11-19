@@ -1,0 +1,4 @@
+author: "Quinalion"
+delete-after: True
+changes:
+  - sound: "Combat and ambient music now use streaming playback to reduce freezes."
