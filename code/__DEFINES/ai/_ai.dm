@@ -208,7 +208,7 @@
 // actual mechanical limiter
 #define ARCHER_NPC_NOCK_TIME			(1.5 SECONDS)
 #define ARCHER_NPC_MIN_AIM_TIME			(0.4 SECONDS)
-#define ARCHER_NPC_ROF_PENALTY			1.3
+#define ARCHER_NPC_ROF_PENALTY			1
 #define ARCHER_NPC_RETREAT_PROJECT		4
 #define ARCHER_NPC_JUKE_MIN_DIST		4
 #define ARCHER_NPC_REPOSITION_TIME		(0.6 SECONDS) // how long a post-shot random juke commits before the straight retreat resumes
