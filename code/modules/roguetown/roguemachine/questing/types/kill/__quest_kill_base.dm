@@ -498,6 +498,7 @@
 	if(tag_faction && faction?.faction_tag)
 		new_mob.faction |= faction.faction_tag
 	new_mob.mark_contract_spawned(dust_corpse)
+	ADD_TRAIT(new_mob, TRAIT_CONTRACT_HOSTILE, CONTRACT_SPAWN_TRAIT)
 	if(is_target)
 		new_mob.AddComponent(/datum/component/quest_object/kill, src)
 		add_tracked_atom(new_mob)
