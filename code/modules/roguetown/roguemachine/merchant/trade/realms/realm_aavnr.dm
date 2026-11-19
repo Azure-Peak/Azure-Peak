@@ -113,4 +113,8 @@
 		of them had any fermented saiga milk, eh?",
 
 		"Bring us SILKS, GEMERALDS, and your LEMONS! Tangerines, too! Half the crew are bleeding from the gums!",
+
+		"Saltwirk's factor sends her greetings!",
+
+		"Have any zarum for our menne at home?",
 	)
