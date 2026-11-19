@@ -1,0 +1,7 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - rscadd: "Face aim penalty now applies to NPC and PC instead of only players"
+  - rscdel: "Staggered and Hamstrung no longer reduce NPC's parry chances / dodge chance asymmetrically while doing nothing to PC"
+  - rscdel: "Swift bonuses no longer uncapped vs NPCs. It also account for if you dumped PER / INT to the point the NPC out PER / INT you, just like with PC"
+  - rscdel: "Grabbing will now account for the NPC's wrestling skills and will impose a cooldown, unless it is done to simple animals (So to not grief soilsons)"

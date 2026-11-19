@@ -53,6 +53,7 @@
 		/obj/item/clothing/gloves/roguetown/fingerless_leather = 65,
 		/obj/item/clothing/gloves/roguetown/angle = 35,
 	)
+	mask = /obj/item/clothing/mask/rogue/facemask/steel/visor/flimsy
 
 //** WEAPONS **//
 

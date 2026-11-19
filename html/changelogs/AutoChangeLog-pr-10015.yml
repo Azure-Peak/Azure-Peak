@@ -1,0 +1,4 @@
+author: "Quinalion"
+delete-after: True
+changes:
+  - sound: "Added distinct footstep sounds for all full plate armor sets using previously unused sound files."

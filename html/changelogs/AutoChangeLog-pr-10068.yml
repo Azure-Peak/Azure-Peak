@@ -1,0 +1,5 @@
+author: "Quinalion"
+delete-after: True
+changes:
+  - bugfix: "Campfire healing no longer closes surgical incisions."
+  - qol: "Diagnose now reports missing organs while accounting for species anatomy and dullahan heads."

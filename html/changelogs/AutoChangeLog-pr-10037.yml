@@ -1,0 +1,5 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - balance: "Most NPCs now gain some sort of minimal face / hand / feet coverage, including shoddy padded mask / hardened leather boots with half integrity of their actual parent. Decrepit Barbute now covers nose again on skeletons"
+  - balance: "NPC below 40 threat points will now spawn with one layer of chest armor damaged to make it easier to chest aim and beat them."

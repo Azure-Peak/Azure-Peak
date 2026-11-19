@@ -19,7 +19,7 @@
 	if(check_zone(zone) == zone)
 		chance2hit += ACC_MAJOR_ZONE_BONUS
 
-	if(check_face_subzone(zone) && target.mind)
+	if(check_face_subzone(zone))
 		chance2hit -= ACC_FACE_SUBZONE_PENALTY
 
 	if(user.STAPER > 10)
@@ -127,7 +127,7 @@
 			BODY_ZONE_L_LEG, BODY_ZONE_R_LEG)
 			return PRECISE_ZONE
 
-		// Face & Skull targeting is extra-extra difficult due to their debilitating crits. Players only!
+		// Face & Skull targeting is extra-extra difficult due to their debilitating crits.
 		if(BODY_ZONE_PRECISE_R_EYE, BODY_ZONE_PRECISE_L_EYE,
 			BODY_ZONE_PRECISE_SKULL, BODY_ZONE_PRECISE_EARS,
 			BODY_ZONE_PRECISE_NOSE, BODY_ZONE_PRECISE_MOUTH)
@@ -145,9 +145,6 @@
 	var/zone_type = ranged_zone_difficulty(def_zone)
 	var/chance2hit = final_accuracy + get_zone_ranged_hit_bonus(def_zone, P.firer)
 
-	// We only want these limits vs Players
-	if(zone_type == PRECISE_FACE_ZONE && !mind)
-		zone_type = ULTRA_PRECISE_ZONE
 	if(P.steady_aim)
 		zone_type = NO_PENALTY_ZONE
 

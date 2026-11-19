@@ -120,6 +120,8 @@
 /datum/npc_loadout/kit/orc_flavor
 	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/vagrant
 	shoes = /obj/item/clothing/shoes/roguetown/gladiator
+	mask = /obj/item/clothing/mask/rogue/skullmask
+	gloves = /obj/item/clothing/gloves/roguetown/fingerless_leather
 
 /datum/npc_loadout/kit/orc_flavor/archer
 	clear_slots = list("head", "mask", "neck")
@@ -146,6 +148,8 @@
 	)
 	pants = /obj/item/clothing/under/roguetown/loincloth
 	shoes = /obj/item/clothing/shoes/roguetown/gladiator
+	mask = /obj/item/clothing/mask/rogue/skullmask
+	gloves = /obj/item/clothing/gloves/roguetown/fingerless_leather
 
 /datum/npc_loadout/kit/orc_fur_flavor/marauder
 	beltl = list(
