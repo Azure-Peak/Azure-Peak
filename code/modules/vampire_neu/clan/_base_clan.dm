@@ -73,6 +73,11 @@ And it also helps for the character set panel
 	var/covens_to_select = COVENS_PER_CLAN
 	var/handling_organ_loss = FALSE
 
+	/// Whether members of this clan get the Clan Menu action
+	var/has_clan_menu = TRUE
+	/// Whether this clan has a leader and hierarchy (summon subordinate, mass command, etc.)
+	var/has_leadership = TRUE
+
 /datum/clan/proc/get_downside_string()
 	return "burn in sunlight"
 
@@ -90,8 +95,9 @@ And it also helps for the character set panel
 /datum/clan/proc/on_gain(mob/living/carbon/human/H, is_vampire = TRUE)
 	SHOULD_CALL_PARENT(TRUE)
 
-	var/datum/action/clan_menu/menu_action = new /datum/action/clan_menu(H.mind)
-	menu_action.Grant(H)
+	if(has_clan_menu)
+		var/datum/action/clan_menu/menu_action = new /datum/action/clan_menu(H.mind)
+		menu_action.Grant(H)
 
 	// Add to appropriate member lists
 	clan_members |= H
@@ -137,7 +143,7 @@ And it also helps for the character set panel
 			H.overlays_standing[accessories_layers[current_accessory]] = acc_overlay
 			H.apply_overlay(accessories_layers[current_accessory])
 
-	if(!hierarchy_root)
+	if(has_leadership && !hierarchy_root)
 		initialize_hierarchy()
 
 	handle_member_joining(H, is_vampire)
@@ -176,6 +182,10 @@ And it also helps for the character set panel
 	return TRUE
 
 /datum/clan/proc/handle_member_joining(mob/living/carbon/human/H, is_vampire = TRUE)
+	// Clans without leadership have no leader, no hierarchy and no positions
+	if(!has_leadership)
+		return
+
 	// If no clan leader exists, make this person the leader (vampires only)
 	if(!clan_leader && is_vampire)
 		hierarchy_root.assign_member(H)
@@ -235,8 +245,6 @@ And it also helps for the character set panel
 
 /datum/clan/proc/apply_clan_components(mob/living/carbon/human/H)
 	H.AddComponent(/datum/component/sunlight_vulnerability)
-	if(H.get_vampire_generation() == GENERATION_THINNERBLOOD)
-		return
 	H.AddComponent(/datum/component/vampire_disguise)
 
 /datum/clan/proc/disable_covens(mob/living/carbon/human/vampire)
@@ -324,6 +332,9 @@ And it also helps for the character set panel
 		handle_leadership_succession()
 
 /datum/clan/proc/handle_leadership_succession()
+	if(!has_leadership)
+		return
+
 	// Find someone else with a position to promote
 	var/mob/living/carbon/human/new_leader
 
@@ -419,6 +430,8 @@ And it also helps for the character set panel
 
 /datum/clan/proc/post_gain(mob/living/carbon/human/H)
 	SHOULD_CALL_PARENT(TRUE)
+	if(!has_leadership)
+		return
 	if(!clan_leader && ispath(leader))
 		var/datum/clan_leader/new_leader = new leader()
 		leader = new_leader
@@ -560,6 +573,9 @@ And it also helps for the character set panel
 	handling_organ_loss = FALSE
 
 /datum/clan/proc/open_clan_menu(mob/living/carbon/human/user)
+	if(!has_clan_menu)
+		return
+
 	if(!user.covens || !length(user.covens))
 		to_chat(user, "<span class='warning'>You have no covens to manage!</span>")
 		return

@@ -3739,6 +3739,7 @@
 #include "code\modules\vampire_neu\clan\heirarchy_interface.dm"
 #include "code\modules\vampire_neu\clan\real_clans\abyss.dm"
 #include "code\modules\vampire_neu\clan\real_clans\crimson_accord.dm"
+#include "code\modules\vampire_neu\clan\real_clans\deject.dm"
 #include "code\modules\vampire_neu\clan\real_clans\eoran.dm"
 #include "code\modules\vampire_neu\clan\real_clans\nosferatu.dm"
 #include "code\modules\vampire_neu\clan\real_clans\thronleer.dm"
