@@ -17,6 +17,8 @@
 	planar_origin = "elemental"
 	STACON = 8 // these guys are tankier
 	voiceclips = list('sound/foley/stone_scrape.ogg')
+	// building materials, things they can summon, and accessories to such (fishing equipment, etc)
+	item_whitelist = list(/obj/item/natural, /obj/item/rogueweapon, /obj/item/needle, /obj/item/fishingrod, /obj/item/cooking, /obj/item/reagent_containers, /obj/item/kitchen, /obj/item/fishing, /obj/item/bait)
 
 /datum/species/familiar/elemental
 	name = "Elemental"

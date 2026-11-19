@@ -35,9 +35,19 @@
 	var/binded = FALSE
 	var/voiceclips = list() // list of sounds that'll be chosen to play when we talk
 	can_do_sex = FALSE // I HATE YOU ALL???
+	var/list/item_whitelist // if non null, they will only be able to pick up items whose types are in this list. subtypes are allowed
 
 	// stats: should be squishy, but able to keep up with their summoner
 	STACON = 5 // might be too low? it's more than skeletons...
+
+/mob/living/carbon/human/species/familiar/can_put_in_hand(I, hand_index)
+	if(!LAZYLEN(item_whitelist))
+		return ..()
+	for(var/path in item_whitelist)
+		if(istype(I, path))
+			return ..()
+	to_chat(src, span_warning("I can't pick this up!")) // let them know it's not a bug
+	return FALSE
 
 /mob/living/carbon/human/species/familiar/attack_hand(mob/user) // very important port from simplemobs
 	. = ..()

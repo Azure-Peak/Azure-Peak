@@ -20,6 +20,7 @@
 	valid_healing_items = list(/obj/item/magic/infernal)
 	planar_origin = "infernal"
 	voiceclips = list('sound/vo/mobs/vw/idle (1).ogg','sound/vo/mobs/vw/idle (2).ogg','sound/vo/mobs/vw/bark (1).ogg','sound/vo/mobs/vw/bark (2).ogg','sound/vo/mobs/vw/idle (3).ogg')
+	item_whitelist = list(/obj/item/clothing, /obj/item/rogueweapon) // in preparation for their imminent kit rework: armor, rings, amulets, weapons, i.e. things they can possess
 
 /datum/species/familiar/infernal
 	name = "Infernal"

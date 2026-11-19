@@ -25,6 +25,16 @@
 	planar_origin = "fae"
 	STASPD = 12
 	voiceclips = list("plantcross")
+	item_whitelist = list(/obj/item/alch, /obj/item/reagent_containers, /obj/item/natural)
+
+/// flying mobs specifically have an abuse avenue with enchanted rocks, so we curtail that here
+/mob/living/carbon/human/species/familiar/fae/can_put_in_hand(I, hand_index)
+	if(istype(I, /obj/item/natural/stone))
+		var/obj/item/rock = I
+		if(/datum/materia_aspect/arcyne in rock.materia)
+			to_chat(src, span_warning("I can't pick this up!")) // let them know it's not a bug
+			return FALSE // by moshy you all are snakes
+	. = ..()
 
 /datum/species/familiar/fae
 	name = "Faerie"

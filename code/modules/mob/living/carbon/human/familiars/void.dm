@@ -12,6 +12,8 @@
 	valid_healing_items = list(/obj/item/magic/fae, /obj/item/magic/elemental, /obj/item/magic/infernal) // hungy
 	planar_origin = "void"
 	voiceclips = list('sound/vo/mobs/wwolf/idle (1).ogg', 'sound/vo/mobs/vdragon/drgnroar.ogg')
+	// same as elementals: a broad list, to cover the loops they inherit
+	item_whitelist = list(/obj/item/natural, /obj/item/rogueweapon, /obj/item/needle, /obj/item/fishingrod, /obj/item/cooking, /obj/item/reagent_containers, /obj/item/kitchen, /obj/item/fishing, /obj/item/bait)
 
 /datum/species/familiar/void
 	name = "Void Drakeling"
