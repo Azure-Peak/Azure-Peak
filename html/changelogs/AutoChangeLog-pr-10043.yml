@@ -1,8 +1,0 @@
-author: "WeNeedMorePhoron"
-delete-after: True
-changes:
-  - rscadd: "Gaining +1 triumph on Notorious Contract is no longer reliant on winning, but simply showing up to fight. Notorious contracts amount of escort also scale up to incoming enemies."
-  - rscadd: "Notorious quest notify spectators when there's a notorious fight so you can watch"
-  - rscadd: "Notorious revival / healing is now z level insensitive. Notorious quest should reattach heads. Not that I encourage you rules wise to actually chop it off. This is more for accident."
-  - rscadd: "Big Goblin has been buffed"
-  - rscadd: "Added a new boss title system so that you can more reliably predict what class a Notorious Contract / Boss mob is."

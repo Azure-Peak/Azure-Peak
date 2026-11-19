@@ -1,5 +1,0 @@
-author: "WeNeedMorePhoron"
-delete-after: True
-changes:
-  - rscadd: "Added line to explain the 25% share bonus that Mercenary get from their share of a contract someone else completed in a fellowship. This is a key feature and incentives for being hired by adventurers and co, should be explained better."
-  - rscadd: "Allows Steward / Innkeeper to issue \"Veteran\" difficulty contracts in hand"

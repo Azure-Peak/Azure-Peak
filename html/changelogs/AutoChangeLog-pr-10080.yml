@@ -1,4 +1,0 @@
-author: "TankTheBirb"
-delete-after: True
-changes:
-  - bugfix: "short black satchel should output the short black satchel now, not the basic short satchel"
