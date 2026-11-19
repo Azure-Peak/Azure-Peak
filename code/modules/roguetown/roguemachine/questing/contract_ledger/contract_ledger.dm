@@ -238,6 +238,12 @@ GLOBAL_LIST_INIT(contract_proxy_officials, list(
 	"Clerk",
 ))
 
+GLOBAL_LIST_INIT(contract_issuer_roles, list(
+	"Steward",
+	"Clerk",
+	"Innkeeper",
+))
+
 /obj/structure/roguemachine/contractledger/proc/can_commission(mob/user)
 	if(!user)
 		return FALSE

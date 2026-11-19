@@ -16,6 +16,7 @@ SUBSYSTEM_DEF(questpool)
 	var/list/type_count_by_region = list()
 	var/list/landmarks_by_region = list()
 	var/list/pool_weights = list()
+	var/kill_supply_mult = QUEST_POOL_SCARCE_MULT
 	var/debug_mode = FALSE
 
 /datum/controller/subsystem/questpool/Initialize(mapload)
@@ -64,8 +65,9 @@ SUBSYSTEM_DEF(questpool)
 	return closest
 
 /datum/controller/subsystem/questpool/fire(resumed)
+	kill_supply_mult = get_kill_supply_mult()
 	reroll_stale()
-	regen_kill_targets(QUEST_KILL_REGEN_PER_TICK)
+	regen_kill_targets(round(QUEST_KILL_REGEN_PER_TICK * kill_supply_mult))
 	regen_fetch_targets()
 
 /// Bumps the region count for Q's kind by delta. Called whenever a quest enters
@@ -123,8 +125,22 @@ SUBSYSTEM_DEF(questpool)
 			return TRUE
 	return FALSE
 
+/datum/controller/subsystem/questpool/proc/has_contract_issuer()
+	for(var/mob/living/carbon/human/H in GLOB.player_list)
+		if(H.stat != DEAD && (H.job in GLOB.contract_issuer_roles))
+			return TRUE
+	return FALSE
+
+/datum/controller/subsystem/questpool/proc/get_kill_supply_mult()
+	if(!has_contract_issuer())
+		return 1
+	var/past_scarcity = world.time - SSticker.round_start_time - QUEST_POOL_SCARCITY_TIME
+	if(past_scarcity <= 0)
+		return QUEST_POOL_SCARCE_MULT
+	return min(1, QUEST_POOL_SCARCE_MULT + (1 - QUEST_POOL_SCARCE_MULT) * past_scarcity / QUEST_POOL_SUPPLY_RAMP)
+
 /datum/controller/subsystem/questpool/proc/get_pool_target(datum/threat_region/TR, pool_kind, pop, target_mult = 1)
-	var/kill = region_allows_pool(TR, QUEST_POOL_KILL) ? TR.get_kill_target(pop, target_mult) : 0
+	var/kill = region_allows_pool(TR, QUEST_POOL_KILL) ? TR.get_kill_target(pop, target_mult * kill_supply_mult) : 0
 	var/evergreen = region_allows_pool(TR, QUEST_POOL_EVERGREEN) ? TR.get_evergreen_target(target_mult) : 0
 	var/capacity = max(0, (landmarks_by_region[TR.region_name] || 0) - QUEST_POOL_LANDMARK_RESERVE)
 	if(kill + evergreen > capacity)
