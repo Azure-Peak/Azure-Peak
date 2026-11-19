@@ -911,6 +911,7 @@ Remember to update _globalvars/traits.dm if you're adding/removing/renaming trai
 #define TRAIT_RIGIDMOVEMENT		"Ignore Natural Health Slowdown"
 #define TRAIT_DEATHCOMA			"Death Coma" //Causes death-like unconsciousness
 #define TRAIT_FRESHSPAWN "freshspawn"
+#define TRAIT_CONTRACT_HOSTILE "contract_hostile"
 #define TRAIT_RELAYING_ATTACKER "relaying_attacker"
 #define TRAIT_CHARGE_AIRBORNE "charge_airborne"
 #define TRAIT_FAKEDEATH			"Fake Death" //Makes the owner appear as dead to most forms of medical examination
