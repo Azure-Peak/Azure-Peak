@@ -435,8 +435,7 @@
 	mask = list(
 		/obj/item/clothing/mask/rogue/ragmask/red = 1,
 		/obj/item/clothing/mask/rogue/ragmask/black = 1,
-		/obj/item/clothing/mask/rogue/skullmask = 1,
-		NPC_NOTHING = 3,
+		/obj/item/clothing/mask/rogue/facemask/padded/shoddy = 4,
 	)
 	head = list(
 		/obj/item/clothing/head/roguetown/helmet/leather = 20,

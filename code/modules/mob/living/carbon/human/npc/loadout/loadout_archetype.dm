@@ -66,6 +66,8 @@ GLOBAL_LIST_INIT(npc_crafting_skills, list(
 	var/list/taur_colors
 	// Factional stat modifiers. These are applied on top of statpacks. They do not need to be even trade
 	var/list/stat_modifiers
+	// We want to make the PVE a bit fairer between High PER and low PER build without having to make everyone modify archetypes. So, most NPCs that are NOT supposed to be very hard will now have damaged armor. General rule of thumb: TP 40 or above NPCS should have full integrity.
+	var/chest_armor_integrity_mult = NPC_CHEST_ARMOR_INTEGRITY_MULT
 
 /datum/npc_archetype/proc/apply_early(mob/living/carbon/human/H)
 	var/datum/npc_body/npc_body = get_npc_part(body)
@@ -99,6 +101,7 @@ GLOBAL_LIST_INIT(npc_crafting_skills, list(
 		H.Taurize(taur_type, length(taur_colors) ? pick(taur_colors) : "#ffffff")
 	var/datum/outfit/npc/outfit = build_outfit()
 	H.equipOutfit(outfit)
+	weaken_chest_armor(H)
 	if(loadouts_grant_magic(outfit.loadouts))
 		apply_skill_group(H, GLOB.npc_magic_skills, magic)
 	grant_spellblade_chant(H, outfit.loadouts)
@@ -110,6 +113,35 @@ GLOBAL_LIST_INIT(npc_crafting_skills, list(
 		npc_body.apply_appearance(H)
 		npc_body.apply_name(H)
 		npc_body.finish(H)
+
+/datum/npc_archetype/proc/weaken_chest_armor(mob/living/carbon/human/H)
+	if(chest_armor_integrity_mult >= 1 || threat_point >= THREAT_DEADLY)
+		return
+	var/obj/item/clothing/strongest
+	var/best_rating = -1
+	for(var/obj/item/clothing/layer as anything in H.get_worn_chest_armor_layers())
+		var/rating = max(layer.armor.getRating("slash"), layer.armor.getRating("stab"))
+		if(rating > best_rating || (rating == best_rating && layer.obj_integrity > strongest.obj_integrity))
+			best_rating = rating
+			strongest = layer
+	strongest?.weaken_as_npc_chest_layer(chest_armor_integrity_mult)
+
+/mob/living/carbon/human/proc/get_worn_chest_armor_layers()
+	. = list()
+	for(var/obj/item/clothing/worn in list(head, wear_mask, wear_wrists, gloves, wear_neck, cloak, wear_armor, wear_shirt, shoes, wear_pants, backr, backl, belt, s_store, glasses, ears, wear_ring))
+		if(worn.is_chest_armor_layer())
+			. += worn
+
+/obj/item/clothing/proc/is_chest_armor_layer()
+	return zone2covered(BODY_ZONE_CHEST, body_parts_covered_dynamic) && has_armor_value()
+
+/obj/item/clothing/proc/weaken_as_npc_chest_layer(mult)
+	if(!max_integrity || obj_broken || (resistance_flags & INDESTRUCTIBLE))
+		return
+	var/usable = obj_integrity - max_integrity * integrity_failure
+	if(usable <= 1)
+		return
+	obj_integrity -= usable - max(usable * mult, 1)
 
 /datum/npc_archetype/proc/apply_stat_modifiers(mob/living/carbon/human/H)
 	if(!H || !length(stat_modifiers))

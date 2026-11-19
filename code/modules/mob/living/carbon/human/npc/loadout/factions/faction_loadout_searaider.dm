@@ -166,6 +166,10 @@
 		/obj/item/clothing/shoes/roguetown/boots/leather/reinforced = 70,
 		/obj/item/clothing/shoes/roguetown/boots/furlinedboots = 30,
 	)
+	mask = list(
+		/obj/item/clothing/mask/rogue/skullmask = 1,
+		/obj/item/clothing/mask/rogue/facemask/padded/shoddy = 1,
+	)
 
 /datum/npc_loadout/kit/searaider_flavor/archer
 	shirt = /obj/item/clothing/suit/roguetown/shirt/tunic
