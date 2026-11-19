@@ -524,8 +524,8 @@
 		return
 
 	var/obj/item/clothing/suit/roguetown/armor/vampiric/gnoll/chest = H.wear_armor
-	var/obj/item/clothing/suit/roguetown/armor/vampiric/gnoll/extremities = H.wear_shirt
-	var/list/to_restore = list(chest, extremities)
+	var/obj/item/clothing/suit/roguetown/armor/vampiric/gnoll/limb = H.wear_shirt
+	var/list/to_restore = list(chest, limb)
 
 	for(var/obj/I in to_restore)
 		var/heal_amount = round(I.max_integrity * (percent / 100))
