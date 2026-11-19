@@ -30,9 +30,8 @@
 	cmode_music = 'sound/music/cmode/antag/combat_thewall.ogg'
 
 /datum/outfit/job/roguetown/gnoll/knight
-	vamp_armor_skin = /obj/item/clothing/suit/roguetown/armor/vampiric/gnoll/knight
-	vamp_armor_chest = /obj/item/clothing/suit/roguetown/armor/vampiric/gnoll/chest/knight
-	vamp_armor_limb = /obj/item/clothing/suit/roguetown/armor/vampiric/gnoll/extremities/knight
+	vamp_armor_chest = /obj/item/clothing/suit/roguetown/armor/vampiric/gnoll/knight
+	vamp_armor_limb = /obj/item/clothing/suit/roguetown/armor/vampiric/gnoll/limb/knight
 
 	max_fury_stacks = 100
 	shard_threshold = 44
@@ -41,7 +40,6 @@
 /datum/outfit/job/roguetown/gnoll/knight/pre_equip(mob/living/carbon/human/H)
 	if(H.mind)
 		H.set_species(/datum/species/gnoll)
-		H.skin_armor = new vamp_armor_skin(H)
 		H.wear_shirt = new vamp_armor_limb(H)
 		H.wear_armor = new vamp_armor_chest(H)
 		H.AddComponent(/datum/component/vampiric_striker, shard_threshold, shard_repair_value, max_fury_stacks)

@@ -34,7 +34,6 @@
 /datum/outfit/job/roguetown/gnoll/berserker/pre_equip(mob/living/carbon/human/H)
 	if(H.mind)
 		H.set_species(/datum/species/gnoll)
-		H.skin_armor = new vamp_armor_skin(H)
 		H.wear_shirt = new vamp_armor_limb(H)
 		H.wear_armor = new vamp_armor_chest(H)
 		H.AddComponent(/datum/component/vampiric_striker, shard_threshold, shard_repair_value, max_fury_stacks)

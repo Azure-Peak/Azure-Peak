@@ -28,7 +28,7 @@
 	cmode_music = 'sound/music/combat_graggar.ogg'
 
 /datum/outfit/job/roguetown/gnoll_impure
-	var/vamp_armor_limb = /obj/item/clothing/suit/roguetown/armor/vampiric/gnoll/extremities/impure
+	var/vamp_armor_chest = /obj/item/clothing/suit/roguetown/armor/vampiric/gnoll/impure
 	var/max_fury_stacks = 60
 	var/shard_threshold = 44
 	var/shard_repair_value = 20
@@ -38,7 +38,7 @@
 		var/datum/antagonist/new_antag = new /datum/antagonist/gnoll()
 		H.mind.add_antag_datum(new_antag)
 	H.set_species(/datum/species/gnoll)
-	H.wear_shirt = new vamp_armor_limb(H)
+	H.wear_armor = new vamp_armor_chest(H)
 	H.AddComponent(/datum/component/vampiric_striker, shard_threshold, shard_repair_value, max_fury_stacks)
 	don_pelt(H)
 
