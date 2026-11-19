@@ -1,5 +1,6 @@
 #define HUMAN_NPC_WEAKPOINT_SCAN_CHANCE			15
 #define HUMAN_NPC_WEAKPOINT_CACHE_DURATION		(6 SECONDS)
+#define HUMAN_NPC_SUBZONE_WEAKPOINT_SKILL		SKILL_LEVEL_EXPERT
 #define HUMAN_NPC_ZONE_SWITCH_THRESHOLD_BASE			9
 #define HUMAN_NPC_ZONE_SWITCH_THRESHOLD_JOURNEYMAN	12
 #define HUMAN_NPC_ZONE_SWITCH_THRESHOLD_EXPERT		15
@@ -487,6 +488,7 @@ GLOBAL_LIST_INIT(npc_weakpoint_zone_weights, list(
 	var/list/wounded	= list()
 	var/list/exposed	= list()
 	var/list/soft		= list()
+	var/reads_subzones = skill_level >= HUMAN_NPC_SUBZONE_WEAKPOINT_SKILL
 
 	for(var/obj/item/bodypart/part in htarget.bodyparts)
 		if(!part)
@@ -496,7 +498,8 @@ GLOBAL_LIST_INIT(npc_weakpoint_zone_weights, list(
 		if(!wound_visible && skill_level >= SKILL_LEVEL_JOURNEYMAN && pawn.STAPER >= 10)
 			wound_visible = (part.brute_dam > 20 || part.burn_dam > 20)
 
-		for(var/zone in (GLOB.npc_weakpoint_subzones[part.body_zone] || list(part.body_zone)))
+		var/list/scan_zones = reads_subzones ? (GLOB.npc_weakpoint_subzones[part.body_zone] || list(part.body_zone)) : list(part.body_zone)
+		for(var/zone in scan_zones)
 			if(wound_visible)
 				wounded += zone
 
@@ -629,6 +632,7 @@ GLOBAL_LIST_INIT(npc_weakpoint_zone_weights, list(
 
 #undef HUMAN_NPC_WEAKPOINT_SCAN_CHANCE
 #undef HUMAN_NPC_WEAKPOINT_CACHE_DURATION
+#undef HUMAN_NPC_SUBZONE_WEAKPOINT_SKILL
 #undef HUMAN_NPC_WEAPON_SPECIAL_CHANCE
 #undef HUMAN_NPC_SPECIAL_EVAL_INTERVAL
 #undef HUMAN_NPC_INTENT_SWITCH_CHANCE
