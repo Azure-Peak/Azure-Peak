@@ -39,7 +39,7 @@
 				if(!exception)
 					to_chat(user, span_warning("I am too small to properly wield a weapon."))
 					return
-		// Uniquely reskinned variant, for those who don't happen to be familiars.Add a comment on	line R34Add diff commentMarkdown input:	edit mode selected.WritePreviewAdd a suggestionHeadingBoldItalicQuoteCodeLinkUnordered listNumbered listTask listMentionReferenceMore Formatting tools items 0Saved repliesAdd FilesPaste, drop, or click to add filesCancelCommentStart a review
+		// Uniquely reskinned variant, for those who don't happen to be familiars.
 		if(HAS_TRAIT(user, TRAIT_WEAPONLESS))
 			var/obj/item/rogueweapon/weapon = src
 			if(istype(weapon) && (!weapon.is_tool || ismob(target)))
