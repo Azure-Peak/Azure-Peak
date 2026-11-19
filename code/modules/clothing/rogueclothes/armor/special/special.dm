@@ -74,6 +74,7 @@
 /obj/item/clothing/suit/roguetown/armor/vampiric/gnoll/impure
 	name = "impure hide"
 	desc = "This won't last long..."
+	icon_state = null
 	max_integrity = 400
 	armor = ARMOR_GNOLL_WEAK
 	body_parts_covered = FULL_BODY
