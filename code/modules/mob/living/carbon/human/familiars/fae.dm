@@ -25,7 +25,7 @@
 	planar_origin = "fae"
 	STASPD = 12
 	voiceclips = list("plantcross")
-	item_whitelist = list(/obj/item/alch, /obj/item/reagent_containers, /obj/item/natural)
+	item_whitelist = list(/obj/item/grabbing, /obj/item/roguecoin, /obj/item/alch, /obj/item/reagent_containers, /obj/item/natural)
 
 /// flying mobs specifically have an abuse avenue with enchanted rocks, so we curtail that here
 /mob/living/carbon/human/species/familiar/fae/can_put_in_hand(I, hand_index)
