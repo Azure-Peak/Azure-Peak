@@ -456,14 +456,14 @@
 	armor = /obj/item/clothing/suit/roguetown/shirt/rags
 
 /datum/npc_loadout/kit/bog_skeleton_master
-	head = /obj/item/clothing/head/roguetown/helmet/bascinet/pigface/hounskull
-	gloves = /obj/item/clothing/gloves/roguetown/plate
+	head = /obj/item/clothing/head/roguetown/helmet/bascinet/pigface/hounskull/iron
+	gloves = /obj/item/clothing/gloves/roguetown/plate/iron
 	pants = /obj/item/clothing/under/roguetown/chainlegs/iron
 	cloak = /obj/item/clothing/cloak/tabard/stabard/bog
-	neck = /obj/item/clothing/neck/roguetown/chaincoif
+	neck = /obj/item/clothing/neck/roguetown/chaincoif/iron
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy
-	armor = /obj/item/clothing/suit/roguetown/armor/plate/scale
-	shoes = /obj/item/clothing/shoes/roguetown/boots/armor
+	armor = /obj/item/clothing/suit/roguetown/armor/plate/scale/iron
+	shoes = /obj/item/clothing/shoes/roguetown/boots/armor/iron
 	belt = /obj/item/storage/belt/rogue/leather
 
 /datum/npc_loadout/kit/fallen_duke
