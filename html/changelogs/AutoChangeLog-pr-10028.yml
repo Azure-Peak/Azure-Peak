@@ -1,5 +1,0 @@
-author: "Juubo"
-delete-after: True
-changes:
-  - bugfix: "check for nulls on m_turf in the explosion.dm to prevent a later null issue if a person is removed mid-explosion"
-  - code_imp: "took the epicenter out of the for loop so a new one isn't made when it's a static area"

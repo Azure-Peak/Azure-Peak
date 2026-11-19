@@ -1,5 +1,0 @@
-author: "changelingonberry"
-delete-after: True
-changes:
-  - bugfix: "Forlorne vice now teleports you before any class option selections."
-  - bugfix: "Spectacles get put in your hands instead of being dropped on the ground if your mask slot is full. How are you going to find them otherwise?"

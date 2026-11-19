@@ -1,5 +1,0 @@
-author: "KatTheFox"
-delete-after: True
-changes:
-  - bugfix: "Drugging the sleepless vice now works regardless of which vice slot it is in."
-  - rscadd: "The sleep boosting rubedo potion now works like ozium to alleviate the sleepless vice, for a harder-to-get but less \"hard drugs\" alternative to ozium."

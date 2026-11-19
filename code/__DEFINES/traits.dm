@@ -896,8 +896,7 @@ Remember to update _globalvars/traits.dm if you're adding/removing/renaming trai
 #define TRAIT_CLUMSY			"clumsy"
 #define TRAIT_CHUNKYFINGERS		"chunkyfingers" //means that you can't use weapons with normal trigger guards.
 #define TRAIT_GNARLYDIGITS		"gnarlydigits" //less aggressive version of chunky fingers to allow -some- fun.
-#define TRAIT_TINYPAWS			"tinypaws" // even less aggressive version of chunky fingers to allow familiars to perform repairs.
-#define TRAIT_WEAPONLESS		"weaponless" // reskinned variant of the above.
+#define TRAIT_WEAPONLESS		"weaponless" // even less aggressive version of chunky fingers to allow noncombat "weapon" use (think cutting down trees).
 #define TRAIT_NOTIGHTGRABMESSAGE "notightgrabmessage" // Hides grab tightening messages.
 #define TRAIT_NOSSDINDICATOR "nossdindicator" // Hides the SSD indicator. Used with scrying.
 #define TRAIT_NOSTRUGGLE "nostruggle" // Instant grabs on someone else.
@@ -912,6 +911,7 @@ Remember to update _globalvars/traits.dm if you're adding/removing/renaming trai
 #define TRAIT_RIGIDMOVEMENT		"Ignore Natural Health Slowdown"
 #define TRAIT_DEATHCOMA			"Death Coma" //Causes death-like unconsciousness
 #define TRAIT_FRESHSPAWN "freshspawn"
+#define TRAIT_CONTRACT_HOSTILE "contract_hostile"
 #define TRAIT_RELAYING_ATTACKER "relaying_attacker"
 #define TRAIT_CHARGE_AIRBORNE "charge_airborne"
 #define TRAIT_FAKEDEATH			"Fake Death" //Makes the owner appear as dead to most forms of medical examination

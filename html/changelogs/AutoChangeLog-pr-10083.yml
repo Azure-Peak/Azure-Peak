@@ -1,0 +1,5 @@
+author: "KatTheFox"
+delete-after: True
+changes:
+  - rscdel: "Familiars no longer have the \"Tiny Paws\" trait, as it's obviated by the Pacifist trait they now have."
+  - bugfix: "The \"Weaponless\" trait now properly stops you from using shields and crossbows."
