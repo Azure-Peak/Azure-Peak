@@ -368,6 +368,12 @@
 	armor_class = ARMOR_CLASS_HEAVY
 	smelt_bar_num = 4
 
+/obj/item/clothing/suit/roguetown/armor/plate/full/ComponentInitialize()
+	AddComponent(/datum/component/item_equipped_movement_rustle, SFX_PLATE_FULL_STEP, 12)
+	AddComponent(/datum/component/armour_filtering/negative, TRAIT_FENCERDEXTERITY)
+	AddComponent(/datum/component/armour_filtering/negative, TRAIT_HONORBOUND)
+	AddComponent(/datum/component/armour_filtering/negative, TRAIT_FREEBLADEDEXTERITY)
+
 /obj/item/clothing/suit/roguetown/armor/plate/full/iron
 	name = "iron plate armor"
 	icon_state = "ironplate"
