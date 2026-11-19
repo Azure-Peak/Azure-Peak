@@ -8,6 +8,11 @@
 	cost = 25
 	contains = list(/obj/item/rogueweapon/woodstaff/implement)
 
+/datum/supply_pack/rogue/arcyne_supplies/lesser_tome
+	name = "Lesser Tome of the Arcyne"
+	cost = 30
+	contains = list(/obj/item/rogueweapon/spellbook)
+
 /datum/supply_pack/rogue/arcyne_supplies/greater_focus
 	name = "Runic Tincture of Greater Focus"
 	cost = 20
