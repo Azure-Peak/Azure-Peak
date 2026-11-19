@@ -47,6 +47,13 @@
 		return FALSE
 	var/datum/mind/vessel_orig_mind = vessel.mind // save this reference early incase make_observer fucks with it
 	vessel.mind.current = null // don't do anything funky while we execute
+	// if an ability is activated before the mind transfer, it'll be "phantom activated" after the transfer. this means it will appear activated, and clicking it will deactivate it, but the click intercept is still on the old mob. that's bad, so we manually deactivate it here
+	for(var/mob/living/carbon/human/H in list(src, vessel))
+		if(H.ranged_ability)
+			H.ranged_ability.deactivate(H)
+		var/datum/action/cooldown/active_cooldown = H.click_intercept
+		if(istype(active_cooldown))
+			active_cooldown.unset_click_ability(H, refund_cooldown = FALSE)
 	// before ANYTHING else we need to clear the mob's spells so the hag won't have access to them. they'll get re-added when the hag
 	// goes back to their original body and the vessel's original mind transfers back in
 	if(remove_spells)
