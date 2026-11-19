@@ -649,7 +649,7 @@
 
 /atom/movable/screen/alert/status_effect/debuff/zizo_temp_undeath
 	name = "Embrace of Zizo"
-	desc = "You feel your very essence struggling against the hold of Undeath... Your mind is beseethed with dark, evil thoughts, and all you feel is hunger..."
+	desc = "You feel your very essence struggling against the hold of Undeath... Your mind is beseeched by dark, evil thoughts, and all you feel is hunger..."
 
 /datum/status_effect/debuff/zizo_temp_undeath
 	id = "zizo_temp_undeath"

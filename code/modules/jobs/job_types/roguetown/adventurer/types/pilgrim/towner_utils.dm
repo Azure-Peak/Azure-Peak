@@ -48,16 +48,10 @@
 			var/datum/mob_descriptor/D = MOB_DESCRIPTOR(desc_type)
 
 			if(D.slot == MOB_DESCRIPTOR_SLOT_STATURE)
-				stature_name = D.name
-
-				if(findtext(stature_name, "/"))
-					var/list/split = splittext(stature_name, "/")
-
-					if(length(split) >= 2)
-						stature_name = (H.gender == FEMALE) ? split[2] : split[1]
+				stature_name = D.get_examine_description(H)
 
 			else if(D.slot == MOB_DESCRIPTOR_SLOT_TRAIT)
-				trait_parts += D.name
+				trait_parts += D.get_examine_description(H)
 
 		var/list/final_parts = list()
 

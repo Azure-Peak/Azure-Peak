@@ -14,8 +14,10 @@
 
 /obj/effect/proc_holder/spell/self/howl/cast(mob/user = usr)
 	..()
-	var/message = sanitize(input(user, "Howl at the hidden moon...", "MOONCURSED") as text|null)
+	var/message = capitalize(sanitize(input(user, "Howl at the hidden moon...", "MOONCURSED") as text|null))
 	if(!message) return
+	if(!user.client?.prefs?.no_autopunctuate)
+		message = autopunct_bare(message)
 
 	var/datum/antagonist/antag_data = user.mind.has_antag_datum(wolf_antag_type)
 

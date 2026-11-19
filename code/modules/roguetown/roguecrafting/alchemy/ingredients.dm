@@ -318,8 +318,8 @@
 	if(alert(user, "Do you wish to change your self?", "Dust of Self", "Yes", "No") != "Yes")
 		return
 	user.visible_message(
-		span_warn("[user] begins to use [src]."),
-		span_warn("I begin to apply [src] on myself.")
+		span_warning("[user] begins to use [src]."),
+		span_warning("I begin to apply [src] on myself.")
 	)
 	if(!do_after(user, 5 SECONDS))
 		return
@@ -328,18 +328,18 @@
 	if(p_input)
 		user.pronouns = p_input
 	if(alert(user, "Do you wish to change your frame?", "Body Type", "Yes", "No") == "Yes")
-		user.gender = "male" ? "female" : "male"
+		user.gender = (user.gender == MALE) ? FEMALE : MALE
 
 	if(!do_after(user, 5 SECONDS))
 		return
 
 	user.regenerate_icons()
-	to_chat(user, span_notice("Tis' complete."))
+	to_chat(user, span_notice("'Tis complete."))
 	qdel(src)
 
 /obj/item/alch/puresalt
 	name = "purified salts"
-	desc = "Salts that have been finely sifted to enchance their healing properties and to bolster its connection to the arcyne."
+	desc = "Salts that have been finely sifted to enhance their healing properties and to bolster its connection to the arcyne."
 	icon_state = "puresalt"
 	sellprice = 8
 

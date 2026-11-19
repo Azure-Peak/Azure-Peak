@@ -9,4 +9,6 @@
 	mob_types = list(
 		/mob/living/carbon/human/species/skeleton/npc/bogguard = 75,
 		/mob/living/carbon/human/species/skeleton/npc/bogguard/archer = 25,
+		/mob/living/carbon/human/species/skeleton/npc/bogguard/master = 10,
+		/mob/living/simple_animal/hostile/retaliate/rogue/troll/undead = 5,
 	)

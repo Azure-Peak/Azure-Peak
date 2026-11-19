@@ -95,6 +95,7 @@
 	// merk custom texts
 	flavortext = null
 	flavortext_cached = null
+	pen_name = null
 	ooc_notes = null
 	ooc_notes_cached = null
 	nsfwflavortext = null
@@ -105,6 +106,7 @@
 	rumour_cached = null
 	noble_gossip = null
 	noble_gossip_cached = null
+	secrets = list()
 
 	headshot_link = null
 	headshot_artist_credit = null

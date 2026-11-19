@@ -6,7 +6,7 @@ you violently rend it asunder and heal you instead, intended as a finisher to ma
 /datum/action/cooldown/spell/vheslyn/conscindo
 	name = "Conscindo"
 	desc = "Requires an aggressive grab on a prone and living target. Begin a unspeakable ritual that fractures their ribcage and, directly but violently, rends apart their Lux by melting it killing them instantly and devitalising them for a long-period of time."
-	fluff_desc = "A method from tymes long forgotten and unspeakable, reborn through applying unstable magic and corrupted Vheslynite essense to essentally re-purpose the Lacrima spell of Zizo into a method of lux destruction and murder that is brutish, inelegant, yet undeniably effective."
+	fluff_desc = "A method from tymes long forgotten and unspeakable, reborn through applying unstable magic and corrupted Vheslynite essence to essentially re-purpose the Lacrima spell of Zizo into a method of lux destruction and murder that is brutish, inelegant, yet undeniably effective."
 	button_icon = 'icons/mob/actions/vheslynspells.dmi'
 	button_icon_state = "conscindo"
 	charge_required = FALSE

@@ -9,6 +9,7 @@
 /code/__DEFINES/tgs.dm @izac112
 /code/__DEFINES/tgs.config.dm @izac112
 /code/modules/discord/tgs_commands.dm @izac112
+/code/modules/admin/chat_commands.dm @izac112
 /code/modules/tgs/ @izac112
 # Config
 /config/ @izac112

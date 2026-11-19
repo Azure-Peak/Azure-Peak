@@ -6,7 +6,7 @@
 	icon_living = "ghost"
 	mob_biotypes = MOB_SPIRIT
 	speak_chance = 0
-	turns_per_move = 5
+	ai_controller = /datum/ai_controller/generic/critter/retaliate
 	response_help_continuous = "passes through"
 	response_help_simple = "pass through"
 	a_intent = INTENT_HARM
@@ -38,6 +38,7 @@
 
 /mob/living/simple_animal/hostile/retaliate/ghost/Initialize(mapload)
 	. = ..()
+	AddElement(/datum/element/ai_retaliate)
 	give_hair()
 	set_light(1, 1, 2) // same glowing as visible player ghosts
 	if(random)
@@ -68,7 +69,6 @@
 	icon_living = "mist"
 	mob_biotypes = MOB_SPIRIT
 	speak_chance = 0
-	turns_per_move = 5
 	response_help_continuous = "passes through"
 	response_help_simple = "pass through"
 	base_intents = list(/datum/intent/simple/claw)

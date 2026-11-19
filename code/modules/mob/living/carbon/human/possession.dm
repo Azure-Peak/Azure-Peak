@@ -1,3 +1,9 @@
+/// hi did you know verbs can't have parameters even if said parameter has a default value. i hate dm
+/mob/living/carbon/human/proc/release_vessel_verb()
+	set name = "Release Vessel"
+	set category = "RoleUnique.Displaced Soul"
+	release_vessel(FALSE)
+
 ///src is the vessel, currently-possessed, that we want to restore. given as a verb as a fallback for if spells or other options don't make sense
 /mob/living/carbon/human/proc/release_vessel(dying = FALSE)
 	if(!HAS_TRAIT(src, TRAIT_POSSESSED))
@@ -29,7 +35,10 @@
 	original.reset_perspective()																// needed for revs and such
 	reset_perspective()
 	original.clear_orphaned_actions()															// if remove_spells = FALSE this will be needed to prevent a familiar getting all the CM's spells for example
-	remove_verb(src, /mob/living/carbon/human/proc/release_vessel)								// well, you're already released. what do you want?
+	remove_verb(src, /mob/living/carbon/human/proc/release_vessel_verb)							// well, you're already released. what do you want?
+	// unlike possession we log AFTER the swap here so the names and ckeys are correct
+	message_admins("[ADMIN_LOOKUPFLW(original)] has released possession of [ADMIN_LOOKUPFLW(src)].")
+	log_game("[key_name(original)] has released possession of [key_name(src)].")
 	return TRUE
 
 ///src is the possessing mob, vessel is the mob to be possessed. role-agnostic and can be called on non-hags safely, have fun. set remove_spells to FALSE if you want the possessor to have access to the possessee's spells. set vessel_skills to TRUE if you want the vessel's skills to be used instead of the possessor's
@@ -38,6 +47,13 @@
 		return FALSE
 	var/datum/mind/vessel_orig_mind = vessel.mind // save this reference early incase make_observer fucks with it
 	vessel.mind.current = null // don't do anything funky while we execute
+	// if an ability is activated before the mind transfer, it'll be "phantom activated" after the transfer. this means it will appear activated, and clicking it will deactivate it, but the click intercept is still on the old mob. that's bad, so we manually deactivate it here
+	for(var/mob/living/carbon/human/H in list(src, vessel))
+		if(H.ranged_ability)
+			H.ranged_ability.deactivate(H)
+		var/datum/action/cooldown/active_cooldown = H.click_intercept
+		if(istype(active_cooldown))
+			active_cooldown.unset_click_ability(H, refund_cooldown = FALSE)
 	// before ANYTHING else we need to clear the mob's spells so the hag won't have access to them. they'll get re-added when the hag
 	// goes back to their original body and the vessel's original mind transfers back in
 	if(remove_spells)
@@ -50,6 +66,10 @@
 			else if(istype(X, /obj/effect/proc_holder/spell))
 				var/obj/effect/proc_holder/spell/S = X
 				S.action?.Remove(vessel)
+
+	// log 2 admins here before we do the actual possession so the names and keys are correct
+	message_admins("[ADMIN_LOOKUPFLW(src)] has possessed [ADMIN_LOOKUPFLW(vessel)].")
+	log_game("[key_name(src)] has possessed [key_name(vessel)].")
 
 	// ok so here's how this works. first, we ghostize the vessel and force them to orbit their old body.
 	// we store a copy of the things that change (voice color and descriptor) using the namesteal datum, then transfer over the hag's.
@@ -88,7 +108,7 @@
 	vessel.reset_perspective() // needed for revs and such
 	ADD_TRAIT(vessel, TRAIT_POSSESSED, trait_source)
 	SEND_SIGNAL(vessel, COMSIG_MOB_POSSESS, dsoul, src)
-	add_verb(vessel, /mob/living/carbon/human/proc/release_vessel) // failsafe: if a possession method doesn't add a revert method, they'll have a verb for it
+	add_verb(vessel, /mob/living/carbon/human/proc/release_vessel_verb) // failsafe: if a possession method doesn't add a revert method, they'll have a verb for it
 	add_verb(dsoul, /mob/dead/observer/eye/screye/displaced_soul/proc/resist_possession) // failsafe: if a possessor is badfaithing/afk, or in certain ic circumstances, you can resist. what that does depends on the possession source
 	return dsoul
 

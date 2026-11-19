@@ -6,8 +6,8 @@ import {
   SEAL_AMBER,
 } from '../../common/parchment';
 import type { FundEntry, TabProps } from '../types';
+import { AllowanceSection } from './AllowanceSection';
 import { BathhouseOrdinanceSection } from './BathhouseOrdinanceSection';
-import { BathhouseWithdrawalSection } from './BathhouseWithdrawalSection';
 import { FundActivity } from './FundActivity';
 import { IssueLoanSection } from './IssueLoanSection';
 import { WithdrawSection } from './WithdrawSection';
@@ -19,6 +19,7 @@ export const FundView = ({
 }: TabProps & { fund: FundEntry }) => {
   const balance = data.fund_balances[fund.id]?.balance ?? 0;
   const outstanding = data.fund_balances[fund.id]?.outstanding_principal ?? 0;
+  const allowance = data.fund_allowances?.[fund.id];
 
   const view_only = !fund.can_withdraw && !fund.can_issue && fund.can_view;
   const can_issue_loan = fund.can_issue && fund.supports_loans;
@@ -49,16 +50,16 @@ export const FundView = ({
       {!!can_issue_loan && (
         <IssueLoanSection fund={fund} data={data} act={act} />
       )}
-      {fund.id === 'bathhouse' && fund.can_issue && (
-        <BathhouseWithdrawalSection data={data} act={act} />
+      {!!allowance && !!fund.can_issue && (
+        <AllowanceSection fund={fund} allowance={allowance} act={act} />
       )}
-      {(fund.id === 'bathhouse' || fund.id === 'church') && fund.can_issue && (
+      {(fund.id === 'bathhouse' || fund.id === 'church') && !!fund.can_issue && (
         <BathhouseOrdinanceSection data={data} act={act} />
       )}
       {!!view_only && (
         <div style={{ color: INK_FAINT, marginTop: 8 }}>
-          {fund.id === 'bathhouse' && data.bathhouse_viewer_withdrawal_limit_hit
-            ? "You've reached your daily Bathhouse withdrawal limit."
+          {allowance?.viewer_limit_hit
+            ? "You've reached your daily withdrawal limit for this fund."
             : "You can see this fund. You can't use it."}
         </div>
       )}

@@ -91,9 +91,9 @@
 	name = "Bottle Bomb"
 	cost = 40
 	contains = list(
-					/obj/item/bomb,
-					/obj/item/bomb,
-					/obj/item/bomb,
-					/obj/item/bomb,
-					/obj/item/bomb
+					/obj/item/explosive/fused/bottle,
+					/obj/item/explosive/fused/bottle,
+					/obj/item/explosive/fused/bottle,
+					/obj/item/explosive/fused/bottle,
+					/obj/item/explosive/fused/bottle
 				)

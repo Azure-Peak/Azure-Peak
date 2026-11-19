@@ -1,6 +1,6 @@
 ///Component specifically for explosion sensetive things, currently only applies to heat based explosions but can later perhaps be used for things that are dangerous to handle carelessly like nitroglycerin.
 /datum/component/explodable
-	var/devastation_range = 0
+	var/extreme_impact_range = 0
 	var/heavy_impact_range = 0
 	var/light_impact_range = 2
 	var/flash_range = 3
@@ -24,7 +24,7 @@
 
 
 	if(devastation_range_override)
-		devastation_range = devastation_range_override
+		extreme_impact_range = devastation_range_override
 	if(heavy_impact_range_override)
 		heavy_impact_range = heavy_impact_range_override
 	if(light_impact_range_override)
@@ -104,5 +104,5 @@
 	var/log = TRUE
 	if(light_impact_range < 1)
 		log = FALSE
-	explosion(A, devastation_range, heavy_impact_range, light_impact_range, flash_range, log) //epic explosion time
+	explosion(A, extreme_impact_range, heavy_impact_range, light_impact_range, flash_range, log) //epic explosion time
 	qdel(A)

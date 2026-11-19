@@ -127,7 +127,7 @@
 		if(/datum/patron/divine/malum)
 			out_text = skill_check_text("Malum", TRUE, "The cool air of the pool swells to searing oppression. The inner hollow of Psydonia, deep underground. Yet none of the riches shine as bright as the hot metal poised upon the anvil in the center of it all. Pick up the hammer, work, do not bother me again.")
 		if(/datum/patron/divine/necra)
-			out_text = skill_check_text("Necra", TRUE, "A cold mist drifts from the pool. A veiled silhouette beckons as whispy tethers of fog surround you, reassuring you that whatever lies beyond the pool is merely the natural end of all things. Countless eyes shall awaken, all will return to the undermaiden.")
+			out_text = skill_check_text("Necra", TRUE, "A cold mist drifts from the pool. A veiled silhouette beckons as whispy tethers of fog surround you, reassuring you that whatever lies beyond the pool is merely the natural end of all things. Countless eyes shall awaken, all will return to the Undermaiden.")
 		if(/datum/patron/divine/noc)
 			out_text = skill_check_text("Noc", TRUE, "Faint, glowing scripts of forgotten arcana float within the swirling mist. Whispers of lost, ancient knowledge buried underneath the sea. Sights of deep ones hoarding artefacts of distant lands.")
 		if(/datum/patron/divine/pestra)
@@ -286,7 +286,7 @@
 		active_beams = list()
 		var/turf/pool_turf = get_turf(src)
 		for(var/mob/living/P in active_channelers)
-			active_beams += pool_turf.Beam(P, icon_state = "b_beam", time = phase_time, maxdistance = 10)
+			active_beams += pool_turf.Beam(P, icon_state = "b_beam", time = phase_time, max_distance = 10)
 
 		var/drain_per_phase = 15
 		for(var/mob/living/P in active_channelers)
@@ -296,12 +296,12 @@
 		if(!do_after(leader, phase_time, target = src, extra_checks = CALLBACK(src, PROC_REF(channel_check), leader, outer_rim)))
 			to_chat(leader, span_warning("Your connection falters! The ritual is interrupted."))
 			for(var/datum/beam/B in active_beams)
-				B.End()
+				qdel(B)
 			collapse_ritual()
 			return
 
 		for(var/datum/beam/B in active_beams)
-			B.End()
+			qdel(B)
 
 		if(linked_door?.gate_closed || !R.check_ingredients(src))
 			visible_message(span_warning("The pool's configuration changed mid-ritual! The abyss recoils."))

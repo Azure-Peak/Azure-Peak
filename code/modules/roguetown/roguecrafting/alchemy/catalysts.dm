@@ -53,7 +53,7 @@
 /obj/item/alch/catalyst/argyropoeia // DO NOT ADD A SEED ITEM TO THIS. IT IS SUPPOSED TO BE UNCRAFTABLE.
 	name = "argyropoeia catalyst"	// IF I SEE YOU MAKING THIS CRAFTABLE IT MEANS SILVER IS CONSISTENTLY TRANSMUTABLE BY MAGES NOW
 	icon_state = "argyro"			// AND YOU ACCEPT THE CONSEQUENCES OF THAT
-	desc = "A gemstone of purest silver, banded in Her gold. Noc's greatest mystery, and Otava's biggest secret. It's warm in your hands - and burns at your fingers if they're bare, like you too have some small scorn from this object."
+	desc = "A gemstone of purest silver, banded in Her gold. Noc's greatest mystery, and Otava's biggest secret. It's warm in your hands - and burns at your fingers if they're bare, as if you, too, have some small scorn from this object."
 	recipe_base_type = /datum/transmutation_recipe/argyropoeia
 	materia = list(/datum/materia_aspect/lunar, /datum/materia_aspect/malleability, /datum/materia_aspect/rubedo) // hey i wonder why this has the paradox slash divine aspect
 	difficulty = 7 // (if it _was_ craftable it'd have the highest difficulty)

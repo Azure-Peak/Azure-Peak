@@ -133,7 +133,6 @@
 	color = "#bb9696"
 	smeltresult = /obj/item/ingot/aaslag
 	anvilrepair = null
-	randomize_blade_int_on_init = TRUE
 
 /obj/item/rogueweapon/stoneaxe/hurlbat
 	name = "hurlbat"
@@ -262,6 +261,7 @@
 	desc = "Once, a ceremonial rendition of the handaxes that Psydonia's ancestors built the first civilizations \
 	with. Now, an uncommon - but very much lethal - alternative to the tossblade, well-weighted for slashing and throwing."
 	icon_state = "tomahawk_silver"
+	throwforce = 30
 	thrown_damage_flag = "piercing"
 	smeltresult = /obj/item/ingot/silver
 	is_tool = FALSE
@@ -469,7 +469,7 @@
 	name = "anointed war axe"
 	icon_state = "crusaderaxe"
 	desc = "A crusader's axe, adorned with a blade of cold iron and blessed to smite evil. Though this blessed alloy lacks the strength to \
-	sunder those who bear greater curses, it nevertheless channels enough power to dispell the lesser curses of mindless fiends-and-foes."
+	sunder those who bear greater curses, it nevertheless channels enough power to dispel the lesser curses of mindless fiends-and-foes."
 	force = 25
 	force_wielded = 27
 	max_blade_int = 450 //+50

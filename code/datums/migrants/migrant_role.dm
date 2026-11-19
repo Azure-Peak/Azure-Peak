@@ -29,6 +29,8 @@
 	var/list/banned_virtues
 	/// If they can take contracts before the 1-hour mark
 	var/townie_contract_gate_exempt = FALSE
+	// To reduce hacky code, certain migrations should just outright give them the actual job, and then decrement the job slot count.
+	var/job_type = /datum/job/roguetown/migrant
 
 /datum/migrant_role/proc/after_spawn(mob/living/carbon/human/character)
 	return

@@ -160,7 +160,7 @@
 
 /datum/special_trait/screenshake
 	name = "Tremors"
-	greet_text = span_crit("I'm not too steady any more...")
+	greet_text = span_crit("I'm not too steady anymore...")
 	weight = 100
 
 /datum/special_trait/maniac_awoken
@@ -179,8 +179,8 @@
 	weight = 100
 
 /datum/special_trait/arsonist/on_apply(mob/living/carbon/human/character, silent)
-	character.mind.special_items["Firebomb One"] = /obj/item/bomb
-	character.mind.special_items["Firebomb Two"] = /obj/item/bomb
+	character.mind.special_items["Firebomb One"] = /obj/item/explosive/fused/bottle
+	character.mind.special_items["Firebomb Two"] = /obj/item/explosive/fused/bottle
 	ADD_TRAIT(character, TRAIT_ALCHEMY_EXPERT, TRAIT_GENERIC)
 	character.adjust_skillrank_up_to(/datum/skill/craft/alchemy, 1, TRUE)
 
@@ -231,13 +231,12 @@
 	weight = 100
 
 /datum/special_trait/thief/on_apply(mob/living/carbon/human/character, silent)
-	character.adjust_skillrank_up_to(/datum/skill/misc/stealing, 5, TRUE)
 	character.adjust_skillrank_up_to(/datum/skill/misc/sneaking, 4, TRUE)
 	character.adjust_skillrank_up_to(/datum/skill/misc/climbing, 3, TRUE)
 
 /datum/special_trait/languagesavant
 	name = "Polyglot"
-	greet_text = span_notice("I have always picked up on languages easily, even those that are forbidden to mortals... except that accursed beastial chatter. What even is that nonsense?")
+	greet_text = span_notice("I have always picked up on languages easily, even those that are forbidden to mortals... except that accursed bestial chatter. What even is that nonsense?")
 	weight = 100
 
 /datum/special_trait/languagesavant/on_apply(mob/living/carbon/human/character, silent)
@@ -415,7 +414,11 @@
 			reason = "heresy"
 		if(7)
 			reason = "robbing a noble"
-	add_bounty(character.real_name, amount, FALSE, reason, employer)
+	var/list/descriptors = character.get_mob_descriptors()
+	var/descriptor_height = build_coalesce_description_nofluff(descriptors, character, list(MOB_DESCRIPTOR_SLOT_HEIGHT), "%DESC1%")
+	var/descriptor_body = build_coalesce_description_nofluff(descriptors, character, list(MOB_DESCRIPTOR_SLOT_BODY), "%DESC1%")
+	var/descriptor_voice = build_coalesce_description_nofluff(descriptors, character, list(MOB_DESCRIPTOR_SLOT_VOICE), "%DESC1%")
+	add_bounty(character.real_name, character.dna.species, character.gender, descriptor_height, descriptor_body, descriptor_voice, amount, reason, employer, "crown", TRUE)
 	if(!silent)
 		to_chat(character, span_notice("Whether I done it or not, I have been accused of [reason], and the [employer] put a bounty on my head!"))
 
@@ -527,7 +530,6 @@
 	character.adjust_skillrank(/datum/skill/combat/knives, 2, TRUE)
 	character.adjust_skillrank(/datum/skill/misc/reading, -2, TRUE)
 	character.adjust_skillrank(/datum/skill/misc/sneaking, -2, TRUE)
-	character.adjust_skillrank(/datum/skill/misc/stealing, -2, TRUE)
 
 /datum/special_trait/vengantbum
 	name = "Vengant Bum"
@@ -546,7 +548,7 @@
 
 /datum/special_trait/my_precious
 	name = "My Precious"
-	greet_text = span_notice("The ring, it's so shiny... so valuable, I can feel it's power. It's all mine!")
+	greet_text = span_notice("The ring, it's so shiny... so valuable, I can feel its power. It's all mine!")
 	req_text = "Be a beggar"
 	weight = 50
 

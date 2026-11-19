@@ -1,0 +1,5 @@
+author: "Ollanius"
+delete-after: True
+changes:
+  - refactor: "Cleans up formatting for some reagent-related .dm files."
+  - rscadd: "Adjusts the naming scheme (and some descriptions) for drinks and reagents, in order to bring them more in line with the current style."

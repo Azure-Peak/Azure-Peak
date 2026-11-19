@@ -32,7 +32,7 @@
 /// (Requires a MC restart to change)
 #define SS_NO_FIRE 2
 
-/** subsystem only runs on spare cpu (after all non-background subsystems have ran that tick) */
+/** subsystem only runs on spare cpu (after all non-background subsystems have run that tick) */
 /// SS_BACKGROUND has its own priority bracket
 #define SS_BACKGROUND 4
 

@@ -141,7 +141,7 @@
 	if(!length(firing))
 		return
 	var/datum/skill/craft/cooking/cs = lastuser?.get_skill_level(/datum/skill/craft/cooking)
-	var/cooktime_divisor = get_cooktime_divisor(cs)
+	var/cooktime_divisor = get_skill_speed_divisor(cs)
 	var/fired_any = FALSE
 	for(var/obj/item/natural/clay/unfired as anything in firing)
 		var/obj/item/result = unfired.cooking(10 * cooktime_divisor, 10, src)

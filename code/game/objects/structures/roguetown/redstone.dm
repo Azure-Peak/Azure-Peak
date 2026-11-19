@@ -185,7 +185,7 @@ GLOBAL_LIST_EMPTY(redstone_objs)
 			playsound(user, 'sound/misc/wood_saw.ogg', 100, TRUE)
 		return
 	else if(istype(item, /obj/item/rogueweapon/chisel/assembly))
-		to_chat(user, span_warning("You most use both hands to rename doors."))
+		to_chat(user, span_warning("You must use both hands to rename doors."))
 
 /obj/structure/lever/onkick(mob/user)
 	if(isliving(user))
@@ -334,7 +334,7 @@ GLOBAL_LIST_EMPTY(redstone_objs)
 			playsound(user, 'sound/misc/wood_saw.ogg', 100, TRUE)
 		return
 	else if(istype(item, /obj/item/rogueweapon/chisel/assembly))
-		to_chat(user, span_warning("You most use both hands to rename plates."))
+		to_chat(user, span_warning("You must use both hands to rename plates."))
 
 /*
 /obj/structure/pressure_plate/attack_hand(mob/user) //commented out for now, they're stuposed to be anchored structures for dungeons. End of vanderlin traps port. Maybe an artificer subtype craft in the future.
@@ -455,7 +455,7 @@ GLOBAL_LIST_EMPTY(redstone_objs)
 			playsound(user, 'sound/misc/wood_saw.ogg', 100, TRUE)
 		return
 	else if(istype(item, /obj/item/rogueweapon/chisel/assembly))
-		to_chat(user, span_warning("You most use both hands to rename the launcher."))
+		to_chat(user, span_warning("You must use both hands to rename the launcher."))
 	playsound(loc, 'sound/misc/keyboard_enter.ogg', 100, FALSE, -1)
 	sleep(7)
 	if(containment)
@@ -541,7 +541,7 @@ GLOBAL_LIST_EMPTY(redstone_objs)
 		return
 
 	// Reagent containers, bombs, flint, and impact grenades load directly
-	if(!containment && (istype(I, /obj/item/reagent_containers) || istype(I, /obj/item/bomb) || istype(I, /obj/item/impact_grenade) || istype(I, /obj/item/flint)))
+	if(!containment && (istype(I, /obj/item/reagent_containers) || istype(I, /obj/item/explosive/fused/bottle) || istype(I, /obj/item/explosive/impact) || istype(I, /obj/item/flint)))
 		if(!user.transferItemToLoc(I, src))
 			return ..()
 		containment = I
@@ -554,7 +554,7 @@ GLOBAL_LIST_EMPTY(redstone_objs)
 		var/obj/item/storage/bag = I
 		var/has_throwable = FALSE
 		for(var/obj/item/thing in bag.contents)
-			if(istype(thing, /obj/item/bomb) || istype(thing, /obj/item/impact_grenade))
+			if(istype(thing, /obj/item/explosive/fused/bottle) || istype(thing, /obj/item/explosive/impact))
 				has_throwable = TRUE
 				break
 		if(has_throwable)
@@ -593,7 +593,7 @@ GLOBAL_LIST_EMPTY(redstone_objs)
 		var/obj/item/storage/bag = containment
 		var/obj/item/throwable
 		for(var/obj/item/thing in bag.contents)
-			if(istype(thing, /obj/item/bomb) || istype(thing, /obj/item/impact_grenade))
+			if(istype(thing, /obj/item/explosive/fused/bottle) || istype(thing, /obj/item/explosive/impact))
 				throwable = thing
 				break
 		if(throwable)
@@ -613,8 +613,8 @@ GLOBAL_LIST_EMPTY(redstone_objs)
 		return
 
 	// Single bomb — light and throw
-	if(istype(containment, /obj/item/bomb))
-		var/obj/item/bomb/B = containment
+	if(istype(containment, /obj/item/explosive/fused/bottle))
+		var/obj/item/explosive/fused/bottle/B = containment
 		containment = null
 		update_icon()
 		B.forceMove(get_turf(src))
@@ -623,8 +623,8 @@ GLOBAL_LIST_EMPTY(redstone_objs)
 		return
 
 	// Impact grenade — throw directly (impact on landing)
-	if(istype(containment, /obj/item/impact_grenade))
-		var/obj/item/impact_grenade/G = containment
+	if(istype(containment, /obj/item/explosive/impact))
+		var/obj/item/explosive/impact/G = containment
 		containment = null
 		update_icon()
 		G.forceMove(get_turf(src))
@@ -904,7 +904,7 @@ GLOBAL_LIST_EMPTY(redstone_objs)
 			playsound(user, 'sound/misc/wood_saw.ogg', 100, TRUE)
 		return
 	else if(istype(held, /obj/item/rogueweapon/chisel/assembly))
-		to_chat(user, span_warning("You most use both hands to rename the plate."))
+		to_chat(user, span_warning("You must use both hands to rename the plate."))
 
 /obj/structure/kybraxor
 	name = "Kybraxor the Devourer"

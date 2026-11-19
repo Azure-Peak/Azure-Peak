@@ -5,7 +5,7 @@
 	Toggle arc mode (Shift+G) while the spell is active to lob it over obstacles at reduced damage."
 	button_icon_state = "profane"
 	sound = 'sound/spellbooks/icicle.ogg'
-	spell_color = GLOW_COLOR_ZIZO
+	spell_color = PATRON_COLOR_ZIZO
 	glow_intensity = GLOW_INTENSITY_MEDIUM
 
 	projectile_type = /obj/projectile/magic/profane/bone_shard

@@ -40,7 +40,7 @@
 
 /obj/item/clothing/suit/roguetown/armor/workervest
 	name = "striped tunic"
-	desc = "This cheap tunic is often used by sturdy laborous men and women."
+	desc = "This cheap tunic is often used by sturdy laborious men and women."
 	icon_state = "workervest"
 	armor = null
 	blocksound = SOFTHIT

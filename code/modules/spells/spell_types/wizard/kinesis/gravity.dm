@@ -2,7 +2,7 @@
 	button_icon = 'icons/mob/actions/mage_kinesis.dmi'
 	name = "Gravity"
 	expose_caster_on_deflect = FALSE
-	desc = "Weighten space around someone, crushing them and knocking them to the floor. Stronger opponents will resist and be off-balanced. Target can adapt to gravity for 15 seconds after being knocked down, making them stand firm against conseuctive hit."
+	desc = "Weighten space around someone, crushing them and knocking them to the floor. Stronger opponents will resist and be off-balanced. Target can adapt to gravity for 15 seconds after being knocked down, making them stand firm against consecutive hits."
 	button_icon_state = "gravity"
 	sound = 'sound/magic/gravity.ogg'
 	spell_color = GLOW_COLOR_KINESIS
@@ -107,7 +107,7 @@
 			if(!adapted)
 				L.OffBalance(offbalance_time)
 				L.mob_timers[MT_GRAVITY_ADAPTATION] = world.time
-				to_chat(L, span_userdanger("I'm magically weighed down, but my strength resist!"))
+				to_chat(L, span_userdanger("I'm magically weighed down, but my strength resists!"))
 			else
 				to_chat(L, span_userdanger("The gravity crushes me, but I keep my footing!"))
 		new /obj/effect/temp_visual/spell_impact(get_turf(L), spell_color, spell_impact_intensity)

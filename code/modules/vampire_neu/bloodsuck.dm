@@ -138,11 +138,11 @@
 
 	if(!victim.clan && victim.mind && ishuman(victim) && VDrinker.generation > GENERATION_THINBLOOD && victim.blood_volume <= BLOOD_VOLUME_BAD)
 		var/datum/antagonist/vampire/vdrinker = mind?.has_antag_datum(/datum/antagonist/vampire)
-		if((vdrinker.max_thralls <= 0) || (isnull(vdrinker.max_thralls || VDrinker.generation <= GENERATION_THINBLOOD))) //thin bloods or low level vampires can't make thralls, incase they get past the last check by leveling up off others
+		if((vdrinker.max_thralls <= 0) || (isnull(vdrinker.max_thralls || VDrinker.generation <= GENERATION_THINBLOOD))) //thin bloods or low level vampires can't make thralls, in case they get past the last check by leveling up off others
 			to_chat(src, span_warning("I cannot sire thralls, my blood is too weak!"))
 		else
 			if(vdrinker.thrall_count >= vdrinker.max_thralls) //you've hit your max
-				to_chat(src, span_warning("I cannot sire anymore thralls.."))
+				to_chat(src, span_warning("I cannot sire any more thralls.."))
 			else
 				if(alert(src, "Would you like to sire a new spawn?", "THE CURSE OF ASTRATA", "MAKE IT SO", "I RESCIND") != "MAKE IT SO")
 					to_chat(src, span_warning("I decide [victim] is unworthy."))

@@ -1,0 +1,4 @@
+author: "FreeStylaLT"
+delete-after: True
+changes:
+  - rscadd: "Falling asleep, waking up and closing / opening eyes has distinct messages now."

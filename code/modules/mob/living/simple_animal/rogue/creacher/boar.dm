@@ -12,9 +12,7 @@
 	emote_hear = null
 	emote_see = null
 	speak_chance = 1
-	turns_per_move = 2
 	see_in_dark = 6
-	move_to_delay = 5
 	base_intents = list(/datum/intent/simple/claw/boar)
 	// Like a pig, but some of the meat and fat drops are exchanged for hide instead.
 	botched_butcher_results = list(
@@ -55,11 +53,7 @@
 	maxHealth = BOAR_HEALTH
 	melee_damage_lower = 30
 	melee_damage_upper = 40
-	vision_range = 7
-	aggro_vision_range = 9
 	environment_smash = ENVIRONMENT_SMASH_STRUCTURES
-	retreat_distance = 0
-	minimum_distance = 0
 	milkies = FALSE
 	food_type = list(/obj/item/reagent_containers/food/snacks/rogue/meat,
 	)
@@ -68,14 +62,11 @@
 	STASTR = 15
 	STASPD = 13
 	deaggroprob = 0
-	retreat_health = 0.3
 	food = 0
 	attack_sound = list('sound/vo/mobs/vw/attack (1).ogg','sound/vo/mobs/boar/boar_attack.ogg','sound/vo/mobs/boar/boar_charge.ogg')
 	dodgetime = 30
 	aggressive = 1
 	remains_type = /obj/effect/decal/remains/mole
-	AIStatus = AI_OFF
-	can_have_ai = FALSE
 	ai_controller = /datum/ai_controller/boar
 	move_base_delay = MOVEMENT_DELAY_SPD_17
 	var/charge_type = /datum/action/cooldown/spell/telegraphed_strike/mob_ability/boar_charge
@@ -108,7 +99,7 @@
 
 /mob/living/simple_animal/hostile/retaliate/rogue/boar/taunted(mob/user)
 	emote("aggro")
-	GiveTarget(user)
+	ai_controller?.force_aggro(user)
 	return
 
 /datum/intent/simple/claw/boar

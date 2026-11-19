@@ -78,7 +78,7 @@
 	poisontype = /datum/reagent/water/blessed
 	poisonamount = 7
 	is_silver_proj = TRUE
-	npc_simple_damage_mult = 5
+	antibeast_factor = ANTIBEAST_EXCEPTIONAL
 	speed = 0.8
 	min_range = MIN_BOLT_RANGE - 1
 	max_range = MAX_BOLT_RANGE - 1
@@ -88,7 +88,7 @@
 	name = "bolt"
 	damage = 70
 	damage_type = BRUTE
-	npc_simple_damage_mult = 2
+	antibeast_factor = ANTIBEAST_GREATER
 	armor_penetration = PEN_HEAVY // Meant to punch through plate without issue
 	icon_state = "bolt_proj"
 	ammo_type = /obj/item/ammo_casing/caseless/rogue/bolt
@@ -141,7 +141,7 @@
 /obj/projectile/bullet/reusable/bolt/bronze
 	damage = 70
 	armor_penetration = PEN_MEDIUM
-	npc_simple_damage_mult = 3
+	antibeast_factor = ANTIBEAST_SUPERIOR
 	ammo_type = /obj/item/ammo_casing/caseless/rogue/bolt/bronze
 	icon_state = "bronzebolt_proj"
 	speed = 0.15
@@ -149,7 +149,7 @@
 /obj/projectile/bullet/reusable/bolt/holy
 	name = "sunderbolt"
 	damage = 35 //Halved damage, but same penetration.
-	npc_simple_damage_mult = 5
+	antibeast_factor = ANTIBEAST_EXCEPTIONAL
 	icon_state = "bolthwater_proj"
 	ammo_type = /obj/item/ammo_casing/caseless/rogue/bolt/holy
 	embedchance = 100
@@ -251,7 +251,7 @@
 /obj/item/ammo_casing/caseless/rogue/heavy_bolt/aalloy
 	name = "decrepit heavy bolt"
 	desc = "A length of rotted metal, quilled to take flight and tear down the living. \
-	Metal flakes occassionally peel off from its core, mysteriously hovering about - \
+	Metal flakes occasionally peel off from its core, mysteriously hovering about - \
 	tolerable by the undying, but unbearibly noxious to the living."
 	icon_state = "ancientheavybolt"
 	projectile_type = /obj/projectile/bullet/reusable/heavy_bolt/aalloy
@@ -298,7 +298,7 @@
 /obj/item/ammo_casing/caseless/rogue/bolt/silver
 	name = "silver bolt"
 	desc = "A masterworked bolt of silver, fitted to a winged rod of boswellia wood. Expensive, yet uncompromisingly lethal; the \
-	final adjucation of abberants, delivered from afar. </br>'Non timebo mala..' - '..I will fear no evil.'"
+	final adjucation of aberrants, delivered from afar. </br>'Non timebo mala..' - '..I will fear no evil.'"
 	projectile_type = /obj/projectile/bullet/reusable/bolt/silver
 	possible_item_intents = list(/datum/intent/dagger/cut, /datum/intent/dagger/thrust)
 	caliber = "regbolt"
@@ -309,7 +309,7 @@
 /obj/projectile/bullet/reusable/bolt/silver
 	name = "silver bolt"
 	damage = 80 //One shot. Make it count. Pray your aim is true - and that whoever's on the other side isn't packing a shield or knows how to sidestep.
-	npc_simple_damage_mult = 6
+	antibeast_factor = ANTIBEAST_SUPREME
 	armor_penetration = PEN_BSTEEL
 	icon_state = "silvbolt_proj"
 	ammo_type = /obj/item/ammo_casing/caseless/rogue/bolt/silver
@@ -410,7 +410,7 @@
 	hitsound = 'sound/combat/hits/hi_bolt (1).ogg'
 	poisontype = /datum/reagent/water/blessed
 	poisonamount = 3 //Deals 25 BRUTE and 15 BURN, on top of some mild afterburn.
-	npc_simple_damage_mult = 3
+	antibeast_factor = ANTIBEAST_SUPERIOR
 	range = 15
 	speed = 0.4
 	min_range = MIN_BOLT_RANGE - 1
@@ -439,7 +439,7 @@
 	hitsound = 'sound/combat/hits/hi_bolt (1).ogg'
 	poisontype = /datum/reagent/water/blessed
 	poisonamount = 4 //Deals 40 BRUTE and 20 BURN, on top of some mild afterburn.
-	npc_simple_damage_mult = 3
+	antibeast_factor = ANTIBEAST_SUPERIOR
 	is_silver_proj = TRUE
 
 // PYRO AMMO
@@ -456,7 +456,7 @@
 	desc = "A flint-tipped bolt, housed in a thin alloy and smeared with a flammable tincture. The lightest impact tends to violently crumple its alloyed blanket \
 	against the flint, spawning a flurry of sparks that turns its jellified accompaniment into a firestorm."
 	damage = 50
-	npc_simple_damage_mult = 2
+	antibeast_factor = ANTIBEAST_GREATER
 	icon_state = "boltpyro_proj"
 	hitsound = 'sound/blank.ogg'
 	embedchance = 0
@@ -529,7 +529,7 @@
 	name = "blacksteel bolt"
 	damage = 70
 	armor_penetration = PEN_BSTEEL
-	npc_simple_damage_mult = 6
+	antibeast_factor = ANTIBEAST_SUPREME
 	icon_state = "blacksteelbolt_proj"
 	ammo_type = /obj/item/ammo_casing/caseless/rogue/bolt/blacksteel
 	embedchance = 80

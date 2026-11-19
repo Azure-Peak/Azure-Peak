@@ -13,6 +13,7 @@
 	min_pq = 3 //Deus vult, but only according to the proper escalation rules
 	max_pq = null
 	round_contrib_points = 2
+	quest_claim_barred = TRUE
 	total_positions = 4
 	spawn_positions = 4
 	advclass_cat_rolls = list(CTAG_TEMPLAR = 20)
@@ -24,7 +25,7 @@
 	//No nobility for you, being a member of the clergy means you gave UP your nobility. It says this in many of the church tutorial texts.
 	virtue_restrictions = list(/datum/virtue/utility/noble)
 	quirk_restrictions = list(/datum/quirk/noble)
-	vice_restrictions = list(/datum/charflaw/silverweakness)
+	vice_restrictions = list(/datum/charflaw/silverweakness, /datum/charflaw/wanted)
 	job_subclasses = list(
 		/datum/advclass/templar/monk,
 		/datum/advclass/templar/crusader,

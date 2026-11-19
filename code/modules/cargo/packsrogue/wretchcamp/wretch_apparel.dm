@@ -3,7 +3,7 @@
 	crate_name = "suspicious crate"
 	crate_type = /obj/structure/closet/crate/chest/merchant
 
-//All of these should be pricer than tennite amulets due to the difficulty to "aquire"... albeit not by a significant margin
+//All of these should be pricer than tennite amulets due to the difficulty to "acquire"... albeit not by a significant margin
 
 /datum/supply_pack/rogue/apparel_inhumen/crosses/inhumenpantheonzizodecrepit
 	name = "Decrepid Inverted Psicross"

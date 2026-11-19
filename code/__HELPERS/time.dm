@@ -280,6 +280,15 @@ GLOBAL_VAR_INIT(rollovercheck_last_timeofday, 0)
 
 //Takes a value of time in deciseconds.
 //Returns a text value of that number in hours, minutes, or seconds.
+// Return them in daes / hours, IC units
+/proc/station_duration_text(real_time)
+	var/station_time = real_time * SSticker.station_time_rate_multiplier
+	var/daes = round(station_time / (24 HOURS), 1)
+	if(daes >= 1)
+		return "[daes] dae[daes != 1 ? "s" : ""]"
+	var/hours = max(round(station_time / (1 HOURS), 1), 1)
+	return "[hours] hour[hours != 1 ? "s" : ""]"
+
 /proc/DisplayTimeText(time_value, round_seconds_to = 0.1)
 	var/second = FLOOR(time_value * 0.1, round_seconds_to)
 	if(!second)

@@ -455,3 +455,14 @@
 
 /datum/sprite_accessory/tail/large_snake_plain/is_visible(obj/item/organ/organ, obj/item/bodypart/bodypart, mob/living/carbon/owner)
 	return TRUE	//Always visible.
+
+// From Ochre Valley
+/datum/sprite_accessory/tail/large_tails
+	icon = 'icons/mob/sprite_accessory/tails/large_tails.dmi'
+	pixel_x = -16
+
+/datum/sprite_accessory/tail/large_tails/flagtail
+	icon_state = "flagtail"
+	name = "Flagtail"
+	color_keys = 3
+	color_key_names = list("Tail","Floof","Inner Floof")

@@ -39,10 +39,12 @@
 	backl = /obj/item/storage/backpack/rogue/satchel
 	backpack_contents = list(
 		/obj/item/flashlight/flare/torch/lantern,
+		/obj/item/rogueweapon/huntingknife = 1,
+		/obj/item/rogueweapon/scabbard/sheath = 1,
 		)
 	H.set_blindness(0)
 	if(H.mind)
-		var/weapons = list("Naginata","Quarterstaff","Hwando")
+		var/weapons = list("Naginata","Quarterstaff","Hwando", "Nodachi")
 		var/weapon_choice = input(H, "Choose your weapon", "TAKE UP ARMS") as anything in weapons
 		switch(weapon_choice)
 			if("Naginata")
@@ -59,6 +61,11 @@
 				beltr = /obj/item/rogueweapon/scabbard/sword/kazengun
 				armor = /obj/item/clothing/suit/roguetown/armor/basiceast
 				H.adjust_skillrank_up_to(/datum/skill/combat/swords, 4, TRUE)
+			if("Nodachi")
+				r_hand = /obj/item/rogueweapon/greatsword/nodachi/iron
+				backr = /obj/item/rogueweapon/scabbard/gwstrap
+				H.adjust_skillrank_up_to(/datum/skill/combat/swords, 4, TRUE)
+				armor = /obj/item/clothing/suit/roguetown/armor/basiceast/mentorsuit
 
 /datum/advclass/foreigner/yoruku
 	name = "Eastern Assassin"
@@ -95,10 +102,12 @@
 	backr = /obj/item/storage/backpack/rogue/satchel
 	backpack_contents = list(
 		/obj/item/flashlight/flare/torch = 1,
-		/obj/item/bomb/smoke = 3,
+		/obj/item/explosive/impact/smoke/bomb = 3,
+		/obj/item/rogueweapon/huntingknife = 1,
+		/obj/item/rogueweapon/scabbard/sheath = 1,
 		)
 	neck = /obj/item/storage/belt/rogue/pouch/coins/poor
-	belt = /obj/item/storage/belt/rogue/leather/knifebelt/black/kazengun
+	belt = /obj/item/storage/belt/rogue/leather/tossbelt/blade/black/kazengun
 	gloves = /obj/item/clothing/gloves/roguetown/eastgloves1
 	pants = /obj/item/clothing/under/roguetown/heavy_leather_pants/eastpants1
 	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/eastshirt1
@@ -206,6 +215,10 @@
 	head = /obj/item/clothing/head/roguetown/roguehood/shalal/hijab/black
 	beltr = /obj/item/flashlight/flare/torch/lantern
 	mask = /obj/item/clothing/mask/rogue/lordmask/tarnished
+	backpack_contents = list(
+		/obj/item/rogueweapon/huntingknife = 1,
+		/obj/item/rogueweapon/scabbard/sheath = 1,
+		)
 
 	var/paths = list("Refugee (Default)", "Seminary Dropout (Hierophant)", "Wandering Yogi (Vizier)")
 	var/path = input(H, "Choose your past.", "WHAT DID WAR TAKE FROM YOU?") as anything in paths
@@ -449,6 +462,8 @@
 		/obj/item/flashlight/flare/torch = 1,
 		/obj/item/storage/belt/rogue/pouch/coins/poor = 1,
 		/obj/item/natural/bundle/cloth/bandage/full = 1,
+		/obj/item/rogueweapon/huntingknife = 1,
+		/obj/item/rogueweapon/scabbard/sheath = 1,
 		)
 
 /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/hierophant/civilian
@@ -645,7 +660,7 @@
 				shirt = /obj/item/clothing/suit/roguetown/armor/manual/resting/body/gladiator //a gambeson
 				pants = /obj/item/clothing/under/roguetown/loincloth/brown
 				belt = /obj/item/storage/belt/rogue/leather/battleskirt/breechcloth/red
-				//shirt = /obj/item/clothing/suit/roguetown/shirt/tribalrag/gladiator //no empty hands to put this in, and cannot seem to 'pre-load' the cosmetic slot of a skin armor. Can hang in limbo untill someone figures out how to grant it.
+				//shirt = /obj/item/clothing/suit/roguetown/shirt/tribalrag/gladiator //no empty hands to put this in, and cannot seem to 'pre-load' the cosmetic slot of a skin armor. Can hang in limbo until someone figures out how to grant it.
 			if("Shieldbearer - Well-Armored & Maille Training")
 				ADD_TRAIT(H, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
 				head = /obj/item/clothing/head/roguetown/helmet/heavy/bronze
@@ -799,7 +814,7 @@
 	gripped_intents = list(/datum/intent/spear/thrust, /datum/intent/spear/cut, /datum/intent/spear/cut/bardiche/cleave, /datum/intent/spear/cut/glaive/sweep)
 	name = "autumned elvish bardiche"
 	desc = "A cleaving polearm, hewn from the branch of an Azurian elk tree and tipped with a wide blade of faeiron. The \
-	tapered edge can thrust through an oppressor's armor at the right range, while its wide sweeps can dispell even the \
+	tapered edge can thrust through an oppressor's armor at the right range, while its wide sweeps can dispel even the \
 	rowdiest of lumberfoots."
 	icon_state = "aebardiche"
 	max_blade_int = 200
@@ -892,7 +907,7 @@
 	name = "autumnwoad elven boots"
 	desc = "A pair of mossboots that ache with the sounds of living nature, and teem with the colors \
 	of perpetual autumnage. It is said that a Black Oak's armor will only fully blossom once they've \
-	earned the mantle of guardianship; to forsake one's oath to nature is to dispell the ancient songs, \
+	earned the mantle of guardianship; to forsake one's oath to nature is to dispel the ancient songs, \
 	and to let the bark wither away. </br>'..those fallen leaves lie undisturbed now, 'cause you're not here!'"
 
 	icon = 'icons/roguetown/clothing/special/race_armor.dmi'

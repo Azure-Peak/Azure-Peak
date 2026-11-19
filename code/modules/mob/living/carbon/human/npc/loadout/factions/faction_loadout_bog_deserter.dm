@@ -10,6 +10,7 @@
 	armor_training = ARMOR_CLASS_HEAVY
 	traits = list(TRAIT_STEELHEARTED)
 	melee = SKILL_LEVEL_EXPERT
+	magic = SKILL_LEVEL_EXPERT
 	brawl = SKILL_LEVEL_EXPERT
 	survival = SKILL_LEVEL_APPRENTICE
 	athletics = SKILL_LEVEL_JOURNEYMAN
@@ -119,6 +120,67 @@
 		/datum/npc_loadout/weapon/deserter_crossbow,
 	)
 	ai_controller = /datum/ai_controller/human_npc/archer
+
+/datum/npc_archetype/bog_deserter/caster
+	abstract_type = /datum/npc_archetype/bog_deserter/caster
+	threat_point = THREAT_DANGEROUS + THREAT_CASTER_PREMIUM
+	statpack = /datum/npc_statpack/caster/t1
+	armor_training = ARMOR_CLASS_LIGHT
+	ai_controller = /datum/ai_controller/human_npc/caster
+
+/datum/npc_archetype/bog_deserter/caster/mixed
+	name = "Bog Mage"
+	variants = list(
+		/datum/npc_archetype/bog_deserter/caster/pyromancer = 1,
+		/datum/npc_archetype/bog_deserter/caster/geomancer = 1,
+		/datum/npc_archetype/bog_deserter/caster/cryomancer = 1,
+		/datum/npc_archetype/bog_deserter/caster/ferramancer = 1,
+	)
+
+/datum/npc_archetype/bog_deserter/caster/pyromancer
+	name = "Bog Pyromancer"
+	job = "Bog Pyromancer"
+	loadouts = list(
+		/datum/npc_loadout/kit/deserter_flavor,
+		/datum/npc_loadout/kit/caster/pyromancer,
+	)
+
+/datum/npc_archetype/bog_deserter/caster/geomancer
+	name = "Bog Geomancer"
+	job = "Bog Geomancer"
+	loadouts = list(
+		/datum/npc_loadout/kit/deserter_flavor,
+		/datum/npc_loadout/kit/caster/geomancer,
+	)
+
+/datum/npc_archetype/bog_deserter/caster/cryomancer
+	name = "Bog Cryomancer"
+	job = "Bog Cryomancer"
+	loadouts = list(
+		/datum/npc_loadout/kit/deserter_flavor,
+		/datum/npc_loadout/kit/caster/cryomancer,
+	)
+
+/datum/npc_archetype/bog_deserter/caster/ferramancer
+	name = "Bog Ferramancer"
+	job = "Bog Ferramancer"
+	loadouts = list(
+		/datum/npc_loadout/kit/deserter_flavor,
+		/datum/npc_loadout/kit/caster/ferramancer,
+	)
+	ai_controller = /datum/ai_controller/human_npc/caster/melee
+
+/datum/npc_archetype/bog_deserter/phalangite
+	name = "Bog Phalangite"
+	job = "Bog Phalangite"
+	threat_point = THREAT_DANGEROUS + THREAT_CASTER_PREMIUM + THREAT_SPELLBLADE_PREMIUM
+	statpack = /datum/npc_statpack/spellblade/t2
+	armor_training = ARMOR_CLASS_LIGHT
+	loadouts = list(
+		/datum/npc_loadout/kit/spellblade/phalangite,
+		/datum/npc_loadout/kit/deserter_flavor,
+	)
+	ai_controller = /datum/ai_controller/human_npc/caster/melee
 
 //** BODY **//
 

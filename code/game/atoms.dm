@@ -41,7 +41,7 @@
 
 /// Last name used to calculate a color for the chatmessage overlays
 	var/chat_color_name
-	/// Last color calculated for the the chatmessage overlays
+	/// Last color calculated for the chatmessage overlays
 	var/chat_color
 	/// A luminescence-shifted value of the last color calculated for chatmessage overlays
 	var/chat_color_darkened
@@ -395,6 +395,19 @@
 	return ""
 
 /**
+ * Called when a mob examines this atom twice within EXAMINE_MORE_WINDOW.
+ * Extra detail that would clutter the first look.
+ *
+ * Produces a signal COMSIG_ATOM_EXAMINE_MORE
+ */
+/atom/proc/examine_more(mob/user)
+	SHOULD_CALL_PARENT(TRUE)
+	RETURN_TYPE(/list)
+
+	. = list()
+	SEND_SIGNAL(src, COMSIG_ATOM_EXAMINE_MORE, user, .)
+
+/**
  * Called when a mob examines (shift click or verb) this atom
  *
  * Default behaviour is to get the name and icon of the object and it's reagents where
@@ -529,10 +542,10 @@
  *
  * Default behaviour is to call contents_explosion() and send the COMSIG_ATOM_EX_ACT signal
  */
-/atom/proc/ex_act(severity, target, epicenter, devastation_range, heavy_impact_range, light_impact_range, flame_range)
+/atom/proc/ex_act(severity, target, epicenter, extreme_impact_range, heavy_impact_range, light_impact_range, flame_range)
 	set waitfor = FALSE
-	contents_explosion(severity, target, epicenter, devastation_range, heavy_impact_range, light_impact_range, flame_range)
-	SEND_SIGNAL(src, COMSIG_ATOM_EX_ACT, severity, target, epicenter, devastation_range, heavy_impact_range, light_impact_range, flame_range)
+	contents_explosion(severity, target, epicenter, extreme_impact_range, heavy_impact_range, light_impact_range, flame_range)
+	SEND_SIGNAL(src, COMSIG_ATOM_EX_ACT, severity, target, epicenter, extreme_impact_range, heavy_impact_range, light_impact_range, flame_range)
 
 /atom/proc/fire_act(added, maxstacks)
 	SEND_SIGNAL(src, COMSIG_ATOM_FIRE_ACT, added, maxstacks)

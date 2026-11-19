@@ -38,6 +38,10 @@
 	tutorial = "You are renting out the bathhouse in a joint operation with the Innkeep. You provide security for the bathwenches and help them to find work--when you're not being a trouble-making rake that others suffer to tolerate."
 	outfit = /datum/outfit/job/roguetown/bathmaster/basic
 	category_tags = list(CTAG_BATHMOM)
+	subclass_spells = list(
+		/obj/effect/proc_holder/spell/invoked/massage,
+		/obj/effect/proc_holder/spell/invoked/takeapprentice,
+	)
 	subclass_languages = list(/datum/language/thievescant)
 	subclass_stats = list(
 		STATKEY_WIL = 1,
@@ -51,7 +55,6 @@
 		/datum/skill/combat/whipsflails = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/reading = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/sneaking = SKILL_LEVEL_EXPERT,
-		/datum/skill/misc/stealing = SKILL_LEVEL_EXPERT,
 		/datum/skill/misc/lockpicking = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/climbing = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/medicine = SKILL_LEVEL_APPRENTICE,
@@ -88,6 +91,3 @@
 		H.dna.species.soundpack_m = GLOB.voice_packs[/datum/voicepack/male/zeth]
 	else if(should_wear_femme_clothes(H))
 		armor = /obj/item/clothing/suit/roguetown/armor/armordress/alt
-	if(H.mind)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/massage)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/takeapprentice)

@@ -33,7 +33,7 @@
 	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
 
 	var/max_range = 5
-	var/strike_damage = SPELL_DMG(40)
+	var/strike_damage = 40
 	var/empower_cost = 3
 
 /datum/action/cooldown/spell/caedo/cast(atom/cast_on)
@@ -108,6 +108,17 @@
 
 	return TRUE
 
+/datum/action/cooldown/spell/caedo/get_impact_turfs(atom/center)
+	var/turf/start = get_turf(owner)
+	var/turf/dest = isliving(center) ? find_landing_turf(owner, center) : get_turf(center)
+	if(!start || !dest || dest.z != start.z)
+		return list()
+	dest = arcyne_find_max_blink_dest(owner, dest, max_range)
+	if(!dest)
+		return list()
+	. = getline(start, dest)
+	. -= start
+
 /datum/action/cooldown/spell/caedo/proc/find_landing_turf(mob/living/user, mob/living/target_mob)
 	var/approach_dir = get_dir(user, target_mob)
 	var/turf/far_side = get_step(target_mob, approach_dir)
@@ -129,7 +140,7 @@
 				user.Slowdown(2)
 			continue
 		var/total_damage = strike_damage
-		arcyne_strike(user, victim, weapon, total_damage, def_zone, spell_name = "Caedo", skip_animation = TRUE, SPELL_STRIKE_SCALING)
+		arcyne_strike(user, victim, weapon, total_damage, def_zone, spell_name = "Caedo", skip_animation = TRUE)
 		hit_count++
 		var/turf/victim_turf = get_turf(victim)
 		if(victim_turf)
@@ -150,7 +161,7 @@
 	if(spell_guard_check(victim, FALSE, user))
 		return
 	var/total_damage = strike_damage
-	arcyne_strike(user, victim, weapon, total_damage, def_zone, spell_name = "Caedo", skip_animation = TRUE, SPELL_STRIKE_SCALING)
+	arcyne_strike(user, victim, weapon, total_damage, def_zone, spell_name = "Caedo", skip_animation = TRUE)
 	var/turf/victim_turf = get_turf(victim)
 	if(victim_turf)
 		var/slash_dir = get_dir(user, victim)

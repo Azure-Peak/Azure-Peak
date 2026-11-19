@@ -8,7 +8,7 @@
 
 /datum/skill/magic/holy
 	name = "Miracles"
-	desc = "Strenghtens power of certain miracles or outright provides bonus effects to them."
+	desc = "Strengthens power of certain miracles or outright provides bonus effects to them."
 	expert_name = "Devotee"
 
 /datum/skill/magic/blood

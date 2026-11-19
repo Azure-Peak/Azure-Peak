@@ -46,19 +46,7 @@
 	if(!front)
 		return FALSE
 
-	var/list/affected_turfs = list()
-	affected_turfs += front
-
-	if(H.dir == SOUTH || H.dir == NORTH)
-		affected_turfs += get_step(front, WEST)
-		affected_turfs += get_step(get_step(front, WEST), WEST)
-		affected_turfs += get_step(front, EAST)
-		affected_turfs += get_step(get_step(front, EAST), EAST)
-	else
-		affected_turfs += get_step(front, NORTH)
-		affected_turfs += get_step(get_step(front, NORTH), NORTH)
-		affected_turfs += get_step(front, SOUTH)
-		affected_turfs += get_step(get_step(front, SOUTH), SOUTH)
+	var/list/affected_turfs = wall_turfs(front, H.dir)
 
 	for(var/turf/affected_turf in affected_turfs)
 		new telegraph_type(affected_turf)
@@ -66,6 +54,22 @@
 
 	H.visible_message("[H] mutters an incantation and a wall of arcyne force manifests out of thin air!")
 	return TRUE
+
+/datum/action/cooldown/spell/forcewall/proc/wall_turfs(turf/front, facing)
+	. = list(front)
+	var/list/sides = (facing == NORTH || facing == SOUTH) ? list(WEST, EAST) : list(NORTH, SOUTH)
+	for(var/side in sides)
+		var/turf/T = front
+		for(var/i in 1 to 2)
+			T = get_step(T, side)
+			if(T)
+				. += T
+
+/datum/action/cooldown/spell/forcewall/get_impact_turfs(atom/center)
+	var/turf/front = get_turf(center)
+	if(!front)
+		return list()
+	return wall_turfs(front, owner.dir)
 
 /datum/action/cooldown/spell/forcewall/proc/spawn_wall(turf/target, mob/caster)
 	new /obj/structure/forcefield_weak(target, caster)

@@ -159,18 +159,14 @@
 	desc = "A deep blue seed that smells of the ocean."
 	icon_state = "cerulean"
 	effect_desc = "Excellent fishing bait that attracts treasure."
-	baitpenalty = 5
+	bait_quality = TRAIT_GREAT_QUALITY_BAIT
 	baitresilience = 4
 	isbait = TRUE
-	fishingMods=list(
-		"commonFishingMod" = 0.2,
-		"rareFishingMod" = 1,
-		"treasureFishingMod" = 1,
-		"trashFishingMod" = 0,
-		"dangerFishingMod" = 0,
-		"ceruleanFishingMod" = 1, // 1 on cerulean aril, 0 on everything else
-		"cheeseFishingMod" = 0 // Just for the funny gimmick of a chance for rats and rouses.
-	)
+
+/obj/item/reagent_containers/food/snacks/eoran_aril/cerulean/Initialize(mapload)
+	. = ..()
+	ADD_TRAIT(src, TRAIT_OMNI_BAIT, INNATE_TRAIT)
+
 /obj/item/reagent_containers/food/snacks/eoran_aril/fractal
 	name = "fractal aril"
 	desc = "A geometrically perfect seed that hurts to look at."

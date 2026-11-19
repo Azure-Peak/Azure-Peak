@@ -8,11 +8,13 @@
 	advclass_cat_rolls = list(CTAG_MERCENARY = 20)
 	greet_text = "A blade for hire."
 	townie_contract_gate_exempt = TRUE
+	job_type = /datum/job/roguetown/mercenary
 
 /datum/migrant_role/pentarchy
 	abstract_type = /datum/migrant_role/pentarchy
 	role_category = "Mercenary"
 	townie_contract_gate_exempt = TRUE
+	job_type = /datum/job/roguetown/mercenary
 
 // Frontliner
 /datum/migrant_role/pentarchy/vanguard

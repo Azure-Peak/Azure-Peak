@@ -29,7 +29,7 @@
 	//Remove malf powers.
 	UnregisterSignal(owner.current, COMSIG_MOVABLE_HEAR, PROC_REF(handle_hearing))
 	if(!silent && owner.current)
-		to_chat(owner.current,"<span class='danger'>I are no longer the [special_role]!</span>")
+		to_chat(owner.current,"<span class='danger'>I am no longer the [special_role]!</span>")
 	owner.special_role = null
 	return ..()
 
@@ -141,7 +141,7 @@
 			.=2
 
 /datum/antagonist/traitor/greet()
-	to_chat(owner.current, "<span class='alertsyndie'>I are the [owner.special_role].</span>")
+	to_chat(owner.current, "<span class='alertsyndie'>I am the [owner.special_role].</span>")
 	owner.announce_objectives()
 	if(should_give_codewords)
 		give_codewords()

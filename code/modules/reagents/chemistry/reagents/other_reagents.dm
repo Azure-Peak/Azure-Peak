@@ -126,7 +126,7 @@
 #undef WATER_BLOOD_RESTORE
 
 /datum/reagent/water/gross
-	description = "Marshy, stagnant water putrified with froth, beloved of Pestra. Not for drinking by ordinary folk."
+	description = "Marshy, stagnant water putrefied with froth, beloved of Pestra. Not for drinking by ordinary folk."
 	taste_description = "something vile"
 	color = "#98934b"
 	harmful = TRUE
@@ -667,7 +667,7 @@
 
 /datum/reagent/sulfur
 	name = "sulfur"
-	description = "A sickly yellow solid mostly known for its nasty smell. It's actually much more helpful than it looks in biochemisty."
+	description = "A sickly yellow solid mostly known for its nasty smell. It's actually much more helpful than it looks in biochemistry."
 	reagent_state = SOLID
 	color = "#BF8C00" // rgb: 191, 140, 0
 	taste_description = "rotten eggs"
@@ -1589,7 +1589,7 @@
 
 /datum/reagent/cellulose
 	name = "cellulose fibers"
-	description = "A crystaline polydextrose polymer, plants swear by this stuff."
+	description = "A crystalline polydextrose polymer, plants swear by this stuff."
 	reagent_state = SOLID
 	color = "#E6E6DA"
 	taste_mult = 0

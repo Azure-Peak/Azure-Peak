@@ -83,7 +83,7 @@ Simple Workflow:
 		#Note: I chose to split Turfs and Atoms off into separate modules, but this is NOT required.
 		#Note: A mapGeneratorModule may have turfs AND atoms, so long as each is in it's appropriate list
 
-	2. Define a mapGenerator type who's modules list contains the typepath(s) of all the module(s) you wish to use
+	2. Define a mapGenerator type whose modules list contains the typepath(s) of all the module(s) you wish to use
 		#Note: The order of the typepaths in the modules list is the order they will happen in, this is important for clusterCheckFlags.
 
 	3. Take notes of the Bottom Left and Top Right turfs of your rectangular "map"'s coordinates

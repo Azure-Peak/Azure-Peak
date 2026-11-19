@@ -293,6 +293,8 @@
 		. -= . * (conbonus * CONSTITUTION_BLEEDRATE_MOD)
 	if(surrendering)
 		. /= 4
+	if(istype(has_status_effect(/datum/status_effect/buff/adrenaline_rush), /datum/status_effect/buff/adrenaline_rush/psydon))
+		. /= 2
 
 /mob/living/proc/restore_blood()
 	blood_volume = initial(blood_volume)

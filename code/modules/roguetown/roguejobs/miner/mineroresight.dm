@@ -147,7 +147,7 @@
 	icon_state = "shieldsparkles"
 	dir = NORTH
 	name = "valuable ore"
-	desc = "The stone here must contain something pricy!"
+	desc = "The stone here must contain something pricey!"
 	randomdir = FALSE
 	duration = 1 SECONDS
 	layer = 18

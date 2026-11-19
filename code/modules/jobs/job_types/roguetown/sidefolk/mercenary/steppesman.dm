@@ -48,7 +48,7 @@
 		switch(classchoice)
 			if("Szabrista - sabre Veteran")	//Tl;dr - medium armor class for Mount and Blade larpers who still get a saiga. Akin to Vaquero with specific drip.
 				H.set_blindness(0)
-				to_chat(H, span_warning("The Szabristas are the elites of the southern steppes, veterans of conflict across the realm. Outfitted with a shishka and shield, these warriors sacrifice their swiftness for armor and civilized respect."))
+				to_chat(H, span_warning("The Szabristas are the elites of the southern steppes, veterans of conflict across the realm. Outfitted with a shashka and shield, these warriors sacrifice their swiftness for armor and civilized respect."))
 				shoes = /obj/item/clothing/shoes/roguetown/boots/nobleboot/steppesman
 				head = /obj/item/clothing/head/roguetown/helmet/sallet/shishak		//Needs a unique helmet + mask combo at some point.	//Dragonfruits to the rescue! Unique helmet with neck protection and +50 durability.
 				gloves = /obj/item/clothing/gloves/roguetown/chain

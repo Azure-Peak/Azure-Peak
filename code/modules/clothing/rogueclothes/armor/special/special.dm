@@ -27,7 +27,7 @@
 
 /obj/item/clothing/suit/roguetown/armor/vampiric/gnoll
 	name = "gnoll skin"
-	desc = "an impenetrable hide of graggar's fury"
+	desc = "An impenetrable hide of Graggar's fury."
 	mob_overlay_icon = 'icons/roguetown/mob/monster/gnoll.dmi'
 	icon = 'icons/roguetown/mob/monster/gnoll.dmi'
 	icon_state = "berserker"

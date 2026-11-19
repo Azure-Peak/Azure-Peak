@@ -37,9 +37,8 @@
 	for(var/turf/T in orange(1, target_turf))
 		tiles += T
 	var/turf/landing = pick(tiles)
-	var/obj/item/bomb/B = new(landing)
-	B.lit = TRUE
-	B.explode(TRUE)
+	var/obj/item/explosive/fused/bottle/B = new(landing)
+	B.detonate(TRUE)
 
 /proc/log_zad_bomb_dispatch(datum/zad_flight/flight, turf/origin_turf)
 	if(!flight)

@@ -26,6 +26,8 @@
 
 /obj/item/clothing/suit/roguetown/shirt/robe/dropped(mob/living/carbon/human/user)
 	..()
+	if(QDELETED(user)) // Wearer is despawning (far travel etc.), contents go with them.
+		return
 	var/datum/component/storage/STR = GetComponent(/datum/component/storage)
 	if(STR)
 		var/list/things = STR.contents()
@@ -393,7 +395,7 @@
 
 /obj/item/clothing/suit/roguetown/shirt/robe/hierophant
 	name = "hierophant's kandys"
-	desc = "A thin piece of fabric worn under a robe to stop chafing and keep ones dignity if a harsh blow of wind comes through. Despite the light fabric, it offers decent protection."
+	desc = "A thin piece of fabric worn under a robe to stop chafing and keep one's dignity if a harsh blow of wind comes through. Despite the light fabric, it offers decent protection."
 	armor = ARMOR_PADDED
 	icon_state = "desertgown"
 	item_state = "desertgown"

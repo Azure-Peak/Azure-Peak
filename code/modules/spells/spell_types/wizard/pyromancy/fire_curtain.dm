@@ -64,7 +64,7 @@
 	if(!center)
 		return FALSE
 
-	var/list/affected_turfs = get_curtain_turfs(center, H.dir)
+	var/list/affected_turfs = get_impact_turfs(center)
 
 	for(var/turf/T in affected_turfs)
 		new /obj/effect/temp_visual/telegraph/wall/fire(T)
@@ -74,6 +74,10 @@
 
 	addtimer(CALLBACK(src, PROC_REF(spawn_curtain), affected_turfs, H, H.zone_selected), telegraph_time)
 	return TRUE
+
+/datum/action/cooldown/spell/fire_curtain/get_impact_turfs(atom/center)
+	var/turf/epicenter = get_turf(center)
+	return epicenter ? get_curtain_turfs(epicenter, owner.dir) : list()
 
 /datum/action/cooldown/spell/fire_curtain/proc/get_curtain_turfs(turf/center, facing)
 	var/list/row_turfs = list(center)
@@ -172,6 +176,9 @@
 	return !!(L.throwing || L.pulledby)
 
 /obj/effect/curtain_fire/proc/burn_occupant(mob/living/L, involuntary = FALSE)
+	var/mob/living/caster = caster_ref?.resolve()
+	if(L == caster && HAS_TRAIT(caster, TRAIT_BOMBER_EXPERT))
+		return
 	if(HAS_TRAIT(L, TRAIT_NOFIRE))
 		return
 	// Grace timer for those who were involuntarily thrown into the fire curtain so that it doesn't instaproc charred in involuntary situation
@@ -188,7 +195,6 @@
 	if(involuntary)
 		L.mob_timers[CURTAIN_GRACE_KEY] = world.time + CURTAIN_THROWN_GRACE
 	var/hit_zone = aim_zone || BODY_ZONE_CHEST
-	var/mob/living/carbon/human/caster = caster_ref?.resolve()
 	if(istype(caster) && !QDELETED(caster))
 		if(arcyne_strike(caster, L, null, tick_damage, hit_zone, BCLASS_BURN, spell_name = "Fire Curtain", damage_type = BURN, skip_animation = TRUE, exact_zone = TRUE, SPELL_STRIKE_SCALING) == ARCYNE_STRIKE_WARDED)
 			return

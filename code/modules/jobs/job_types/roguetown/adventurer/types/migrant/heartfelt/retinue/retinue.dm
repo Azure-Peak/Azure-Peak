@@ -18,7 +18,7 @@
 	)
 // LORD WILL ALWAYS BE REQUIRED
 // Heartfelt Trait is for orders [Hand Subclass] and recognizing allies.
-// Knight and Hand are going to be seperated from the 'Retinue' due to them being more important than those in Retinue, hence should be prioritzed.alis
+// Knight and Hand are going to be separated from the 'Retinue' due to them being more important than those in Retinue, hence should be prioritzed.alis
 
 // HIGH COURT - /ONE SLOT/ Roles that were previously in the Court, but moved here.
 // Lady, Prior, and Magos are the same

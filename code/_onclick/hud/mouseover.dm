@@ -196,7 +196,14 @@
 		if(isliving(p))
 			var/mob/living/L = p
 			if(!L.can_see_cone(src))
-				return FALSE
+				var/override = FALSE
+				if(ishuman(user))
+					var/mob/living/carbon/human/H = user
+					for(var/datum/charflaw/noeyeall/cf in H.charflaws)
+						override = TRUE
+						break
+				if(!override)
+					return FALSE
 		if(alpha == 0)
 			return FALSE
 		if(!p.x || !p.y)

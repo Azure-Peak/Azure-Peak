@@ -518,7 +518,7 @@
 			playsound(user, 'sound/misc/wood_saw.ogg', 100, TRUE)
 		return
 	else if(istype(item, /obj/item/rogueweapon/chisel/assembly))
-		to_chat(user, span_warning("You most use both hands to rename the passage."))
+		to_chat(user, span_warning("You must use both hands to rename the passage."))
 
 /obj/structure/bars/grille
 	name = "grille"
@@ -585,7 +585,7 @@
 			playsound(user, 'sound/misc/wood_saw.ogg', 100, TRUE)
 		return
 	else if(istype(item, /obj/item/rogueweapon/chisel/assembly))
-		to_chat(user, span_warning("You most use both hands to rename the grille."))
+		to_chat(user, span_warning("You must use both hands to rename the grille."))
 
 /obj/structure/bars/pipe
 	name = "bronze pipe"
@@ -805,7 +805,7 @@
 					wrotesign = inputty
 					icon_state = "signwrote"
 		else
-			to_chat(user, span_warning("Alas, this will not work. I could carve words, if I stabbed at this with something posessing a short, sharp point. A knife comes to mind."))
+			to_chat(user, span_warning("Alas, this will not work. I could carve words, if I stabbed at this with something possessing a short, sharp point. A knife comes to mind."))
 			return
 	..()
 
@@ -1336,7 +1336,7 @@
 
 /obj/structure/fluff/statue/get_mechanics_examine(mob/user)
 	. = ..()
-	. += span_info("Right-click to access your personal stash. This not only contains the loadout you might've asseembled in the character creation menu, but virtue- and role-specific items as well.")
+	. += span_info("Right-click to access your personal stash. This not only contains the loadout you might've assembled in the character creation menu, but virtue- and role-specific items as well.")
 
 /obj/structure/fluff/statue/Initialize(mapload)
 	. = ..()
@@ -1523,6 +1523,9 @@
 
 /obj/structure/fluff/statue/tdummy/proc/practice(mob/living/living_mob, associated_skill, attack_animation, obj/item/attacking_weapon = null)
 	if(living_mob.doing || !can_practice(living_mob))
+		return
+	if(!can_train_combat_skill(living_mob, associated_skill, SKILL_LEVEL_APPRENTICE))
+		to_chat(living_mob, span_warning("I cannot practice this skill."))
 		return
 	living_mob.visible_message(span_notice("[living_mob] begins training on [src]..."))
 	while(do_after(living_mob, 1 SECONDS, target = src, extra_checks = CALLBACK(src, PROC_REF(can_practice), living_mob)))

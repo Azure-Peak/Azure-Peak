@@ -272,7 +272,7 @@ GLOBAL_LIST_EMPTY(respawncounts)
 			cmd_admin_mute(src, mute_type, 1)
 			return 1
 		if(src.last_message_count >= SPAM_TRIGGER_WARNING)
-			to_chat(src, span_danger("I are nearing the spam filter limit for identical messages."))
+			to_chat(src, span_danger("I am nearing the spam filter limit for identical messages."))
 			return 0
 	else
 		last_message = message
