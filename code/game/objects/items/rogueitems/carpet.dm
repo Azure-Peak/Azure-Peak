@@ -64,7 +64,11 @@
 
 /obj/item/carpet/standard/attack_self(mob/living/carbon/human/user)
 	var/turf/open/floor/carpet/pickrug
-	var/rugnameinput = input(user, "Standard Rugs", "choose a rug to lay on the ground") as null|anything in list("Inn", "Purple", "Red", "Stellar", "Royal Black")
+	var/rugnameinput = input(
+		user, "Standard Rugs", "choose a rug to lay on the ground",
+	) as null|anything in list(
+		"Inn", "Purple", "Red", "Stellar", "Royal Black", "Navy",
+	)
 	switch(rugnameinput)
 		if("Inn")
 			pickrug = /turf/open/floor/carpet/inn
@@ -74,6 +78,8 @@
 			pickrug = /turf/open/floor/carpet/red
 		if("Stellar")
 			pickrug = /turf/open/floor/carpet/stellar
+		if("Navy")
+			pickrug = /turf/open/floor/carpet/navy
 		if("Royal Black")
 			pickrug = /turf/open/floor/carpet/royalblack
 	rug_to_layout = pickrug
