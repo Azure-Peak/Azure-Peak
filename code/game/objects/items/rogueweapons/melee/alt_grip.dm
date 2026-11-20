@@ -793,3 +793,92 @@
 	var_overrides = list(
 		"wlength" = WLENGTH_NORMAL
 	)
+
+/datum/alt_grip/quarterstaff
+	two_handed = TRUE
+	skill_req = SKILL_LEVEL_JOURNEYMAN
+
+/datum/alt_grip/quarterstaff/half
+	name = "half-staff"
+	grip_intents = list(
+		/datum/intent/spear/bash/quarterstaff/rapid,
+		/datum/intent/mace/strike/dislocate/quarterstaff,
+		/datum/intent/effect/daze/longsword/clinch/quarterstaff,
+	)
+	onmobprop_overrides = list(
+		"altgrip" = list(
+			"shrink" = 0.6,
+			"sx" = 1,
+			"sy" = 2,
+			"nx" = 0,
+			"ny" = 2,
+			"wx" = -3,
+			"wy" = 2,
+			"ex" = 1,
+			"ey" = 2,
+			"northabove" = 0,
+			"southabove" = 1,
+			"eastabove" = 1,
+			"westabove" = 0,
+			"nturn" = 45,
+			"sturn" = -45,
+			"wturn" = 50,
+			"eturn" = -55,
+			"nflip" = 8,
+			"sflip" = 0,
+			"wflip" = 8,
+			"eflip" = 0,
+		),
+	)
+	var_overrides = list(
+		"wlength" = WLENGTH_NORMAL
+	)
+	additive_var_overrides = list(
+		"wdefense" = 1
+	)
+
+/datum/alt_grip/quarterstaff/half/get_grip_intents(obj/item/source)
+	. = ..()
+	var/obj/item/rogueweapon/woodstaff/quarterstaff/staff = source
+	if(istype(staff) && staff.signature_intent)
+		. += staff.signature_intent
+
+/datum/alt_grip/quarterstaff/long
+	name = "long guard"
+	grip_intents = list(
+		/datum/intent/spear/bash/quarterstaff/long,
+		/datum/intent/spear/thrust/quarterstaff/long,
+		/datum/intent/mace/smash/quarterstaff/long,
+		/datum/intent/spear/bash/quarterstaff/overhead,
+	)
+	onmobprop_overrides = list(
+		"altgrip" = list(
+			"shrink" = 0.6,
+			"sx" = 6,
+			"sy" = -5,
+			"nx" = -5,
+			"ny" = -4,
+			"wx" = -8,
+			"wy" = -4,
+			"ex" = 7,
+			"ey" = -4,
+			"northabove" = 0,
+			"southabove" = 1,
+			"eastabove" = 1,
+			"westabove" = 0,
+			"nturn" = -25,
+			"sturn" = 25,
+			"wturn" = -55,
+			"eturn" = 60,
+			"nflip" = 8,
+			"sflip" = 0,
+			"wflip" = 8,
+			"eflip" = 0,
+		),
+	)
+	var_overrides = list(
+		"wlength" = WLENGTH_GREAT
+	)
+	additive_var_overrides = list(
+		"wdefense" = -3
+	)

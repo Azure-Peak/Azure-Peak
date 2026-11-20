@@ -1,171 +1,5 @@
-//intent datums ฅ^•ﻌ•^ฅ
-
-/datum/intent/mace/strike
-	name = "strike"
-	blade_class = BCLASS_BLUNT
-	attack_verb = list("strikes", "hits")
-	hitsound = list('sound/combat/hits/blunt/metalblunt (1).ogg', 'sound/combat/hits/blunt/metalblunt (2).ogg', 'sound/combat/hits/blunt/metalblunt (3).ogg')
-	chargetime = 0
-	penfactor = PEN_NONE
-	swingdelay = 0
-	icon_state = "instrike"
-	item_d_type = "blunt"
-	intent_intdamage_factor = BLUNT_DEFAULT_INT_DAMAGEFACTOR
-
-/datum/intent/mace/smash
-	name = "smash"
-	blade_class = BCLASS_SMASH
-	attack_verb = list("smashes")
-	hitsound = list('sound/combat/hits/blunt/metalblunt (1).ogg', 'sound/combat/hits/blunt/metalblunt (2).ogg', 'sound/combat/hits/blunt/metalblunt (3).ogg')
-	penfactor = PEN_NONE
-	chargedrain = 1 // Slight stamina drain on use.
-	chargetime = 5 // Half a second of charge for a bit of a warning.
-	icon_state = "insmash"
-	item_d_type = "blunt"
-	desc = "A powerful blow that delivers Strength-scaling knockback and slowdown to the target. The amount of inflicted knockback scales off your Strength, ranging from X (1 tile) to XIV (4 tiles). </br>Cannot inflict any knockback or slowdown if your Strength is below X. </br>Cannot be used consecutively more than every 5 seconds on the same target. </br>Prone targets halve the knockback distance. </br>Not fully charging the attack limits knockback to 1 tile."
-	var/maxrange = 4
-
-/datum/intent/mace/smash/spec_on_apply_effect(mob/living/H, mob/living/user, params)
-	var/chungus_khan_str = user.STASTR
-	if(H.has_status_effect(/datum/status_effect/debuff/yeetcd))
-		return // Recently knocked back, cannot be knocked back again yet
-	if(chungus_khan_str < 10)
-		return // Too weak to have any effect
-	var/scaling = CLAMP((chungus_khan_str - 10), 1, maxrange)
-	H.apply_status_effect(/datum/status_effect/debuff/yeetcd)
-	H.Slowdown(scaling)
-	// Copypasta from knockback proc cuz I don't want the math there
-	var/knockback_tiles = scaling // 1 to 4 tiles based on strength
-	if(H.resting)
-		knockback_tiles = max(1, knockback_tiles / 2)
-	if(user?.client?.chargedprog < 100)
-		knockback_tiles = 1 // Minimal knockback on non-charged smash.
-	var/turf/edge_target_turf = get_edge_target_turf(H, get_dir(user, H))
-	if(istype(edge_target_turf))
-		H.safe_throw_at(edge_target_turf, \
-		knockback_tiles, \
-		scaling, \
-		user, \
-		spin = FALSE, \
-		force = H.move_force)
-// Do not call handle_knockback like in knockback cuz that means it will hardstun.
-
-/datum/intent/mace/smash/prewarning()
-	if(!mastermob || mastermob.next_move > world.time)
-		return
-	if(last_prewarning_sound > world.time)
-		return
-	last_prewarning_sound = world.time + clickcd
-	playsound(mastermob, pick('sound/combat/wooshes/blunt/wooshhuge (2).ogg'), 100, FALSE)
-
-/datum/intent/mace/smash/lesser
-	name = "one-handed smash" //Exclusive to Warhammers, and other mace-styled bludgeons that can only be wielded in one hand.
-	desc = "A powerful blow that delivers Strength-scaling knockback and slowdown to the target. The amount of inflicted knockback scales off your Strength, ranging from X (1 tile) to XIII (3 tiles). </br>Cannot inflict any knockback or slowdown if your Strength is below X. </br>Cannot be used consecutively more than every 5 seconds on the same target. </br>Prone targets halve the knockback distance. </br>Not fully charging the attack limits knockback to 1 tile."
-	maxrange = 3
-
-/datum/intent/mace/demolish
-	name = "break"
-	desc = "A deliberate strike that is much more effective at demolishing structures."
-	icon_state = "incrush"
-	blade_class = BCLASS_SMASH
-	attack_verb = list("demolishes", "crushes", "wrecks")
-	animname = "strike"
-	hitsound = list('sound/combat/hits/blunt/metalblunt (1).ogg', 'sound/combat/hits/blunt/metalblunt (2).ogg', 'sound/combat/hits/blunt/metalblunt (3).ogg')
-	item_d_type = "blunt"
-	penfactor = PEN_NONE
-	demolition_mod = 3
-	clickcd = CLICK_CD_HEAVY
-	swingdelay = 10
-
-/datum/intent/mace/lesserdemolish
-	name = "break"
-	desc = "A deliberate structure-breaking blow. Deals triple the damage to structures"
-	icon_state = "incrush"
-	blade_class = BCLASS_SMASH
-	attack_verb = list("demolishes", "crushes", "wrecks")
-	animname = "strike"
-	hitsound = list('sound/combat/hits/blunt/metalblunt (1).ogg', 'sound/combat/hits/blunt/metalblunt (2).ogg', 'sound/combat/hits/blunt/metalblunt (3).ogg')
-	item_d_type = "blunt"
-	penfactor = PEN_NONE
-	demolition_mod = 3
-	clickcd = CLICK_CD_HEAVY
-	swingdelay = 10
-
-/datum/intent/mace/rangedthrust
-	name = "thrust"
-	blade_class = BCLASS_STAB
-	attack_verb = list("thrusts")
-	animname = "stab"
-	icon_state = "instab"
-	reach = 2
-	clickcd = CLICK_CD_CHARGED
-	recovery = 30
-	warnie = "mobwarning"
-	hitsound = list('sound/combat/hits/bladed/genstab (1).ogg', 'sound/combat/hits/bladed/genstab (2).ogg', 'sound/combat/hits/bladed/genstab (3).ogg')
-	penfactor = PEN_MEDIUM
-	damfactor = 0.9
-	item_d_type = "stab"
-
-/datum/intent/mace/rangedthrust/short
-	reach = 1
-	swingdelay = 8
-	damfactor = 0.5
-
-/datum/intent/mace/bash
-	name = "bash"
-	blade_class = BCLASS_BLUNT
-	penfactor = PEN_NONE
-	icon_state = "inbash"
-	attack_verb = list("bashes", "strikes")
-	damfactor = NONBLUNT_BLUNT_DAMFACTOR
-	item_d_type = "blunt"
-	intent_intdamage_factor = BLUNT_DEFAULT_INT_DAMAGEFACTOR
-
-/datum/intent/mace/bash/ranged
-	name = "handlestroke"
-	reach = 2
-
-/datum/intent/mace/strike/grand
-	name = "heavy strike"
-	damfactor = 1.1
-	demolition_mod = 1.25
-
-/datum/intent/mace/smash/grand
-	name = "heavy smash"
-	damfactor = 1.1
-	demolition_mod = 1.25
-	chargedrain = 1.5
-	desc = "A powerful blow that delivers Strength-scaling knockback and slowdown to the target. The amount of inflicted knockback scales off your Strength, ranging from X (1 tile) to XV (5 tiles). </br>Cannot inflict any knockback or slowdown if your Strength is below X. </br>Cannot be used consecutively more than every 5 seconds on the same target. </br>Prone targets halve the knockback distance. </br>Not fully charging the attack limits knockback to 1 tile."
-	maxrange = 5
-
-/datum/intent/mace/smash/crush
-	name = "crush"
-	attack_verb = list("crushes")
-	icon_state = "incrush"
-	damfactor = 1.75
-	demolition_mod = 1.25 //Deals 83 DMG when swung from the strongest Maul (at a base of 34 DMG) with XIV STR. For comparison, a Steel Flail (which can be one-handed and swung faster) deals 63 DMG under the same parameters.
-	chargedrain = 1.8 //Note that the Maul series is hardlocked to characters that have abnormally high STR, and is otherwise physically unwieldable.
-	chargetime = 10
-	desc = "A titanic blow that delivers Strength-scaling knockback and slowdown to the target. The amount of inflicted knockback scales off your Strength, ranging from X (1 tile) to XV (5 tiles). </br>Actively drains stamina while being charged up. </br>Cannot inflict any knockback or slowdown if your Strength is below X. </br>Cannot be used consecutively more than every 5 seconds on the same target. </br>Prone targets halve the knockback distance. </br>Not fully charging the attack limits knockback to 1 tile."
-	maxrange = 5
-
-/datum/intent/mace/smash/crush/demolish
-	name = "demolish"
-	attack_verb = list("demolishes", "crushes", "wrecks")
-	icon_state = "incrush"
-	desc = "A titanic blow that delivers Strength-scaling knockback to living targets, and massive damage to structural targets. The amount of inflicted knockback scales off your Strength, ranging from X (1 tile) to XV (5 tiles). </br>Actively drains stamina while being charged up. </br>Cannot inflict any knockback or slowdown if your Strength is below X. </br>Cannot be used consecutively more than every 5 seconds on the same target. </br>Prone targets halve the knockback distance. </br>Not fully charging the attack limits knockback to 1 tile. </br>Against structures, each attack reduces at least 15% of its maximum integrity."
-	demolition_mod = 3.5
-
-/datum/intent/mace/strike/poleaxe
-	damfactor = 1.2
-
 //blunt objs ฅ^•ﻌ•^ฅ
-
 /obj/item/rogueweapon/mace
-	force = 22
-	force_wielded = 27
-	possible_item_intents = list(/datum/intent/mace/strike, /datum/intent/mace/strike/dislocate)
-	gripped_intents = list(/datum/intent/mace/strike, /datum/intent/mace/smash, /datum/intent/effect/daze, /datum/intent/mace/strike/dislocate)
 	name = "mace"
 	desc = "Carved wood, cold iron. </br>Crushing down upon thine foe. </br>Cracking plate, bone, soul."
 	icon_state = "mace"
@@ -173,6 +7,10 @@
 	item_state = "mace_greyscale"
 	lefthand_file = 'icons/mob/inhands/weapons/melee_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/weapons/melee_righthand.dmi'
+	force = 22
+	force_wielded = 27
+	possible_item_intents = list(/datum/intent/mace/strike, /datum/intent/mace/strike/dislocate)
+	gripped_intents = list(/datum/intent/mace/strike, /datum/intent/mace/smash, /datum/intent/effect/daze, /datum/intent/mace/strike/dislocate)
 	sharpness = IS_BLUNT
 	//dropshrink = 0.75
 	wlength = WLENGTH_NORMAL
@@ -201,12 +39,22 @@
 			if("onbelt")
 				return list("shrink" = 0.45,"sx" = -2,"sy" = -5,"nx" = 4,"ny" = -5,"wx" = 0,"wy" = -5,"ex" = 2,"ey" = -5,"nturn" = 0,"sturn" = 0,"wturn" = 0,"eturn" = 0,"nflip" = 0,"sflip" = 0,"wflip" = 0,"eflip" = 0,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0)
 
+/obj/item/rogueweapon/mace/spiked
+	icon_state = "spiked_club"
+
+/obj/item/rogueweapon/mace/cleric
+	name = "anointed mace"
+	desc = "A crusader's mace, adorned with a head of cold iron and blessed to smite evil. Though this blessed alloy lacks the strength to \
+	sunder those who bear greater curses, it nevertheless channels enough power to dispel the lesser curses of mindless fiends-and-foes."
+	icon_state = "crusadermace"
+	is_even_lesser_silver = TRUE // adv paladin exclusive weapon, works like unblessed silver but only in pve
+
 /obj/item/rogueweapon/mace/bronze
-	force = 23
-	force_wielded = 29
 	name = "bronze mace"
 	icon_state = "bronzemace"
 	desc = "An antiquital staff, crested with a studded sphere of bronze. Bludgeons were the first implements made for the explicit purpose of killing another; fittingly, this was the second."
+	force = 23
+	force_wielded = 29
 	smeltresult = /obj/item/ingot/bronze
 	max_integrity = 250
 
@@ -223,11 +71,11 @@
 	anvilrepair = null
 
 /obj/item/rogueweapon/mace/church
-	force = 25
-	force_wielded = 30
 	name = "bell ringer"
 	desc = "Each man's death diminishes me, for I am involved in mankind. </br>Therefore, send not to know for whom the bell tolls. </br>It tolls for thee."
 	icon_state = "bellringer"
+	force = 25
+	force_wielded = 30
 	wbalance = WBALANCE_HEAVY
 	smeltresult = /obj/item/ingot/steel
 	wdefense = 3
@@ -236,7 +84,21 @@
 	. = ..()
 	. += span_info("This mace can be used to ring the Church's bell, distinctly hearable by everyone within the Town's limits.")
 
-// Holy See equipment
+/obj/item/rogueweapon/mace/steel
+	name = "steel mace"
+	desc = "Cold steel, royal might. </br>Crushing down upon thine foe. </br>Cracking plate, bone, soul."
+	icon_state = "smace"
+	force = 25
+	force_wielded = 32
+	smeltresult = /obj/item/ingot/steel
+	wdefense = 3
+	smelt_bar_num = 2
+
+/obj/item/rogueweapon/mace/steel/morningstar
+	name = "morning star"
+	icon_state = "morningstar"
+	desc = "An uncommon derivative of the mace, studded with spikes and seated upon a serpentine shaft. When raised aloft, the macehead mimics a stylized imitation of Astrata's glare; ergo, 'morning star'."
+	wdefense = 5
 
 /obj/item/rogueweapon/mace/steel/holyseemace
 	name = "holy see mace"
@@ -258,27 +120,6 @@
 	force_wielded = 35
 	max_integrity = 250
 	wdefense = 5
-
-/obj/item/rogueweapon/mace/steel
-	force = 25
-	force_wielded = 32
-	name = "steel mace"
-	desc = "Cold steel, royal might. </br>Crushing down upon thine foe. </br>Cracking plate, bone, soul."
-	icon_state = "smace"
-	smeltresult = /obj/item/ingot/steel
-	wdefense = 3
-	smelt_bar_num = 2
-
-/obj/item/rogueweapon/mace/blacksteel
-	force = 30
-	force_wielded = 35
-	max_integrity = 300
-	name = "blacksteel mace"
-	desc = "A magnificent mace of blacksteel. Tied around the handle is crimson silk, which was the style at the tyme."
-	icon_state = "bs_mace"
-	smeltresult = /obj/item/ingot/blacksteel
-	wdefense = 3
-	smelt_bar_num = 2
 
 /obj/item/rogueweapon/mace/steel/palloy
 	name = "ancient alloy mace"
@@ -302,13 +143,6 @@
 		silver_type = SILVER_TENNITE\
 	)
 
-/obj/item/rogueweapon/mace/cleric
-	name = "anointed mace"
-	desc = "A crusader's mace, adorned with a head of cold iron and blessed to smite evil. Though this blessed alloy lacks the strength to \
-	sunder those who bear greater curses, it nevertheless channels enough power to dispel the lesser curses of mindless fiends-and-foes."
-	icon_state = "crusadermace"
-	is_even_lesser_silver = TRUE // adv paladin exclusive weapon, works like unblessed silver but only in pve
-
 /obj/item/rogueweapon/mace/steel/silver/decorated
 	name = "decorated mace"
 	desc = "An ornate mace, inlayed with silver and decorated with golden heraldries. Formally known as a 'gada' amongst the nobility of Naledi, this heftsome scepter \
@@ -331,6 +165,17 @@
 		silver_type = SILVER_TENNITE\
 	)
 
+/obj/item/rogueweapon/mace/blacksteel
+	force = 30
+	force_wielded = 35
+	max_integrity = 300
+	name = "blacksteel mace"
+	desc = "A magnificent mace of blacksteel. Tied around the handle is crimson silk, which was the style at the tyme."
+	icon_state = "bs_mace"
+	smeltresult = /obj/item/ingot/blacksteel
+	wdefense = 3
+	smelt_bar_num = 2
+
 /obj/item/rogueweapon/mace/gold
 	name = "golden mace"
 	desc = "A heavenly staff of besilked rosawood, crested with the golden sigil of royalty. Like the plump-bellied aristocrats who've surely commissioned this article's design, it is overbearingly heavy."
@@ -344,20 +189,150 @@
 	unenchantable = TRUE
 	no_loot_taint = TRUE
 
-/obj/item/rogueweapon/mace/woodclub/militia // it literally just has an aura, and demolish intent
-	name = "bogbark club"
-	desc = "A primitive cudgel carved of a stout piece of treefall, from the deepest parts of the Terrorbog. An unmistakable aura of power surrounds it. This thing looks dangerously strong."
-	aura_color = "#00ff00"
-	gripped_intents = list(/datum/intent/mace/strike/wood/, /datum/intent/mace/smash/wood, /datum/intent/effect/daze, /datum/intent/mace/lesserdemolish)
-	w_class = WEIGHT_CLASS_NORMAL // it's just a stick, can put it in your backpack
+// Warhammers. Otherwise known as 'the Cudgel-slash-Flanged Mace's nihilistic older brother.'
+/obj/item/rogueweapon/mace/warhammer
+	name = "warhammer"
+	desc = "A one-handed derivative of the mace, purpose-made to defeat armored opponents in battle. Paired nicely with a mug of Azuria's finest zenny-liquor and a heater shield."
+	icon_state = "iwarhammer"
+	force = 20
+	possible_item_intents = list(/datum/intent/mace/strike, /datum/intent/mace/smash/lesser, /datum/intent/mace/warhammer/pick, /datum/intent/mace/warhammer/stab/lesser)
+	gripped_intents = null //Warhammers are purpose-made to kill. Smaller maceheads lock them out from the 'Dislocate' intent and 'Smash' intent's full knockback. Still, their boon comes from being a 'jack of all trades'.
+	wbalance = WBALANCE_HEAVY
+	smeltresult = /obj/item/ingot/iron
+	wdefense = 3
+	max_integrity = 200
+	special = /datum/special_intent/warhammer_swing
 
+/obj/item/rogueweapon/mace/warhammer/getonmobprop(tag)
+	if(tag)
+		switch(tag)
+			if("gen")
+				return list("shrink" = 0.5,"sx" = -9,"sy" = -8,"nx" = 9,"ny" = -7,"wx" = -7,"wy" = -8,"ex" = 3,"ey" = -8,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = 90,"sturn" = -90,"wturn" = -90,"eturn" = 90,"nflip" = 0,"sflip" = 8,"wflip" = 8,"eflip" = 0)
+			if("wielded")
+				return list("shrink" = 0.6,"sx" = 3,"sy" = -7,"nx" = -6,"ny" = -3,"wx" = 3,"wy" = -4,"ex" = 4,"ey" = -3,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = -44,"sturn" = 45,"wturn" = 47,"eturn" = 33,"nflip" = 8,"sflip" = 0,"wflip" = 0,"eflip" = 0)
+			if("onbelt")
+				return list("shrink" = 0.4,"sx" = -2,"sy" = -5,"nx" = 4,"ny" = -5,"wx" = 0,"wy" = -5,"ex" = 2,"ey" = -5,"nturn" = 0,"sturn" = 0,"wturn" = 0,"eturn" = 0,"nflip" = 0,"sflip" = 0,"wflip" = 0,"eflip" = 0,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0)
+	return ..()
+
+/obj/item/rogueweapon/mace/warhammer/bronze
+	name = "bronze warclub"
+	desc = "The warhammer's ancestral link, carved from a weightsome log and studded with bronze. Elven natureguards carry it to both honor their forefathers, and as a way to sunder those who'd ravage Dendor's bounties without thought-or-restraint; a toss from afar turns into a sundering hurlbat."
+	icon_state = "bronzeclub"
+	force = 25
+	possible_item_intents = list(/datum/intent/mace/strike, /datum/intent/sword/cut, /datum/intent/mace/warhammer/pick, /datum/intent/mace/smash/lesser)
+	max_blade_int = 150
+	wbalance = WBALANCE_HEAVY
+	throwforce = 25
+	embedding = list("embedded_pain_multiplier" = 4, "embed_chance" = 50, "embedded_fall_chance" = 20)
+	smeltresult = /obj/item/ingot/bronze
+	wdefense = 3
+	max_integrity = 180
+	sharpness = IS_SHARP
+
+/obj/item/rogueweapon/mace/warhammer/bronze/iron
+	name = "iron warclub"
+	desc = "The warhammer's ancestral link, carved from a weightsome log and studded with iron. Elven natureguards carry it to both honor their forefathers, and as a way to sunder those who'd ravage Dendor's bounties without thought-or-restraint; a toss from afar turns into a sundering hurlbat."
+	icon_state = "iclub"
+	force = 20 //just a tad weaker than the bronze to balance it out, this weapon has some versatile intents and i dont want it to be TOO strong.
+	max_blade_int = 100
+	throwforce = 20 // still hurts, just less
+	smeltresult = /obj/item/ingot/iron
+	wdefense = 2
+	max_integrity = 120
+
+/obj/item/rogueweapon/mace/warhammer/bronze/steel
+	name = "steel warclub"
+	desc = "The warhammer's ancestral link, carved from a weightsome log and studded with steel. Elven natureguards carry it to both honor their forefathers, and as a way to sunder those who'd ravage Dendor's bounties without thought-or-restraint; a toss from afar turns into a sundering hurlbat."
+	icon_state = "steelclub"
+	force = 28 //just a little better than the bronze club but barely
+	max_blade_int = 175
+	throwforce = 25
+	smeltresult = /obj/item/ingot/steel
+	wdefense = 3
+	max_integrity = 200
+
+/obj/item/rogueweapon/mace/warhammer/bronze/silver
+	name = "silver warclub"
+	desc = "The warhammer's ancestral link, carved from a weightsome log and studded with silver. Elven natureguards carry it to both honor their forefathers, and as a way to sunder those who'd ravage Dendor's bounties without thought-or-restraint; a toss from afar turns into a sundering hurlbat."
+	icon_state = "clubsilver"
+	throwforce = 25
+	smeltresult = /obj/item/ingot/silver
+	wdefense = 3
+	is_silver = TRUE
+	force = 28
+	max_integrity = 200
+	max_blade_int = 175
+
+/obj/item/rogueweapon/mace/warhammer/bronze/decorated
+	name = "decorated bronze warclub"
+	desc = "Beads, silk, and gold caress this carved-and-spiked log; a honored totem whose roots trace back to the daes before Syon's impact. Myths speak of ancient elve-and-humen alike, wielding such bronzen bludgeons against the Archdevil's rampaging hordes."
+	icon_state = "bronzeclubdec"
+	force = 30 // this requires GOLD to make, its going to be a bit more heavy.
+	smeltresult = /obj/item/ingot/gold
+	wdefense = 5
+	max_integrity = 250
+	max_blade_int = 200
+	no_loot_taint = TRUE
+
+/obj/item/rogueweapon/mace/warhammer/alloy
+	name = "decrepit warhammer"
+	desc = "A macehead of rotted metal, spiked and perched atop a thin shaft. To see such a knightly implement abandoned to decay and neglect; that wounds the heart greater than any well-poised strike."
+	icon_state = "awarhammer"
+	force = 17
+	max_integrity = 150
+	blade_dulling = DULLING_SHAFT_CONJURED
+	color = "#bb9696"
+	smeltresult = /obj/item/ingot/aaslag
+	anvilrepair = null
+
+/obj/item/rogueweapon/mace/warhammer/steel
+	name = "steel warhammer"
+	desc = "A one-handed lucerne with a steel hammerhead, perfectly balanced for a gauntlet's grasp. The unique hook-shaped spike sprouting from its rear is better known as a 'saigaman's pick', which excels at gouging wounds through the gaps in an armored opponent's maille."
+	icon_state = "swarhammer"
+	force = 25
+	possible_item_intents = list(/datum/intent/mace/strike, /datum/intent/mace/smash/lesser, /datum/intent/mace/warhammer/pick, /datum/intent/mace/warhammer/stab)
+	smeltresult = /obj/item/ingot/steel
+	wdefense = 4
+
+/obj/item/rogueweapon/mace/warhammer/steel/paalloy
+	name = "ancient alloy warhammer"
+	desc = "A macehead of polished gilbranze, spiked and perched atop a reinforced shaft. An elegant weapon from a more civilized age; when Man lived in harmony with one-another, and when 'the undying' was nothing more than a nitemare's thought."
+	icon_state = "awarhammer"
+	smeltresult = /obj/item/ingot/aaslag
+
+/obj/item/rogueweapon/mace/warhammer/blacksteel
+	name = "blacksteel warhammer"
+	desc = "A magnificent warhammer of blacksteel. Ornamental, resplendent, and - above all else - lethal; the ideal sidearm for a knight in the sixteenth century."
+	icon_state = "bs_hammer"
+	force = 30
+	minstr = 10
+	max_integrity = 350
+	smeltresult = /obj/item/ingot/blacksteel
+	possible_item_intents = list(/datum/intent/mace/strike, /datum/intent/mace/smash, /datum/intent/mace/warhammer/pick, /datum/intent/mace/warhammer/stab)
+	special = /datum/special_intent/ground_smash
+
+/obj/item/rogueweapon/mace/warhammer/steel/silver
+	name = "silver warhammer"
+	desc = "A heavy warhammer, forged from pure silver. It follows the Otavan design of a 'lucerne'; a shortened polehammer with a pronounced spike, rebalanced for one-handed usage. Resplendent in presentation, righteous in purpose."
+	icon_state = "silverhammer"
+	smeltresult = /obj/item/ingot/silver
+	smelt_bar_num = 2
+	is_silver = TRUE
+
+/obj/item/rogueweapon/mace/warhammer/steel/silver/ComponentInitialize()
+	AddComponent(\
+		/datum/component/silverbless,\
+		pre_blessed = BLESSING_NONE,\
+		silver_type = SILVER_TENNITE\
+	)
+
+// Clubs. If it's wooden or used for clobbering, drop it here.
 /obj/item/rogueweapon/mace/woodclub
-	force = 15
-	force_wielded = 18
 	name = "wooden club"
 	desc = "A primitive cudgel carved of a stout piece of treefall."
 	icon_state = "club1"
-	//dropshrink = 0.75
+	force = 15
+	force_wielded = 18
 	wbalance = WBALANCE_NORMAL
 	wdefense = 1
 	possible_item_intents = list(/datum/intent/mace/strike/wood)
@@ -371,20 +346,6 @@
 	..()
 	icon_state = "club[rand(1,2)]"
 
-/datum/intent/mace/strike/wood
-	hitsound = list('sound/combat/hits/blunt/woodblunt (1).ogg', 'sound/combat/hits/blunt/woodblunt (2).ogg')
-	penfactor = PEN_NONE
-
-/datum/intent/mace/smash/wood
-	hitsound = list('sound/combat/hits/blunt/woodblunt (1).ogg', 'sound/combat/hits/blunt/woodblunt (2).ogg')
-	penfactor = PEN_NONE
-
-/datum/intent/mace/smash/wood/stone
-	desc = "A heavy blow. You're not knocking anyone back with this."
-
-/datum/intent/mace/smash/wood/stone/spec_on_apply_effect(mob/living/H, mob/living/user, params)
-	return
-
 /obj/item/rogueweapon/mace/woodclub/deprived
 	name = "warped club"
 	desc = "It's a piece of wood marred by age and strife alike."
@@ -397,9 +358,14 @@
 	..()
 	icon_state = "deprived"
 
-/datum/intent/mace/smash/wood/ranged
-	reach = 1
+/obj/item/rogueweapon/mace/woodclub/militia // it literally just has an aura, and demolish intent
+	name = "bogbark club"
+	desc = "A primitive cudgel carved of a stout piece of treefall, from the deepest parts of the Terrorbog. An unmistakable aura of power surrounds it. This thing looks dangerously strong."
+	aura_color = "#00ff00"
+	gripped_intents = list(/datum/intent/mace/strike/wood/, /datum/intent/mace/smash/wood, /datum/intent/effect/daze, /datum/intent/mace/lesserdemolish)
+	w_class = WEIGHT_CLASS_NORMAL // it's just a stick, can put it in your backpack
 
+// Cudgels & Flanged Maces. Because sometimes, you just need a little less 'oompf' to get the point across.
 /obj/item/rogueweapon/mace/cudgel
 	name = "cudgel"
 	desc = "A stubby little club for used by guards, brigands, and various criminals. Perfect to cripple someone on a budget."
@@ -427,31 +393,25 @@
 			if("onbelt")
 				return list("shrink" = 0.4,"sx" = -3,"sy" = -4,"nx" = 4,"ny" = -5,"wx" = 0,"wy" = -5,"ex" = 2,"ey" = -5,"nturn" = 0,"sturn" = 70,"wturn" = 0,"eturn" = 0,"nflip" = 0,"sflip" = 1,"wflip" = 0,"eflip" = 0,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0)
 
-// Non-lethal mace-striking (Made for cudgel specifically. Don't put this on everything. Yeah, I mean you.)
-/datum/intent/mace/strike/wallop
-	name = "wallop"
-	blade_class = BCLASS_TWIST	//I know, it's weird, but this lets you dislocate limbs and works fine w/ -100 pen factor of blunt weapons.
-	attack_verb = list("twamps", "thwacks", "wallops")
-	damfactor = 1.3		// High damage mod to give high chance of dislocation against unarmored targets.
-	intent_intdamage_factor = 0.4	// Purposefully bad at damaging armor. Specifically deals -60% integrity damage, irregardless of the previous intent's modifiers.
-	icon_state = "inthresh"	// Wallop is too long for a button; placeholder.
-	desc = "A quick and sudden thwack that can cripple unarmored limbs with tremendous force. </br>Deals TWIST damage instead of BLUNT damage. Critical hits cause DISLOCATIONS, instead of FRACTURES. </br>DISLOCATED ARMS and HANDS cannot wield, grab, or use anything. </br>DISLOCATED LEGS and FEET prevent the target from standing."
+/obj/item/rogueweapon/mace/cudgel/shellrungu
+	name = "shell rungu"
+	desc = "A ceremonial rungu carved out of clam shell. Not intended for combat. Its used in various Sea and Coastal Elven rituals and ceremonies."
+	icon = 'icons/roguetown/gems/gem_shell.dmi'
+	icon_state = "rungu_shell"
+	max_integrity = 75
 
-// (I'm evil. Slight swing delay.)
-/datum/intent/mace/strike/dislocate
-	name = "dislocate"
-	blade_class = BCLASS_TWIST
-	attack_verb = list("thwacks", "threshes")
-	hitsound = list('sound/combat/hits/punch/punch_hard (1).ogg', 'sound/combat/hits/punch/punch_hard (2).ogg', 'sound/combat/hits/punch/punch_hard (3).ogg')
-	damfactor = 1.25
-	intent_intdamage_factor = 0.4 //Reduces integrity damage modifier from +60% to -60%.
-	swingdelay = 6 //Slower than a strike, quicker than a chop or old-school smash.
-	icon_state = "inthresh"
-	desc = "A slow-swinging strike that can cripple unarmored limbs with tremendous force. </br>Deals TWIST damage instead of BLUNT damage. Critical hits cause DISLOCATIONS, instead of FRACTURES. </br>DISLOCATED ARMS and HANDS cannot wield, grab, or use anything. </br>DISLOCATED LEGS and FEET prevent the target from standing."
+/obj/item/rogueweapon/mace/cudgel/copper
+	name = "copper bludgeon"
+	desc = "An extremely crude weapon for cruder bastards."
+	force = 15
+	icon_state = "cbludgeon"
+	force_wielded = 20
+	smeltresult = /obj/item/ingot/copper
+	wdefense = 2
 
 /obj/item/rogueweapon/mace/cudgel/flanged
 	name = "flanged mace"
-	desc = "Chivalry. </br>A one-handed derivative of the mace, purpose-made to dazzle armored opponents. Quartered into four symmetrical ridges, its flanged macehead can comfortably carve maille-and-bone behind the safety of an accompanying shield."
+	desc = "A one-handed derivative of the mace, purpose-made to dazzle armored opponents. Quartered into four symmetrical ridges, its flanged macehead can comfortably carve maille-and-bone behind the safety of an accompanying shield."
 	force = 27 //+2 (1H) but -5 (2H), compared to the Steel Mace.
 	possible_item_intents = list(/datum/intent/mace/strike, /datum/intent/mace/strike/dislocate, /datum/intent/effect/daze, /datum/intent/mace/warhammer/stab)
 	gripped_intents = null //One-handed. Pseudo-sidegrade between the Mace and Warhammer, offering more damage and dislocations at the cost of no Picking or Smashing.
@@ -459,7 +419,6 @@
 	minstr = 7
 	wdefense = 3
 	special = /datum/special_intent/warhammer_swing
-
 	smeltresult = /obj/item/ingot/steel
 	icon_state = "flangedmace"
 
@@ -490,13 +449,6 @@
 		pre_blessed = BLESSING_NONE,\
 		silver_type = SILVER_TENNITE\
 	)
-
-/obj/item/rogueweapon/mace/cudgel/shellrungu
-	name = "shell rungu"
-	desc = "A ceremonial rungu carved out of clam shell. Not intended for combat. Its used in various Sea and Coastal Elven rituals and ceremonies."
-	icon = 'icons/roguetown/gems/gem_shell.dmi'
-	icon_state = "rungu_shell"
-	max_integrity = 75
 
 /obj/item/rogueweapon/mace/cudgel/flanged/silver/psy
 	name = "psydonic flanged mace"
@@ -544,8 +496,6 @@
 /obj/item/rogueweapon/mace/cudgel/flanged/silver/psy/old/ComponentInitialize()
 	return
 
-//
-
 /obj/item/rogueweapon/mace/cudgel/psy
 	name = "psydonic handmace"
 	desc = "A shorter variant of the flanged silver mace, rebalanced for one-handed usage. It isn't uncommon for these sidearms to mysteriously 'vanish' from an Adjudicator's belt, only to be 'rediscovered' - and subsequently kept - by a Confessor."
@@ -588,16 +538,6 @@
 /obj/item/rogueweapon/mace/cudgel/psy/old/ComponentInitialize()
 	return
 
-//
-
-/obj/item/rogueweapon/mace/cudgel/copper
-	name = "copper bludgeon"
-	desc = "An extremely crude weapon for cruder bastards."
-	force = 15
-	icon_state = "cbludgeon"
-	force_wielded = 20
-	smeltresult = /obj/item/ingot/copper
-	wdefense = 2
 
 /obj/item/rogueweapon/mace/cudgel/flanged/justice
 	name = "\"Justice\""
@@ -606,7 +546,7 @@
 	icon_state = "justice"
 	wdefense = 6
 
-/obj/item/rogueweapon/mace/cudgel/justice/getonmobprop(tag)
+/obj/item/rogueweapon/mace/cudgel/flanged/justice/getonmobprop(tag)
 	. = ..()
 	if(tag)
 		switch(tag)
@@ -615,45 +555,17 @@
 			if("onbelt")
 				return list("shrink" = 0.4,"sx" = -3,"sy" = -4,"nx" = 4,"ny" = -5,"wx" = 0,"wy" = -5,"ex" = 2,"ey" = -5,"nturn" = 0,"sturn" = 70,"wturn" = 0,"eturn" = 0,"nflip" = 0,"sflip" = 1,"wflip" = 0,"eflip" = 0,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0)
 
-/obj/item/rogueweapon/mace/wsword
-	name = "wooden sword"
-	desc = "This wooden sword is great for training."
-	force = 5
-	force_wielded = 8
-	icon_state = "wsword"
-	//dropshrink = 0.75
-	possible_item_intents = list(/datum/intent/mace/strike/wood) //Allows for the teaching of both core Mace mechanics and alternative Sword mechanics.
-	gripped_intents = list(/datum/intent/mace/strike/wood, /datum/intent/mace/smash/wood, /datum/intent/effect/daze) //..ala, Daze and Dislocate.
-	smeltresult = /obj/item/natural/ash
-	minstr = 7
-	wdefense = 5
-	wbalance = WBALANCE_NORMAL
-	associated_skill = /datum/skill/combat/swords
-	anvilrepair = /datum/skill/craft/carpentry
-	resistance_flags = FLAMMABLE
-
-/obj/item/rogueweapon/mace/wsword/getonmobprop(tag)
-	. = ..()
-	if(tag)
-		switch(tag)
-			if("gen")
-				return list("shrink" = 0.6,"sx" = -10,"sy" = -8,"nx" = 13,"ny" = -8,"wx" = -8,"wy" = -7,"ex" = 7,"ey" = -8,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = 90,"sturn" = -90,"wturn" = -80,"eturn" = 81,"nflip" = 0,"sflip" = 8,"wflip" = 8,"eflip" = 0)
-			if("wielded")
-				return list("shrink" = 0.7,"sx" = 5,"sy" = -2,"nx" = -6,"ny" = -2,"wx" = -6,"wy" = -2,"ex" = 7,"ey" = -2,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = -28,"sturn" = 29,"wturn" = -35,"eturn" = 32,"nflip" = 8,"sflip" = 0,"wflip" = 8,"eflip" = 0)
-			if("onbelt")
-				return list("shrink" = 0.5,"sx" = -4,"sy" = -6,"nx" = 5,"ny" = -6,"wx" = 0,"wy" = -6,"ex" = -1,"ey" = -6,"nturn" = 100,"sturn" = 156,"wturn" = 90,"eturn" = 180,"nflip" = 0,"sflip" = 0,"wflip" = 0,"eflip" = 0,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0)
-
+// Grand Maces. Two-handers and company.
 /obj/item/rogueweapon/mace/goden
-	force = 15
-	force_wielded = 30
-	possible_item_intents = list(/datum/intent/mace/strike, /datum/intent/mace/bash/ranged) //Fluffed as either buttstroking with the Grand Mace, or ineffectually swinging it.
-	gripped_intents = list(/datum/intent/mace/strike/grand, /datum/intent/mace/smash/grand, /datum/intent/mace/rangedthrust/short, /datum/intent/effect/daze)
 	name = "goedendag"
 	desc = "Good morning."
 	icon_state = "goedendag"
 	icon = 'icons/roguetown/weapons/blunt64.dmi'
+	force = 15
+	force_wielded = 30
+	possible_item_intents = list(/datum/intent/mace/strike, /datum/intent/mace/bash/ranged) //Fluffed as either buttstroking with the Grand Mace, or ineffectually swinging it.
+	gripped_intents = list(/datum/intent/mace/strike/grand, /datum/intent/mace/smash/grand, /datum/intent/mace/thrust, /datum/intent/effect/daze)
 	sharpness = IS_BLUNT
-	//dropshrink = 0.75
 	wlength = WLENGTH_LONG
 	w_class = WEIGHT_CLASS_BULKY
 	slot_flags = null
@@ -679,6 +591,18 @@
 				return list("shrink" = 0.6,"sx" = 5,"sy" = -3,"nx" = -5,"ny" = -2,"wx" = -5,"wy" = -1,"ex" = 3,"ey" = -2,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = 7,"sturn" = -7,"wturn" = 16,"eturn" = -22,"nflip" = 8,"sflip" = 0,"wflip" = 8,"eflip" = 0)
 			if("onbelt")
 				return list("shrink" = 0.3,"sx" = -2,"sy" = -5,"nx" = 4,"ny" = -5,"wx" = 0,"wy" = -5,"ex" = 2,"ey" = -5,"nturn" = 0,"sturn" = 0,"wturn" = 0,"eturn" = 0,"nflip" = 0,"sflip" = 0,"wflip" = 0,"eflip" = 0,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0)
+
+/obj/item/rogueweapon/mace/goden/deepduke
+	name = "deep duke's staff"
+	desc = "A staff made of seaglass and sturdy but unusual metal, holding no power after its misled owner's death. More useful as a bashing tool than a magic focus."
+	icon = 'icons/roguetown/mob/monster/pufferboss.dmi'
+	icon_state = "pufferprod"
+	force = 15
+	force_wielded = 35
+	minstr = 11
+	max_integrity = 900
+	smeltresult = /obj/item/ingot/steelholy
+	smelt_bar_num = 2
 
 /obj/item/rogueweapon/mace/goden/aalloy
 	name = "decrepit grand mace"
@@ -707,18 +631,6 @@
 	desc = "A twisting polehammer, forged in polished gilbranze. What did you think this was all about? This destruction, this war, this sacrifice; it was all to prepare Man for its true ascension."
 	icon_state = "ancient_supermace"
 	smeltresult = /obj/item/ingot/aaslag
-
-/obj/item/rogueweapon/mace/goden/deepduke
-	name = "deep duke's staff"
-	desc = "A staff made of seaglass and sturdy but unusual metal, holding no power after its misled owner's death. More useful as a bashing tool than a magic focus."
-	icon = 'icons/roguetown/mob/monster/pufferboss.dmi'
-	icon_state = "pufferprod"
-	force = 15
-	force_wielded = 35
-	minstr = 11
-	max_integrity = 900
-	smeltresult = /obj/item/ingot/steelholy
-	smelt_bar_num = 2
 
 /obj/item/rogueweapon/mace/goden/steel/kanabo
 	name = "kanabo"
@@ -763,204 +675,19 @@
 		silver_type = SILVER_PSYDONIAN\
 	)
 
-/obj/item/rogueweapon/mace/spiked
-	icon_state = "spiked_club"
-
-/obj/item/rogueweapon/mace/steel/morningstar
-	name = "morning star"
-	icon_state = "morningstar"
-	desc = "Royalty. </br>An uncommon derivative of the mace, studded with spikes and seated upon a serpentine shaft. When raised aloft, the macehead mimics a stylized imitation of Astrata's glare; ergo, 'morning star'."
-	wdefense = 5
-
-/obj/item/rogueweapon/mace/warhammer
-	force = 20
-	possible_item_intents = list(/datum/intent/mace/strike, /datum/intent/mace/smash/lesser, /datum/intent/mace/warhammer/pick, /datum/intent/mace/warhammer/stab/lesser)
-	gripped_intents = null //Warhammers are purpose-made to kill. Smaller maceheads lock them out from the 'Dislocate' intent and 'Smash' intent's full knockback. Still, their boon comes from being a 'jack of all trades'.
-	name = "warhammer"
-	desc = "A one-handed derivative of the mace, purpose-made to defeat armored opponents in battle. Paired nicely with a mug of Azuria's finest zenny-liquor and a heater shield."
-	icon_state = "iwarhammer"
-	wbalance = WBALANCE_HEAVY
-	smeltresult = /obj/item/ingot/iron
-	wdefense = 3
-	max_integrity = 200
-	special = /datum/special_intent/warhammer_swing
-
-/obj/item/rogueweapon/mace/warhammer/bronze
-	force = 25
-	possible_item_intents = list(/datum/intent/mace/strike, /datum/intent/sword/cut, /datum/intent/mace/warhammer/pick, /datum/intent/mace/smash/lesser)
-	name = "bronze warclub"
-	desc = "The warhammer's ancestral link, carved from a weightsome log and studded with bronze. Elven natureguards carry it to both honor their forefathers, and as a way to sunder those who'd ravage Dendor's bounties without thought-or-restraint; a toss from afar turns into a sundering hurlbat."
-	icon_state = "bronzeclub"
-	max_blade_int = 150
-	wbalance = WBALANCE_HEAVY
-	throwforce = 25
-	embedding = list("embedded_pain_multiplier" = 4, "embed_chance" = 50, "embedded_fall_chance" = 20)
-	smeltresult = /obj/item/ingot/bronze
-	wdefense = 3
-	max_integrity = 180
-	sharpness = IS_SHARP
-
-/obj/item/rogueweapon/mace/warhammer/bronze/iron
-	force = 20 //just a tad weaker than the bronze to balance it out, this weapon has some versatile intents and i dont want it to be TOO strong.
-	name = "iron warclub"
-	desc = "The warhammer's ancestral link, carved from a weightsome log and studded with iron. Elven natureguards carry it to both honor their forefathers, and as a way to sunder those who'd ravage Dendor's bounties without thought-or-restraint; a toss from afar turns into a sundering hurlbat."
-	icon_state = "iclub"
-	max_blade_int = 100
-	throwforce = 20 // still hurts, just less
-	smeltresult = /obj/item/ingot/iron
-	wdefense = 2
-	max_integrity = 120
-
-/obj/item/rogueweapon/mace/warhammer/bronze/steel
-	force = 28 //just a little better than the bronze club but barely
-	name = "steel warclub"
-	desc = "The warhammer's ancestral link, carved from a weightsome log and studded with steel. Elven natureguards carry it to both honor their forefathers, and as a way to sunder those who'd ravage Dendor's bounties without thought-or-restraint; a toss from afar turns into a sundering hurlbat."
-	icon_state = "steelclub"
-	max_blade_int = 175
-	throwforce = 25
-	smeltresult = /obj/item/ingot/steel
-	wdefense = 3
-	max_integrity = 200
-
-/obj/item/rogueweapon/mace/warhammer/bronze/silver
-	name = "silver warclub"
-	desc = "The warhammer's ancestral link, carved from a weightsome log and studded with silver. Elven natureguards carry it to both honor their forefathers, and as a way to sunder those who'd ravage Dendor's bounties without thought-or-restraint; a toss from afar turns into a sundering hurlbat."
-	icon_state = "clubsilver"
-	throwforce = 25
-	smeltresult = /obj/item/ingot/silver
-	wdefense = 3
-	is_silver = TRUE
-	force = 28
-	max_integrity = 200
-	max_blade_int = 175
-
-/obj/item/rogueweapon/mace/warhammer/bronze/decorated
-	force = 30 // this requires GOLD to make, its going to be a bit more heavy.
-	name = "decorated bronze warclub"
-	desc = "Beads, silk, and gold caress this carved-and-spiked log; a honored totem whose roots trace back to the daes before Syon's impact. Myths speak of ancient elve-and-humen alike, wielding such bronzen bludgeons against the Archdevil's rampaging hordes."
-	icon_state = "bronzeclubdec"
-	smeltresult = /obj/item/ingot/gold
-	wdefense = 5
-	max_integrity = 250
-	max_blade_int = 200
-	no_loot_taint = TRUE
-
-/obj/item/rogueweapon/mace/warhammer/alloy
-	name = "decrepit warhammer"
-	desc = "A macehead of rotted metal, spiked and perched atop a thin shaft. To see such a knightly implement abandoned to decay and neglect; that wounds the heart greater than any well-poised strike."
-	icon_state = "awarhammer"
-	force = 17
-	max_integrity = 150
-	blade_dulling = DULLING_SHAFT_CONJURED
-	color = "#bb9696"
-	smeltresult = /obj/item/ingot/aaslag
-	anvilrepair = null
-
-/obj/item/rogueweapon/mace/warhammer/steel
-	force = 25
-	possible_item_intents = list(/datum/intent/mace/strike, /datum/intent/mace/smash/lesser, /datum/intent/mace/warhammer/pick, /datum/intent/mace/warhammer/stab)
-	name = "steel warhammer"
-	desc = "A one-handed lucerne with a steel hammerhead, perfectly balanced for a gauntlet's grasp. The unique hook-shaped spike sprouting from its rear is better known as a 'saigaman's pick', which excels at gouging wounds through the gaps in an armored opponent's maille."
-	icon_state = "swarhammer"
-	smeltresult = /obj/item/ingot/steel
-	wdefense = 4
-
-/obj/item/rogueweapon/mace/warhammer/getonmobprop(tag)
-	if(tag)
-		switch(tag)
-			if("gen")
-				return list("shrink" = 0.5,"sx" = -9,"sy" = -8,"nx" = 9,"ny" = -7,"wx" = -7,"wy" = -8,"ex" = 3,"ey" = -8,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = 90,"sturn" = -90,"wturn" = -90,"eturn" = 90,"nflip" = 0,"sflip" = 8,"wflip" = 8,"eflip" = 0)
-			if("wielded")
-				return list("shrink" = 0.6,"sx" = 3,"sy" = -7,"nx" = -6,"ny" = -3,"wx" = 3,"wy" = -4,"ex" = 4,"ey" = -3,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = -44,"sturn" = 45,"wturn" = 47,"eturn" = 33,"nflip" = 8,"sflip" = 0,"wflip" = 0,"eflip" = 0)
-			if("onbelt")
-				return list("shrink" = 0.4,"sx" = -2,"sy" = -5,"nx" = 4,"ny" = -5,"wx" = 0,"wy" = -5,"ex" = 2,"ey" = -5,"nturn" = 0,"sturn" = 0,"wturn" = 0,"eturn" = 0,"nflip" = 0,"sflip" = 0,"wflip" = 0,"eflip" = 0,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0)
-	return ..()
-
-/obj/item/rogueweapon/mace/warhammer/steel/paalloy
-	name = "ancient alloy warhammer"
-	desc = "A macehead of polished gilbranze, spiked and perched atop a reinforced shaft. An elegant weapon from a more civilized age; when Man lived in harmony with one-another, and when 'the undying' was nothing more than a nitemare's thought."
-	icon_state = "awarhammer"
-	smeltresult = /obj/item/ingot/aaslag
-
-/obj/item/rogueweapon/mace/warhammer/blacksteel
-	name = "blacksteel warhammer"
-	desc = "A magnificent warhammer of blacksteel. Ornamental, resplendent, and - above all else - lethal; the ideal sidearm for a knight in the sixteenth century."
-	icon_state = "bs_hammer"
-	force = 30
-	minstr = 10
-	max_integrity = 350
-	smeltresult = /obj/item/ingot/blacksteel
-	possible_item_intents = list(/datum/intent/mace/strike, /datum/intent/mace/smash, /datum/intent/mace/warhammer/pick, /datum/intent/mace/warhammer/stab)
-	special = /datum/special_intent/ground_smash
-
-/obj/item/rogueweapon/mace/warhammer/steel/silver
-	name = "silver warhammer"
-	desc = "A heavy warhammer, forged from pure silver. It follows the Otavan design of a 'lucerne'; a shortened polehammer with a pronounced spike, rebalanced for one-handed usage. Resplendent in presentation, righteous in purpose."
-	icon_state = "silverhammer"
-	smeltresult = /obj/item/ingot/silver
-	smelt_bar_num = 2
-	is_silver = TRUE
-
-/obj/item/rogueweapon/mace/warhammer/steel/silver/ComponentInitialize()
-	AddComponent(\
-		/datum/component/silverbless,\
-		pre_blessed = BLESSING_NONE,\
-		silver_type = SILVER_TENNITE\
-	)
-
-
-/datum/intent/mace/warhammer/stab
-	name = "thrust"
-	icon_state = "instab"
-	blade_class = BCLASS_STAB
-	attack_verb = list("thrusts", "stabs")
-	animname = "stab"
-	hitsound = list('sound/combat/hits/bladed/genstab (1).ogg', 'sound/combat/hits/bladed/genstab (2).ogg', 'sound/combat/hits/bladed/genstab (3).ogg')
-	no_early_release = TRUE
-	penfactor = PEN_LIGHT
-	damfactor = 0.9
-	item_d_type = "stab"
-
-/datum/intent/mace/warhammer/stab/lesser
-	name = "stab with saigaman's pick" //Exclusive to warhammers - and axes? - who don't have a vertical spike for thrusting, ala the Battle Axe.
-	icon_state = "instab"
-	blade_class = BCLASS_STAB
-	attack_verb = list("thrusts", "stabs")
-	animname = "stab"
-	hitsound = list('sound/combat/hits/bladed/genstab (1).ogg', 'sound/combat/hits/bladed/genstab (2).ogg', 'sound/combat/hits/bladed/genstab (3).ogg')
-	no_early_release = TRUE
-	penfactor = PEN_LIGHT
-	damfactor = 0.8
-	swingdelay = 4
-	item_d_type = "stab"
-
-/datum/intent/mace/warhammer/pick
-	name = "impale with saigaman's pick"
-	icon_state = "inpick"
-	blade_class = BCLASS_PICK
-	attack_verb = list("picks", "impales")
-	animname = "stab"
-	hitsound = list('sound/combat/hits/blunt/metalblunt (1).ogg', 'sound/combat/hits/blunt/metalblunt (2).ogg', 'sound/combat/hits/blunt/metalblunt (3).ogg')
-	misscost = 1
-	swingdelay = 15
-	clickcd = 15
-	penfactor = PEN_BSTEEL
-	damfactor = 0.9
-	item_d_type = "stab"
-
-//Mauls. Woe.
+//Mauls. Grand(er) Maces with twice the heft and twice the aura.
 /obj/item/rogueweapon/mace/maul
-	force = 12 //Don't one-hand this.
-	force_wielded = 32 //-3 compared to grand mace(steel goden). Better intents.
-	possible_item_intents = list(/datum/intent/mace/strike, /datum/intent/mace/bash/ranged)
-	gripped_intents = list(/datum/intent/mace/smash/crush, /datum/intent/mace/strike/grand, /datum/intent/mace/sweep, /datum/intent/effect/hobble)
 	name = "maul"
 	desc = "Who would need something this large? It looks like it was made for tearing down walls, rather than men."
 	icon_state = "sledge"
 	icon = 'icons/roguetown/weapons/blunt64.dmi'
+	force = 12 //Don't one-hand this.
+	force_wielded = 32 //-3 compared to grand mace(steel goden). Better intents.
+	possible_item_intents = list(/datum/intent/mace/strike, /datum/intent/mace/bash/ranged)
+	gripped_intents = list(/datum/intent/mace/smash/crush, /datum/intent/mace/strike/grand, /datum/intent/mace/sweep, /datum/intent/effect/hobble)
 	wlength = WLENGTH_LONG
 	swingsound = BLUNTWOOSH_HUGE
-	slot_flags = null//No.
+	slot_flags = null //No.
 	smelt_bar_num = 2
 	minstr = 11
 	wdefense = 3
@@ -1006,9 +733,8 @@
 		src.minstr = 18
 	..()
 
-//Dwarvish mauls. Unobtanium outside of Grudgebearer. Do not change that.
 /obj/item/rogueweapon/mace/maul/steel
-	name = "dwarven maul"
+	name = "dwarven maul" //Dwarvish mauls. Unobtanium outside of Grudgebearer. Do not change that.
 	desc = "An incredibly heavy, oversized hammer. The owner is not compensating, for this maul will do the speaking. \
 	This one has been well balanced, allowing for a weaker wielder to make use of it."
 	icon_state = "dwarfhammer"
@@ -1108,174 +834,9 @@
 	O.take_damage(bonus_damage, BRUTE, d_type, 1)
 	return TRUE
 
-/datum/intent/mace/sweep
-	name = "sweeping strike"
-	icon_state = "insweep"
-	blade_class = BCLASS_BLUNT
-	attack_verb = list("sweeps through", "smashes across")
-	animname = "strike"
-	hitsound = list('sound/combat/hits/blunt/metalblunt (1).ogg', 'sound/combat/hits/blunt/metalblunt (2).ogg', 'sound/combat/hits/blunt/metalblunt (3).ogg')
-	penfactor = PEN_NONE
-	chargetime = 0
-	damfactor = 1.2
-	demolition_mod = 1.25
-	clickcd = CLICK_CD_GLACIAL
-	item_d_type = "blunt"
-	intent_intdamage_factor = BLUNT_DEFAULT_INT_DAMAGEFACTOR
-	cleave = /datum/cleave_pattern/frontal_arc
-	desc = "A heavy sweep that smashes through targets to the sides and front."
-
-//Intents for the mauls.
-/datum/intent/effect/hobble
-	name = "hobbling strike"
-	desc = "A heavy strike aimed at the legs to cripple movement."
-	icon_state = "incrack"//Temp. Just so it's easy to differentiate.
-	attack_verb = list("hobbles")
-	animname = "strike"
-	hitsound = list('sound/combat/hits/blunt/shovel_hit3.ogg')
-	swingdelay = 6
-	damfactor = 0.8
-	penfactor = PEN_NONE
-	clickcd = CLICK_CD_HEAVY
-	item_d_type = "blunt"
-	intent_effect = /datum/status_effect/debuff/hobbled
-	target_parts = list(BODY_ZONE_L_LEG, BODY_ZONE_R_LEG) //Intentionally leaving out feet. If you know, you know.
-
-/datum/intent/maul/spiked
-	name = "perforating strike"
-	blade_class = BCLASS_STAB
-	attack_verb = list("rends", "hammers", "wallops")
-	animname = "stab"
-	icon_state = "intear"
-	warnie = "mobwarning"
-	hitsound = list('sound/combat/hits/bladed/genstab (1).ogg', 'sound/combat/hits/bladed/genstab (2).ogg', 'sound/combat/hits/bladed/genstab (3).ogg')
-	item_d_type = "stab"
-
-/datum/component/mushroom_mace
-	dupe_mode = COMPONENT_DUPE_UNIQUE
-	var/hit_count = 0
-	var/last_hit_time = 0
-	var/reset_timeout = 75 SECONDS
-
-/datum/component/mushroom_mace/Initialize(mapload)
-	if(!isitem(parent))
-		return COMPONENT_INCOMPATIBLE
-	RegisterSignal(parent, COMSIG_ITEM_ATTACK_SUCCESS, PROC_REF(on_attack))
-
-/datum/component/mushroom_mace/proc/on_attack(obj/item/source, mob/living/target, mob/living/user)
-	SIGNAL_HANDLER
-
-	if(!istype(user.used_intent, /datum/intent/mace/boom))
-		return
-
-	var/current_time = world.time
-
-	// Reset hit count if it's been too long since the last successful hit.
-	if(hit_count > 0 && (current_time - last_hit_time) > reset_timeout)
-		hit_count = 1
-		last_hit_time = current_time
-		to_chat(user, span_infection("The mushroom mace starts pulsing."))
-
-	hit_count++
-	spawn(0)
-		spawn_spore_clouds(target, user)
-
-	if(hit_count == 4)
-		playsound(user, 'sound/magic/magnet.ogg', 75)
-		to_chat(user, span_userdanger("The mushroom mace is pulsing wildly!"))
-
-	if(hit_count >= 5)
-		spawn(0)
-			mushroom_boom(target, user)
-		hit_count = 0 // Reset after the big boom
-
-/datum/component/mushroom_mace/proc/spawn_spore_clouds(mob/living/target, mob/living/user)
-	var/turf/T = get_turf(target)
-	var/dir_to_target = get_dir(user, target)
-
-	var/list/target_turfs = list(T)
-	target_turfs += get_step(T, dir_to_target)
-	target_turfs += get_step(T, turn(dir_to_target, 90))
-	target_turfs += get_step(T, turn(dir_to_target, -90))
-
-	for(var/turf/cloud_turf in target_turfs)
-		if(cloud_turf == get_turf(user))
-			continue
-		var/obj/effect/temp_visual/spore/old_spores = locate(/obj/effect/temp_visual/spore) in cloud_turf
-		if(old_spores)
-			qdel(old_spores)
-		new /obj/effect/temp_visual/spore(cloud_turf)
-
-/datum/component/mushroom_mace/proc/mushroom_boom(mob/living/target, mob/living/user)
-	var/turf/T = get_turf(target)
-	T.visible_message(span_boldwarning("The mushroom mace releases a massive fungal detonation!"))
-	explosion(T, extreme_impact_range = 0, heavy_impact_range = 0, light_impact_range = 4, smoke = TRUE, soundin = pick('sound/misc/explode/explosion.ogg'))
-
-	for(var/mob/living/L in range(2, T))
-		var/damage = 25
-		if(L == user)
-			damage = 5 // User takes reduced damage
-		L.apply_damage(damage, TOX)
-		if(L != user && ishuman(L))
-			var/mob/living/carbon/human/H = L
-			H.Immobilize(15)
-			H.apply_status_effect(/datum/status_effect/debuff/exposed)
-
-/obj/effect/temp_visual/spore
-	name = "spore"
-	icon_state = "spores"
-	duration = 16 SECONDS
-	plane = GAME_PLANE_UPPER
-	layer = ABOVE_ALL_MOB_LAYER
-	var/damage_amount = 6
-
-/obj/effect/temp_visual/spore/Initialize(mapload)
-	. = ..()
-	// Damage anyone already standing on the tile
-	var/turf/T = get_turf(src)
-	for(var/mob/living/L in T)
-		apply_spore_damage(L)
-
-/obj/effect/temp_visual/spore/Crossed(atom/movable/AM)
-	. = ..()
-	if(isliving(AM))
-		apply_spore_damage(AM)
-
-/obj/effect/temp_visual/spore/proc/apply_spore_damage(mob/living/L)
-	if(L.stat == DEAD)
-		return
-
-	if(HAS_TRAIT(L, TRAIT_NOBREATH))
-		return
-
-	to_chat(L, span_danger("You breathe in the spiky spores!"))
-	L.apply_damage(damage_amount, BRUTE)
-
-/datum/intent/mace/boom
-	name = "boom"
-	attack_verb = list("thumps", "fungal-strikes")
-	icon_state = "inboom"
-	item_d_type = "blunt"
-	desc = "A specialized strike that releases spores. Landing 7 consecutive strikes within 75 seconds triggers a fungal explosion."
-	damfactor = 1
-
-/obj/item/rogueweapon/mace/mushroom
-	name = "lithmyc mace"
-	desc = "A heavy mace forged from fungal-infused metals. Looks spiky!"
-	icon_state = "mushroom"
-	force = 18
-	force_wielded = 27
-	max_integrity = 500
-	possible_item_intents = list(/datum/intent/mace/strike, /datum/intent/mace/boom, /datum/intent/mace/strike/dislocate)
-	gripped_intents = list(/datum/intent/mace/strike, /datum/intent/mace/boom, /datum/intent/mace/strike/dislocate, /datum/intent/mace/smash)
-	smeltresult = /obj/item/ingot/lithmyc
-
-/obj/item/rogueweapon/mace/mushroom/Initialize(mapload)
-	. = ..()
-	AddComponent(/datum/component/mushroom_mace)
-
-/obj/item/rogueweapon/contraption/linker/mace //roughly equivalent to a blacksmith hammer in damage and carryability
-	name = "bronze-reinforced wrench"
+// Wrenches. Not to be confused with 'wenches'.
+/obj/item/rogueweapon/contraption/linker/mace
+	name = "bronze-reinforced wrench" //roughly equivalent to a blacksmith hammer in damage and carryability
 	desc = "A wrench, reinforced with bronze. It'd hurt to get smacked with this."
 	icon_state = "2hbronze"
 	wlength = WLENGTH_SHORT
@@ -1452,3 +1013,45 @@
 /obj/item/rogueweapon/contraption/linker/mace/big/decrepit/Initialize(mapload)
 	. = ..()
 	current_charge = rand(0, max_stored_charge) // it's an ancient artifact, rather than crafted. might have some charge left
+
+// Unique Maces.
+/obj/item/rogueweapon/mace/mushroom
+	name = "lithmyc mace"
+	desc = "A heavy mace forged from fungal-infused metals. Looks spiky!"
+	icon_state = "mushroom"
+	force = 18
+	force_wielded = 27
+	max_integrity = 500
+	possible_item_intents = list(/datum/intent/mace/strike, /datum/intent/mace/boom, /datum/intent/mace/strike/dislocate)
+	gripped_intents = list(/datum/intent/mace/strike, /datum/intent/mace/boom, /datum/intent/mace/strike/dislocate, /datum/intent/mace/smash)
+	smeltresult = /obj/item/ingot/lithmyc
+
+/obj/item/rogueweapon/mace/mushroom/Initialize(mapload)
+	. = ..()
+	AddComponent(/datum/component/mushroom_mace)
+
+/obj/item/rogueweapon/mace/wsword
+	name = "wooden sword"
+	desc = "This wooden sword is great for training."
+	force = 5
+	force_wielded = 8
+	icon_state = "wsword"
+	possible_item_intents = list(/datum/intent/mace/strike/wood) //Allows for the teaching of both core Mace mechanics and alternative Sword mechanics.
+	gripped_intents = list(/datum/intent/mace/strike/wood, /datum/intent/mace/smash/wood, /datum/intent/effect/daze) //..ala, Daze and Dislocate.
+	smeltresult = /obj/item/natural/ash
+	minstr = 7
+	wdefense = 5
+	wbalance = WBALANCE_NORMAL
+	associated_skill = /datum/skill/combat/swords
+	anvilrepair = /datum/skill/craft/carpentry
+	resistance_flags = FLAMMABLE
+
+/obj/item/rogueweapon/mace/wsword/getonmobprop(tag)
+	if(tag)
+		switch(tag)
+			if("gen")
+				return list("shrink" = 0.6,"sx" = -10,"sy" = -8,"nx" = 13,"ny" = -8,"wx" = -8,"wy" = -7,"ex" = 7,"ey" = -8,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = 90,"sturn" = -90,"wturn" = -80,"eturn" = 81,"nflip" = 0,"sflip" = 8,"wflip" = 8,"eflip" = 0)
+			if("wielded")
+				return list("shrink" = 0.7,"sx" = 5,"sy" = -2,"nx" = -6,"ny" = -2,"wx" = -6,"wy" = -2,"ex" = 7,"ey" = -2,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = -28,"sturn" = 29,"wturn" = -35,"eturn" = 32,"nflip" = 8,"sflip" = 0,"wflip" = 8,"eflip" = 0)
+			if("onbelt")
+				return list("shrink" = 0.5,"sx" = -4,"sy" = -6,"nx" = 5,"ny" = -6,"wx" = 0,"wy" = -6,"ex" = -1,"ey" = -6,"nturn" = 100,"sturn" = 156,"wturn" = 90,"eturn" = 180,"nflip" = 0,"sflip" = 0,"wflip" = 0,"eflip" = 0,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0)
