@@ -220,7 +220,9 @@
 
 	// Dual wield drawback (-5%)
 	var/dualwield_penalty = HAS_TRAIT(src, TRAIT_DUALWIELDER) && src.can_dualwield(mainhand, offhand)
-	if(dualwield_penalty)
+	var/dwp_unarmed = HAS_TRAIT(src, TRAIT_DUALWIELDER) && (HAS_TRAIT(src, TRAIT_CIVILIZEDBARBARIAN) || HAS_TRAIT(src, TRAIT_WEAPONLESS))
+
+	if(dualwield_penalty || dwp_unarmed)
 		prob2defend = clamp(prob2defend - 5, 5, 90)
 
 	if(has_status_effect(/datum/status_effect/swingdelay/penalty))

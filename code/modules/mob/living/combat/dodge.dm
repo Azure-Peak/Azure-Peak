@@ -280,7 +280,8 @@
 
 		// Dual wield drawback (-5%)
 		var/dualwield_penalty = HAS_TRAIT(src, TRAIT_DUALWIELDER) && defender_human.can_dualwield(defender_mainhand, defender_offhand)
-		if(dualwield_penalty)
+		var/dwp_unarmed = HAS_TRAIT(src, TRAIT_DUALWIELDER) && (HAS_TRAIT(src, TRAIT_CIVILIZEDBARBARIAN) || HAS_TRAIT(src, TRAIT_WEAPONLESS))
+		if(dualwield_penalty || dwp_unarmed)
 			prob2defend = max(prob2defend - 5, 0)
 
 		if(src.client?.prefs.showrolls)
