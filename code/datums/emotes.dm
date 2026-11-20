@@ -80,7 +80,7 @@
 			if(M != user && !M.rogue_sneaking && (M.name != "Unknown"))
 				mobsadjacent += M
 		if(mobsadjacent.len)
-			chosenmob = input(user, "[key] who?") as null|anything in mobsadjacent
+			chosenmob = tgui_input_list(user, "[key] who?", "make your choice", null|mobsadjacent)
 			if(!chosenmob)
 				return FALSE
 		if(chosenmob)

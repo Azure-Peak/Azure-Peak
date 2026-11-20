@@ -25,7 +25,7 @@
 	has_tempo = TRUE
 
 /datum/antagonist/aspirant/proc/give_equipment_prompt()
-	var/chosen = input(owner.current, "How shall I rise to power?", "YOUR ADVANTAGE") as anything in equipment_selection
+	var/chosen = tgui_input_list(owner.current, "How shall I rise to power?", "YOUR ADVANTAGE", equipment_selection)
 	var/mob/aspirant_mob = owner.current
 	chosen = LAZYACCESS(equipment_selection, chosen)
 	// Every Aspirant gets bribe money regardless of choice

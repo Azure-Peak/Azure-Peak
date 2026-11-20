@@ -47,7 +47,7 @@
 		)
 	if(H.mind)
 		var/classes = list("The Watchman", "The Gadgeteer", "I AM JUSTICE INCARNATE!!!")
-		var/classchoice = input(H, "Choose your archetypes", "Available archetypes") as anything in classes
+		var/classchoice = tgui_input_list(H, "Choose your archetypes", "Available archetypes", classes)
 		switch(classchoice)
 			if("The Watchman") //Face-to-face CQC. No crit resist. Pure aura. Rorschach.
 				H.set_blindness(0)

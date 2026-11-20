@@ -98,7 +98,7 @@
 
 	if(H.mind)
 		var/armor_options = list("Light - Dodge Expert, Padded Gambeson", "Medium - Maille Training, Iron Hauberk")
-		var/armor_choice = input(H, "Choose your ARMOR.", "PREPARE FOR THE HUNT-TO-COME.") as anything in armor_options
+		var/armor_choice = tgui_input_list(H, "Choose your ARMOR.", "PREPARE FOR THE HUNT-TO-COME.", armor_options)
 		switch(armor_choice) //Like Skirmisher, you are not getting both. Choose wisely.
 			if("Light - Dodge Expert, Padded Gambeson")
 				ADD_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_GENERIC)
@@ -110,7 +110,7 @@
 				ADD_TRAIT(H, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
 
 		var/weapon_options = list("Bowhunter - Blackhorn Bow + 20 Broadheads", "Spearhunter - Spear + Sling, +I STR / -I SPD")
-		var/weapon_choice = input(H, "Choose your SPECIALITY.", "JACK OF MANY TRADES, MASTER OF NONE.") as anything in weapon_options
+		var/weapon_choice = tgui_input_list(H, "Choose your SPECIALITY.", "JACK OF MANY TRADES, MASTER OF NONE.", weapon_options)
 		switch(weapon_choice)
 			if("Bowhunter - Blackhorn Bow + 20 Broadheads")
 				beltr = /obj/item/quiver/arrows
@@ -133,7 +133,7 @@
 			"Path of the Rous"		= /obj/item/clothing/head/roguetown/helmet/sallet/warden/rat,
 			"None"
 		)
-		var/helmchoice = input(H, "Choose your HELMET.", "FOLLOW THE PATH OF YOUR ANCESTORS.") as anything in helmets
+		var/helmchoice = tgui_input_list(H, "Choose your HELMET.", "FOLLOW THE PATH OF YOUR ANCESTORS.", helmets)
 		if(helmchoice != "None")
 			head = helmets[helmchoice]
 
@@ -142,7 +142,7 @@
 			"Antlered Shroud"		= /obj/item/clothing/head/roguetown/roguehood/warden/antler,
 			"None"
 		)
-		var/hoodchoice = input(H, "Choose your SHROUD.", "LEST THEY SEE THE WHITES OF YOUR EYES.") as anything in hoods
+		var/hoodchoice = tgui_input_list(H, "Choose your SHROUD.", "LEST THEY SEE THE WHITES OF YOUR EYES.", hoods)
 		if(hoodchoice != "None")
 			mask = hoods[hoodchoice]
 	if(H.mind)

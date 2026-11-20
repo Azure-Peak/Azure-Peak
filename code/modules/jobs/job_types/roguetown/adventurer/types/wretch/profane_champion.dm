@@ -55,7 +55,7 @@
 				weapons += "Vicious Axe"
 			if(/datum/patron/inhumen/baotha)
 				weapons += "Saccharine Swordspear"
-		var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
+		var/weapon_choice = tgui_input_list(H, "Choose your weapon.", "TAKE UP ARMS", weapons)
 		switch(weapon_choice)
 			if("Longsword")
 				H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_EXPERT, TRUE)

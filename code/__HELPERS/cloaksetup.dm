@@ -39,7 +39,7 @@
 			"Cape" =			/obj/item/clothing/cloak/cape/guard,
 			)
 
-	var/choive_key = input(src, "Choose your cloak.", "IDENTIFY YOURSELF") as anything in allowed_cloaks
+	var/choive_key = tgui_input_list(src, "Choose your cloak.", "IDENTIFY YOURSELF", allowed_cloaks)
 	var/typepath = allowed_cloaks[choive_key]
 	var/obj/item/clothing/cloak/cloak_choice = new typepath(src)
 	var/list/namesplit = splittext(src.real_name, " ")

@@ -55,7 +55,7 @@
 
 	H.adjust_blindness(-3)
 	var/weapons = list("Warhammer & Shield","Axe & Shield","Halberd","Greataxe")
-	var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
+	var/weapon_choice = tgui_input_list(H, "Choose your weapon.", "TAKE UP ARMS", weapons)
 	H.set_blindness(0)
 	switch(weapon_choice)
 		if("Warhammer & Shield")
@@ -82,7 +82,7 @@
 	add_verb(H, /mob/proc/haltyell)
 
 	var/helmet = list("Etruscan Bascinet","Volf Plate Helmet","Visored Sallet","Snouted Visored Sallet","Slitted Kettle","Simple Helmet","Kettle Helmet","Sallet Helmet","Winged Helmet",)
-	var/helmet_choice = input(H, "Choose your Helm.", "TAKE UP HELMS") as anything in helmet
+	var/helmet_choice = tgui_input_list(H, "Choose your Helm.", "TAKE UP HELMS", helmet)
 	switch(helmet_choice)
 		if("Etruscan Bascinet")
 			head = /obj/item/clothing/head/roguetown/helmet/bascinet/etruscan
@@ -158,7 +158,7 @@
 
 	H.adjust_blindness(-3)
 	var/weapons = list("Crossbow","Bow","Sling")
-	var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
+	var/weapon_choice = tgui_input_list(H, "Choose your weapon.", "TAKE UP ARMS", weapons)
 	H.set_blindness(0)
 	switch(weapon_choice)
 		if("Crossbow")
@@ -187,7 +187,7 @@
 	add_verb(H, /mob/proc/haltyell)
 
 	var/helmet = list("Etruscan Bascinet","Volf Plate Helmet","Visored Sallet","Snouted Visored Sallet","Slitted Kettle","Simple Helmet","Kettle Helmet","Sallet Helmet","Winged Helmet",)
-	var/helmet_choice = input(H, "Choose your Helm.", "TAKE UP HELMS") as anything in helmet
+	var/helmet_choice = tgui_input_list(H, "Choose your Helm.", "TAKE UP HELMS", helmet)
 	switch(helmet_choice)
 		if("Etruscan Bascinet")
 			head = /obj/item/clothing/head/roguetown/helmet/bascinet/etruscan
@@ -276,7 +276,7 @@
 	)
 
 	var/weapons = list("Sword & Shield","Mace & Shield","Spear","Crossbow", "Bow")
-	var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
+	var/weapon_choice = tgui_input_list(H, "Choose your weapon.", "TAKE UP ARMS", weapons)
 	H.set_blindness(0)
 	switch(weapon_choice)
 		if("Sword & Shield")
@@ -305,7 +305,7 @@
 			backl = /obj/item/rogueweapon/shield/iron
 
 	var/helmet = list("Etruscan Bascinet","Volf Plate Helmet","Visored Sallet","Snouted Visored Sallet","Slitted Kettle","Simple Helmet","Kettle Helmet","Sallet Helmet","Winged Helmet",)
-	var/helmet_choice = input(H, "Choose your Helm.", "TAKE UP HELMS") as anything in helmet
+	var/helmet_choice = tgui_input_list(H, "Choose your Helm.", "TAKE UP HELMS", helmet)
 	switch(helmet_choice)
 		if("Etruscan Bascinet")
 			head = /obj/item/clothing/head/roguetown/helmet/bascinet/etruscan

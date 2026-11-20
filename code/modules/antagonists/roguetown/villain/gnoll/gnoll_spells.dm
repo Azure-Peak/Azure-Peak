@@ -82,7 +82,7 @@
 		to_chat(user, span_warning("The air is stale. No hunted souls are in the region."))
 		return
 
-	var/selection = input(user, "Whose scent shall we follow?", "The Great Hunt") as null|anything in sort_list(possible_targets)
+	var/selection = tgui_input_list(user, "Whose scent shall we follow?", "The Great Hunt", null|sort_list(possible_targets))
 	if(!selection)
 		return
 

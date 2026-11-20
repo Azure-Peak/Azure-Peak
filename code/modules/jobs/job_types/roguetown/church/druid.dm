@@ -99,7 +99,7 @@
 	shoes = /obj/item/clothing/shoes/roguetown/sandals
 
 	var/helms = list("Briar Mask (Classic)","Saiga Skull","Antler Hood")
-	var/helm_choice = input(H, "Choose your HEADWEAR.", "DENDOR. FATHER. SPIRIT-GUIDE.") as anything in helms
+	var/helm_choice = tgui_input_list(H, "Choose your HEADWEAR.", "DENDOR. FATHER. SPIRIT-GUIDE.", helms)
 	switch(helm_choice)
 		if("Briar Mask (Classic)")
 			head = /obj/item/clothing/head/roguetown/dendormask

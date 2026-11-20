@@ -29,7 +29,7 @@
 
 /obj/item/carpet/exotic/attack_self(mob/living/carbon/human/user)
 	var/obj/effect/decal/carpet/pickrug
-	var/rugnameinput = input(user, "Exotic Rugs", "choose a rug to lay on the ground") as null|anything in GLOB.exoticrug_types
+	var/rugnameinput = tgui_input_list(user, "Exotic Rugs", "choose a rug to lay on the ground", null|GLOB.exoticrug_types)
 	testing("rugnameinput [rugnameinput]")
 	pickrug = GLOB.exoticrug_types[rugnameinput]
 	rug_to_layout = pickrug
@@ -64,7 +64,7 @@
 
 /obj/item/carpet/standard/attack_self(mob/living/carbon/human/user)
 	var/turf/open/floor/carpet/pickrug
-	var/rugnameinput = input(user, "Standard Rugs", "choose a rug to lay on the ground") as null|anything in list("Inn", "Purple", "Red", "Stellar", "Royal Black")
+	var/rugnameinput = tgui_input_list(user, "Standard Rugs", "choose a rug to lay on the ground", null|list("Inn", "Purple", "Red", "Stellar", "Royal Black"))
 	switch(rugnameinput)
 		if("Inn")
 			pickrug = /turf/open/floor/carpet/inn

@@ -76,7 +76,7 @@ LICH SKELETONS
 
 	H.adjust_blindness(-3)
 	var/weapons = list("Gladius","Khopesh","Shortsword","Axe","Flail")
-	var/weapon_choice = input(H, "Choose your WEAPON.", "RAGE AGAINST THE LYVING.") as anything in weapons
+	var/weapon_choice = tgui_input_list(H, "Choose your WEAPON.", "RAGE AGAINST THE LYVING.", weapons)
 	H.set_blindness(0)
 	switch(weapon_choice)
 		if("Gladius")
@@ -95,7 +95,7 @@ LICH SKELETONS
 			beltr = /obj/item/rogueweapon/flail/sflail/paflail
 			H.adjust_skillrank(/datum/skill/combat/whipsflails, 1, TRUE)
 	var/legionnairesidearm = list("A Javelin's Bag + Ancient Shield", "A Throwing Net + Ancient Shield", "A Sling With Decrepit Pellets + Wooden Shield", "An Ancient Dagger + Ancient Shield")
-	var/legionnairesidearm_choice = input(H, "Choose your SYDEARM.", "RAGE AGAINST THE LYVING.") as anything in legionnairesidearm
+	var/legionnairesidearm_choice = tgui_input_list(H, "Choose your SYDEARM.", "RAGE AGAINST THE LYVING.", legionnairesidearm)
 	switch(legionnairesidearm_choice)
 		if("A Javelin's Bag + Ancient Shield")
 			beltl = /obj/item/quiver/javelin/paalloy
@@ -112,7 +112,7 @@ LICH SKELETONS
 			beltl = /obj/item/rogueweapon/huntingknife/idagger/steel/padagger
 			backr = /obj/item/rogueweapon/shield/bronze/paalloy
 	var/tabards = list("Black Jupon", "Black Tabard", "Black Cloak + Greathood", "Black Toga")
-	var/tabard_choice = input(H, "Choose your CLOAK.", "BEAR YOUR MASTER'S HERALDRY.") as anything in tabards
+	var/tabard_choice = tgui_input_list(H, "Choose your CLOAK.", "BEAR YOUR MASTER'S HERALDRY.", tabards)
 	switch(tabard_choice)
 		if("Black Jupon")
 			cloak = /obj/item/clothing/cloak/tabard/stabard/surcoat/lich
@@ -181,7 +181,7 @@ LICH SKELETONS
 	)
 	H.adjust_blindness(-3)
 	var/weapons = list("Bow & 24 Arrows", "Bow & 24 Broadheads", "Longbow & 24 Arrows", "Longbow & 24 Broadheads", "Crossbow & 16 Bolts", "Sling + Ancient Shield")
-	var/weapon_choice = input(H, "Choose your MISSILE.", "CONDEMN THE LYVING FROM AFAR.") as anything in weapons
+	var/weapon_choice = tgui_input_list(H, "Choose your MISSILE.", "CONDEMN THE LYVING FROM AFAR.", weapons)
 	H.set_blindness(0)
 	switch(weapon_choice)
 		if("Bow & 24 Arrows")
@@ -211,7 +211,7 @@ LICH SKELETONS
 			H.adjust_skillrank(/datum/skill/combat/shields, 2, TRUE) //Not enough to do shield specials w/knifepick or stabs, go legionnaire for that.
 			backr = /obj/item/rogueweapon/shield/bronze/paalloy // the midground for less damage output w/more defensive value vs ranged in turn. Yes you can use the sling with it.
 	var/tabards = list("Black Cloak + Greathood", "Black Jupon", "Black Tabard", "Black Toga")
-	var/tabard_choice = input(H, "Choose your CLOAK.", "BEAR YOUR MASTER'S HERALDRY.") as anything in tabards
+	var/tabard_choice = tgui_input_list(H, "Choose your CLOAK.", "BEAR YOUR MASTER'S HERALDRY.", tabards)
 	switch(tabard_choice)
 		if("Black Jupon")
 			cloak = /obj/item/clothing/cloak/tabard/stabard/surcoat/lich
@@ -280,7 +280,7 @@ LICH SKELETONS
 
 	H.adjust_blindness(-3)
 	var/weapons = list("Greatweapon - Greatsword, -2 CON / +2 STR / -1 SPD", "Greatweapon - Grand Mace, -3 CON / +2 STR / -1 SPD", "Pikeman - Spear, +1 STR", "Pikeman - Bardiche, +1 STR", "Shieldbearer - Mace + Shield, +3 WIL / -1 SPD", "Shieldbearer - Warhammer + Shield, +3 WIL / -1 SPD")
-	var/weapon_choice = input(H, "Choose your DISCIPLINE.", "DEVASTATE THE LYVING UP CLOSE.") as anything in weapons
+	var/weapon_choice = tgui_input_list(H, "Choose your DISCIPLINE.", "DEVASTATE THE LYVING UP CLOSE.", weapons)
 	H.set_blindness(0)
 	switch(weapon_choice)
 		if("Greatweapon - Greatsword, -2 CON / +2 STR / -1 SPD") //Nasty Special, decent strength, slower, lower con.
@@ -318,7 +318,7 @@ LICH SKELETONS
 			H.change_stat(STATKEY_WIL, 3)
 			H.change_stat(STATKEY_SPD, -1)
 	var/armors = list("Sayovard + Cuirass & Hauberk", "Bascinet + Heavy Hauberk")
-	var/armor_choice = input(H, "Choose your PLATE.", "SHRUG OFF THINE BLOWS.") as anything in armors
+	var/armor_choice = tgui_input_list(H, "Choose your PLATE.", "SHRUG OFF THINE BLOWS.", armors)
 	switch(armor_choice)
 		if("Sayovard + Cuirass & Hauberk")
 			head = /obj/item/clothing/head/roguetown/helmet/heavy/guard/paalloy
@@ -331,7 +331,7 @@ LICH SKELETONS
 			shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/light
 			armor = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/paalloy/heavy
 	var/tabards = list("Black Tabard", "Black Jupon", "Black Cloak + Greathood", "Black Toga")
-	var/tabard_choice = input(H, "Choose your CLOAK.", "BEAR YOUR MASTER'S HERALDRY.") as anything in tabards
+	var/tabard_choice = tgui_input_list(H, "Choose your CLOAK.", "BEAR YOUR MASTER'S HERALDRY.", tabards)
 	switch(tabard_choice)
 		if("Black Jupon")
 			cloak = /obj/item/clothing/cloak/tabard/stabard/surcoat/lich
@@ -426,7 +426,7 @@ LICH SKELETONS
 
 	H.adjust_blindness(-3)
 	var/tabards = list("Black Cloak", "Black Jupon", "Black Tabard", "Black Toga")
-	var/tabard_choice = input(H, "Choose your CLOAK.", "BEAR YOUR MASTER'S HERALDRY.") as anything in tabards
+	var/tabard_choice = tgui_input_list(H, "Choose your CLOAK.", "BEAR YOUR MASTER'S HERALDRY.", tabards)
 	H.set_blindness(0)
 	switch(tabard_choice)
 		if("Black Jupon")
@@ -439,7 +439,7 @@ LICH SKELETONS
 			cloak = /obj/item/clothing/cloak/tabard/toga/lich
 
 	var/hats = list("Function (Gilbranze Helmet)", "Form (Sapper Cap)")
-	var/hat_choice = input(H, "Choose your HAT.", "ARMOR OR STYLE.") as anything in hats
+	var/hat_choice = tgui_input_list(H, "Choose your HAT.", "ARMOR OR STYLE.", hats)
 	switch(hat_choice)
 		if("Function (Gilbranze Helmet)")
 			head = /obj/item/clothing/head/roguetown/helmet/kettle/minershelm
@@ -511,7 +511,7 @@ LICH SKELETONS
 
 	H.adjust_blindness(-3)
 	var/weapons = list("Gladius", "Dagger")
-	var/weapon_choice = input(H, "Choose your SIDEARM.", "BREAK THE CASTLES WHICH HIDE THE LYVING.") as anything in weapons
+	var/weapon_choice = tgui_input_list(H, "Choose your SIDEARM.", "BREAK THE CASTLES WHICH HIDE THE LYVING.", weapons)
 	H.set_blindness(0)
 	switch(weapon_choice)
 		if("Gladius")
@@ -521,7 +521,7 @@ LICH SKELETONS
 			beltr = /obj/item/rogueweapon/huntingknife/idagger/steel/padagger
 			H.adjust_skillrank(/datum/skill/combat/knives, 1, TRUE)
 	var/tabards = list("Black Cloak + Greathood", "Black Jupon", "Black Toga")
-	var/tabard_choice = input(H, "Choose your CLOAK.", "BEAR YOUR MASTER'S HERALDRY.") as anything in tabards
+	var/tabard_choice = tgui_input_list(H, "Choose your CLOAK.", "BEAR YOUR MASTER'S HERALDRY.", tabards)
 	switch(tabard_choice)
 		if("Black Jupon")
 			cloak = /obj/item/clothing/cloak/tabard/stabard/surcoat/lich
@@ -592,7 +592,7 @@ LICH SKELETONS
 
 	H.adjust_blindness(-3)
 	var/weapons = list("Flamberge", "Flail + Greatshield")
-	var/weapon_choice = input(H, "Choose your GREATWEAPON.", "FELL THE CHAMPIONS OF THE LYVING.") as anything in weapons
+	var/weapon_choice = tgui_input_list(H, "Choose your GREATWEAPON.", "FELL THE CHAMPIONS OF THE LYVING.", weapons)
 	H.set_blindness(0)
 	switch(weapon_choice)
 		if("Flamberge")
@@ -605,7 +605,7 @@ LICH SKELETONS
 			H.adjust_skillrank(/datum/skill/combat/whipsflails, 1, TRUE)
 			H.adjust_skillrank(/datum/skill/combat/shields, 1, TRUE)
 	var/tabards = list("Black Tabard", "Black Jupon", "Black Toga")
-	var/tabard_choice = input(H, "Choose your CLOAK.", "BEAR YOUR MASTER'S HERALDRY.") as anything in tabards
+	var/tabard_choice = tgui_input_list(H, "Choose your CLOAK.", "BEAR YOUR MASTER'S HERALDRY.", tabards)
 	switch(tabard_choice)
 		if("Black Jupon")
 			cloak = /obj/item/clothing/cloak/tabard/stabard/surcoat/lich
@@ -694,7 +694,7 @@ LICH SKELETONS
 	switch(spellblade_chant_selected)
 		if("blade")
 			var/weapons = list("Ancient Khopesh", "Ancient Longsword", "Ancient Dagger")
-			var/weapon_choice = input(H, "Choose your BLADE.", "RAGE AGAINST THE LYVING.") as anything in weapons
+			var/weapon_choice = tgui_input_list(H, "Choose your BLADE.", "RAGE AGAINST THE LYVING.", weapons)
 			switch(weapon_choice)
 				if("Ancient Khopesh")
 					beltr = granted_weapon = /obj/item/rogueweapon/sword/sabre/palloy
@@ -704,7 +704,7 @@ LICH SKELETONS
 					beltr = granted_weapon = /obj/item/rogueweapon/huntingknife/idagger/steel/padagger
 		if("phalangite")
 			var/weapons = list("Ancient Spear", "Ancient Bardiche")
-			var/weapon_choice = input(H, "Choose your SPEAR.", "RAGE AGAINST THE LYVING.") as anything in weapons
+			var/weapon_choice = tgui_input_list(H, "Choose your SPEAR.", "RAGE AGAINST THE LYVING.", weapons)
 			switch(weapon_choice)
 				if("Ancient Spear")
 					r_hand = granted_weapon = /obj/item/rogueweapon/spear/paalloy
@@ -714,7 +714,7 @@ LICH SKELETONS
 					backr = /obj/item/rogueweapon/scabbard/gwstrap
 		if("macebearer")
 			var/weapons = list("Ancient Mace", "Ancient Warhammer", "Ancient Grand Mace", "Ancient Alloy Axe", "Steel Greataxe")
-			var/weapon_choice = input(H, "Choose your WEAPON.", "RAGE AGAINST THE LYVING.") as anything in weapons
+			var/weapon_choice = tgui_input_list(H, "Choose your WEAPON.", "RAGE AGAINST THE LYVING.", weapons)
 			switch(weapon_choice)
 				if("Ancient Mace")
 					beltr = granted_weapon = /obj/item/rogueweapon/mace/steel/palloy
@@ -743,7 +743,7 @@ LICH SKELETONS
 		existing_eyes.Insert(H)
 
 	var/tabards = list("Black Tabard", "Black Jupon", "Black Toga")
-	var/tabard_choice = input(H, "Choose your CLOAK.", "BEAR YOUR MASTER'S HERALDRY.") as anything in tabards
+	var/tabard_choice = tgui_input_list(H, "Choose your CLOAK.", "BEAR YOUR MASTER'S HERALDRY.", tabards)
 	switch(tabard_choice)
 		if("Black Jupon")
 			cloak = /obj/item/clothing/cloak/tabard/stabard/surcoat/lich

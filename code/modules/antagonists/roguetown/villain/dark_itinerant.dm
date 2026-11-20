@@ -78,9 +78,8 @@
 		H.mind.AddSpell(new /datum/action/cooldown/spell/mindlink)
 		H.grant_language(/datum/language/undead)
 
-	var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in list("Crossbow", "Bow", "Sling")
-	var/armor_choice = input(H, "Choose your armor.", "TAKE UP ARMS") as anything in list("Light Armor", "Medium Armor")
-	H.set_blindness(0)
+	var/weapon_choice = tgui_input_list(H, "Choose your weapon.", "TAKE UP ARMS", list("Crossbow", "Bow", "Sling"))
+	var/armor_choice = tgui_input_list(H, "Choose your armor.", "TAKE UP ARMS", list("Light Armor", "Medium Armor"))
 	switch(weapon_choice)
 		if("Crossbow")
 			beltr = /obj/item/quiver/bolt/standard

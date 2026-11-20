@@ -82,7 +82,7 @@
 /datum/outfit/job/roguetown/confessor/choose_loadout(mob/living/carbon/human/H)
 	. = ..()
 	var/shirts = list("Inquisitorial Leather Tunic", "Cuir-Bouilli Vest")
-	var/shirt_choice = input(H, "Choose your UNDERLAYER.", "TAKE UP PSYDON'S VESTMENTS.") as anything in shirts
+	var/shirt_choice = tgui_input_list(H, "Choose your UNDERLAYER.", "TAKE UP PSYDON'S VESTMENTS.", shirts)
 	switch(shirt_choice)
 		if("Inquisitorial Leather Tunic")
 			H.equip_to_slot_or_del(new /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/inq, SLOT_SHIRT, TRUE)
@@ -90,7 +90,7 @@
 			H.equip_to_slot_or_del(new /obj/item/clothing/suit/roguetown/armor/leather/studded/cuirbouilli, SLOT_SHIRT, TRUE)
 
 	var/weapons = list("Psydonic Rapier", "Psydonic Shortsword", "Psydonic Tomahawk", "Psydonic Cudgel", "Psydonic Flanged Mace", "Psydonic Whip")
-	var/weapon_choice = input(H,"Choose your WEAPON.", "TAKE UP PSYDON'S ARMS.") as anything in weapons
+	var/weapon_choice = tgui_input_list(H,"Choose your WEAPON.", "TAKE UP PSYDON'S ARMS.", weapons)
 	switch(weapon_choice)
 		if("Psydonic Rapier")
 			H.put_in_hands(new /obj/item/rogueweapon/sword/rapier/silver/psy)
@@ -114,12 +114,12 @@
 			H.adjust_skillrank_up_to(/datum/skill/combat/whipsflails, SKILL_LEVEL_EXPERT, TRUE)
 
 	var/rangedweapons = list("Slurbow - Lesser Damage, Rapid & Accurate", "Crossbow - Access To Special Bolts")
-	var/rangedweapon_choice = input(H,"Choose your BOW.", "TAKE UP PSYDON'S ARCAGE.") as anything in rangedweapons
+	var/rangedweapon_choice = tgui_input_list(H,"Choose your BOW.", "TAKE UP PSYDON'S ARCAGE.", rangedweapons)
 	switch(rangedweapon_choice)
 		if("Slurbow - Lesser Damage, Rapid & Accurate")
 			H.equip_to_slot_or_del(new /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow/slurbow, SLOT_BACK_L, TRUE)
 			var/lightquivers = list("Light Bolts - Steel-Tipped", "Light Sunderbolts - Silver-Tipped, Halved Damage")
-			var/lightboltchoice = input(H,"Choose your MUNITIONS.", "TAKE UP PSYDON'S MISSILES.") as anything in lightquivers
+			var/lightboltchoice = tgui_input_list(H,"Choose your MUNITIONS.", "TAKE UP PSYDON'S MISSILES.", lightquivers)
 			switch(lightboltchoice)
 				if("Light Bolts - Steel-Tipped")
 					H.equip_to_slot_or_del(new /obj/item/quiver/bolt/light, SLOT_BELT_L, TRUE)
@@ -128,7 +128,7 @@
 		if("Crossbow - Access To Special Bolts")
 			H.equip_to_slot_or_del(new /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow, SLOT_BACK_L, TRUE)
 			var/quivers = list("Bolts - Steel-Tipped", "Sunderbolts - Silver-Tipped, Halved Damage", "Pyrobolts - Incendiary-Tipped, Minimal Damage")
-			var/boltchoice = input(H,"Choose your MUNITIONS.", "TAKE UP PSYDON'S MISSILES.") as anything in quivers
+			var/boltchoice = tgui_input_list(H,"Choose your MUNITIONS.", "TAKE UP PSYDON'S MISSILES.", quivers)
 			switch(boltchoice)
 				if("Bolts - Steel-Tipped")
 					H.equip_to_slot_or_del(new /obj/item/quiver/bolt/standard, SLOT_BELT_L, TRUE)

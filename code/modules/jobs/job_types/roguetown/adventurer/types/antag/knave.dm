@@ -61,7 +61,7 @@
 	H.adjust_blindness(-3)
 	var/subtype = list("Rogue", "Poacher")
 	if(H.mind)
-		var/subtype_choice = input(H, "Choose your path.", "TAKE UP ARMS") as anything in subtype
+		var/subtype_choice = tgui_input_list(H, "Choose your path.", "TAKE UP ARMS", subtype)
 		H.set_blindness(0)
 		switch(subtype_choice)
 			if("Rogue") //Rogue

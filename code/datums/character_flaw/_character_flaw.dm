@@ -876,7 +876,7 @@ GLOBAL_LIST_INIT(averse_factions, list(
 			break
 	if(!averse_found)
 		var/list/options = list("Pick a Random Aversion", "Keep Current (-3 TRI)")
-		var/choice = input(user, "There are no viable candidates for your Aversion. What do you do?", "AVERSION ALERT") as anything in options
+		var/choice = tgui_input_list(user, "There are no viable candidates for your Aversion. What do you do?", "AVERSION ALERT", options)
 		if(choice == "Keep Current (-3 TRI)" || !choice)
 			user.adjust_triumphs(-3)
 			paid_triumphs = TRUE

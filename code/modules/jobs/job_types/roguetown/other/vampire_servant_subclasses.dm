@@ -56,7 +56,7 @@
 	if(H.mind)
 		H.set_blindness(0)
 		var/choice_list = list("Butler", "Maid")
-		var/choice = input(H, "What is your occupation?", "WHAT MASQUERADE DO YOU BEAR?") as anything in choice_list
+		var/choice = tgui_input_list(H, "What is your occupation?", "WHAT MASQUERADE DO YOU BEAR?", choice_list)
 
 		switch(choice)
 			if("Maid")
@@ -130,7 +130,7 @@
 	if(H.mind)
 		H.set_blindness(0)
 		var/choice_list = list("Smith", "Artificer") //Doesn't get arcayne, inherently. Sorry but I'm not having servants do enchantments.
-		var/choice = input(H, "What is your occupation?", "WHAT MASQUERADE DO YOU BEAR?") as anything in choice_list
+		var/choice = tgui_input_list(H, "What is your occupation?", "WHAT MASQUERADE DO YOU BEAR?", choice_list)
 
 		switch(choice)
 			if("Smith") //Similar to towner blacksmith in appearance

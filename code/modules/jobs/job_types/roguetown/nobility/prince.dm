@@ -100,7 +100,7 @@
 	"Rapier",
 	"Arming Sword"
 	)
-	var/weapon_choice = input(H, "Choose your weapon.", "ARMS TO INVITE ENVY") as anything in weapons
+	var/weapon_choice = tgui_input_list(H, "Choose your weapon.", "ARMS TO INVITE ENVY", weapons)
 	switch(weapon_choice)
 		if("Sabre")
 			H.put_in_hands(new /obj/item/rogueweapon/sword/sabre/dec)

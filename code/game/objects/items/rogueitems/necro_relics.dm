@@ -60,7 +60,7 @@
 
 	// Ask the Necromancer for a task for the skeleton BEFORE the timer
 	var/tasks = list("TOIL","FIGHT","GUARD","SEEK")
-	var/tasks_choice = input(user, "WHAT IS THY BIDDING?", "IN HER NAME") as anything in tasks
+	var/tasks_choice = tgui_input_list(user, "WHAT IS THY BIDDING?", "IN HER NAME", tasks)
 	if(!tasks_choice)
 		to_chat(user, span_warning("You must assign a task for your skeleton!"))
 		return FALSE
@@ -124,7 +124,7 @@
 	return TRUE
 
 /mob/living/carbon/human/proc/choose_pronouns_and_body()
-	var/p_input = input(src, "Choose your character's pronouns", "Pronouns") as anything in GLOB.pronouns_list
+	var/p_input = tgui_input_list(src, "Choose your character's pronouns", "Pronouns", GLOB.pronouns_list)
 	if(p_input)
 		src.pronouns = p_input
 	if(alert(src, "Do you wish to change your frame?", "Body Type", "Yes", "No") == "Yes")

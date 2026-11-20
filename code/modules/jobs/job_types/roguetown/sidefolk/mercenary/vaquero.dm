@@ -89,7 +89,7 @@
 			if("Shamisen")
 				backr = /obj/item/rogue/instrument/shamisen
 		var/weapons = list("Maille Training","Bardic Inspiration")
-		var/weapon_choice = input(H, "Choose your discipline.", "TAKE A PATH") as anything in weapons
+		var/weapon_choice = tgui_input_list(H, "Choose your discipline.", "TAKE A PATH", weapons)
 		switch(weapon_choice)
 			if("Maille Training")
 				ADD_TRAIT(H, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)

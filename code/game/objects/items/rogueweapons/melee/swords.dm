@@ -2232,7 +2232,7 @@
 /obj/item/rogueweapon/sword/long/kriegmesser/ssangsudo/attackby(obj/item/W, mob/living/user, params)
 	..()
 	if(istype(W, /obj/item/natural/cloth) && !detail_tag)
-		var/choice = input(user, "Choose a color.", "Banner") as anything in COLOR_MAP
+		var/choice = tgui_input_list(user, "Choose a color.", "Banner", COLOR_MAP)
 		user.visible_message(span_warning("[user] adds a banner to [src]."))
 		user.transferItemToLoc(W, src, FALSE, FALSE)
 		detail_color = COLOR_MAP[choice]

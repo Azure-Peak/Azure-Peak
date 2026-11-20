@@ -180,7 +180,7 @@
 	switch(spellblade_chant_selected)
 		if("blade")
 			var/weapons = list("Longsword", "Rapier", "Sabre", "Iron Arming Sword", "Shortsword", "Hwando", "Steel Dagger")
-			var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
+			var/weapon_choice = tgui_input_list(H, "Choose your weapon.", "TAKE UP ARMS", weapons)
 			beltr = /obj/item/rogueweapon/scabbard/sword
 			switch(weapon_choice)
 				if("Longsword")
@@ -205,7 +205,7 @@
 					beltr = granted_weapon = /obj/item/rogueweapon/huntingknife/idagger/steel
 		if("phalangite")
 			var/spear_weapons = list("Spear", "Dory", "Naginata")
-			var/spear_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in spear_weapons
+			var/spear_choice = tgui_input_list(H, "Choose your weapon.", "TAKE UP ARMS", spear_weapons)
 			switch(spear_choice)
 				if("Spear")
 					r_hand = granted_weapon = /obj/item/rogueweapon/spear
@@ -221,7 +221,7 @@
 					head = /obj/item/clothing/head/roguetown/mentorhat
 		if("macebearer")
 			var/mace_weapons = list("Mace", "Warhammer", "Goedendag", "Iron Axe", "Greataxe")
-			var/mace_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in mace_weapons
+			var/mace_choice = tgui_input_list(H, "Choose your weapon.", "TAKE UP ARMS", mace_weapons)
 			switch(mace_choice)
 				if("Mace")
 					r_hand = granted_weapon = /obj/item/rogueweapon/mace
@@ -349,7 +349,7 @@
 		/obj/item/chalk = 1,
 	)
 
-	var/origin = input(H, "Did you study under the Naledi Yogis?", "ORIGIN") as anything in list("Yes", "No")
+	var/origin = tgui_input_list(H, "Did you study under the Naledi Yogis?", "ORIGIN", list("Yes", "No"))
 	if(origin == "Yes")
 		head = /obj/item/clothing/head/roguetown/roguehood/shalal/hijab/black
 		armor = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/hierophant/civilian
@@ -429,7 +429,7 @@
 	backpack_contents = list(/obj/item/flashlight/flare/torch = 1, /obj/item/chalk = 1, /obj/item/rogueweapon/spellbook = 1)
 
 	// This just changes your starting cantrips and if you wear snazzy blue or edgy black.
-	var/origin = input(H, "Arcyne Thief or a Magos Hooligan?", "ORIGIN") as anything in list("Arcyne Thief (Aetherknife)", "Magos Hooligan (Magician's Brick)")
+	var/origin = tgui_input_list(H, "Arcyne Thief or a Magos Hooligan?", "ORIGIN", list("Arcyne Thief (Aetherknife)", "Magos Hooligan (Magician's Brick)"))
 	if(origin == "Arcyne Thief (Aetherknife)")
 		head = /obj/item/clothing/head/roguetown/headband/monk/barbarian
 		wrists = /obj/item/clothing/wrists/roguetown/bracers/cloth/gladiator

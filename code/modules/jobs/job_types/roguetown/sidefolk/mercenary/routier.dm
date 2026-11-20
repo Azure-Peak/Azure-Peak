@@ -42,7 +42,7 @@
 	H.adjust_blindness(-3)
 	var/classes = list("Sword & Board","Macebearer","Flailman", "Foot Lancer", "Longswordsman", "Armor Stretcher")
 	if(H.mind)
-		var/classchoice = input(H, "Choose your archetypes", "Available archetypes") as anything in classes
+		var/classchoice = tgui_input_list(H, "Choose your archetypes", "Available archetypes", classes)
 		H.set_blindness(0)
 		to_chat(H, span_warning("You are a Knight of Otava, well experienced in the use of your chosen arms."))
 		switch(classchoice)

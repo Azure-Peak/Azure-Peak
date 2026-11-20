@@ -60,7 +60,7 @@
 	H.mind.AddSpell(new /datum/action/cooldown/spell/matthios/raze)
 
 	var/list/weapon_choices = list("Staff", "Unarmed")
-	var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapon_choices
+	var/weapon_choice = tgui_input_list(H, "Choose your weapon.", "TAKE UP ARMS", weapon_choices)
 	switch(weapon_choice)
 		if("Staff")
 			gloves = /obj/item/clothing/gloves/roguetown/angle
@@ -82,7 +82,7 @@
 
 	if(H.mind)
 		var/list/patron_choices = list("The ORDER and MONARCHY of Astrata", "The WEALTH and POWER of Matthios")
-		var/patron_choice = input(H, "What do you worship?", "Choose a Patron", "The WEALTH and POWER of Matthios") as anything in patron_choices
+		var/patron_choice = tgui_input_list(H, "What do you worship?", "Choose a Patron", "The WEALTH and POWER of Matthios", patron_choices)
 		switch(patron_choice)
 			if("The ORDER and MONARCHY of Astrata")
 				H.set_patron(/datum/patron/divine/astrata)

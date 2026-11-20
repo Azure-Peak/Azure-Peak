@@ -100,14 +100,14 @@
 			beltr = /obj/item/clothing/neck/roguetown/psicross/undivided
 			if(H.mind)
 				var/cloaks = list("Cloak", "Tabard")
-				var/cloakchoice = input(H,"Choose your covering", "TAKE UP FASHION") as anything in cloaks
+				var/cloakchoice = tgui_input_list(H,"Choose your covering", "TAKE UP FASHION", cloaks)
 				switch(cloakchoice)
 					if("Cloak")
 						cloak = /obj/item/clothing/cloak/undivided
 					if("Tabard")
 						cloak = /obj/item/clothing/cloak/templar/undivided_alt
 				var/helms = list("Sallet", "Barbute")
-				var/helmchoice = input(H, "Choose your headwear", "TAKE UP NOGGIN PROTECTION") as anything in helms
+				var/helmchoice = tgui_input_list(H, "Choose your headwear", "TAKE UP NOGGIN PROTECTION", helms)
 				switch(helmchoice)
 					if("Sallet")
 						head = /obj/item/clothing/head/roguetown/helmet/heavy/undivided
@@ -204,7 +204,7 @@
 			weapons += "The Heartstring"
 		if(/datum/patron/divine/abyssor)
 			weapons += "Tidecleaver"
-	var/weapon_choice = input(H,"Choose your WEAPON.", "TAKE UP YOUR GOD'S ARMS") as anything in weapons
+	var/weapon_choice = tgui_input_list(H,"Choose your WEAPON.", "TAKE UP YOUR GOD'S ARMS", weapons)
 	switch(weapon_choice)
 		if("Arming Sword")
 			H.put_in_hands(new /obj/item/rogueweapon/sword/church(H))

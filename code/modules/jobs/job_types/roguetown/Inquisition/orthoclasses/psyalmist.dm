@@ -72,7 +72,7 @@
 /datum/outfit/job/roguetown/psyaltrist/choose_loadout(mob/living/carbon/human/H)
 	. = ..()
 	var/instruments = list("Harp", "Lute", "Accordion", "Guitar", "Hurdy-Gurdy", "Viola", "Vocal Talisman", "Psyaltery", "Flute", "Drum", "Shamisen")
-	var/instrument_choice = input(H, "Choose your INSTRUMENT.", "TAKE UP PSYDON'S SOLEMNITY.") as anything in instruments
+	var/instrument_choice = tgui_input_list(H, "Choose your INSTRUMENT.", "TAKE UP PSYDON'S SOLEMNITY.", instruments)
 	switch(instrument_choice)
 		if("Harp")
 			H.equip_to_slot_or_del(new /obj/item/rogue/instrument/harp, SLOT_BACK_R, TRUE)

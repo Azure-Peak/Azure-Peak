@@ -247,7 +247,7 @@
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/order/heartfelt/forheartfelt)
 		add_verb(H, list(/mob/living/carbon/human/mind/proc/setordersheartfelt))
 	var/weapons = list("Double-Headed Greataxe", "Great Mace", "Battle Axe + Shield", , "Warhammer + Shield")
-	var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
+	var/weapon_choice = tgui_input_list(H, "Choose your weapon.", "TAKE UP ARMS", weapons)
 	H.set_blindness(0)
 	switch(weapon_choice)
 		if("Double-Headed Greataxe")

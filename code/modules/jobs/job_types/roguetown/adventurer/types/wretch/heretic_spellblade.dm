@@ -87,7 +87,7 @@
 			// Inject patron-specific weapon
 			if(istype(H.patron, /datum/patron/inhumen/zizo))
 				weapons.Insert(1, "Avantyne Arming Sword")
-			var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
+			var/weapon_choice = tgui_input_list(H, "Choose your weapon.", "TAKE UP ARMS", weapons)
 			beltr = /obj/item/rogueweapon/scabbard/sword
 			switch(weapon_choice)
 				if("Avantyne Arming Sword")
@@ -110,7 +110,7 @@
 					beltr = granted_weapon = /obj/item/rogueweapon/huntingknife/idagger/steel
 		if("phalangite")
 			var/polearm_weapons = list("Halberd", "Bardiche", "Boar Spear", "Dory", "Naginata")
-			var/polearm_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in polearm_weapons
+			var/polearm_choice = tgui_input_list(H, "Choose your weapon.", "TAKE UP ARMS", polearm_weapons)
 			backr = /obj/item/rogueweapon/scabbard/gwstrap
 			switch(polearm_choice)
 				if("Halberd")
@@ -127,7 +127,7 @@
 					eastern = TRUE
 		if("macebearer")
 			var/mace_weapons = list("Steel Mace", "Steel Warhammer", "Grand Mace", "Battle Axe", "Steel Greataxe")
-			var/mace_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in mace_weapons
+			var/mace_choice = tgui_input_list(H, "Choose your weapon.", "TAKE UP ARMS", mace_weapons)
 			switch(mace_choice)
 				if("Steel Mace")
 					r_hand = granted_weapon = /obj/item/rogueweapon/mace/steel
@@ -146,7 +146,7 @@
 
 	// Armor choice: Discretion (light, like adventurer) vs Progress (medium armor set with helmet)
 	var/armor_style = list("Discretion (Spellblade Disguise)", "Confrontation (Medium Armor)")
-	var/armor_choice = input(H, "Choose your armament philosophy.", "LIGHT SHINES THROUGH") as anything in armor_style
+	var/armor_choice = tgui_input_list(H, "Choose your armament philosophy.", "LIGHT SHINES THROUGH", armor_style)
 	switch(armor_choice)
 		if("Discretion (Spellblade Disguise)")
 			head = /obj/item/clothing/head/roguetown/roguehood
@@ -178,7 +178,7 @@
 			)
 			if(istype(H.patron, /datum/patron/divine/noc))
 				helmets += list("Greatplumed Owl Armet" = /obj/item/clothing/head/roguetown/helmet/heavy/knight/armet/owl)
-			var/helmchoice = input(H, "Choose your Helm.", "LIGHT SHINES THROUGH") as anything in helmets
+			var/helmchoice = tgui_input_list(H, "Choose your Helm.", "LIGHT SHINES THROUGH", helmets)
 			if(helmchoice != "None")
 				head = helmets[helmchoice]
 	// Patron-specific bonuses

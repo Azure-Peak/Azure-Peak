@@ -2,7 +2,7 @@
 	name = "Desert Rider Zeybek"
 	tutorial = "The Desert Riders are a band of mercenaries known for their loose morals and high effectiveness. From an evil, ignoble beginning as an infamous company meant to track down runaway slaves, they grew into a considerable force. Their skill with long and short blades are famed and feared the world over."
 	allowed_sexes = list(MALE, FEMALE)
-	
+
 	outfit = /datum/outfit/job/roguetown/mercenary/desert_rider_zeybek
 	class_select_category = CLASS_CAT_RANESHENI
 	category_tags = list(CTAG_MERCENARY, CTAG_MERCPARTY_MARKSMAN)
@@ -63,7 +63,7 @@
 		)
 	var/weapons = list("Shamshirs and Javelin","Whips and Knives", "Recurve Bow")
 	if(H.mind)
-		var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
+		var/weapon_choice = tgui_input_list(H, "Choose your weapon.", "TAKE UP ARMS", weapons)
 		H.set_blindness(0)
 		switch(weapon_choice)
 			if("Shamshirs and Javelin")

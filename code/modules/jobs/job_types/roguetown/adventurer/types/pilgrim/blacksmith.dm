@@ -48,7 +48,7 @@
 	backl = /obj/item/storage/backpack/rogue/backpack
 	if(H.mind)
 		var/smith_type = list("Ironworker", "Bronzeworker")
-		var/smith_choice = input(H, "Choose your line.", "TAKE A PICK") as anything in smith_type
+		var/smith_choice = tgui_input_list(H, "Choose your line.", "TAKE A PICK", smith_type)
 		switch(smith_choice)
 			if("Ironworker")
 				beltr = /obj/item/rogueweapon/hammer/iron

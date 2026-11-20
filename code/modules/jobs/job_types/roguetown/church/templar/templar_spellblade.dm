@@ -82,7 +82,7 @@
 		"Noc Helmet"			= /obj/item/clothing/head/roguetown/helmet/heavy/nochelm,
 		"Snouted Noc Helmet"			= /obj/item/clothing/head/roguetown/helmet/heavy/nochelm/snouted
 	)
-	var/helmchoice = input(H, "Choose your Helm.", "REFLECTION OF PALE LIGHT") as anything in helmets
+	var/helmchoice = tgui_input_list(H, "Choose your Helm.", "REFLECTION OF PALE LIGHT", helmets)
 	head = helmets[helmchoice]
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)
 	C.grant_miracles(H, cleric_tier = CLERIC_T1, passive_gain = CLERIC_REGEN_MINOR, devotion_limit = CLERIC_REQ_1, start_maxed = TRUE)
@@ -97,7 +97,7 @@
 	switch(spellblade_chant_selected)
 		if("blade")
 			var/list/weapons = list("Moonlight Khopesh", "Moonlight Kriegmesser", "Longsword", "Rapier", "Sabre", "Steel Arming Sword", "Steel Greatsword", "Steel Dagger", "Twilight Fang")
-			var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
+			var/weapon_choice = tgui_input_list(H, "Choose your weapon.", "TAKE UP ARMS", weapons)
 			switch(weapon_choice)
 				if("Moonlight Khopesh")
 					granted_weapon = new /obj/item/rogueweapon/sword/sabre/nockhopesh(H)
@@ -127,7 +127,7 @@
 					granted_weapon = new /obj/item/rogueweapon/huntingknife/idagger/steel/noc_twilight(H)
 		if("phalangite")
 			var/polearm_weapons = list("Halberd", "Bardiche", "Moonlight Spear", "Dory", "Naginata")
-			var/polearm_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in polearm_weapons
+			var/polearm_choice = tgui_input_list(H, "Choose your weapon.", "TAKE UP ARMS", polearm_weapons)
 			switch(polearm_choice)
 				if("Halberd")
 					granted_weapon = new /obj/item/rogueweapon/halberd(H)
@@ -149,7 +149,7 @@
 					H.equip_to_slot_or_del(new /obj/item/rogueweapon/scabbard/gwstrap(H), SLOT_BACK_R, TRUE)
 		if("macebearer")
 			var/mace_weapons = list("Steel Mace", "Steel Warhammer", "Grand Mace", "Battle Axe", "Steel Greataxe")
-			var/mace_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in mace_weapons
+			var/mace_choice = tgui_input_list(H, "Choose your weapon.", "TAKE UP ARMS", mace_weapons)
 			switch(mace_choice)
 				if("Steel Mace")
 					granted_weapon = new /obj/item/rogueweapon/mace/steel(H)

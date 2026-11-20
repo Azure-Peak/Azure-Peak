@@ -24,7 +24,7 @@
 			playsound(loc, 'sound/foley/doors/lock.ogg', 60)
 			to_chat(user,)
 			var/relics = list("Melancholic Crankbox - Antimagic", "Daybreak - Silver Whip", "Stigmata - Silver Halberd", "Apocrypha - Silver Greatsword", "Golgatha - SYON Shard Censer")
-			var/relicchoice = input(user, "Choose your tool", "RELICS") as anything in relics
+			var/relicchoice = tgui_input_list(user, "Choose your tool", "RELICS", relics)
 			var/obj/choice
 			switch(relicchoice)
 				if("Melancholic Crankbox - Antimagic")

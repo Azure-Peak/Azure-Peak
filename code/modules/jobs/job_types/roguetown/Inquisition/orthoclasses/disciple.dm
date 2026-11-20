@@ -66,7 +66,7 @@
 /datum/outfit/job/roguetown/disciple/choose_loadout(mob/living/carbon/human/H)
 	. = ..()
 	var/weapons = list("Abboteer - Pugilist with Master Unarmed, Weaponless Oath & No Wrestling", "Pugilist - Master Athletics, Pain Resistance", "Quarterstaff - Expert Staves, +I PER", "Katar", "Knuckledusters")
-	var/weapon_choice = input(H,"Choose your WEAPON.", "TAKE UP PSYDON'S ARMS.") as anything in weapons
+	var/weapon_choice = tgui_input_list(H,"Choose your WEAPON.", "TAKE UP PSYDON'S ARMS.", weapons)
 	switch(weapon_choice)
 		if("Abboteer - Pugilist with Master Unarmed, Weaponless Oath & No Wrestling")
 			H.adjust_skillrank_up_to(/datum/skill/misc/athletics, SKILL_LEVEL_MASTER, TRUE)

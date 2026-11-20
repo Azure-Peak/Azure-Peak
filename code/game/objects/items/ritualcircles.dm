@@ -94,7 +94,7 @@
 	if(user.has_status_effect(/datum/status_effect/debuff/ritesexpended))
 		to_chat(user,span_warning("I have performed enough rituals for the day... I must rest before communing more.")) // If you have already done a ritual in the last 30 minutes, you cannot do another.
 		return
-	var/riteselection = input(user, "Rituals of the Sun", src) as null|anything in solarrites // When you use an open hand on a rune, It'll give you a selection of all the rites available from that rune
+	var/riteselection = tgui_input_list(user, "Rituals of the Sun", "make your choice", null|solarrites)// When you use an open hand on a rune, It'll give you a selection of all the rites available from that rune
 	switch(riteselection) // rite selection goes in this section, try to do something fluffy. Presentation is most important here, truthfully.
 		if("Guiding Light") // User selects Guiding Light, begins the stuff for it
 			if(!do_after(user, 5 SECONDS)) // just flavor stuff before activation
@@ -147,7 +147,7 @@
 	if(user.has_status_effect(/datum/status_effect/debuff/ritesexpended))
 		to_chat(user,warning("I have performed enough rituals for the day... I must rest before communing more."))
 		return
-	var/riteselection = input(user, "Rituals of the Moon", src) as null|anything in lunarrites
+	var/riteselection = tgui_input_list(user, "Rituals of the Moon", src, null|lunarrites)
 	switch(riteselection) // put ur rite selection here
 		if("Moonlight Dance")
 			if(!do_after(user, 5 SECONDS))
@@ -208,7 +208,7 @@
 	if(user.has_status_effect(/datum/status_effect/debuff/ritesexpended))
 		to_chat(user,span_warning("I have performed enough rituals for the day... I must rest before communing more."))
 		return
-	var/riteselection = input(user, "The Twin-Mask's Trickeries", src) as null|anything in trickstersrites
+	var/riteselection = tgui_input_list(user, "The Twin-Mask's Trickeries", src, null|trickstersrites)
 	switch(riteselection) // put ur rite selection here
 		if("Stagehand's Silence")
 			if(!do_after(user, 5 SECONDS))
@@ -248,7 +248,7 @@
 	if(user.has_status_effect(/datum/status_effect/debuff/ritesexpended))
 		to_chat(user,span_warning("I have performed enough rituals for the day... I must rest before communing more."))
 		return
-	var/riteselection = input(user, "Rituals of Justice", src) as null|anything in ravoxrites
+	var/riteselection = tgui_input_list(user, "Rituals of Justice", src, ravoxrites)
 	switch(riteselection)
 		if("Vow to Ravox") // Ideally stick to this style for rites. Early returns + negatives. Minimises the "pyramid" shape you can see in Astrata, which I've left untouched for now -- CODEATHON
 			var/target = user
@@ -289,7 +289,7 @@
 	if(user.has_status_effect(/datum/status_effect/debuff/ritesexpended))
 		to_chat(user,span_warning("I have performed enough rituals for the day... I must rest before communing more."))
 		return
-	var/riteselection = input(user, "Rituals of Plague", src) as null|anything in plaguerites
+	var/riteselection = tgui_input_list(user, "Rituals of Plague", src, plaguerites)
 	switch(riteselection) // put ur rite selection here
 		if("Flylord's Triage")
 			if(do_after(user, 50))
@@ -315,7 +315,7 @@
 			for(var/mob/living/carbon/human/persononrune in onrune)
 				if(HAS_TRAIT(persononrune, TRAIT_ROT_EATER))
 					folksonrune += persononrune
-			var/target = input(user, "Choose a host") as null|anything in folksonrune
+			var/target = tgui_input_list(user, "Choose a host", "make your choice", null|folksonrune)
 			if(!target)
 				return
 			user.say("Before your greatness, I swear a vow!!")
@@ -380,7 +380,7 @@
 	if(user.has_status_effect(/datum/status_effect/debuff/ritesexpended))
 		to_chat(user,span_warning("I have performed enough rituals for the day... I must rest before communing more."))
 		return
-	var/riteselection = input(user, "Rituals of the Beast", src) as null|anything in dendorrites
+	var/riteselection = tgui_input_list(user, "Rituals of the Beast", src, null|dendorrites)
 	switch(riteselection)
 		if("Rite of the Lesser Volf")
 			var/mob/living/target = null
@@ -434,7 +434,7 @@
 	if(user.has_status_effect(/datum/status_effect/debuff/ritesexpended))
 		to_chat(user,span_warning("I have performed enough rituals for the day... I must rest before communing more."))
 		return
-	var/riteselection = input(user, "Rituals of Creation", src) as null|anything in forgerites
+	var/riteselection = tgui_input_list(user, "Rituals of Creation", src, null|forgerites)
 	switch(riteselection)
 		if("Bestow Blessing")
 			if(!do_after(user, 5 SECONDS))
@@ -517,7 +517,7 @@
 		to_chat(user,span_warning("No rites are currently available."))
 		return
 
-	var/riteselection = input(user, "Rites of his dream", src) as null|anything in available_rites
+	var/riteselection = tgui_input_list(user, "Rites of his dream", src, null|available_rites)
 	switch(riteselection)
 		if("Rite of the Crystal Spire")
 			if(do_after(user, 50))
@@ -630,7 +630,7 @@
 	if(user.has_status_effect(/datum/status_effect/debuff/ritesexpended))
 		to_chat(user,span_warning("I have performed enough rituals for the day... I must rest before communing more."))
 		return
-	var/riteselection = input(user, "Which rite will you perform?", "Rune of Storms") as null|anything in stormrites
+	var/riteselection = tgui_input_list(user, "Which rite will you perform?", "Rune of Storms", null|stormrites)
 	switch(riteselection)
 		if("Rite of the Tides")
 			if(do_after(user, 50))
@@ -1121,7 +1121,7 @@
 		current_rites += "Hollow the Mist"
 	if(HAS_TRAIT(user, TRAIT_LESSER_RITUALIST)) // only The Toll for you, ser.
 		current_rites = list("The Toll")
-	var/riteselection = input(user, "Rituals of Death", src) as null|anything in current_rites
+	var/riteselection = tgui_input_list(user, "Rituals of Death", src, null|current_rites)
 	if(!riteselection)
 		return
 	switch(riteselection) // put ur rite selection here
@@ -1167,7 +1167,7 @@
 			for(var/mob/living/carbon/human/persononrune in onrune)
 				if(persononrune.stat == DEAD)
 					folksonrune += persononrune
-			var/target = input(user, "Choose a supplicant") as null|anything in folksonrune
+			var/target = tgui_input_list(user, "Choose a supplicant", "make your choice", null|folksonrune)
 			if(target)
 				loc.visible_message(span_warning("[user] draws spectral strands of Lux up through the air, tearing the veil between lyfe and death!"))
 				playsound(user, 'sound/vo/mobs/ghost/whisper (3).ogg', 100, FALSE, -1)
@@ -1387,7 +1387,7 @@
 	if(user.has_status_effect(/datum/status_effect/debuff/ritesexpended))
 		to_chat(user,span_warning("I have performed enough rituals for the day... I must rest before communing more."))
 		return
-	var/riteselection = input(user, "Rituals of Love", src) as null|anything in peacerites
+	var/riteselection = tgui_input_list(user, "Rituals of Love", src, null|peacerites)
 	switch(riteselection) // put ur rite selection here
 		if("Rite of Pacification")
 			if(!do_after(user, 5 SECONDS))
@@ -1412,7 +1412,7 @@
 			for(var/mob/living/carbon/human/persononrune in onrune)
 				if(HAS_TRAIT(persononrune, TRAIT_EXTEROCEPTION))//Only works on Eorans
 					folksonrune += persononrune
-			var/target = input(user, "Choose a host") as null|anything in folksonrune
+			var/target = tgui_input_list(user, "Choose a host", "make your choice", null|folksonrune)
 			if(!target)
 				return
 			user.say("I stand before you Mother to beg your ear and swear an oath!!")
@@ -1504,7 +1504,7 @@ More uniquely, her rites always cut out the light in the room, then proc. 10 sec
 	if(user.has_status_effect(/datum/status_effect/debuff/ritesexpended))
 		to_chat(user,span_warning("I have performed enough rituals for the day... I must rest before communing more."))
 		return
-	var/riteselection = input(user, "Rituals of Progress", src) as null|anything in zizorites
+	var/riteselection = tgui_input_list(user, "Rituals of Progress", src, null|zizorites)
 	switch(riteselection)
 		if("Rite of Armaments")
 			if(user.has_status_effect(/datum/status_effect/debuff/armamentrites))
@@ -1518,7 +1518,7 @@ More uniquely, her rites always cut out the light in the room, then proc. 10 sec
 					continue
 				if(HAS_TRAIT(persononrune, TRAIT_CABAL))
 					folksonrune += persononrune
-			var/mob/living/carbon/human/target = input(user, "Choose a host") as null|anything in folksonrune
+			var/mob/living/carbon/human/target = tgui_input_list(user, "Choose a host", "make your choice", null|folksonrune)
 			if(!target)
 				return
 			if(!do_after(user, 5 SECONDS))
@@ -1752,7 +1752,7 @@ More uniquely, her rites always cut out the light in the room, then proc. 10 sec
 	if(user.has_status_effect(/datum/status_effect/debuff/ritesexpended))
 		to_chat(user,span_warning("I have performed enough rituals for the day... I must rest before communing more."))
 		return
-	var/riteselection = input(user, "Rituals of Transaction", src) as null|anything in matthiosrites
+	var/riteselection = tgui_input_list(user, "Rituals of Transaction", src, null|matthiosrites)
 	switch(riteselection) // put ur rite selection here
 		if("Rite of Armaments")
 			if(user.has_status_effect(/datum/status_effect/debuff/armamentrites))
@@ -1766,7 +1766,7 @@ More uniquely, her rites always cut out the light in the room, then proc. 10 sec
 					continue
 				if(HAS_TRAIT(persononrune, TRAIT_FREEMAN))
 					folksonrune += persononrune
-			var/mob/living/carbon/human/target = input(user, "Choose a host") as null|anything in folksonrune
+			var/mob/living/carbon/human/target = tgui_input_list(user, "Choose a host", "make your choice", null|folksonrune)
 			if(!target)
 				return
 			if(!do_after(user, 5 SECONDS))
@@ -1935,7 +1935,7 @@ More uniquely, her rites always cut out the light in the room, then proc. 10 sec
 	if(user.has_status_effect(/datum/status_effect/debuff/ritesexpended))
 		to_chat(user,span_warning("I have performed enough rituals for the day... I must rest before communing more."))
 		return
-	var/riteselection = input(user, "Rituals of Violence", src) as null|anything in graggarrites
+	var/riteselection = tgui_input_list(user, "Rituals of Violence", src, null|graggarrites)
 	switch(riteselection) // put ur rite selection here
 		if("Rite of Armaments")
 			if(user.has_status_effect(/datum/status_effect/debuff/armamentrites))
@@ -1949,7 +1949,7 @@ More uniquely, her rites always cut out the light in the room, then proc. 10 sec
 					continue
 				if(HAS_TRAIT(persononrune, TRAIT_HORDE))
 					folksonrune += persononrune
-			var/mob/living/carbon/human/target = input(user, "Choose a host") as null|anything in folksonrune
+			var/mob/living/carbon/human/target = tgui_input_list(user, "Choose a host", "make your choice", null|folksonrune)
 			if(!target)
 				return
 			if(!do_after(user, 5 SECONDS))
@@ -2157,7 +2157,7 @@ More uniquely, her rites always cut out the light in the room, then proc. 10 sec
 	if(user.has_status_effect(/datum/status_effect/debuff/ritesexpended))
 		to_chat(user,span_warning("I have performed enough rituals for the day... I must rest before communing more."))
 		return
-	var/riteselection = input(user, "Rituals of Indulgence", src) as null|anything in baotharites
+	var/riteselection = tgui_input_list(user, "Rituals of Indulgence", src, null|baotharites)
 	switch(riteselection) // put ur rite selection here
 		if("Rite of Armaments")
 			if(user.has_status_effect(/datum/status_effect/debuff/armamentrites))
@@ -2168,7 +2168,7 @@ More uniquely, her rites always cut out the light in the room, then proc. 10 sec
 			for(var/mob/living/carbon/human/persononrune in onrune)
 				if(HAS_TRAIT(persononrune, TRAIT_DEPRAVED))
 					joyridersonrune += persononrune
-			var/mob/living/carbon/human/target = input(user, "Choose a host") as null|anything in joyridersonrune
+			var/mob/living/carbon/human/target = tgui_input_list(user, "Choose a host", "make your choice", null|joyridersonrune)
 			if(!target)
 				return
 			if(!do_after(user, 5 SECONDS))

@@ -14,7 +14,7 @@
 	var/mob/living/carbon/human/H = M
 
 	var/list/choices = list("hair color", "facial hair color", "natural gradient", "natural gradient color", "dye gradient", "dye gradient color")
-	var/chosen = input(user, "What would you like to dye?", "Hair Dye") as null|anything in choices
+	var/chosen = tgui_input_list(user, "What would you like to dye?", "Hair Dye", null|choices)
 
 	if(!chosen || !user.canUseTopic(src, BE_CLOSE, FALSE, NO_TK))
 		return
@@ -100,7 +100,7 @@
 			for(var/gradient_type in GLOB.hair_gradients)
 				valid_gradients[gradient_type] = gradient_type
 
-			var/new_style = input(user, "Choose your natural gradient", "Hair Gradient") as null|anything in valid_gradients
+			var/new_style = tgui_input_list(user, "Choose your natural gradient", "Hair Gradient", null|valid_gradients)
 			if(new_style)
 				if(!do_after(user, 30 SECONDS, target = H))
 					to_chat(user, span_warning("The dyeing was interrupted!"))
@@ -172,7 +172,7 @@
 			for(var/gradient_type in GLOB.hair_gradients)
 				valid_gradients[gradient_type] = gradient_type
 
-			var/new_style = input(user, "Choose your dye gradient", "Hair Gradient") as null|anything in valid_gradients
+			var/new_style = tgui_input_list(user, "Choose your dye gradient", "Hair Gradient", null|valid_gradients)
 			if(new_style)
 				if(!do_after(user, 30 SECONDS, target = H))
 					to_chat(user, span_warning("The dyeing was interrupted!"))

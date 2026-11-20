@@ -30,7 +30,7 @@
 /obj/item/natural/feather/afterattack(obj/O, mob/living/user, proximity)
 	. = ..()
 	if(isobj(O) && proximity && (O.obj_flags & UNIQUE_RENAME))
-		var/penchoice = input(user, "What would you like to edit?", "Rename or change description?") as null|anything in list("Rename","Change description")
+		var/penchoice = tgui_input_list(user, "What would you like to edit?", "Rename or change description?", null|list("Rename", "Change description"))
 		if(QDELETED(O) || !user.canUseTopic(O, BE_CLOSE))
 			return
 		if(penchoice == "Rename")

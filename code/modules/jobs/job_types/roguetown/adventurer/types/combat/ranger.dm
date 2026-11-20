@@ -58,7 +58,7 @@
 		)
 	if(H.mind)
 		var/weapons = list("Bow","Crossbow")
-		var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
+		var/weapon_choice = tgui_input_list(H, "Choose your weapon.", "TAKE UP ARMS", weapons)
 		H.set_blindness(0)
 		switch(weapon_choice)
 			if("Bow")
@@ -165,7 +165,7 @@
 	beltr = /obj/item/quiver/bolt/light
 
 	if(H.mind)
-		var/defense_choice = input(H, "Choose your defensive training.", "DEFENSIVE TRAINING") as anything in list("Dodge Expert", "Medium Armor")
+		var/defense_choice = tgui_input_list(H, "Choose your defensive training.", "DEFENSIVE TRAINING", list("Dodge Expert", "Medium Armor"))
 		switch(defense_choice)
 			if("Dodge Expert")
 				ADD_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_GENERIC)
@@ -262,7 +262,7 @@
 	H.set_blindness(0)
 	if(H.mind)
 		var/weapons = list("Iron Axe", "Iron Hunting Sword", "Iron Bastard Sword", "Iron Short Spear", "Iron Quarterstaff", "Your Wits - javelins, tossblades, net & knuckles (Expert Pugilist)")
-		var/weapon_choice = input(H, "Choose your weapon.\nYour Wits: iron javelins, a tossblade belt, a net, padded wrappings, and iron knuckles. Grants Journeyman Wrestling and Unarmed, Apprentice Polearms and Knives, plus Expert Pugilist. This kit replaces the separate ranged weapon choice.", "TAKE UP ARMS") as anything in weapons
+		var/weapon_choice = tgui_input_list(H, "Choose your weapon.\nYour Wits: iron javelins, a tossblade belt, a net, padded wrappings, and iron knuckles. Grants Journeyman Wrestling and Unarmed, Apprentice Polearms and Knives, plus Expert Pugilist. This kit replaces the separate ranged weapon choice.", "TAKE UP ARMS", weapons)
 		var/uses_wits = (weapon_choice == "Your Wits - javelins, tossblades, net & knuckles (Expert Pugilist)")
 		var/long_weapon = FALSE
 		switch(weapon_choice)
@@ -296,7 +296,7 @@
 				beltr = /obj/item/net
 		if(!uses_wits)
 			var/ranged_weapons = list("Bow", "Crossbow", "Sling", "No Ranged Weapon (+1 CON)")
-			var/ranged_choice = input(H, "Choose your ranged weapon.", "TAKE UP ARMS") as anything in ranged_weapons
+			var/ranged_choice = tgui_input_list(H, "Choose your ranged weapon.", "TAKE UP ARMS", ranged_weapons)
 			switch(ranged_choice)
 				if("Bow")
 					H.adjust_skillrank_up_to(/datum/skill/combat/bows, SKILL_LEVEL_JOURNEYMAN, TRUE)
@@ -317,13 +317,13 @@
 					l_hand = backr
 				backr = /obj/item/rogueweapon/scabbard/gwstrap
 		var/armor_tiers = list("Light Armor", "Medium Armor")
-		var/armor_tier = input(H, "Choose your armor weight.", "TAKE UP ARMOR") as anything in armor_tiers
+		var/armor_tier = tgui_input_list(H, "Choose your armor weight.", "TAKE UP ARMOR", armor_tiers)
 		switch(armor_tier)
 			if("Light Armor")
 				ADD_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_GENERIC)
 				H.change_stat(STATKEY_SPD, 1)
 				var/light_sets = list("Hide Armor", "Padded Gambeson")
-				var/light_choice = input(H, "Choose your light armor.", "TAKE UP ARMOR") as anything in light_sets
+				var/light_choice = tgui_input_list(H, "Choose your light armor.", "TAKE UP ARMOR", light_sets)
 				switch(light_choice)
 					if("Hide Armor")
 						armor = /obj/item/clothing/suit/roguetown/armor/leather/hide
@@ -338,7 +338,7 @@
 				head = /obj/item/clothing/head/roguetown/helmet/kettle/iron
 				pants = /obj/item/clothing/under/roguetown/chainlegs/iron
 				var/medium_sets = list("Iron Mail", "Iron Breastplate")
-				var/medium_choice = input(H, "Choose your medium armor.", "TAKE UP ARMOR") as anything in medium_sets
+				var/medium_choice = tgui_input_list(H, "Choose your medium armor.", "TAKE UP ARMOR", medium_sets)
 				switch(medium_choice)
 					if("Iron Mail")
 						armor = /obj/item/clothing/suit/roguetown/armor/chainmail/iron

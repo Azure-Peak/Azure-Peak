@@ -57,7 +57,7 @@
 /datum/outfit/job/roguetown/mercenary/grudgebearer/choose_loadout(mob/living/carbon/human/H)
 	. = ..()
 	var/weapons = list("Spiked Maul", "Grand Mace")
-	var/weapon_choice = input(H, "Choose your WEAPON.", "FOR THE ANVIL AND THE CLAN.") as anything in weapons
+	var/weapon_choice = tgui_input_list(H, "Choose your WEAPON.", "FOR THE ANVIL AND THE CLAN.", weapons)
 	switch(weapon_choice)
 		if("Spiked Maul")
 			H.put_in_hands(new /obj/item/rogueweapon/mace/maul/spiked)
@@ -121,7 +121,7 @@
 /datum/outfit/job/roguetown/mercenary/grudgebearer_soldier/choose_loadout(mob/living/carbon/human/H)
 	. = ..()
 	var/weapons = list("Dwarven Warpick + Dwarven Shield", "Battle Axe + Dwarven Shield", "Flanged Mace + Dwarven Shield", "Dwarven Maul", "Grand Mace", "Great Axe")
-	var/weapon_choice = input(H, "Choose your WEAPON.", "REPAY THE GRUDGE.") as anything in weapons
+	var/weapon_choice = tgui_input_list(H, "Choose your WEAPON.", "REPAY THE GRUDGE.", weapons)
 	switch(weapon_choice)
 		if("Dwarven Warpick + Dwarven Shield")
 			H.equip_to_slot_or_del(new /obj/item/rogueweapon/shield/tower/metal/dwarf, SLOT_BACK_R, TRUE)

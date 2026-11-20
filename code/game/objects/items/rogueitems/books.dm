@@ -122,7 +122,7 @@
 		if(C.orders.len > 4)
 			to_chat(user, span_warning("Too much order."))
 			return
-		var/picked_cat = input(user, "Categories", "Shipping Ledger") as null|anything in sortList(SSmerchant.supply_cats)
+		var/picked_cat = tgui_input_list(user, "Categories", "Shipping Ledger", null|sortList(SSmerchant.supply_cats))
 		if(!picked_cat)
 
 			return
@@ -132,7 +132,7 @@
 			if(PA.group == picked_cat)
 				pax += PA
 
-		var/datum/supply_pack/picked_pack = input(user, "Shipments", "Shipping Ledger") as null|anything in sortList(pax)
+		var/datum/supply_pack/picked_pack = tgui_input_list(user, "Shipments", "Shipping Ledger", null|sortList(pax))
 		if(!picked_pack)
 			return
 
@@ -147,7 +147,7 @@
 		if(P.info)
 			to_chat(user, span_warning("Something is written here already."))
 			return
-		var/picked_cat = input(user, "Categories", "Shipping Ledger") as null|anything in sortList(SSmerchant.supply_cats)
+		var/picked_cat = tgui_input_list(user, "Categories", "Shipping Ledger", null|sortList(SSmerchant.supply_cats))
 		if(!picked_cat)
 			return
 		var/list/pax = list()
@@ -155,7 +155,7 @@
 			var/datum/supply_pack/PA = SSmerchant.supply_packs[pack]
 			if(PA.group == picked_cat)
 				pax += PA
-		var/datum/supply_pack/picked_pack = input(user, "Shipments", "Shipping Ledger") as null|anything in sortList(pax)
+		var/datum/supply_pack/picked_pack = tgui_input_list(user, "Shipments", "Shipping Ledger", null|sortList(pax))
 		if(!picked_pack)
 			return
 		var/obj/item/paper/scroll/cargo/C = new(user.loc)
@@ -196,7 +196,7 @@
 	if(in_range(user, src) || isobserver(user))
 		user.changeNext_move(CLICK_CD_MELEE)
 		var/list/choices = list("Visage", "Decanomicon", "New Dawn")
-		var/section_choice = input(user,"Which section shall I read from?", "DIVINE ENLIGHTENMENT") as anything in choices
+		var/section_choice = tgui_input_list(user,"Which section shall I read from?", "DIVINE ENLIGHTENMENT", choices)
 		var/chosentxt
 		switch(section_choice)
 			if("Visage")
@@ -299,7 +299,7 @@
 /obj/item/book/rogue/bibble/psy/MiddleClick(mob/user, params)
 	. = ..()
 	var/sects = list("PSALMS", "GENESIS", "INVOCATIONS")
-	var/sect_choice = input(user, "SELECT YOUR TESTAMENT", "OF PSYDONIA") as anything in sects
+	var/sect_choice = tgui_input_list(user, "SELECT YOUR TESTAMENT", "OF PSYDONIA", sects)
 	switch(sect_choice)
 		if("PSALMS")
 			sect = "sect1"
@@ -355,7 +355,7 @@
 /obj/item/book/rogue/bibble/zizo/MiddleClick(mob/user, params)
 	. = ..()
 	var/sects = list("PROGRESS", "SACRIFICE")
-	var/sect_choice = input(user, "SELECT YOUR TESTAMENT", "PROGRESS COMMANDS SACRIFICE.") as anything in sects
+	var/sect_choice = tgui_input_list(user, "SELECT YOUR TESTAMENT", "PROGRESS COMMANDS SACRIFICE.", sects)
 	switch(sect_choice)
 		if("PROGRESS")
 			sect = "sect1"
