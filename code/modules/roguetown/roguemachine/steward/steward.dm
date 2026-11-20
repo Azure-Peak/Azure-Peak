@@ -227,7 +227,7 @@
 		if(!length(debtors))
 			say("No one is marked as a debtor.")
 			return
-		var/pick = input(usr, "Clear the defaulter mark from which debtor?", src) as null|anything in debtors
+		var/pick = tgui_input_list(usr, "Clear the defaulter mark from which debtor?", src, null|debtors)
 		if(!pick)
 			return
 		if(!usr.canUseTopic(src, BE_CLOSE) || locked)
@@ -256,7 +256,7 @@
 		if(!length(in_arrears))
 			say("No one owes poll levy.")
 			return
-		var/pick = input(usr, "Clear poll levy arrears for which subject?", src) as null|anything in in_arrears
+		var/pick = tgui_input_list(usr, "Clear poll levy arrears for which subject?", src, null|in_arrears)
 		if(!pick)
 			return
 		if(!usr.canUseTopic(src, BE_CLOSE) || locked)
@@ -275,7 +275,7 @@
 		for(var/list/category in L)
 			for(var/A in category)
 				things += A
-		var/job_to_pay = input(usr, "Select a job", src) as null|anything in things
+		var/job_to_pay = tgui_input_list(usr, "Select a job", src, null|things)
 		if(!job_to_pay)
 			return
 		if(!usr.canUseTopic(src, BE_CLOSE) || locked)
@@ -299,7 +299,7 @@
 		for(var/list/category in L)
 			for(var/A in category)
 				things += A
-		var/job_to_pay = input(usr, "Select a job", src) as null|anything in things
+		var/job_to_pay = tgui_input_list(usr, "Select a job", src, null|things)
 		if(!job_to_pay)
 			return
 		if(!usr.canUseTopic(src, BE_CLOSE) || locked)
@@ -545,7 +545,7 @@
 	if(!length(options))
 		to_chat(user, span_warning("[region.name] has no goods to import."))
 		return
-	var/pick_name = input(user, "Import what from [region.name]?", src) as null|anything in options
+	var/pick_name = tgui_input_list(user, "Import what from [region.name]?", src, null|options)
 	if(!pick_name)
 		return
 	var/good_id = options[pick_name]
@@ -572,7 +572,7 @@
 	if(!length(options))
 		to_chat(user, span_warning("[region.name] has no demand for any goods."))
 		return
-	var/pick_name = input(user, "Export what to [region.name]?", src) as null|anything in options
+	var/pick_name = tgui_input_list(user, "Export what to [region.name]?", src, null|options)
 	if(!pick_name)
 		return
 	var/good_id = options[pick_name]

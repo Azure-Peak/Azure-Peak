@@ -13,7 +13,7 @@
 	. = ..()
 	if(fake_glass_name)
 		. += span_info("The kit is set to [fake_glass_name] bottles.")
-	. += span_info("You can change the bottle colour by using the kit. Click on a fermentation keg / distiller that has finished brewing to bottle its results.")	
+	. += span_info("You can change the bottle colour by using the kit. Click on a fermentation keg / distiller that has finished brewing to bottle its results.")
 
 /obj/item/bottle_kit/attack_self(mob/user as mob)
 	..()
@@ -42,7 +42,7 @@
 		fake_glass_name = "Blue"
 		return
 
-	var/choice = input(user, "What colour do you pick?", name) as anything in options
+	var/choice = tgui_input_list(user, "What colour do you pick?", name, options)
 
 	var/printing_choice = options[choice]
 

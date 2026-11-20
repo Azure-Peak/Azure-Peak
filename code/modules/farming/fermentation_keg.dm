@@ -252,7 +252,7 @@ GLOBAL_LIST_EMPTY(custom_fermentation_recipes)
 		return FALSE
 
 	options = sortList(options)
-	var/choice = input(user,"What brew do you want to make?", name) as null|anything in options
+	var/choice = tgui_input_list(user,"What brew do you want to make?", name, null|options)
 
 	if(!choice)
 		return

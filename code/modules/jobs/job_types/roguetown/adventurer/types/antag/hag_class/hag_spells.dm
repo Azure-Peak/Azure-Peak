@@ -256,7 +256,7 @@
 		to_chat(user, span_warning("You have no prepared blessings with enough essence to manifest."))
 		return FALSE
 
-	var/choice = input(user, "Which blessing do you wish to manifest?", "Manifestation") as null|anything in options
+	var/choice = tgui_input_list(user, "Which blessing do you wish to manifest?", "Manifestation", null|options)
 	if(!choice) return FALSE
 
 	var/path = options[choice]

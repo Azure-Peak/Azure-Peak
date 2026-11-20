@@ -114,7 +114,7 @@
 			if(user.mind && user.get_skill_level(/datum/skill/misc/music) >= 4)
 				options["Upload New Song"] = "upload"
 
-			var/choice = input(user, "Which song?", "Music", name) as null|anything in options
+			var/choice = tgui_input_list(user, "Which song?", "Music", null|options)
 			if(!choice || !user)
 				return
 

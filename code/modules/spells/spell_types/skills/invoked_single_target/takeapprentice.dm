@@ -91,7 +91,7 @@
 		revert_cast()
 		return
 
-	var/chosen_trait = input(user, "Choose a trait for [L.name] to learn.", "IMPART YOUR KNOWLEDGE") as null|anything in choices
+	var/chosen_trait = tgui_input_list(user, "Choose a trait for [L.name] to learn.", "IMPART YOUR KNOWLEDGE", null|choices)
 	if(alert(L, "[user.name] is offering to take you as an apprentice, teaching you the basics of being a [chosen_trait]. Do you accept?", "Apprenticeship", "SERVE AND LEARN", "I REFUSE") == "I REFUSE")
 		// Daga Kotowaru
 		to_chat(user, span_warning("[L.name] has declined your offer to take them as an apprentice."))

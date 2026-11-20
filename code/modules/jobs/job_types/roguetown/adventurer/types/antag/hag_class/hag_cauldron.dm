@@ -187,7 +187,7 @@
 			var/obj/item/temp = path
 			name_to_path[initial(temp.name)] = path
 
-	var/selection = input(user, "What shall you knit from the sticks?", "Synthesis") as null|anything in name_to_path
+	var/selection = tgui_input_list(user, "What shall you knit from the sticks?", "Synthesis", null|name_to_path)
 	if(!selection)
 		return FALSE
 

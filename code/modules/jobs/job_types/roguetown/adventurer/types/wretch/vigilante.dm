@@ -74,7 +74,7 @@
 	ADD_TRAIT(H, TRAIT_BLOOD_RESISTANCE, TRAIT_GENERIC)
 	if(H.mind)
 		var/weapons = list("THE FISTS OF JUSTICE ARE UNISEX!","JUSTICE DISPENSED THROUGH KNUCKLE AND BLADE!")
-		var/weapon_choice = input(H, "Choose your WEAPON.", "THY FISTS ARE THY IMPLEMENT, WATCHMAN!") as anything in weapons
+		var/weapon_choice = tgui_input_list(H, "Choose your WEAPON.", "THY FISTS ARE THY IMPLEMENT, WATCHMAN!", weapons)
 		H.set_blindness(0)
 		switch(weapon_choice)
 			if("THE FISTS OF JUSTICE ARE UNISEX!")

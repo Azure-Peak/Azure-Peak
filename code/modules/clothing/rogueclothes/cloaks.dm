@@ -132,7 +132,7 @@
 		return
 	var/colortwo
 	if(design != "None")
-		colortwo = input(user, "Select a secondary color.","Tabard Design", null|colors_to_pick)
+		colortwo = tgui_input_list(user, "Select a secondary color.","Tabard Design", null|colors_to_pick)
 		if(!colortwo)
 			return
 	if(world.time > (the_time + 30 SECONDS))
@@ -627,7 +627,7 @@
 		..()
 		return
 	var/the_time = world.time
-	var/design = input(user, "Select a design.","Tabard Design") as null|anything in list("Default", "Gold Cross", "Jeruah", "BlackGold", "BlackWhite")
+	var/design = tgui_input_list(user, "Select a design.","Tabard Design", null|list("Default", "Gold Cross", "Jeruah", "BlackGold", "BlackWhite"))
 	if(!design)
 		return
 	if(world.time > (the_time + 30 SECONDS))
@@ -666,7 +666,7 @@
 		..()
 		return
 	var/the_time = world.time
-	var/design = input(user, "Select a design.","Tabard Design") as null|anything in list("Default", "RedBlack", "BlackRed")
+	var/design = tgui_input_list(user, "Select a design.","Tabard Design", null|list("Default", "RedBlack", "BlackRed"))
 	if(!design)
 		return
 	if(world.time > (the_time + 30 SECONDS))
@@ -1692,7 +1692,7 @@
 		..()
 		return
 	var/the_time = world.time
-	var/chosen = input(user, "Select a design.","Tabard Design") as null|anything in list("Split")
+	var/chosen = tgui_input_list(user, "Select a design.","Tabard Design", null|list("Split"))
 	if(world.time > (the_time + 10 SECONDS))
 		return
 	if(!chosen)

@@ -39,7 +39,7 @@
 	else
 		var/list/names = list("Custom...")
 		names += target.dna.species.random_name(target.gender, TRUE)
-		var/chosen_name = input(user, "Choose a new name to assign.", "Plastic Surgery") as null|anything in names
+		var/chosen_name = tgui_input_list(user, "Choose a new name to assign.", "Plastic Surgery", null|names)
 		if(chosen_name == "Custom...")
 			chosen_name = input(user, "What name?", "Plastic surgery")
 		chosen_name = reject_bad_name(chosen_name)

@@ -49,7 +49,7 @@
 						to_chat(user, span_warning("[teacher] can't teach me anything."))
 						revert_cast()
 						return
-					var/skill_choice = input(teacher, "Choose a skill to teach","Skills") as null|anything in skill_names
+					var/skill_choice = tgui_input_list(teacher, "Choose a skill to teach","Skills", null|skill_names)
 					if(skill_choice)
 						for(var/real_skill in known_skills)//real_skill is the actual datum for the skill rather than the "Skill" string
 							if(skill_choice == GetSkillRef(real_skill))//if skill_choice (the name string) is equal to real_skill's name ref, essentially

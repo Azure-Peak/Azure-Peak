@@ -942,7 +942,7 @@ GLOBAL_DATUM_INIT(_corpse_sort_ref, /mob, null)
 	for(var/obj/O as anything in marked_objects)
 		choices[marked_objects[O]] = O
 
-	var/choice = input(user, "Which grave shall we peer through?", "") as null|anything in choices
+	var/choice = tgui_input_list(user, "Which grave shall we peer through?", "", null|choices)
 	if(!choice)
 		return FALSE
 

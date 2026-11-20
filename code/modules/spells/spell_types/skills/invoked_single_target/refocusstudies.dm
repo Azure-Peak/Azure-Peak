@@ -77,7 +77,7 @@
 		else
 			if(L in range(1, usr))
 				to_chat(usr, span_notice("My student needs some time to select a lesson."))
-				var/chosen_skill = input(L, "Choose which skills to sacrifice, you will get back 3 sleep points and a buff to help you study", "Choose a skill") as null|anything in choices
+				var/chosen_skill = tgui_input_list(L, "Choose which skills to sacrifice, you will get back 3 sleep points and a buff to help you study", "Choose a skill", null|choices)
 				var/datum/skill/item = choices[chosen_skill]
 				if(!item)
 					return	// student canceled

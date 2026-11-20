@@ -544,7 +544,7 @@ code\modules\admin\verbs\divinewrath.dm has a variant with all the gods so keep 
 		"Curse of Xylix" = /datum/curse/xylix,
 		)
 
-	var/curse_pick = input(src, "Choose a curse to apply or lift.", "Select Curse") as null|anything in curse_choices
+	var/curse_pick = tgui_input_list(src, "Choose a curse to apply or lift.", "Select Curse", null|curse_choices)
 	if (!curse_pick)
 		return
 

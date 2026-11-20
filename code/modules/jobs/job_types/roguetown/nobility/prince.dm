@@ -354,7 +354,7 @@
 		var/list/folksnearby = list()
 		for(var/mob/living/carbon/human/newchampionpotential in (view(1)))
 			folksnearby += newchampionpotential
-		var/target = input(src, "Choose a champion") as null|anything in folksnearby
+		var/target = tgui_input_list(src, "Choose a champion", "make your choice", null|folksnearby)
 		if(istype(target, /mob/living/carbon))
 			var/mob/living/carbon/guy = target
 			if(!guy)
@@ -384,7 +384,7 @@
 		for(var/mob/living/carbon/human/championremoval in (view(1)))
 			if(championremoval == src.mind.champion)
 				folksnearby += championremoval
-		var/mob/living/target = input(src, "Choose a champion") as null|anything in folksnearby
+		var/mob/living/target = tgui_input_list(src, "Choose a champion", "make your choice", null|folksnearby)
 		if(!target)
 			return
 

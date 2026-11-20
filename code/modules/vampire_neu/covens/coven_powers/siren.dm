@@ -107,7 +107,7 @@
 	if(!length(available_languages))
 		return
 
-	var/choice = input(owner, "Choose language for projected voice") as null|anything in available_languages
+	var/choice = tgui_input_list(owner, "Choose language for projected voice", "make your choice", null|available_languages)
 	if(!choice)
 		return
 

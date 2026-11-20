@@ -52,13 +52,13 @@
 		skillchoice = witchprefs["witch_skills"]
 	if(!classchoice)
 		var/classes = list("Old Magick", "Godsblood", "Mystagogue")
-		classchoice = input(H, "How do your powers manifest?", "THE OLD WAYS") as anything in classes
+		classchoice = tgui_input_list(H, "How do your powers manifest?", "THE OLD WAYS", classes)
 	if(!shapeshiftchoice)
 		var/shapeshifts = list("Zad", "Cat", "Cat (Black)", "Bat", "Lesser Volf", "Cabbit", "Small Rous", "Lesser Venard")
-		shapeshiftchoice = input(H, "What form does your second skin take?", "THE OLD WAYS") as anything in shapeshifts
+		shapeshiftchoice = tgui_input_list(H, "What form does your second skin take?", "THE OLD WAYS", shapeshifts)
 	if(!skillchoice)
 		var/skillsets = list("Herbalist", "Forager")
-		skillchoice = input(H, "Which practical skills have you learned?", "THE OLD WAYS") as anything in skillsets
+		skillchoice = tgui_input_list(H, "Which practical skills have you learned?", "THE OLD WAYS", skillsets)
 
 	switch(skillchoice)
 		if("Herbalist")

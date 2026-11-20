@@ -28,7 +28,7 @@
 		organs -= found_organ
 		organs[found_organ.name] = found_organ
 
-	var/selected = input(user, "Sever which part?", "PESTRA") as null|anything in sortList(organs)
+	var/selected = tgui_input_list(user, "Sever which part?", "PESTRA", null|sortList(organs))
 	if(QDELETED(user) || QDELETED(target) || !user.Adjacent(target) || (user.get_active_held_item() != tool))
 		return FALSE
 	var/obj/item/organ/final_organ = organs[selected]

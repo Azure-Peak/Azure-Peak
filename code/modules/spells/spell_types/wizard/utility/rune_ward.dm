@@ -205,7 +205,7 @@
 		else
 			options[person_name] = person_name
 
-	var/choice = input(caster, "Choose a person to memorize or forget:", "Rune Ward - Memorize") as null|anything in options
+	var/choice = tgui_input_list(caster, "Choose a person to memorize or forget:", "Rune Ward - Memorize", null|options)
 	if(!choice)
 		return FALSE
 

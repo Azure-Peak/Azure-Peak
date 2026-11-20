@@ -98,7 +98,7 @@
 			H.equip_to_slot_or_del(new /obj/item/rogue/instrument/shamisen, SLOT_BACK_R, TRUE)
 
 	var/weapons = list("Psydonic Shortsword", "Psydonic Cudgel", "Psydonic Flanged Mace", "Psydonic Whip")
-	var/weapon_choice = input(H,"Choose your WEAPON.", "TAKE UP PSYDON'S ARMS.") as anything in weapons
+	var/weapon_choice = tgui_input_list(H,"Choose your WEAPON.", "TAKE UP PSYDON'S ARMS.", weapons)
 	switch(weapon_choice)
 		if("Psydonic Shortsword")
 			H.put_in_hands(new /obj/item/rogueweapon/sword/short/silver/psy)

@@ -476,7 +476,7 @@
 
 /obj/effect/proc_holder/spell/invoked/mimicry/cast(list/targets, mob/living/user)
 	var/turf/T = get_turf(targets[1])
-	var/pickedsound = input(user, "Choose a sound, my wise bureaucrat.", "Mimic Sound") as anything in soundpick
+	var/pickedsound = tgui_input_list(user, "Choose a sound, my wise bureaucrat.", "Mimic Sound", soundpick)
 	if(!pickedsound)
 		revert_cast()
 		return FALSE
@@ -576,7 +576,7 @@
 		revert_cast()
 		return FALSE
 	else
-		var/boonwoe = input(usr, "Boon or Woe, my poor fool?", "Boon/Woe") as anything in boonwoechoice
+		var/boonwoe = tgui_input_list(usr, "Boon or Woe, my poor fool?", "Boon/Woe", boonwoechoice)
 		if(boonwoe == "Nevermind")
 			revert_cast()
 			return FALSE

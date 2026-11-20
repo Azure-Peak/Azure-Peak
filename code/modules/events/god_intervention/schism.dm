@@ -262,7 +262,7 @@ GLOBAL_LIST_EMPTY(tennite_schisms)
 	options["Neutral"] = "neutral"
 	if(challenger)
 		options["[challenger.name]"] = "challenger"
-	var/choice = input(user, "Choose your allegiance in the schism, you can change your side [uses_remaining] more time\s", "Choose your side") as null|anything in options
+	var/choice = tgui_input_list(user, "Choose your allegiance in the schism, you can change your side [uses_remaining] more time\s", "Choose your side", null|options)
 	if(!choice || !current_schism)
 		return
 

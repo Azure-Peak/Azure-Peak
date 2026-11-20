@@ -68,7 +68,7 @@
 	if(!istype(user))
 		return
 	if(contents.len)
-		var/obj/item/book/choice = input(user, "Which book would you like to remove from the shelf?") as null|obj in contents.Copy()
+		var/obj/item/book/choice = tgui_input_list(user, "Which book would you like to remove from the shelf?", "make your choice", null|contents.Copy())
 		if(choice)
 			if(!(user.mobility_flags & MOBILITY_USE) || user.stat || user.restrained() || !in_range(loc, user))
 				return

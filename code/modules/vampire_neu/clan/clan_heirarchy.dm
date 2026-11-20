@@ -168,7 +168,7 @@
 		to_chat(user, "<span class='warning'>You have no subordinates, assign them in the clan menu!</span>")
 		return
 
-	var/mob/living/carbon/human/target = input(user, "Choose subordinate to command:", "Command Subordinate") as null|anything in valid_targets
+	var/mob/living/carbon/human/target = tgui_input_list(user, "Choose subordinate to command:", "Command Subordinate", null|valid_targets)
 
 	if(!target || !target.clan_position || !user.clan_position.is_superior_to(target.clan_position))
 		to_chat(user, "<span class='warning'>Invalid target!</span>")
@@ -247,7 +247,7 @@
 		to_chat(user, "<span class='warning'>No subordinates in range!</span>")
 		return
 
-	var/mob/living/carbon/human/target = input(user, "Choose subordinate to summon:", "Summon Subordinate") as null|anything in valid_targets
+	var/mob/living/carbon/human/target = tgui_input_list(user, "Choose subordinate to summon:", "Summon Subordinate", null|valid_targets)
 
 	if(!target || !target.clan_position || !user.clan_position.is_superior_to(target.clan_position))
 		to_chat(user, "<span class='warning'>Invalid target!</span>")

@@ -13,7 +13,7 @@
 /client/proc/get_looc()
 	var/msg = input(src, "", "looc") as text|null
 	do_looc(msg, FALSE)
-	
+
 
 /client/verb/looc(msg as text)
 	set name = "LOOC"
@@ -83,7 +83,7 @@
 			if(!L.rogue_sneaking && L.name != "Unknown")
 				recipient_choices += L
 
-	var/recipient_choice = input(src, "Pick a target?", "Subtle Emote") in recipient_choices
+	var/recipient_choice = tgui_input_list(src, "Pick a target?", "Subtle Emote", recipient_choices)
 	if(!recipient_choice)
 		return
 
@@ -161,7 +161,7 @@
 	if(is_banned_from(ckey, "LOOC"))
 		to_chat(src, span_danger("I cannot use LOOC (perma muted)."))
 		return
-	
+
 	if(isobserver(mob) && !holder)
 		to_chat(src, span_danger("I cannot use LOOC while dead."))
 		return

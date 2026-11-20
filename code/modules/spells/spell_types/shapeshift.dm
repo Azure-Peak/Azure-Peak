@@ -59,7 +59,7 @@
 				var/mob/living/simple_animal/A = path
 				animal_list[initial(A.name)] = path
 
-			var/choice = input(M, "Choose Your Animal Form!", "It's Morphing Time!", null) as null|anything in sortList(animal_list)
+			var/choice = tgui_input_list(M, "Choose Your Animal Form!", "It's Morphing Time!", null|sortList(animal_list))
 			if(!choice)
 				return
 

@@ -339,7 +339,7 @@
 				beltl = /obj/item/reagent_containers/glass/bottle/rogue/healthpot //No cloth, but a basic potion of lifeblood - similar to the Sorcerer's manna potion. Take the 'Physician's Apprentice' virtue for that, uncapped skills, and more.
 			if("Crusader - Anointed Weapon")
 				var/silver = list("Anointed Dagger","Anointed Longsword","Anointed Mace","Anointed Morningstar","Anointed Whip","Anointed War Axe","Anointed Spear")
-				var/silver_choice = input(H, "Choose your ARM.", "STAND AGAINST PERDITION.") as anything in silver //Trimmed down from the exorcist's usual list, only one option of each weapon-type.
+				var/silver_choice = tgui_input_list(H, "Choose your ARM.", "STAND AGAINST PERDITION.", silver) //Trimmed down from the exorcist's usual list, only one option of each weapon-type.
 				switch(silver_choice)
 					if("Anointed Dagger")
 						H.adjust_skillrank_up_to(/datum/skill/combat/knives, SKILL_LEVEL_JOURNEYMAN, TRUE)

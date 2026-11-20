@@ -1473,7 +1473,7 @@
 	if(user.has_status_effect(/datum/status_effect/debuff/ritesexpended))
 		to_chat(user,span_smallred("I have performed enough rituals for the day... I must rest before communing more."))
 		return
-	var/riteselection = input(user, "Rituals of Divinity", src) as null|anything in decarites
+	var/riteselection = tgui_input_list(user, "Rituals of Divinity", src, null|decarites)
 	switch(riteselection) // put ur rite selection here
 		if()
 */

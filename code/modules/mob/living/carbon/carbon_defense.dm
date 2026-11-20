@@ -280,7 +280,7 @@
 		if(possible_len)
 			var/datum/surgery_step/done_step
 			if(possible_len > 1)
-				var/input = input(user, "Which surgery step do you want to perform?", "PESTRA", ) as null|anything in possible_steps
+				var/input = tgui_input_list(user, "Which surgery step do you want to perform?", "PESTRA", null|possible_steps)
 				if(input)
 					done_step = possible_steps[input]
 			else

@@ -782,7 +782,7 @@
 		to_chat(ooze, span_warning("I have no missing limbs to regrow."))
 		return FALSE
 
-	var/selected_limb_name = input(ooze, "Which limb should I regrow?", name) as null|anything in missing_limb_options
+	var/selected_limb_name = tgui_input_list(ooze, "Which limb should I regrow?", name, null|missing_limb_options)
 	if(!selected_limb_name || QDELETED(ooze) || QDELETED(src) || owner != ooze)
 		return FALSE
 	var/selected_limb_zone = missing_limb_options[selected_limb_name]
