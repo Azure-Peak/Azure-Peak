@@ -82,11 +82,16 @@
 //SLEEPING
 /datum/status_effect/incapacitating/sleeping
 	id = "sleeping"
+	status_type = STATUS_EFFECT_REFRESH
 	alert_type = /atom/movable/screen/alert/status_effect/asleep
 	needs_update_stat = TRUE
 	var/mob/living/carbon/carbon_owner
 	var/mob/living/carbon/human/human_owner
 	var/sleptonground = FALSE
+
+/datum/status_effect/incapacitating/sleeping/refresh(effect, set_duration)
+	if(isnum(set_duration))
+		duration = max(duration, world.time + set_duration)
 
 /datum/status_effect/incapacitating/sleeping/on_creation(mob/living/new_owner, updating_canmove)
 	. = ..()
