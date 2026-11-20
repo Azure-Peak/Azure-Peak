@@ -63,11 +63,6 @@
 	/datum/bill_of_fare_column/drink, \
 )
 
-#define BILL_OF_FARE_VESSELS list( \
-	/datum/bill_of_fare_vessel/cup, \
-	/datum/bill_of_fare_vessel/bottle, \
-)
-
 #define BILL_OF_FARE_DRINK_BASES list( \
 	/datum/reagent/consumable/ethanol, \
 	/datum/reagent/consumable/juice, \

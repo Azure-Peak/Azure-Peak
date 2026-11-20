@@ -22,14 +22,6 @@
 	shown += "[length(names) - BILL_OF_FARE_IMPORT_REPORT_NAMES] more"
 	return english_list(shown)
 
-/proc/bill_of_fare_vessel_names()
-	var/list/labels = list()
-	var/list/vessels = get_bill_of_fare_vessels()
-	for(var/key in vessels)
-		var/datum/bill_of_fare_vessel/vessel = vessels[key]
-		labels += lowertext(vessel.label)
-	return capitalize(english_list(labels, and_text = " or "))
-
 /datum/component/bill_of_fare/proc/export_text()
 	var/list/out = list(BILL_OF_FARE_EXPORT_HEADER)
 	if(length(title))
@@ -37,17 +29,9 @@
 	for(var/key in columns)
 		var/datum/bill_of_fare_column/column = columns[key]
 		for(var/datum/bill_of_fare_line/line as anything in column.lines)
-			var/price_field
-			if(column.uses_vessels)
-				var/list/pairs = list()
-				for(var/vessel_key in line.vessel_prices)
-					pairs += "[vessel_key]:[line.vessel_prices[vessel_key]]"
-				price_field = jointext(pairs, ",")
-			else
-				price_field = "[line.price]"
 			var/item_id = line.linked ? column.item_id(line.linked) : ""
 			var/item_name = line.linked ? "[column.catalog_name(line.linked)]" : ""
-			out += "[column.export_tag]|[line.name]|[price_field]|[item_id]|[item_name]"
+			out += "[column.export_tag]|[line.name]|[line.price]|[item_id]|[item_name]"
 	if(length(notes))
 		for(var/note_line in splittext(notes, "\n"))
 			out += "N|[note_line]"
@@ -56,8 +40,6 @@
 /datum/component/bill_of_fare/proc/import_text(mob/user, text)
 	var/list/report = list(
 		"unlinked" = list(),
-		"dropped_serving" = list(),
-		"no_serving" = list(),
 		"overflow" = 0,
 		"notes_cut" = FALSE,
 	)
@@ -79,12 +61,6 @@
 	var/list/unlinked = report["unlinked"]
 	if(length(unlinked))
 		out += "Recipe not found, kept as written: [bill_of_fare_name_list(unlinked)]."
-	var/list/dropped_serving = report["dropped_serving"]
-	if(length(dropped_serving))
-		out += "[bill_of_fare_vessel_names()] not found, price left off: [bill_of_fare_name_list(dropped_serving)]."
-	var/list/no_serving = report["no_serving"]
-	if(length(no_serving))
-		out += "[bill_of_fare_vessel_names()] not found, left out: [bill_of_fare_name_list(no_serving)]."
 	var/overflow = report["overflow"]
 	if(overflow)
 		out += "No room, removed: [overflow] [overflow == 1 ? "line" : "lines"]."
@@ -146,16 +122,11 @@
 			return null
 		if(!islist(row))
 			return BOF_BAD_LINE(line_number)
-		var/list/row_data = row
-		if(column.uses_vessels && !length(row_data["prices"]))
-			var/list/no_serving = report["no_serving"]
-			no_serving += row_data["name"]
-			continue
 		var/list/rows = parsed_columns[column.key]
 		if(length(rows) >= column.cap)
 			report["overflow"]++
 			continue
-		rows += list(row_data)
+		rows += list(row)
 
 	var/joined_notes = jointext(note_lines, "\n")
 	if(length(note_lines) > BILL_OF_FARE_NOTES_MAX_LINES || length_char(joined_notes) > BILL_OF_FARE_NOTES_LEN)
@@ -171,6 +142,9 @@
 
 /datum/component/bill_of_fare/proc/parse_import_row(mob/user, datum/bill_of_fare_column/column, list/fields, list/report)
 	if(length(fields) != 5)
+		return FALSE
+	var/price = bill_of_fare_parse_price(fields[3])
+	if(isnull(price))
 		return FALSE
 	var/item_id = trim(fields[4])
 	var/item_name = trim(fields[5])
@@ -190,40 +164,11 @@
 	if(!linked_type && (length(item_id) || length(item_name)))
 		var/list/unlinked = report["unlinked"]
 		unlinked += row_name
-	var/list/row = list(
+	return list(
 		"name" = row_name,
 		"linked" = linked_type,
-		"price" = 0,
-		"prices" = null,
+		"price" = price,
 	)
-	var/price_field = trim(fields[3])
-	if(!column.uses_vessels)
-		var/price = bill_of_fare_parse_price(price_field)
-		if(isnull(price))
-			return FALSE
-		row["price"] = price
-		return row
-	var/list/prices = list()
-	var/dropped = FALSE
-	for(var/pair in splittext(price_field, ","))
-		var/list/parts = splittext(pair, ":")
-		if(length(parts) != 2)
-			return FALSE
-		var/vessel_key = lowertext(trim(parts[1]))
-		var/value = bill_of_fare_parse_price(parts[2])
-		if(!length(vessel_key) || isnull(value))
-			return FALSE
-		if(!is_bill_of_fare_vessel(vessel_key))
-			dropped = TRUE
-			continue
-		if(!isnull(prices[vessel_key]))
-			return FALSE
-		prices[vessel_key] = value
-	if(dropped && length(prices))
-		var/list/dropped_serving = report["dropped_serving"]
-		dropped_serving += row_name
-	row["prices"] = prices
-	return row
 
 /datum/component/bill_of_fare/proc/apply_import(list/parsed)
 	title = parsed["title"]
@@ -233,7 +178,7 @@
 		var/datum/bill_of_fare_column/column = columns[key]
 		column.lines = list()
 		for(var/list/row as anything in parsed_columns[key])
-			add_line(column, row["name"], row["linked"], row)
+			add_line(column, row["name"], row["linked"], row["price"])
 
 #undef BOF_NOT_A_MENU
 #undef BOF_TOO_LONG

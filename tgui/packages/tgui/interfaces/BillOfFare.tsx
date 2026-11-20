@@ -34,8 +34,7 @@ import {
 type Row = {
   uid: number;
   name: string;
-  price?: number;
-  prices?: Record<string, number>;
+  price: number;
   linked: boolean;
   icon?: string;
   icon_state?: string;
@@ -43,25 +42,10 @@ type Row = {
   color?: string;
 };
 
-type VesselPrices = Record<string, number | null>;
-
 type ColumnInfo = {
   key: string;
   label: string;
   cap: number;
-  vessels: boolean | number;
-};
-
-type Vessel = {
-  key: string;
-  label: string;
-  capacity: number;
-  icon: string;
-  icon_state: string;
-  fill_icon: string;
-  fill_state: string;
-  fill_under: boolean | number;
-  top_state?: string;
 };
 
 type CatalogEntry = [
@@ -92,7 +76,6 @@ type Data = {
   can_edit: boolean;
   rows: Record<string, Row[]>;
   columns: ColumnInfo[];
-  vessels: Vessel[];
   max_price: number;
   title_len: number;
   line_len: number;
@@ -116,7 +99,6 @@ type Data = {
 const ICON_SIZE = 32;
 const SWATCH_SIZE = 12;
 const PRICE_WIDTH = 40;
-const VESSEL_CELL_WIDTH = 104;
 const REMOVE_WIDTH = 28;
 
 const softHintStyle: CSSProperties = { color: INK_SOFT, fontSize: FONT_SMALL };
@@ -126,53 +108,7 @@ const faintHintStyle: CSSProperties = {
 };
 const emptyNoteStyle: CSSProperties = { color: INK_FAINT, fontStyle: 'italic' };
 
-const iconUrl = (icon: string, state: string) => {
-  const ref = Byond.iconRefMap?.[icon];
-  return ref ? `${ref}?state=${state}&dir=2&movement=false&frame=1` : '';
-};
-
 const rowsFor = (data: Data, key: string) => data.rows[key] || [];
-
-const isOffered = (prices: VesselPrices | undefined, key: string) =>
-  typeof prices?.[key] === 'number';
-
-const offeredVessels = (vessels: Vessel[], prices?: VesselPrices) =>
-  vessels.filter((vessel) => isOffered(prices, vessel.key));
-
-const firstOffered = (vessels: Vessel[], prices?: VesselPrices) =>
-  offeredVessels(vessels, prices)[0];
-
-const initialVesselPrices = (vessels: Vessel[]) => {
-  const prices: VesselPrices = {};
-  vessels.forEach((vessel, index) => {
-    prices[vessel.key] = index === 0 ? 0 : null;
-  });
-  return prices;
-};
-
-const offeredPrices = (prices: VesselPrices) => {
-  const offered: Record<string, number> = {};
-  for (const key of Object.keys(prices)) {
-    const value = prices[key];
-    if (typeof value === 'number') {
-      offered[key] = value;
-    }
-  }
-  return offered;
-};
-
-const vesselNote = (vessel: Vessel) =>
-  `${vessel.label}: ${vessel.capacity} drams`;
-
-const capacityNote = (vessels: Vessel[]) => vessels.map(vesselNote).join(' · ');
-
-const toggleChipStyle = (on: boolean): CSSProperties => ({
-  ...tabStyle(on),
-  display: 'flex',
-  alignItems: 'center',
-  gap: '2px',
-  padding: '0 6px 0 0',
-});
 
 const useCommittedText = (value: string, onCommit: (text: string) => void) => {
   const [draft, setDraft] = useState(value);
@@ -264,7 +200,6 @@ const PriceInput = (props: {
 };
 
 const markBoxStyle: CSSProperties = {
-  position: 'relative',
   display: 'inline-flex',
   alignItems: 'center',
   justifyContent: 'center',
@@ -273,69 +208,21 @@ const markBoxStyle: CSSProperties = {
   flexShrink: 0,
 };
 
-const layerStyle: CSSProperties = {
-  position: 'absolute',
-  left: 0,
-  top: 0,
-  width: `${ICON_SIZE}px`,
-  height: `${ICON_SIZE}px`,
-};
-
-const SpriteLayer = (props: { icon: string; state: string }) => (
-  <DmIcon
-    icon={props.icon}
-    icon_state={props.state}
-    width={`${ICON_SIZE}px`}
-    height={`${ICON_SIZE}px`}
-    style={layerStyle}
-  />
-);
-
-const FillLayer = (props: { url: string; color: string }) => (
-  <span
-    style={{
-      ...layerStyle,
-      backgroundColor: props.color,
-      maskImage: `url("${props.url}")`,
-      WebkitMaskImage: `url("${props.url}")`,
-      maskSize: '100% 100%',
-      WebkitMaskSize: '100% 100%',
-      maskRepeat: 'no-repeat',
-      WebkitMaskRepeat: 'no-repeat',
-    }}
-  />
-);
-
-const VesselMark = (props: { vessel: Vessel; color?: string | null }) => {
-  const { vessel, color } = props;
-  const url = color ? iconUrl(vessel.fill_icon, vessel.fill_state) : '';
-  const fill = !!url && !!color && <FillLayer url={url} color={color} />;
-  return (
-    <span style={markBoxStyle}>
-      {!!vessel.fill_under && fill}
-      <SpriteLayer icon={vessel.icon} state={vessel.icon_state} />
-      {!vessel.fill_under && fill}
-      {!!vessel.top_state && (
-        <SpriteLayer icon={vessel.icon} state={vessel.top_state} />
-      )}
-    </span>
-  );
-};
-
 const Mark = (props: {
   icon?: string;
   icon_state?: string;
   color?: string | null;
-  vessel?: Vessel;
 }) => {
-  const { icon, icon_state, color, vessel } = props;
-  if (vessel) {
-    return <VesselMark vessel={vessel} color={color} />;
-  }
+  const { icon, icon_state, color } = props;
   return (
     <span style={markBoxStyle}>
       {icon && icon_state ? (
-        <SpriteLayer icon={icon} state={icon_state} />
+        <DmIcon
+          icon={icon}
+          icon_state={icon_state}
+          width={`${ICON_SIZE}px`}
+          height={`${ICON_SIZE}px`}
+        />
       ) : (
         !!color && (
           <span
@@ -404,29 +291,12 @@ const Picker = () => {
   const [tab, setTab] = useState(data.columns[0]?.key);
   const [query, setQuery] = useState('');
   const [price, setPrice] = useState(0);
-  const [vesselPrices, setVesselPrices] = useState<VesselPrices>(() =>
-    initialVesselPrices(data.vessels),
-  );
   const info = data.columns.find((c) => c.key === tab) || data.columns[0];
   const entries = usePickEntries(info ? data.catalogs?.[info.key] : undefined);
   if (!info) {
     return null;
   }
 
-  const usesVessels = !!info.vessels;
-  const previewVessel = usesVessels
-    ? firstOffered(data.vessels, vesselPrices)
-    : undefined;
-  const pricing = usesVessels
-    ? { prices: offeredPrices(vesselPrices) }
-    : { price };
-  const toggleVessel = (key: string) => {
-    const on = isOffered(vesselPrices, key);
-    if (on && offeredVessels(data.vessels, vesselPrices).length <= 1) {
-      return;
-    }
-    setVesselPrices({ ...vesselPrices, [key]: on ? null : 0 });
-  };
   const full = rowsFor(data, info.key).length >= info.cap;
   const typed = query.trim();
   const needle = typed.toLowerCase();
@@ -439,7 +309,7 @@ const Picker = () => {
     if (!typed || full) {
       return;
     }
-    act('add_written', { column: info.key, text: typed, ...pricing });
+    act('add_written', { column: info.key, text: typed, price });
     setQuery('');
   };
 
@@ -476,53 +346,14 @@ const Picker = () => {
       <div
         style={{
           display: 'flex',
-          flexWrap: 'wrap',
           alignItems: 'center',
           gap: '8px',
           margin: '6px 0',
         }}
       >
-        {usesVessels ? (
-          <>
-            <span style={softHintStyle}>Sold by the:</span>
-            {data.vessels.map((v) => {
-              const on = isOffered(vesselPrices, v.key);
-              return (
-                <div
-                  key={v.key}
-                  style={{ display: 'flex', alignItems: 'center', gap: '4px' }}
-                >
-                  <div
-                    style={toggleChipStyle(on)}
-                    onClick={() => toggleVessel(v.key)}
-                  >
-                    <VesselMark vessel={v} />
-                    {v.label}
-                  </div>
-                  {on && (
-                    <PriceInput
-                      value={vesselPrices[v.key] ?? 0}
-                      onChange={(value) =>
-                        setVesselPrices({ ...vesselPrices, [v.key]: value })
-                      }
-                    />
-                  )}
-                </div>
-              );
-            })}
-          </>
-        ) : (
-          <>
-            <span style={softHintStyle}>Price:</span>
-            <PriceInput value={price} onChange={setPrice} />
-          </>
-        )}
+        <span style={softHintStyle}>Price:</span>
+        <PriceInput value={price} onChange={setPrice} />
       </div>
-      {usesVessels && (
-        <div style={{ ...faintHintStyle, marginBottom: '6px' }}>
-          {capacityNote(data.vessels)}
-        </div>
-      )}
 
       {full ? (
         <div style={emptyNoteStyle}>The {info.label} list is full.</div>
@@ -545,14 +376,13 @@ const Picker = () => {
               key={entry.id}
               action="Add"
               onClick={() =>
-                act('add_linked', { column: info.key, id: entry.id, ...pricing })
+                act('add_linked', { column: info.key, id: entry.id, price })
               }
             >
               <Mark
                 icon={entry.icon}
                 icon_state={entry.icon_state}
                 color={entry.color}
-                vessel={previewVessel}
               />
               <span style={ellipsisCellStyle}>{entry.name}</span>
             </PickRow>
@@ -574,72 +404,22 @@ const Picker = () => {
   );
 };
 
-const VesselPriceCell = (props: {
-  row: Row;
-  column: string;
-  vessel: Vessel;
-}) => {
-  const { act } = useBackend<Data>();
-  const { row, column, vessel } = props;
-  const on = isOffered(row.prices, vessel.key);
-  const setPrice = (value: number | null) =>
-    act('set_price', { column, uid: row.uid, vessel: vessel.key, value });
-  return (
-    <div
-      style={{
-        width: `${VESSEL_CELL_WIDTH}px`,
-        display: 'flex',
-        alignItems: 'center',
-        gap: '4px',
-        flexShrink: 0,
-      }}
-    >
-      <div
-        style={{ ...tabStyle(on), padding: '1px 6px', fontSize: FONT_SMALL }}
-        title={vesselNote(vessel)}
-        onClick={() => setPrice(on ? null : 0)}
-      >
-        {vessel.label}
-      </div>
-      {on ? (
-        <PriceInput value={row.prices?.[vessel.key] ?? 0} onChange={setPrice} />
-      ) : (
-        <span style={{ color: INK_FAINT }}>—</span>
-      )}
-    </div>
-  );
-};
-
-const WriterRow = (props: { row: Row; column: string; usesVessels: boolean }) => {
+const WriterRow = (props: { row: Row; column: string }) => {
   const { act, data } = useBackend<Data>();
-  const { row, column, usesVessels } = props;
-  const vessel = usesVessels
-    ? firstOffered(data.vessels, row.prices)
-    : undefined;
+  const { row, column } = props;
   return (
     <div style={denseRowStyle} title={row.desc}>
-      <Mark
-        icon={row.icon}
-        icon_state={row.icon_state}
-        color={row.color}
-        vessel={vessel}
-      />
+      <Mark icon={row.icon} icon_state={row.icon_state} color={row.color} />
       <CommitInput
         value={row.name}
         maxLength={data.line_len}
         style={{ flex: 1, minWidth: 0 }}
         onCommit={(text) => act('rename', { column, uid: row.uid, text })}
       />
-      {usesVessels ? (
-        data.vessels.map((v) => (
-          <VesselPriceCell key={v.key} row={row} column={column} vessel={v} />
-        ))
-      ) : (
-        <PriceInput
-          value={row.price ?? 0}
-          onChange={(value) => act('set_price', { column, uid: row.uid, value })}
-        />
-      )}
+      <PriceInput
+        value={row.price}
+        onChange={(value) => act('set_price', { column, uid: row.uid, value })}
+      />
       <button
         type="button"
         title="Strike it out"
@@ -655,7 +435,6 @@ const WriterRow = (props: { row: Row; column: string; usesVessels: boolean }) =>
 const WriterList = (props: { info: ColumnInfo }) => {
   const { data } = useBackend<Data>();
   const { key, label, cap } = props.info;
-  const usesVessels = !!props.info.vessels;
   const rows = rowsFor(data, key);
   return (
     <div>
@@ -681,24 +460,11 @@ const WriterList = (props: { info: ColumnInfo }) => {
           >
             <span style={{ width: `${ICON_SIZE}px`, flexShrink: 0 }} />
             <span style={{ flex: 1 }}>Name</span>
-            <span
-              style={{
-                width: usesVessels
-                  ? `${data.vessels.length * (VESSEL_CELL_WIDTH + 6) - 6}px`
-                  : `${PRICE_WIDTH}px`,
-              }}
-            >
-              {usesVessels ? 'Price, click a vessel to sell it' : 'Price'}
-            </span>
+            <span style={{ width: `${PRICE_WIDTH}px` }}>Price</span>
             <span style={{ width: `${REMOVE_WIDTH}px` }} />
           </div>
           {rows.map((row) => (
-            <WriterRow
-              key={row.uid}
-              row={row}
-              column={key}
-              usesVessels={usesVessels}
-            />
+            <WriterRow key={row.uid} row={row} column={key} />
           ))}
         </>
       )}
@@ -935,9 +701,8 @@ const WriterView = () => {
   );
 };
 
-const ReaderRow = (props: { row: Row; vessels?: Vessel[] }) => {
-  const { row, vessels } = props;
-  const offered = vessels ? offeredVessels(vessels, row.prices) : [];
+const ReaderRow = (props: { row: Row }) => {
+  const { row } = props;
   return (
     <div
       title={row.desc}
@@ -948,12 +713,7 @@ const ReaderRow = (props: { row: Row; vessels?: Vessel[] }) => {
         padding: '2px 0',
       }}
     >
-      <Mark
-        icon={row.icon}
-        icon_state={row.icon_state}
-        color={row.color}
-        vessel={offered[0]}
-      />
+      <Mark icon={row.icon} icon_state={row.icon_state} color={row.color} />
       <span style={{ ...ellipsisCellStyle, flex: '0 1 auto' }}>{row.name}</span>
       <span
         style={{
@@ -963,21 +723,7 @@ const ReaderRow = (props: { row: Row; vessels?: Vessel[] }) => {
           borderBottom: `1px dotted ${INK_FAINT}`,
         }}
       />
-      {vessels ? (
-        <span style={{ display: 'flex', gap: '10px', flexShrink: 0 }}>
-          {offered.map((v) => (
-            <span
-              key={v.key}
-              style={{ display: 'flex', alignItems: 'baseline', gap: '4px' }}
-            >
-              <span style={softHintStyle}>{v.label}</span>
-              <PriceTag price={row.prices?.[v.key] ?? 0} />
-            </span>
-          ))}
-        </span>
-      ) : (
-        <PriceTag price={row.price ?? 0} />
-      )}
+      <PriceTag price={row.price} />
     </div>
   );
 };
@@ -993,11 +739,7 @@ const ReaderColumn = (props: { info: ColumnInfo }) => {
     <div style={{ flex: '1 1 240px', minWidth: 0 }}>
       <div style={sectionHeaderStyle}>{label}</div>
       {rows.map((row) => (
-        <ReaderRow
-          key={row.uid}
-          row={row}
-          vessels={props.info.vessels ? data.vessels : undefined}
-        />
+        <ReaderRow key={row.uid} row={row} />
       ))}
     </div>
   );

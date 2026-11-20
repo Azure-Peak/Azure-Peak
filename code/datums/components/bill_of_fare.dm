@@ -3,26 +3,12 @@
 	var/name
 	var/price = 0
 	var/linked
-	var/list/vessel_prices
 
-/datum/bill_of_fare_line/New(uid, name, price, linked, list/vessel_prices)
+/datum/bill_of_fare_line/New(uid, name, price, linked)
 	src.uid = uid
 	src.name = name
 	src.price = price
 	src.linked = linked
-	src.vessel_prices = vessel_prices
-
-GLOBAL_LIST_EMPTY(bill_of_fare_vessels)
-
-/proc/get_bill_of_fare_vessels()
-	if(!length(GLOB.bill_of_fare_vessels))
-		for(var/vessel_type in BILL_OF_FARE_VESSELS)
-			var/datum/bill_of_fare_vessel/vessel = new vessel_type
-			GLOB.bill_of_fare_vessels[vessel.key] = vessel
-	return GLOB.bill_of_fare_vessels
-
-/proc/is_bill_of_fare_vessel(key)
-	return istext(key) && get_bill_of_fare_vessels()[key]
 
 /proc/is_bill_of_fare_writing_tool(obj/item/tool)
 	return istype(tool, /obj/item/natural/feather) || istype(tool, /obj/item/natural/thorn)
@@ -42,62 +28,6 @@ GLOBAL_LIST_EMPTY(bill_of_fare_vessels)
 		return 0
 	return clamp(round(value, 1), 0, BILL_OF_FARE_MAX_PRICE)
 
-/proc/clean_bill_of_fare_vessel_prices(list/raw)
-	var/list/prices = list()
-	if(!islist(raw))
-		return prices
-	for(var/key in get_bill_of_fare_vessels())
-		var/value = raw[key]
-		if(isnum(value))
-			prices[key] = clean_bill_of_fare_price(value)
-	return prices
-
-/datum/bill_of_fare_vessel
-	abstract_type = /datum/bill_of_fare_vessel
-	var/key
-	var/label
-	var/container_type
-	var/icon_file
-	var/icon_state
-	var/fill_file
-	var/fill_state
-	var/fill_under = FALSE
-	var/top_state
-
-/datum/bill_of_fare_vessel/proc/ui_entry()
-	var/obj/item/reagent_containers/container = container_type
-	return list(
-		"key" = key,
-		"label" = label,
-		"capacity" = initial(container.volume),
-		"icon" = "[icon_file]",
-		"icon_state" = icon_state,
-		"fill_icon" = "[fill_file]",
-		"fill_state" = fill_state,
-		"fill_under" = fill_under,
-		"top_state" = top_state,
-	)
-
-/datum/bill_of_fare_vessel/cup
-	key = "cup"
-	label = "Cup"
-	container_type = /obj/item/reagent_containers/glass/cup/wooden
-	icon_file = 'modular/Neu_Food/icons/cookware/cup.dmi'
-	icon_state = "wooden"
-	fill_file = 'modular/Neu_Food/icons/cookware/cup.dmi'
-	fill_state = "wooden_filling"
-
-/datum/bill_of_fare_vessel/bottle
-	key = "bottle"
-	label = "Bottle"
-	container_type = /obj/item/reagent_containers/glass/bottle
-	icon_file = 'icons/roguetown/items/cooking.dmi'
-	icon_state = "clear_bottle1"
-	fill_file = 'icons/obj/reagentfillings.dmi'
-	fill_state = "clear_bottle1100"
-	fill_under = TRUE
-	top_state = "clear_bottle1_cork"
-
 /datum/bill_of_fare_column
 	abstract_type = /datum/bill_of_fare_column
 	var/key
@@ -107,7 +37,6 @@ GLOBAL_LIST_EMPTY(bill_of_fare_vessels)
 	var/noun_one
 	var/noun_many
 	var/export_tag
-	var/uses_vessels = FALSE
 	var/list/lines = list()
 
 /datum/bill_of_fare_column/proc/link_data(list/row, linked_type)
@@ -131,12 +60,9 @@ GLOBAL_LIST_EMPTY(bill_of_fare_vessels)
 		var/list/row = list(
 			"uid" = line.uid,
 			"name" = line.name,
+			"price" = line.price,
 			"linked" = !!line.linked,
 		)
-		if(uses_vessels)
-			row["prices"] = line.vessel_prices || list()
-		else
-			row["price"] = line.price
 		if(line.linked)
 			link_data(row, line.linked)
 		rows += list(row)
@@ -165,7 +91,6 @@ GLOBAL_LIST_EMPTY(bill_of_fare_vessels)
 	noun_one = "drink"
 	noun_many = "drinks"
 	export_tag = "D"
-	uses_vessels = TRUE
 
 /datum/bill_of_fare_column/drink/link_data(list/row, linked_type)
 	var/datum/reagent/drink_type = linked_type
@@ -347,17 +272,10 @@ GLOBAL_LIST_EMPTY(bill_of_fare_vessels)
 			"key" = column.key,
 			"label" = column.label,
 			"cap" = column.cap,
-			"vessels" = column.uses_vessels,
 		))
 		catalogs[key] = column.get_catalog().picker_data()
-	var/list/vessel_info = list()
-	var/list/vessels = get_bill_of_fare_vessels()
-	for(var/key in vessels)
-		var/datum/bill_of_fare_vessel/vessel = vessels[key]
-		vessel_info += list(vessel.ui_entry())
 	var/list/data = list(
 		"columns" = column_info,
-		"vessels" = vessel_info,
 		"max_price" = BILL_OF_FARE_MAX_PRICE,
 		"title_len" = BILL_OF_FARE_TITLE_LEN,
 		"line_len" = BILL_OF_FARE_LINE_LEN,
@@ -370,18 +288,10 @@ GLOBAL_LIST_EMPTY(bill_of_fare_vessels)
 		data["catalogs"] = catalogs
 	return data
 
-/datum/component/bill_of_fare/proc/add_line(datum/bill_of_fare_column/column, name, linked_type, list/pricing)
+/datum/component/bill_of_fare/proc/add_line(datum/bill_of_fare_column/column, name, linked_type, price)
 	if(column.is_full())
 		return null
-	var/price = 0
-	var/list/prices
-	if(column.uses_vessels)
-		prices = clean_bill_of_fare_vessel_prices(pricing["prices"])
-		if(!length(prices))
-			return null
-	else
-		price = clean_bill_of_fare_price(pricing["price"])
-	var/datum/bill_of_fare_line/line = new(next_uid++, name, price, linked_type, prices)
+	var/datum/bill_of_fare_line/line = new(next_uid++, name, clean_bill_of_fare_price(price), linked_type)
 	column.lines += line
 	return line
 
@@ -431,14 +341,14 @@ GLOBAL_LIST_EMPTY(bill_of_fare_vessels)
 		if("add_linked")
 			var/datum/bill_of_fare_column/column = get_column(params["column"])
 			var/linked_type = column?.catalog_type_at(params["id"])
-			if(!linked_type || !add_line(column, column.catalog_name(linked_type), linked_type, params))
+			if(!linked_type || !add_line(column, column.catalog_name(linked_type), linked_type, params["price"]))
 				return
 		if("add_written")
 			var/datum/bill_of_fare_column/column = get_column(params["column"])
 			if(!column)
 				return
 			var/clean = bill_of_fare_clean_text(user, params["text"], BILL_OF_FARE_LINE_LEN)
-			if(!length(clean) || !add_line(column, clean, null, params))
+			if(!length(clean) || !add_line(column, clean, null, params["price"]))
 				return
 			log_write(user, column.key, clean)
 		if("rename", "set_price", "remove")
@@ -500,20 +410,9 @@ GLOBAL_LIST_EMPTY(bill_of_fare_vessels)
 			log_write(user, column.key, clean)
 		if("set_price")
 			var/value = params["value"]
-			if(!column.uses_vessels)
-				if(!isnum(value))
-					return FALSE
-				line.price = clean_bill_of_fare_price(value)
-			else
-				var/vessel_key = params["vessel"]
-				if(!is_bill_of_fare_vessel(vessel_key))
-					return FALSE
-				if(isnum(value))
-					line.vessel_prices[vessel_key] = clean_bill_of_fare_price(value)
-				else
-					if(isnull(line.vessel_prices[vessel_key]) || length(line.vessel_prices) <= 1)
-						return FALSE
-					line.vessel_prices -= vessel_key
+			if(!isnum(value))
+				return FALSE
+			line.price = clean_bill_of_fare_price(value)
 		if("remove")
 			column.lines -= line
 	return TRUE
