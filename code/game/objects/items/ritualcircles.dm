@@ -1121,6 +1121,8 @@
 		current_rites += "Hollow the Mist"
 	if(HAS_TRAIT(user, TRAIT_LESSER_RITUALIST)) // only The Toll for you, ser.
 		current_rites = list("The Toll")
+	if(user.job == "Templar") // Templars having this is an oversight. Ressurections beyond Astrata or Matthios are reserved for T4 roles.
+		current_rites -= "The Toll"
 	var/riteselection = input(user, "Rituals of Death", src) as null|anything in current_rites
 	if(!riteselection)
 		return
