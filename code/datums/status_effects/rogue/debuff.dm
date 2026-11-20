@@ -815,9 +815,14 @@
 		var/mob/living/carbon/C = owner
 		C.remove_movespeed_modifier(MOVESPEED_ID_DAMAGE_SLOWDOWN)
 
+/atom/movable/screen/alert/status_effect/debuff/slowed
+	name = "Slowed"
+	desc = "I am slowed."
+	icon_state = "slowdown"
+
 /datum/status_effect/debuff/slowed
 	id = "slowed"
-	alert_type = null
+	alert_type = /atom/movable/screen/alert/status_effect/debuff/slowed
 	var/severity = SLOWDOWN_SEVERITY_MODERATE
 
 /datum/status_effect/debuff/slowed/on_creation(mob/living/new_owner, new_duration, new_severity)
