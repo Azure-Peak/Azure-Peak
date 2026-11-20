@@ -76,6 +76,7 @@ type Data = {
   can_edit: boolean;
   rows: Record<string, Row[]>;
   columns: ColumnInfo[];
+  cup: { icon: string; icon_state: string; fill_state: string };
   max_price: number;
   title_len: number;
   line_len: number;
@@ -97,7 +98,6 @@ type Data = {
 };
 
 const ICON_SIZE = 32;
-const SWATCH_SIZE = 12;
 const PRICE_WIDTH = 40;
 const REMOVE_WIDTH = 28;
 
@@ -109,6 +109,11 @@ const faintHintStyle: CSSProperties = {
 const emptyNoteStyle: CSSProperties = { color: INK_FAINT, fontStyle: 'italic' };
 
 const rowsFor = (data: Data, key: string) => data.rows[key] || [];
+
+const iconUrl = (icon: string, state: string) => {
+  const ref = Byond.iconRefMap?.[icon];
+  return ref ? `${ref}?state=${state}&dir=2&movement=false&frame=1` : '';
+};
 
 const useCommittedText = (value: string, onCommit: (text: string) => void) => {
   const [draft, setDraft] = useState(value);
@@ -200,12 +205,52 @@ const PriceInput = (props: {
 };
 
 const markBoxStyle: CSSProperties = {
+  position: 'relative',
   display: 'inline-flex',
   alignItems: 'center',
   justifyContent: 'center',
   width: `${ICON_SIZE}px`,
   height: `${ICON_SIZE}px`,
   flexShrink: 0,
+};
+
+const layerStyle: CSSProperties = {
+  position: 'absolute',
+  left: 0,
+  top: 0,
+  width: `${ICON_SIZE}px`,
+  height: `${ICON_SIZE}px`,
+};
+
+const CupMark = (props: { color: string }) => {
+  const { data } = useBackend<Data>();
+  const { icon, icon_state, fill_state } = data.cup;
+  const url = iconUrl(icon, fill_state);
+  return (
+    <>
+      <DmIcon
+        icon={icon}
+        icon_state={icon_state}
+        width={`${ICON_SIZE}px`}
+        height={`${ICON_SIZE}px`}
+        style={layerStyle}
+      />
+      {!!url && (
+        <span
+          style={{
+            ...layerStyle,
+            backgroundColor: props.color,
+            maskImage: `url("${url}")`,
+            WebkitMaskImage: `url("${url}")`,
+            maskSize: '100% 100%',
+            WebkitMaskSize: '100% 100%',
+            maskRepeat: 'no-repeat',
+            WebkitMaskRepeat: 'no-repeat',
+          }}
+        />
+      )}
+    </>
+  );
 };
 
 const Mark = (props: {
@@ -224,17 +269,7 @@ const Mark = (props: {
           height={`${ICON_SIZE}px`}
         />
       ) : (
-        !!color && (
-          <span
-            style={{
-              width: `${SWATCH_SIZE}px`,
-              height: `${SWATCH_SIZE}px`,
-              background: color,
-              border: `1px solid ${INK_FAINT}`,
-              borderRadius: '2px',
-            }}
-          />
-        )
+        !!color && <CupMark color={color} />
       )}
     </span>
   );

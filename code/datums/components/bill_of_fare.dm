@@ -276,6 +276,11 @@
 		catalogs[key] = column.get_catalog().picker_data()
 	var/list/data = list(
 		"columns" = column_info,
+		"cup" = list(
+			"icon" = "[BILL_OF_FARE_CUP_ICON]",
+			"icon_state" = BILL_OF_FARE_CUP_STATE,
+			"fill_state" = BILL_OF_FARE_CUP_FILL_STATE,
+		),
 		"max_price" = BILL_OF_FARE_MAX_PRICE,
 		"title_len" = BILL_OF_FARE_TITLE_LEN,
 		"line_len" = BILL_OF_FARE_LINE_LEN,

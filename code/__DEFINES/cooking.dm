@@ -57,6 +57,9 @@
 #define BILL_OF_FARE_IMPORT_MAX_LINES (2 + BILL_OF_FARE_MAX_FOOD + BILL_OF_FARE_MAX_DRINK + BILL_OF_FARE_NOTES_MAX_LINES + 8)
 #define BILL_OF_FARE_IMPORT_COOLDOWN (10 SECONDS)
 #define BILL_OF_FARE_PICKER_ROWS 60
+#define BILL_OF_FARE_CUP_ICON 'modular/Neu_Food/icons/cookware/cup.dmi'
+#define BILL_OF_FARE_CUP_STATE "wooden"
+#define BILL_OF_FARE_CUP_FILL_STATE "wooden_filling"
 
 #define BILL_OF_FARE_COLUMNS list( \
 	/datum/bill_of_fare_column/food, \
