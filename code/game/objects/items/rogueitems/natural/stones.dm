@@ -434,6 +434,8 @@ GLOBAL_LIST_INIT(stone_personality_descs, list(
 	if(.)
 		if(!was_destroyed && obj_destroyed)
 			record_featured_stat(FEATURED_STATS_MINERS, user)
+		if(user.mind && (user.used_intent?.blade_class in list(BCLASS_PICK, BCLASS_SMASH, BCLASS_BLUNT)))
+			user.mind.add_sleep_experience(/datum/skill/labor/mining, user.STAINT * 0.2)
 
 /obj/item/natural/rock/deconstruct(disassembled = FALSE)
 	if(!disassembled)

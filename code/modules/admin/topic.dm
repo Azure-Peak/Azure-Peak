@@ -1216,6 +1216,7 @@
 		var/current_value = M.get_stat(statkey)
 		var/new_value = input(usr, "Set [statkey] to:", "Set Stat", current_value) as num|null
 		if(new_value != null && M)
+			new_value = clamp(round(new_value), 1, 20)
 			var/difference = new_value - current_value
 			if(difference != 0)
 				M.change_stat(statkey, difference)

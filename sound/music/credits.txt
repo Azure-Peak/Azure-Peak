@@ -25,7 +25,7 @@ combat_desertrider.ogg: Two Fingers- You Ain't Down
 combat_dungeoneer.ogg: T87-Sulfurhead - RATEATER [https://www.youtube.com/@T87-Sulfurhead]
 combat_dying_world.ogg: T-87 SULFURHEAD - CHANT AGAINST A DYING WORLD [https://www.youtube.com/@T87-Sulfurhead]
 combat_dying_world_instrumental.ogg T-87 SULFURHEAD - CHANT AGAINST A DYING WORLD (INSTRUMENTAL) [https://www.youtube.com/@T87-Sulfurhead]
-combat_eora: T-87 SULFURHEAD - Family Melts Away [https://www.youtube.com/@T87-Sulfurhead] // Do not listen to this one after a breakup.
+combat_eora: T-87 SULFURHEAD - Family Melts Away [https://www.youtube.com/@T87-Sulfurhead]
 combat_graggar.ogg: T87-Sulfurhead - Black Powder [https://www.youtube.com/@T87-Sulfurhead]
 combat_grenzelhoft.ogg: Helbrede - Sons of Tyr
 combat_heretic.ogg: T87-Sulfurhead - DEMESNE [https://www.youtube.com/@T87-Sulfurhead]
@@ -79,3 +79,4 @@ warscholar.ogg: Butcher's Boulevard - Kristjan Thomas Haaristo
 combat_bloodrage: https://www.youtube.com/watch?v=z0uoqsMgd-I - Ben_19M - THE WHOLE BODY IS BULLETPROOF
 combat_lamplighter: https://www.youtube.com/watch?v=O35e6sOctmk - Verisimilitude III - burialgoods
 renegade_strawberye.ogg: https://xeecee.bandcamp.com/album/misericorde-volume-one-original-soundtrack - Misericorde - XeeCee
+combat_psyalmist: T-87 SULFURHEAD - God is Dead [https://www.youtube.com/watch?v=nAAiQsnJtlI&]

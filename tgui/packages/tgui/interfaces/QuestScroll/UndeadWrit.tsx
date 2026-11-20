@@ -8,6 +8,7 @@ export const UndeadWrit = (props: {
   rulerTitle: string;
   groupWord?: string | null;
   namePlural?: string | null;
+  ringleader?: string | null;
   reward: number;
   levyRate: number;
   levyExempt: boolean;
@@ -25,6 +26,7 @@ export const UndeadWrit = (props: {
     rulerTitle,
     groupWord,
     namePlural,
+    ringleader,
     reward,
     levyRate,
     levyExempt,
@@ -39,6 +41,12 @@ export const UndeadWrit = (props: {
   } = props;
   const folk = namePlural || 'unquiet dead';
   const host = groupWord || 'host';
+  const leader = ringleader ? (
+    <>
+      {' '}
+      and led by one called <b>{ringleader}</b>
+    </>
+  ) : null;
 
   return (
     <>
@@ -47,7 +55,8 @@ export const UndeadWrit = (props: {
       </p>
       <p style={writParagraph}>
         The dead walk again upon {realm}: a {host} of {folk}, risen from their
-        graves.
+        graves
+        {leader}.
       </p>
       <p style={writParagraph}>
         <i>

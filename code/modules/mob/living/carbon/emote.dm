@@ -2,7 +2,7 @@
 	mob_type_allowed_typecache = list(/mob/living/carbon)
 
 /mob/proc/shoutbubble()
-	var/image/I = image('icons/mob/talk.dmi', src, "default1", FLY_LAYER)
+	var/image/I = image('icons/mob/talk.dmi', src, "default3", FLY_LAYER)
 	I.appearance_flags = APPEARANCE_UI_IGNORE_ALPHA
 
 	var/list/listening = get_hearers_in_view(6, src, RECURSIVE_CONTENTS_CLIENT_MOBS)

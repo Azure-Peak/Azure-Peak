@@ -9,7 +9,7 @@
 	name = "Great Shelter"
 	desc = "Conjure a cramped but functional shelter from arcyne force.\n\
 	Contains a bed, a hearth, and an oven. Bring your own cooking tools.\n\
-	The shelter lasts for 15 minutes. Door always faces south."
+	The shelter lasts for 15 minutes. The door always faces south."
 	button_icon = 'icons/mob/actions/mage_conjure.dmi'
 	button_icon_state = "great_shelter"
 	sound = 'sound/spellbooks/crystal.ogg'

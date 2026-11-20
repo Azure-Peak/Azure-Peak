@@ -359,17 +359,9 @@ GLOBAL_LIST_INIT(roleplay_readme, world.file2list("strings/rt/rp_prompt.txt"))
 	var/mob/living/character = create_character(TRUE)	//creates the human and transfers vars and mind
 
 	character.islatejoin = TRUE
-	var/equip = SSjob.EquipRank(character, rank, TRUE)
 
-
-	if(isliving(equip))	//Borgs get borged in the equip, so we need to make sure we handle the new mob.
-		character = equip
-
-	SStreasury.waive_past_poll_levies(character)
-
+	// Place them before equipping, like roundstart, so relocations during equip (e.g. Forlorne) aren't undone
 	var/datum/job/job = SSjob.GetJob(rank)
-
-
 	if(job && !job.override_latejoin_spawn(character))
 
 		SSjob.SendToLateJoin(character)
@@ -377,6 +369,13 @@ GLOBAL_LIST_INIT(roleplay_readme, world.file2list("strings/rt/rp_prompt.txt"))
 		var/atom/movable/screen/splash/Spl = new(character.client, TRUE)
 		Spl.Fade(TRUE)
 
+	var/equip = SSjob.EquipRank(character, rank, TRUE)
+
+
+	if(isliving(equip))	//Borgs get borged in the equip, so we need to make sure we handle the new mob.
+		character = equip
+
+	SStreasury.waive_past_poll_levies(character)
 
 	SSticker.minds += character.mind
 

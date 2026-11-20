@@ -26,6 +26,7 @@
 #define XP_TEXT					(1<<1)
 #define HITZONE_TEXT			(1<<2)
 #define CMODE_STRIPPING			(1<<3)
+#define CMODE_ERP_BLOCK			(1<<4)
 #define TOGGLES_TEXT_DEFAULT (FLOATING_TEXT|XP_TEXT|HITZONE_TEXT)
 
 //Ghost toggles

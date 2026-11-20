@@ -1,4 +1,0 @@
-author: "Ollanius"
-delete-after: True
-changes:
-  - bugfix: "Naman's unique Lance now properly renders its detail icon. Turns out that the Lance got updated to use \"_detail\" instead of \"detail\" fairly recently, which caused the glitch in question."

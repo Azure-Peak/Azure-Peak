@@ -24,7 +24,9 @@
 		/datum/sprite_accessory/ears/fox,
 		/datum/sprite_accessory/ears/husky,
 		/datum/sprite_accessory/ears/otie,
-		/datum/sprite_accessory/ears/wolf
+		/datum/sprite_accessory/ears/wolf,
+		/datum/sprite_accessory/ears/big/fennec,
+		/datum/sprite_accessory/ears/big/fennec_bigger,
 		)
 
 // ---- Lupian
@@ -177,6 +179,8 @@
 		/datum/sprite_accessory/ears/elfw,
 		/datum/sprite_accessory/ears/elephant,
 		/datum/sprite_accessory/ears/fennec,
+		/datum/sprite_accessory/ears/big/fennec,
+		/datum/sprite_accessory/ears/big/fennec_bigger,
 		/datum/sprite_accessory/ears/fish,
 		/datum/sprite_accessory/ears/fox,
 		/datum/sprite_accessory/ears/vulp,
@@ -249,6 +253,8 @@
 		/datum/sprite_accessory/ears/elfw,
 		/datum/sprite_accessory/ears/elephant,
 		/datum/sprite_accessory/ears/fennec,
+		/datum/sprite_accessory/ears/big/fennec,
+		/datum/sprite_accessory/ears/big/fennec_bigger,
 		/datum/sprite_accessory/ears/fish,
 		/datum/sprite_accessory/ears/fox,
 		/datum/sprite_accessory/ears/vulp,
@@ -355,6 +361,8 @@
 		/datum/sprite_accessory/ears/elfw,
 		/datum/sprite_accessory/ears/elephant,
 		/datum/sprite_accessory/ears/fennec,
+		/datum/sprite_accessory/ears/big/fennec,
+		/datum/sprite_accessory/ears/big/fennec_bigger,
 		/datum/sprite_accessory/ears/fish,
 		/datum/sprite_accessory/ears/fox,
 		/datum/sprite_accessory/ears/vulp,
@@ -423,6 +431,8 @@
 		/datum/sprite_accessory/ears/elfw,
 		/datum/sprite_accessory/ears/elephant,
 		/datum/sprite_accessory/ears/fennec,
+		/datum/sprite_accessory/ears/big/fennec,
+		/datum/sprite_accessory/ears/big/fennec_bigger,
 		/datum/sprite_accessory/ears/fish,
 		/datum/sprite_accessory/ears/fox,
 		/datum/sprite_accessory/ears/vulp,

@@ -14274,9 +14274,6 @@
 	},
 /turf/open/floor/rogue/cobble,
 /area/rogue/under/cave/his_vault/puzzle)
-"cwb" = (
-/turf/closed/basic,
-/area/rogue/outdoors/town/roofs)
 "cwh" = (
 /obj/effect/decal/cobbleedge{
 	dir = 9;
@@ -52758,12 +52755,6 @@
 /obj/effect/decal/remains/human,
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/under/cave/dukecourt)
-"iYx" = (
-/obj/structure/roguemachine/scomm/l{
-	scom_tag = "Cathedral - Noccite Study"
-	},
-/turf/open/floor/rogue/metal,
-/area/rogue/indoors/town/church/chapel)
 "iYy" = (
 /obj/structure/table/wood,
 /obj/item/reagent_containers/glass/cup/wooden,
@@ -99680,10 +99671,10 @@
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town/church/chapel)
 "qLg" = (
-/obj/structure/table/wood/long_table/right,
 /obj/item/armor_brush,
 /obj/item/polishing_cream,
-/turf/closed/basic,
+/obj/structure/table/wood/long_table/right,
+/turf/open/floor/rogue/hexstone,
 /area/rogue/indoors/town/dwarfin)
 "qLh" = (
 /obj/structure/closet/crate/chest/old_crate,
@@ -133863,7 +133854,7 @@
 	locked = 1;
 	lockid = "tailor"
 	},
-/turf/closed/basic,
+/turf/open/floor/rogue/wood/herringbone,
 /area/rogue/indoors/town/dwarfin)
 "wvi" = (
 /obj/structure/stairs/d{
@@ -140855,10 +140846,6 @@
 	dir = 6
 	},
 /turf/open/floor/rogue/churchrough,
-/area/rogue/indoors/town/church/chapel)
-"xEz" = (
-/obj/structure/roguewindow/stained/yellow,
-/turf/closed/basic,
 /area/rogue/indoors/town/church/chapel)
 "xEB" = (
 /obj/structure/flora/newtree,
@@ -394680,7 +394667,7 @@ ebU
 ebU
 ebU
 ebU
-cwb
+bGf
 bGf
 bGf
 bGf
@@ -399683,7 +399670,7 @@ bGf
 hUi
 qeP
 xmJ
-iYx
+fwK
 rUv
 nTb
 oXe
@@ -409183,7 +409170,7 @@ cda
 mSh
 qrw
 vKt
-xEz
+jBn
 sJG
 qZv
 dMu

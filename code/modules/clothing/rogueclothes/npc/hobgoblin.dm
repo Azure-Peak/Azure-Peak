@@ -15,7 +15,7 @@
 	icon = 'icons/roguetown/mob/monster/hobgoblins.dmi'
 	smeltresult = /obj/item/ingot/iron
 	allowed_race = list(/datum/species/hobgoblin)
-	body_parts_covered = CHEST|GROIN|ARMS|LEGS|VITALS|FEET
+	body_parts_covered = CHEST|GROIN|ARMS|LEGS|VITALS|HANDS|FEET
 	sellprice = 7
 
 /obj/item/clothing/head/roguetown/helmet/leather/hobgoblin
@@ -33,6 +33,6 @@
 	icon_state = "leather_armor_item"
 	item_state = "leather_armor"
 	icon = 'icons/roguetown/mob/monster/hobgoblins.dmi'
-	body_parts_covered = CHEST|GROIN|ARMS|VITALS|LEGS
+	body_parts_covered = CHEST|GROIN|ARMS|VITALS|LEGS|HANDS|FEET
 	allowed_race = list(/datum/species/hobgoblin)
 	sellprice = 4
