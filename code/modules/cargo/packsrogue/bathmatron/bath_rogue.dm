@@ -92,6 +92,11 @@
 	cost = 150
 	contains = list(/obj/item/clothing/climbing_gear)
 
+/datum/supply_pack/rogue/bath_rogue/climbing_gear
+	name = "Prybar"
+	cost = 30
+	contains = list(/obj/item/prybar)
+
 // these dont techniiiically count as "roguery" but candles r used in the bathhouse a lot for if a room is
 // busy or whatever. + its cool.
 /datum/supply_pack/rogue/bath_rogue/eoran_candles

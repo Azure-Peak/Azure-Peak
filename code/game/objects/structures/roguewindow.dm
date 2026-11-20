@@ -270,7 +270,7 @@
 	return ..()
 
 /obj/structure/roguewindow/openclose/attackby(obj/item/attacking_item, mob/user, list/modifiers)
-	if(istype(attacking_item, /obj/item/rogueweapon/huntingknife/idagger/) && !climbable && !user.cmode)
+	if(istype(attacking_item, /obj/item/prybar) && !climbable && !user.cmode)
 		var/mob/living/L = user
 		var/obj/item/P = attacking_item
 		var/lockprogress = 0
@@ -321,10 +321,7 @@
 				if(L.mind)
 					add_sleep_experience(L, /datum/skill/misc/lockpicking, L.STAINT/4)
 	return ..()
-	//to_chat(user, span_notice("I start trying to pry the window open..."))
-	//if(do_after(user, 6 SECONDS, src))
-	//	playsound(src, 'sound/foley/doors/windowup.ogg', 100, FALSE)
-	//	src.force_open()
+
 /obj/structure/roguewindow/attack_hand(mob/living/user)
 	. = ..()
 	if(.)
