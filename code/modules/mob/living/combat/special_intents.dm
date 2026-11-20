@@ -1127,7 +1127,7 @@ SPECIALS START HERE
 			continue
 		var/throwtarget = get_edge_target_turf(howner, get_dir(howner, get_step_away(L, howner)))
 		L.safe_throw_at(throwtarget, 1, 1, howner, force = MOVE_FORCE_EXTREMELY_STRONG)
-		L.Slowdown(2 SECONDS)
+		L.Slowdown(2)
 		L.adjust_fire_stacks(2)
 		L.ignite_mob()
 		apply_generic_weapon_damage(L, dam, "blunt", BODY_ZONE_CHEST, bclass = BCLASS_BLUNT, no_pen = TRUE)
