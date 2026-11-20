@@ -50,6 +50,9 @@
 		return FALSE
 	return TRUE
 
+/datum/action/cooldown/spell/telegraphed_strike/mob_ability/npc_cast_safe(atom/cast_on)
+	return spare_allies || ..()
+
 /// Blast anchored on a turf picked at cast time, rather than a pattern swept from the caster.
 /datum/action/cooldown/spell/telegraphed_strike/mob_ability/ground
 	abstract_type = /datum/action/cooldown/spell/telegraphed_strike/mob_ability/ground
