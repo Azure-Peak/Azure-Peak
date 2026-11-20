@@ -1,0 +1,4 @@
+author: "borneblood"
+delete-after: True
+changes:
+  - spellcheck: "Toned up a little the descriptions of some toggleables in the character editor."

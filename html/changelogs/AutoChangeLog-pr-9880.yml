@@ -1,8 +1,0 @@
-author: "FreeStylaLT"
-delete-after: True
-changes:
-  - rscadd: "Keyrings can now work from inside of a belt. RCLICK a door with an empty hand."
-  - rscadd: "Added Wax Putty and Wax Keys. Wax Putty can be used on people who have recently locked / unlocked a door to safely imprint their last-used key and make a copy of it. Using keyrings or keys manually on doors makes the 'safe' period shorter for imprinting."
-  - rscadd: "Added a 'hidden' property to items, making them quiet when taken out of containers and not appearing on examines. Wax Putty and Wax Keys get it."
-  - rscadd: "Added Door Jams -- Broken Wax Keys (they have limited uses) and Wax Putty can be used to jam doorlocks. STAB intents or the correct key can be used to break the jam."
-  - balance: "Added Wax Putty to most sneak-oriented classes in their stash."

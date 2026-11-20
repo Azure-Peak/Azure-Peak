@@ -599,12 +599,13 @@ GLOBAL_LIST_INIT(ballmer_windows_me_msg, list("Yo man, what if, we like, uh, put
 			sleepy_mod = buckled.sleepy
 
 		if(HAS_TRAIT(src, TRAIT_REGROW_LIMBS))
-			// Regrow missing limbs at the cost of nutrition for oozes
-			for(var/zone in list(BODY_ZONE_R_ARM, BODY_ZONE_L_ARM, BODY_ZONE_R_LEG, BODY_ZONE_L_LEG))
-				if(get_bodypart(zone) || nutrition <= 250)
-					continue
-				regenerate_limb(zone)
-				nutrition -= 250
+			var/list/limb_list = list(BODY_ZONE_R_ARM, BODY_ZONE_L_ARM, BODY_ZONE_R_LEG, BODY_ZONE_L_LEG)
+			for(var/zone in limb_list)
+				var/obj/item/bodypart/limb = get_bodypart(zone)
+				if(!limb && nutrition > 100)
+					regenerate_limb(zone)
+					nutrition -= 100
+
 		else if(isturf(loc)) //No illegal tech.
 			var/obj/structure/bed/rogue/bed = locate() in loc
 			if(bed)

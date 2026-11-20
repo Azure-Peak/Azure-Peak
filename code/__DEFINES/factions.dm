@@ -25,6 +25,7 @@
 #define FACTION_GRONNMEN "gronnmen"
 #define FACTION_MADMEN "madmen"
 #define FACTION_PSY_VAULT_GUARD "psy_vault_guard"
+#define FACTION_OOZE "ooze"
 
 #define FACTION_INFERNAL "infernal"
 #define FACTION_FAE "fae"

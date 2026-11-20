@@ -80,3 +80,42 @@
 	desc = "A moody scene depicting a skull and candles on a table. Memento mori."
 	icon_state = "skullpainting_deployed"
 	stolen_painting = /obj/item/rogue/painting/skullzhg
+
+/obj/item/rogue/painting/moon
+	icon = 'icons/roguetown/misc/decoration.dmi'
+	icon_state = "moonpainting"
+	desc = "A painting of a moonlit nite on the broken coast."
+	sellprice = 40
+	deployed_structure = /obj/structure/fluff/walldeco/painting/moon
+
+/obj/structure/fluff/walldeco/painting/moon
+	icon = 'icons/roguetown/misc/decoration.dmi'
+	desc = "A painting of a moonlit nite on the broken coast."
+	icon_state = "moonpainting_deployed"
+	stolen_painting = /obj/item/rogue/painting/moon
+
+/obj/item/rogue/painting/flower
+	icon = 'icons/roguetown/misc/decoration.dmi'
+	icon_state = "flowerpainting"
+	desc = "A painting of a lantern-lit vase of flowers."
+	sellprice = 40
+	deployed_structure = /obj/structure/fluff/walldeco/painting/flower
+
+/obj/structure/fluff/walldeco/painting/flower
+	icon = 'icons/roguetown/misc/decoration.dmi'
+	desc = "A painting of a lantern-lit vase of flowers."
+	icon_state = "flowerpainting_deployed"
+	stolen_painting = /obj/item/rogue/painting/flower
+
+/obj/structure/fluff/walldeco/painting/dawn
+	icon = 'icons/roguetown/misc/decoration.dmi'
+	desc = "A painting of Astrata's radiant dawn."
+	icon_state = "dawnpainting_deployed"
+	stolen_painting = /obj/item/rogue/painting/dawn
+
+/obj/item/rogue/painting/dawn
+	icon = 'icons/roguetown/misc/decoration.dmi'
+	icon_state = "dawnpainting"
+	desc = "A painting of Astrata's radiant dawn."
+	sellprice = 40
+	deployed_structure = /obj/structure/fluff/walldeco/painting/dawn

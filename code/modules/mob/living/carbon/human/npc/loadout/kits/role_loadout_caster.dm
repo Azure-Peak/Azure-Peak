@@ -11,6 +11,8 @@
 	)
 	pants = /obj/item/clothing/under/roguetown/trou/leather
 	gloves = /obj/item/clothing/gloves/roguetown/leather
+	mask = /obj/item/clothing/mask/rogue/facemask/padded/shoddy
+	shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced/shoddy
 	r_hand = /obj/item/rogueweapon/woodstaff/implement
 
 /datum/npc_loadout/kit/caster/fulgurmancer
