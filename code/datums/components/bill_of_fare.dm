@@ -92,8 +92,10 @@ GLOBAL_LIST_EMPTY(bill_of_fare_vessels)
 	var/label
 	var/cap
 	var/catalog_key
+	var/catalog_root
 	var/noun_one
 	var/noun_many
+	var/export_tag
 	var/uses_vessels = FALSE
 	var/list/lines = list()
 
@@ -134,8 +136,10 @@ GLOBAL_LIST_EMPTY(bill_of_fare_vessels)
 	label = "Food"
 	cap = BILL_OF_FARE_MAX_FOOD
 	catalog_key = "food"
+	catalog_root = /obj/item/reagent_containers/food/snacks
 	noun_one = "dish"
 	noun_many = "dishes"
+	export_tag = "F"
 
 /datum/bill_of_fare_column/food/get_catalog()
 	return get_bill_of_fare_foods()
@@ -151,8 +155,10 @@ GLOBAL_LIST_EMPTY(bill_of_fare_vessels)
 	label = "Drink"
 	cap = BILL_OF_FARE_MAX_DRINK
 	catalog_key = "drink"
+	catalog_root = /datum/reagent
 	noun_one = "drink"
 	noun_many = "drinks"
+	export_tag = "D"
 	uses_vessels = TRUE
 
 /datum/bill_of_fare_column/drink/get_catalog()
@@ -168,6 +174,7 @@ GLOBAL_LIST_EMPTY(bill_of_fare_vessels)
 	var/notes = ""
 	var/list/columns = list()
 	var/next_uid = 1
+	COOLDOWN_DECLARE(import_cooldown)
 
 /datum/component/bill_of_fare/Initialize()
 	if(!isatom(parent))
@@ -289,6 +296,7 @@ GLOBAL_LIST_EMPTY(bill_of_fare_vessels)
 		"title_len" = BILL_OF_FARE_TITLE_LEN,
 		"line_len" = BILL_OF_FARE_LINE_LEN,
 		"notes_len" = BILL_OF_FARE_NOTES_LEN,
+		"import_len" = BILL_OF_FARE_IMPORT_MAX_LEN,
 		"picker_rows" = BILL_OF_FARE_PICKER_ROWS,
 	)
 	if(can_write(user))
@@ -313,6 +321,7 @@ GLOBAL_LIST_EMPTY(bill_of_fare_vessels)
 		"notes" = notes,
 		"can_edit" = can_write(user),
 		"rows" = rows,
+		"export" = export_text(),
 	)
 
 /datum/component/bill_of_fare/ui_act(action, list/params, datum/tgui/ui, datum/ui_state/state)
@@ -401,6 +410,13 @@ GLOBAL_LIST_EMPTY(bill_of_fare_vessels)
 			if(!line)
 				return
 			column.lines -= line
+		if("import")
+			if(!COOLDOWN_FINISHED(src, import_cooldown))
+				to_chat(user, span_warning("I need a moment."))
+				return
+			COOLDOWN_START(src, import_cooldown, BILL_OF_FARE_IMPORT_COOLDOWN)
+			if(!import_text(user, params["text"]))
+				return
 		else
 			return
 	var/atom/host = parent

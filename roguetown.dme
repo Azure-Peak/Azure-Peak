@@ -2907,6 +2907,7 @@
 #include "code\modules\paperwork\tallowpot.dm"
 #include "code\modules\paperwork\bill_of_fare\bill_of_fare.dm"
 #include "code\modules\paperwork\bill_of_fare\catalog.dm"
+#include "code\modules\paperwork\bill_of_fare\copying.dm"
 #include "code\modules\paperwork\papers\scrap.dm"
 #include "code\modules\pixel_shift\pixel_shifting.dm"
 #include "code\modules\politics\_politics.dm"

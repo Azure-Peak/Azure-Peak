@@ -215,7 +215,6 @@
 	display_category = ITEM_CAT_BOOK_WRIT
 	result = /obj/item/bill_of_fare
 	reqs = list(/obj/item/paper = 1)
-	tools = list(/obj/item/natural/feather = 1)
 	craftdiff = 0
 
 /datum/crafting_recipe/roguetown/survival/zigbox

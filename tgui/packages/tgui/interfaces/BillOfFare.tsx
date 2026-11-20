@@ -22,6 +22,7 @@ import {
   PriceTag,
   pageStyle,
   rulerStyle,
+  SEAL_RED,
   sectionHeaderStyle,
   tabBarStyle,
   tabStyle,
@@ -93,6 +94,8 @@ type Data = {
   title_len: number;
   line_len: number;
   notes_len: number;
+  import_len: number;
+  export: string;
   picker_rows: number;
   catalogs?: Catalogs;
 };
@@ -760,6 +763,100 @@ const WriterList = (props: { info: ColumnInfo }) => {
   );
 };
 
+const copyBoxStyle: CSSProperties = {
+  ...inkInputStyle,
+  width: '100%',
+  boxSizing: 'border-box',
+  resize: 'vertical',
+  fontFamily: 'monospace',
+  fontSize: FONT_SMALL,
+};
+
+const CopyPanel = (props: { canImport: boolean }) => {
+  const { act, data } = useBackend<Data>();
+  const { canImport } = props;
+  const [mode, setMode] = useState<'' | 'out' | 'in'>('');
+  const [pasted, setPasted] = useState('');
+  const [confirming, setConfirming] = useState(false);
+  const hasPaste = !!pasted.trim();
+  const toggle = (next: 'out' | 'in') => {
+    setMode(mode === next ? '' : next);
+    setConfirming(false);
+  };
+  return (
+    <div style={{ marginTop: '14px' }}>
+      <div style={{ display: 'flex', gap: '8px' }}>
+        <button
+          type="button"
+          style={compactButtonStyle({})}
+          onClick={() => toggle('out')}
+        >
+          Export
+        </button>
+        {canImport && (
+          <button
+            type="button"
+            style={compactButtonStyle({})}
+            onClick={() => toggle('in')}
+          >
+            Import
+          </button>
+        )}
+      </div>
+      {mode === 'out' && (
+        <>
+          <SubLabel>Ctrl + A, and then Ctrl + C to copy this menu.</SubLabel>
+          <textarea
+            readOnly
+            rows={8}
+            value={data.export}
+            style={copyBoxStyle}
+            onFocus={(e) => e.currentTarget.select()}
+          />
+        </>
+      )}
+      {mode === 'in' && canImport && (
+        <>
+          <SubLabel>
+            Paste a copied menu. It will replace everything currently on the menu.
+          </SubLabel>
+          <textarea
+            rows={8}
+            value={pasted}
+            maxLength={data.import_len}
+            style={copyBoxStyle}
+            onChange={(e) => {
+              setPasted(e.target.value);
+              setConfirming(false);
+            }}
+          />
+          <button
+            type="button"
+            disabled={!hasPaste}
+            style={{
+              ...compactButtonStyle({
+                color: confirming ? SEAL_RED : undefined,
+                disabled: !hasPaste,
+              }),
+              marginTop: '4px',
+            }}
+            onClick={() => {
+              if (!confirming) {
+                setConfirming(true);
+                return;
+              }
+              act('import', { text: pasted });
+              setConfirming(false);
+            }}
+          >
+            {confirming ? 'Click again to replace this menu' : 'Replace this menu'}
+          </button>
+        </>
+      )}
+    </div>
+  );
+};
+
 const WriterView = () => {
   const { act, data } = useBackend<Data>();
   return (
@@ -783,6 +880,7 @@ const WriterView = () => {
           placeholder="Other notes"
           onCommit={(text) => act('set_notes', { text })}
         />
+        <CopyPanel canImport />
       </div>
       <div
         style={{
@@ -909,6 +1007,7 @@ const ReaderView = () => {
           </div>
         </>
       )}
+      <CopyPanel canImport={false} />
     </>
   );
 };

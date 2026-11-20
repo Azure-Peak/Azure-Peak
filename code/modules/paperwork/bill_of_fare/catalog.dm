@@ -58,7 +58,7 @@ GLOBAL_LIST_EMPTY(bill_of_fare_ui_catalogs)
 		var/entry_name = raw[entry_type]
 		if(!istext(entry_name))
 			continue
-		entry_name = trim(entry_name)
+		entry_name = trim(replacetext(entry_name, "|", ""))
 		if(!length(entry_name))
 			continue
 		var/key = lowertext(entry_name)
@@ -71,9 +71,15 @@ GLOBAL_LIST_EMPTY(bill_of_fare_ui_catalogs)
 /proc/bill_of_fare_clean_text(mob/user, text, limit, multiline = FALSE)
 	if(!istext(text))
 		return ""
-	if(!multiline)
-		text = replacetext(text, "\n", " ")
 	text = copytext_char(text, 1, limit + 1)
+	text = replacetext(text, BILL_OF_FARE_CARRIAGE_RETURN, "")
+	text = replacetext(text, "|", "")
+	if(multiline)
+		var/list/text_lines = splittext(text, "\n")
+		if(length(text_lines) > BILL_OF_FARE_NOTES_MAX_LINES)
+			text = jointext(text_lines.Copy(1, BILL_OF_FARE_NOTES_MAX_LINES + 1), "\n")
+	else
+		text = replacetext(text, "\n", " ")
 	text = trim(STRIP_HTML_SIMPLE(text, length(text) + 1))
 	if(CHAT_FILTER_CHECK(text))
 		to_chat(user, span_warning("I can't write that."))
