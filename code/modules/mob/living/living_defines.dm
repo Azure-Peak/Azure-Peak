@@ -267,3 +267,8 @@
 	/// Bypasses positioning and exposure checks entirely
 	var/freeuse = FALSE
 
+	/// ass list [id] = /datum/status_effect. ATTENTION THE CODER IS A RETARD THIS IS NOT SUPPOSED TO BE HERE I REPEART!!!!!!
+	var/alist/status_effects_by_id
+
+	/// i hate this, AKA, grace window against wake/sleep spam
+	var/sleep_wake_timer
