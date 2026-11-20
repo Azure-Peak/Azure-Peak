@@ -22,3 +22,73 @@
 	var/datum/component/bill_of_fare/menu = GetComponent(/datum/component/bill_of_fare)
 	icon_state = menu?.has_writing() ? "paperwrite" : "paper"
 	return ..()
+
+/obj/item/bill_of_fare/pre_attack(atom/A, mob/living/user, params)
+	if(!user.cmode && isclosedturf(A))
+		try_pin(A, user)
+		return TRUE
+	return ..()
+
+/obj/item/bill_of_fare/proc/try_pin(turf/closed/wall, mob/living/user)
+	var/turf/standing = user.loc
+	if(!isturf(standing))
+		return
+	var/pin_dir = get_dir(standing, wall)
+	if(!(pin_dir in GLOB.cardinals))
+		to_chat(user, span_warning("I can't pin it from here."))
+		return
+	for(var/obj/structure/fluff/walldeco/bill_of_fare/other in standing)
+		if(other.dir == pin_dir)
+			to_chat(user, span_warning("Something is already pinned there."))
+			return
+	var/datum/component/bill_of_fare/menu = GetComponent(/datum/component/bill_of_fare)
+	if(!menu)
+		return
+	var/obj/structure/fluff/walldeco/bill_of_fare/pinned = new(standing)
+	if(!user.transferItemToLoc(src, pinned))
+		qdel(pinned)
+		return
+	pinned.attach(src, menu, pin_dir)
+	playsound(standing, 'sound/foley/dropsound/paper_drop.ogg', 50, TRUE)
+	to_chat(user, span_notice("I pin [src] to the wall."))
+
+/obj/structure/fluff/walldeco/bill_of_fare
+	name = "bill of fare"
+	desc = "A bill of fare, pinned to a wall."
+	icon = 'icons/roguetown/items/misc.dmi'
+	icon_state = "paper"
+	layer = BELOW_MOB_LAYER
+	max_integrity = 20
+	resistance_flags = FLAMMABLE
+	var/obj/item/bill_of_fare/sheet
+
+/obj/structure/fluff/walldeco/bill_of_fare/Destroy()
+	QDEL_NULL(sheet)
+	return ..()
+
+/obj/structure/fluff/walldeco/bill_of_fare/proc/attach(obj/item/bill_of_fare/new_sheet, datum/component/bill_of_fare/menu, pin_dir)
+	sheet = new_sheet
+	dir = pin_dir
+	set_wall_offset(pin_dir)
+	TakeComponent(menu)
+	update_icon()
+
+/obj/structure/fluff/walldeco/bill_of_fare/update_icon_state()
+	var/datum/component/bill_of_fare/menu = GetComponent(/datum/component/bill_of_fare)
+	icon_state = menu?.has_writing() ? "paperwrite" : "paper"
+	return ..()
+
+/obj/structure/fluff/walldeco/bill_of_fare/attack_right(mob/user, params)
+	if(!sheet)
+		return FALSE
+	add_fingerprint(user)
+	var/obj/item/bill_of_fare/taken = sheet
+	sheet = null
+	var/datum/component/bill_of_fare/menu = GetComponent(/datum/component/bill_of_fare)
+	if(menu)
+		taken.TakeComponent(menu)
+	taken.update_icon()
+	user.put_in_hands(taken)
+	to_chat(user, span_notice("I take down [taken]."))
+	qdel(src)
+	return TRUE

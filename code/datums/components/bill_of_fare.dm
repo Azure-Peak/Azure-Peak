@@ -89,6 +89,7 @@
 	row["color"] = initial(drink_type.color)
 
 /datum/component/bill_of_fare
+	can_transfer = TRUE
 	var/title = ""
 	var/notes = ""
 	var/list/columns = list()
@@ -100,6 +101,10 @@
 	for(var/column_type in BILL_OF_FARE_COLUMNS)
 		var/datum/bill_of_fare_column/column = new column_type
 		columns[column.key] = column
+
+/datum/component/bill_of_fare/PostTransfer()
+	if(!isatom(parent))
+		return COMPONENT_INCOMPATIBLE
 
 /datum/component/bill_of_fare/RegisterWithParent()
 	if(isitem(parent))
