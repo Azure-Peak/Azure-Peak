@@ -28,6 +28,10 @@
 	cost = 15 //Cheaper, because Matthiosian miracles exist
 	contains = list(/obj/item/lockpickring/mundane)
 
+/datum/supply_pack/rogue/medical_utility_wretch/prybar
+	name = "Prybar"
+	cost = 30 //Cheaper, because Matthiosian miracles exist
+	contains = list(/obj/item/prybar)
 
 /datum/supply_pack/rogue/medical_utility_wretch/castificopick
 	name = "Key of Liberation"
