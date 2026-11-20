@@ -92,7 +92,7 @@
 	cost = 150
 	contains = list(/obj/item/clothing/climbing_gear)
 
-/datum/supply_pack/rogue/bath_rogue/climbing_gear
+/datum/supply_pack/rogue/bath_rogue/prybar
 	name = "Prybar"
 	cost = 30
 	contains = list(/obj/item/prybar)
