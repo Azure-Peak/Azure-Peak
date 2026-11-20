@@ -202,6 +202,17 @@ GLOBAL_LIST_EMPTY(bill_of_fare_vessels)
 		RegisterSignal(parent, COMSIG_ATOM_ATTACK_HAND, PROC_REF(on_attack_hand))
 	RegisterSignal(parent, COMSIG_PARENT_ATTACKBY, PROC_REF(on_attackby))
 	RegisterSignal(parent, COMSIG_PARENT_EXAMINE, PROC_REF(on_examine))
+	update_parent_name()
+
+/datum/component/bill_of_fare/proc/update_parent_name()
+	var/atom/host = parent
+	if(!length(title))
+		host.name = initial(host.name)
+		return
+	var/shown_title = title
+	if(length_char(shown_title) > BILL_OF_FARE_NAME_TITLE_LEN)
+		shown_title = "[trim(copytext_char(shown_title, 1, BILL_OF_FARE_NAME_TITLE_LEN))]..."
+	host.name = "Bill of Fare: [shown_title]"
 
 /datum/component/bill_of_fare/UnregisterFromParent()
 	UnregisterSignal(parent, list(COMSIG_ITEM_ATTACK_SELF, COMSIG_ATOM_ATTACK_HAND, COMSIG_PARENT_ATTACKBY, COMSIG_PARENT_EXAMINE))
@@ -501,6 +512,7 @@ GLOBAL_LIST_EMPTY(bill_of_fare_vessels)
 		else
 			return
 	claim(user)
+	update_parent_name()
 	var/atom/host = parent
 	host.update_icon()
 	return TRUE
