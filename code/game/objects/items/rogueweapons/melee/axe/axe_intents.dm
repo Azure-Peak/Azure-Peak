@@ -68,9 +68,6 @@
 	canparry = FALSE
 	swingdelay_type = SWINGDELAY_CANCEL
 
-/datum/intent/axe/chop/heavy/hochhalt
-	name = "hack with tightened grip"
-	penfactor = PEN_HEAVY
 
 /datum/intent/axe/chop/scythe
 	reach = 2
@@ -94,23 +91,6 @@
 	damfactor = 1.3
 	demolition_mod = 1.5
 	swingdelay = 0.5 SECONDS
-
-/datum/intent/axe/cut/long/halberd
-	damfactor = 1.2
-
-/datum/intent/axe/chop/long/halberd
-	name = "heavy ranged chop"
-	desc = "Leverage your halberd's weight to drive its axehead through maille, at the cost of a slower follow-through that makes it harder to intercept \
-	incoming strikes. Only effective at exactly two paces."
-	icon_state = "inslash"
-	penfactor = PEN_HEAVY
-	clickcd = CLICK_CD_HEAVY
-	swingdelay = 0.9 SECONDS
-	damfactor = 0.9
-	reach = 2
-	effective_range = 2
-	effective_range_type = EFF_RANGE_EXACT
-	swingdelay_type = SWINGDELAY_PENALTY
 
 /datum/intent/axe/bash
 	name = "bash"
