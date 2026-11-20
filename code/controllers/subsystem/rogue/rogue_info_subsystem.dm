@@ -53,7 +53,7 @@ SUBSYSTEM_DEF(rogueinfo)
 			"note" = "No custom notes."
 		),
 		"innkeeper" = list(
-			"desc" = "Proprietor of the local tavern, keeping the peace (through alcohol) while offering lodging, supper and spirits to travellers.",
+			"desc" = "Proprietor of the local tavern, keeping the peace (through alcohol) while offering lodging, supper, and spirits to travellers.",
 			"note" = "No custom notes."
 		),
 		"tailor" = list(
