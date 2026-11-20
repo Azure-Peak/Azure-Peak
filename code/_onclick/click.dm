@@ -449,6 +449,11 @@
 	else
 		return (has_status_effect(/datum/status_effect/swingdelay/disrupt))
 
+/mob/living/proc/can_unarmed_dualwield()
+	if(get_active_held_item() || get_inactive_held_item())
+		return FALSE
+	return get_skill_level(/datum/skill/combat/unarmed) >= SKILL_LEVEL_JOURNEYMAN
+
 /mob/living/proc/can_dualwield(obj/item/mainhand, obj/item/offhand)
 	if(!mainhand || !offhand)
 		return FALSE
@@ -477,7 +482,7 @@
 	if(attack_weapon)
 		if(!offhand || attack_weapon == offhand || !can_dualwield(attack_weapon, offhand)) // gotta validate
 			return FALSE
-	else if(get_active_held_item() || offhand || get_skill_level(/datum/skill/combat/unarmed) < SKILL_LEVEL_JOURNEYMAN) // gotta be at least jman unarmed for dw
+	else if(!can_unarmed_dualwield())
 		return FALSE
 
 	// Combo timeout
