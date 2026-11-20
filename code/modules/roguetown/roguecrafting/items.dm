@@ -210,6 +210,14 @@
 	structurecraft = /obj/machinery/tanningrack
 	craftdiff = 1
 
+/datum/crafting_recipe/roguetown/survival/bill_of_fare
+	name = "bill of fare"
+	display_category = ITEM_CAT_BOOK_WRIT
+	result = /obj/item/bill_of_fare
+	reqs = list(/obj/item/paper = 1)
+	tools = list(/obj/item/natural/feather = 1)
+	craftdiff = 0
+
 /datum/crafting_recipe/roguetown/survival/zigbox
 	name = "zigbox"
 	result = /obj/item/storage/belt/rogue/pouch/zigarrete
