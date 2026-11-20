@@ -822,3 +822,35 @@
   - balance: Murklings have bones now, and can receive chest/head fractures as normal.
   mumblemancer:
   - rscdel: removed my wife from the game
+2026-11-20:
+  KatTheFox:
+  - rscdel: Familiars no longer have the "Tiny Paws" trait, as it's obviated by the
+      Pacifist trait they now have.
+  - bugfix: The "Weaponless" trait now properly stops you from using shields and crossbows.
+  Quinalion:
+  - bugfix: Campfire healing no longer closes surgical incisions.
+  - qol: Diagnose now reports missing organs while accounting for species anatomy
+      and dullahan heads.
+  - sound: Combat and ambient music now use streaming playback to reduce freezes.
+  - sound: Added distinct footstep sounds for all full plate armor sets using previously
+      unused sound files.
+  - qol: Mining boulders with suitable attacks now grants Mining experience.
+  WeNeedMorePhoron:
+  - rscadd: Spider speak nno longer make you immune to spoiders
+  - rscadd: Arcyne Aegis can now be conjured in main hand
+  - rscadd: Face aim penalty now applies to NPC and PC instead of only players
+  - rscdel: Staggered and Hamstrung no longer reduce NPC's parry chances / dodge chance
+      asymmetrically while doing nothing to PC
+  - rscdel: Swift bonuses no longer uncapped vs NPCs. It also account for if you dumped
+      PER / INT to the point the NPC out PER / INT you, just like with PC
+  - rscdel: Grabbing will now account for the NPC's wrestling skills and will impose
+      a cooldown, unless it is done to simple animals (So to not grief soilsons)
+  - balance: Most NPCs now gain some sort of minimal face / hand / feet coverage,
+      including shoddy padded mask / hardened leather boots with half integrity of
+      their actual parent. Decrepit Barbute now covers nose again on skeletons
+  - balance: NPC below 40 threat points will now spawn with one layer of chest armor
+      damaged to make it easier to chest aim and beat them.
+  mumblemancer:
+  - rscadd: more lines for goblins, highwaymen, and the merchant's ship-hailing
+  - balance: zigs will once again be destroyed w/ 2 manual putout pinches
+  - rscadd: zigs have a mechanical explanation for newbies
