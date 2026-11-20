@@ -70,6 +70,8 @@
 		armor = /obj/item/clothing/suit/roguetown/shirt/dress/gen/random
 	backpack_contents = list(
 		/obj/item/mini_flagpole/innkeeper,
+		/obj/item/bill_of_fare,
+		/obj/item/natural/feather,
 	)
 	if(H.mind)
 		SStreasury.grant_savings(ECONOMIC_LOWER_MIDDLE_CLASS, H)
