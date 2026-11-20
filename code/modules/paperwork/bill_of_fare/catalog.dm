@@ -1,59 +1,16 @@
-GLOBAL_LIST_EMPTY(bill_of_fare_foods)
-GLOBAL_LIST_EMPTY(bill_of_fare_drinks)
-GLOBAL_LIST_EMPTY(bill_of_fare_ui_catalogs)
+GLOBAL_LIST_EMPTY(bill_of_fare_catalogs)
 
-/proc/get_bill_of_fare_ui_catalogs()
-	if(!length(GLOB.bill_of_fare_ui_catalogs))
-		var/list/icon_files = list()
-		var/list/icon_slots = list()
-		var/list/food_entries = list()
-		var/list/food_index = get_bill_of_fare_foods()
-		for(var/i in 1 to length(food_index))
-			var/obj/item/food_type = food_index[i]
-			var/icon_file = "[initial(food_type.icon)]"
-			if(isnull(icon_slots[icon_file]))
-				icon_files += icon_file
-				icon_slots[icon_file] = length(icon_files)
-			food_entries += list(list(i, food_index[food_type], icon_slots[icon_file], initial(food_type.icon_state)))
-		var/list/drink_entries = list()
-		var/list/drink_index = get_bill_of_fare_drinks()
-		for(var/i in 1 to length(drink_index))
-			var/datum/reagent/drink_type = drink_index[i]
-			drink_entries += list(list(i, drink_index[drink_type], initial(drink_type.color)))
-		GLOB.bill_of_fare_ui_catalogs = list(
-			"icon_files" = icon_files,
-			"food" = food_entries,
-			"drink" = drink_entries,
-		)
-	return GLOB.bill_of_fare_ui_catalogs
-
-/proc/get_bill_of_fare_foods()
-	if(!length(GLOB.bill_of_fare_foods))
-		var/list/raw = list()
-		for(var/obj/item/reagent_containers/food/snacks/food_type as anything in subtypesof(/obj/item/reagent_containers/food/snacks))
-			if(is_abstract(food_type))
-				continue
-			raw[food_type] = initial(food_type.name)
-		GLOB.bill_of_fare_foods = build_bill_of_fare_index(raw)
-	return GLOB.bill_of_fare_foods
-
-/proc/get_bill_of_fare_drinks()
-	if(!length(GLOB.bill_of_fare_drinks))
-		var/list/drink_types = list()
-		for(var/base_type in BILL_OF_FARE_DRINK_BASES)
-			drink_types += subtypesof(base_type)
-		drink_types += BILL_OF_FARE_DRINK_EXACT
-		var/list/raw = list()
-		for(var/datum/reagent/drink_type as anything in drink_types)
-			if(is_abstract(drink_type))
-				continue
-			raw[drink_type] = initial(drink_type.name)
-		GLOB.bill_of_fare_drinks = build_bill_of_fare_index(raw)
-	return GLOB.bill_of_fare_drinks
-
-/proc/build_bill_of_fare_index(list/raw)
+/datum/bill_of_fare_catalog
 	var/list/index = list()
+	var/list/by_id = list()
+	var/list/by_name = list()
+	var/list/icon_files = list()
+	var/list/icon_slots = list()
+	var/list/entries = list()
+
+/datum/bill_of_fare_catalog/New(datum/bill_of_fare_column/column)
 	var/list/seen = list()
+	var/list/raw = column.build_raw_catalog()
 	for(var/entry_type in raw)
 		var/entry_name = raw[entry_type]
 		if(!istext(entry_name))
@@ -61,12 +18,93 @@ GLOBAL_LIST_EMPTY(bill_of_fare_ui_catalogs)
 		entry_name = trim(replacetext(entry_name, "|", ""))
 		if(!length(entry_name))
 			continue
-		var/key = lowertext(entry_name)
-		if(seen[key])
+		var/lower = lowertext(entry_name)
+		if(seen[lower])
 			continue
-		seen[key] = TRUE
+		seen[lower] = TRUE
 		index[entry_type] = capitalize(entry_name)
-	return index
+	for(var/i in 1 to length(index))
+		var/entry_type = index[i]
+		by_id[column.item_id(entry_type)] = entry_type
+		by_name[lowertext(index[entry_type])] = entry_type
+		entries += list(column.catalog_entry(src, i, entry_type))
+
+/datum/bill_of_fare_catalog/proc/icon_slot(icon_file)
+	var/slot = icon_slots[icon_file]
+	if(!slot)
+		icon_files += icon_file
+		slot = length(icon_files)
+		icon_slots[icon_file] = slot
+	return slot
+
+/datum/bill_of_fare_catalog/proc/picker_data()
+	return list(
+		"icon_files" = icon_files,
+		"entries" = entries,
+	)
+
+/datum/bill_of_fare_column/proc/get_catalog()
+	var/datum/bill_of_fare_catalog/catalog = GLOB.bill_of_fare_catalogs[key]
+	if(!catalog)
+		catalog = new(src)
+		GLOB.bill_of_fare_catalogs[key] = catalog
+	return catalog
+
+/datum/bill_of_fare_column/proc/catalog_name(linked_type)
+	return get_catalog().index[linked_type]
+
+/datum/bill_of_fare_column/proc/catalog_type_at(id)
+	var/list/index = get_catalog().index
+	if(!isnum(id) || id != round(id, 1) || id < 1 || id > length(index))
+		return null
+	return index[id]
+
+/datum/bill_of_fare_column/proc/item_id(linked_type)
+	return copytext("[linked_type]", length("[catalog_root]") + 2)
+
+/datum/bill_of_fare_column/proc/find_by_id(id)
+	if(!istext(id))
+		return null
+	return get_catalog().by_id[trim(id)]
+
+/datum/bill_of_fare_column/proc/find_by_name(catalog_name)
+	if(!istext(catalog_name))
+		return null
+	return get_catalog().by_name[lowertext(trim(catalog_name))]
+
+/datum/bill_of_fare_column/proc/build_raw_catalog()
+	return list()
+
+/datum/bill_of_fare_column/proc/catalog_entry(datum/bill_of_fare_catalog/catalog, id, entry_type)
+	return list(id, catalog.index[entry_type], null, null, null)
+
+/datum/bill_of_fare_column/food/build_raw_catalog()
+	var/list/raw = list()
+	for(var/obj/item/food_type as anything in subtypesof(catalog_root))
+		if(is_abstract(food_type))
+			continue
+		raw[food_type] = initial(food_type.name)
+	return raw
+
+/datum/bill_of_fare_column/food/catalog_entry(datum/bill_of_fare_catalog/catalog, id, entry_type)
+	var/obj/item/food_type = entry_type
+	return list(id, catalog.index[entry_type], catalog.icon_slot("[initial(food_type.icon)]"), initial(food_type.icon_state), null)
+
+/datum/bill_of_fare_column/drink/build_raw_catalog()
+	var/list/drink_types = list()
+	for(var/base_type in BILL_OF_FARE_DRINK_BASES)
+		drink_types += subtypesof(base_type)
+	drink_types += BILL_OF_FARE_DRINK_EXACT
+	var/list/raw = list()
+	for(var/datum/reagent/drink_type as anything in drink_types)
+		if(is_abstract(drink_type))
+			continue
+		raw[drink_type] = initial(drink_type.name)
+	return raw
+
+/datum/bill_of_fare_column/drink/catalog_entry(datum/bill_of_fare_catalog/catalog, id, entry_type)
+	var/datum/reagent/drink_type = entry_type
+	return list(id, catalog.index[entry_type], null, null, initial(drink_type.color))
 
 /proc/bill_of_fare_clean_text(mob/user, text, limit, multiline = FALSE)
 	if(!istext(text))

@@ -19,16 +19,14 @@
 	AddComponent(/datum/component/bill_of_fare)
 
 /obj/item/bill_of_fare/update_icon_state()
-	var/datum/component/bill_of_fare/menu = GetComponent(/datum/component/bill_of_fare)
-	icon_state = menu?.has_writing() ? "paperwrite" : "paper"
+	icon_state = bill_of_fare_icon_state(src)
 	return ..()
 
 /obj/item/bill_of_fare/get_mechanics_examine(mob/user)
 	. = ..()
 	. += span_info("Use it in hand to read it. Click it with a feather or thorn to write on it.")
 	. += span_info("Click a wall while standing directly in front of it to pin it there.")
-	. += span_info("A Bill of Fare is signed by the first person to write on it. Only they can change what it says, unless they let anyone else write on it.")
-	. += span_info("A new bill of fare can be made by crafting with a piece of paper.")
+	. += bill_of_fare_mechanics_examine()
 
 /obj/item/bill_of_fare/pre_attack(atom/A, mob/living/user, params)
 	if(!user.cmode && isclosedturf(A))
@@ -81,16 +79,14 @@
 	update_icon()
 
 /obj/structure/fluff/walldeco/bill_of_fare/update_icon_state()
-	var/datum/component/bill_of_fare/menu = GetComponent(/datum/component/bill_of_fare)
-	icon_state = menu?.has_writing() ? "paperwrite" : "paper"
+	icon_state = bill_of_fare_icon_state(src)
 	return ..()
 
 /obj/structure/fluff/walldeco/bill_of_fare/get_mechanics_examine(mob/user)
 	. = ..()
 	. += span_info("Click it to read it. Click it with a feather or thorn to write on it.")
 	. += span_info("Right click it to take it down.")
-	. += span_info("A Bill of Fare is signed by the first person to write on it. Only they can change what it says, unless they let anyone else write on it.")
-	. += span_info("A new bill of fare can be made by crafting with a piece of paper.")
+	. += bill_of_fare_mechanics_examine()
 
 /obj/structure/fluff/walldeco/bill_of_fare/attack_right(mob/user, params)
 	if(!sheet)

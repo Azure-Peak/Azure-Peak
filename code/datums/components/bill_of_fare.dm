@@ -22,8 +22,20 @@ GLOBAL_LIST_EMPTY(bill_of_fare_vessels)
 	return GLOB.bill_of_fare_vessels
 
 /proc/is_bill_of_fare_vessel(key)
-	var/list/vessels = get_bill_of_fare_vessels()
-	return istext(key) && !isnull(vessels[key])
+	return istext(key) && get_bill_of_fare_vessels()[key]
+
+/proc/is_bill_of_fare_writing_tool(obj/item/tool)
+	return istype(tool, /obj/item/natural/feather) || istype(tool, /obj/item/natural/thorn)
+
+/proc/bill_of_fare_icon_state(atom/host)
+	var/datum/component/bill_of_fare/menu = host.GetComponent(/datum/component/bill_of_fare)
+	return menu?.has_writing() ? "paperwrite" : "paper"
+
+/proc/bill_of_fare_mechanics_examine()
+	return list(
+		span_info("A Bill of Fare is signed by the first person to write on it. Only they can change what it says, unless they let anyone else write on it."),
+		span_info("A new bill of fare can be made by crafting with a piece of paper."),
+	)
 
 /proc/clean_bill_of_fare_price(value)
 	if(!isnum(value))
@@ -91,7 +103,6 @@ GLOBAL_LIST_EMPTY(bill_of_fare_vessels)
 	var/key
 	var/label
 	var/cap
-	var/catalog_key
 	var/catalog_root
 	var/noun_one
 	var/noun_many
@@ -99,15 +110,15 @@ GLOBAL_LIST_EMPTY(bill_of_fare_vessels)
 	var/uses_vessels = FALSE
 	var/list/lines = list()
 
-/datum/bill_of_fare_column/proc/get_catalog()
-	return list()
-
 /datum/bill_of_fare_column/proc/link_data(list/row, linked_type)
 	return
 
 /datum/bill_of_fare_column/proc/count_text()
 	var/count = length(lines)
 	return "[count] [count == 1 ? noun_one : noun_many]"
+
+/datum/bill_of_fare_column/proc/is_full()
+	return length(lines) >= cap
 
 /datum/bill_of_fare_column/proc/find_line(uid)
 	for(var/datum/bill_of_fare_line/line as anything in lines)
@@ -135,14 +146,10 @@ GLOBAL_LIST_EMPTY(bill_of_fare_vessels)
 	key = "food"
 	label = "Food"
 	cap = BILL_OF_FARE_MAX_FOOD
-	catalog_key = "food"
 	catalog_root = /obj/item/reagent_containers/food/snacks
 	noun_one = "dish"
 	noun_many = "dishes"
 	export_tag = "F"
-
-/datum/bill_of_fare_column/food/get_catalog()
-	return get_bill_of_fare_foods()
 
 /datum/bill_of_fare_column/food/link_data(list/row, linked_type)
 	var/obj/item/food_type = linked_type
@@ -154,15 +161,11 @@ GLOBAL_LIST_EMPTY(bill_of_fare_vessels)
 	key = "drink"
 	label = "Drink"
 	cap = BILL_OF_FARE_MAX_DRINK
-	catalog_key = "drink"
 	catalog_root = /datum/reagent
 	noun_one = "drink"
 	noun_many = "drinks"
 	export_tag = "D"
 	uses_vessels = TRUE
-
-/datum/bill_of_fare_column/drink/get_catalog()
-	return get_bill_of_fare_drinks()
 
 /datum/bill_of_fare_column/drink/link_data(list/row, linked_type)
 	var/datum/reagent/drink_type = linked_type
@@ -229,7 +232,7 @@ GLOBAL_LIST_EMPTY(bill_of_fare_vessels)
 
 /datum/component/bill_of_fare/proc/on_attackby(datum/source, obj/item/tool, mob/user, params)
 	SIGNAL_HANDLER
-	if(!istype(tool, /obj/item/natural/feather) && !istype(tool, /obj/item/natural/thorn))
+	if(!is_bill_of_fare_writing_tool(tool))
 		return
 	INVOKE_ASYNC(src, PROC_REF(open), user)
 	return COMPONENT_NO_AFTERATTACK
@@ -257,7 +260,7 @@ GLOBAL_LIST_EMPTY(bill_of_fare_vessels)
 /datum/component/bill_of_fare/proc/open(mob/user)
 	if(!user.can_read(parent))
 		return
-	if(holds_writing_tool(user) && !may_edit(user))
+	if(foreign_hand(user))
 		to_chat(user, span_warning("This is written by another person."))
 	var/datum/tgui/ui = SStgui.get_open_ui(user, src)
 	if(ui)
@@ -275,7 +278,13 @@ GLOBAL_LIST_EMPTY(bill_of_fare_vessels)
 	return FALSE
 
 /datum/component/bill_of_fare/proc/holds_writing_tool(mob/user)
-	return !!(user.is_holding_item_of_type(/obj/item/natural/feather) || user.is_holding_item_of_type(/obj/item/natural/thorn))
+	for(var/obj/item/held in user.held_items)
+		if(is_bill_of_fare_writing_tool(held))
+			return TRUE
+	return FALSE
+
+/datum/component/bill_of_fare/proc/foreign_hand(mob/user)
+	return holds_writing_tool(user) && !may_edit(user)
 
 /datum/component/bill_of_fare/proc/can_write(mob/user)
 	if(!user.can_read(parent, TRUE) || !holds_writing_tool(user))
@@ -331,15 +340,16 @@ GLOBAL_LIST_EMPTY(bill_of_fare_vessels)
 
 /datum/component/bill_of_fare/ui_static_data(mob/user)
 	var/list/column_info = list()
+	var/list/catalogs = list()
 	for(var/key in columns)
 		var/datum/bill_of_fare_column/column = columns[key]
 		column_info += list(list(
 			"key" = column.key,
 			"label" = column.label,
 			"cap" = column.cap,
-			"catalog" = column.catalog_key,
 			"vessels" = column.uses_vessels,
 		))
+		catalogs[key] = column.get_catalog().picker_data()
 	var/list/vessel_info = list()
 	var/list/vessels = get_bill_of_fare_vessels()
 	for(var/key in vessels)
@@ -357,16 +367,23 @@ GLOBAL_LIST_EMPTY(bill_of_fare_vessels)
 		"picker_rows" = BILL_OF_FARE_PICKER_ROWS,
 	)
 	if(can_write(user))
-		data["catalogs"] = get_bill_of_fare_ui_catalogs()
+		data["catalogs"] = catalogs
 	return data
 
-/datum/component/bill_of_fare/proc/make_line(datum/bill_of_fare_column/column, name, linked_type, list/params)
-	if(!column.uses_vessels)
-		return new /datum/bill_of_fare_line(next_uid++, name, clean_bill_of_fare_price(params["price"]), linked_type)
-	var/list/prices = clean_bill_of_fare_vessel_prices(params["prices"])
-	if(!length(prices))
+/datum/component/bill_of_fare/proc/add_line(datum/bill_of_fare_column/column, name, linked_type, list/pricing)
+	if(column.is_full())
 		return null
-	return new /datum/bill_of_fare_line(next_uid++, name, 0, linked_type, prices)
+	var/price = 0
+	var/list/prices
+	if(column.uses_vessels)
+		prices = clean_bill_of_fare_vessel_prices(pricing["prices"])
+		if(!length(prices))
+			return null
+	else
+		price = clean_bill_of_fare_price(pricing["price"])
+	var/datum/bill_of_fare_line/line = new(next_uid++, name, price, linked_type, prices)
+	column.lines += line
+	return line
 
 /datum/component/bill_of_fare/ui_data(mob/user)
 	var/list/rows = list()
@@ -384,7 +401,7 @@ GLOBAL_LIST_EMPTY(bill_of_fare_vessels)
 		"claimed" = is_claimed(),
 		"open_to_all" = open_to_all,
 		"is_author" = author,
-		"foreign_hand" = holds_writing_tool(user) && !may_edit(user),
+		"foreign_hand" = foreign_hand(user),
 		"signature_mode" = author ? signature_mode : null,
 		"pen_name" = author ? pen_name : null,
 		"author_name" = author ? author_name : null,
@@ -413,70 +430,22 @@ GLOBAL_LIST_EMPTY(bill_of_fare_vessels)
 			log_write(user, "notes", clean)
 		if("add_linked")
 			var/datum/bill_of_fare_column/column = get_column(params["column"])
-			if(!column || length(column.lines) >= column.cap)
+			var/linked_type = column?.catalog_type_at(params["id"])
+			if(!linked_type || !add_line(column, column.catalog_name(linked_type), linked_type, params))
 				return
-			var/list/index = column.get_catalog()
-			var/id = params["id"]
-			if(!isnum(id) || id != round(id, 1) || id < 1 || id > length(index))
-				return
-			var/linked_type = index[id]
-			var/datum/bill_of_fare_line/line = make_line(column, index[linked_type], linked_type, params)
-			if(!line)
-				return
-			column.lines += line
 		if("add_written")
 			var/datum/bill_of_fare_column/column = get_column(params["column"])
-			if(!column || length(column.lines) >= column.cap)
+			if(!column)
 				return
 			var/clean = bill_of_fare_clean_text(user, params["text"], BILL_OF_FARE_LINE_LEN)
-			if(!length(clean))
+			if(!length(clean) || !add_line(column, clean, null, params))
 				return
-			var/datum/bill_of_fare_line/line = make_line(column, clean, null, params)
-			if(!line)
-				return
-			column.lines += line
 			log_write(user, column.key, clean)
-		if("rename")
+		if("rename", "set_price", "remove")
 			var/datum/bill_of_fare_column/column = get_column(params["column"])
 			var/datum/bill_of_fare_line/line = column?.find_line(params["uid"])
-			if(!line)
+			if(!line || !edit_line(user, action, column, line, params))
 				return
-			var/clean = bill_of_fare_clean_text(user, params["text"], BILL_OF_FARE_LINE_LEN)
-			if(isnull(clean))
-				return
-			if(!length(clean))
-				if(!line.linked)
-					return
-				var/list/index = column.get_catalog()
-				clean = index[line.linked]
-			line.name = clean
-			log_write(user, column.key, clean)
-		if("set_price")
-			var/datum/bill_of_fare_column/column = get_column(params["column"])
-			var/datum/bill_of_fare_line/line = column?.find_line(params["uid"])
-			if(!line)
-				return
-			var/value = params["value"]
-			if(!column.uses_vessels)
-				if(!isnum(value))
-					return
-				line.price = clean_bill_of_fare_price(value)
-			else
-				var/vessel_key = params["vessel"]
-				if(!is_bill_of_fare_vessel(vessel_key))
-					return
-				if(isnum(value))
-					line.vessel_prices[vessel_key] = clean_bill_of_fare_price(value)
-				else
-					if(isnull(line.vessel_prices[vessel_key]) || length(line.vessel_prices) <= 1)
-						return
-					line.vessel_prices -= vessel_key
-		if("remove")
-			var/datum/bill_of_fare_column/column = get_column(params["column"])
-			var/datum/bill_of_fare_line/line = column?.find_line(params["uid"])
-			if(!line)
-				return
-			column.lines -= line
 		if("import")
 			if(!COOLDOWN_FINISHED(src, import_cooldown))
 				to_chat(user, span_warning("I need a moment."))
@@ -515,4 +484,36 @@ GLOBAL_LIST_EMPTY(bill_of_fare_vessels)
 	update_parent_name()
 	var/atom/host = parent
 	host.update_icon()
+	return TRUE
+
+/datum/component/bill_of_fare/proc/edit_line(mob/user, action, datum/bill_of_fare_column/column, datum/bill_of_fare_line/line, list/params)
+	switch(action)
+		if("rename")
+			var/clean = bill_of_fare_clean_text(user, params["text"], BILL_OF_FARE_LINE_LEN)
+			if(isnull(clean))
+				return FALSE
+			if(!length(clean))
+				if(!line.linked)
+					return FALSE
+				clean = column.catalog_name(line.linked)
+			line.name = clean
+			log_write(user, column.key, clean)
+		if("set_price")
+			var/value = params["value"]
+			if(!column.uses_vessels)
+				if(!isnum(value))
+					return FALSE
+				line.price = clean_bill_of_fare_price(value)
+			else
+				var/vessel_key = params["vessel"]
+				if(!is_bill_of_fare_vessel(vessel_key))
+					return FALSE
+				if(isnum(value))
+					line.vessel_prices[vessel_key] = clean_bill_of_fare_price(value)
+				else
+					if(isnull(line.vessel_prices[vessel_key]) || length(line.vessel_prices) <= 1)
+						return FALSE
+					line.vessel_prices -= vessel_key
+		if("remove")
+			column.lines -= line
 	return TRUE

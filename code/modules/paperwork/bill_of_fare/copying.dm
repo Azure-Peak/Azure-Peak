@@ -2,9 +2,6 @@
 #define BOF_TOO_LONG "That is too long."
 #define BOF_BAD_LINE(line_number) "Line [line_number] of that is not right."
 
-GLOBAL_LIST_EMPTY(bill_of_fare_name_maps)
-GLOBAL_LIST_EMPTY(bill_of_fare_id_maps)
-
 /proc/bill_of_fare_parse_price(price_text)
 	if(!istext(price_text))
 		return null
@@ -33,45 +30,12 @@ GLOBAL_LIST_EMPTY(bill_of_fare_id_maps)
 		labels += lowertext(vessel.label)
 	return capitalize(english_list(labels, and_text = " or "))
 
-/datum/bill_of_fare_column/proc/item_id(linked_type)
-	return copytext("[linked_type]", length("[catalog_root]") + 2)
-
-/datum/bill_of_fare_column/proc/find_by_id(id)
-	if(!istext(id))
-		return null
-	id = trim(id)
-	if(!length(id))
-		return null
-	var/list/id_map = GLOB.bill_of_fare_id_maps[catalog_key]
-	if(!id_map)
-		id_map = list()
-		for(var/entry_type in get_catalog())
-			id_map[item_id(entry_type)] = entry_type
-		GLOB.bill_of_fare_id_maps[catalog_key] = id_map
-	return id_map[id]
-
-/datum/bill_of_fare_column/proc/find_by_name(catalog_name)
-	if(!istext(catalog_name))
-		return null
-	catalog_name = lowertext(trim(catalog_name))
-	if(!length(catalog_name))
-		return null
-	var/list/name_map = GLOB.bill_of_fare_name_maps[catalog_key]
-	if(!name_map)
-		name_map = list()
-		var/list/index = get_catalog()
-		for(var/entry_type in index)
-			name_map[lowertext(index[entry_type])] = entry_type
-		GLOB.bill_of_fare_name_maps[catalog_key] = name_map
-	return name_map[catalog_name]
-
 /datum/component/bill_of_fare/proc/export_text()
 	var/list/out = list(BILL_OF_FARE_EXPORT_HEADER)
 	if(length(title))
 		out += "T|[title]"
 	for(var/key in columns)
 		var/datum/bill_of_fare_column/column = columns[key]
-		var/list/index = column.get_catalog()
 		for(var/datum/bill_of_fare_line/line as anything in column.lines)
 			var/price_field
 			if(column.uses_vessels)
@@ -82,7 +46,7 @@ GLOBAL_LIST_EMPTY(bill_of_fare_id_maps)
 			else
 				price_field = "[line.price]"
 			var/item_id = line.linked ? column.item_id(line.linked) : ""
-			var/item_name = line.linked ? "[index[line.linked]]" : ""
+			var/item_name = line.linked ? "[column.catalog_name(line.linked)]" : ""
 			out += "[column.export_tag]|[line.name]|[price_field]|[item_id]|[item_name]"
 	if(length(notes))
 		for(var/note_line in splittext(notes, "\n"))
@@ -216,8 +180,7 @@ GLOBAL_LIST_EMPTY(bill_of_fare_id_maps)
 		return null
 	if(!length(row_name))
 		if(linked_type)
-			var/list/index = column.get_catalog()
-			row_name = index[linked_type]
+			row_name = column.catalog_name(linked_type)
 		else
 			row_name = bill_of_fare_clean_text(user, item_name, BILL_OF_FARE_LINE_LEN)
 			if(isnull(row_name))
@@ -270,7 +233,7 @@ GLOBAL_LIST_EMPTY(bill_of_fare_id_maps)
 		var/datum/bill_of_fare_column/column = columns[key]
 		column.lines = list()
 		for(var/list/row as anything in parsed_columns[key])
-			column.lines += new /datum/bill_of_fare_line(next_uid++, row["name"], row["price"], row["linked"], row["prices"])
+			add_line(column, row["name"], row["linked"], row)
 
 #undef BOF_NOT_A_MENU
 #undef BOF_TOO_LONG

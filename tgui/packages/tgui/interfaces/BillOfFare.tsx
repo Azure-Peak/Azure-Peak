@@ -1,4 +1,5 @@
 import {
+  type ChangeEvent,
   type CSSProperties,
   type ReactNode,
   useEffect,
@@ -48,7 +49,6 @@ type ColumnInfo = {
   key: string;
   label: string;
   cap: number;
-  catalog: string;
   vessels: boolean | number;
 };
 
@@ -64,14 +64,17 @@ type Vessel = {
   top_state?: string;
 };
 
-type FoodEntry = [number, string, number, string];
+type CatalogEntry = [
+  number,
+  string,
+  number | null,
+  string | null,
+  string | null,
+];
 
-type DrinkEntry = [number, string, string | null];
-
-type Catalogs = {
+type Catalog = {
   icon_files: string[];
-  food: FoodEntry[];
-  drink: DrinkEntry[];
+  entries: CatalogEntry[];
 };
 
 type PickEntry = {
@@ -107,7 +110,7 @@ type Data = {
   author_name?: string | null;
   author_job?: string | null;
   picker_rows: number;
-  catalogs?: Catalogs;
+  catalogs?: Record<string, Catalog>;
 };
 
 const ICON_SIZE = 32;
@@ -116,16 +119,28 @@ const PRICE_WIDTH = 40;
 const VESSEL_CELL_WIDTH = 104;
 const REMOVE_WIDTH = 28;
 
+const softHintStyle: CSSProperties = { color: INK_SOFT, fontSize: FONT_SMALL };
+const faintHintStyle: CSSProperties = {
+  color: INK_FAINT,
+  fontSize: FONT_SMALL,
+};
+const emptyNoteStyle: CSSProperties = { color: INK_FAINT, fontStyle: 'italic' };
+
 const iconUrl = (icon: string, state: string) => {
   const ref = Byond.iconRefMap?.[icon];
   return ref ? `${ref}?state=${state}&dir=2&movement=false&frame=1` : '';
 };
+
+const rowsFor = (data: Data, key: string) => data.rows[key] || [];
 
 const isOffered = (prices: VesselPrices | undefined, key: string) =>
   typeof prices?.[key] === 'number';
 
 const offeredVessels = (vessels: Vessel[], prices?: VesselPrices) =>
   vessels.filter((vessel) => isOffered(prices, vessel.key));
+
+const firstOffered = (vessels: Vessel[], prices?: VesselPrices) =>
+  offeredVessels(vessels, prices)[0];
 
 const initialVesselPrices = (vessels: Vessel[]) => {
   const prices: VesselPrices = {};
@@ -146,8 +161,10 @@ const offeredPrices = (prices: VesselPrices) => {
   return offered;
 };
 
-const capacityNote = (vessels: Vessel[]) =>
-  vessels.map((vessel) => `${vessel.label}: ${vessel.capacity} drams`).join(' · ');
+const vesselNote = (vessel: Vessel) =>
+  `${vessel.label}: ${vessel.capacity} drams`;
+
+const capacityNote = (vessels: Vessel[]) => vessels.map(vesselNote).join(' · ');
 
 const toggleChipStyle = (on: boolean): CSSProperties => ({
   ...tabStyle(on),
@@ -157,7 +174,7 @@ const toggleChipStyle = (on: boolean): CSSProperties => ({
   padding: '0 6px 0 0',
 });
 
-const useCommittedText = (value: string) => {
+const useCommittedText = (value: string, onCommit: (text: string) => void) => {
   const [draft, setDraft] = useState(value);
   const focused = useRef(false);
   useEffect(() => {
@@ -165,7 +182,20 @@ const useCommittedText = (value: string) => {
       setDraft(value);
     }
   }, [value]);
-  return { draft, setDraft, focused };
+  return {
+    value: draft,
+    onFocus: () => {
+      focused.current = true;
+    },
+    onBlur: () => {
+      focused.current = false;
+      if (draft !== value) {
+        onCommit(draft);
+      }
+    },
+    onChange: (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
+      setDraft(e.target.value),
+  };
 };
 
 const CommitInput = (props: {
@@ -176,24 +206,13 @@ const CommitInput = (props: {
   onCommit: (text: string) => void;
 }) => {
   const { value, maxLength, placeholder, style, onCommit } = props;
-  const { draft, setDraft, focused } = useCommittedText(value);
   return (
     <input
       type="text"
-      value={draft}
       maxLength={maxLength}
       placeholder={placeholder}
       style={{ ...inkInputStyle, boxSizing: 'border-box', ...style }}
-      onFocus={() => {
-        focused.current = true;
-      }}
-      onBlur={() => {
-        focused.current = false;
-        if (draft !== value) {
-          onCommit(draft);
-        }
-      }}
-      onChange={(e) => setDraft(e.target.value)}
+      {...useCommittedText(value, onCommit)}
       onKeyDown={(e) => {
         if (e.key === 'Enter') {
           e.currentTarget.blur();
@@ -210,10 +229,8 @@ const CommitTextArea = (props: {
   onCommit: (text: string) => void;
 }) => {
   const { value, maxLength, placeholder, onCommit } = props;
-  const { draft, setDraft, focused } = useCommittedText(value);
   return (
     <textarea
-      value={draft}
       maxLength={maxLength}
       placeholder={placeholder}
       rows={4}
@@ -223,16 +240,25 @@ const CommitTextArea = (props: {
         boxSizing: 'border-box',
         resize: 'vertical',
       }}
-      onFocus={() => {
-        focused.current = true;
-      }}
-      onBlur={() => {
-        focused.current = false;
-        if (draft !== value) {
-          onCommit(draft);
-        }
-      }}
-      onChange={(e) => setDraft(e.target.value)}
+      {...useCommittedText(value, onCommit)}
+    />
+  );
+};
+
+const PriceInput = (props: {
+  value: number;
+  onChange: (value: number) => void;
+}) => {
+  const { data } = useBackend<Data>();
+  return (
+    <NumberInput
+      step={1}
+      minValue={0}
+      maxValue={data.max_price}
+      unit="m"
+      width={`${PRICE_WIDTH}px`}
+      value={props.value}
+      onChange={props.onChange}
     />
   );
 };
@@ -297,66 +323,57 @@ const VesselMark = (props: { vessel: Vessel; color?: string | null }) => {
 };
 
 const Mark = (props: {
-  kind: string;
   icon?: string;
   icon_state?: string;
   color?: string | null;
   vessel?: Vessel;
 }) => {
-  const { kind, icon, icon_state, color, vessel } = props;
+  const { icon, icon_state, color, vessel } = props;
   if (vessel) {
     return <VesselMark vessel={vessel} color={color} />;
   }
-  if (kind === 'drink') {
-    return (
-      <span style={markBoxStyle}>
-        <span
-          style={{
-            width: `${SWATCH_SIZE}px`,
-            height: `${SWATCH_SIZE}px`,
-            background: color || 'transparent',
-            border: color ? `1px solid ${INK_FAINT}` : 'none',
-            borderRadius: '2px',
-          }}
-        />
-      </span>
-    );
-  }
   return (
     <span style={markBoxStyle}>
-      {!!icon && !!icon_state && <SpriteLayer icon={icon} state={icon_state} />}
+      {icon && icon_state ? (
+        <SpriteLayer icon={icon} state={icon_state} />
+      ) : (
+        !!color && (
+          <span
+            style={{
+              width: `${SWATCH_SIZE}px`,
+              height: `${SWATCH_SIZE}px`,
+              background: color,
+              border: `1px solid ${INK_FAINT}`,
+              borderRadius: '2px',
+            }}
+          />
+        )
+      )}
     </span>
   );
 };
 
 const SubLabel = (props: { children: ReactNode }) => (
-  <div style={{ color: INK_SOFT, fontSize: FONT_SMALL, margin: '6px 0 2px' }}>
-    {props.children}
-  </div>
+  <div style={{ ...softHintStyle, margin: '6px 0 2px' }}>{props.children}</div>
 );
 
-const usePickEntries = (catalogs: Catalogs | undefined, kind: string) =>
+const usePickEntries = (catalog: Catalog | undefined) =>
   useMemo(() => {
-    if (!catalogs) {
+    if (!catalog) {
       return [];
     }
-    const entries: PickEntry[] =
-      kind === 'drink'
-        ? catalogs.drink.map(([id, name, color]) => ({
-            id,
-            name,
-            lower: name.toLowerCase(),
-            color,
-          }))
-        : catalogs.food.map(([id, name, slot, icon_state]) => ({
-            id,
-            name,
-            lower: name.toLowerCase(),
-            icon: catalogs.icon_files[slot - 1],
-            icon_state,
-          }));
+    const entries: PickEntry[] = catalog.entries.map(
+      ([id, name, slot, icon_state, color]) => ({
+        id,
+        name,
+        lower: name.toLowerCase(),
+        icon: slot ? catalog.icon_files[slot - 1] : undefined,
+        icon_state: icon_state ?? undefined,
+        color,
+      }),
+    );
     return entries.sort((a, b) => a.name.localeCompare(b.name));
-  }, [catalogs, kind]);
+  }, [catalog]);
 
 const PickRow = (props: {
   action: string;
@@ -376,14 +393,7 @@ const PickRow = (props: {
     onClick={props.onClick}
   >
     {props.children}
-    <span
-      style={{
-        marginLeft: 'auto',
-        flexShrink: 0,
-        color: INK_SOFT,
-        fontSize: FONT_SMALL,
-      }}
-    >
+    <span style={{ ...softHintStyle, marginLeft: 'auto', flexShrink: 0 }}>
       {props.action}
     </span>
   </button>
@@ -398,14 +408,14 @@ const Picker = () => {
     initialVesselPrices(data.vessels),
   );
   const info = data.columns.find((c) => c.key === tab) || data.columns[0];
-  const entries = usePickEntries(data.catalogs, info?.catalog || '');
+  const entries = usePickEntries(info ? data.catalogs?.[info.key] : undefined);
   if (!info) {
     return null;
   }
 
   const usesVessels = !!info.vessels;
   const previewVessel = usesVessels
-    ? offeredVessels(data.vessels, vesselPrices)[0]
+    ? firstOffered(data.vessels, vesselPrices)
     : undefined;
   const pricing = usesVessels
     ? { prices: offeredPrices(vesselPrices) }
@@ -417,8 +427,7 @@ const Picker = () => {
     }
     setVesselPrices({ ...vesselPrices, [key]: on ? null : 0 });
   };
-  const count = (data.rows[info.key] || []).length;
-  const full = count >= info.cap;
+  const full = rowsFor(data, info.key).length >= info.cap;
   const typed = query.trim();
   const needle = typed.toLowerCase();
   const matches = needle
@@ -444,7 +453,7 @@ const Picker = () => {
             style={tabStyle(c.key === info.key)}
             onClick={() => setTab(c.key)}
           >
-            {c.label} {(data.rows[c.key] || []).length}/{c.cap}
+            {c.label} {rowsFor(data, c.key).length}/{c.cap}
           </div>
         ))}
       </div>
@@ -475,9 +484,7 @@ const Picker = () => {
       >
         {usesVessels ? (
           <>
-            <span style={{ color: INK_SOFT, fontSize: FONT_SMALL }}>
-              Sold by the:
-            </span>
+            <span style={softHintStyle}>Sold by the:</span>
             {data.vessels.map((v) => {
               const on = isOffered(vesselPrices, v.key);
               return (
@@ -493,14 +500,9 @@ const Picker = () => {
                     {v.label}
                   </div>
                   {on && (
-                    <NumberInput
-                      step={1}
-                      minValue={0}
-                      maxValue={data.max_price}
-                      unit="m"
-                      width={`${PRICE_WIDTH}px`}
+                    <PriceInput
                       value={vesselPrices[v.key] ?? 0}
-                      onChange={(value: number) =>
+                      onChange={(value) =>
                         setVesselPrices({ ...vesselPrices, [v.key]: value })
                       }
                     />
@@ -511,33 +513,19 @@ const Picker = () => {
           </>
         ) : (
           <>
-            <span style={{ color: INK_SOFT, fontSize: FONT_SMALL }}>
-              Price:
-            </span>
-            <NumberInput
-              step={1}
-              minValue={0}
-              maxValue={data.max_price}
-              unit="m"
-              width={`${PRICE_WIDTH}px`}
-              value={price}
-              onChange={(value: number) => setPrice(value)}
-            />
+            <span style={softHintStyle}>Price:</span>
+            <PriceInput value={price} onChange={setPrice} />
           </>
         )}
       </div>
       {usesVessels && (
-        <div
-          style={{ color: INK_FAINT, fontSize: FONT_SMALL, marginBottom: '6px' }}
-        >
+        <div style={{ ...faintHintStyle, marginBottom: '6px' }}>
           {capacityNote(data.vessels)}
         </div>
       )}
 
       {full ? (
-        <div style={{ color: INK_FAINT, fontStyle: 'italic' }}>
-          The {info.label} list is full.
-        </div>
+        <div style={emptyNoteStyle}>The {info.label} list is full.</div>
       ) : (
         <div
           style={{
@@ -561,7 +549,6 @@ const Picker = () => {
               }
             >
               <Mark
-                kind={info.catalog}
                 icon={entry.icon}
                 icon_state={entry.icon_state}
                 color={entry.color}
@@ -576,13 +563,7 @@ const Picker = () => {
             </div>
           )}
           {matches.length > shown.length && (
-            <div
-              style={{
-                padding: '6px 8px',
-                color: INK_FAINT,
-                fontSize: FONT_SMALL,
-              }}
-            >
+            <div style={{ ...faintHintStyle, padding: '6px 8px' }}>
               Showing {shown.length} of {matches.length}. Search to narrow it
               down.
             </div>
@@ -598,9 +579,11 @@ const VesselPriceCell = (props: {
   column: string;
   vessel: Vessel;
 }) => {
-  const { act, data } = useBackend<Data>();
+  const { act } = useBackend<Data>();
   const { row, column, vessel } = props;
   const on = isOffered(row.prices, vessel.key);
+  const setPrice = (value: number | null) =>
+    act('set_price', { column, uid: row.uid, vessel: vessel.key, value });
   return (
     <div
       style={{
@@ -613,35 +596,13 @@ const VesselPriceCell = (props: {
     >
       <div
         style={{ ...tabStyle(on), padding: '1px 6px', fontSize: FONT_SMALL }}
-        title={`${vessel.label}: ${vessel.capacity} drams`}
-        onClick={() =>
-          act('set_price', {
-            column,
-            uid: row.uid,
-            vessel: vessel.key,
-            value: on ? null : 0,
-          })
-        }
+        title={vesselNote(vessel)}
+        onClick={() => setPrice(on ? null : 0)}
       >
         {vessel.label}
       </div>
       {on ? (
-        <NumberInput
-          step={1}
-          minValue={0}
-          maxValue={data.max_price}
-          unit="m"
-          width={`${PRICE_WIDTH}px`}
-          value={row.prices?.[vessel.key] ?? 0}
-          onChange={(value: number) =>
-            act('set_price', {
-              column,
-              uid: row.uid,
-              vessel: vessel.key,
-              value,
-            })
-          }
-        />
+        <PriceInput value={row.prices?.[vessel.key] ?? 0} onChange={setPrice} />
       ) : (
         <span style={{ color: INK_FAINT }}>—</span>
       )}
@@ -649,21 +610,15 @@ const VesselPriceCell = (props: {
   );
 };
 
-const WriterRow = (props: {
-  row: Row;
-  column: string;
-  kind: string;
-  usesVessels: boolean;
-}) => {
+const WriterRow = (props: { row: Row; column: string; usesVessels: boolean }) => {
   const { act, data } = useBackend<Data>();
-  const { row, column, kind, usesVessels } = props;
+  const { row, column, usesVessels } = props;
   const vessel = usesVessels
-    ? offeredVessels(data.vessels, row.prices)[0]
+    ? firstOffered(data.vessels, row.prices)
     : undefined;
   return (
     <div style={denseRowStyle} title={row.desc}>
       <Mark
-        kind={kind}
         icon={row.icon}
         icon_state={row.icon_state}
         color={row.color}
@@ -680,16 +635,9 @@ const WriterRow = (props: {
           <VesselPriceCell key={v.key} row={row} column={column} vessel={v} />
         ))
       ) : (
-        <NumberInput
-          step={1}
-          minValue={0}
-          maxValue={data.max_price}
-          unit="m"
-          width={`${PRICE_WIDTH}px`}
+        <PriceInput
           value={row.price ?? 0}
-          onChange={(value: number) =>
-            act('set_price', { column, uid: row.uid, value })
-          }
+          onChange={(value) => act('set_price', { column, uid: row.uid, value })}
         />
       )}
       <button
@@ -706,43 +654,29 @@ const WriterRow = (props: {
 
 const WriterList = (props: { info: ColumnInfo }) => {
   const { data } = useBackend<Data>();
-  const { key, label, cap, catalog: kind } = props.info;
+  const { key, label, cap } = props.info;
   const usesVessels = !!props.info.vessels;
-  const rows = data.rows[key] || [];
+  const rows = rowsFor(data, key);
   return (
     <div>
       <div style={sectionHeaderStyle}>
         {label}
-        <span
-          style={{
-            float: 'right',
-            color: INK_FAINT,
-            fontSize: FONT_SMALL,
-            fontWeight: 'normal',
-          }}
-        >
+        <span style={{ ...faintHintStyle, float: 'right', fontWeight: 'normal' }}>
           {rows.length} / {cap}
         </span>
       </div>
       {rows.length === 0 ? (
-        <div
-          style={{
-            color: INK_FAINT,
-            fontStyle: 'italic',
-            fontSize: FONT_SMALL,
-          }}
-        >
+        <div style={{ ...emptyNoteStyle, fontSize: FONT_SMALL }}>
           Nothing yet. Add some on the right!
         </div>
       ) : (
         <>
           <div
             style={{
+              ...faintHintStyle,
               display: 'flex',
               gap: '6px',
               padding: '0 6px',
-              color: INK_FAINT,
-              fontSize: FONT_SMALL,
             }}
           >
             <span style={{ width: `${ICON_SIZE}px`, flexShrink: 0 }} />
@@ -763,7 +697,6 @@ const WriterList = (props: { info: ColumnInfo }) => {
               key={row.uid}
               row={row}
               column={key}
-              kind={kind}
               usesVessels={usesVessels}
             />
           ))}
@@ -910,9 +843,7 @@ const SignaturePanel = () => {
           gap: '6px',
         }}
       >
-        <span style={{ color: INK_SOFT, fontSize: FONT_SMALL }}>
-          Signed as:
-        </span>
+        <span style={softHintStyle}>Signed as:</span>
         {choices.map((choice) => (
           <div
             key={choice.key}
@@ -954,7 +885,7 @@ const SignaturePanel = () => {
         >
           Let anyone write on it
         </div>
-        <span style={{ color: INK_FAINT, fontSize: FONT_SMALL }}>
+        <span style={faintHintStyle}>
           {data.open_to_all
             ? 'Unsigned. Anyone with a feather can change it.'
             : `Readers see: written by ${data.signature}.`}
@@ -1004,8 +935,8 @@ const WriterView = () => {
   );
 };
 
-const ReaderRow = (props: { row: Row; kind: string; vessels?: Vessel[] }) => {
-  const { row, kind, vessels } = props;
+const ReaderRow = (props: { row: Row; vessels?: Vessel[] }) => {
+  const { row, vessels } = props;
   const offered = vessels ? offeredVessels(vessels, row.prices) : [];
   return (
     <div
@@ -1018,7 +949,6 @@ const ReaderRow = (props: { row: Row; kind: string; vessels?: Vessel[] }) => {
       }}
     >
       <Mark
-        kind={kind}
         icon={row.icon}
         icon_state={row.icon_state}
         color={row.color}
@@ -1040,9 +970,7 @@ const ReaderRow = (props: { row: Row; kind: string; vessels?: Vessel[] }) => {
               key={v.key}
               style={{ display: 'flex', alignItems: 'baseline', gap: '4px' }}
             >
-              <span style={{ color: INK_SOFT, fontSize: FONT_SMALL }}>
-                {v.label}
-              </span>
+              <span style={softHintStyle}>{v.label}</span>
               <PriceTag price={row.prices?.[v.key] ?? 0} />
             </span>
           ))}
@@ -1056,9 +984,8 @@ const ReaderRow = (props: { row: Row; kind: string; vessels?: Vessel[] }) => {
 
 const ReaderColumn = (props: { info: ColumnInfo }) => {
   const { data } = useBackend<Data>();
-  const { key, label, catalog: kind } = props.info;
-  const usesVessels = !!props.info.vessels;
-  const rows = data.rows[key] || [];
+  const { key, label } = props.info;
+  const rows = rowsFor(data, key);
   if (rows.length === 0) {
     return null;
   }
@@ -1069,8 +996,7 @@ const ReaderColumn = (props: { info: ColumnInfo }) => {
         <ReaderRow
           key={row.uid}
           row={row}
-          kind={kind}
-          vessels={usesVessels ? data.vessels : undefined}
+          vessels={props.info.vessels ? data.vessels : undefined}
         />
       ))}
     </div>
@@ -1082,26 +1008,17 @@ const ReaderView = () => {
   const blank =
     !data.title &&
     !data.notes &&
-    data.columns.every((info) => !data.rows[info.key]?.length);
+    data.columns.every((info) => !rowsFor(data, info.key).length);
   if (blank) {
     return (
-      <div
-        style={{ textAlign: 'center', color: INK_FAINT, fontStyle: 'italic' }}
-      >
-        Nothing here.
-      </div>
+      <div style={{ ...emptyNoteStyle, textAlign: 'center' }}>Nothing here.</div>
     );
   }
   return (
     <>
       {!!data.foreign_hand && (
         <div
-          style={{
-            textAlign: 'center',
-            color: INK_FAINT,
-            fontStyle: 'italic',
-            marginBottom: '6px',
-          }}
+          style={{ ...emptyNoteStyle, textAlign: 'center', marginBottom: '6px' }}
         >
           This is written by someone else.
         </div>
