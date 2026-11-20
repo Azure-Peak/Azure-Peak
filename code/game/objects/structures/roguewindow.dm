@@ -269,6 +269,62 @@
 /obj/structure/roguewindow/attackby(obj/item/W, mob/user, params)
 	return ..()
 
+/obj/structure/roguewindow/openclose/attackby(obj/item/attacking_item, mob/user, list/modifiers)
+	if(istype(attacking_item, /obj/item/rogueweapon/huntingknife/idagger/) && !climbable && !user.cmode)
+		var/mob/living/L = user
+		var/obj/item/P = attacking_item
+		var/lockprogress = 0
+		var/locktreshold = 250
+
+		var/picktime = 70
+		var/moveup = 10
+		var/pickchance = 35
+
+		var/pickskill = L.get_skill_level(/datum/skill/misc/lockpicking)
+		var/perbonus = L.STAPER/5
+
+		picktime -= (pickskill * 10)
+		picktime = clamp(picktime, 10, 70)
+
+		moveup += (pickskill * 3)
+		moveup = clamp(moveup, 10, 30)
+
+		pickchance += pickskill * 10
+		pickchance += perbonus
+		pickchance = clamp(pickchance, 1, 75)
+
+		to_chat(user, span_notice("I start trying to pry the window open..."))
+		while(!QDELETED(P) && (lockprogress < locktreshold))
+			if(!do_after(L, picktime, target = src))
+				break
+			if(prob(pickchance))
+				lockprogress += moveup
+				playsound(src.loc, pick('sound/items/prygood.ogg'), 35, TRUE)
+				to_chat(L, "<span class='warning'>Creak...</span>")
+				if(L.mind)
+					add_sleep_experience(L, /datum/skill/misc/lockpicking, L.STAINT/2)
+				if(lockprogress >= locktreshold)
+					to_chat(L, "<span class='deadsay'>The window opens.</span>")
+					if(ishuman(L))
+						var/mob/living/carbon/human/H = L
+						log_admin("[H.real_name]([key_name(L)]) Pried open [src.name] at X:[src.x] Y:[src.y] Z:[src.z] in area: [get_area(src)]")
+						record_featured_stat(FEATURED_STATS_CRIMINALS, L)
+						var/obj/effect/track/structure/new_track = SStracks.get_track(/obj/effect/track/structure, get_turf(src))
+						if(new_track)
+							new_track.handle_creation(L)
+					src.force_open()
+					break
+			else
+				playsound(loc, 'sound/items/prybad.ogg', 40, TRUE)
+				P.take_damage(1, BRUTE, "blunt")
+				to_chat(L, "<span class='warning'>Scrape...</span>")
+				if(L.mind)
+					add_sleep_experience(L, /datum/skill/misc/lockpicking, L.STAINT/4)
+	return ..()
+	//to_chat(user, span_notice("I start trying to pry the window open..."))
+	//if(do_after(user, 6 SECONDS, src))
+	//	playsound(src, 'sound/foley/doors/windowup.ogg', 100, FALSE)
+	//	src.force_open()
 /obj/structure/roguewindow/attack_hand(mob/living/user)
 	. = ..()
 	if(.)
