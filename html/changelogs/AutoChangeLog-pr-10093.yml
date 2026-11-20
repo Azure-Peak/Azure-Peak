@@ -1,0 +1,4 @@
+author: "KatTheFox"
+delete-after: True
+changes:
+  - rscadd: "Custom descriptors for fur, feathers, chitin, and scales are now available; instead of \"custom skin\" being the only custom descriptor available for the skin slot."

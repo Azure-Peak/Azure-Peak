@@ -76,7 +76,7 @@
 /obj/item/psydonmusicbox/examine(mob/user)
 	. = ..()
 	if(HAS_TRAIT(usr, TRAIT_INQUISITION))
-		desc = "A relic from the bowels of the Grand Otavan Cathedral's thaumaturgical workshops. The spirits of fifteen heathens, bound within this infernal contraption, sign a haunting tune; one that disrupts the leylines, prevents the faithless from casting spells, and immunizing the faithful to all magicka. <b>It would be wise to not teach outsiders of its true nature</b>, and to only bring it to bear in dire circumstances."
+		desc = "A relic from the bowels of the Grand Otavan Cathedral's thaumaturgical workshops. The spirits of fifteen heathens, bound within this infernal contraption, sing a haunting tune; one that disrupts the leylines, prevents the faithless from casting spells, and immunizes the faithful to all magicka. <b>It would be wise to not teach outsiders of its true nature</b>, and to only bring it to bear in dire circumstances."
 	else
 		desc = "A cranked music box, bearing the seal of the Holy Otavan Inquisition on its side. It radiates with an inexplicable feeling of somberness."
 
@@ -101,7 +101,7 @@
 		soundloop.start()
 		var/songhearers = view(7, user)
 		for(var/mob/living/carbon/human/target in songhearers)
-			to_chat(target,span_cultsmall("[user] begins cranking the melancholic crankbox.."))
+			to_chat(target,span_cultsmall("[user] begins cranking the melancholic crankbox..."))
 	if(!cranking)
 		soundloop.stop()
 		user.remove_status_effect(/datum/status_effect/buff/cranking_soulchurner)
@@ -114,8 +114,8 @@
 /obj/item/psydonmusicbox/Destroy()
 	if(soundloop)
 		QDEL_NULL(soundloop)
-	src.visible_message(span_cult("A great deluge of souls escapes the shattered box! Their wails of vengeance and peace coalesce into an ethereal swan song, as the spirits ascend into the sky.."))
-	src.visible_message(span_hypnophrase("..before, at last, their haunting symphony finally comes to a close."))
+	src.visible_message(span_cult("A great deluge of souls escapes the shattered box! Their wails of vengeance and peace coalesce into an ethereal swan song, as the spirits ascend into the sky..."))
+	src.visible_message(span_hypnophrase("...before, at last, their haunting symphony finally comes to a close."))
 	playsound(src, 'sound/misc/otavanlament.ogg', 70, TRUE, -1)
 	return ..()
 

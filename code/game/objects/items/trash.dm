@@ -28,9 +28,13 @@
 	icon_state = "pistachios_pack"
 
 /obj/item/trash/candle
-	name = "candle"
-	icon = 'icons/obj/candle.dmi'
+	name = "melted candle"
+	icon = 'icons/roguetown/items/lighting.dmi'
 	icon_state = "candle4"
 
 /obj/item/trash/attack(mob/M, mob/living/user)
 	return
+
+/obj/item/trash/candle/eora
+	name = "melted Eoran candle"
+	icon_state = "candle_eora_melted"

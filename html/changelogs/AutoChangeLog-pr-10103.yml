@@ -1,0 +1,9 @@
+author: "Quinalion"
+delete-after: True
+changes:
+  - rscadd: "Added more tables, curtains, bookcases, trunks and decorative furniture."
+  - rscadd: "Added coloured and decorated tent walls and doors."
+  - rscadd: "Added paintings, statues, rugs, navy carpet and decorative floor tiles."
+  - rscadd: "Added incense, silver and gold wall candles, and construction recipes for the new furnishings."
+  - image: "Updated Eora's candle with heart-shaped lit, unlit and melted sprites."
+  - bugfix: "Bookcases now respect their capacity when filled individually or from storage, and preserve accepted books when dismantled."
