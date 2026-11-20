@@ -124,9 +124,9 @@ GLOBAL_LIST_INIT(clothespref_list, list(CLOTHES_M, CLOTHES_F)) // INSTRUCTIONS F
 
 /// Toggle section entries. Add these, and a row in `GLOB.char_toggles` and then a bit in `preferences_*` wherever applicable
 GLOBAL_LIST_INIT(char_toggles, list(
-	list("flag" = CHAR_TOGGLE_DODGE, "name" = "Defense Style", "off" = "Parry", "on" = "Dodge", "desc" = "The defense stance this character spawns in with. Parrying uses less stamina but more of your skill with the weapon, as well as its durability (and sharpness, if any). Dodge requires you to be faster and lithe than your opponent and is more tiring, expertise on it significantly increases the effectiveness. Both stances only work in Combat Mode, and with an enemy you can see."),
-	list("flag" = CHAR_TOGGLE_DNR, "name" = "Unrevivable", "off" = "No", "on" = "Yes", "desc" = "Unrevivable prevents you from being revived. This information can only be examined by a selected few people, such as Necrans or Expert Physickers and post-mortem. Some effects may cause your death to be more dramatic and final."),
-	list("flag" = CHAR_TOGGLE_FREEUSE, "name" = "Free Use", "off" = "Off", "on" = "On", "desc" = "Whether this character spawns with Free Use enabled in the ERP panel (Enabling this bypasses positioning and exposure checks entirely, letting your partner have full control of the scene and acts)."),
+	list("flag" = CHAR_TOGGLE_DODGE, "name" = "Defense Style", "off" = "Parry", "on" = "Dodge", "desc" = "The defense stance this character spawns in with.<br><br><b>Parrying</b> uses less stamina but more of your skill with the weapon, as well as its durability (and sharpness, if any).<br><br><b>Dodging</b> requires you to be faster and lithe than your opponent and is more tiring, expertise on it significantly increases the effectiveness.<br><br>Both stances only work in Combat Mode, and with an attacker you can spot."),
+	list("flag" = CHAR_TOGGLE_DNR, "name" = "Unrevivable", "off" = "No", "on" = "Yes", "desc" = "Unrevivable prevents you from being revived.<br><br>This information can only be examined by a selected few people, such as Necrans or Expert Physickers and post-mortem.<br><br>Some effects may cause your death to be more dramatic and final."),
+	list("flag" = CHAR_TOGGLE_FREEUSE, "name" = "Free Use", "off" = "Off", "on" = "On", "desc" = "Whether this character spawns with Free Use enabled in the ERP panel.<br><br>Enabling this bypasses positioning and exposure checks entirely, letting your partner have full control of the scene and acts."),
 ))
 
 // Voice types (LETHALSTONE)
