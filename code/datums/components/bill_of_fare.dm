@@ -174,6 +174,14 @@ GLOBAL_LIST_EMPTY(bill_of_fare_vessels)
 	var/notes = ""
 	var/list/columns = list()
 	var/next_uid = 1
+	// This might feel a bit too handholdy, but I believe sincerely our playerbase and certainly other playerbase are base creatures who would troll people by writing over menus if they weren't mechnaically stopped from doing so
+	var/datum/weakref/author_mind
+	var/author_ckey
+	var/author_name
+	var/author_job
+	var/signature_mode = BILL_OF_FARE_SIGN_NAME
+	var/pen_name = ""
+	var/open_to_all = FALSE
 	COOLDOWN_DECLARE(import_cooldown)
 
 /datum/component/bill_of_fare/Initialize()
@@ -224,6 +232,9 @@ GLOBAL_LIST_EMPTY(bill_of_fare_vessels)
 		return
 	if(length(title))
 		examine_list += "It is headed \"[title]\"."
+	var/signed_by = signature()
+	if(signed_by)
+		examine_list += "This Bill of Fare was written by [signed_by]."
 	var/list/counts = list()
 	for(var/key in columns)
 		var/datum/bill_of_fare_column/column = columns[key]
@@ -235,6 +246,8 @@ GLOBAL_LIST_EMPTY(bill_of_fare_vessels)
 /datum/component/bill_of_fare/proc/open(mob/user)
 	if(!user.can_read(parent))
 		return
+	if(holds_writing_tool(user) && !may_edit(user))
+		to_chat(user, span_warning("This is written by another person."))
 	var/datum/tgui/ui = SStgui.get_open_ui(user, src)
 	if(ui)
 		ui.send_full_update()
@@ -250,10 +263,42 @@ GLOBAL_LIST_EMPTY(bill_of_fare_vessels)
 			return TRUE
 	return FALSE
 
-/datum/component/bill_of_fare/proc/can_write(mob/user)
-	if(!user.can_read(parent, TRUE))
-		return FALSE
+/datum/component/bill_of_fare/proc/holds_writing_tool(mob/user)
 	return !!(user.is_holding_item_of_type(/obj/item/natural/feather) || user.is_holding_item_of_type(/obj/item/natural/thorn))
+
+/datum/component/bill_of_fare/proc/can_write(mob/user)
+	if(!user.can_read(parent, TRUE) || !holds_writing_tool(user))
+		return FALSE
+	return may_edit(user)
+
+/datum/component/bill_of_fare/proc/is_claimed()
+	return !isnull(author_mind)
+
+/datum/component/bill_of_fare/proc/is_author(mob/user)
+	return !!(user?.mind && IS_WEAKREF_OF(user.mind, author_mind))
+
+/datum/component/bill_of_fare/proc/may_edit(mob/user)
+	if(!user?.mind)
+		return FALSE
+	return !is_claimed() || open_to_all || is_author(user)
+
+/datum/component/bill_of_fare/proc/claim(mob/user)
+	if(is_claimed() || !user?.mind)
+		return
+	author_mind = WEAKREF(user.mind)
+	author_ckey = user.ckey
+	author_name = user.real_name
+	author_job = user.job
+	log_paper("[key_name(user)] signed [parent] as its author")
+
+/datum/component/bill_of_fare/proc/signature()
+	if(!is_claimed() || open_to_all)
+		return null
+	if(signature_mode == BILL_OF_FARE_SIGN_JOB && length(author_job))
+		return "the [author_job]"
+	if(signature_mode == BILL_OF_FARE_SIGN_PEN && length(pen_name))
+		return pen_name
+	return author_name
 
 /datum/component/bill_of_fare/proc/get_column(key)
 	if(!istext(key))
@@ -296,6 +341,7 @@ GLOBAL_LIST_EMPTY(bill_of_fare_vessels)
 		"title_len" = BILL_OF_FARE_TITLE_LEN,
 		"line_len" = BILL_OF_FARE_LINE_LEN,
 		"notes_len" = BILL_OF_FARE_NOTES_LEN,
+		"pen_name_len" = BILL_OF_FARE_PEN_NAME_LEN,
 		"import_len" = BILL_OF_FARE_IMPORT_MAX_LEN,
 		"picker_rows" = BILL_OF_FARE_PICKER_ROWS,
 	)
@@ -316,12 +362,22 @@ GLOBAL_LIST_EMPTY(bill_of_fare_vessels)
 	for(var/key in columns)
 		var/datum/bill_of_fare_column/column = columns[key]
 		rows[key] = column.rows()
+	var/author = is_author(user)
 	return list(
 		"title" = title,
 		"notes" = notes,
 		"can_edit" = can_write(user),
 		"rows" = rows,
 		"export" = export_text(),
+		"signature" = signature(),
+		"claimed" = is_claimed(),
+		"open_to_all" = open_to_all,
+		"is_author" = author,
+		"foreign_hand" = holds_writing_tool(user) && !may_edit(user),
+		"signature_mode" = author ? signature_mode : null,
+		"pen_name" = author ? pen_name : null,
+		"author_name" = author ? author_name : null,
+		"author_job" = author ? author_job : null,
 	)
 
 /datum/component/bill_of_fare/ui_act(action, list/params, datum/tgui/ui, datum/ui_state/state)
@@ -417,8 +473,34 @@ GLOBAL_LIST_EMPTY(bill_of_fare_vessels)
 			COOLDOWN_START(src, import_cooldown, BILL_OF_FARE_IMPORT_COOLDOWN)
 			if(!import_text(user, params["text"]))
 				return
+		if("set_signature")
+			if(!is_author(user))
+				return
+			var/mode = params["mode"]
+			switch(mode)
+				if(BILL_OF_FARE_SIGN_NAME)
+					signature_mode = mode
+				if(BILL_OF_FARE_SIGN_JOB)
+					if(!length(author_job))
+						return
+					signature_mode = mode
+				if(BILL_OF_FARE_SIGN_PEN)
+					var/clean = bill_of_fare_clean_text(user, params["text"], BILL_OF_FARE_PEN_NAME_LEN)
+					if(!length(clean))
+						return
+					pen_name = clean
+					signature_mode = mode
+					log_write(user, "pen name", clean)
+				else
+					return
+		if("set_open")
+			if(!is_author(user))
+				return
+			open_to_all = !!params["open"]
+			log_paper("[key_name(user)] [open_to_all ? "opened" : "closed"] [parent] to other writers")
 		else
 			return
+	claim(user)
 	var/atom/host = parent
 	host.update_icon()
 	return TRUE

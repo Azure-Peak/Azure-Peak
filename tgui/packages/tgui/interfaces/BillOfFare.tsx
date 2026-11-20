@@ -94,8 +94,18 @@ type Data = {
   title_len: number;
   line_len: number;
   notes_len: number;
+  pen_name_len: number;
   import_len: number;
   export: string;
+  signature?: string | null;
+  claimed: boolean | number;
+  open_to_all: boolean | number;
+  is_author: boolean | number;
+  foreign_hand: boolean | number;
+  signature_mode?: string | null;
+  pen_name?: string | null;
+  author_name?: string | null;
+  author_job?: string | null;
   picker_rows: number;
   catalogs?: Catalogs;
 };
@@ -857,6 +867,103 @@ const CopyPanel = (props: { canImport: boolean }) => {
   );
 };
 
+const SignatureLine = (props: { signature?: string | null }) =>
+  props.signature ? (
+    <div
+      style={{
+        textAlign: 'right',
+        fontStyle: 'italic',
+        color: INK_SOFT,
+        marginTop: '10px',
+      }}
+    >
+      This Bill of Fare was written by {props.signature}.
+    </div>
+  ) : null;
+
+const SignaturePanel = () => {
+  const { act, data } = useBackend<Data>();
+  const [penOpen, setPenOpen] = useState(false);
+  if (!data.claimed) {
+    return <SubLabel>Writing on it signs it with your name.</SubLabel>;
+  }
+  if (!data.is_author) {
+    return data.open_to_all ? (
+      <SubLabel>Anyone may write on this.</SubLabel>
+    ) : null;
+  }
+  const mode = data.signature_mode;
+  const showPen = penOpen || mode === 'pen';
+  const choices: { key: string; label: string }[] = [
+    { key: 'name', label: data.author_name || 'My name' },
+  ];
+  if (data.author_job) {
+    choices.push({ key: 'job', label: `the ${data.author_job}` });
+  }
+  return (
+    <div style={{ margin: '6px 0' }}>
+      <div
+        style={{
+          display: 'flex',
+          flexWrap: 'wrap',
+          alignItems: 'center',
+          gap: '6px',
+        }}
+      >
+        <span style={{ color: INK_SOFT, fontSize: FONT_SMALL }}>
+          Signed as:
+        </span>
+        {choices.map((choice) => (
+          <div
+            key={choice.key}
+            style={tabStyle(!showPen && mode === choice.key)}
+            onClick={() => {
+              setPenOpen(false);
+              act('set_signature', { mode: choice.key });
+            }}
+          >
+            {choice.label}
+          </div>
+        ))}
+        <div style={tabStyle(showPen)} onClick={() => setPenOpen(true)}>
+          Another name
+        </div>
+        {showPen && (
+          <CommitInput
+            value={data.pen_name || ''}
+            maxLength={data.pen_name_len}
+            placeholder="Name to sign with"
+            style={{ width: '180px' }}
+            onCommit={(text) =>
+              act('set_signature', { mode: 'pen', text })
+            }
+          />
+        )}
+      </div>
+      <div
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: '6px',
+          marginTop: '6px',
+        }}
+      >
+        <div
+          style={tabStyle(!!data.open_to_all)}
+          onClick={() => act('set_open', { open: !data.open_to_all })}
+        >
+          Let anyone write on it
+        </div>
+        <span style={{ color: INK_FAINT, fontSize: FONT_SMALL }}>
+          {data.open_to_all
+            ? 'Unsigned. Anyone with a feather can change it.'
+            : `Readers see: written by ${data.signature}.`}
+        </span>
+      </div>
+    </div>
+  );
+};
+
 const WriterView = () => {
   const { act, data } = useBackend<Data>();
   return (
@@ -870,6 +977,7 @@ const WriterView = () => {
           style={{ ...titleStyle, width: '100%', display: 'block' }}
           onCommit={(text) => act('set_title', { text })}
         />
+        <SignaturePanel />
         {data.columns.map((info) => (
           <WriterList key={info.key} info={info} />
         ))}
@@ -986,6 +1094,18 @@ const ReaderView = () => {
   }
   return (
     <>
+      {!!data.foreign_hand && (
+        <div
+          style={{
+            textAlign: 'center',
+            color: INK_FAINT,
+            fontStyle: 'italic',
+            marginBottom: '6px',
+          }}
+        >
+          This is written by someone else.
+        </div>
+      )}
       {!!data.title && <div style={titleStyle}>{data.title}</div>}
       <hr style={rulerStyle} />
       <div style={{ display: 'flex', flexWrap: 'wrap', gap: '24px' }}>
@@ -1007,6 +1127,7 @@ const ReaderView = () => {
           </div>
         </>
       )}
+      <SignatureLine signature={data.signature} />
       <CopyPanel canImport={false} />
     </>
   );

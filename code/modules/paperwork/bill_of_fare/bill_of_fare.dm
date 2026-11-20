@@ -27,6 +27,7 @@
 	. = ..()
 	. += span_info("Use it in hand to read it. Click it with a feather or thorn to write on it.")
 	. += span_info("Click a wall while standing directly in front of it to pin it there.")
+	. += span_info("A Bill of Fare is signed by the first person to write on it. Only they can change what it says, unless they let anyone else write on it.")
 	. += span_info("A new bill of fare can be made by crafting with a piece of paper.")
 
 /obj/item/bill_of_fare/pre_attack(atom/A, mob/living/user, params)
@@ -88,15 +89,16 @@
 	. = ..()
 	. += span_info("Click it to read it. Click it with a feather or thorn to write on it.")
 	. += span_info("Right click it to take it down.")
+	. += span_info("A Bill of Fare is signed by the first person to write on it. Only they can change what it says, unless they let anyone else write on it.")
 	. += span_info("A new bill of fare can be made by crafting with a piece of paper.")
 
 /obj/structure/fluff/walldeco/bill_of_fare/attack_right(mob/user, params)
 	if(!sheet)
 		return FALSE
 	add_fingerprint(user)
+	var/datum/component/bill_of_fare/menu = GetComponent(/datum/component/bill_of_fare)
 	var/obj/item/bill_of_fare/taken = sheet
 	sheet = null
-	var/datum/component/bill_of_fare/menu = GetComponent(/datum/component/bill_of_fare)
 	if(menu)
 		taken.TakeComponent(menu)
 	taken.update_icon()
