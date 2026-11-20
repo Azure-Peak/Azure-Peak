@@ -35,3 +35,33 @@
 
 #define JUICE_YIELD 25
 #define MORTAR_MAX_ITEMS 4
+
+#define BILL_OF_FARE_MAX_FOODS 15
+#define BILL_OF_FARE_MAX_DRINKS 15
+#define BILL_OF_FARE_MAX_PRICE 999
+#define BILL_OF_FARE_TITLE_LEN 42
+#define BILL_OF_FARE_LINE_LEN 42
+#define BILL_OF_FARE_NOTES_LEN 300
+#define BILL_OF_FARE_SEARCH_MIN 2
+#define BILL_OF_FARE_SEARCH_RESULTS 20
+
+#define BILL_OF_FARE_DRINK_BASES list( \
+	/datum/reagent/consumable/ethanol, \
+	/datum/reagent/consumable/juice, \
+	/datum/reagent/consumable/virgin_drink, \
+	/datum/reagent/consumable/brew, \
+	/datum/reagent/consumable/caffeine, \
+)
+
+#define BILL_OF_FARE_DRINK_EXACT list( \
+	/datum/reagent/consumable/milk, \
+	/datum/reagent/water, \
+	/datum/reagent/consumable/rosewater, \
+	/datum/reagent/consumable/rosewater_spiced, \
+	/datum/reagent/consumable/chocolate, \
+	/datum/reagent/consumable/spiced_chocolate, \
+	/datum/reagent/consumable/golden_calendula_tea, \
+	/datum/reagent/consumable/soothing_valerian_tea, \
+	/datum/reagent/consumable/azurosa_tea, \
+	/datum/reagent/consumable/maizewash, \
+)
