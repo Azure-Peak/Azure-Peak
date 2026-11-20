@@ -351,7 +351,7 @@
 	. = ..()
 	. += span_info("With more blessed silver and an armorsmith's hammer, this armor can be further upgraded.")
 	. += span_info("If a character has the 'Maille Training' trait and has Psydon as their selected patron, they can comfortably wear Psydonic plate armor without suffering any downsides.")
-	. += span_hypnophrase("'..the thrumming of madness, to think that your suffering was all-for-naught to Adonai's sacrificial lamb..'")
+	. += span_hypnophrase("'..the thrumming of madness, to think that your suffering was all-for-naught to be His sacrificial lamb..'")
 
 // HEAVY
 /obj/item/clothing/suit/roguetown/armor/plate/full
@@ -367,6 +367,12 @@
 	strip_delay = STRIP_DELAY_ARMOR
 	armor_class = ARMOR_CLASS_HEAVY
 	smelt_bar_num = 4
+
+/obj/item/clothing/suit/roguetown/armor/plate/full/ComponentInitialize()
+	AddComponent(/datum/component/item_equipped_movement_rustle, SFX_PLATE_FULL_STEP, 12)
+	AddComponent(/datum/component/armour_filtering/negative, TRAIT_FENCERDEXTERITY)
+	AddComponent(/datum/component/armour_filtering/negative, TRAIT_HONORBOUND)
+	AddComponent(/datum/component/armour_filtering/negative, TRAIT_FREEBLADEDEXTERITY)
 
 /obj/item/clothing/suit/roguetown/armor/plate/full/iron
 	name = "iron plate armor"

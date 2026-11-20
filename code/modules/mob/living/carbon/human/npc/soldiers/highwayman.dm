@@ -64,6 +64,30 @@
 	npc_archetype = /datum/npc_archetype/highwayman/caster/magister
 	threat_point = THREAT_DEADLY
 
+/mob/living/carbon/human/species/human/northern/highwayman/caster/boss
+	npc_archetype = /datum/npc_archetype/highwayman/caster/boss/mixed
+	threat_point = THREAT_ELITE + THREAT_CASTER_PREMIUM
+
+/mob/living/carbon/human/species/human/northern/highwayman/caster/boss/pyromancer
+	npc_archetype = /datum/npc_archetype/highwayman/caster/boss/pyromancer
+	boss_class = BOSS_CLASS_PYROMANCER
+
+/mob/living/carbon/human/species/human/northern/highwayman/caster/boss/fulgurmancer
+	npc_archetype = /datum/npc_archetype/highwayman/caster/boss/fulgurmancer
+	boss_class = BOSS_CLASS_FULGURMANCER
+
+/mob/living/carbon/human/species/human/northern/highwayman/caster/boss/geomancer
+	npc_archetype = /datum/npc_archetype/highwayman/caster/boss/geomancer
+	boss_class = BOSS_CLASS_GEOMANCER
+
+/mob/living/carbon/human/species/human/northern/highwayman/caster/boss/telomancer
+	npc_archetype = /datum/npc_archetype/highwayman/caster/boss/telomancer
+	boss_class = BOSS_CLASS_TELOMANCER
+
+/mob/living/carbon/human/species/human/northern/highwayman/caster/boss/cryomancer
+	npc_archetype = /datum/npc_archetype/highwayman/caster/boss/cryomancer
+	boss_class = BOSS_CLASS_CRYOMANCER
+
 /mob/living/carbon/human/species/human/northern/highwayman/spellblade
 	npc_archetype = /datum/npc_archetype/highwayman/spellblade/mixed
 	threat_point = THREAT_DANGEROUS + THREAT_SPELLBLADE_PREMIUM
@@ -84,6 +108,26 @@
 /mob/living/carbon/human/species/human/northern/highwayman/spellblade/champion
 	npc_archetype = /datum/npc_archetype/highwayman/spellblade/champion
 	threat_point = THREAT_DEADLY + THREAT_SPELLBLADE_PREMIUM
+
+/mob/living/carbon/human/species/human/northern/highwayman/spellblade/boss
+	npc_archetype = /datum/npc_archetype/highwayman/spellblade/boss/mixed
+	threat_point = THREAT_ELITE + THREAT_CASTER_PREMIUM + THREAT_SPELLBLADE_PREMIUM
+
+/mob/living/carbon/human/species/human/northern/highwayman/spellblade/boss/blade
+	npc_archetype = /datum/npc_archetype/highwayman/spellblade/boss/blade
+	boss_class = BOSS_CLASS_SPELLBLADE
+
+/mob/living/carbon/human/species/human/northern/highwayman/spellblade/boss/phalangite
+	npc_archetype = /datum/npc_archetype/highwayman/spellblade/boss/phalangite
+	boss_class = BOSS_CLASS_PHALANGITE
+
+/mob/living/carbon/human/species/human/northern/highwayman/spellblade/boss/macebearer
+	npc_archetype = /datum/npc_archetype/highwayman/spellblade/boss/macebearer
+	boss_class = BOSS_CLASS_MACEBEARER
+
+/mob/living/carbon/human/species/human/northern/highwayman/spellblade/boss/spellfist
+	npc_archetype = /datum/npc_archetype/highwayman/spellblade/boss/spellfist
+	boss_class = BOSS_CLASS_SPELLFIST
 
 /mob/living/carbon/human/species/human/northern/highwayman/light
 	npc_archetype = /datum/npc_archetype/highwayman/light

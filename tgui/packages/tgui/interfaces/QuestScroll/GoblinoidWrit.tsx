@@ -8,6 +8,7 @@ export const GoblinoidWrit = (props: {
   rulerTitle: string;
   groupWord?: string | null;
   namePlural?: string | null;
+  ringleader?: string | null;
   reward: number;
   levyRate: number;
   levyExempt: boolean;
@@ -25,6 +26,7 @@ export const GoblinoidWrit = (props: {
     rulerTitle,
     groupWord,
     namePlural,
+    ringleader,
     reward,
     levyRate,
     levyExempt,
@@ -39,14 +41,21 @@ export const GoblinoidWrit = (props: {
   } = props;
   const folk = namePlural || 'spawn';
   const band = groupWord || 'warband';
+  const leader = ringleader ? (
+    <>
+      {' '}
+      under one called <b>{ringleader}</b>
+    </>
+  ) : null;
   return (
     <>
       <p style={writParagraph}>
         <i>Notice posted by writ of the {rulerTitle}:</i>
       </p>
       <p style={writParagraph}>
-        A {band} of <b>{folk}</b> infests the lands of {realm}. They are spawn
-        of the dark stars and answer to no law. No summons is owed them.
+        A {band} of <b>{folk}</b>
+        {leader} infests the lands of {realm}. They are spawn of the dark stars
+        and answer to no law. No summons is owed them.
       </p>
       <p style={writParagraph}>
         <span style={caputLupinum}>SLAY THEM</span>, root and branch, where they

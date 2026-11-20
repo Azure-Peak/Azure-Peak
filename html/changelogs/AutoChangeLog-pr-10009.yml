@@ -1,5 +1,0 @@
-author: "WeNeedMorePhoron"
-delete-after: True
-changes:
-  - rscadd: "Trollslayer's troll head spawn in their headhook now"
-  - rscadd: "Reduced cases where Forlorne may leave your gears behind on floor"

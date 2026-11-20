@@ -217,6 +217,10 @@
 		STATKEY_PER = 2,
 		STATKEY_INT = 2,
 	)
+	subclass_stashed_items = list(
+		"Wax Putty I" = /obj/item/waxputty,
+		"Wax Putty II" = /obj/item/waxputty,
+	)
 	subclass_skills = list(
 		/datum/skill/misc/tracking = SKILL_LEVEL_LEGENDARY,
 		/datum/skill/combat/crossbows = SKILL_LEVEL_JOURNEYMAN,

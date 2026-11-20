@@ -130,7 +130,7 @@
 		IB.layer = IB.layer
 		IB.pixel_x = 0
 		IB.pixel_y = 0
-		IB.appearance_flags = RESET_TRANSFORM|KEEP_TOGETHER
+		IB.appearance_flags = buckled.appearance_flags | RESET_TRANSFORM | RESET_COLOR | RESET_ALPHA
 		client.hidden_images += IB
 		client.images += IB
 	if(pulling)
@@ -140,7 +140,7 @@
 		IB.layer = IB.layer
 		IB.pixel_x = 0
 		IB.pixel_y = 0
-		IB.appearance_flags = RESET_TRANSFORM|KEEP_TOGETHER
+		IB.appearance_flags = pulling.appearance_flags | RESET_TRANSFORM | RESET_COLOR | RESET_ALPHA
 		client.hidden_images += IB
 		client.images += IB
 /*	if(hud_used && hud_used.fov_blocker)

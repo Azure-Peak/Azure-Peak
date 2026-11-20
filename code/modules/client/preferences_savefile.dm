@@ -7,7 +7,7 @@
 //	where you would want the updater procs below to run
 
 //	This also works with decimals.
-#define SAVEFILE_VERSION_MAX	36
+#define SAVEFILE_VERSION_MAX	37
 
 /*
 SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Carn
@@ -51,6 +51,8 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	if(current_version < 31) // RAISE THIS TO SAVEFILE_VERSION_MAX (and make sure to add +1 to the version) EVERY TIME YOU ADD SERVER-CHANGING KEYBINDS LIKE CHANGING HOW SAY WORKS!!
 		force_reset_keybindings_direct()
 		addtimer(CALLBACK(src, PROC_REF(force_reset_keybindings_direct)), 30)
+	if(current_version < 37 && islist(key_bindings) && !key_bindings["F10"]) // Add the AntagOOC default without resetting custom keybinds
+		key_bindings["F10"] = list("AntagOOC")
 
 /datum/preferences/proc/update_character(current_version, savefile/S)
 	if(current_version < 30)
@@ -620,6 +622,8 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 		char_toggles = legacy_dnr ? CHAR_TOGGLE_DNR : NONE
 
 	S["update_mutant_colors"] >> update_mutant_colors
+	ooze_color_shifting = null
+	S["ooze_color_shifting"] >> ooze_color_shifting
 
 	S["headshot_link"]						>> headshot_link
 	S["headshot_artist_credit"]				>> headshot_artist_credit
@@ -773,6 +777,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	// complex/other stuff
 	preset_bounty_enabled = sanitize_bool(preset_bounty_enabled, initial(preset_bounty_enabled))
 	update_mutant_colors = sanitize_bool(update_mutant_colors, initial(update_mutant_colors))
+	ooze_color_shifting = sanitize_bool(ooze_color_shifting, initial(ooze_color_shifting))
 
 	body_markings = SANITIZE_LIST(body_markings)
 	validate_body_markings()
@@ -861,6 +866,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	WRITE_FILE(S["gender"]				, gender)
 	WRITE_FILE(S["domhand"]				, domhand)
 	WRITE_FILE(S["age"]					, age)
+	WRITE_FILE(S["ooze_color_shifting"]	, ooze_color_shifting)
 	WRITE_FILE(S["vampire_skin"]		, vampire_skin)
 	WRITE_FILE(S["vampire_hair"]		, vampire_hair)
 	WRITE_FILE(S["vampire_eyes"]		, vampire_eyes)

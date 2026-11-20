@@ -49,6 +49,9 @@
 	if(get_dist(our_turf, scroll_turf) > prox_range)
 		return
 
+	if(!quest.may_trigger(scroll_turf))
+		return
+
 	// Pop every spawner this quest owns at once so the whole encounter materializes together.
 	quest.pop_all_spawners()
 
@@ -69,6 +72,8 @@
 	if(our_turf.z != scroll_turf.z)
 		return
 	if(get_dist(our_turf, scroll_turf) > prox_range)
+		return
+	if(!quest.may_trigger(scroll_turf))
 		return
 	INVOKE_ASYNC(quest, TYPE_PROC_REF(/datum/quest/kill, check_arrival))
 

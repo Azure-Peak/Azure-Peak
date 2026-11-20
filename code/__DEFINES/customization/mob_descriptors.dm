@@ -14,7 +14,7 @@
 #define MOB_DESCRIPTOR_SLOT_HEIGHT 14
 #define MOB_DESCRIPTOR_SLOT_TRAIT 15
 
-#define CUSTOM_DESCRIPTOR_AMOUNT 12
+#define CUSTOM_DESCRIPTOR_AMOUNT 16
 #define CUSTOM_DESCRIPTOR_TEXT_LENGTH 32
 
 #define CUSTOM_DESCRIPTOR_TYPE_LIST list(\
@@ -29,7 +29,11 @@
 	/datum/mob_descriptor/voice/custom/nine,\
 	/datum/mob_descriptor/stature/custom/ten,\
 	/datum/mob_descriptor/height/custom/eleven,\
-	/datum/mob_descriptor/trait/custom/twelve\
+	/datum/mob_descriptor/trait/custom/twelve,\
+	/datum/mob_descriptor/skin/custom/fur,\
+	/datum/mob_descriptor/skin/custom/chitin,\
+	/datum/mob_descriptor/skin/custom/feathers,\
+	/datum/mob_descriptor/skin/custom/scales\
 )
 
 #define CUSTOM_DESCRIPTOR_SHOWS_PREFIX list(\

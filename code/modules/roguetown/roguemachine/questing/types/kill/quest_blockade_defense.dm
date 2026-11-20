@@ -2,6 +2,7 @@
 	quest_type = QUEST_BLOCKADE_DEFENSE
 	chronicle_order = QUEST_CHRONICLE_ORDER_BLOCKADE_DEFENSE
 	defense_cost = BLOCKADE_SCROLL_PLEDGE_COST
+	veteran_allowed = FALSE
 	guild_cut_rate = 0
 	charges_deposit = FALSE
 	shows_commission_seal = TRUE
@@ -181,15 +182,8 @@
 	total_spawned_tp += initial_threat_point(boss.type)
 	progress_required += 1
 	if(faction.boss_name_file)
-		wave_boss_name = faction.generate_boss_name()
-		addtimer(CALLBACK(src, PROC_REF(apply_wave_boss_name), WEAKREF(boss), wave_boss_name), QUEST_BOSS_RENAME_DELAY)
-
-/datum/quest/kill/blockade_defense/proc/apply_wave_boss_name(datum/weakref/boss_ref, boss_name)
-	var/mob/living/boss = boss_ref?.resolve()
-	if(QDELETED(boss) || !boss_name)
-		return
-	boss.real_name = boss_name
-	boss.name = boss_name
+		wave_boss_name = faction.generate_boss_name(boss_type)
+		addtimer(CALLBACK(src, PROC_REF(rename_quest_boss), WEAKREF(boss), wave_boss_name), QUEST_BOSS_RENAME_DELAY)
 
 /datum/quest/kill/blockade_defense/proc/spawn_wave(wave_num)
 	if(failed || complete)

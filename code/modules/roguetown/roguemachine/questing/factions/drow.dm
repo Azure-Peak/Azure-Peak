@@ -19,10 +19,4 @@
 	boss_mob_types = list(
 		/mob/living/carbon/human/species/elf/dark/drowraider/scourge = 100,
 	)
-	boss_title_templates = list(
-		"%N the Venomed",
-		"%N of the Shadow",
-		"Matron %N",
-		"%N the Spiderkin",
-	)
 	boss_name_file = "strings/rt/names/elf/elfdm.txt"
