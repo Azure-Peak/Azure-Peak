@@ -130,7 +130,7 @@
 	grid_width = 32
 	grid_height = 96
 
-/obj/item/lockpick/get_mechanics_examine(mob/user)
+/obj/item/prybar/get_mechanics_examine(mob/user)
 	. = ..()
 	. += span_info("Left-click a closed window to attempt to open it.")
 	. += span_info("The chance to successfully open a window scales with your Lockpicking skill and perception.")
