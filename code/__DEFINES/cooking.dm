@@ -38,18 +38,20 @@
 
 #define BILL_OF_FARE_MAX_FOOD 15
 #define BILL_OF_FARE_MAX_DRINK 15
-#define BILL_OF_FARE_MAX_PROVISIONS 10
 #define BILL_OF_FARE_MAX_PRICE 999
 #define BILL_OF_FARE_TITLE_LEN 42
 #define BILL_OF_FARE_LINE_LEN 42
 #define BILL_OF_FARE_NOTES_LEN 300
-#define BILL_OF_FARE_SEARCH_MIN 2
-#define BILL_OF_FARE_SEARCH_RESULTS 20
+#define BILL_OF_FARE_PICKER_ROWS 60
 
 #define BILL_OF_FARE_COLUMNS list( \
 	/datum/bill_of_fare_column/food, \
 	/datum/bill_of_fare_column/drink, \
-	/datum/bill_of_fare_column/food/provisions, \
+)
+
+#define BILL_OF_FARE_VESSELS list( \
+	/datum/bill_of_fare_vessel/cup, \
+	/datum/bill_of_fare_vessel/bottle, \
 )
 
 #define BILL_OF_FARE_DRINK_BASES list( \

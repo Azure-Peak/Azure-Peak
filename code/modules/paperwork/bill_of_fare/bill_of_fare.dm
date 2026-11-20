@@ -23,6 +23,11 @@
 	icon_state = menu?.has_writing() ? "paperwrite" : "paper"
 	return ..()
 
+/obj/item/bill_of_fare/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Use it in hand to read it. Click it with a feather or thorn to write on it.")
+	. += span_info("Click a wall while standing directly in front of it to pin it there.")
+
 /obj/item/bill_of_fare/pre_attack(atom/A, mob/living/user, params)
 	if(!user.cmode && isclosedturf(A))
 		try_pin(A, user)
@@ -77,6 +82,11 @@
 	var/datum/component/bill_of_fare/menu = GetComponent(/datum/component/bill_of_fare)
 	icon_state = menu?.has_writing() ? "paperwrite" : "paper"
 	return ..()
+
+/obj/structure/fluff/walldeco/bill_of_fare/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Click it to read it. Click it with a feather or thorn to write on it.")
+	. += span_info("Right click it to take it down.")
 
 /obj/structure/fluff/walldeco/bill_of_fare/attack_right(mob/user, params)
 	if(!sheet)

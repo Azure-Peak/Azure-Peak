@@ -1,5 +1,31 @@
 GLOBAL_LIST_EMPTY(bill_of_fare_foods)
 GLOBAL_LIST_EMPTY(bill_of_fare_drinks)
+GLOBAL_LIST_EMPTY(bill_of_fare_ui_catalogs)
+
+/proc/get_bill_of_fare_ui_catalogs()
+	if(!length(GLOB.bill_of_fare_ui_catalogs))
+		var/list/icon_files = list()
+		var/list/icon_slots = list()
+		var/list/food_entries = list()
+		var/list/food_index = get_bill_of_fare_foods()
+		for(var/i in 1 to length(food_index))
+			var/obj/item/food_type = food_index[i]
+			var/icon_file = "[initial(food_type.icon)]"
+			if(isnull(icon_slots[icon_file]))
+				icon_files += icon_file
+				icon_slots[icon_file] = length(icon_files)
+			food_entries += list(list(i, food_index[food_type], icon_slots[icon_file], initial(food_type.icon_state)))
+		var/list/drink_entries = list()
+		var/list/drink_index = get_bill_of_fare_drinks()
+		for(var/i in 1 to length(drink_index))
+			var/datum/reagent/drink_type = drink_index[i]
+			drink_entries += list(list(i, drink_index[drink_type], initial(drink_type.color)))
+		GLOB.bill_of_fare_ui_catalogs = list(
+			"icon_files" = icon_files,
+			"food" = food_entries,
+			"drink" = drink_entries,
+		)
+	return GLOB.bill_of_fare_ui_catalogs
 
 /proc/get_bill_of_fare_foods()
 	if(!length(GLOB.bill_of_fare_foods))

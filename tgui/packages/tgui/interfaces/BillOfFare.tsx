@@ -1,5 +1,12 @@
-import { type CSSProperties, useEffect, useMemo, useRef, useState } from 'react';
-import { NumberInput } from 'tgui-core/components';
+import {
+  type CSSProperties,
+  type ReactNode,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
+import { DmIcon, NumberInput } from 'tgui-core/components';
 
 import { useBackend } from '../backend';
 import { Window } from '../layouts';
@@ -7,6 +14,7 @@ import {
   compactButtonStyle,
   denseRowStyle,
   ellipsisCellStyle,
+  FONT_BODY,
   FONT_SMALL,
   INK_FAINT,
   INK_SOFT,
@@ -15,13 +23,17 @@ import {
   pageStyle,
   rulerStyle,
   sectionHeaderStyle,
+  tabBarStyle,
+  tabStyle,
   titleStyle,
+  tocLinkStyle,
 } from './common/parchment';
 
 type Row = {
   uid: number;
   name: string;
-  price: number;
+  price?: number;
+  prices?: Record<string, number>;
   linked: boolean;
   icon?: string;
   icon_state?: string;
@@ -29,13 +41,45 @@ type Row = {
   color?: string;
 };
 
-type CatalogEntry = [number, string];
+type VesselPrices = Record<string, number | null>;
 
 type ColumnInfo = {
   key: string;
   label: string;
   cap: number;
   catalog: string;
+  vessels: boolean | number;
+};
+
+type Vessel = {
+  key: string;
+  label: string;
+  capacity: number;
+  icon: string;
+  icon_state: string;
+  fill_icon: string;
+  fill_state: string;
+  fill_under: boolean | number;
+  top_state?: string;
+};
+
+type FoodEntry = [number, string, number, string];
+
+type DrinkEntry = [number, string, string | null];
+
+type Catalogs = {
+  icon_files: string[];
+  food: FoodEntry[];
+  drink: DrinkEntry[];
+};
+
+type PickEntry = {
+  id: number;
+  name: string;
+  lower: string;
+  icon?: string;
+  icon_state?: string;
+  color?: string | null;
 };
 
 type Data = {
@@ -44,14 +88,61 @@ type Data = {
   can_edit: boolean;
   rows: Record<string, Row[]>;
   columns: ColumnInfo[];
+  vessels: Vessel[];
   max_price: number;
   title_len: number;
   line_len: number;
   notes_len: number;
-  search_min: number;
-  search_results: number;
-  catalogs?: Record<string, CatalogEntry[]>;
+  picker_rows: number;
+  catalogs?: Catalogs;
 };
+
+const ICON_SIZE = 32;
+const SWATCH_SIZE = 12;
+const PRICE_WIDTH = 40;
+const VESSEL_CELL_WIDTH = 104;
+const REMOVE_WIDTH = 28;
+
+const iconUrl = (icon: string, state: string) => {
+  const ref = Byond.iconRefMap?.[icon];
+  return ref ? `${ref}?state=${state}&dir=2&movement=false&frame=1` : '';
+};
+
+const isOffered = (prices: VesselPrices | undefined, key: string) =>
+  typeof prices?.[key] === 'number';
+
+const offeredVessels = (vessels: Vessel[], prices?: VesselPrices) =>
+  vessels.filter((vessel) => isOffered(prices, vessel.key));
+
+const initialVesselPrices = (vessels: Vessel[]) => {
+  const prices: VesselPrices = {};
+  vessels.forEach((vessel, index) => {
+    prices[vessel.key] = index === 0 ? 0 : null;
+  });
+  return prices;
+};
+
+const offeredPrices = (prices: VesselPrices) => {
+  const offered: Record<string, number> = {};
+  for (const key of Object.keys(prices)) {
+    const value = prices[key];
+    if (typeof value === 'number') {
+      offered[key] = value;
+    }
+  }
+  return offered;
+};
+
+const capacityNote = (vessels: Vessel[]) =>
+  vessels.map((vessel) => `${vessel.label}: ${vessel.capacity} drams`).join(' · ');
+
+const toggleChipStyle = (on: boolean): CSSProperties => ({
+  ...tabStyle(on),
+  display: 'flex',
+  alignItems: 'center',
+  gap: '2px',
+  padding: '0 6px 0 0',
+});
 
 const useCommittedText = (value: string) => {
   const [draft, setDraft] = useState(value);
@@ -133,95 +224,224 @@ const CommitTextArea = (props: {
   );
 };
 
-const ReaderRow = (props: { row: Row }) => {
-  const { row } = props;
+const markBoxStyle: CSSProperties = {
+  position: 'relative',
+  display: 'inline-flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  width: `${ICON_SIZE}px`,
+  height: `${ICON_SIZE}px`,
+  flexShrink: 0,
+};
+
+const layerStyle: CSSProperties = {
+  position: 'absolute',
+  left: 0,
+  top: 0,
+  width: `${ICON_SIZE}px`,
+  height: `${ICON_SIZE}px`,
+};
+
+const SpriteLayer = (props: { icon: string; state: string }) => (
+  <DmIcon
+    icon={props.icon}
+    icon_state={props.state}
+    width={`${ICON_SIZE}px`}
+    height={`${ICON_SIZE}px`}
+    style={layerStyle}
+  />
+);
+
+const FillLayer = (props: { url: string; color: string }) => (
+  <span
+    style={{
+      ...layerStyle,
+      backgroundColor: props.color,
+      maskImage: `url("${props.url}")`,
+      WebkitMaskImage: `url("${props.url}")`,
+      maskSize: '100% 100%',
+      WebkitMaskSize: '100% 100%',
+      maskRepeat: 'no-repeat',
+      WebkitMaskRepeat: 'no-repeat',
+    }}
+  />
+);
+
+const VesselMark = (props: { vessel: Vessel; color?: string | null }) => {
+  const { vessel, color } = props;
+  const url = color ? iconUrl(vessel.fill_icon, vessel.fill_state) : '';
+  const fill = !!url && !!color && <FillLayer url={url} color={color} />;
   return (
-    <div style={denseRowStyle}>
-      <div style={ellipsisCellStyle}>{row.name}</div>
-      <PriceTag price={row.price} />
-    </div>
+    <span style={markBoxStyle}>
+      {!!vessel.fill_under && fill}
+      <SpriteLayer icon={vessel.icon} state={vessel.icon_state} />
+      {!vessel.fill_under && fill}
+      {!!vessel.top_state && (
+        <SpriteLayer icon={vessel.icon} state={vessel.top_state} />
+      )}
+    </span>
   );
 };
 
-const WriterRow = (props: { row: Row; column: string }) => {
-  const { act, data } = useBackend<Data>();
-  const { row, column } = props;
-  return (
-    <div style={denseRowStyle}>
-      <CommitInput
-        value={row.name}
-        maxLength={data.line_len}
-        style={{ flex: 1, minWidth: 0 }}
-        onCommit={(text) => act('rename', { column, uid: row.uid, text })}
-      />
-      <NumberInput
-        step={1}
-        minValue={0}
-        maxValue={data.max_price}
-        unit="m"
-        width="60px"
-        value={row.price}
-        onChange={(value: number) =>
-          act('set_price', { column, uid: row.uid, value })
-        }
-      />
-      <button
-        type="button"
-        title="Strike it out"
-        style={compactButtonStyle({})}
-        onClick={() => act('remove', { column, uid: row.uid })}
-      >
-        ✕
-      </button>
-    </div>
-  );
-};
-
-const AddBox = (props: {
-  column: string;
-  catalog: CatalogEntry[];
-  full: boolean;
+const Mark = (props: {
+  kind: string;
+  icon?: string;
+  icon_state?: string;
+  color?: string | null;
+  vessel?: Vessel;
 }) => {
-  const { act, data } = useBackend<Data>();
-  const { column, catalog, full } = props;
-  const [query, setQuery] = useState('');
-  const lowered = useMemo(
-    () =>
-      catalog.map(([id, name]) => [id, name, name.toLowerCase()] as const),
-    [catalog],
+  const { kind, icon, icon_state, color, vessel } = props;
+  if (vessel) {
+    return <VesselMark vessel={vessel} color={color} />;
+  }
+  if (kind === 'drink') {
+    return (
+      <span style={markBoxStyle}>
+        <span
+          style={{
+            width: `${SWATCH_SIZE}px`,
+            height: `${SWATCH_SIZE}px`,
+            background: color || 'transparent',
+            border: color ? `1px solid ${INK_FAINT}` : 'none',
+            borderRadius: '2px',
+          }}
+        />
+      </span>
+    );
+  }
+  return (
+    <span style={markBoxStyle}>
+      {!!icon && !!icon_state && <SpriteLayer icon={icon} state={icon_state} />}
+    </span>
   );
+};
+
+const SubLabel = (props: { children: ReactNode }) => (
+  <div style={{ color: INK_SOFT, fontSize: FONT_SMALL, margin: '6px 0 2px' }}>
+    {props.children}
+  </div>
+);
+
+const usePickEntries = (catalogs: Catalogs | undefined, kind: string) =>
+  useMemo(() => {
+    if (!catalogs) {
+      return [];
+    }
+    const entries: PickEntry[] =
+      kind === 'drink'
+        ? catalogs.drink.map(([id, name, color]) => ({
+            id,
+            name,
+            lower: name.toLowerCase(),
+            color,
+          }))
+        : catalogs.food.map(([id, name, slot, icon_state]) => ({
+            id,
+            name,
+            lower: name.toLowerCase(),
+            icon: catalogs.icon_files[slot - 1],
+            icon_state,
+          }));
+    return entries.sort((a, b) => a.name.localeCompare(b.name));
+  }, [catalogs, kind]);
+
+const PickRow = (props: {
+  action: string;
+  onClick: () => void;
+  children: ReactNode;
+}) => (
+  <button
+    type="button"
+    className="toc-link"
+    style={{
+      ...tocLinkStyle(false),
+      display: 'flex',
+      alignItems: 'center',
+      gap: '8px',
+      fontSize: FONT_BODY,
+    }}
+    onClick={props.onClick}
+  >
+    {props.children}
+    <span
+      style={{
+        marginLeft: 'auto',
+        flexShrink: 0,
+        color: INK_SOFT,
+        fontSize: FONT_SMALL,
+      }}
+    >
+      {props.action}
+    </span>
+  </button>
+);
+
+const Picker = () => {
+  const { act, data } = useBackend<Data>();
+  const [tab, setTab] = useState(data.columns[0]?.key);
+  const [query, setQuery] = useState('');
+  const [price, setPrice] = useState(0);
+  const [vesselPrices, setVesselPrices] = useState<VesselPrices>(() =>
+    initialVesselPrices(data.vessels),
+  );
+  const info = data.columns.find((c) => c.key === tab) || data.columns[0];
+  const entries = usePickEntries(data.catalogs, info?.catalog || '');
+  if (!info) {
+    return null;
+  }
+
+  const usesVessels = !!info.vessels;
+  const previewVessel = usesVessels
+    ? offeredVessels(data.vessels, vesselPrices)[0]
+    : undefined;
+  const pricing = usesVessels
+    ? { prices: offeredPrices(vesselPrices) }
+    : { price };
+  const toggleVessel = (key: string) => {
+    const on = isOffered(vesselPrices, key);
+    if (on && offeredVessels(data.vessels, vesselPrices).length <= 1) {
+      return;
+    }
+    setVesselPrices({ ...vesselPrices, [key]: on ? null : 0 });
+  };
+  const count = (data.rows[info.key] || []).length;
+  const full = count >= info.cap;
   const typed = query.trim();
   const needle = typed.toLowerCase();
-  const matches =
-    needle.length >= data.search_min
-      ? lowered
-          .filter(([, , low]) => low.includes(needle))
-          .slice(0, data.search_results)
-      : [];
+  const matches = needle
+    ? entries.filter((entry) => entry.lower.includes(needle))
+    : entries;
+  const shown = matches.slice(0, data.picker_rows);
 
   const addWritten = () => {
     if (!typed || full) {
       return;
     }
-    act('add_written', { column, text: typed });
+    act('add_written', { column: info.key, text: typed, ...pricing });
     setQuery('');
   };
 
-  if (full) {
-    return (
-      <div style={{ color: INK_FAINT, fontSize: FONT_SMALL, marginTop: '6px' }}>
-        There is no room for more.
-      </div>
-    );
-  }
-
   return (
-    <div style={{ marginTop: '6px' }}>
+    <div>
+      <div style={sectionHeaderStyle}>Add to the menu</div>
+      <div style={tabBarStyle}>
+        {data.columns.map((c) => (
+          <div
+            key={c.key}
+            style={tabStyle(c.key === info.key)}
+            onClick={() => setTab(c.key)}
+          >
+            {c.label} {(data.rows[c.key] || []).length}/{c.cap}
+          </div>
+        ))}
+      </div>
+
+      <SubLabel>Add a pre-existing item, or write your own custom item</SubLabel>
       <input
         type="text"
         value={query}
         maxLength={data.line_len}
-        placeholder="Find or write a line..."
+        placeholder={`Search ${info.label.toLowerCase()}...`}
         style={{ ...inkInputStyle, width: '100%', boxSizing: 'border-box' }}
         onChange={(e) => setQuery(e.target.value)}
         onKeyDown={(e) => {
@@ -230,122 +450,481 @@ const AddBox = (props: {
           }
         }}
       />
-      {!!typed && (
-        <div style={{ maxHeight: '12em', overflowY: 'auto' }}>
-          <div
-            style={{ ...denseRowStyle, cursor: 'pointer', color: INK_SOFT }}
-            onClick={addWritten}
-          >
-            <span style={ellipsisCellStyle}>Write: {typed}</span>
-          </div>
-          {matches.map(([id, name]) => (
+
+      <div
+        style={{
+          display: 'flex',
+          flexWrap: 'wrap',
+          alignItems: 'center',
+          gap: '8px',
+          margin: '6px 0',
+        }}
+      >
+        {usesVessels ? (
+          <>
+            <span style={{ color: INK_SOFT, fontSize: FONT_SMALL }}>
+              Sold by the:
+            </span>
+            {data.vessels.map((v) => {
+              const on = isOffered(vesselPrices, v.key);
+              return (
+                <div
+                  key={v.key}
+                  style={{ display: 'flex', alignItems: 'center', gap: '4px' }}
+                >
+                  <div
+                    style={toggleChipStyle(on)}
+                    onClick={() => toggleVessel(v.key)}
+                  >
+                    <VesselMark vessel={v} />
+                    {v.label}
+                  </div>
+                  {on && (
+                    <NumberInput
+                      step={1}
+                      minValue={0}
+                      maxValue={data.max_price}
+                      unit="m"
+                      width={`${PRICE_WIDTH}px`}
+                      value={vesselPrices[v.key] ?? 0}
+                      onChange={(value: number) =>
+                        setVesselPrices({ ...vesselPrices, [v.key]: value })
+                      }
+                    />
+                  )}
+                </div>
+              );
+            })}
+          </>
+        ) : (
+          <>
+            <span style={{ color: INK_SOFT, fontSize: FONT_SMALL }}>
+              Price:
+            </span>
+            <NumberInput
+              step={1}
+              minValue={0}
+              maxValue={data.max_price}
+              unit="m"
+              width={`${PRICE_WIDTH}px`}
+              value={price}
+              onChange={(value: number) => setPrice(value)}
+            />
+          </>
+        )}
+      </div>
+      {usesVessels && (
+        <div
+          style={{ color: INK_FAINT, fontSize: FONT_SMALL, marginBottom: '6px' }}
+        >
+          {capacityNote(data.vessels)}
+        </div>
+      )}
+
+      {full ? (
+        <div style={{ color: INK_FAINT, fontStyle: 'italic' }}>
+          The {info.label} list is full.
+        </div>
+      ) : (
+        <div
+          style={{
+            maxHeight: '380px',
+            overflowY: 'auto',
+            border: `1px solid ${INK_FAINT}`,
+          }}
+        >
+          {!!typed && (
+            <PickRow action="Write it" onClick={addWritten}>
+              <span style={{ ...markBoxStyle, color: INK_SOFT }}>✎</span>
+              <span style={ellipsisCellStyle}>“{typed}”</span>
+            </PickRow>
+          )}
+          {shown.map((entry) => (
+            <PickRow
+              key={entry.id}
+              action="Add"
+              onClick={() =>
+                act('add_linked', { column: info.key, id: entry.id, ...pricing })
+              }
+            >
+              <Mark
+                kind={info.catalog}
+                icon={entry.icon}
+                icon_state={entry.icon_state}
+                color={entry.color}
+                vessel={previewVessel}
+              />
+              <span style={ellipsisCellStyle}>{entry.name}</span>
+            </PickRow>
+          ))}
+          {matches.length === 0 && (
+            <div style={{ padding: '6px 8px', color: INK_FAINT }}>
+              Nothing by that name.
+            </div>
+          )}
+          {matches.length > shown.length && (
             <div
-              key={id}
-              style={{ ...denseRowStyle, cursor: 'pointer' }}
-              onClick={() => {
-                act('add_linked', { column, id });
-                setQuery('');
+              style={{
+                padding: '6px 8px',
+                color: INK_FAINT,
+                fontSize: FONT_SMALL,
               }}
             >
-              <span style={ellipsisCellStyle}>{name}</span>
+              Showing {shown.length} of {matches.length}. Search to narrow it
+              down.
             </div>
-          ))}
+          )}
         </div>
       )}
     </div>
   );
 };
 
-const FareColumn = (props: { info: ColumnInfo }) => {
-  const { data } = useBackend<Data>();
-  const { key: column, label, cap } = props.info;
-  const rows = data.rows[column] || [];
-  const catalog = data.catalogs?.[props.info.catalog];
-  const editing = !!data.can_edit;
+const VesselPriceCell = (props: {
+  row: Row;
+  column: string;
+  vessel: Vessel;
+}) => {
+  const { act, data } = useBackend<Data>();
+  const { row, column, vessel } = props;
+  const on = isOffered(row.prices, vessel.key);
   return (
-    <div style={{ flex: '1 1 240px', minWidth: 0 }}>
-      <div style={sectionHeaderStyle}>
-        {label}
-        {editing && (
-          <span
-            style={{
-              float: 'right',
-              color: INK_FAINT,
-              fontSize: FONT_SMALL,
-              fontWeight: 'normal',
-            }}
-          >
-            {rows.length} / {cap}
-          </span>
-        )}
+    <div
+      style={{
+        width: `${VESSEL_CELL_WIDTH}px`,
+        display: 'flex',
+        alignItems: 'center',
+        gap: '4px',
+        flexShrink: 0,
+      }}
+    >
+      <div
+        style={{ ...tabStyle(on), padding: '1px 6px', fontSize: FONT_SMALL }}
+        title={`${vessel.label}: ${vessel.capacity} drams`}
+        onClick={() =>
+          act('set_price', {
+            column,
+            uid: row.uid,
+            vessel: vessel.key,
+            value: on ? null : 0,
+          })
+        }
+      >
+        {vessel.label}
       </div>
-      {rows.length === 0 && !editing && (
-        <div style={{ color: INK_FAINT, fontStyle: 'italic' }}>None.</div>
-      )}
-      {rows.map((row) =>
-        editing ? (
-          <WriterRow key={row.uid} row={row} column={column} />
-        ) : (
-          <ReaderRow key={row.uid} row={row} />
-        ),
-      )}
-      {editing && (
-        <AddBox
-          column={column}
-          catalog={catalog || []}
-          full={rows.length >= cap}
+      {on ? (
+        <NumberInput
+          step={1}
+          minValue={0}
+          maxValue={data.max_price}
+          unit="m"
+          width={`${PRICE_WIDTH}px`}
+          value={row.prices?.[vessel.key] ?? 0}
+          onChange={(value: number) =>
+            act('set_price', {
+              column,
+              uid: row.uid,
+              vessel: vessel.key,
+              value,
+            })
+          }
         />
+      ) : (
+        <span style={{ color: INK_FAINT }}>—</span>
       )}
     </div>
+  );
+};
+
+const WriterRow = (props: {
+  row: Row;
+  column: string;
+  kind: string;
+  usesVessels: boolean;
+}) => {
+  const { act, data } = useBackend<Data>();
+  const { row, column, kind, usesVessels } = props;
+  const vessel = usesVessels
+    ? offeredVessels(data.vessels, row.prices)[0]
+    : undefined;
+  return (
+    <div style={denseRowStyle} title={row.desc}>
+      <Mark
+        kind={kind}
+        icon={row.icon}
+        icon_state={row.icon_state}
+        color={row.color}
+        vessel={vessel}
+      />
+      <CommitInput
+        value={row.name}
+        maxLength={data.line_len}
+        style={{ flex: 1, minWidth: 0 }}
+        onCommit={(text) => act('rename', { column, uid: row.uid, text })}
+      />
+      {usesVessels ? (
+        data.vessels.map((v) => (
+          <VesselPriceCell key={v.key} row={row} column={column} vessel={v} />
+        ))
+      ) : (
+        <NumberInput
+          step={1}
+          minValue={0}
+          maxValue={data.max_price}
+          unit="m"
+          width={`${PRICE_WIDTH}px`}
+          value={row.price ?? 0}
+          onChange={(value: number) =>
+            act('set_price', { column, uid: row.uid, value })
+          }
+        />
+      )}
+      <button
+        type="button"
+        title="Strike it out"
+        style={{ ...compactButtonStyle({}), width: `${REMOVE_WIDTH}px` }}
+        onClick={() => act('remove', { column, uid: row.uid })}
+      >
+        ✕
+      </button>
+    </div>
+  );
+};
+
+const WriterList = (props: { info: ColumnInfo }) => {
+  const { data } = useBackend<Data>();
+  const { key, label, cap, catalog: kind } = props.info;
+  const usesVessels = !!props.info.vessels;
+  const rows = data.rows[key] || [];
+  return (
+    <div>
+      <div style={sectionHeaderStyle}>
+        {label}
+        <span
+          style={{
+            float: 'right',
+            color: INK_FAINT,
+            fontSize: FONT_SMALL,
+            fontWeight: 'normal',
+          }}
+        >
+          {rows.length} / {cap}
+        </span>
+      </div>
+      {rows.length === 0 ? (
+        <div
+          style={{
+            color: INK_FAINT,
+            fontStyle: 'italic',
+            fontSize: FONT_SMALL,
+          }}
+        >
+          Nothing yet. Add some on the right!
+        </div>
+      ) : (
+        <>
+          <div
+            style={{
+              display: 'flex',
+              gap: '6px',
+              padding: '0 6px',
+              color: INK_FAINT,
+              fontSize: FONT_SMALL,
+            }}
+          >
+            <span style={{ width: `${ICON_SIZE}px`, flexShrink: 0 }} />
+            <span style={{ flex: 1 }}>Name</span>
+            <span
+              style={{
+                width: usesVessels
+                  ? `${data.vessels.length * (VESSEL_CELL_WIDTH + 6) - 6}px`
+                  : `${PRICE_WIDTH}px`,
+              }}
+            >
+              {usesVessels ? 'Price, click a vessel to sell it' : 'Price'}
+            </span>
+            <span style={{ width: `${REMOVE_WIDTH}px` }} />
+          </div>
+          {rows.map((row) => (
+            <WriterRow
+              key={row.uid}
+              row={row}
+              column={key}
+              kind={kind}
+              usesVessels={usesVessels}
+            />
+          ))}
+        </>
+      )}
+    </div>
+  );
+};
+
+const WriterView = () => {
+  const { act, data } = useBackend<Data>();
+  return (
+    <div style={{ display: 'flex', gap: '24px', alignItems: 'flex-start' }}>
+      <div style={{ flex: 1, minWidth: 0 }}>
+        <SubLabel>Title</SubLabel>
+        <CommitInput
+          value={data.title}
+          maxLength={data.title_len}
+          placeholder="Name here"
+          style={{ ...titleStyle, width: '100%', display: 'block' }}
+          onCommit={(text) => act('set_title', { text })}
+        />
+        {data.columns.map((info) => (
+          <WriterList key={info.key} info={info} />
+        ))}
+        <div style={sectionHeaderStyle}>Notes</div>
+        <CommitTextArea
+          value={data.notes}
+          maxLength={data.notes_len}
+          placeholder="Other notes"
+          onCommit={(text) => act('set_notes', { text })}
+        />
+      </div>
+      <div
+        style={{
+          width: '360px',
+          flexShrink: 0,
+          position: 'sticky',
+          top: 0,
+        }}
+      >
+        <Picker />
+      </div>
+    </div>
+  );
+};
+
+const ReaderRow = (props: { row: Row; kind: string; vessels?: Vessel[] }) => {
+  const { row, kind, vessels } = props;
+  const offered = vessels ? offeredVessels(vessels, row.prices) : [];
+  return (
+    <div
+      title={row.desc}
+      style={{
+        display: 'flex',
+        alignItems: 'center',
+        gap: '6px',
+        padding: '2px 0',
+      }}
+    >
+      <Mark
+        kind={kind}
+        icon={row.icon}
+        icon_state={row.icon_state}
+        color={row.color}
+        vessel={offered[0]}
+      />
+      <span style={{ ...ellipsisCellStyle, flex: '0 1 auto' }}>{row.name}</span>
+      <span
+        style={{
+          flex: 1,
+          minWidth: '16px',
+          height: 0,
+          borderBottom: `1px dotted ${INK_FAINT}`,
+        }}
+      />
+      {vessels ? (
+        <span style={{ display: 'flex', gap: '10px', flexShrink: 0 }}>
+          {offered.map((v) => (
+            <span
+              key={v.key}
+              style={{ display: 'flex', alignItems: 'baseline', gap: '4px' }}
+            >
+              <span style={{ color: INK_SOFT, fontSize: FONT_SMALL }}>
+                {v.label}
+              </span>
+              <PriceTag price={row.prices?.[v.key] ?? 0} />
+            </span>
+          ))}
+        </span>
+      ) : (
+        <PriceTag price={row.price ?? 0} />
+      )}
+    </div>
+  );
+};
+
+const ReaderColumn = (props: { info: ColumnInfo }) => {
+  const { data } = useBackend<Data>();
+  const { key, label, catalog: kind } = props.info;
+  const usesVessels = !!props.info.vessels;
+  const rows = data.rows[key] || [];
+  if (rows.length === 0) {
+    return null;
+  }
+  return (
+    <div style={{ flex: '1 1 240px', minWidth: 0 }}>
+      <div style={sectionHeaderStyle}>{label}</div>
+      {rows.map((row) => (
+        <ReaderRow
+          key={row.uid}
+          row={row}
+          kind={kind}
+          vessels={usesVessels ? data.vessels : undefined}
+        />
+      ))}
+    </div>
+  );
+};
+
+const ReaderView = () => {
+  const { data } = useBackend<Data>();
+  const blank =
+    !data.title &&
+    !data.notes &&
+    data.columns.every((info) => !data.rows[info.key]?.length);
+  if (blank) {
+    return (
+      <div
+        style={{ textAlign: 'center', color: INK_FAINT, fontStyle: 'italic' }}
+      >
+        Nothing here.
+      </div>
+    );
+  }
+  return (
+    <>
+      {!!data.title && <div style={titleStyle}>{data.title}</div>}
+      <hr style={rulerStyle} />
+      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '24px' }}>
+        {data.columns.map((info) => (
+          <ReaderColumn key={info.key} info={info} />
+        ))}
+      </div>
+      {!!data.notes && (
+        <>
+          <hr style={rulerStyle} />
+          <div
+            style={{
+              whiteSpace: 'pre-wrap',
+              fontStyle: 'italic',
+              color: INK_SOFT,
+            }}
+          >
+            {data.notes}
+          </div>
+        </>
+      )}
+    </>
   );
 };
 
 export const BillOfFare = () => {
-  const { act, data } = useBackend<Data>();
+  const { data } = useBackend<Data>();
   const editing = !!data.can_edit;
   return (
-    <Window title="Bill of Fare" width={960} height={660} theme="parchment">
+    <Window
+      title="Bill of Fare"
+      width={editing ? 980 : 760}
+      height={700}
+      theme="parchment"
+    >
       <Window.Content scrollable>
-        <div style={pageStyle}>
-          {editing ? (
-            <CommitInput
-              value={data.title}
-              maxLength={data.title_len}
-              placeholder="Title"
-              style={{ ...titleStyle, width: '100%', display: 'block' }}
-              onCommit={(text) => act('set_title', { text })}
-            />
-          ) : (
-            !!data.title && <div style={titleStyle}>{data.title}</div>
-          )}
-          <hr style={rulerStyle} />
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '24px' }}>
-            {data.columns.map((info) => (
-              <FareColumn key={info.key} info={info} />
-            ))}
-          </div>
-          {(editing || !!data.notes) && <hr style={rulerStyle} />}
-          {editing ? (
-            <CommitTextArea
-              value={data.notes}
-              maxLength={data.notes_len}
-              placeholder="Notes"
-              onCommit={(text) => act('set_notes', { text })}
-            />
-          ) : (
-            !!data.notes && (
-              <div
-                style={{
-                  whiteSpace: 'pre-wrap',
-                  fontStyle: 'italic',
-                  color: INK_SOFT,
-                }}
-              >
-                {data.notes}
-              </div>
-            )
-          )}
-        </div>
+        <div style={pageStyle}>{editing ? <WriterView /> : <ReaderView />}</div>
       </Window.Content>
     </Window>
   );
