@@ -9,7 +9,6 @@
 	storyteller_antag_flags = STORYTELLER_ANTAG_SOFT
 
 /datum/antagonist/gnoll/on_gain()
-	greet()
 	owner.special_role = "Gnoll"
 	if(ishuman(owner.current))
 		ADD_TRAIT(owner.current, TRAIT_OUTLAW, TRAIT_GENERIC)
@@ -20,11 +19,6 @@
 	. = ..()
 	if(owner)
 		owner.special_role = null
-
-/datum/antagonist/gnoll/greet()
-	// this might be unneeded but admins wanted to stress this from the sounds of it
-	to_chat(owner.current, span_redinfo("Please keep in mind that Hunted targets are still permitted ERP protections."))
-	return ..()
 
 /mob/living/carbon/human/proc/gnoll_feed(mob/living/carbon/human/target, healing_amount = 10)
 	if(!istype(target))
