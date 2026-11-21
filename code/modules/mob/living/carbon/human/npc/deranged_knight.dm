@@ -33,7 +33,6 @@ GLOBAL_LIST_INIT(hedgeknight_aggro, world.file2list("strings/rt/hedgeknightaggro
 	if(!npc_archetype)
 		spawn(10) // To prevent dropping weapons
 			after_creation()
-	addtimer(CALLBACK(src, PROC_REF(after_creation)), 1 SECONDS)
 
 /mob/living/carbon/human/species/human/northern/deranged_knight/after_creation()
 	..()
