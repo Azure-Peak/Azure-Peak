@@ -79,7 +79,8 @@
 	job = "Psydonite Tomb Magos"
 	statpack = /datum/npc_statpack/caster/t4 //final boss to the dungeon, expect a hell of a fight.
 	magic = SKILL_LEVEL_EXPERT
-	traits = list(TRAIT_PSYDONITE, TRAIT_BADTRAINER) //devotee + master arcane armament skills so we get bad trainer
+	//keep in mind, journeyman melee IS intended, this is a maile-armored mage NPC. VERY STRONG.
+	traits = list(TRAIT_PSYDONITE)
 
 /datum/npc_archetype/psy_vault_guard/caster/mixed
 	variants = list(
