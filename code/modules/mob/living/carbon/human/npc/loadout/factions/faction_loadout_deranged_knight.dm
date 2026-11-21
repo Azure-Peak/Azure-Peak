@@ -13,13 +13,14 @@
 	survival = SKILL_LEVEL_APPRENTICE
 	athletics = SKILL_LEVEL_EXPERT
 
-//** BORING ASS HEDGEKNIGHTS **//
+//** HEDGEKNIGHT - BLACKSTEEL EDITION **//
 
 /datum/npc_archetype/deranged_knight/hedgeknight
 	name = "Hedge Knight"
 	statpack = /datum/npc_statpack/heavy/t4
-	stat_modifiers = list("speed" = 2, "perception" = 1) //vs the others, faster in plate armor w/ a heavy statline + slightly more accurate
 	armor_training = ARMOR_CLASS_HEAVY
+	traits = list(TRAIT_BADTRAINER)
+	melee = SKILL_LEVEL_MASTER //vs the others, trades durability for master skills. A la bandit hedgeknight.
 	body = /datum/npc_body/northern_commoner/soldier/deranged_knight
 	ai_controller = /datum/ai_controller/human_npc
 	loadouts = list(
