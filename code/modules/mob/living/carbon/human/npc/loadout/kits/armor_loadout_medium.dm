@@ -167,7 +167,7 @@
 		/obj/item/clothing/neck/roguetown/psicross/g = 5,
 	)
 	head = list(
-		/obj/item/clothing/wrists/roguetown/bracers/psythorns = 20,
+		/obj/item/clothing/head/roguetown/helmet/blacksteel/psythorns = 20,
 		/obj/item/clothing/mask/rogue/sack = 30,
 		/obj/item/clothing/mask/rogue/sack/psy = 30,
 		/obj/item/clothing/head/roguetown/roguehood/psydon = 20,

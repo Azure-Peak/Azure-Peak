@@ -24,7 +24,6 @@ GLOBAL_LIST_INIT(psyvault_aggro, world.file2list("strings/rt/psyvaultaggrolines.
 
 /mob/living/carbon/human/species/lizardfolk/psy_vault_guard/after_creation()
 	..()
-	AddComponent(/datum/component/ai_aggro_system)
 	SEND_SIGNAL(src, COMSIG_MOB_MODIFY_AGGRO_LINES, GLOB.psyvault_aggro, TRUE)
 	//This Stuff handles their parts
 	var/obj/item/organ/tail/lizard/tail = src.getorganslot(ORGAN_SLOT_TAIL)
