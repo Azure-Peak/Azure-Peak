@@ -8,33 +8,14 @@
 /obj/structure/ritualcircle/necra/proc/thetoll(mob/living/carbon/human/target, mob/living/user)
 	var/revive_pq = PQ_GAIN_REVIVE
 	if(target.mob_biotypes & MOB_UNDEAD)
-		var/choice
-		if(user.real_name in GLOB.excommunicated_players)
-			choice = tgui_alert(user, "[target]'s body rattles and seizes under the divine force. You may unmake them or blaspheme against the divine order to restore their soul. What is your choice?", "Divine Revival", list("Unmake Them", "Blaspheme and Revive", "Cancel"), 15 SECONDS)
-			if(isnull(choice))
-				to_chat(user, span_notice("The rite falters before a decision can be made."))
-				return FALSE
-			switch(choice)
-				if("Unmake Them")
-					to_chat(user, span_danger("You condemn [target] to Her gaze, and retribution comes swiftly..."))
-					target.visible_message(span_danger("[target] is ravaged by wrathful spirits!"), span_userdanger("Holy power tears my undead form apart!"))
-					playsound(target.loc, 'sound/magic/churn.ogg', 100, TRUE)
-					target.gib(no_organs = TRUE)
-					return TRUE
-				if("Blaspheme and Revive")
-					to_chat(user, span_warning("You conceal Necra's eyes from this, and attempt to restore [target]'s soul."))
-				if("Cancel")
-					to_chat(user, span_notice("You halt the rite."))
-					return FALSE
-		else
-			choice = tgui_alert(user, "[target]'s body rattles and seizes under the divine force. This will likely unmake them permanently. Continue?", "Divine Revival", list("PURGE THE UNCLEAN!", "Stop"), 15 SECONDS)
-			if(choice != "PURGE THE UNCLEAN!")
-				to_chat(user, span_notice("You halt the rite before the divine force can fully take hold."))
-				return FALSE
-			target.visible_message(span_danger("[target] is ravaged by wrathful spirits!"), span_userdanger("Holy power tears my undead form apart!"))
-			playsound(target.loc, 'sound/magic/churn.ogg', 100, TRUE)
-			target.gib(no_organs = TRUE)
-			return TRUE
+		var/choice = tgui_alert(user, "[target]'s body rattles and seizes under the divine force. This will likely unmake them permanently. Continue?", "Divine Revival", list("PURGE THE UNCLEAN!", "Stop"), 15 SECONDS)
+		if(choice != "PURGE THE UNCLEAN!")
+			to_chat(user, span_notice("You halt the rite before the divine force can fully take hold."))
+			return FALSE
+		target.visible_message(span_danger("[target] is ravaged by wrathful spirits!"), span_userdanger("Holy power tears my undead form apart!"))
+		playsound(target.loc, 'sound/magic/churn.ogg', 100, TRUE)
+		target.gib(no_organs = TRUE)
+		return TRUE
 
 	var/mob/dead/observer/underworld_spirit = target.get_spirit()
 	var/choice = tgui_alert(underworld_spirit || target, "A Toll is being offered for your soul, BREAK FREE?", "Revival", list("I need to wake up", "Don't let me go"), 15 SECONDS)
