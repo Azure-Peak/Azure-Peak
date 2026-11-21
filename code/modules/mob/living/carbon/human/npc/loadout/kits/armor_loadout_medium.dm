@@ -164,7 +164,7 @@
 		/obj/item/clothing/wrists/roguetown/bracers/psythorns = 25,
 		/obj/item/clothing/wrists/roguetown/bracers/chain = 30,
 		/obj/item/clothing/neck/roguetown/psicross = 20,
-		/obj/item/clothing/neck/roguetown/psicross/g = 5,
+		/obj/item/clothing/neck/roguetown/psicross/silver = 5,
 	)
 	head = list(
 		/obj/item/clothing/head/roguetown/helmet/blacksteel/psythorns = 40,
@@ -185,10 +185,9 @@
 
 /datum/npc_loadout/armor/medium/psy_vault_lighter
 	wrists = list(
-		/obj/item/clothing/neck/roguetown/psicross = 75,
-		/obj/item/clothing/neck/roguetown/psicross/silver = 25,
+		/obj/item/clothing/neck/roguetown/psicross = 65,
+		/obj/item/clothing/neck/roguetown/psicross/silver = 35,
 	)
-	mask = /obj/item/clothing/mask/rogue/facemask/psydonmask
 	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail
 	armor = /obj/item/clothing/suit/roguetown/armor/vestments_padded
 	head = /obj/item/clothing/head/roguetown/roguehood/psydon
