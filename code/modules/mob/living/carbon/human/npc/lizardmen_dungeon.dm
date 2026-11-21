@@ -11,7 +11,7 @@ GLOBAL_LIST_INIT(psyvault_aggro, world.file2list("strings/rt/psyvaultaggrolines.
 	d_intent = INTENT_PARRY
 	possible_mmb_intents = list(INTENT_BITE, INTENT_JUMP, INTENT_KICK, INTENT_SPECIAL)
 
-	npc_archetype = /datum/npc_archetype/psy_vault_guard/gaurdian
+	npc_archetype = /datum/npc_archetype/psy_vault_guard/guardian
 
 /mob/living/carbon/human/species/lizardfolk/psy_vault_guard/Initialize(mapload)
 	. = ..()

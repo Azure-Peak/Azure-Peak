@@ -2667,6 +2667,7 @@
 #include "code\modules\mob\living\carbon\human\npc\loadout\loadout_warband.dm"
 #include "code\modules\mob\living\carbon\human\npc\loadout\bodies\body_human.dm"
 #include "code\modules\mob\living\carbon\human\npc\loadout\bodies\body_orc.dm"
+#include "code\modules\mob\living\carbon\human\npc\loadout\bodies\body_psymonk.dm"
 #include "code\modules\mob\living\carbon\human\npc\loadout\factions\faction_loadout_bog_deserter.dm"
 #include "code\modules\mob\living\carbon\human\npc\loadout\factions\faction_loadout_border_reiver.dm"
 #include "code\modules\mob\living\carbon\human\npc\loadout\factions\faction_loadout_drow.dm"
