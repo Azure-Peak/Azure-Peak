@@ -107,6 +107,10 @@ GLOBAL_LIST_INIT(hedgeknight_aggro, world.file2list("strings/rt/hedgeknightaggro
 	emote("superagony")
 	. = ..()
 	if(!gibbed)
+		if(preset_lines == "matthios")
+			playsound(src, 'sound/effects/matth_barter.ogg', 100)
+			var/turf/T = get_turf(src)
+			new /obj/effect/temp_visual/barter_fx(T) //hilarious
 		dust(FALSE, FALSE, TRUE)
 /*
  * Goon preset
