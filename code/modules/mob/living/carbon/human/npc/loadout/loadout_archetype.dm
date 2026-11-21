@@ -17,7 +17,6 @@ GLOBAL_LIST_INIT(npc_brawl_skills, list(
 GLOBAL_LIST_INIT(npc_magic_skills, list(
 	/datum/skill/magic/arcane,
 	/datum/skill/combat/arcyne,
-	/datum/skill/combat/staves,
 ))
 
 GLOBAL_LIST_INIT(npc_survival_skills, list(
@@ -104,6 +103,7 @@ GLOBAL_LIST_INIT(npc_crafting_skills, list(
 	weaken_chest_armor(H)
 	if(loadouts_grant_magic(outfit.loadouts))
 		apply_skill_group(H, GLOB.npc_magic_skills, magic)
+		apply_caster_staves(H, outfit.loadouts)
 	grant_spellblade_chant(H, outfit.loadouts)
 	grant_loadout_spells(H, outfit.loadouts)
 	grant_magic_aspect(H, outfit.loadouts)
@@ -162,6 +162,17 @@ GLOBAL_LIST_INIT(npc_crafting_skills, list(
 		if(length(loadout.magic_aspects) || length(loadout.spells) || loadout.spellblade_chant)
 			return TRUE
 	return FALSE
+
+/datum/npc_archetype/proc/apply_caster_staves(mob/living/carbon/human/H, list/loadout_types)
+	if(isnull(magic))
+		return
+	for(var/path in loadout_types)
+		var/datum/npc_loadout/loadout = get_npc_part(path)
+		if(loadout?.spellblade_chant)
+			return
+	var/rank = max(magic - NPC_CASTER_STAVES_PENALTY, SKILL_LEVEL_NONE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/staves, rank, TRUE)
+	H.adjust_skillrank_down_to(/datum/skill/combat/staves, rank, TRUE)
 
 /datum/npc_archetype/proc/grant_spellblade_chant(mob/living/carbon/human/H, list/loadout_types)
 	if(!H)

@@ -1,5 +1,5 @@
 /mob/living/simple_animal/hostile/retaliate/rogue/saiga/undead
-	threat_point = THREAT_DEADLY
+	threat_point = THREAT_ELITE
 	anatomy_type = /datum/anatomy/quadruped/undead
 	name = "deadite saiga"
 	desc = "A deadite saiga, its eyes glow with an eerie light."

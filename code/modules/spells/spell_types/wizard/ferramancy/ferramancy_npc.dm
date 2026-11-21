@@ -1,10 +1,12 @@
 #define FERRA_HAMMER_STILL_BONUS 30
 #define FERRA_LANCE_STILL_BONUS 35
 #define FERRA_REARM_SCORE 90
+#define FERRA_TRACK_CUTOFF 4
 
 /datum/action/cooldown/spell/ferramancy_strike
 	require_target_in_pattern = TRUE
 	track_target = TRUE
+	track_cutoff = FERRA_TRACK_CUTOFF
 
 /datum/action/cooldown/spell/ferramancy_strike/falling_crescent
 	npc_max_range = 3
@@ -52,3 +54,4 @@
 #undef FERRA_HAMMER_STILL_BONUS
 #undef FERRA_LANCE_STILL_BONUS
 #undef FERRA_REARM_SCORE
+#undef FERRA_TRACK_CUTOFF
