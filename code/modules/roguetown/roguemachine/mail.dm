@@ -90,9 +90,6 @@
 		var/bomb_type
 		var/static/list/bomb_type_list = list(/obj/item/explosive/fused/powder/stick,
 		/obj/item/explosive/impact/shrapnel,
-		/obj/item/explosive/impact/smoke/poison_gas,
-		/obj/item/explosive/impact/smoke/fire_gas,
-		/obj/item/explosive/impact/smoke/healing_gas,
 		)
 		var/bonus = 0
 		if(H.STALUC > 10)

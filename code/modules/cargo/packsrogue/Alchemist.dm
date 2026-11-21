@@ -147,31 +147,6 @@
 	cost = 30
 	contains = list(/obj/item/explosive/impact/shrapnel)
 
-/datum/supply_pack/rogue/Alchemist/poison_gas
-	name = "Poison smoke grenade"
-	cost = 30
-	contains = list(/obj/item/explosive/impact/smoke/poison_gas)
-
-/datum/supply_pack/rogue/Alchemist/fire_gas
-	name = "Conflagaration smoke grenade"
-	cost = 30
-	contains = list(/obj/item/explosive/impact/smoke/fire_gas)
-
-/datum/supply_pack/rogue/Alchemist/blind_gas
-	name = "Blinding smoke grenade"
-	cost = 30
-	contains = list(/obj/item/explosive/impact/smoke/blind_gas)
-
-/datum/supply_pack/rogue/Alchemist/mute_gas
-	name = "Mute smoke grenade"
-	cost = 30
-	contains = list(/obj/item/explosive/impact/smoke/mute_gas)
-
-/datum/supply_pack/rogue/Alchemist/healing_gas
-	name = "Healing smoke grenade"
-	cost = 50
-	contains = list(/obj/item/explosive/impact/smoke/healing_gas)
-
 /////////////
 // UTILITY //
 /////////////
