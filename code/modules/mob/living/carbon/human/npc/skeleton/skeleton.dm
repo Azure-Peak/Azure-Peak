@@ -96,6 +96,8 @@ GLOBAL_LIST_INIT(skeleton_aggro, list(
 
 /mob/living/carbon/human/species/skeleton/npc/fallenduke
 	threat_point = THREAT_ELITE
+	cmode = 1
+	setparrytime = 15
 	npc_archetype = /datum/npc_archetype/skeleton/fallenduke
 
 /mob/living/carbon/human/species/skeleton/Initialize(mapload)

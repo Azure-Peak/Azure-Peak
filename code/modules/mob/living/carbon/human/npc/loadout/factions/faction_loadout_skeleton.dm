@@ -230,6 +230,7 @@
 	threat_point = THREAT_ELITE
 	stat_modifiers = null
 	statpack = /datum/npc_statpack/skeleton/fallenduke
+	patron = /datum/patron/inhumen/zizo
 	melee = SKILL_LEVEL_MASTER
 	brawl = SKILL_LEVEL_MASTER
 	survival = SKILL_LEVEL_APPRENTICE
@@ -467,23 +468,19 @@
 	belt = /obj/item/storage/belt/rogue/leather
 
 /datum/npc_loadout/kit/fallen_duke
+	traits = list(TRAIT_NOBLE) //Its a duke, sire. Sovl (also its only 1 NPC, it won't affect Astrata's score that badly)
+	cloak = /obj/item/clothing/cloak/lordcloak
 	belt = /obj/item/storage/belt/rogue/leather/black
+	beltl = /obj/item/rogueweapon/scabbard/sword/royal
 	backl = /obj/item/storage/backpack/rogue/satchel/short/black
 	backpack_contents = list(
 		/obj/item/clothing/head/roguetown/crown/fakecrown = 1,
+		/obj/item/storage/belt/rogue/pouch/coins/aalloy/rich = 1, //funny
 		/obj/item/roguegem/diamond = 1,
-	)
-	mask = list(
-		/obj/item/clothing/mask/rogue/facemask/aalloy = 25,
-		NPC_NOTHING = 75,
 	)
 	beltl = list(
 		/obj/item/repair_kit/bad = 20,
 		NPC_NOTHING = 80,
-	)
-	beltr = list(
-		/obj/item/storage/belt/rogue/pouch/coins/aalloy = 15,
-		NPC_NOTHING = 85,
 	)
 
 //** WEAPONS **//
@@ -562,7 +559,6 @@
 
 /datum/npc_loadout/weapon/fallen_duke
 	r_hand = /obj/item/rogueweapon/sword/rapier/lord
-	l_hand = /obj/item/rogueweapon/shield/tower/metal/alloy
 
 /datum/npc_loadout/weapon/lich_knight
 	weapons = list(
