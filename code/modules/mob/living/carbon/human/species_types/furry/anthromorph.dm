@@ -5,16 +5,15 @@
 	name = "Wild-Kin"
 	id = "anthromorph"
 	race_titles = list(
-		"Alicorn-Kin", "Bat-Kin", "Bear-Kin", "Bee-Kin", "Bird-Kin", "Boar-Kin",
-		"Bull-Kin", "Cabbit-Kin", "Cat-Kin", "Chimera-Kin", "Chupacabra-Kin",
-		"Cow-Kin", "Coyote-Kin", "Deer-Kin", "Dog-Kin", "Donkey-Kin", "Dragon-Kin",
+		"Bat-Kin", "Bear-Kin", "Bee-Kin", "Bird-Kin", "Boar-Kin",
+		"Bull-Kin", "Cabbit-Kin", "Cat-Kin", "Chimera-Kin",
+		"Cow-Kin", "Coyote-Kin", "Deer-Kin", "Dog-Kin", "Donkey-Kin",
 		"Drakian-Kin", "Frog-Kin", "Goat-Kin", "Griffon-Kin", "Hare-Kin", "Horse-Kin",
 		"Hyena-Kin", "Insect-Kin", "Jackal-Kin", "Jackalope-Kin", "Leopard-Kin",
-		"Lion-Kin", "Lizard-Kin", "Lynx-Kin", "Monkey-Kin", "Monster-Kin", "Moose-Kin",
-		"Moth-Kin", "Otter-Kin", "Panda-Kin", "Panther-Kin", "Pegasus-Kin", "Pig-Kin",
-		"Possum-Kin", "Rabbit-Kin", "Raccoon-Kin", "Rous-Kin", "Seal-Kin", "Sheep-Kin",
-		"Spider-Kin", "Tiger-Kin", "Unicorn-Kin", "Venard-Kin", "Volf-Kin", "Wolf-Kin",
-		"Zebra-Kin",
+		"Lion-Kin", "Lizard-Kin", "Lynx-Kin", "Monkey-Kin", "Moose-Kin",
+		"Moth-Kin", "Otter-Kin", "Panda-Kin", "Panther-Kin", "Pig-Kin",
+		"Possum-Kin", "Raccoon-Kin", "Rous-Kin", "Saiga-kin", "Seal-Kin", "Sheep-Kin",
+		"Spider-Kin", "Tiger-Kin", "Venard-Kin", "Volf-Kin", "Zebra-Kin",
 	)
 	base_name = "Beastvolk"
 	desc_title = "Wild-Kin"

@@ -9,10 +9,10 @@
 		"Half-Cabbit", "Half-Cat", "Half-Cow", "Half-Coyote", "Half-Deer", "Half-Dog",
 		"Half-Donkey", "Half-Drakian", "Half-Frog", "Half-Goat", "Half-Hare", "Half-Horse",
 		"Half-Hyena", "Half-Insect", "Half-Jackal", "Half-Leopard", "Half-Lion",
-		"Half-Lizard", "Half-Lynx", "Half-Monkey", "Half-Monster", "Half-Moose",
+		"Half-Lizard", "Half-Lynx", "Half-Monkey", "Half-Moose",
 		"Half-Otter", "Half-Panda", "Half-Panther", "Half-Pig", "Half-Possum",
-		"Half-Rabbit", "Half-Raccoon", "Half-Rous", "Half-Seal", "Half-Sheep",
-		"Half-Spider", "Half-Tiger", "Half-Venard", "Half-Volf", "Half-Wolf",
+		"Half-Raccoon", "Half-Rous", "Half-Saiga", "Half-Seal", "Half-Sheep",
+		"Half-Spider", "Half-Tiger", "Half-Venard", "Half-Volf",
 	)
 	is_subrace = TRUE
 	origin_default = /datum/virtue/origin/grenzelhoft
