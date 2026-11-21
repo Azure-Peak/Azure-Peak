@@ -82,7 +82,12 @@
 //** CASTING **//
 
 /datum/npc_loadout/kit/caster/zizo_cantrip
-	spells = pick(/datum/action/cooldown/spell/projectile/greater_arcyne_bolt, /datum/action/cooldown/spell/projectile/spitfire, /datum/action/cooldown/spell/projectile/arc_bolt, /datum/action/cooldown/spell/projectile/arcyne_lance)
+	spells = list(
+		list(/datum/action/cooldown/spell/projectile/greater_arcyne_bolt),
+		list(/datum/action/cooldown/spell/projectile/spitfire),
+		list(/datum/action/cooldown/spell/projectile/arc_bolt),
+		list(/datum/action/cooldown/spell/projectile/arcyne_lance),
+	)
 
 //** FLAVOR **//
 

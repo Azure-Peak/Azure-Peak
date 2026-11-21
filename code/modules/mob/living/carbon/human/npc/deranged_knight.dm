@@ -60,31 +60,6 @@ GLOBAL_LIST_INIT(hedgeknight_aggro, world.file2list("strings/rt/hedgeknightaggro
 	update_body()
 
 /mob/living/carbon/human/species/human/northern/deranged_knight/death(gibbed, nocutscene)
-	if(preset == "matthios")
-		if(prob(95))
-			say("Matthios, I have failed you...", forced = TRUE, npc_speech = TRUE)
-		else
-			say("Matthios, is this true?!", forced = TRUE, npc_speech = TRUE)
-	else if(preset == "zizo")
-		if(prob(95))
-			say("Zizo, forgive me!", forced = TRUE, npc_speech = TRUE)
-		else
-			say("We lyve in a Zociety...", forced = TRUE, npc_speech = TRUE)
-	else if(preset == "graggar")
-		if(prob(95))
-			say("No more... Blood!", forced = TRUE, npc_speech = TRUE)
-		else
-			say("WHERE'S THE BLOOD?!!", forced = TRUE, npc_speech = TRUE)
-	else if(preset == "graggar_heavy")
-		if(prob(95))
-			say("No more... Blood!", forced = TRUE, npc_speech = TRUE)
-		else
-			say("WHERE'S THE BLOOD?!!", forced = TRUE, npc_speech = TRUE)
-	else if(preset == "baotha")
-		if(prob(95))
-			say("Where's the... High?", forced = TRUE, npc_speech = TRUE)
-		else
-			say("YOU ARE EVERRRRRYTHING BOATHAAAA!!!", forced = TRUE, npc_speech = TRUE)
 	emote("painscream")
 	. = ..()
 	if(!gibbed)
@@ -135,7 +110,7 @@ GLOBAL_LIST_INIT(hedgeknight_aggro, world.file2list("strings/rt/hedgeknightaggro
 	npc_archetype = /datum/npc_archetype/deranged_knight/graggar_heavy
 
 /mob/living/carbon/human/species/human/northern/deranged_knight/matthios
-	npc_archetype = /datum/npc_archetype/deranged_knight/matthios
+	npc_archetype = /datum/npc_archetype/deranged_knight/matthios_heavy
 
 /mob/living/carbon/human/species/human/northern/deranged_knight/baotha
 	d_intent = INTENT_DODGE
