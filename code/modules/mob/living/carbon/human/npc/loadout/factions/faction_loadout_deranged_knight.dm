@@ -18,7 +18,7 @@
 /datum/npc_archetype/deranged_knight/zizo
 	name = "Zizite Templar"
 	statpack = /datum/npc_statpack/line/t4
-	stat_modifiers = list("intelligence" = 1, "willpower" = 1) //tradeoff in higher base-stats
+	stat_modifiers = list("intelligence" = 1, "willpower" = 1)
 	patron = /datum/patron/inhumen/zizo
 	armor_training = ARMOR_CLASS_MEDIUM
 	body = /datum/npc_body/northern_commoner/soldier/deranged_knight
@@ -37,6 +37,8 @@
 		/datum/npc_archetype/deranged_knight/zizo/arcyne_bolt = 2,
 		/datum/npc_archetype/deranged_knight/zizo/arc_bolt = 2,
 	)
+
+//** ZIZO. ZIZO. ZIZO. (Caster Subtypes) **//
 
 /datum/npc_archetype/deranged_knight/zizo/spitfire
 	name = "Zizite Templar Fyrespitter"
@@ -88,7 +90,7 @@
 /datum/npc_archetype/deranged_knight/zizo_heavy
 	name = "Zizite Champion"
 	statpack = /datum/npc_statpack/heavy/t4
-	stat_modifiers = list("intelligence" = 1, "willpower" = 1) //tradeoff in higher base stats
+	stat_modifiers = list("intelligence" = 1, "willpower" = 1)
 	patron = /datum/patron/inhumen/zizo
 	armor_training = ARMOR_CLASS_HEAVY
 	ai_controller = /datum/ai_controller/human_npc
@@ -106,6 +108,8 @@
 		/datum/npc_archetype/deranged_knight/zizo_heavy/arcyne_bolt = 2,
 		/datum/npc_archetype/deranged_knight/zizo_heavy/arc_bolt = 2,
 	)
+
+//** ZIZO. ZIZO. ZIZO. (Caster Subtypes) **//
 
 /datum/npc_archetype/deranged_knight/zizo_heavy/spitfire
 	name = "Zizite Champion Fyrespitter"
@@ -156,6 +160,7 @@
 	stat_modifiers = list("strength" = 2)
 	patron = /datum/patron/inhumen/graggar
 	armor_training = ARMOR_CLASS_MEDIUM
+	traits = list(TRAIT_STRENGTH_UNCAPPED) ///GRAGGAR SHATTER MYNE BINDS
 	loadouts = list(
 		/datum/npc_loadout/armor/luxplate/graggar,
 		/datum/npc_loadout/kit/graggar_flavor,
@@ -168,6 +173,7 @@
 	stat_modifiers = list("strength" = 2)
 	patron = /datum/patron/inhumen/graggar
 	armor_training = ARMOR_CLASS_HEAVY
+	traits = list(TRAIT_STRENGTH_UNCAPPED) ///GRAGGAR SHATTER MYNE BINDS
 	loadouts = list(
 		/datum/npc_loadout/armor/luxplate/graggar_heavy,
 		/datum/npc_loadout/kit/graggar_flavor,
@@ -304,7 +310,6 @@
 	)
 
 /datum/npc_loadout/weapon/baotha
-	traits = list(TRAIT_DODGEEXPERT)
 	weapons = list(
 		list(/obj/item/rogueweapon/spear/partizan/baotha),
 	)

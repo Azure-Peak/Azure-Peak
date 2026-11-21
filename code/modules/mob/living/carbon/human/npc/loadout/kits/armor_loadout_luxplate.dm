@@ -94,6 +94,7 @@
 //** BAOTHA **//
 
 /datum/npc_loadout/armor/luxplate/baotha
+	traits = list(TRAIT_DODGEEXPERT, TRAIT_NOPAIN) // 1:1 w/ the ritual
 	belt = /obj/item/storage/belt/rogue/leather/plaquegold/noble
 	head = /obj/item/clothing/head/roguetown/helmet/baotha
 	armor = /obj/item/clothing/suit/roguetown/armor/plate/fluted/baotha

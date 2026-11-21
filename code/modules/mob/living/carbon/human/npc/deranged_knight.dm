@@ -52,7 +52,7 @@ GLOBAL_LIST_INIT(hedgeknight_aggro, world.file2list("strings/rt/hedgeknightaggro
 			preset_title = pick("the Rich","of Equal Exchange","the Opulant","of the Gilded Flame","Fyre-Kindled","the Brigand","of Matthios","of the Transactor","the Free","the Wealthy","of the Kindled Pyre","of the Gilded Drakkyn","the herald of Matthios")
 			aggro_lines = GLOB.matthios_aggro
 		if("zizo")
-			preset_title = pick("of Zizo","of the Avantyne Legion","bane of the Hallowed","the Defiler","Shadow-Blessed","the Insane","sworn-in-her-name","the herald of Progress","the herald of Zizo","the Luxbane","of the Dark Shield","of Shadows")
+			preset_title = pick("of Zizo","of the Avantyne Legion","bane of the Hallowed","the Defiler","Shadow-Blessed","the Insane","sworn-in-her-name","the herald of Progress","the herald of Zizo","the Luxbane","of the Dark Shield","of Shadows","the Truesighted")
 			aggro_lines = GLOB.zizo_aggro
 			src.grant_language(/datum/language/undead)
 		if("baotha")
@@ -78,7 +78,7 @@ GLOBAL_LIST_INIT(hedgeknight_aggro, world.file2list("strings/rt/hedgeknightaggro
 	if(prob(1))
 		real_name = "Taras Mura"
 	else
-		real_name = "[real_name] [preset_title]" //give us a fancy title.
+		real_name = "[real_name] [preset_title]" //give us a fancy title. based on patron.
 	update_hair()
 	update_body()
 
@@ -86,7 +86,7 @@ GLOBAL_LIST_INIT(hedgeknight_aggro, world.file2list("strings/rt/hedgeknightaggro
 	if(prob(50))
 		if(preset_lines == "matthios")
 			if(prob(95))
-				say(pick("Matthios, I have failed you...","My lord... I tried...","The weight of myne wealth was too much...","My final... Transaction..?"), forced = TRUE, npc_speech = TRUE)
+				say(pick("Matthios, I have failed you...","My lord... I tried...","The weight of myne wealth was too much...","My final... Transaction..?","Myne wealth hath... become woe..?"), forced = TRUE, npc_speech = TRUE)
 			else
 				say("Matthios, is this true?!", forced = TRUE, npc_speech = TRUE)
 		else if(preset_lines == "zizo")
@@ -104,7 +104,7 @@ GLOBAL_LIST_INIT(hedgeknight_aggro, world.file2list("strings/rt/hedgeknightaggro
 				say(pick("Where's the high...","I just... Wanted to be happy..","It hurts... So much","I... Don't feel so good..","My... Greatest end..?"), forced = TRUE, npc_speech = TRUE)
 			else
 				say("YOU ARE EVERRRRRYTHING!!!", forced = TRUE, npc_speech = TRUE)
-	emote("superagony")
+	emote("painscream")
 	. = ..()
 	if(!gibbed)
 		if(preset_lines == "matthios")
