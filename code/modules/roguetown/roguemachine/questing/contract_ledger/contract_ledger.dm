@@ -115,7 +115,6 @@
 /obj/structure/roguemachine/contractledger/ui_data(mob/user)
 	var/list/data = list()
 	var/datum/job/mob_job = user?.job ? SSjob.GetJob(user.job) : null
-	data["is_handler"] = !!mob_job?.is_quest_giver
 	data["balance"] = SStreasury.get_balance(user)
 	data["has_account"] = SStreasury.has_account(user)
 	var/active_base = mob_job?.max_active_quests || QUEST_MAX_ACTIVE_PER_PLAYER
@@ -131,10 +130,6 @@
 		if(elapsed < CONTRACT_TOWNIE_GATE_TIME)
 			gate_remaining = round((CONTRACT_TOWNIE_GATE_TIME - elapsed) / 10)
 	data["townie_gate_remaining"] = gate_remaining
-	data["townie_contract_gate_exempt_jobs"] = SSjob.townie_contract_gate_exempt_display_names()
-	data["quest_claim_barred_jobs"] = SSjob.quest_claim_barred_display_names()
-	data["quest_claim_towner_jobs"] = SSjob.quest_claim_towner_names
-	data["quest_claim_lowpop_jobs"] = SSjob.quest_claim_lowpop_names
 	data["quest_claim_lowpop_active"] = quest_claim_lowpop_active()
 	data["take_cooldown_remaining"] = round(SSquestpool.take_cooldown_remaining(user) / 10)
 	var/mob/living/L = user
@@ -148,55 +143,24 @@
 	data["solo_limit_applies"] = quest_claim_uses_solo_allowance(user)
 	data["solo_limit_ready"] = SSquestpool.is_solo_sign_ready(user)
 	data["solo_limit_reason"] = quest_solo_limit_reason(user)
-	data["solo_limit_minutes"] = QUEST_SOLO_SIGN_COOLDOWN / (1 MINUTES)
-	data["quest_claim_solo_jobs"] = SSjob.quest_claim_solo_names
-	data["arrival_scan_range"] = QUEST_ARRIVAL_SCAN_RANGE
 	data["pool"] = build_pool_listing(user)
 	data["active"] = build_active_listing(user)
-	data["regions"] = build_region_listing()
 	data["hoard_recovery_regions"] = build_hoard_recovery_region_listing()
-	data["hoard_recovery_pledge"] = HOARD_RECOVERY_PLEDGE
-	data["hoard_recovery_fellowship_min"] = BLOCKADE_FELLOWSHIP_REQUIREMENT
-	data["hoard_recovery_hoard_min"] = HOARD_RECOVERY_HOARD_MINIMUM
-	data["townie_gate_minutes"] = CONTRACT_TOWNIE_GATE_TIME / (1 MINUTES)
-	data["veteran_threat_pct"] = round((QUEST_VETERAN_THREAT_MULT - 1) * 100)
-	data["fellowship_reward_cap_pct"] = round((QUEST_FELLOWSHIP_REWARD_MULT_CAP - 1) * 100)
-	data["blockade_defender_min"] = BLOCKADE_FELLOWSHIP_REQUIREMENT
-	data["blockade_defender_max"] = QUEST_FELLOWSHIP_SCALE_MAX
-	data["blockade_extra_defender_pct"] = round(QUEST_FELLOWSHIP_REWARD_PER_EXTRA * 100)
-	data["blockade_extra_threat_pct"] = round(QUEST_FELLOWSHIP_THREAT_PER_EXTRA_BLOCKADE * 100)
-	data["towner_crown_cost_mult"] = TOWNER_POSTING_CROWN_COST_MULT
-	data["fellowship_bonus_first"] = QUEST_ACTIVE_FELLOWSHIP_BONUS_FIRST
-	data["fellowship_bonus_per_member"] = QUEST_ACTIVE_FELLOWSHIP_BONUS_PER_MEMBER
 	data["scout_regions"] = SSregionthreat.build_scout_region_rows()
 	data["spoils_tax_rate"] = SStreasury.get_tax_rate(TAX_CATEGORY_RECOVERED_SPOILS)
 	data["tax_rate"] = SStreasury.get_tax_rate(TAX_CATEGORY_CONTRACT_LEVY)
-	data["region_scales_by_type"] = build_region_scales_by_type()
-	data["can_proxy_turnin"] = (user.job in GLOB.contract_proxy_officials)
-	data["can_admin_complete"] = can_admin_complete(user)
 	data["issued"] = build_issued_listing(user)
-	data["issuer_cancel_window_minutes"] = MIN_TIME_BEFORE_CANCEL_TAKEN_QUEST / (1 MINUTES)
-	data["refund_on_not_taken_pct"] = REFUND_ON_NOT_TAKEN * 100
-	data["refund_on_failure_pct"] = REFUND_ON_FAILURE * 100
 	var/list/dynamic_roles = resolve_dynamic_roles(user)
 	data["dynamic_roles"] = dynamic_roles
 	data["dynamic_role"] = length(dynamic_roles) ? dynamic_roles[1] : null
-	if(("innkeeper" in dynamic_roles) || ("steward" in dynamic_roles))
-		data["veteran_types"] = build_veteran_types()
 	if("innkeeper" in dynamic_roles)
 		data["rumor_points"] = round(SStreasury.rumor_points, 0.1)
-		data["rumor_refill_base"] = RUMOR_POINTS_BASE_REFILL
-		data["rumor_refill_per_player"] = RUMOR_POINTS_PER_PLAYER
 		data["rumor_active_players"] = get_active_player_count()
 		add_rumor_types(data)
-		data["rumor_destinations"] = build_rumor_destinations()
 		data["rumor_log"] = SStreasury.rumor_log
-		data["rumor_lucrative_mult"] = RUMOR_LUCRATIVE_MULT
 	if("steward" in dynamic_roles)
 		data["is_alderman_acting"] = (SScity_assembly?.is_alderman(user) && user.job != "Steward") ? TRUE : FALSE
 		data["pledge_balance"] = SStreasury.burgher_pledge_fund ? SStreasury.burgher_pledge_fund.balance : 0
-		data["pledge_refill_base"] = BURGHER_PLEDGE_BASE_REFILL
-		data["pledge_refill_per_player"] = BURGHER_PLEDGE_PER_PLAYER
 		data["pledge_active_players"] = get_active_player_count()
 		data["pledge_available"] = SStreasury.burgher_pledge_fund ? TRUE : FALSE
 		// Guild Charter of Arms tribute contributes a flat bonus to the Pledge refill when active.
@@ -209,18 +173,58 @@
 		data["blockade_region_labels"] = build_blockade_region_labels()
 		data["defense_log"] = SStreasury.defense_log
 		data["active_writ_regions"] = build_active_writ_regions()
-		data["bonus_pay_light_mult"] = COMMISSION_BONUS_PAY_LIGHT_MULT
-		data["bonus_pay_full_mult"] = COMMISSION_BONUS_PAY_MULT
 		refresh_directive_quota()
-		data["directives_per_day"] = COMMISSION_REQUESTS_PER_DAY
 		data["directives_issued_today"] = directives_issued_today
 	if("towner" in dynamic_roles)
-		data["towner_postings"] = build_towner_posting_listing(user)
 		data["towner_purse_balance"] = SStreasury?.discretionary_fund?.balance || 0
 		data["towner_company_balance"] = SStreasury?.merchant_fund?.balance || 0
-		data["towner_company_cost_mult"] = TOWNER_POSTING_COMPANY_COST_MULT
 		data["towner_active_postings"] = count_active_towner_postings(user)
-		data["towner_max_postings"] = TOWNER_MAX_ACTIVE_POSTINGS
+	return data
+
+/obj/structure/roguemachine/contractledger/ui_static_data(mob/user)
+	var/list/data = list()
+	var/datum/job/mob_job = user?.job ? SSjob.GetJob(user.job) : null
+	data["is_handler"] = !!mob_job?.is_quest_giver
+	data["can_proxy_turnin"] = (user.job in GLOB.contract_proxy_officials)
+	data["can_admin_complete"] = can_admin_complete(user)
+	data["townie_contract_gate_exempt_jobs"] = SSjob.townie_contract_gate_exempt_display_names()
+	data["quest_claim_barred_jobs"] = SSjob.quest_claim_barred_display_names()
+	data["quest_claim_towner_jobs"] = SSjob.quest_claim_towner_names
+	data["quest_claim_lowpop_jobs"] = SSjob.quest_claim_lowpop_names
+	data["quest_claim_solo_jobs"] = SSjob.quest_claim_solo_names
+	data["solo_limit_minutes"] = QUEST_SOLO_SIGN_COOLDOWN / (1 MINUTES)
+	data["arrival_scan_range"] = QUEST_ARRIVAL_SCAN_RANGE
+	data["regions"] = build_region_listing()
+	data["hoard_recovery_pledge"] = HOARD_RECOVERY_PLEDGE
+	data["hoard_recovery_fellowship_min"] = BLOCKADE_FELLOWSHIP_REQUIREMENT
+	data["hoard_recovery_hoard_min"] = HOARD_RECOVERY_HOARD_MINIMUM
+	data["townie_gate_minutes"] = CONTRACT_TOWNIE_GATE_TIME / (1 MINUTES)
+	data["veteran_threat_pct"] = round((QUEST_VETERAN_THREAT_MULT - 1) * 100)
+	data["fellowship_reward_cap_pct"] = round((QUEST_FELLOWSHIP_REWARD_MULT_CAP - 1) * 100)
+	data["blockade_defender_min"] = BLOCKADE_FELLOWSHIP_REQUIREMENT
+	data["blockade_defender_max"] = QUEST_FELLOWSHIP_SCALE_MAX
+	data["blockade_extra_defender_pct"] = round(QUEST_FELLOWSHIP_REWARD_PER_EXTRA * 100)
+	data["blockade_extra_threat_pct"] = round(QUEST_FELLOWSHIP_THREAT_PER_EXTRA_BLOCKADE * 100)
+	data["fellowship_bonus_first"] = QUEST_ACTIVE_FELLOWSHIP_BONUS_FIRST
+	data["fellowship_bonus_per_member"] = QUEST_ACTIVE_FELLOWSHIP_BONUS_PER_MEMBER
+	data["region_scales_by_type"] = build_region_scales_by_type()
+	data["issuer_cancel_window_minutes"] = MIN_TIME_BEFORE_CANCEL_TAKEN_QUEST / (1 MINUTES)
+	data["refund_on_not_taken_pct"] = REFUND_ON_NOT_TAKEN * 100
+	data["refund_on_failure_pct"] = REFUND_ON_FAILURE * 100
+	data["veteran_types"] = build_veteran_types()
+	data["rumor_refill_base"] = RUMOR_POINTS_BASE_REFILL
+	data["rumor_refill_per_player"] = RUMOR_POINTS_PER_PLAYER
+	data["rumor_destinations"] = build_rumor_destinations()
+	data["rumor_lucrative_mult"] = RUMOR_LUCRATIVE_MULT
+	data["pledge_refill_base"] = BURGHER_PLEDGE_BASE_REFILL
+	data["pledge_refill_per_player"] = BURGHER_PLEDGE_PER_PLAYER
+	data["bonus_pay_light_mult"] = COMMISSION_BONUS_PAY_LIGHT_MULT
+	data["bonus_pay_full_mult"] = COMMISSION_BONUS_PAY_MULT
+	data["directives_per_day"] = COMMISSION_REQUESTS_PER_DAY
+	data["towner_postings"] = build_towner_posting_listing(user)
+	data["towner_crown_cost_mult"] = TOWNER_POSTING_CROWN_COST_MULT
+	data["towner_company_cost_mult"] = TOWNER_POSTING_COMPANY_COST_MULT
+	data["towner_max_postings"] = TOWNER_MAX_ACTIVE_POSTINGS
 	return data
 
 GLOBAL_LIST_INIT(crown_authority_roles, list(
