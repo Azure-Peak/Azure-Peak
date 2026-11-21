@@ -27,12 +27,18 @@
 /obj/structure/glowshroom/CanAStarPass(ID, to_dir, caller)
 	return !can_zap(caller)
 
+/obj/structure/glowshroom/proc/is_amorphous_landing(atom/movable/victim)
+	if(!ishuman(victim))
+		return FALSE
+	var/datum/component/amorphous_landing/landing = victim.GetComponent(/datum/component/amorphous_landing)
+	return landing && (landing.is_landing || victim.zfalling)
+
 /obj/structure/glowshroom/CanPass(atom/movable/mover, turf/target)
 	if(isliving(mover) && mover.z == z)
 		var/throwdir = get_dir(src, mover)
 		var/mob/living/L = mover
 
-		if(HAS_TRAIT(L, TRAIT_KNEESTINGER_IMMUNITY) || HAS_TRAIT(L, TRAIT_BOGWALKER)) //Dendor kneestinger immunity
+		if(HAS_TRAIT(L, TRAIT_KNEESTINGER_IMMUNITY) || HAS_TRAIT(L, TRAIT_BOGWALKER) || is_amorphous_landing(L))
 			return TRUE
 
 		if(L.mind)
@@ -58,7 +64,7 @@
 	if(!isliving(movable_victim))
 		return FALSE
 	var/mob/living/victim = movable_victim
-	if(HAS_TRAIT(victim, TRAIT_KNEESTINGER_IMMUNITY) || HAS_TRAIT(victim, TRAIT_BOGWALKER)) //Dendor kneestinger immunity
+	if(HAS_TRAIT(victim, TRAIT_KNEESTINGER_IMMUNITY) || HAS_TRAIT(victim, TRAIT_BOGWALKER) || is_amorphous_landing(victim))
 		return FALSE
 	if(victim.mind)
 		if(world.time > victim.last_client_interact + 0.2 SECONDS)
@@ -101,7 +107,7 @@
 
 /obj/structure/glowshroom/attackby(obj/item/W, mob/user, params)
 	if(isliving(user) && W && user.z == z)
-		if(W.flags_1 & CONDUCT_1)
+		if((W.flags_1 & CONDUCT_1) && !is_amorphous_landing(user))
 			var/mob/living/L = user
 			if(L.electrocute_act(30, src)) // The kneestingers will let you pass if you worship dendor, but they won't take your stupid ass hitting them.
 				L.emote("painscream")
