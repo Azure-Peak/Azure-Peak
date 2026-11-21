@@ -106,7 +106,7 @@
 	. = ..()
 	affected.emote("firescream", TRUE)
 	flash_color(affected, "#a83c1a", 15)
-	affected.Slowdown(15)
+	affected.apply_slowdown(15 SECONDS)
 	affected.Paralyze(15)
 	shake_camera(affected, 2, 2)
 	playsound(affected, 'sound/health/burning.ogg', 60, TRUE)

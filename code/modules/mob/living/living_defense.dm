@@ -236,7 +236,7 @@
 	attacker.remove_status_effect(/datum/status_effect/debuff/exposed)
 	attacker.apply_status_effect(/datum/status_effect/debuff/exposed, 5 SECONDS)
 	attacker.apply_status_effect(/datum/status_effect/debuff/clickcd, 3 SECONDS)
-	attacker.Slowdown(3)
+	attacker.apply_slowdown(5 SECONDS)
 	var/datum/status_effect/buff/arcyne_momentum/momentum = attacker.has_status_effect(/datum/status_effect/buff/arcyne_momentum)
 	if(momentum && momentum.stacks > 0)
 		momentum.consume_all_stacks()

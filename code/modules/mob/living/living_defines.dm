@@ -194,8 +194,6 @@
 
 	var/datum/sex_controller/sexcon
 
-	var/slowdown
-
 	var/last_integ_sound
 
 	var/last_dir_change = 0
