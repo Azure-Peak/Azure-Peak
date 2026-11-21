@@ -1,5 +1,0 @@
-author: "dopamiin0"
-delete-after: True
-changes:
-  - bugfix: "dagger straps no longer have invisible icons"
-  - bugfix: "luxury room v's balcony no longer inexplicably requires a key to luxury room iv"

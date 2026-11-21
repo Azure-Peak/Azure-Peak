@@ -1,5 +1,0 @@
-author: "WeNeedMorePhoron"
-delete-after: True
-changes:
-  - bugfix: "Thunder Arrows no longer slow you down for 20 seconds instead of 2. Gilded Dragon Staff no longer slow you down for 40 seconds instead of 4."
-  - rscadd: "Slowdown has been refactored and now have an icon and status effect. Report any oddities."

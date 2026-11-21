@@ -1,4 +1,0 @@
-author: "changelingonberry"
-delete-after: True
-changes:
-  - admin: "Adds UTF8 support to the player panel"

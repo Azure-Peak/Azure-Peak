@@ -1,4 +1,0 @@
-author: "borneblood"
-delete-after: True
-changes:
-  - bugfix: "Fixes a spam from sleep buff's flavortext timing out with no grace period to prevent so."
