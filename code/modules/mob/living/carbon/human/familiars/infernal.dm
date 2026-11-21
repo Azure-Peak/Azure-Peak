@@ -27,7 +27,6 @@
 	inherent_traits = list(
 		TRAIT_STEELHEARTED,
 		TRAIT_NOFALLDAMAGE1,
-		TRAIT_TINYPAWS,
 		TRAIT_PACIFISM,
 		TRAIT_INFINITE_STAMINA,
 		TRAIT_NOMOOD,
@@ -46,6 +45,7 @@
 		TRAIT_UNLYCKERABLE,
 		TRAIT_ZOMBIE_IMMUNE,
 		TRAIT_UNCONVERTIBLE,
+		TRAIT_NONAMESTEAL,
 	)
 	origin = "The Hells"
 	origin_default = /datum/virtue/origin/unselectable/infernal

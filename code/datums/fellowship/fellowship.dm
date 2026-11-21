@@ -6,7 +6,7 @@
 	// pending_invites[real_name] = list(expires_at_world_time, /datum/weakref of target mob)
 	var/list/pending_invites = list()
 	var/list/active_contracts = list()
-	var/payout_mode = FELLOWSHIP_PAYOUT_LEADER
+	var/payout_mode = FELLOWSHIP_PAYOUT_SPLIT
 	var/created_time
 
 /datum/fellowship/New(mob/living/founder, chosen_name)
@@ -83,7 +83,7 @@
 	RegisterSignal(user, COMSIG_ATOM_WAS_ATTACKED, PROC_REF(on_member_attacked), override = TRUE)
 	remove_pending_invite(user.real_name)
 	to_chat(user, span_notice("You have joined the fellowship '[name]'."))
-	notify_members("[user.real_name] has joined the fellowship.", exclude = user)
+	notify_members("[user.get_unmasked_name()] has joined the fellowship.", exclude = user)
 	push_updates()
 	return TRUE
 
@@ -93,17 +93,22 @@
 	var/datum/weakref/W = find_member_ref(user)
 	if(!W)
 		return FALSE
+	if(reason == FELLOWSHIP_REASON_LEFT)
+		var/datum/merc_contract/contract = get_merc_contract(user)
+		if(contract?.fellowship_ref?.resolve() == src)
+			to_chat(user, span_warning("You are under contract with [contract.hirer_name] and cannot leave."))
+			return FALSE
 	members -= W
 	strip_fellowship_from(user)
 	switch(reason)
 		if(FELLOWSHIP_REASON_KICKED)
 			to_chat(user, span_warning("You have been removed from the fellowship '[name]'."))
-			notify_members("[user.real_name] has been removed from the fellowship.")
+			notify_members("[user.get_unmasked_name()] has been removed from the fellowship.")
 		if(FELLOWSHIP_REASON_DESTROYED)
-			notify_members("[user.real_name] is no longer among the fellowship.")
+			notify_members("[user.get_unmasked_name()] is no longer among the fellowship.")
 		else
 			to_chat(user, span_notice("You have left the fellowship '[name]'."))
-			notify_members("[user.real_name] has left the fellowship.")
+			notify_members("[user.get_unmasked_name()] has left the fellowship.")
 	if(!check_auto_disband())
 		push_updates()
 	return TRUE
@@ -163,6 +168,13 @@
 	return FALSE
 
 /datum/fellowship/proc/disband(reason = "leader")
+	if(reason == "leader")
+		var/datum/merc_contract/contract = get_fellowship_merc_contract(src)
+		if(contract)
+			var/mob/living/leader_mob = get_leader()
+			if(leader_mob)
+				to_chat(leader_mob, span_warning("You cannot disband the fellowship while [contract.merc_name] is under contract."))
+			return FALSE
 	notify_members("The fellowship '[name]' has been disbanded.")
 	var/list/affected = get_members()
 	for(var/invitee_name in pending_invites)
@@ -191,10 +203,10 @@
 	if(target == inviter)
 		return FALSE
 	if(has_member(target))
-		to_chat(inviter, span_warning("[target.real_name] is already in the fellowship."))
+		to_chat(inviter, span_warning("[target.get_unmasked_name()] is already in the fellowship."))
 		return FALSE
 	if(target.current_fellowship)
-		to_chat(inviter, span_warning("[target.real_name] is already in a fellowship."))
+		to_chat(inviter, span_warning("[target.get_unmasked_name()] is already in a fellowship."))
 		return FALSE
 	if(length(get_members()) >= FELLOWSHIP_MAX_MEMBERS)
 		to_chat(inviter, span_warning("The fellowship is full."))
@@ -202,8 +214,8 @@
 	pending_invites[target.real_name] = list(world.time + FELLOWSHIP_INVITE_EXPIRY, WEAKREF(target))
 	target.incoming_fellowship_invites |= WEAKREF(src)
 	var/href = "<a href='?src=[REF(src)];accept_invite=1;invitee=[target.real_name]'>\[Accept\]</a>"
-	to_chat(target, span_notice("[inviter.real_name] has invited you to join the fellowship '[name]'. [href]"))
-	to_chat(inviter, span_notice("You have invited [target.real_name] to the fellowship."))
+	to_chat(target, span_notice("[inviter.get_unmasked_name()] has invited you to join the fellowship '[name]'. [href]"))
+	to_chat(inviter, span_notice("You have invited [target.get_unmasked_name()] to the fellowship."))
 	push_updates()
 	refresh_fellowship_ui_for(target)
 	return TRUE
@@ -271,6 +283,10 @@
 	if(target == kicker)
 		return FALSE
 	if(!has_member(target))
+		return FALSE
+	var/datum/merc_contract/contract = get_merc_contract(target)
+	if(contract?.fellowship_ref?.resolve() == src)
+		to_chat(kicker, span_warning("[target.real_name] is under contract and cannot be removed."))
 		return FALSE
 	return remove_member(target, reason = FELLOWSHIP_REASON_KICKED)
 

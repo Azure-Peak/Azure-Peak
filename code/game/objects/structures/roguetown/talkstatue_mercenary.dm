@@ -3,6 +3,81 @@
 	if(SSroguemachine.mercenary_statue == null)
 		SSroguemachine.mercenary_statue = src
 	SSroguemachine.mercenary_statues |= src
+	next_advert = world.time + rand(MERC_STATUE_ADVERT_MIN, MERC_STATUE_ADVERT_MAX)
+	START_PROCESSING(SSroguemachine, src)
+
+/obj/structure/roguemachine/talkstatue/mercenary/Destroy()
+	STOP_PROCESSING(SSroguemachine, src)
+	return ..()
+
+/obj/structure/roguemachine/talkstatue/mercenary/process()
+	if(world.time < next_advert)
+		return
+	next_advert = world.time + rand(MERC_STATUE_ADVERT_MIN, MERC_STATUE_ADVERT_MAX)
+	advertise()
+
+/obj/structure/roguemachine/talkstatue/mercenary/examine(mob/user)
+	. = ..()
+	if(mutable)
+		. += span_info("Right click to [muted ? "unmute" : "mute"] its calls for hire.")
+
+/obj/structure/roguemachine/talkstatue/mercenary/attack_right(mob/user)
+	user.changeNext_move(CLICK_CD_INTENTCAP)
+	if(!mutable)
+		to_chat(user, span_warning("This statue cannot be muted."))
+		return
+	muted = !muted
+	playsound(loc, 'sound/misc/beep.ogg', 100, FALSE, -1)
+	to_chat(user, span_info("I [muted ? "mute" : "unmute"] the statue."))
+
+/obj/structure/roguemachine/talkstatue/mercenary/proc/advertise()
+	if(muted)
+		return
+	var/has_listener = FALSE
+	for(var/mob/living/L in hearers(MERC_STATUE_ADVERT_RANGE, src))
+		if(L.client)
+			has_listener = TRUE
+			break
+	if(!has_listener)
+		return
+	var/list/candidates = list()
+	for(var/merc_key in mercenary_status)
+		var/list/merc_data = mercenary_status[merc_key]
+		var/mob/living/carbon/human/merc = merc_data["mob"]
+		if(QDELETED(merc) || merc.stat == DEAD || merc_data["status"] != "Available")
+			continue
+		candidates += list(merc_data)
+	if(!length(candidates))
+		return
+	var/list/chosen = pick(candidates)
+	var/mob/living/carbon/human/merc = chosen["mob"]
+	var/class_text = merc.advjob ? ", [merc.advjob]," : ""
+	var/ad_text = chosen["message"] ? " \"[chosen["message"]]\"" : ""
+	say("[merc.real_name][class_text] is for hire.[ad_text]")
+
+/obj/structure/roguemachine/talkstatue/mercenary/proc/sync_mercenary_status(mob/living/carbon/human/merc, new_status)
+	var/list/merc_data = mercenary_status[merc.real_name]
+	if(!merc_data)
+		merc_data = list("status" = new_status, "mob" = merc, "message" = "")
+		mercenary_status[merc.real_name] = merc_data
+	if(new_status == "Available" && merc_data["status"] == "Do not Disturb")
+		return
+	merc_data["status"] = new_status
+	merc_data["mob"] = merc
+
+/mob/living/carbon/human/proc/mercenary_statusupdate()
+	set name = "Update Mercenary Status"
+	set category = "RoleUnique.Mercenary"
+	set desc = "Set your status at the mercenary statue from anywhere."
+	var/obj/structure/roguemachine/talkstatue/mercenary/statue = SSroguemachine.mercenary_statue
+	if(!statue)
+		to_chat(src, span_warning("There is no mercenary statue to hear me."))
+		return
+	var/list/options = list("Available", "Contracted", "Do not Disturb")
+	var/choice = tgui_input_list(src, "Set my status at the mercenary statue.", "Mercenary Status", options)
+	if(!choice)
+		return
+	statue.set_role_status(src, statue.mercenary_status, options, "Available", choice)
 
 /obj/structure/roguemachine/talkstatue/mercenary/proc/cycle_mercenary_status(mob/living/carbon/human/user)
 	var/list/merc_data = mercenary_status[user.real_name]

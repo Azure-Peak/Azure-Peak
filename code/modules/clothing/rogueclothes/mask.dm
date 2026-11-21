@@ -935,6 +935,11 @@
 	AddComponent(/datum/component/armour_filtering/positive, TRAIT_FENCERDEXTERITY)
 	AddComponent(/datum/component/adjustable_clothing, NECK, null, null, 'sound/foley/equip/rummaging-03.ogg', null, (UPD_HEAD|UPD_MASK))	//Standard mask
 
+// for NPC
+/obj/item/clothing/mask/rogue/facemask/padded/shoddy
+	name = "shoddy padded mask"
+	max_integrity = 75
+
 /obj/item/clothing/mask/rogue/facemask/leather
 	name = "padded leather mask"
 	desc = "A padded leather mask with a visor, it will prevent bad smells and some damage."

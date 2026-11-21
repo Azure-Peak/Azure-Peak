@@ -82,31 +82,53 @@
 //SLEEPING
 /datum/status_effect/incapacitating/sleeping
 	id = "sleeping"
+	status_type = STATUS_EFFECT_REFRESH
 	alert_type = /atom/movable/screen/alert/status_effect/asleep
 	needs_update_stat = TRUE
 	var/mob/living/carbon/carbon_owner
 	var/mob/living/carbon/human/human_owner
 	var/sleptonground = FALSE
+	var/const/wake_grace = 2 SECONDS
 
-/datum/status_effect/incapacitating/sleeping/on_creation(mob/living/new_owner, updating_canmove)
+/datum/status_effect/incapacitating/sleeping/refresh(mob/living/new_owner, set_duration)
+	if(duration == -1 || !isnum(set_duration)) // never turn an infinite sleep into a finite one cos we're apparently controlled by procs
+		return
+	duration = max(duration, world.time + set_duration)
+
+/datum/status_effect/incapacitating/sleeping/on_creation(mob/living/new_owner, set_duration, updating_canmove)
 	. = ..()
-	if(.)
-		if(owner.cmode)
-			owner.cmode = 0
-		SSdroning.kill_droning(owner.client)
-		SSdroning.kill_loop(owner.client)
-		SSdroning.kill_rain(owner.client)
-		owner.clear_typing_indicator()
-		if(iscarbon(owner)) //to avoid repeated istypes
-			carbon_owner = owner
-		if(ishuman(owner))
-			human_owner = owner
+	if(!.)
+		return
+	if(owner.cmode)
+		owner.cmode = 0
+	SSdroning.kill_droning(owner.client)
+	SSdroning.kill_loop(owner.client)
+	SSdroning.kill_rain(owner.client)
+	owner.clear_typing_indicator()
+	if(owner.sleep_wake_timer) // we were about to wake up? shut fuck
+		deltimer(owner.sleep_wake_timer)
+		owner.sleep_wake_timer = null
+	else if(owner.m_intent != MOVE_INTENT_SNEAK)
+		owner.visible_message(span_info("[owner] falls asleep."), vision_distance = 3)
+	if(iscarbon(owner)) //to avoid repeated istypes
+		carbon_owner = owner
+	if(ishuman(owner))
+		human_owner = owner
 
 /datum/status_effect/incapacitating/sleeping/on_remove()
-	if(ishuman(owner))
-		SSdroning.play_area_sound(get_area(src), owner.client)
-		SSdroning.play_loop(get_area(src), owner.client)
+	if(ishuman(owner) && !QDELETED(owner))
+		owner.sleep_wake_timer = addtimer(CALLBACK(owner, TYPE_PROC_REF(/mob/living, finish_waking)), wake_grace, TIMER_STOPPABLE)
 	. = ..()
+
+/mob/living/proc/finish_waking() // this way we let the grace period do its trick, ideally this will only happen once and that is only if we dont receive another eep within 2 secs, unsure how this will interact with procs forcing sleep tho, if it hits in the 2sec gap, alas, it fixes at least the most egrigious bit
+	sleep_wake_timer = null
+	if(QDELETED(src) || IsSleeping())
+		return
+	SSdroning.play_area_sound(get_area(src), client)
+	SSdroning.play_loop(get_area(src), client)
+	if(m_intent != MOVE_INTENT_SNEAK)
+		visible_message(span_info("[src] stirs, waking up."), vision_distance = 3)
+
 
 /datum/status_effect/incapacitating/sleeping/Destroy()
 	carbon_owner = null

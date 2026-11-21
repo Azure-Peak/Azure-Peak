@@ -134,7 +134,7 @@ GLOBAL_LIST_INIT(skeleton_aggro, list(
 	ADD_TRAIT(src, TRAIT_LIMBATTACHMENT, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_HEAVYARMOR, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_SILVER_WEAK, TRAIT_GENERIC)
-	ADD_TRAIT(src, TRAIT_NPC_EXAMINE, TRAIT_GENERIC)
+	ADD_TRAIT(src, TRAIT_ZOMBIE_IMMUNE, TRAIT_GENERIC)
 	if(skel_untamable) //For Re-Factionised Groups
 		ADD_TRAIT(src, TRAIT_NOZIZORECRUIT, TRAIT_GENERIC)
 	if(skel_fragile)
@@ -316,6 +316,7 @@ GLOBAL_LIST_INIT(skeleton_aggro, list(
 	gloves = /obj/item/clothing/gloves/roguetown/leather
 	neck = /obj/item/clothing/neck/roguetown/gorget/copper
 	head = /obj/item/clothing/head/roguetown/headband/bloodied
+	mask = /obj/item/clothing/mask/rogue/facemask/aalloy
 	pants = /obj/item/clothing/under/roguetown/heavy_leather_pants/bronzeskirt
 	shirt = /obj/item/clothing/suit/roguetown/armor/leather/studded/cuirbouilli
 	armor = /obj/item/clothing/suit/roguetown/armor/plate/cuirass/copper

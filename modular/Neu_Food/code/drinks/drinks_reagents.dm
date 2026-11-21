@@ -83,7 +83,6 @@
 		M.heart_attack()
 
 /datum/reagent/consumable/caffeine/coffee
-	cuisine = CUISINE_RANESHENI
 	name = "coffee"
 	description = "Coffee beans brewed into a hot drink. With a hint of bitterness. Rejuvenating."
 	reagent_state = LIQUID
@@ -92,9 +91,9 @@
 	metabolization_rate = REAGENTS_METABOLISM
 	alpha = 200
 	quality = DRINK_VERYGOOD
+	cuisine = CUISINE_RANESHENI
 
 /datum/reagent/consumable/caffeine/coffee/milk
-	cuisine = CUISINE_ETRUSCAN
 	name = "etruccino"
 	description = "Milk added to a wonderfully brewed coffee, savory and smooth."
 	reagent_state = LIQUID
@@ -103,6 +102,7 @@
 	metabolization_rate = REAGENTS_METABOLISM
 	alpha = 200
 	quality = DRINK_FANTASTIC
+	cuisine = CUISINE_ETRUSCAN
 
 /datum/chemical_reaction/alch/etruccino
 	name = "Etruccino"
@@ -126,7 +126,6 @@
 				M.update_damage_overlays()
 
 /datum/reagent/consumable/caffeine/coffee/cheese // cheese is milk right?
-	cuisine = CUISINE_ETRUSCAN
 	name = "lumpy etruccino"
 	description = "A thing of coffee with... with cheese in it. What. Who thought cheese was milk?"
 	reagent_state = LIQUID
@@ -135,6 +134,7 @@
 	metabolization_rate = REAGENTS_METABOLISM
 	alpha = 200
 	quality = DRINK_GOOD // it made the coffee worse
+	cuisine = CUISINE_ETRUSCAN
 
 /datum/chemical_reaction/alch/lumpyetruccino
 	name = "Lumpy Etruccino"
@@ -144,7 +144,6 @@
 	required_reagents = list(/datum/reagent/consumable/caffeine/coffee = 1, /datum/reagent/consumable/soup/stew/thickcheese = 1)
 
 /datum/reagent/consumable/caffeine/coffee_spiced
-	cuisine = CUISINE_RANESHENI
 	name = "spiced coffee"
 	description = "Spiced coffee beans brewed into a hot drink, with a hint of bitterness. Modestly rejuvenating."
 	reagent_state = LIQUID
@@ -153,6 +152,7 @@
 	metabolization_rate = 0.5
 	alpha = 200
 	quality = DRINK_FANTASTIC
+	cuisine = CUISINE_RANESHENI
 
 /datum/reagent/consumable/caffeine/coffee_spiced/on_mob_life(mob/living/carbon/M)
 	. = ..()
@@ -169,18 +169,17 @@
 				M.update_damage_overlays()
 
 /datum/reagent/consumable/caffeine/tea
-	cuisine = CUISINE_SOUTHEASTERN
 	name = "tea"
-	description = "Tea leaves brewed into a hot drink. Slight hint of bitterness. Smooth."
+	description = "Tea leaves brewed into a hot drink. Smooth, with a light hint of bitterness."
 	reagent_state = LIQUID
 	color = "#508141" // Deeper green to make it look better
 	taste_description = "smooth grassiness" // Yeah, uh.
 	metabolization_rate = REAGENTS_METABOLISM
 	alpha = 173
 	quality = DRINK_VERYGOOD
+	cuisine = CUISINE_SOUTHEASTERN
 
 /datum/reagent/consumable/caffeine/tea/milk
-	cuisine = CUISINE_SOUTHEASTERN
 	name = "milk tea"
 	description = "A hot tea mixture with the savoriness of milk added to it. Very refreshing."
 	reagent_state = LIQUID
@@ -189,6 +188,7 @@
 	metabolization_rate = REAGENTS_METABOLISM
 	alpha = 173
 	quality = DRINK_FANTASTIC
+	cuisine = CUISINE_SOUTHEASTERN
 
 /datum/chemical_reaction/alch/milktea
 	name = "Milk Tea"
@@ -212,15 +212,15 @@
 				M.update_damage_overlays()
 
 /datum/reagent/consumable/caffeine/tea_spiced
-	cuisine = CUISINE_SOUTHEASTERN
 	name = "spiced tea"
-	description = "Spiced tea leaves brewed into a hot drink. Slight hint of bitterness. Smoothly rejuvenating."
+	description = "Spiced tea leaves brewed into a hot drink. Smoothly rejuvenating, with a slight hint of bitterness."
 	reagent_state = LIQUID
 	color = "#788C41" // Deeper green to make it look better
 	taste_description = "spiced grassiness"
 	metabolization_rate = 0.5
 	alpha = 173
 	quality = DRINK_GOOD
+	cuisine = CUISINE_SOUTHEASTERN
 
 /datum/reagent/consumable/caffeine/tea_spiced/on_mob_life(mob/living/carbon/M)
 	. = ..()
@@ -238,10 +238,10 @@
 
 /datum/reagent/consumable/poppy_milk
 	name = "poppy milk"
-	description = "Infused liquid of the Poppy, this one leaves your mouth and mind numb after drinking. Drinking more than a cup might not be good for your health..."
+	description = "A lighter substitute for ozium, brewed with crushed poppies. A mug's worth temporarily dulls the pain; two, permanently."
 	reagent_state = LIQUID
 	color = "#dbd7d5"
-	taste_description = "instant numbness"
+	taste_description = "creeping numbness"
 	metabolization_rate = REAGENTS_METABOLISM
 	overdose_threshold = 25 // one cup is safe, anything more and it's an OD
 	alpha = 200
@@ -259,13 +259,13 @@
 
 // Tea ported from Vanderlin from Misc Fixes PR #862
 /datum/reagent/consumable/golden_calendula_tea
-	drink_type = DRINKTYPE_CAFFEINE
-	cuisine = CUISINE_SOUTHEASTERN
-	name = "Golden Calendula Tea"
+	name = "golden calendula tea"
 	description = "A refreshing tea, great to soothe wounds and relieve fatigue."
 	color = "#b38e17"
 	taste_description = "herbal flavor"
 	quality = DRINK_VERYGOOD
+	drink_type = DRINKTYPE_CAFFEINE
+	cuisine = CUISINE_SOUTHEASTERN
 	alpha = 173
 
 /datum/reagent/consumable/golden_calendula_tea/on_mob_life(mob/living/carbon/M)
@@ -285,12 +285,12 @@
 	..()
 
 /datum/reagent/consumable/chocolate
-	cuisine = CUISINE_OTAVAIS
 	name = "hot chocolate"
 	description = "Lovingly smooth, velvety, and rich. Provides a modest portion of health regeneration, and minor stamina regeneration."
 	color = "#3F291C"
 	taste_description = "a throat-clinging sweetness, paired with a rich and warming aftertaste"
 	quality = DRINK_GOOD
+	cuisine = CUISINE_OTAVAIS
 	alpha = 250
 
 /datum/reagent/consumable/chocolate/on_mob_life(mob/living/carbon/M)
@@ -310,12 +310,12 @@
 	..()
 
 /datum/reagent/consumable/spiced_chocolate
-	cuisine = CUISINE_RANESHENI
 	name = "spiced chocolate"
 	description = "Impossibly smooth, velvety, and rich. Provides a generous portion of health regeneration, and minor stamina regeneration."
 	color = "#6D472F"
 	taste_description = "an impossible blend of richness, sweetness, and a hint of throat-tingling spiciness"
 	quality = DRINK_VERYGOOD
+	cuisine = CUISINE_RANESHENI
 	alpha = 250
 
 /datum/reagent/consumable/spiced_chocolate/on_mob_life(mob/living/carbon/M)
@@ -335,13 +335,13 @@
 	..()
 
 /datum/reagent/consumable/soothing_valerian_tea
-	drink_type = DRINKTYPE_CAFFEINE
-	cuisine = CUISINE_SOUTHEASTERN
-	name = "Soothing Valerian Tea"
+	name = "soothing valerian tea"
 	description = "A refreshing tea, great to ease fatigue and relieve stress."
 	color = "#3b9146"
 	quality = DRINK_FANTASTIC
 	taste_description = "herbal flavor"
+	drink_type = DRINKTYPE_CAFFEINE
+	cuisine = CUISINE_SOUTHEASTERN
 	alpha = 173
 
 /datum/reagent/consumable/soothing_valerian_tea/on_mob_life(mob/living/carbon/M)

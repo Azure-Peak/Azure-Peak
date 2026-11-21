@@ -1034,7 +1034,7 @@
 	stuttering = 0
 	slurring = 0
 	jitteriness = 0
-	slowdown = 0
+	remove_status_effect(/datum/status_effect/debuff/slowed)
 	update_mobility()
 	stop_sound_channel(CHANNEL_HEARTBEAT)
 
@@ -1767,7 +1767,7 @@
 	return TRUE
 
 /mob/living/proc/can_use_guns(obj/item/G)//actually used for more than guns!
-	if(HAS_TRAIT(src, TRAIT_TINYPAWS))
+	if(HAS_TRAIT(src, TRAIT_WEAPONLESS))
 		to_chat(src, span_warning("I am unable to fire this!"))
 		return FALSE
 	if(G.trigger_guard == TRIGGER_GUARD_NONE)
@@ -2216,6 +2216,22 @@ GLOBAL_LIST_INIT(sight_trait_signals, build_sight_trait_signals())
 		client.mouse_pointer_icon = ranged_ability.ranged_mousepointer
 
 /mob/living/vv_edit_var(var_name, var_value)
+	var/static/list/vv_stat_keys = list(
+		"STASTR" = STATKEY_STR,
+		"STAPER" = STATKEY_PER,
+		"STAINT" = STATKEY_INT,
+		"STACON" = STATKEY_CON,
+		"STAWIL" = STATKEY_WIL,
+		"STASPD" = STATKEY_SPD,
+		"STALUC" = STATKEY_LCK,
+	)
+	var/statkey = vv_stat_keys[var_name]
+	if(statkey)
+		if(!isnum(var_value))
+			return FALSE
+		change_stat(statkey, clamp(round(var_value), 1, 20) - get_stat(statkey))
+		datum_flags |= DF_VAR_EDITED
+		return TRUE
 	switch(var_name)
 		if ("maxHealth")
 			if (!isnum(var_value) || var_value <= 0)
@@ -2738,7 +2754,7 @@ GLOBAL_LIST_INIT(sight_trait_signals, build_sight_trait_signals())
 
 	if(stealthy)
 		to_chat(src, span_notice("I secretly offer [offered_item] to [offered_to]."))
-		to_chat(offered_to, span_notice("[offered_to] secretly offers [offered_item] to me..."))
+		to_chat(offered_to, span_notice("[src] secretly offers [offered_item] to me..."))
 	else if(!isnull(offered_glass_other) && istype(offered_glass_other) && offered_glass_other?.reagents?.maximum_volume > 0) // Credit to tmyqlfpir; allows for the clinking of everything up to blacksteel tankards.
 		playsound(src,offered_glass_other.reagents.maximum_volume > 50 ? 'sound/misc/clink_drink_big.ogg' : 'sound/misc/clink_drink.ogg', 100, TRUE) //Adds a new sound if the clinked container is above 50 drams in size.
 		addtimer(CALLBACK(src, PROC_REF(stop_offering_item)), 0.6 SECONDS)
@@ -2851,3 +2867,7 @@ GLOBAL_LIST_INIT(sight_trait_signals, build_sight_trait_signals())
 	if(QDELETED(src) || stat != DEAD) // skip if it was somehow revived in the meantime
 		return
 	dust()
+
+///the humanmob version of this proc accounts for hag names. in general, use real_name directly when you want to use it INTERNALLY. use get_unmasked_name if you want to display someone's "real name" to players
+/mob/living/proc/get_unmasked_name()
+	return real_name

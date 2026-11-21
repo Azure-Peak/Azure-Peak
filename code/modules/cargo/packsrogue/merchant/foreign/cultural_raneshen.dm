@@ -127,13 +127,6 @@
 	ship_qty_min = 2
 	ship_qty_max = 4
 
-/datum/supply_pack/rogue/raneshen/shalal_scarf
-	name = "Shalal Scarf"
-	cost = 20
-	contains = list(/obj/item/clothing/neck/roguetown/shalal)
-	ship_qty_min = 2
-	ship_qty_max = 5
-
 /datum/supply_pack/rogue/raneshen/copper_gorget
 	name = "Copper Gorget"
 	cost = 55

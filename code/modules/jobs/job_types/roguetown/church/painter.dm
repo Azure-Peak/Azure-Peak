@@ -17,6 +17,7 @@
 	min_pq = 1
 	max_pq = null
 	round_contrib_points = 3
+	quest_claim_barred = TRUE
 
 	job_traits = list(TRAIT_WATERBREATHING, TRAIT_RITUALIST, TRAIT_CLERGY)
 

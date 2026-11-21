@@ -184,6 +184,10 @@
 	* If visualsOnly is true, you can omit any work that doesn't visually appear on the character sprite
 	*/
 /datum/outfit/proc/equip(mob/living/carbon/human/H, visualsOnly = FALSE)
+	// Move Forlorne owners first so anything dropped while equipping lands where they end up
+	if(!visualsOnly)
+		var/datum/charflaw/forlorne/forlorne_vice = H.get_flaw(/datum/charflaw/forlorne)
+		forlorne_vice?.send_away(H)
 	pre_equip(H, visualsOnly)
 
 	//Start with uniform,suit,backpack for additional slots
@@ -288,7 +292,7 @@
 							if(!item || !SEND_SIGNAL(item, COMSIG_TRY_STORAGE_INSERT, new_item, null, TRUE, TRUE))
 								item = H.get_item_by_slot(SLOT_CLOAK)
 								if(!item || !SEND_SIGNAL(item, COMSIG_TRY_STORAGE_INSERT, new_item, null, TRUE, TRUE))
-									addtimer(CALLBACK(src, PROC_REF(move_storage), new_item, H.loc), 3 SECONDS)
+									addtimer(CALLBACK(src, PROC_REF(move_storage), new_item, H), 3 SECONDS)
 
 	post_equip(H, visualsOnly)
 

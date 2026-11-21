@@ -1049,6 +1049,8 @@ GLOBAL_VAR_INIT(mobids, 1)
 		return faction_check(faction_src, faction_target, TRUE)
 	if(HAS_TRAIT(target, TRAIT_NOPVE))
 		return TRUE // don't bother checking anyone who's exempt from pve entirely
+	if((mind || target.mind) && HAS_TRAIT(src, TRAIT_CONTRACT_HOSTILE) != HAS_TRAIT(target, TRAIT_CONTRACT_HOSTILE))
+		return FALSE
 	// Avoid lit allocations by scanning factions directly for better perf.
 	var/list/their_faction = target.faction
 	var/their_name = target.name

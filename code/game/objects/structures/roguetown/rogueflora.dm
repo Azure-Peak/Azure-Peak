@@ -533,7 +533,7 @@
 		if(HAS_TRAIT(L, TRAIT_KNEESTINGER_IMMUNITY) || HAS_TRAIT(L, TRAIT_AZURENATIVE))
 			thorn_inmune = TRUE
 		if (!thorn_inmune && !(L.movement_type & (FLYING|FLOATING)) && !(L.is_jumping) && !(L.pulledby))
-			L.Slowdown(1)
+			L.apply_slowdown(1 SECONDS)
 		if(!thorn_inmune && L.m_intent == MOVE_INTENT_RUN && (L.mobility_flags & MOBILITY_STAND))
 			if(!ishuman(L))
 				to_chat(L, span_warning("I'm cut on a thorn!"))

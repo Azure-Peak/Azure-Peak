@@ -30,6 +30,7 @@
 	name = "The Azure Coast - Hamlet"
 	first_time_text = "THE HAMLET"
 	ambush_mobs = null // We don't want actual ambushes in Hamlet but we also don't want to misuse outdoors/beach lol
+	ambush_factions = null
 	threat_region = THREAT_REGION_AZUREAN_COAST
 	detail_text = DETAIL_TEXT_NORTH_COAST_HAMLET
 	area_sniff_message = "You smell deadites and the sea."

@@ -499,6 +499,7 @@
 	min_pq = 10 //Cus it's a Martyr of the Ten. Get it.
 	max_pq = null
 	round_contrib_points = 4
+	quest_claim_barred = TRUE
 	total_positions = 1
 	spawn_positions = 1
 	display_order = JDO_MARTYR

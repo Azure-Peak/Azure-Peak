@@ -6,15 +6,17 @@ NPC statpacks are sorted by Archetypes and then separated into tiers. 10 is set 
 
 Then, based on their faction they get differing loadouts and then a faction modifier is applied on top.
 
-| Tier | Archetype                           | Con / Wil | STR | SPD | PER | INT | TP                        |
-| ---- | ----------------------------------- | --------- | --- | --- | --- | --- | ------------------------- |
-| 0    | Goblins. Trash Mobs. Novice Skills. | 4         | 8   | 10  | 9   | 7   | TRASH / LOW (8-10)        |
-| 1    | Highwayman. Typical Filler.         | 6         | 10  | 10  | 10  | 8   | MODERATE / HIGH (14-20)   |
-| 2    | Mount Reaver. Trained Infantry.     | 8         | 12  | 10  | 11  | 9   | TOUGH / DANGEROUS (25-30) |
-| 3    | Road Knight. Champion.              | 10        | 14  | 10  | 12  | 10  | DEADLY (40)               |
-| 4    | Sackman. God-Tier.                  | 12        | 14  | 10  | 13  | 11  | ELITE and up (50+)        |
+| Tier | Archetype                           | Con | Wil | STR | SPD | PER | INT | TP                        |
+| ---- | ----------------------------------- | --- | --- | --- | --- | --- | --- | ------------------------- |
+| 0    | Goblins. Trash Mobs. Novice Skills. | 4   | 4   | 8   | 10  | 9   | 7   | TRASH / LOW (8-10)        |
+| 1    | Highwayman. Typical Filler.         | 6   | 5   | 10  | 10  | 10  | 8   | MODERATE / HIGH (14-20)   |
+| 2    | Mount Reaver. Trained Infantry.     | 8   | 7   | 12  | 10  | 11  | 9   | TOUGH / DANGEROUS (25-30) |
+| 3    | Road Knight. Champion.              | 10  | 9   | 14  | 10  | 12  | 10  | DEADLY (40)               |
+| 4    | Sackman. God-Tier.                  | 12  | 11  | 14  | 10  | 13  | 11  | ELITE and up (50+)        |
 
 SPD does not scale with Tier. STR, PER and INT do.
+
+WIL is 1 below CON from T1 up. Every NPC statpack at 6 WIL or more was lowered by 1 WIL.
 
 STR is capped at 14 within the tier and role grid. Faction modifiers may push past it.
 

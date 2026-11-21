@@ -1914,3 +1914,15 @@
 	icon_state = "brownice"
 	neighborlay = "brownice"
 	thin_ice = TRUE
+
+/turf/open/floor/rogue/tile/masonic/moondark
+	icon_state = "moontile_dark"
+	smooth = SMOOTH_FALSE
+
+/turf/open/floor/rogue/tile/masonic/moonbw
+	icon_state = "moontile_bw"
+	smooth = SMOOTH_FALSE
+
+/turf/open/floor/rogue/tile/masonic/sun
+	icon_state = "suntile"
+	smooth = SMOOTH_FALSE

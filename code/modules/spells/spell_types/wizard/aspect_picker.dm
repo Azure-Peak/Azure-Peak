@@ -489,6 +489,9 @@
 			var/spell_path = params["spell_path"]
 			if(!aspect_path || !spell_path)
 				return
+			if(text2path(aspect_path) in staged_unbind_aspects)
+				to_chat(owner, span_warning("I cannot reshape an aspect I am unbinding."))
+				return
 			if(!mastery)
 				var/datum/magic_aspect/probe_type = text2path(aspect_path)
 				var/probe_spell = text2path(spell_path)
@@ -521,6 +524,9 @@
 			var/aspect_path = params["aspect_path"]
 			var/spell_path = params["spell_path"]
 			if(!aspect_path || !spell_path)
+				return
+			if(text2path(aspect_path) in staged_unbind_aspects)
+				to_chat(owner, span_warning("I cannot reshape an aspect I am unbinding."))
 				return
 			if(!pointbuy_selections[aspect_path])
 				pointbuy_selections[aspect_path] = list()
@@ -623,6 +629,16 @@
 	if(max_utilities > 0 && get_utility_points_spent() > max_utilities)
 		to_chat(owner, span_warning("Too many utility spells selected."))
 		return
+
+	for(var/aspect_path_str in pointbuy_selections)
+		if(!will_be_bound(aspect_path_str))
+			continue
+		var/datum/magic_aspect/budget_aspect = GLOB.magic_aspect_singletons[text2path(aspect_path_str)]
+		if(!budget_aspect)
+			continue
+		if(get_pointbuy_spent(aspect_path_str, budget_aspect) > budget_aspect.pointbuy_budget)
+			to_chat(owner, span_warning("Too many spells selected for [budget_aspect.name]."))
+			return
 
 	var/list/pending_claims = get_pending_utility_claims()
 	chanting = TRUE

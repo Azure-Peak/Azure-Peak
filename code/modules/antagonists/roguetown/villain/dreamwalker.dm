@@ -92,6 +92,7 @@
 	to_chat(body, span_danger("I feel my connection to the arcyne and divine weaken as dream energies assert themselves..."))
 	REMOVE_TRAIT(body, TRAIT_ARCYNE, TRAIT_GENERIC)
 	body.devotion = null
+	disable_vessel(body)
 
 /datum/outfit/job/roguetown/dreamwalker/pre_equip(mob/living/carbon/human/H) //Equipment is located below
 	..()
@@ -216,7 +217,15 @@
 
 	if(marked_target)
 		RegisterSignal(marked_target, COMSIG_LIVING_DEATH, PROC_REF(on_target_death))
-		to_chat(parent, span_notice("You begin focusing your dream energy on [marked_target]."))
+
+		var/mark_secret_link = ""
+		if(ishuman(parent) && ishuman(marked_target))
+			var/mob/living/carbon/human/dreamwalker = parent
+			var/mob/living/carbon/human/marked_human = marked_target
+			if(marked_human.get_secret_for(dreamwalker, "dreamwalker"))
+				mark_secret_link = " (<a href='?src=[REF(marked_human)];task=view_remote_secret;secret_type=dreamwalker'>Recall Secrets</a>)"
+
+		to_chat(parent, span_notice("You begin focusing your dream energy on [marked_target].") + mark_secret_link)
 
 		// Remove any existing summon spell
 		if(summon_spell && ishuman(parent))

@@ -440,6 +440,9 @@
 	name = "Gift - Regional, Hatanga Coat"
 	path = /obj/item/clothing/suit/roguetown/armor/leather/heavy/coat/steppe/loadout
 
+/datum/loadout_item/donator/universal/mountaineer
+	name = "Gift - Mountaineer Cloak"
+	path = /obj/item/clothing/cloak/mountaineer
 
 /////////////////////////////
 // ! Player / Donor Kits ! //
@@ -466,6 +469,11 @@
 	path = /obj/item/clothing/suit/roguetown/shirt/dress/silkdress/steward/donator_fregian_mage
 	ckeywhitelist = list("lucine")
 
+/datum/loadout_item/donator/lucine_enduring_codex
+	name = "Donator Kit - The Enduring Codex"
+	path = /obj/item/enchantingkit/triumph_tomekit_enduring
+	ckeywhitelist = list("lucine")
+
 /datum/loadout_item/donator/eekasqueak
 	name = "Saffira encrusted tiara"
 	path = /obj/item/clothing/head/roguetown/circlet/saffiratiara
@@ -489,9 +497,9 @@
 	ckeywhitelist = list("toasterstrudes")
 
 /datum/loadout_item/donator/strudel3
-	name = "Donator Kit - Etruscan Design Cloak"
+	name = "Donator Kit - Experimental Azurian Fellowshippe Staff"
 	path = /obj/item/enchantingkit/strudel3
-	ckeywhitelist = list("toasterstrudes")
+	ckeywhitelist = list("toasterstrudes", "pogoco25")
 
 /datum/loadout_item/donator/strudel4
 	name = "Donator Kit - Form-fitting Padded Gambeson"
@@ -1394,3 +1402,8 @@
 	name = "Donator Item - Clasped Rosestone Collar"
 	path = /obj/item/clothing/neck/roguetown/psicross/eora/rosecollar
 	ckeywhitelist = list("rosysaturniidae")
+
+/datum/loadout_item/donator/sigholtcoronet
+	name = "Donator Item - Adjustable Blacksteel Coronet"
+	path = /obj/item/clothing/head/roguetown/circlet/sigholt_coronet
+	ckeywhitelist = list("sigholtstarsong")

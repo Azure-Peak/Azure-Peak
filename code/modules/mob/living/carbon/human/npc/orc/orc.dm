@@ -43,6 +43,7 @@
 /mob/living/carbon/human/species/orc/npc/warlord
 	npc_archetype = /datum/npc_archetype/orc/warlord
 	threat_point = THREAT_DEADLY
+	boss_class = BOSS_CLASS_WARLORD
 
 /mob/living/carbon/human/species/orc/npc/juggernaut
 	npc_archetype = /datum/npc_archetype/orc/warlord/juggernaut

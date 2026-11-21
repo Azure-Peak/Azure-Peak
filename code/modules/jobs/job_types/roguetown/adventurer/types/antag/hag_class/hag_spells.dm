@@ -94,6 +94,8 @@
 	. += "	• Curse 1 person → Tier 2 (Requires 20 points)"
 	. += "	• Curse 2 people → Tier 3 (Requires 60 points total)"
 	. += ""
+	. += "NOTE: Curses granted to feybound do not count towards this!"
+	. += ""
 	. += "AFFECTED TARGETS:"
 	. += "	• Positive Boons: 4/5/6 people (scales with tier)"
 	. += ""
@@ -298,7 +300,7 @@
 			return FALSE
 
 		var/datum/component/hag_curio_tracker/HCT = user.GetComponent(/datum/component/hag_curio_tracker)
-		if(HCT)
+		if(HCT && !HAS_TRAIT(target, TRAIT_FEYTOUCHED)) // reviving a feytouched doesn't put them in debt as you're not meant to be able to curse them
 			HCT.grant_boon(target.real_name, boon_path, 50)
 			to_chat(user, span_notice("You've tethered [target.real_name] to your garden. Their life is now your currency."))
 	return TRUE
@@ -389,3 +391,210 @@
 			to_chat(M, span_warning("The coven web snaps and withers..."))
 	GLOB.mindlinks -= C
 	qdel(C)
+
+/obj/effect/proc_holder/spell/invoked/take_name
+	name = "Onomastic Siphon"
+	desc = "Steals the target's name and identity, so long as they give it to you freely. It will become a boon you can bestow, at a cost of 20 points (you can cast this on them again to take it back, if you need to do that to give them a new one). This boon can be granted even to antagonists who could not ordinarily receive boons. Transmuting it into a curse will return the identity to you. Unless you're reclaiming an identity boon, this must be cast ONLY after you trick or convince the target into 'giving you' their name, even if only technically; for example, if they respond to 'May I have your name?' with just their name, that counts; but if they say 'You may call me XYZ', it doesn't. Has a check to prevent someone masked from giving you a fake name you have no way of knowing is fake, but otherwise, THE RESPONSIBILITY IS ON YOU TO USE THIS PROPERLY. Using this inappropriately will be considered bad faith and punished appropriately."
+	invocation_type = "whisper"
+	invocations = list("Give me all that you are.")
+	recharge_time = 5 SECONDS
+	range = 4
+	overlay_icon = 'icons/mob/actions/hagspells.dmi'
+	action_icon = 'icons/mob/actions/hagspells.dmi'
+	overlay_state = "hand_up"
+	var/confirmed_read = FALSE
+	var/list/not_part_of_names = list( // titles n such just in case people don't listen
+		"dame",
+		"ser",
+		"lord",
+		"lady",
+		"of",
+		"azure",
+		"azuria",
+	)
+
+/obj/effect/proc_holder/spell/invoked/take_name/cast(list/targets, mob/living/user)
+	var/datum/component/hag_curio_tracker/H = user.GetComponent(/datum/component/hag_curio_tracker)
+	if(!H)
+		to_chat(user, span_warning("How did you even get access to this without being a hag?"))
+		return FALSE
+
+	var/mob/living/carbon/human/victim = targets[1]
+	if(!ishuman(victim))
+		to_chat(user, span_warning("I need to cast this on a person!"))
+		return FALSE
+
+	if(user == victim)
+		to_chat(user, span_warning("I can't take my own name!"))
+		return FALSE
+
+	if(!victim.client)
+		to_chat(user, span_warning("They're not aware enough to give me their name!"))
+		return FALSE
+
+	if(HAS_TRAIT(victim, TRAIT_NONAMESTEAL))
+		to_chat(user, span_warning("Their name is too tightly bound to them; I cannot take it."))
+		return FALSE
+
+	if(!confirmed_read) // i know how you people are
+		if(alert(user, "Have you read the description of this spell? It contains EXTREMELY important information about its use. Please, PLEASE read it, or you might do something rule-breaking.", "Confirmation", "Stop", "Proceed") != "Proceed")
+			return FALSE
+		confirmed_read = TRUE
+
+	if(alert(victim, "[user] is attempting to steal your name! Do you want to allow this? (Nothing bad will happen if you say no; however, if they tricked you, please be a good sport about it!)", "ONOMASTIC SIPHON", "Yes", "No") != "Yes")
+		to_chat(user, span_warning("They resisted your attempts... but at least they won't remember doing so."))
+		to_chat(victim, span_warning("Your name is safe... why was that ever in question? You can't seem to remember...")) // this is, essentially, voiding the interaction. i.e. don't go after the hag for this please i beg
+		log_game("NAMESTEAL: [victim.real_name] ([victim.ckey]) has rejected a namesteal by [user.real_name] ([user.ckey]).") // to make it easier for admins to see if someone's bad faithing based on this. or spamming it
+		return TRUE
+
+	var/datum/component/hag_name/existing_name = victim.GetComponent(/datum/component/hag_name)
+	if(existing_name && (existing_name.identity.name != "Unknown")) // we've already given them this name, so we obviously already know it
+		H.stored_names[existing_name.identity.name] = existing_name.identity
+		H.prepared_boons[/datum/hag_boon/name] = (H.prepared_boons[/datum/hag_boon/name] || 0) + 1
+		for(var/datum/hag_boon/existing in H.boon_registry[victim.real_name])
+			if(istype(existing, /datum/hag_boon/name))
+				qdel(existing)
+		QDEL_NULL(existing_name)
+		H.AddComponent(/datum/component/hag_name, new /datum/hag_identity())
+	else if(existing_name) // they are 'nameless'
+		to_chat(user, span_warning("They are already nameless!"))
+		return FALSE
+
+	var/name2check = tgui_input_text(user, "What name did they give you? (Don't include titles; just the first or last name alone is fine, as long as it's what they gave you)", max_length=MAX_NAME_LEN, encode=FALSE) // we do not want html formatting to fuck up apostrophes and the like
+
+	var/list/check_strings = splittext(name2check, regex(@"\b"))
+	var/list/name_strings = splittext(victim.real_name, regex(@"\b"))
+	var/found = FALSE
+	for(var/substr in name_strings)
+		if(length(substr)<=2)
+			continue
+		if(not_part_of_names.Find(substr))
+			continue
+		for(var/checkstr in check_strings)
+			if(length(checkstr)<=2)
+				continue
+			if(not_part_of_names.Find(checkstr))
+				continue
+			if(checkstr == substr)
+				to_chat(user, "")
+				found = TRUE
+				break
+	if(!found)
+		to_chat(user, span_warning("That's not the right name! They fooled me!"))
+		return FALSE
+
+	var/datum/hag_identity/ID = victim.make_hag_identity()
+
+	H.stored_names[ID.name] = ID
+	H.prepared_boons[/datum/hag_boon/name] = (H.prepared_boons[/datum/hag_boon/name] || 0) + 1
+	victim.AddComponent(/datum/component/hag_name, new /datum/hag_identity())
+
+	message_admins("NAMESTEAL: [user.real_name] ([user.ckey]) has stolen [victim.real_name] ([victim.ckey])'s name.")
+	log_game("NAMESTEAL: [user.real_name] ([user.ckey]) has stolen [victim.real_name] ([victim.ckey])'s name.")
+
+	to_chat(victim, span_boldwarning("What manner of trickery is this? My name... why can't I recall my name?!")) // let them know shit's gone down
+	to_chat(user, span_danger("Their name is now mine... I can hoard it for my own use, or bestow it upon another."))
+	return TRUE
+
+/// doesn't make any changes to the mob, just creates a hag_identity datum from them
+/mob/living/carbon/human/proc/make_hag_identity()
+	return new /datum/hag_identity( // yoink
+		real_name, voice_color,
+		get_descriptor_of_slot(MOB_DESCRIPTOR_SLOT_TRAIT, mob_descriptors),
+		get_descriptor_of_slot(MOB_DESCRIPTOR_SLOT_STATURE, mob_descriptors),
+		get_descriptor_of_slot(MOB_DESCRIPTOR_SLOT_VOICE, mob_descriptors),
+		custom_descriptors[12],
+		custom_descriptors[10],
+		custom_descriptors[9],
+		HAS_TRAIT(src, TRAIT_NOBLE)
+	)
+
+/obj/effect/proc_holder/spell/invoked/possess_vessel
+	name = "Feybound Dominion"
+	desc = "Possess any vessel under your command, taking full control of their body. Your original body will lie dormant until you cast the spell again. The vessel's previous occupant will remain nearby, able to observe and communicate with you, but not act."
+	recharge_time = 1 MINUTES
+	overlay_icon = 'icons/mob/actions/hagspells.dmi'
+	action_icon = 'icons/mob/actions/hagspells.dmi'
+	overlay_state = "hand_down"
+	var/mob/dead/observer/eye/screye/displaced_soul/soul	// self explanatory
+	var/owner // we need to keep track of this ourselves, apparently
+
+/obj/effect/proc_holder/spell/invoked/possess_vessel/cast(list/targets, mob/living/user)
+	var/datum/component/hag_curio_tracker/HCT = user.GetComponent(/datum/component/hag_curio_tracker)
+	if(!HCT || !ishuman(user))
+		to_chat(user, span_warning("You lack the connection needed to take control of a vessel."))
+		return FALSE
+	if(user.client)
+		owner = user.client
+	var/mob/living/carbon/human/H = user
+	if(!soul) // we're casting this from our original body: possess a vessel.
+		var/list/vessels = list()
+		for(var/mob/living/carbon/human/candidate in GLOB.fey_vessels)
+			if(GLOB.fey_vessels[candidate])
+				vessels["[candidate.real_name] (Available)"] = candidate
+			else
+				vessels["[candidate.real_name] (Unavailable)"] = candidate
+		var/mob/living/carbon/human/choice = vessels[tgui_input_list(user, "Which vessel to command?", "THE ROOTS CONNECT", vessels)]
+		if(!choice)
+			revert_cast()
+			return FALSE
+		if(!GLOB.fey_vessels[choice])
+			to_chat(user, span_warning("That vessel is inaccessible to me, for now."))
+			revert_cast()
+			return FALSE
+		if(!check_vessel(H, choice))
+			revert_cast()
+			return FALSE
+		GLOB.fey_vessels[choice] = FALSE // in case there are two hags somehow
+		soul = H.possess_vessel(choice, TRAIT_HAG_BOON)
+		if(!soul)
+			revert_cast()
+			return FALSE
+		choice.TakeComponent(HCT)
+		RegisterSignal(choice, COMSIG_MOB_POSSESS_RELEASE, PROC_REF(release_vessel))
+		RegisterSignal(soul, COMSIG_DEAD_RESIST, PROC_REF(handle_resist))
+		return TRUE
+	// we're casting this from a vessel: restore them, and return to our original body
+	var/mob/living/carbon/human/vessel = soul.vessel // soul gets QDEL'd in release_vessel so we store a ref to the vessel here
+	if(!vessel.release_vessel())
+		revert_cast()
+		return FALSE
+	UnregisterSignal(vessel, COMSIG_MOB_POSSESS_RELEASE) // they're not possessed by us anymore
+	return TRUE
+
+// hag vessels signed up for this with a virtue, and left the possession toggle on: they don't get to actually kick the hag out
+/obj/effect/proc_holder/spell/invoked/possess_vessel/proc/handle_resist(mob/dead/observer/eye/screye/displaced_soul/resister)
+	to_chat(owner, span_warning("[resister]'s soul squirms and writhes; it seems they want control of their body back."))
+
+/obj/effect/proc_holder/spell/invoked/possess_vessel/after_cast(list/targets, mob/user)
+	. = ..()
+	if(soul)				// we don't want them to be trapped in a body for the spell cooldown period if they possess someone on accident or similar
+		revert_cast(user)	// so the cooldown only starts after they RETURN to their main body i.e. they release the vessel and soul is null
+
+/obj/effect/proc_holder/spell/invoked/possess_vessel/proc/check_vessel(mob/living/carbon/human/hag, mob/living/carbon/human/vessel)
+	var/datum/component/hag_curio_tracker/HCT = hag.GetComponent(/datum/component/hag_curio_tracker)
+	if(!HCT) // don't add this spell to nonhags kthxbye
+		return FALSE
+	if(!istype(vessel) || !vessel.mind || vessel.GetComponent(/datum/component/hag_curio_tracker)) // you should never be able to possess other hags. lmao
+		to_chat(hag, span_warning("Invalid vessel!"))
+		return FALSE
+	if(!(vessel in GLOB.fey_vessels)) // shouldn't happen, but just in case there's an edge case
+		to_chat(hag, span_warning("They are not a vessel!"))
+		return FALSE
+	if(HAS_TRAIT(vessel, TRAIT_POSSESSED))
+		to_chat(src, span_warning("They are already under the sway of another power!"))
+		return FALSE
+	if(!GLOB.fey_vessels[vessel] || !vessel.key || !vessel.mind.active || vessel.stat)
+		to_chat(hag, span_warning("They are beyond your grasp, for now at least.")) // they're probably sceneing. or they're SSD, or incapacitated
+		return FALSE
+	return TRUE
+
+/obj/effect/proc_holder/spell/invoked/possess_vessel/proc/release_vessel(mob/living/carbon/human/vessel, mob/dead/observer/eye/screye/displaced_soul/dsoul, mob/living/carbon/human/original, dying)
+	UnregisterSignal(dsoul, COMSIG_DEAD_RESIST)
+	if(!dying)
+		GLOB.fey_vessels[vessel] = TRUE													// make them possessable again
+	var/datum/component/hag_curio_tracker/HCT = vessel.GetComponent(/datum/component/hag_curio_tracker)
+	if(HCT)
+		original.TakeComponent(HCT)														// transfer the hag curio tracker back
+	soul = null																			// this'll be QDEL'd shortly
+	return TRUE
