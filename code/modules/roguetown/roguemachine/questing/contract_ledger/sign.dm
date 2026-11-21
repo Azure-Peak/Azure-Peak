@@ -1,7 +1,7 @@
 /obj/structure/roguemachine/contractledger/proc/play_reject_sound()
 	playsound(src, 'sound/misc/machineno.ogg', 80, FALSE, -1)
 
-/obj/structure/roguemachine/contractledger/proc/sign_contract(mob/user, ref, veteran = FALSE)
+/obj/structure/roguemachine/contractledger/proc/sign_contract(mob/user, ref, veteran = FALSE, foes = null)
 	if(!ref)
 		return
 	if(!SStreasury.has_account(user))
@@ -18,12 +18,13 @@
 		play_reject_sound()
 		return
 
-	if(is_quest_claim_barred(user, Q))
+	var/towner_posting = Q.source == QUEST_SOURCE_TOWNER
+	if(is_quest_claim_barred(user, towner_posting))
 		say(quest_claim_barred_reason(user))
 		play_reject_sound()
 		return
 
-	var/uses_solo_allowance = quest_claim_uses_solo_allowance(user, Q)
+	var/uses_solo_allowance = quest_claim_uses_solo_allowance(user, towner_posting)
 	if(uses_solo_allowance && !SSquestpool.is_solo_sign_ready(user))
 		say(quest_solo_limit_reason(user))
 		play_reject_sound()
@@ -69,7 +70,7 @@
 		play_reject_sound()
 		return
 
-	if(!SSquestpool.claim(Q, user, veteran))
+	if(!SSquestpool.claim(Q, user, veteran, foes))
 		say("That contract can't be signed right now. Try another.")
 		play_reject_sound()
 		return

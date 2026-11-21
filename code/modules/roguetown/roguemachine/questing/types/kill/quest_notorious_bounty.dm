@@ -18,6 +18,7 @@
 	fellowship_reward_rate = QUEST_FELLOWSHIP_REWARD_PER_EXTRA
 	hunt_duration = NOTORIOUS_BOUNTY_HUNT_TIMER
 	hunt_overtime_max = 0
+	foes_pickable = FALSE
 	var/boss_name
 	var/datum/weakref/boss_ref
 	var/turf/leash_origin
