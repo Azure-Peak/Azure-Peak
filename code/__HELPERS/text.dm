@@ -490,36 +490,41 @@ GLOBAL_LIST_INIT(binary, list("0","1"))
 
 	// Parse colour
 	if(!barebones)
-		var/regex/hexgex = regex(@"(?<=-=)(.{6})", "g")
-		while(hexgex.Find(t))
-			var/endblock = findtext(t, "=-", hexgex.index)
-			if(!endblock)
+		var/static/regex/colour_block = regex(@"-=#?([0-9A-Fa-f]{6})((?:(?!-=)[\s\S])*?)=-", "g")
+		for(var/nesting in 1 to 4)
+			var/before_colour = t
+			t = replacetext(t, colour_block, "<font color='#$1'>$2</font>")
+			if(t == before_colour)
 				break
-			t = replacetext(t, "=-", "</font>", hexgex.index, endblock+2)
-			var/c_code = sanitize_hexcolor(hexgex.match)
-			t = replacetext(t, "-=[hexgex.match]", "<font color='[c_code]'>", hexgex.index-2, endblock+2)
 
 	// Parse hr and small
 
 	if(!limited)
+		var/static/regex/hr_rule = regex("(-){3,}", "gm")
+		var/static/regex/escaped_hr_rule = regex("^\\((-){3,}\\)$", "gm")
 		t = replacetext(t, "((", "<font size=\"1\">")
 		t = replacetext(t, "))", "</font>")
-		t = replacetext(t, regex("(-){3,}", "gm"), "<hr>")
-		t = replacetext(t, regex("^\\((-){3,}\\)$", "gm"), "$1")
+		t = replacetext(t, hr_rule, "<hr>")
+		t = replacetext(t, escaped_hr_rule, "$1")
 
 		// Parse lists
 
+		var/static/regex/non_asterisks = regex("\[^\\*\]+", "g")
+		var/static/regex/list_marker = regex("^\\s*\\*")
+		var/static/regex/list_indent = regex("^( *)\\*.*$", "g")
+		var/static/regex/list_strip_indent = regex("^ *(\\*.*)$", "g")
+		var/static/regex/first_asterisk = regex("\\*")
 		var/list/tlist = splittext(t, "\n")
 		var/tlistlen = tlist.len
 		var/listlevel = -1
 		var/singlespace = -1 // if 0, double spaces are used before asterisks, if 1, single are
 		for(var/i = 1, i <= tlistlen, i++)
 			var/line = tlist[i]
-			var/count_asterisk = length(replacetext(line, regex("\[^\\*\]+", "g"), ""))
-			if(count_asterisk % 2 == 1 && findtext(line, regex("^\\s*\\*", "g"))) // there is an extra asterisk in the beggining
+			var/count_asterisk = length(replacetext(line, non_asterisks, ""))
+			if(count_asterisk % 2 == 1 && findtext(line, list_marker)) // there is an extra asterisk in the beggining
 
-				var/count_w = length(replacetext(line, regex("^( *)\\*.*$", "g"), "$1")) // whitespace before asterisk
-				line = replacetext(line, regex("^ *(\\*.*)$", "g"), "$1")
+				var/count_w = length(replacetext(line, list_indent, "$1")) // whitespace before asterisk
+				line = replacetext(line, list_strip_indent, "$1")
 
 				if(singlespace == -1 && count_w == 2)
 					if(listlevel == 0)
@@ -530,7 +535,7 @@ GLOBAL_LIST_INIT(binary, list("0","1"))
 				if(singlespace == 0)
 					count_w = count_w % 2 ? round(count_w / 2 + 0.25) : count_w / 2
 
-				line = replacetext(line, regex("\\*", ""), "<li>")
+				line = replacetext(line, first_asterisk, "<li>")
 				while(listlevel < count_w)
 					line = "<ul>" + line
 					listlevel++
@@ -559,26 +564,38 @@ GLOBAL_LIST_INIT(binary, list("0","1"))
 
 	// Parse headers
 	if(!barebones)
-		t = replacetext(t, regex("^#(?!#) ?(.+)$", "gm"), "<h2>$1</h2>")
-		t = replacetext(t, regex("^##(?!#) ?(.+)$", "gm"), "<h3>$1</h3>")
-		t = replacetext(t, regex("^###(?!#) ?(.+)$", "gm"), "<h4>$1</h4>")
-		t = replacetext(t, regex("^#### ?(.+)$", "gm"), "<h5>$1</h5>")
+		var/static/regex/header_h2 = regex("^#(?!#) ?(.+)$", "gm")
+		var/static/regex/header_h3 = regex("^##(?!#) ?(.+)$", "gm")
+		var/static/regex/header_h4 = regex("^###(?!#) ?(.+)$", "gm")
+		var/static/regex/header_h5 = regex("^#### ?(.+)$", "gm")
+		t = replacetext(t, header_h2, "<h2>$1</h2>")
+		t = replacetext(t, header_h3, "<h3>$1</h3>")
+		t = replacetext(t, header_h4, "<h4>$1</h4>")
+		t = replacetext(t, header_h5, "<h5>$1</h5>")
 
 	// Parse most rules
 
 	if(!barebones)	//Barebones swaps * for + and | for bold and italics respectively, used in say / emote code, mostly.
-		t = replacetext(t, regex("\\*(\[^\\*\]*)\\*", "g"), "<i>$1</i>")
-		t = replacetext(t, regex("_(\[^_\]*)_", "g"), "<i>$1</i>")
+		var/static/regex/italic_asterisk = regex("\\*(\[^\\*\]*)\\*", "g")
+		var/static/regex/italic_underscore = regex("_(\[^_\]*)_", "g")
+		var/static/regex/bold_marker = regex("\\!(\[^\\!\]+)\\!", "g")
+		var/static/regex/large_marker = regex("\\^(\[^\\^\]+)\\^", "g")
+		var/static/regex/center_marker = regex("\\|(\[^\\|\]+)\\|", "g")
+		t = replacetext(t, italic_asterisk, "<i>$1</i>")
+		t = replacetext(t, italic_underscore, "<i>$1</i>")
 		t = replacetext(t, "<i></i>", "!")
 		t = replacetext(t, "</i><i>", "!")
-		t = replacetext(t, regex("\\!(\[^\\!\]+)\\!", "g"), "<b>$1</b>")
-		t = replacetext(t, regex("\\^(\[^\\^\]+)\\^", "g"), "<font size=\"4\">$1</font>")
-		t = replacetext(t, regex("\\|(\[^\\|\]+)\\|", "g"), "<center>$1</center>")
+		t = replacetext(t, bold_marker, "<b>$1</b>")
+		t = replacetext(t, large_marker, "<font size=\"4\">$1</font>")
+		t = replacetext(t, center_marker, "<center>$1</center>")
 		t = replacetext(t, "!", "</i><i>")
 	else
-		t = replacetext(t, regex("\\+(\[^\\+\]+)\\+", "g"), "<b>$1</b>")
-		t = replacetext(t, regex("\\|(\[^\\|\]+)\\|", "g"), "<i>$1</i>")
-		t = replacetext(t, regex("\\_(\[^\\_\]+)\\_", "g"), "<u>$1</u>")
+		var/static/regex/barebones_bold = regex("\\+(\[^\\+\]+)\\+", "g")
+		var/static/regex/barebones_italic = regex("\\|(\[^\\|\]+)\\|", "g")
+		var/static/regex/barebones_underline = regex("\\_(\[^\\_\]+)\\_", "g")
+		t = replacetext(t, barebones_bold, "<b>$1</b>")
+		t = replacetext(t, barebones_italic, "<i>$1</i>")
+		t = replacetext(t, barebones_underline, "<u>$1</u>")
 
 	return t
 
