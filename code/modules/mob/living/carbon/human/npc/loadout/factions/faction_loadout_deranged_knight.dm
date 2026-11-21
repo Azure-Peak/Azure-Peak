@@ -13,6 +13,21 @@
 	survival = SKILL_LEVEL_APPRENTICE
 	athletics = SKILL_LEVEL_EXPERT
 
+//** BORING ASS HEDGEKNIGHTS **//
+
+/datum/npc_archetype/deranged_knight/hedgeknight
+	name = "Hedge Knight"
+	statpack = /datum/npc_statpack/heavy/t4
+	stat_modifiers = list("speed" = 2, "perception" = 1) //vs the others, faster in plate armor w/ a heavy statline + slightly more accurate
+	armor_training = ARMOR_CLASS_HEAVY
+	body = /datum/npc_body/northern_commoner/soldier/deranged_knight
+	ai_controller = /datum/ai_controller/human_npc
+	loadouts = list(
+		/datum/npc_loadout/armor/heavy/hedgeknight,
+		/datum/npc_loadout/kit/hedgeknight_flavor,
+		/datum/npc_loadout/weapon/hedgeknight,
+	)
+
 //** ZIZO. ZIZO. ZIZO. **//
 
 /datum/npc_archetype/deranged_knight/zizo
@@ -227,6 +242,33 @@
 
 //** FLAVOR **//
 
+/datum/npc_loadout/kit/hedgeknight_flavor
+	id = list(
+		/obj/item/clothing/neck/roguetown/psicross/inhumen = 10,
+		/obj/item/clothing/neck/roguetown/psicross/inhumen/g = 1,
+		/obj/item/clothing/neck/roguetown/psicross/inhumen/graggar = 10,
+		/obj/item/clothing/neck/roguetown/psicross/inhumen/graggar/g = 1,
+		/obj/item/clothing/neck/roguetown/psicross/inhumen/matthios = 10,
+		/obj/item/clothing/neck/roguetown/psicross/astrata/g/triumph = 1, //is this TRVE?
+		/obj/item/clothing/neck/roguetown/psicross/inhumen/baotha = 10,
+		/obj/item/clothing/neck/roguetown/psicross/astrata/g = 30, //ORDER, TYRANY, ABSOLUTION
+		/obj/item/clothing/neck/roguetown/psicross/undivided = 30, //MARRED, BROKEN, YET UNITED
+		NPC_NOTHING = 40, //NO GODS, NO MASTERS
+	)
+	cloak = list(
+		/obj/item/clothing/cloak/tabard/stabard/hedgeknight = 10,
+		/obj/item/clothing/cloak/tabard/blkknight = 5,
+		NPC_NOTHING = 5,
+	)
+	belt = list(
+		/obj/item/storage/belt/rogue/leather/steel/tasset = 10,
+		/obj/item/storage/belt/rogue/leather/plaquegold = 1,
+		/obj/item/storage/belt/rogue/leather/plaquegold/noble = 10,
+		/obj/item/storage/belt/rogue/leather = 20,
+		/obj/item/storage/belt/rogue/leather/black = 20,
+	)
+	backl = /obj/item/storage/backpack/rogue/satchel/black // literally just flavor
+
 /datum/npc_loadout/kit/zizo_flavor
 	id = list(
 		/obj/item/clothing/neck/roguetown/psicross/inhumen = 25,
@@ -241,6 +283,7 @@
 		/obj/item/storage/belt/rogue/leather,
 		/obj/item/storage/belt/rogue/leather/black,
 	)
+	backl = /obj/item/storage/backpack/rogue/satchel/black // literally just flavor
 
 /datum/npc_loadout/kit/graggar_flavor
 	id = list(
@@ -254,6 +297,7 @@
 		/obj/item/storage/belt/rogue/leather,
 		/obj/item/storage/belt/rogue/leather/black,
 	)
+	backl = /obj/item/storage/backpack/rogue/satchel //literally just flavor
 
 /datum/npc_loadout/kit/matthios_flavor
 	id = list(
@@ -268,6 +312,7 @@
 		/obj/item/storage/belt/rogue/leather,
 		/obj/item/storage/belt/rogue/leather/black,
 	)
+	backl = /obj/item/storage/backpack/rogue/satchel //literally just flavor
 
 /datum/npc_loadout/kit/baotha_flavor
 	id = list(
@@ -281,9 +326,24 @@
 		/obj/item/storage/belt/rogue/leather,
 		/obj/item/storage/belt/rogue/leather/black,
 	)
+	backl = /obj/item/storage/backpack/rogue/satchel //literally just flavor
 
 //** WEAPONS **//
 
+///Hedgeknight Sets
+/datum/npc_loadout/weapon/hedgeknight
+	weapons = list(
+		list(/obj/item/rogueweapon/greatsword/grenz/flamberge/blacksteel), //I am evil, yes.
+		list(/obj/item/rogueweapon/halberd/blacksteel), //BUT I'M NOT DONE YET
+		list(/obj/item/rogueweapon/eaglebeak/blacksteel),
+		list(/obj/item/rogueweapon/greataxe/blacksteel),
+		list(/obj/item/rogueweapon/mace/blacksteel, /obj/item/rogueweapon/shield/tower/metal/blacksteel, 50), //50% of two-handed
+		list(/obj/item/rogueweapon/sword/long/blacksteel, /obj/item/rogueweapon/shield/tower/metal/blacksteel, 50), //50% of two-handed
+		list(/obj/item/rogueweapon/sword/blacksteel, /obj/item/rogueweapon/shield/tower/metal/blacksteel, 100),
+		list(/obj/item/rogueweapon/mace/warhammer/blacksteel, /obj/item/rogueweapon/shield/tower/metal/blacksteel, 100),
+	)
+
+/// Zizo Sets
 /datum/npc_loadout/weapon/zizo
 	weapons = list(
 		list(/obj/item/rogueweapon/sword/zizo, /obj/item/rogueweapon/shield/tower/metal/zizo, 100),
@@ -294,6 +354,7 @@
 		list(/obj/item/rogueweapon/sword/long/zizo),
 	)
 
+/// Graggar Sets
 /datum/npc_loadout/weapon/graggar
 	weapons = list(
 		list(/obj/item/rogueweapon/greataxe/steel/doublehead/graggar),
@@ -304,11 +365,13 @@
 		list(/obj/item/rogueweapon/stoneaxe/woodcut/steel/graggar, /obj/item/rogueweapon/shield/iron/graggar, 100),
 	)
 
+/// Matthios Sets
 /datum/npc_loadout/weapon/matthios_heavy
 	weapons = list(
 		list(/obj/item/rogueweapon/flail/peasantwarflail/matthios),
 	)
 
+/// Baotha Sets
 /datum/npc_loadout/weapon/baotha
 	weapons = list(
 		list(/obj/item/rogueweapon/spear/partizan/baotha),

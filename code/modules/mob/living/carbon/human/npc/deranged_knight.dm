@@ -41,25 +41,24 @@ GLOBAL_LIST_INIT(hedgeknight_aggro, world.file2list("strings/rt/hedgeknightaggro
 	ADD_TRAIT(src, TRAIT_NOHUNGER, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_LEECHIMMUNE, INNATE_TRAIT)
 	ADD_TRAIT(src, TRAIT_BREADY, TRAIT_GENERIC)
-	ADD_TRAIT(src, TRAIT_HEAVYARMOR, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_NPC_EXAMINE, TRAIT_GENERIC)
 	var/list/aggro_lines
 	switch(preset_lines)
 		if("graggar")
-			preset_title = pick("of Graggar","the Butcherer","Orphanbane","the Warlord","Blood-Chosen","the Bloody","of the Darkstar","of the Sinistar","the Chainbreaker","the Unshackled","the War-Born","the Murderer","Bane of Peace","the herald of Graggar")
+			preset_title = pick("of Graggar","the Butcherer","Orphanbane","the Warlord","Blood-Chosen","the Bloody","of the Darkstar","of the Sinistar","the Chainbreaker","the Unshackled","the War-Born","the Murderer","Bane of Peace","the herald of Graggar","the Culler","Slaughterer of Lambs")
 			aggro_lines = GLOB.graggar_aggro
 		if("matthios")
-			preset_title = pick("the Rich","of Equal Exchange","the Opulant","of the Gilded Flame","Fyre-Kindled","the Brigand","of Matthios","of the Transactor","the Free","the Wealthy","of the Kindled Pyre","of the Gilded Drakkyn","the herald of Matthios")
+			preset_title = pick("the Rich","of Equal Exchange","the Opulant","of the Gilded Flame","Fyre-Kindled","the Brigand","of Matthios","of the Transactor","the Free","the Wealthy","of the Kindled Pyre","of the Gilded Drakkyn","the herald of Matthios","of Exchange","of Transaction")
 			aggro_lines = GLOB.matthios_aggro
 		if("zizo")
-			preset_title = pick("of Zizo","of the Avantyne Legion","bane of the Hallowed","the Defiler","Shadow-Blessed","the Insane","sworn-in-her-name","the herald of Progress","the herald of Zizo","the Luxbane","of the Dark Shield","of Shadows","the Truesighted")
+			preset_title = pick("of Zizo","of the Avantyne Legion","bane of the Hallowed","the Defiler","Shadow-Blessed","the Insane","sworn-in-her-name","the herald of Progress","the herald of Zizo","the Luxbane","of the Dark Shield","of Shadows","the Truesighted","Truth-Seeker","of the Pale Lady")
 			aggro_lines = GLOB.zizo_aggro
 			src.grant_language(/datum/language/undead)
 		if("baotha")
 			preset_title = pick("of Baotha","the Heartache","the Indulgent","the Mirthful","the Never-Sober","the Manic","of the Spider","the herald of Baotha","the herald of Heartache","the Luxdrinker","of the The Overflowing Goblet","of the Lady of Heartache","of the Lady of Pleasure")
 			aggro_lines = GLOB.baotha_aggro
 		if("hedgeknight")
-			preset_title = pick("the Outlawed","the Brigand","the Disgraced","the Bastard","of the Outcast","disgrace of Azuria","the herald of the People","the Boss","the Wall","the Unbreakable","the Warlord")
+			preset_title = pick("the Outlawed","the Brigand","the Disgraced","the Bastard","of the Outcast","disgrace of Azuria","the Unchained","the Boss","the Wall","the Unbreakable","the Warlord","the Deserter","the Gauntlet","the Uncrushable","the Unstoppable")
 			aggro_lines = GLOB.hedgeknight_aggro
 	if(aggro_lines)
 		SEND_SIGNAL(src, COMSIG_MOB_MODIFY_AGGRO_LINES, aggro_lines, TRUE)
@@ -144,3 +143,7 @@ GLOBAL_LIST_INIT(hedgeknight_aggro, world.file2list("strings/rt/hedgeknightaggro
 	d_intent = INTENT_DODGE
 	npc_archetype = /datum/npc_archetype/deranged_knight/baotha
 	preset_lines = "baotha"
+
+/mob/living/carbon/human/species/human/northern/deranged_knight/hedgeknight
+	npc_archetype = /datum/npc_archetype/deranged_knight/hedgeknight
+	preset_lines = "hedgeknight"

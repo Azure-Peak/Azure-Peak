@@ -989,6 +989,10 @@
 /obj/item/clothing/cloak/tabard/stabard/black
 	color = CLOTHING_BLACK
 
+/obj/item/clothing/cloak/tabard/stabard/hedgeknight
+	color = CLOTHING_WHITE
+	detail_tag = "_dim"
+	detail_color = CLOTHING_BLACK
 
 /obj/item/clothing/cloak/lordcloak
 	name = "lordly cloak"
