@@ -1,3 +1,50 @@
+/datum/component/storage/concrete/roguetown/neck
+	screen_max_rows = 2
+	screen_max_columns = 2
+	max_w_class = WEIGHT_CLASS_GIGANTIC
+
+	cant_hold = list(
+		/obj/item/storage,
+		/obj/item/rogueweapon,
+		/obj/item/explosive/fused/bottle,
+		/obj/item/flashlight,
+		/obj/item/recipe_book,
+	)
+
+	attack_hand_interact = FALSE
+	silent = TRUE
+	rustle_sound = null
+
+	insert_preposition = "onto"
+	allow_big_nesting = TRUE
+	allow_nesting = TRUE
+	intercept_parent_attack = FALSE
+	intercept_parent_mousedrop = FALSE
+
+/datum/component/storage/concrete/roguetown/neck/attackby(datum/source, obj/item/attacking_item, mob/user, params, storage_click)
+	if(is_type_in_list(attacking_item, cant_hold))
+		return FALSE
+	return ..()
+
+/datum/component/storage/concrete/roguetown/neck/update_icon()
+	. = ..()
+	var/obj/our_parent = real_location()
+	if(ismob(our_parent.loc))
+		var/mob/parent_mob = our_parent.loc
+		parent_mob.update_inv_head()
+
+/datum/component/storage/concrete/roguetown/neck/can_be_inserted(obj/item/storing, stop_messages, mob/user, worn_check = FALSE, params, storage_click = FALSE)
+	// we only want aesthetically head items, like flowercrowns, to be addable
+	if(!(storing.slot_flags & (ITEM_SLOT_HEAD|ITEM_SLOT_MASK|ITEM_SLOT_NECK)))
+		return FALSE
+	// any sort of armoured item is forbidden, it's aesthetic only
+	if(storing.armor?.stab > 0 || storing.armor?.blunt > 0)
+		return FALSE
+	// don't allow recursive nesting, it must be empty
+	if(length(storing.contents))
+		return FALSE
+	return ..()
+
 /obj/item/clothing/neck
 	name = "necklace"
 	icon = 'icons/obj/clothing/neck.dmi'
