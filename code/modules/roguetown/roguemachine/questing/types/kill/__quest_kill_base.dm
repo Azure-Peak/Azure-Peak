@@ -439,21 +439,18 @@
 /datum/quest/kill/proc/faction_fits(datum/quest_faction/F, datum/threat_region/TR)
 	return TRUE
 
+// If you rolled a special faction, it is locked. Only the baseline faction can be swapped for a special one
 /datum/quest/kill/proc/can_pick_foes()
 	if(!foes_pickable || !rolls_faction_variants || is_directive)
 		return FALSE
 	if(source != QUEST_SOURCE_POOL && source != QUEST_SOURCE_RUMOR)
 		return FALSE
-	return length(foe_choices()) > 1
-
-// If you rolled a special faction, you cannot select the easier baseline one, but other way round is OK
-/datum/quest/kill/proc/foe_choices()
-	. = list()
 	var/datum/quest_faction/base = get_quest_faction(faction_id)
-	if(!base)
-		return
-	if(faction == base)
-		.["[base.id]"] = base
+	return base && faction == base && length(base.variant_factions) > 0
+
+/datum/quest/kill/proc/foe_choices()
+	var/datum/quest_faction/base = get_quest_faction(faction_id)
+	. = list("[base.id]" = base)
 	for(var/variant_type in base.variant_factions)
 		.["[variant_type]"] = base.variant_factions[variant_type]
 
