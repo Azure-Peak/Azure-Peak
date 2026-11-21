@@ -432,8 +432,11 @@
 		NPC_NOTHING = 5,
 	)
 	head = list(
+		/obj/item/clothing/head/roguetown/helmet/skullcap = 20, //old sovl
+		/obj/item/clothing/head/roguetown/helmet/skullcap/old = 1, //old SOVL (rare b.c its a triumph thing otherwise)
 		/obj/item/clothing/head/roguetown/helmet/kettle/iron = 8,
 		/obj/item/clothing/head/roguetown/helmet/leather = 15,
+		/obj/item/clothing/head/roguetown/helmet/heavy/guard/bogman/iron = 3,
 		/obj/item/clothing/head/roguetown/roguehood/bogman = 8, //no colored varients, these were who didn't defect
 		NPC_NOTHING = 10,
 	)
@@ -443,14 +446,29 @@
 	)
 	mask = list(
 		/obj/item/clothing/mask/rogue/facemask = 1,
+		/obj/item/clothing/mask/rogue/ragmask/black = 3,
+		/obj/item/clothing/mask/rogue/ragmask/red = 3,
 		NPC_NOTHING = 10,
 	)
 	cloak = list(
 		/obj/item/clothing/cloak/tabard/stabard/bog = 1,
 		NPC_NOTHING = 1,
 	)
-	gloves = /obj/item/clothing/gloves/roguetown/fingerless_leather
-	shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced/shoddy
+	gloves = list(
+		/obj/item/clothing/gloves/roguetown/fingerless_leather = 3,
+		/obj/item/clothing/gloves/roguetown/leather = 3,
+		/obj/item/clothing/gloves/roguetown/chain/iron = 1,
+	)
+	shoes = list(
+		/obj/item/clothing/shoes/roguetown/boots/leather/reinforced/shoddy = 1,
+		/obj/item/clothing/shoes/roguetown/boots/leather = 3,
+	)
+	belt = list(
+		/obj/item/storage/belt/rogue/leather = 1,
+		/obj/item/storage/belt/rogue/leather/cloth = 2,
+		/obj/item/storage/belt/rogue/leather/rope = 2,
+		NPC_NOTHING = 3,
+	)
 
 /datum/npc_loadout/kit/bog_skeleton_archer
 	clear_slots = list("head", "mask", "neck")
