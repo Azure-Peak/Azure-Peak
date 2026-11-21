@@ -146,9 +146,8 @@
 
 /datum/npc_loadout/kit/psy_vault_guard_flavor
 	belt = list(
-		/obj/item/storage/belt/rogue/leather/rope/upgraded/dark = 50,
-		/obj/item/storage/belt/rogue/leather/sash = 30,
-		/obj/item/storage/belt/rogue/leather/tossbelt/blade/black/steel = 20, //because I am evil
+		/obj/item/storage/belt/rogue/leather/rope/upgraded/dark = 1,
+		/obj/item/storage/belt/rogue/leather/sash = 2,
 	)
 	beltr = list(
 		/obj/item/storage/belt/rogue/pouch/food = 15,
@@ -171,7 +170,7 @@
 		NPC_NOTHING = 30,
 	)
 	cloak = list(
-		/obj/item/clothing/cloak/absolutionistrobe/black = 15,
+		/obj/item/clothing/cloak/absolutionistrobe/black = 10,
 		/obj/item/clothing/cloak/tabard/psydontabard/black = 40,
 		NPC_NOTHING = 25,
 	)

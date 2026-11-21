@@ -167,10 +167,14 @@
 		/obj/item/clothing/neck/roguetown/psicross/g = 5,
 	)
 	head = list(
-		/obj/item/clothing/head/roguetown/helmet/blacksteel/psythorns = 20,
+		/obj/item/clothing/head/roguetown/helmet/blacksteel/psythorns = 40,
+		/obj/item/clothing/head/roguetown/roguehood/psydon = 40,
+		NPC_NOTHING = 10, //ENDVRE AS HE DOES
+	)
+	mask = list(
 		/obj/item/clothing/mask/rogue/sack = 30,
 		/obj/item/clothing/mask/rogue/sack/psy = 30,
-		/obj/item/clothing/head/roguetown/roguehood/psydon = 20,
+		NPC_NOTHING = 15,
 	)
 	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk
 	armor = /obj/item/clothing/suit/roguetown/armor/vestments_padded

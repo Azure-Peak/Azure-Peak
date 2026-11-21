@@ -64,7 +64,6 @@ GLOBAL_LIST_INIT(psyvault_aggro, world.file2list("strings/rt/psyvaultaggrolines.
 		update_transform()
 	src.regenerate_icons() //Fixes the weird body but lets check performance first
 
-
 /datum/outfit/job/roguetown/human/species/lizardfolk/psy_vault_guard/pre_equip(mob/living/carbon/human/H)
 	..()
 	//Body Stuff
@@ -72,6 +71,18 @@ GLOBAL_LIST_INIT(psyvault_aggro, world.file2list("strings/rt/psyvaultaggrolines.
 	//purity afloat
 	H.grant_language(/datum/language/otavan)
 	ADD_TRAIT(H, TRAIT_NIGHT_VISION, TRAIT_GENERIC)
+	if(prob(60))
+		var/voicepack_choice = rand(1, 3)
+		switch(voicepack_choice)
+			if(1)
+				H.dna.species.soundpack_m = GLOB.voice_packs[/datum/voicepack/male/warrior]
+				H.dna.species.soundpack_f = GLOB.voice_packs[/datum/voicepack/female/warrior]
+			if(2)
+				H.dna.species.soundpack_m = GLOB.voice_packs[/datum/voicepack/male/stern]
+				H.dna.species.soundpack_f = GLOB.voice_packs[/datum/voicepack/female/haughty]
+			if(3)
+				H.dna.species.soundpack_m = GLOB.voice_packs[/datum/voicepack/male/knight]
+				H.dna.species.soundpack_f = GLOB.voice_packs[/datum/voicepack/female/haughty]
 
 /mob/living/carbon/human/species/lizardfolk/psy_vault_guard/magemonk
 	npc_archetype = /datum/npc_archetype/psy_vault_guard/magemonk
