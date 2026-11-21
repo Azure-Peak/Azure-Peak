@@ -47,7 +47,7 @@
 	. += span_info("Some <b>townsfolk</b> can post contracts of their own and pay for them with their own money, up to [TOWNER_MAX_ACTIVE_POSTINGS] at a time. They can pin them to the Ledger or hand them over in person. The <b>[english_list(GLOB.crown_authority_roles)]</b> can post any of them. The Treasury pays [TOWNER_POSTING_CROWN_COST_MULT] times the price. The <b>[english_list(GLOB.atc_positions)]</b> can post any of them from the ATC's treasury at [TOWNER_POSTING_COMPANY_COST_MULT] times the price. Only the poster can open what is recovered.")
 	. += span_info("Your <b>fellowship</b> can turn in contracts you hold if you fall in battle. By default the reward is split evenly between everyone in the fellowship when the contract was taken. Each member's levy exemption applies to their own share. The leader can switch to paying whoever turns it in. Contracts taken while rewards were split stay split.")
 	. += span_info("A <b>fellowship of [BLOCKADE_FELLOWSHIP_REQUIREMENT] or more</b> can put up a stake of <b>[HOARD_RECOVERY_PLEDGE] mammon</b> to call for a <b>Hoard Recovery</b> in a region whose brigand hoard has reached <b>[HOARD_RECOVERY_HOARD_MINIMUM] mammon</b>. It pays the usual blockade reward. The Crown taxes the recovered hoard as <b>Recovered Spoils</b>. Crown officials can also issue a hoard recovery scroll like any other defense scroll.")
-	. += span_info("A ghost may take up a <b>Notorious Bounty</b> and play the outlaw fighting against you. Its reward then rises by <b>[NOTORIOUS_BOUNTY_PLAYER_BONUS] mammon</b>. If no one answers, it rises by <b>[NOTORIOUS_BOUNTY_NPC_BONUS]</b>.")
+	. += span_info("A ghost may take up a <b>Notorious Bounty</b> and play the outlaw fighting against you. Its reward then rises by <b>[NOTORIOUS_BOUNTY_PLAYER_BONUS_SOLO] mammon</b> alone and <b>[NOTORIOUS_BOUNTY_PLAYER_BONUS]</b> in a fellowship. If no one answers, it rises by <b>[NOTORIOUS_BOUNTY_NPC_BONUS_SOLO]</b> alone and <b>[NOTORIOUS_BOUNTY_NPC_BONUS]</b> in a fellowship.")
 	. += span_info("The <b>[english_list(GLOB.contract_proxy_officials)]</b> may turn in any completed contract on the holder's behalf. The reward goes to the holder's own account. They take no cut.")
 
 /obj/structure/roguemachine/contractledger/attackby(obj/item/P, mob/living/carbon/human/user, params)
@@ -371,6 +371,7 @@ GLOBAL_LIST_INIT(contract_issuer_roles, list(
 			"reward" = Q.reward_amount,
 			"projected_reward" = size_table ? size_table["reward"][party_size] : Q.project_fellowship_reward(user),
 			"fellowship_reward_rate" = Q.fellowship_reward_rate,
+			"solo_pay_share" = Q.solo_pay_share,
 			"size_table" = size_table,
 			"veteran_size_table" = veteran_size_table,
 			"deposit" = Q.deposit_amount,

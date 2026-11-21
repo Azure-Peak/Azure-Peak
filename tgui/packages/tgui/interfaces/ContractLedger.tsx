@@ -104,6 +104,7 @@ type Contract = {
   reward: number;
   projected_reward: number;
   fellowship_reward_rate: number;
+  solo_pay_share: number | null;
   size_table: SizeTableData | null;
   veteran_size_table: SizeTableData | null;
   deposit: number;
@@ -821,9 +822,11 @@ const ContractCard = (props: { contract: Contract }) => {
                   </Tooltip>
                 </span>
                 <span className="ContractLedger__CardValue">
-                  {c.fellowship_reward_rate > 0
-                    ? `+${formatRatioPct(c.fellowship_reward_rate)} per member`
-                    : 'Cut if short'}
+                  {c.solo_pay_share
+                    ? `Solo ${formatRatioPct(c.solo_pay_share)}. +${formatRatioPct(c.fellowship_reward_rate)} per member past two`
+                    : c.fellowship_reward_rate > 0
+                      ? `+${formatRatioPct(c.fellowship_reward_rate)} per member`
+                      : 'Cut if short'}
                 </span>
               </div>
             )}

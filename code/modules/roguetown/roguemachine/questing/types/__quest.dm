@@ -74,6 +74,7 @@ GLOBAL_LIST_INIT(quest_prototypes, build_quest_prototypes())
 	var/required_fellowship_size = 0
 	var/fellowship_threat_rate = 0
 	var/fellowship_reward_rate = 0
+	var/solo_pay_share
 	var/fellowship_threat_rate_first
 	var/list/fellowship_roster
 	var/fellowship_extras = 0
