@@ -222,13 +222,13 @@
 	backl = /obj/item/quiver/randomfill/highwayman
 
 /datum/npc_loadout/kit/psytomb_mage_lesser
-	spells = list(/datum/action/cooldown/spell/projectile/arc_bolt, /datum/action/cooldown/spell/blink/shadowstep, /datum/action/cooldown/spell/mending) //unique lbolt into shadowstep skillset, w/ quarterstaff melee
+	spells = list(/datum/action/cooldown/spell/projectile/arc_bolt, /datum/action/cooldown/spell/blink/shadowstep) //unique lbolt into shadowstep skillset, w/ quarterstaff melee
 	weapons = list(
 		list(/obj/item/rogueweapon/woodstaff/quarterstaff/steel),
 	)
 
 /datum/npc_loadout/kit/psytomb_mage_lesser_entry
-	spells = list(/datum/action/cooldown/spell/projectile/arc_bolt, /datum/action/cooldown/spell/mending) //no shadowstep so they don't teleport
+	spells = list(/datum/action/cooldown/spell/projectile/lightning_bolt) //no shadowstep so they don't teleport, focuses on stronger lbolts
 	weapons = list(
 		list(/obj/item/rogueweapon/woodstaff/quarterstaff/iron), //weaker
 	)
