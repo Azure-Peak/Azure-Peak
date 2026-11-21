@@ -18,7 +18,7 @@ GLOBAL_LIST_EMPTY(bill_of_fare_catalogs)
 		entry_name = trim(replacetext(entry_name, "|", ""))
 		if(!length(entry_name))
 			continue
-		var/lower = lowertext(entry_name)
+		var/lower = LOWER_TEXT(entry_name)
 		if(seen[lower])
 			continue
 		seen[lower] = TRUE
@@ -26,7 +26,7 @@ GLOBAL_LIST_EMPTY(bill_of_fare_catalogs)
 	for(var/i in 1 to length(index))
 		var/entry_type = index[i]
 		by_id[column.item_id(entry_type)] = entry_type
-		by_name[lowertext(index[entry_type])] = entry_type
+		by_name[LOWER_TEXT(index[entry_type])] = entry_type
 		entries += list(column.catalog_entry(src, i, entry_type))
 
 /datum/bill_of_fare_catalog/proc/icon_slot(icon_file)
@@ -44,6 +44,7 @@ GLOBAL_LIST_EMPTY(bill_of_fare_catalogs)
 	)
 
 /datum/bill_of_fare_column/proc/get_catalog()
+	RETURN_TYPE(/datum/bill_of_fare_catalog)
 	var/datum/bill_of_fare_catalog/catalog = GLOB.bill_of_fare_catalogs[key]
 	if(!catalog)
 		catalog = new(src)
@@ -70,7 +71,7 @@ GLOBAL_LIST_EMPTY(bill_of_fare_catalogs)
 /datum/bill_of_fare_column/proc/find_by_name(catalog_name)
 	if(!istext(catalog_name))
 		return null
-	return get_catalog().by_name[lowertext(trim(catalog_name))]
+	return get_catalog().by_name[LOWER_TEXT(trim(catalog_name))]
 
 /datum/bill_of_fare_column/proc/build_raw_catalog()
 	return list()
