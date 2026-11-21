@@ -88,6 +88,14 @@ const SizeTable = (props: {
   );
 };
 
+type FoeOption = {
+  key: string;
+  label: string;
+  title?: string;
+  objective?: string;
+  veteran_objective?: string | null;
+};
+
 type Contract = {
   ref: string;
   title: string;
@@ -117,6 +125,8 @@ type Contract = {
   veteran: BooleanLike;
   veteran_reward: number | null;
   veteran_objective: string | null;
+  foes: string | null;
+  foe_options: FoeOption[] | null;
 };
 
 type ActiveContract = {
@@ -615,13 +625,23 @@ const ContractCard = (props: { contract: Contract }) => {
     fellowshipShort ||
     notLeader;
   const [veteran, setVeteran] = useState(false);
+  const [foes, setFoes] = useState<string | null>(null);
   const useVeteran = veteran && !!c.can_veteran;
+  const foeOptions = c.foe_options || [];
+  const pickedFoes = foeOptions.find(
+    (o) => o.key === (foes ?? c.foes),
+  );
+  const cycleFoes = (step: number) => {
+    const count = foeOptions.length;
+    const index = pickedFoes ? foeOptions.indexOf(pickedFoes) : 0;
+    setFoes(foeOptions[(index + step + count) % count].key);
+  };
   const payout = useVeteran
     ? (c.veteran_reward ?? c.reward)
     : (c.projected_reward ?? c.reward);
   const objective = useVeteran
-    ? c.veteran_objective || c.objective
-    : c.objective;
+    ? pickedFoes?.veteran_objective || c.veteran_objective || c.objective
+    : pickedFoes?.objective || c.objective;
   const title = noAccount
     ? 'No bank account. Register with a Meister first.'
     : claimBarred
@@ -667,7 +687,7 @@ const ContractCard = (props: { contract: Contract }) => {
         className="ContractLedger__CardTitle"
         style={{ marginTop: `${contentTopPad}px` }}
       >
-        {c.title}
+        {pickedFoes?.title || c.title}
       </div>
       <div className="ContractLedger__CardRow">
         <span className="ContractLedger__CardLabel">Locale</span>
@@ -717,6 +737,26 @@ const ContractCard = (props: { contract: Contract }) => {
           )}
         </span>
       </div>
+      {foeOptions.length > 0 && (
+        <div className="ContractLedger__CardRow">
+          <span className="ContractLedger__CardLabel">Foes</span>
+          <span className="ContractLedger__CardValue">
+            <span
+              className="ContractLedger__FoesArrow"
+              onClick={() => cycleFoes(-1)}
+            >
+              <Icon name="chevron-left" />
+            </span>
+            {pickedFoes?.label}
+            <span
+              className="ContractLedger__FoesArrow"
+              onClick={() => cycleFoes(1)}
+            >
+              <Icon name="chevron-right" />
+            </span>
+          </span>
+        </div>
+      )}
       {(!!c.can_veteran || !!c.veteran) && (
         <div className="ContractLedger__CardRow">
           <span className="ContractLedger__CardLabel">
@@ -857,7 +897,11 @@ const ContractCard = (props: { contract: Contract }) => {
           disabled={disabled}
           title={title}
           onClick={() =>
-            act('sign', { ref: c.ref, veteran: useVeteran ? 1 : 0 })
+            act('sign', {
+              ref: c.ref,
+              veteran: useVeteran ? 1 : 0,
+              foes: pickedFoes?.key,
+            })
           }
         >
           Sign

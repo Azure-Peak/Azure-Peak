@@ -340,12 +340,18 @@ GLOBAL_LIST_INIT(contract_issuer_roles, list(
 	var/party_size = max(1, length(available_fellowship_members(user)))
 	for(var/datum/quest/Q as anything in SSquestpool.pool)
 		var/towner_posting = Q.source == QUEST_SOURCE_TOWNER
+		var/can_veteran = !Q.veteran && Q.can_be_veteran()
 		var/threat_bands = 0
+		var/foes
+		var/list/foe_options
 		if(istype(Q, /datum/quest/kill))
 			var/datum/quest/kill/KQ = Q
 			threat_bands = KQ.threat_bands_cleared
+			if(KQ.can_pick_foes())
+				var/list/choices = KQ.foe_choices()
+				foes = KQ.foe_key(choices)
+				foe_options = KQ.build_foe_options(choices, party_size, can_veteran)
 		var/lapse_minutes = Q.lapses ? max(0, round((Q.get_lapse_time() - world.time) / 600, 1)) : null
-		var/can_veteran = !Q.veteran && Q.can_be_veteran()
 		var/list/size_table
 		var/list/veteran_size_table
 		if(Q.scales_with_group())
@@ -386,6 +392,8 @@ GLOBAL_LIST_INIT(contract_issuer_roles, list(
 			"veteran" = Q.veteran,
 			"veteran_reward" = veteran_reward,
 			"veteran_objective" = can_veteran ? Q.get_projected_objective(party_size, TRUE) : null,
+			"foes" = foes,
+			"foe_options" = foe_options,
 		))
 	return listing
 
@@ -472,7 +480,7 @@ GLOBAL_LIST_INIT(contract_issuer_roles, list(
 		return TRUE
 	switch(action)
 		if("sign")
-			sign_contract(user, params["ref"], !!text2num("[params["veteran"]]"))
+			sign_contract(user, params["ref"], !!text2num("[params["veteran"]]"), params["foes"])
 			return TRUE
 		if("abandon")
 			abandon_by_ref(user, params["ref"])

@@ -25,6 +25,7 @@ GLOBAL_LIST_INIT(quest_bounty_goblin_goons, list(
 	required_fellowship_size = 2
 	fellowship_threat_rate = QUEST_FELLOWSHIP_THREAT_PER_EXTRA_HARD
 	fellowship_reward_rate = QUEST_FELLOWSHIP_REWARD_PER_EXTRA
+	foes_pickable = FALSE
 	var/boss_name
 	var/goblin_warlord_variant = FALSE
 

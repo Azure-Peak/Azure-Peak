@@ -1,7 +1,7 @@
 /obj/structure/roguemachine/contractledger/proc/play_reject_sound()
 	playsound(src, 'sound/misc/machineno.ogg', 80, FALSE, -1)
 
-/obj/structure/roguemachine/contractledger/proc/sign_contract(mob/user, ref, veteran = FALSE)
+/obj/structure/roguemachine/contractledger/proc/sign_contract(mob/user, ref, veteran = FALSE, foes = null)
 	if(!ref)
 		return
 	if(!SStreasury.has_account(user))
@@ -70,7 +70,7 @@
 		play_reject_sound()
 		return
 
-	if(!SSquestpool.claim(Q, user, veteran))
+	if(!SSquestpool.claim(Q, user, veteran, foes))
 		say("That contract can't be signed right now. Try another.")
 		play_reject_sound()
 		return

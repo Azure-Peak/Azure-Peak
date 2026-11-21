@@ -526,7 +526,7 @@ SUBSYSTEM_DEF(questpool)
 		return null
 	return new proto.type()
 
-/datum/controller/subsystem/questpool/proc/claim(datum/quest/Q, mob/user, veteran = FALSE)
+/datum/controller/subsystem/questpool/proc/claim(datum/quest/Q, mob/user, veteran = FALSE, foes = null)
 	if(!Q || !(Q in pool))
 		return FALSE
 	if(!Q.can_claim(user))
@@ -555,10 +555,15 @@ SUBSYSTEM_DEF(questpool)
 		log_event("claim_failed", "materialize failed for [Q.quest_difficulty] [Q.quest_type]")
 		return FALSE
 	Q.materialized = TRUE
+	var/foes_note = ""
+	if(foes && istype(Q, /datum/quest/kill))
+		var/datum/quest/kill/KQ = Q
+		if(KQ.pick_foes(foes))
+			foes_note = " against [KQ.faction.name_plural]"
 	Q.on_claim(user)
 	record_round_statistic(STATS_CONTRACTS_TAKEN)
 	record_source_statistic(Q, CONTRACT_STAT_TAKEN)
-	log_event("claim", "[describe_user(user)] took [Q.quest_difficulty] [Q.quest_type]")
+	log_event("claim", "[describe_user(user)] took [Q.quest_difficulty] [Q.quest_type][foes_note]")
 	return TRUE
 
 /datum/controller/subsystem/questpool/proc/clear_failed_veteran(datum/quest/Q)
