@@ -2094,7 +2094,6 @@
 		current_mode = (current_mode % LAZYLEN(modes)) + 1
 		to_chat(user, span_notice("[name]: [modes[current_mode]["name"]] mode."))
 		apply_mode()
-		update_mode_maptext()
 		return TRUE
 	return FALSE // if it's neither, the keybind does nothing
 
@@ -2119,7 +2118,7 @@
 		return
 	var/list/mode = modes[current_mode]
 	if(mode["invocation"])
-		invocations = list(mode["invocation"])
+		invocations = (islist(mode["invocation"]) ? mode["invocation"] : list(mode["invocation"]))
 	invocation_type = (mode["invocation_type"] || invocation_type)
 	button_icon_state = (mode["icon"] || button_icon_state)
 	primary_resource_cost = (mode["cost"] || primary_resource_cost)
@@ -2128,6 +2127,7 @@
 	charge_slowdown = (mode["slowdown"] || charge_slowdown)
 	sound = (mode["sound"] || sound)
 	build_all_button_icons()
+	update_mode_maptext()
 	return
 
 /datum/action/cooldown/spell/proc/get_snap_target(mob/living/clicker)

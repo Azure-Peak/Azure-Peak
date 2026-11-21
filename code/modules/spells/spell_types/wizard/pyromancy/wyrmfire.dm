@@ -169,9 +169,9 @@
 	stats += span_info("Firing mode (Shift+G): Fireball (direct) / Artillery Fireball (lobbed bombardment) / Pillar of Flame (ground-target eruption).")
 	return stats
 
-/datum/action/cooldown/spell/projectile/fireball/barrage/apply_mode(index)
+/datum/action/cooldown/spell/projectile/fireball/barrage/apply_mode()
 	..()
-	var/list/mode = modes[index]
+	var/list/mode = modes[current_mode]
 	var/obj/projectile/magic/aoe/fireball/rogue/ball = mode["proj"]
 	impact_radius = mode["ground"] ? pillar_radius : initial(ball.arcyne_aoe_radius)
 
