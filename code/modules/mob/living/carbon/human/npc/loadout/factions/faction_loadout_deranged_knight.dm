@@ -97,12 +97,7 @@
 
 /datum/npc_loadout/kit/zizo_cantrip
 	traits = list(TRAIT_WARLOCK) //to use w/ weapon
-	spells = list(
-		list(/datum/action/cooldown/spell/projectile/greater_arcyne_bolt),
-		list(/datum/action/cooldown/spell/projectile/spitfire),
-		list(/datum/action/cooldown/spell/projectile/arc_bolt),
-		list(/datum/action/cooldown/spell/projectile/arcyne_lance),
-	)
+	spells = list(/datum/action/cooldown/spell/projectile/greater_arcyne_bolt, /datum/action/cooldown/spell/projectile/spitfire, /datum/action/cooldown/spell/projectile/arc_bolt, /datum/action/cooldown/spell/projectile/arcyne_lance)
 
 //** FLAVOR **//
 
@@ -180,7 +175,7 @@
 
 /datum/npc_loadout/weapon/graggar_heavy
 	weapons = list(
-		list(r_hand = /obj/item/rogueweapon/stoneaxe/woodcut/steel/graggar, /obj/item/rogueweapon/shield/iron/graggar, 100),
+		list(/obj/item/rogueweapon/stoneaxe/woodcut/steel/graggar, /obj/item/rogueweapon/shield/iron/graggar, 100),
 	)
 
 /datum/npc_loadout/weapon/matthios_heavy
