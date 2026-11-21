@@ -279,7 +279,7 @@
 		prob2defend = clamp((prob2defend + max_dodge), 5, (90 + max_dodge))
 
 		// Dual wield drawback (-5%)
-		var/dualwield_penalty = HAS_TRAIT(src, TRAIT_DUALWIELDER) && defender_human.can_dualwield(defender_mainhand, defender_offhand)
+		var/dualwield_penalty = HAS_TRAIT(src, TRAIT_DUALWIELDER) && (defender_human.can_dualwield(defender_mainhand, defender_offhand) || defender_human.can_unarmed_dualwield())
 		if(dualwield_penalty)
 			prob2defend = max(prob2defend - 5, 0)
 
