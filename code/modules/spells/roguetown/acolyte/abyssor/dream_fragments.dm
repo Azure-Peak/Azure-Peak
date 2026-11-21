@@ -1,7 +1,7 @@
 GLOBAL_LIST_EMPTY(dream_fragments) // list of paths, autopopulated at roundstart. will be picked from at random when a valid abyssorite sleeps.
 GLOBAL_DATUM_INIT(dream_omens_handler, /datum/dream_omens_handler, new)
 #define DREAM_BUFF_DURATION 15 MINUTES // not too short, but they're not very big buffs either
-#define DEATH_OMEN_EXPIRY 10 MINUTES
+#define DEATH_OMEN_EXPIRY 20 MINUTES // no sense in telling you about someone that's already long recovered
 
 /// simple singleton that stores a bunch of data for use in dream fragment template-filling
 /datum/dream_omens_handler
@@ -366,3 +366,6 @@ GLOBAL_DATUM_INIT(dream_omens_handler, /datum/dream_omens_handler, new)
 	H.remove_status_effect(/datum/status_effect/buff/dream_fragment)
 	if(rival)
 		rival.remove_status_effect(/datum/status_effect/buff/dream_fragment)
+
+#undef DREAM_BUFF_DURATION
+#undef DEATH_OMEN_EXPIRY

@@ -240,6 +240,10 @@
 	if(L?.mind)
 		L.mind.RemoveSpell(src)
 
+#undef ARROW_MODE_GRASP
+#undef ARROW_MODE_COAT
+#undef ARROW_MODE_SHARD
+
 /datum/action/cooldown/spell/ink_blessing
 	name = "Ink Blessing"
 	desc = "In Bless mode, manage your dream fragments: brief glimpses of dream you recall upon waking. Each time you sleep, you may choose one of three fragments to remember, replacing an older fragment if you had one. These dreams contain guidance, which can be bestowed upon another by casting this miracle on them. Cast on yourself to recall your currently-held fragment.\nIn Transmute mode, purify nearby abyssal paint trails within your immediate surroundings, turning them into healing trails for the attuned. The more paint affected (up to 10), the longer the cooldown. If you pull targets, those attuned will get healed in your stead. If you use a paint brush staff, you can heal via pulling regardless."
