@@ -79,9 +79,10 @@
 /datum/npc_archetype/psy_vault_guard/caster
 	name = "Psydonite Tomb Magos"
 	job = "Psydonite Tomb Magos"
-	statpack = /datum/npc_statpack/caster/t3 //stronger statline miniboss
-	magic = SKILL_LEVEL_EXPERT
-	traits = list(TRAIT_PSYDONITE) //devotee
+	statpack = /datum/npc_statpack/caster/t4 //final boss to the dungeon, expect a hell of a fight.
+	magic = SKILL_LEVEL_MASTER
+	melee = SKILL_LEVEL_EXPERT
+	traits = list(TRAIT_PSYDONITE, TRAIT_BADTRAINER) //devotee + master skills so we get bad trainer
 
 /datum/npc_archetype/psy_vault_guard/caster/mixed
 	variants = list(
