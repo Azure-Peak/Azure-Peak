@@ -1046,7 +1046,7 @@ GLOBAL_DATUM_INIT(_corpse_sort_ref, /mob, null)
 	charge_slowdown = CHARGING_SLOWDOWN_NONE
 	sound = 'sound/magic/magnet.ogg'
 	charge_sound = 'sound/magic/chargingold.ogg'
-	cooldown_time = 60 SECONDS
+	cooldown_time = 45 SECONDS
 	cast_range = 7
 	primary_resource_cost = 50
 	invocations = list("Awaken, rancor!!")
@@ -1063,13 +1063,15 @@ GLOBAL_DATUM_INIT(_corpse_sort_ref, /mob, null)
 	var/tag = crow_mode ? "CROWS" : "SPIRITS"
 	for(var/datum/hud/hud as anything in viewers)
 		var/atom/movable/screen/movable/action_button/B = viewers[hud]
+		if(!B)
+			continue
 		var/atom/movable/screen/arc_maptext_holder/holder
 		for(var/atom/movable/screen/arc_maptext_holder/existing in B.vis_contents)
 			holder = existing
 			break
 		if(!holder)
 			holder = new(B)
-			B.vis_contents.Add(holder)
+			B.vis_contents += holder
 		holder.maptext = MAPTEXT(tag)
 		holder.color = "#b8c4d9"
 
@@ -1088,34 +1090,36 @@ GLOBAL_DATUM_INIT(_corpse_sort_ref, /mob, null)
 	if(!istype(user) || !istype(target))
 		return FALSE
 	if(target.stat == DEAD)
-		to_chat(user, span_warning("The dead should be left to rest. You know what to do."))
+		to_chat(user, span_warning("The dead should be left to rest. You know what to do, now."))
 		return FALSE
 
-	// Ward: self, fellowship ally, or caster not in cmode. Hostile: someone else, caster in cmode.
-	var/is_ward = (target == user) || !user.cmode || (user.current_fellowship && target.current_fellowship == user.current_fellowship)
+	var/hostile_npc = is_npc(target) && target.stat == CONSCIOUS
+	// Ward: self, fellowship ally, or caster not in cmode. Hostile: someone else, caster in cmode, or a npc with mindless anger.
+	var/is_ward = !hostile_npc && ((target == user) || !user.cmode || (user.current_fellowship && target.current_fellowship == user.current_fellowship))
 
 	if(is_ward)
 		if(target.has_status_effect(/datum/status_effect/buff/vengeful_ward))
 			to_chat(user, span_warning(target == user ? "The spirits already circle me." : "The spirits already circle them."))
 			return FALSE
 		target.apply_status_effect(/datum/status_effect/buff/vengeful_ward, crow_mode)
+		play_summon_sound(user, crow_mode)
+		return TRUE // the ward spawns its own visual orbiters, never real spirit mobs
 
 	play_summon_sound(user, crow_mode)
-	var/atom/center = is_ward ? target : user
-	for(var/turf/T as anything in get_spawn_turfs(center))
-		var/mob/living/simple_animal/hostile/rogue/spirit_vengeance/avenging/spirit = new(T, center, crow_mode)
-		if(!is_ward)
-			spirit.assign_target(target)
+	for(var/turf/T as anything in get_spawn_turfs(user))
+		var/mob/living/simple_animal/hostile/rogue/spirit_vengeance/avenging/spirit = new(T, user, crow_mode)
+		spirit.assign_target(target)
 	return TRUE
 
 /datum/action/cooldown/spell/necra/vengeful_spirits/proc/play_summon_sound(mob/living/user, crow)
+	var/turf/T = get_turf(user)
 	var/summon_sound
 	if(crow)
-		playsound(user.loc, 'sound/vo/mobs/bird/birdfly.ogg', 100, TRUE)
+		playsound(T, 'sound/vo/mobs/bird/birdfly.ogg', 100, TRUE)
 		summon_sound = pick('sound/vo/mobs/bird/CROW_01.ogg', 'sound/vo/mobs/bird/CROW_03.ogg')
 	else
 		summon_sound = pick('sound/vo/mobs/ghost/aggro (1).ogg', 'sound/vo/mobs/ghost/aggro (2).ogg', 'sound/vo/mobs/ghost/aggro (3).ogg', 'sound/vo/mobs/ghost/aggro (4).ogg', 'sound/vo/mobs/ghost/aggro (5).ogg', 'sound/vo/mobs/ghost/aggro (6).ogg')
-	playsound(user.loc, summon_sound, 100, TRUE)
+	playsound(T, summon_sound, 100, TRUE)
 
 /datum/action/cooldown/spell/necra/vengeful_spirits/proc/get_spawn_turfs(mob/living/user)
 	var/turf/center = get_turf(user)
@@ -1258,15 +1262,21 @@ GLOBAL_DATUM_INIT(_corpse_sort_ref, /mob, null)
 	var/center_offset_y = 0
 	var/mob/living/attached_to
 	var/dispersing = FALSE
+	var/static/list/size_cache = list()
 
 /obj/effect/vengeful_orbiter/Initialize(mapload, crow)
 	. = ..()
 	var/list/icon_data = get_vengeful_form_icon(crow)
 	icon = icon_data[1]
 	icon_state = icon_data[2]
-	var/icon/measured = icon(icon, icon_state)
-	center_offset_x = -((measured.Width() - world.icon_size) / 2) + nudge_x
-	center_offset_y = -((measured.Height() - world.icon_size) / 2) + nudge_y
+	var/key = "[icon]-[icon_state]"
+	var/list/dims = size_cache[key]
+	if(!dims)
+		var/icon/measured = icon(icon, icon_state)
+		dims = list(measured.Width(), measured.Height())
+		size_cache[key] = dims
+	center_offset_x = -((dims[1] - world.icon_size) / 2) + nudge_x
+	center_offset_y = -((dims[2] - world.icon_size) / 2) + nudge_y
 
 /obj/effect/vengeful_orbiter/proc/disperse()
 	if(dispersing)
