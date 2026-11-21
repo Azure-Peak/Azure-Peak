@@ -12,8 +12,12 @@
 	opacity = 0
 	density = FALSE
 	var/open = TRUE
+	var/directional = FALSE
 
-/obj/structure/curtain/proc/toggle()
+/obj/structure/curtain/proc/toggle(mob/user)
+	if(directional && (!user || get_dir(src, user) != dir))
+		to_chat(user, span_notice("I cannot reach the curtain from this side."))
+		return
 	open = !open
 	update_icon()
 
@@ -54,7 +58,7 @@
 	if(.)
 		return
 	playsound(loc, 'sound/foley/doors/curtain.ogg', 50, TRUE)
-	toggle()
+	toggle(user)
 
 /obj/structure/curtain/deconstruct(disassembled = TRUE)
 	qdel(src)
@@ -95,3 +99,142 @@
 
 /obj/structure/curtain/black
 	color = "#414143"
+
+/obj/structure/curtain/fancy
+	name = "fancy blue curtain"
+	icon_type = "curtain_blue"
+	icon_state = "curtain_blue-open"
+	icon = 'icons/obj/watercloset.dmi'
+	color = null
+
+/obj/structure/curtain/fancy/Initialize(mapload)
+	. = ..()
+	update_icon()
+
+/obj/structure/curtain/fancy/dir
+	directional = TRUE
+	icon_state = "curtain_bluedir"
+
+/obj/structure/curtain/fancy/cyan
+	name = "fancy cyan curtain"
+	icon_type = "curtain_cyan"
+	icon_state = "curtain_cyan-open"
+
+/obj/structure/curtain/fancy/cyan/dir
+	directional = TRUE
+	icon_state = "curtain_cyandir"
+
+/obj/structure/curtain/fancy/brown
+	name = "fancy brown curtain"
+	icon_type = "curtain_brown"
+	icon_state = "curtain_brown-open"
+
+/obj/structure/curtain/fancy/brown/dir
+	directional = TRUE
+	icon_state = "curtain_browndir"
+
+/obj/structure/curtain/fancy/green
+	name = "fancy green curtain"
+	icon_type = "curtain_green"
+	icon_state = "curtain_green-open"
+
+/obj/structure/curtain/fancy/green/dir
+	directional = TRUE
+	icon_state = "curtain_greendir"
+
+/obj/structure/curtain/fancy/purple
+	name = "fancy purple curtain"
+	icon_type = "curtain_purple"
+	icon_state = "curtain_purple-open"
+
+/obj/structure/curtain/fancy/purple/dir
+	directional = TRUE
+	icon_state = "curtain_purpledir"
+
+/obj/structure/curtain/fancy/red
+	name = "fancy red curtain"
+	icon_type = "curtain_red"
+	icon_state = "curtain_red-open"
+
+/obj/structure/curtain/fancy/red/dir
+	directional = TRUE
+	icon_state = "curtain_reddir"
+
+/obj/structure/curtain/fancy/noc
+	name = "fancy navy curtain"
+	desc = "Decorative navy curtains, popular amongst Noccites."
+	icon_type = "curtain_noc"
+	icon_state = "curtain_noc-open"
+
+/obj/structure/curtain/fancy/noc/dir
+	directional = TRUE
+	icon_state = "curtain_nocdir"
+
+/obj/structure/curtain/old
+	name = "old brown curtain"
+	icon_type = "curtain_old"
+	icon_state = "curtain_old-open"
+	icon = 'icons/obj/watercloset.dmi'
+	color = null
+
+/obj/structure/curtain/old/Initialize(mapload)
+	. = ..()
+	update_icon()
+
+/obj/structure/curtain/old/dir
+	directional = TRUE
+	icon_state = "curtain_olddir"
+
+/obj/structure/curtain/old/beige
+	name = "old beige curtain"
+	icon_type = "curtain_oldbeige"
+	icon_state = "curtain_oldbeige-open"
+
+/obj/structure/curtain/old/beige/dir
+	directional = TRUE
+	icon_state = "curtain_oldbeigedir"
+
+/obj/structure/curtain/old/red
+	name = "old red curtain"
+	icon_type = "curtain_oldred"
+	icon_state = "curtain_oldred-open"
+
+/obj/structure/curtain/old/red/dir
+	directional = TRUE
+	icon_state = "curtain_oldreddir"
+
+/obj/structure/curtain/old/blue
+	name = "old blue curtain"
+	icon_type = "curtain_oldblue"
+	icon_state = "curtain_oldblue-open"
+
+/obj/structure/curtain/old/blue/dir
+	directional = TRUE
+	icon_state = "curtain_oldbluedir"
+
+/obj/structure/curtain/old/green
+	name = "old green curtain"
+	icon_type = "curtain_oldgreen"
+	icon_state = "curtain_oldgreen-open"
+
+/obj/structure/curtain/old/green/dir
+	directional = TRUE
+	icon_state = "curtain_oldgreendir"
+
+/obj/structure/curtain/old/purple
+	name = "old purple curtain"
+	icon_type = "curtain_oldpurple"
+	icon_state = "curtain_oldpurple-open"
+
+/obj/structure/curtain/old/purple/dir
+	directional = TRUE
+	icon_state = "curtain_oldpurpledir"
+
+/obj/structure/curtain/fancy/sun
+	name = "sun curtain"
+	icon_type = "curtain_sun"
+	icon_state = "curtain_sun-open"
+
+/obj/structure/curtain/fancy/sun/dir
+	directional = TRUE
+	icon_state = "curtain_sundir"

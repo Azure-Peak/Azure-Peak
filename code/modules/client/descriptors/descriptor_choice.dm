@@ -298,7 +298,7 @@
 		/datum/mob_descriptor/scales/smooth,
 		/datum/mob_descriptor/scales/plated,
 		/datum/mob_descriptor/scales/peeling,
-		/datum/mob_descriptor/skin/custom/eight,
+		/datum/mob_descriptor/skin/custom/scales,
 	)
 
 /datum/descriptor_choice/fur
@@ -317,7 +317,7 @@
 		/datum/mob_descriptor/fur/velvety,
 		/datum/mob_descriptor/fur/dense,
 		/datum/mob_descriptor/fur/matted,
-		/datum/mob_descriptor/skin/custom/eight,
+		/datum/mob_descriptor/skin/custom/fur,
 	)
 
 /datum/descriptor_choice/feathers
@@ -328,7 +328,7 @@
 		/datum/mob_descriptor/feathers/frayed,
 		/datum/mob_descriptor/feathers/delicate,
 		/datum/mob_descriptor/feathers/soft,
-		/datum/mob_descriptor/skin/custom/eight,
+		/datum/mob_descriptor/skin/custom/feathers,
 	)
 
 /datum/descriptor_choice/chitin
@@ -337,7 +337,7 @@
 		/datum/mob_descriptor/chitin/smooth,
 		/datum/mob_descriptor/chitin/hard,
 		/datum/mob_descriptor/chitin/fine,
-		/datum/mob_descriptor/skin/custom/eight,
+		/datum/mob_descriptor/skin/custom/chitin,
 	)
 
 /datum/descriptor_choice/skin/rev
@@ -386,6 +386,10 @@
 		/datum/mob_descriptor/chitin/hard,
 		/datum/mob_descriptor/chitin/fine,
 		/datum/mob_descriptor/skin/custom/eight,
+		/datum/mob_descriptor/skin/custom/fur,
+		/datum/mob_descriptor/skin/custom/chitin,
+		/datum/mob_descriptor/skin/custom/feathers,
+		/datum/mob_descriptor/skin/custom/scales,
 	)
 
 /datum/descriptor_choice/height
@@ -524,6 +528,8 @@
 		/datum/mob_descriptor/feathers/delicate,
 		/datum/mob_descriptor/feathers/soft,
 		/datum/mob_descriptor/skin/custom/eight,
+		/datum/mob_descriptor/skin/custom/fur,
+		/datum/mob_descriptor/skin/custom/scales,
 	)
 
 #define PROMINENT_DESCRIPTORS \

@@ -2,6 +2,7 @@ import { useState } from 'react';
 import {
   Box,
   Button,
+  DmIcon,
   Input,
   Section,
   Stack,
@@ -13,6 +14,12 @@ import {
 import { useBackend } from '../backend';
 import { Window } from '../layouts';
 
+type PreviewLayer = {
+  icon: string;
+  icon_state: string;
+  color: string | null;
+};
+
 type LoadoutItem = {
   name: string;
   desc: string;
@@ -20,7 +27,70 @@ type LoadoutItem = {
   cost: number;
   triumph_cost: number | null;
   color_channels: string[];
+  preview_layers: PreviewLayer[] | null;
 };
+
+const ITEM_ICON_SIZE = '32px';
+
+const tintKey = (color: string | null): string | null => {
+  if (!color) {
+    return null;
+  }
+  let hex = color.replace(/^#/, '').toLowerCase();
+  if (hex.length === 3 || hex.length === 4) {
+    hex = hex.replace(/./g, '$&$&');
+  }
+  return /^[0-9a-f]{6}([0-9a-f]{2})?$/.test(hex) ? hex : null;
+};
+
+const TintFilters = (props: { keys: string[] }) => (
+  <svg width={0} height={0} style={{ position: 'absolute' }}>
+    {props.keys.map((key) => {
+      const [r, g, b, a = 1] = (key.match(/../g) || []).map(
+        (pair) => parseInt(pair, 16) / 255,
+      );
+      return (
+        <filter
+          key={key}
+          id={`loadout-tint-${key}`}
+          colorInterpolationFilters="sRGB"
+        >
+          <feColorMatrix
+            type="matrix"
+            values={`${r} 0 0 0 0 0 ${g} 0 0 0 0 0 ${b} 0 0 0 0 0 ${a} 0`}
+          />
+        </filter>
+      );
+    })}
+  </svg>
+);
+
+const ItemIcon = (props: { layers: PreviewLayer[] | null }) => (
+  <Box
+    position="relative"
+    width={ITEM_ICON_SIZE}
+    height={ITEM_ICON_SIZE}
+    mr={0.5}
+    style={{ flexShrink: 0 }}
+  >
+    {props.layers?.map((layer) => {
+      const key = tintKey(layer.color);
+      return (
+        <DmIcon
+          key={layer.icon_state}
+          icon={layer.icon}
+          icon_state={layer.icon_state}
+          position="absolute"
+          top={0}
+          left={0}
+          width={ITEM_ICON_SIZE}
+          height={ITEM_ICON_SIZE}
+          style={key ? { filter: `url(#loadout-tint-${key})` } : undefined}
+        />
+      );
+    })}
+  </Box>
+);
 
 type SelectedItem = {
   name: string;
@@ -47,7 +117,6 @@ type Data = {
   total_triumph_cost: number;
   effective_triumph_cost: number;
   player_triumphs: number;
-  preview: boolean;
 };
 
 export const LoadoutMenu = () => {
@@ -152,10 +221,10 @@ const TweakRow = (props: {
   itemName: string;
   meta: SelectedItem | undefined;
   colorChannels: string[];
+  preview: boolean;
 }) => {
-  const { itemName, meta, colorChannels } = props;
-  const { act, data } = useBackend<Data>();
-  const { preview } = data;
+  const { itemName, meta, colorChannels, preview } = props;
+  const { act } = useBackend<Data>();
 
   const [localName, setLocalName] = useState(meta?.custom_name || '');
   const [localDesc, setLocalDesc] = useState(meta?.custom_desc || '');
@@ -326,6 +395,8 @@ const ClearAllButton = (props: { selectedCount: number }) => {
 const LoadoutDisplay = () => {
   const [search, setSearch] = useState('');
   const [activeCategory, setActiveCategory] = useState('');
+  const [compact, setCompact] = useState(false);
+  const [previewText, setPreviewText] = useState(false);
 
   const { act, data } = useBackend<Data>();
   const {
@@ -340,7 +411,6 @@ const LoadoutDisplay = () => {
     is_donator,
     triumph_discount,
     donator_bonus,
-    preview,
   } = data;
 
   const currentCategory = activeCategory || categories[0] || '';
@@ -365,6 +435,18 @@ const LoadoutDisplay = () => {
       return item.category === currentCategory;
     })
     .sort((a, b) => a.name.localeCompare(b.name));
+
+  const tintKeys = compact
+    ? []
+    : Array.from(
+        new Set(
+          filteredItems.flatMap((item) =>
+            (item.preview_layers || [])
+              .map((layer) => tintKey(layer.color))
+              .filter((key): key is string => !!key),
+          ),
+        ),
+      );
 
   return (
     <Stack fill vertical>
@@ -398,8 +480,21 @@ const LoadoutDisplay = () => {
             />
           </Stack.Item>
           <Stack.Item>
-            <Button color="good" fontSize={1.1} onClick={() => act('preview')}>
-              {preview ? '\u2713' : '\u25CB'} Toggle Preview
+            <Button
+              color="good"
+              fontSize={1.1}
+              onClick={() => setCompact(!compact)}
+            >
+              {compact ? '\u2713' : '\u25CB'} Compact
+            </Button>
+          </Stack.Item>
+          <Stack.Item>
+            <Button
+              color="good"
+              fontSize={1.1}
+              onClick={() => setPreviewText(!previewText)}
+            >
+              {previewText ? '\u2713' : '\u25CB'} Preview Text
             </Button>
           </Stack.Item>
         </Stack>
@@ -408,6 +503,7 @@ const LoadoutDisplay = () => {
       {/* Items table */}
       <Stack.Item grow>
         <Section fill scrollable fitted>
+          {tintKeys.length > 0 && <TintFilters keys={tintKeys} />}
           {filteredItems.length === 0 ? (
             <Box color="label" textAlign="center" mt={2}>
               No items found.
@@ -437,7 +533,12 @@ const LoadoutDisplay = () => {
                     onClick={() => act('toggle_item', { name: item.name })}
                   >
                     <Table.Cell py={0.4}>
-                      <Box style={{ display: 'flex', alignItems: 'baseline' }}>
+                      <Box
+                        style={{
+                          display: 'flex',
+                          alignItems: compact ? 'baseline' : 'center',
+                        }}
+                      >
                         <Box
                           inline
                           width={1.2}
@@ -448,6 +549,7 @@ const LoadoutDisplay = () => {
                         >
                           {isSelected ? '\u2713' : '\u25CB'}
                         </Box>
+                        {!compact && <ItemIcon layers={item.preview_layers} />}
                         <Box bold={isSelected} fontSize={0.9} py={0.5}>
                           {item.name}
                           {isSelected &&
@@ -487,6 +589,7 @@ const LoadoutDisplay = () => {
                       itemName={item.name}
                       meta={meta}
                       colorChannels={channelsMap.get(item.name) || ['primary']}
+                      preview={previewText}
                     />
                   ),
                 ];

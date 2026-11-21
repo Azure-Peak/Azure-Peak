@@ -36,7 +36,7 @@
 	if(exposed_on_hit)
 		L.apply_status_effect(/datum/status_effect/debuff/exposed, exposed_on_hit)
 	if(victim_slowdown)
-		L.Slowdown(victim_slowdown)
+		L.apply_slowdown(victim_slowdown)
 
 /datum/action/cooldown/spell/telegraphed_strike/mob_ability/elemental_slam/sunder
 	name = "Sunder"
@@ -58,7 +58,7 @@
 
 	damage = 55
 	structure_damage = 55
-	victim_slowdown = 2
+	victim_slowdown = 3 SECONDS
 
 /datum/action/cooldown/spell/telegraphed_strike/mob_ability/elemental_slam/sunder/get_sweep_bands()
 	var/list/front = list(list(0, 1))
@@ -88,7 +88,7 @@
 	damage = 60
 	structure_damage = 60
 	exposed_on_hit = 8 SECONDS
-	victim_slowdown = 3
+	victim_slowdown = 5 SECONDS
 	band_sound = list('sound/misc/bamf.ogg')
 
 /datum/action/cooldown/spell/telegraphed_strike/mob_ability/elemental_slam/stomp/get_sweep_bands()
@@ -140,7 +140,7 @@
 	strike_sound = 'sound/combat/hits/onstone/wallhit.ogg'
 	detonate_sound = null
 	hit_sound = list('sound/combat/hits/smashlimb (1).ogg','sound/combat/hits/smashlimb (2).ogg','sound/combat/hits/smashlimb (3).ogg')
-	var/victim_slowdown = 4
+	var/victim_slowdown = 7 SECONDS
 	// We don't want to actually cage in the victim, that'd be lame
 	var/rubble_type = /obj/structure/flora/rock
 	var/rubble_duration = 20 SECONDS
@@ -156,7 +156,7 @@
 /datum/action/cooldown/spell/telegraphed_strike/mob_ability/ground/quake/on_hit_target(mob/living/H, mob/living/L, facing)
 	to_chat(L, span_danger("<B>The ground ruptures beneath my feet!</B>"))
 	if(victim_slowdown)
-		L.Slowdown(victim_slowdown)
+		L.apply_slowdown(victim_slowdown)
 
 /datum/action/cooldown/spell/telegraphed_strike/mob_ability/ground/quake/on_strike_complete(mob/living/H, hit_count, deflected)
 	. = ..()

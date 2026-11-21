@@ -23,7 +23,7 @@
 			H.apply_status_effect(/datum/status_effect/debuff/clickcd, 3 SECONDS)
 			if(H.mind)
 				H.dodgetime = clamp(H.dodgetime + 5, 0, CLICK_CD_HEAVY)
-			H.Slowdown(3)
+			H.apply_slowdown(5 SECONDS)
 			to_chat(src, span_notice("[capitalize(H.p_theyre())] exposed!"))
 			playsound(src, 'sound/combat/clash_struck.ogg', 100)
 			remove_status_effect(/datum/status_effect/buff/clash)
@@ -37,7 +37,7 @@
 		H.apply_status_effect(/datum/status_effect/debuff/clickcd, 3 SECONDS)
 		if(H.mind)
 			H.dodgetime = clamp(H.dodgetime + 5, 0, CLICK_CD_HEAVY)
-		H.Slowdown(3)
+		H.apply_slowdown(5 SECONDS)
 		to_chat(src, span_notice("[capitalize(H.p_theyre())] exposed!"))
 		playsound(src, 'sound/combat/clash_struck.ogg', 100)
 		remove_status_effect(/datum/status_effect/buff/clash)
@@ -57,7 +57,7 @@
 		H.apply_status_effect(/datum/status_effect/debuff/clickcd, 3 SECONDS)
 		if(H.mind)
 			H.dodgetime = clamp(H.dodgetime + 5, 0, CLICK_CD_HEAVY)
-		H.Slowdown(3)
+		H.apply_slowdown(5 SECONDS)
 		to_chat(src, span_notice("[capitalize(H.p_theyre())] exposed!"))
 		playsound(src, 'sound/combat/clash_struck.ogg', 100)
 		remove_status_effect(/datum/status_effect/buff/clash)
@@ -81,7 +81,7 @@
 		if(H.mind)
 			H.dodgetime = clamp(H.dodgetime + 5, 0, CLICK_CD_HEAVY)
 		dodgetime = clamp(dodgetime - 5, 0, CLICK_CD_DODGE)
-		H.Slowdown(3)
+		H.apply_slowdown(5 SECONDS)
 
 		to_chat(src, span_notice("[capitalize(H.p_theyre())] exposed!"))
 		remove_status_effect(/datum/status_effect/buff/clash)
@@ -102,7 +102,7 @@
 		L.apply_status_effect(/datum/status_effect/debuff/clickcd, 3 SECONDS)
 		if(L.mind)
 			L.dodgetime = clamp(L.dodgetime + 5, 0, CLICK_CD_HEAVY)
-		L.Slowdown(3)
+		L.apply_slowdown(5 SECONDS)
 		to_chat(src, span_notice("[capitalize(L.p_theyre())] exposed!"))
 		remove_status_effect(/datum/status_effect/buff/clash)
 		apply_status_effect(/datum/status_effect/buff/adrenaline_rush/melee)
@@ -114,7 +114,7 @@
 	if(L.mind)
 		L.dodgetime = clamp(L.dodgetime + 5, 0, CLICK_CD_HEAVY)
 	dodgetime = clamp(dodgetime - 5, 0, CLICK_CD_DODGE)
-	user.Slowdown(3)
+	L.apply_slowdown(5 SECONDS)
 
 	to_chat(src, span_notice("[capitalize(L.p_theyre())] exposed!"))
 	remove_status_effect(/datum/status_effect/buff/clash)
@@ -201,7 +201,7 @@
 		else
 			apply_status_effect(/datum/status_effect/debuff/vulnerable, 5 SECONDS)
 			apply_status_effect(/datum/status_effect/debuff/clickcd, 3 SECONDS)
-		Slowdown(5)
+		apply_slowdown(9 SECONDS)
 		success = TRUE
 	if(prob(prob_opp))
 		if(IU)
@@ -209,7 +209,7 @@
 		else
 			HU.apply_status_effect(/datum/status_effect/debuff/vulnerable, 3 SECONDS)
 			HU.apply_status_effect(/datum/status_effect/debuff/clickcd, 3 SECONDS)
-		HU.Slowdown(5)
+		HU.apply_slowdown(9 SECONDS)
 		play_overhead_indicator('icons/mob/overhead_effects.dmi', "clashtwo", 1 SECONDS, OBJ_LAYER, soundin = 'sound/combat/clash_disarm_opp.ogg', y_offset = 24)
 		success = TRUE
 	if(!success)

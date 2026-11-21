@@ -996,3 +996,21 @@
 
 
 #undef FAN_PROGRESS_BONUS
+
+/obj/machinery/light/rogue/candle/incense
+	name = "incense"
+	icon_state = "incense1"
+	base_state = "incense"
+	bulb_colour = "#ffa35c"
+
+/obj/machinery/light/rogue/candle/silver
+	name = "silver candle"
+	icon_state = "silvercandle1"
+	base_state = "silvercandle"
+	bulb_colour = "#ffa35c"
+
+/obj/machinery/light/rogue/candle/goldcandle
+	name = "gold candle"
+	icon_state = "goldcandle1"
+	base_state = "goldcandle"
+	bulb_colour = "#ffa35c"

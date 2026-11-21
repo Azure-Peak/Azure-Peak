@@ -123,5 +123,7 @@
 
 		"Greetings from the Lampternshores! We've an abundance of weaponry for you!",
 
-		"STORIES FROM THE EMPIRE! Come drink with us, FACTOR!"
+		"STORIES FROM THE EMPIRE! Come drink with us, FACTOR!",
+
+		"Vinberg's factor said to give his greetings!",
 	)

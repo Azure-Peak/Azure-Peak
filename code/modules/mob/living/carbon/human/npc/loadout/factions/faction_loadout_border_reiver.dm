@@ -101,11 +101,16 @@
 	)
 	pants = /obj/item/clothing/under/roguetown/tights
 	shoes = /obj/item/clothing/shoes/roguetown/boots
+	mask = list(
+		/obj/item/clothing/mask/rogue/facemask/padded/shoddy = 2,
+		/obj/item/clothing/mask/rogue/ragmask/black = 1,
+	)
+	gloves = /obj/item/clothing/gloves/roguetown/fingerless_leather
 
 /datum/npc_loadout/kit/reiver_flavor/mounted
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/lord
 	neck = /obj/item/clothing/neck/roguetown/leather
-	mask = /obj/item/clothing/head/roguetown/armingcap/padded
+	mask = /obj/item/clothing/mask/rogue/facemask/padded/shoddy
 	gloves = /obj/item/clothing/gloves/roguetown/angle
 	shoes = /obj/item/clothing/shoes/roguetown/ridingboots
 

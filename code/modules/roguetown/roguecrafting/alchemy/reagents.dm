@@ -689,13 +689,17 @@ If you want to expand on poisons theres tons of fun effects TG chemistry has tha
 
 /datum/reagent/medicine/trait/sleepdraught
 	name = "Restful Draught"
-	description = "Calms yet invigorates the mind, maximizing the benefits of the next rest."
+	description = "Calms yet invigorates the mind, maximizing the benefits of the next rest. May grant rest to the sleepless."
 	taste_description = "chamomilesque herbs"
 	scent_description = "calming florescence"
 	trait = TRAIT_GOODSLEEP
 	color = "#8300ee"
 	addmsg = "I feel calm, yet my mind races. I will surely dream furiously."
 	delmsg = "The surge of nocturnal inspiration fades."
+
+/datum/reagent/medicine/trait/sleepdraught/on_mob_metabolize(mob/living/L)
+	. = ..()
+	sleepless_drug_up(L) // if ozium can do it so can we; eepy time
 
 /datum/reagent/medicine/trait/waterbreathing
 	name = "Elixir of Hadal Grace"

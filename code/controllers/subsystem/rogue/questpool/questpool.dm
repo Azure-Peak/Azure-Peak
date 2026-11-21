@@ -335,12 +335,13 @@ SUBSYSTEM_DEF(questpool)
 		record_source_statistic(Q, CONTRACT_STAT_POSTED)
 	record_contract_stat(Q, CONTRACT_STAT_POSTED)
 
-/datum/controller/subsystem/questpool/proc/issue_player_quest(type, source, datum/threat_region/TR, area/override_destination, in_hands = FALSE, mob/living/carbon/human/issuer = null)
+/datum/controller/subsystem/questpool/proc/issue_player_quest(type, source, datum/threat_region/TR, area/override_destination, in_hands = FALSE, mob/living/carbon/human/issuer = null, veteran = FALSE)
 	if(in_hands && !issuer)
 		return null
 	var/datum/quest/Q = create_issued_quest(type, source, issuer)
 	if(!Q)
 		return null
+	Q.veteran = veteran && Q.veteran_allowed
 	if(Q.takes_destination)
 		Q.override_destination = override_destination
 	var/obj/effect/landmark/quest_spawner/landmark = place_quest(Q, TR)
@@ -499,13 +500,16 @@ SUBSYSTEM_DEF(questpool)
 	if(!Q.can_claim(user))
 		return FALSE
 	Q.signed_at_ledger = TRUE
-	Q.veteran = veteran && Q.can_be_veteran()
+	var/signer_veteran = veteran && !Q.veteran && Q.can_be_veteran()
+	if(signer_veteran)
+		Q.veteran = TRUE
 	Q.lock_fellowship(user)
-	if(Q.veteran && !Q.is_directive)
+	if(signer_veteran)
 		Q.reward_amount = Q.calculate_reward(Q.reward_origin_turf, Q.reward_target_turf)
 	var/obj/effect/landmark/quest_spawner/landmark = resolve_or_repick_landmark(Q, allow_anywhere = TRUE)
 	if(!landmark)
-		clear_failed_veteran(Q)
+		if(signer_veteran)
+			clear_failed_veteran(Q)
 		log_event("claim_failed", "no landmark available for [Q.quest_difficulty] [Q.quest_type]")
 		return FALSE
 	pool -= Q
@@ -514,7 +518,8 @@ SUBSYSTEM_DEF(questpool)
 		if(!(Q in pool))
 			pool += Q
 			adjust_region_count(Q, 1)
-		clear_failed_veteran(Q)
+		if(signer_veteran)
+			clear_failed_veteran(Q)
 		log_event("claim_failed", "materialize failed for [Q.quest_difficulty] [Q.quest_type]")
 		return FALSE
 	Q.materialized = TRUE

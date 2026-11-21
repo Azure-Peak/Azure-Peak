@@ -257,6 +257,7 @@ const FACTION_WRIT_RENDERERS: Record<string, WritRenderer> = {
   [FACTION_CAT_UNDEAD]: (props) => (
     <UndeadWrit
       realm={props.realm}
+      ringleader={props.data.band_leader}
       {...factionGroupPropsOf(props)}
       {...rewardPropsOf(props)}
       {...sealPropsOf(props)}
@@ -266,6 +267,7 @@ const FACTION_WRIT_RENDERERS: Record<string, WritRenderer> = {
   [FACTION_CAT_GOBLINOID]: (props) => (
     <GoblinoidWrit
       realm={props.realm}
+      ringleader={props.data.band_leader}
       {...factionGroupPropsOf(props)}
       {...rewardPropsOf(props)}
       {...sealPropsOf(props)}

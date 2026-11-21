@@ -493,6 +493,6 @@
 	owner.OffBalance(3 SECONDS)
 	owner.remove_filter(BLOODRAGE_FILTER)
 	owner.emote("breathgasp", forced = TRUE)
-	owner.Slowdown(3)
+	owner.apply_slowdown(3 SECONDS)
 
 #undef BLOODRAGE_FILTER

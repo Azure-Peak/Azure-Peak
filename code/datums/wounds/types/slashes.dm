@@ -133,7 +133,7 @@
 /datum/wound/slash/disembowel/on_mob_gain(mob/living/affected)
 	. = ..()
 	affected.emote("paincrit", TRUE)
-	affected.Slowdown(20)
+	affected.apply_slowdown(39 SECONDS)
 	shake_camera(affected, 2, 2)
 
 /datum/wound/slash/disembowel/on_bodypart_gain(obj/item/bodypart/affected)

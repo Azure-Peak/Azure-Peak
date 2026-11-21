@@ -35,7 +35,7 @@
 	detonate_sound = null
 	hit_sound = list('sound/misc/explode/incendiary (1).ogg','sound/misc/explode/incendiary (2).ogg')
 	var/scorch_stacks = 2
-	var/victim_slowdown = 2
+	var/victim_slowdown = 3 SECONDS
 
 /datum/action/cooldown/spell/telegraphed_strike/mob_ability/ground/meteor_storm/on_impact(mob/living/H, facing, atom/movable/visual)
 	if(!locked_turf)
@@ -49,7 +49,7 @@
 	if(scorch_stacks)
 		apply_scorch_stack(L, scorch_stacks)
 	if(victim_slowdown)
-		L.Slowdown(victim_slowdown)
+		L.apply_slowdown(victim_slowdown)
 
 /*
 */

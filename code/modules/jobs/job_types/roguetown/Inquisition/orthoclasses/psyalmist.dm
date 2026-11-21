@@ -6,7 +6,7 @@
 	outfit = /datum/outfit/job/roguetown/psyaltrist
 	category_tags = list(CTAG_ORTHODOXIST)
 	subclass_languages = list(/datum/language/otavan)
-	cmode_music = 'sound/music/cmode/adventurer/combat_outlander3.ogg'
+	cmode_music = 'sound/music/combat_psyalmist.ogg'
 	traits_applied = list(
 		TRAIT_DODGEEXPERT,
 		TRAIT_EMPATH
