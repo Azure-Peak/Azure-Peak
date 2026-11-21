@@ -2,6 +2,7 @@ GLOBAL_LIST_INIT(psyvault_aggro, world.file2list("strings/rt/psyvaultaggrolines.
 //These guys are intended to be no joke, if they are getting stomped something is wrong
 //Intended difficulty [HARD]
 /mob/living/carbon/human/species/lizardfolk/psy_vault_guard
+	ai_controller = /datum/ai_controller/human_npc
 	race = /datum/species/lizardfolk
 	faction = list(FACTION_PSY_VAULT_GUARD)
 	ambushable = FALSE
