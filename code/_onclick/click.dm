@@ -540,7 +540,7 @@
 		for(var/i in 1 to hits)
 			if(!dualwield_can_strike(A))
 				break
-			arcyne_strike(src, A, null, knuckles ? 8 : 4, zone_selected, BCLASS_BLUNT, spell_name = knuckles ? "Demolish" : "Flurry of Blows") // still waiting for https://github.com/Azure-Peak/Azure-Peak/pull/10094 once this is up, make sure this don't crit
+			arcyne_strike(src, A, null, knuckles ? 8 : 4, zone_selected, BCLASS_BLUNT, spell_name = knuckles ? "Demolish" : "Flurry of Blows", no_crit = knuckles ? TRUE : FALSE)
 			do_attack_animation_at(A, ATTACK_EFFECT_PUNCH)
 			if(i < hits)
 				sleep(3)
