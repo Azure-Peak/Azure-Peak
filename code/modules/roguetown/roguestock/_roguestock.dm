@@ -264,7 +264,7 @@
 
 /proc/stockpile_auto_prices(datum/trade_good/tg)
 	var/unit_price = (tg.item_type && GLOB.derived_sellprices[tg.item_type]) || tg.base_price
-	var/ask = stockpile_price(unit_price * tg.global_price_mod)
+	var/ask = stockpile_price(unit_price)
 	var/bid = stockpile_price(ask * STOCKPILE_BID_RATIO)
 	if(bid >= ask)
 		bid = max(STOCKPILE_PRICE_STEP, ask - STOCKPILE_PRICE_STEP)
@@ -316,23 +316,3 @@
 			"affected" = jointext(good_names, ", "),
 		)
 	return null
-
-/// Returns a span tag naming the active event affecting this good, or "" if none.
-/datum/roguestock/proc/get_event_tag()
-	if(!trade_good_id)
-		return ""
-	for(var/datum/economic_event/E as anything in GLOB.active_economic_events)
-		if(!(trade_good_id in E.affected_goods))
-			continue
-		var/label
-		var/color
-		if(E.event_type == ECON_EVENT_SHORTAGE)
-			label = "SHORTAGE"
-			color = "#c44"
-		else if(E.event_type == ECON_EVENT_OVERSUPPLY)
-			label = "GLUT"
-			color = "#5cb85c"
-		else
-			continue
-		return " <font color='[color]'><b>([label])</b></font>"
-	return ""

@@ -110,40 +110,44 @@ SUBSYSTEM_DEF(economy)
 	if(roundstart_events_fired)
 		return
 	roundstart_events_fired = TRUE
-	for(var/i in 1 to ECON_EVENT_ROUNDSTART_COUNT)
-		roll_single_event()
+	roll_economic_events()
 
 /datum/controller/subsystem/economy/proc/roll_economic_events()
-	while(GLOB.active_economic_events.len < ECON_EVENT_TARGET_COUNT)
+	var/wanted = rand(ECON_EVENT_DAILY_MIN, ECON_EVENT_DAILY_MAX)
+	while(length(GLOB.active_economic_events) >= wanted)
+		if(!displace_oldest_event())
+			break
+	while(length(GLOB.active_economic_events) < wanted)
 		if(!roll_single_event())
 			break
 
+/datum/controller/subsystem/economy/proc/displace_oldest_event()
+	for(var/datum/economic_event/E as anything in GLOB.active_economic_events)
+		if(E.day_started >= ECONOMY_DAY)
+			continue
+		end_economic_event(E)
+		return TRUE
+	return FALSE
+
+/datum/controller/subsystem/economy/proc/economic_event_clashes(datum/economic_event/E)
+	for(var/datum/economic_event/active as anything in GLOB.active_economic_events)
+		if(length(E.affected_goods & active.affected_goods))
+			return TRUE
+	return FALSE
+
 /datum/controller/subsystem/economy/proc/roll_single_event()
-	// Build eligible pool: any concrete subtype whose affected_goods don't overlap an active event's goods.
-	// initial() on list vars returns null in BYOND, so we temp-instantiate each candidate to inspect the list.
 	var/list/eligible = list()
 	for(var/path in subtypesof(/datum/economic_event))
 		var/datum/economic_event/probe = path
 		if(!initial(probe.name))
-			continue	// abstract
-		if(initial(probe.event_type) == ECON_EVENT_NARRATIVE)
-			continue	// narrative events don't roll in v1
+			continue
 		var/cooled_until = event_path_cooldowns[path]
 		if(cooled_until && ECONOMY_DAY < cooled_until)
 			continue
 		var/datum/economic_event/tentative = new path()
-		var/clash = FALSE
-		for(var/active in GLOB.active_economic_events)
-			var/datum/economic_event/A = active
-			for(var/good in tentative.affected_goods)
-				if(good in A.affected_goods)
-					clash = TRUE
-					break
-			if(clash)
-				break
-		qdel(tentative)
-		if(!clash)
+		if(!economic_event_clashes(tentative))
 			eligible += path
+		qdel(tentative)
 	if(!length(eligible))
 		return FALSE
 	var/chosen_path = pick(eligible)
@@ -161,10 +165,13 @@ SUBSYSTEM_DEF(economy)
 		if(E.day_expires <= ECONOMY_DAY)
 			expired += E
 	for(var/datum/economic_event/E as anything in expired)
-		E.on_expire()
-		GLOB.active_economic_events -= E
-		event_path_cooldowns[E.type] = ECONOMY_DAY + ECON_EVENT_REROLL_COOLDOWN_DAYS
-		record_round_statistic(STATS_ECON_EVENTS_EXPIRED, 1)
+		end_economic_event(E)
+
+/datum/controller/subsystem/economy/proc/end_economic_event(datum/economic_event/E)
+	E.on_expire()
+	GLOB.active_economic_events -= E
+	event_path_cooldowns[E.type] = ECONOMY_DAY + ECON_EVENT_REROLL_COOLDOWN_DAYS
+	record_round_statistic(STATS_ECON_EVENTS_EXPIRED, 1)
 
 /datum/controller/subsystem/economy/proc/good_steady_price(good_id)
 	var/datum/trade_good/tg = GLOB.trade_goods[good_id]

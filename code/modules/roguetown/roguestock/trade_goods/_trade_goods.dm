@@ -11,7 +11,6 @@
 	/// (not just exact matches). Used for goods that have many cosmetic/mechanical variants
 	/// that should all count as the same shipment - e.g. enchantment scrolls.
 	var/accept_subtypes = FALSE
-	var/global_price_mod = 1.0
 	var/derive_price = FALSE
 	var/crown_accepts = TRUE
 	/// Optional override for the market-pool ITEM_CAT_* this good's item_type maps to.
