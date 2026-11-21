@@ -1,8 +1,5 @@
 #define TAB_MAIN 1
-#define TAB_BANK 2
 #define TAB_FISCAL 6
-#define TAB_PAYDAY 7
-#define TAB_DEBT 8
 
 /obj/structure/roguemachine/steward
 	name = "nerve master"
@@ -19,7 +16,7 @@
 	var/locked = FALSE
 	var/keycontrol = "steward"
 	var/current_tab = TAB_MAIN
-	var/compact = TRUE
+	var/datum/steward_treasury_panel/treasury_panel
 	var/total_deposit = 0
 	var/list/excluded_jobs = list("Wretch","Vagabond","Adventurer")
 	var/list/daily_payments = list()
@@ -33,6 +30,10 @@
 	if(SStreasury.steward_machine == null) //The "only one" mapped in Nerve Master at map start
 		SStreasury.steward_machine = src
 	setup_default_payments()
+
+/obj/structure/roguemachine/steward/Destroy()
+	QDEL_NULL(treasury_panel)
+	return ..()
 
 //	For competence of life I will allow you,
 //	That lack of means enforce you not to evil:
@@ -118,56 +119,6 @@
 		return
 	if(href_list["switchtab"])
 		current_tab = text2num(href_list["switchtab"])
-	if(href_list["givemoney"])
-		var/X = locate(href_list["givemoney"])
-		if(!X)
-			return
-		for(var/mob/living/A in SStreasury.bank_accounts)
-			if(A == X)
-				var/newtax = input(usr, "How much to give [X]?", src) as null|num
-				if(!usr.canUseTopic(src, BE_CLOSE) || locked)
-					return
-				if(!isnull(newtax))
-					newtax = mammon_round(newtax)
-				if(!newtax)
-					return
-				if(newtax < 1)
-					return
-				SStreasury.give_money_account(newtax, A, "NERVE MASTER")
-				break
-	if(href_list["fineaccount"])
-		var/X = locate(href_list["fineaccount"])
-		if(!X)
-			return
-		if(!has_fiscal_authority(usr))
-			say("Only Crown officials can fine people.")
-			playsound(src, 'sound/misc/machineno.ogg', 100, FALSE, -1)
-			return
-		if(X == usr)
-			say("You can't fine yourself.")
-			playsound(src, 'sound/misc/machineno.ogg', 100, FALSE, -1)
-			return
-		for(var/mob/living/A in SStreasury.bank_accounts)
-			if(A == X)
-				var/max_fine = SStreasury.get_max_fine_for(A)
-				if(max_fine <= 0)
-					say("You can't fine [A]. They are exempt or their account is empty.")
-					playsound(src, 'sound/misc/machineno.ogg', 100, FALSE, -1)
-					return
-				var/newtax = input(usr, "How much to fine [A]? (Maximum [format_mammon(max_fine)]m)", src, max_fine) as null|num
-				if(!usr.canUseTopic(src, BE_CLOSE) || locked)
-					return
-				if(!isnull(newtax))
-					newtax = mammon_round(newtax)
-				if(!newtax)
-					return
-				if(newtax < 1)
-					return
-				if(newtax > max_fine)
-					newtax = max_fine
-					say("You can fine [A] at most [format_mammon(max_fine)]m. The fine is set to [format_mammon(max_fine)]m.")
-				SStreasury.give_money_account(-newtax, A, "NERVE MASTER")
-				break
 	if(href_list["printresidency"])
 		if(!usr.canUseTopic(src, BE_CLOSE) || locked)
 			return
@@ -195,145 +146,9 @@
 		SStreasury.stockpile_purchase_floor = new_floor
 		say("Treasury purchase floor set to [new_floor]m.")
 		log_game("PURCHASE FLOOR: [key_name(usr)] set stockpile purchase floor to [new_floor]m")
-	if(href_list["clearloandebtor"])
-		if(!usr.canUseTopic(src, BE_CLOSE) || locked)
-			return
-		var/list/debtors = list()
-		for(var/mob/living/carbon/human/H in GLOB.human_list)
-			if(HAS_TRAIT(H, TRAIT_DEBTOR))
-				debtors["[H.real_name]"] = H
-		if(!length(debtors))
-			say("No one is marked as a debtor.")
-			return
-		var/pick = input(usr, "Clear the defaulter mark from which debtor?", src) as null|anything in debtors
-		if(!pick)
-			return
-		if(!usr.canUseTopic(src, BE_CLOSE) || locked)
-			return
-		var/mob/living/carbon/human/target = debtors[pick]
-		if(!target || !HAS_TRAIT(target, TRAIT_DEBTOR))
-			return
-		REMOVE_TRAIT(target, TRAIT_DEBTOR, TRAIT_GENERIC)
-		var/datum/loan/forgiven = SStreasury.get_loan_for(target)
-		var/loan_amt = forgiven ? forgiven.get_remaining_due() : 0
-		if(forgiven)
-			SStreasury.write_off_loan(forgiven, "Debt forgiven by the Steward")
-			SStreasury.loans -= forgiven
-			qdel(forgiven)
-		SStreasury.clear_poll_levy_debt(target)
-		say("[target.real_name]'s debtor mark has been cleared and all Crown loans have been forgiven.")
-		log_game("DEBT FORGIVEN: [key_name(usr)] cleared debtor mark on [key_name(target)][loan_amt ? " (wrote off [loan_amt]m loan)" : ""]")
-		to_chat(target, span_notice("The Stewardry has cleared the defaulter mark from my name. My Crown debts are forgiven."))
-	if(href_list["clearpolllevy"])
-		if(!usr.canUseTopic(src, BE_CLOSE) || locked)
-			return
-		var/list/in_arrears = list()
-		for(var/mob/living/carbon/human/H in GLOB.human_list)
-			if(SStreasury.poll_levy_owed[H] || HAS_TRAIT(H, TRAIT_ARREARS))
-				in_arrears["[H.real_name]"] = H
-		if(!length(in_arrears))
-			say("No one owes poll levy.")
-			return
-		var/pick = input(usr, "Clear poll levy arrears for which subject?", src) as null|anything in in_arrears
-		if(!pick)
-			return
-		if(!usr.canUseTopic(src, BE_CLOSE) || locked)
-			return
-		var/mob/living/carbon/human/target = in_arrears[pick]
-		if(!target)
-			return
-		var/was_owed = SStreasury.poll_levy_owed[target] || 0
-		SStreasury.clear_poll_levy_debt(target)
-		say("[target.real_name]'s poll levy arrears have been cleared.")
-		log_game("POLL LEVY CLEARED: [key_name(usr)] cleared [was_owed]m poll levy arrears on [key_name(target)]")
-		to_chat(target, span_notice("The Stewardry has cleared my poll levy arrears."))
-	if(href_list["payroll"])
-		var/list/L = list(GLOB.noble_positions) + list(GLOB.retinue_positions) + list(GLOB.garrison_positions) + list(GLOB.courtier_positions) + list(GLOB.church_positions) + list(GLOB.burgher_positions) + list(GLOB.atc_positions) + list(GLOB.peasant_positions) + list(GLOB.sidefolk_positions) + list(GLOB.inquisition_positions)
-		var/list/things = list()
-		for(var/list/category in L)
-			for(var/A in category)
-				things += A
-		var/job_to_pay = input(usr, "Select a job", src) as null|anything in things
-		if(!job_to_pay)
-			return
-		if(!usr.canUseTopic(src, BE_CLOSE) || locked)
-			return
-		var/amount_to_pay = input(usr, "How much to pay each [job_to_pay]?", src) as null|num
-		if(!amount_to_pay)
-			return
-		if(amount_to_pay<1)
-			return
-		if(!usr.canUseTopic(src, BE_CLOSE) || locked)
-			return
-		if(!isnull(amount_to_pay))
-			amount_to_pay = mammon_round(amount_to_pay)
-		for(var/mob/living/carbon/human/H in GLOB.human_list)
-			if(H.job == job_to_pay)
-				if(SStreasury.give_money_account(amount_to_pay, H, "NERVE MASTER", is_salary = TRUE))
-					record_round_statistic(STATS_WAGES_PAID, amount_to_pay)
-	if(href_list["setdailypay"])
-		var/list/L = list(GLOB.noble_positions) + list(GLOB.retinue_positions) + list(GLOB.garrison_positions) + list(GLOB.courtier_positions) + list(GLOB.church_positions) + list(GLOB.burgher_positions) + list(GLOB.atc_positions) + list(GLOB.peasant_positions) + list(GLOB.sidefolk_positions) + list(GLOB.inquisition_positions)
-		var/list/things = list()
-		for(var/list/category in L)
-			for(var/A in category)
-				things += A
-		var/job_to_pay = input(usr, "Select a job", src) as null|anything in things
-		if(!job_to_pay)
-			return
-		if(!usr.canUseTopic(src, BE_CLOSE) || locked)
-			return
-		var/wage_floor = SStreasury.get_wage_floor(job_to_pay)
-		var/prompt = wage_floor > 0 ? "Set the daily payment for [job_to_pay]. A Charter requires at least [wage_floor]m." : "Set the daily payment for [job_to_pay] (0 to remove)."
-		var/amount_to_pay = input(usr, prompt, src, daily_payments[job_to_pay] ? daily_payments[job_to_pay] : wage_floor) as null|num
-		if(!usr.canUseTopic(src, BE_CLOSE) || locked)
-			return
-		if(!isnull(amount_to_pay))
-			amount_to_pay = mammon_round(amount_to_pay)
-		if(isnull(amount_to_pay))
-			return
-		amount_to_pay = CLAMP(amount_to_pay, 0, 999)
-		if(wage_floor > 0 && amount_to_pay < wage_floor)
-			amount_to_pay = wage_floor
-			say("A Charter requires at least [wage_floor]m for [job_to_pay]. Payment set to [wage_floor]m.")
-		if(amount_to_pay == 0)
-			daily_payments -= job_to_pay
-			say("Daily payment for [job_to_pay] removed.")
-		else
-			daily_payments[job_to_pay] = amount_to_pay
-			say("Daily payment for [job_to_pay] set to [amount_to_pay]m.")
-	if(href_list["removedailypay"])
-		var/job_to_remove = href_list["removedailypay"]
-		var/removal_floor = SStreasury.get_wage_floor(job_to_remove)
-		if(removal_floor > 0)
-			daily_payments[job_to_remove] = removal_floor
-			say("A Charter requires at least [removal_floor]m for [job_to_remove], so you can't remove it. Payment set to [removal_floor]m.")
-		else
-			daily_payments -= job_to_remove
-			say("Daily payment for [job_to_remove] removed.")
-	if(href_list["togglewages"])
-		var/mob/living/carbon/human/A = locate(href_list["togglewages"])
-		if(!istype(A))
-			return
-		if(!has_fiscal_authority(usr))
-			say("Only Crown officials can suspend wages.")
-			playsound(src, 'sound/misc/machineno.ogg', 100, FALSE, -1)
-			return
-		var/datum/fund/account = SStreasury.bank_accounts[A]
-		if(!account)
-			return
-		var/has_wage = (daily_payments[A.job] > 0)
-		if(account.wages_suspended)
-			account.wages_suspended = FALSE
-			say("[A.real_name]'s wages have been reinstated.")
-			if(has_wage)
-				to_chat(A, span_notice("My wages have been reinstated by the Stewardry."))
-		else
-			account.wages_suspended = TRUE
-			say("[A.real_name]'s wages have been suspended.")
-			if(has_wage)
-				to_chat(A, span_danger("My wages have been suspended by the Stewardry!"))
-	if(href_list["compact"])
-		compact = !compact
+	if(href_list["treasury_tgui"])
+		open_treasury_tgui(usr)
+		return
 	if(href_list["trade_tgui"])
 		open_trade_tgui(usr)
 		return
@@ -355,114 +170,12 @@
 		if(TAB_MAIN)
 			contents += "<center>NERVE MASTER<BR>"
 			contents += "--------------<BR>"
-			contents += "<a href='?src=\ref[src];switchtab=[TAB_BANK]'>\[Bank\]</a><BR>"
+			contents += "<a href='?src=\ref[src];treasury_tgui=1'>\[Treasury\]</a><BR>"
 			contents += "<a href='?src=\ref[src];trade_tgui=1'>\[Trade & Stockpile\]</a><BR>"
-			contents += "<a href='?src=\ref[src];switchtab=[TAB_PAYDAY]'>\[Daily Payments\]</a><BR>"
 			contents += "<a href='?src=\ref[src];switchtab=[TAB_FISCAL]'>\[Fiscal Ledger\]</a><BR>"
-			contents += "<a href='?src=\ref[src];switchtab=[TAB_DEBT]'>\[Debts &amp; Arrears\]</a><BR>"
 			contents += "<a href='?src=\ref[src];printresidency=1'>\[Print Letter of Citizenry\]</a><BR>"
 			contents += "<a href='?src=\ref[src];setpurchasefloor=1'>\[Purchase Floor: [SStreasury.stockpile_purchase_floor]m\]</a><BR>"
 			contents += "</center>"
-		if(TAB_BANK)
-			contents += "<a href='?src=\ref[src];switchtab=[TAB_MAIN]'>\[Return\]</a>"
-			contents += " <a href='?src=\ref[src];compact=1'>\[Compact: [compact? "ENABLED" : "DISABLED"]\]</a><BR>"
-			contents += "<center>Bank<BR>"
-			contents += "--------------<BR>"
-			contents += "Treasury: [format_mammon(SStreasury.discretionary_fund.balance)]m</center><BR>"
-			contents += "<a href='?src=\ref[src];payroll=1'>\[Pay by Class\]</a><BR><BR>"
-			// Collect all accounts, sort debtors/arrears first, then rest.
-			var/list/priority_accounts = list() // debtors or in arrears
-			var/list/normal_accounts = list()
-			for(var/mob/living/carbon/human/A in SStreasury.bank_accounts)
-				var/owed = SStreasury.poll_levy_owed[A] || 0
-				var/is_debtor = HAS_TRAIT(A, TRAIT_DEBTOR)
-				if(is_debtor || owed > 0)
-					priority_accounts += A
-				else
-					normal_accounts += A
-			var/show_fiscal_actions = has_fiscal_authority(user)
-			for(var/mob/living/carbon/human/A in priority_accounts + normal_accounts)
-				var/balance = SStreasury.get_balance(A)
-				var/max_fine = SStreasury.get_max_fine_for(A)
-				var/datum/fund/A_account = SStreasury.bank_accounts[A]
-				var/A_suspended = A_account?.wages_suspended ? TRUE : FALSE
-				var/wage_status_short = A_suspended ? "UNSUSPEND" : "SUSPEND"
-				var/wage_status_long = A_suspended ? "Reinstate Wages" : "Suspend Wages"
-				var/fine_label = max_fine > 0 ? "FINE (Max [format_mammon(max_fine)]m)" : "FINE (exempt)"
-				var/fine_long_label = max_fine > 0 ? "Fine Account (Max [format_mammon(max_fine)]m)" : "Fine Account (exempt)"
-				var/poll_owed = SStreasury.poll_levy_owed[A] || 0
-				var/a_is_debtor = HAS_TRAIT(A, TRAIT_DEBTOR)
-				var/debt_tag = ""
-				if(a_is_debtor)
-					var/owed_str = poll_owed > 0 ? ", owes [poll_owed]m" : ""
-					debt_tag = " <font color='#d9534f'>\[DEBTOR[owed_str]\]</font>"
-				else if(poll_owed > 0)
-					debt_tag = " <font color='#e07b39'>\[ARREARS: [poll_owed]m\]</font>"
-				if(compact)
-					if(ishuman(A))
-						var/mob/living/carbon/human/tmp = A
-						contents += "[tmp.real_name] ([job_filter(tmp.advjob, tmp.job, compact)]) - [format_mammon(balance)]m[debt_tag]"
-					else
-						contents += "[A.real_name] - [format_mammon(balance)]m[debt_tag]"
-					contents += " / <a href='?src=\ref[src];givemoney=\ref[A]'>\[PAY\]</a>"
-					if(show_fiscal_actions)
-						contents += " <a href='?src=\ref[src];fineaccount=\ref[A]'>\[[fine_label]\]</a> <a href='?src=\ref[src];togglewages=\ref[A]'>\[[wage_status_short]\]</a>"
-					contents += "<BR><BR>"
-				else
-					if(ishuman(A))
-						var/mob/living/carbon/human/tmp = A
-						contents += "[tmp.real_name] ([job_filter(tmp.advjob, tmp.job, compact)]) - [format_mammon(balance)]m[debt_tag]<BR>"
-					else
-						contents += "[A.real_name] - [format_mammon(balance)]m[debt_tag]<BR>"
-					contents += "<a href='?src=\ref[src];givemoney=\ref[A]'>\[Give Money\]</a>"
-					if(show_fiscal_actions)
-						contents += " <a href='?src=\ref[src];fineaccount=\ref[A]'>\[[fine_long_label]\]</a> <a href='?src=\ref[src];togglewages=\ref[A]'>\[[wage_status_long]\]</a>"
-					contents += "<BR><BR>"
-		if(TAB_DEBT)
-			contents += "<a href='?src=\ref[src];switchtab=[TAB_MAIN]'>\[Return\]</a><BR>"
-			contents += "<center>Debts &amp; Arrears<BR>"
-			contents += "--------------<BR>"
-			contents += "Treasury: [format_mammon(SStreasury.discretionary_fund.balance)]m</center><BR>"
-			// ── Active Loans ──────────────────────────────────────────────────
-			if(length(SStreasury.loans))
-				var/crown_loans = 0
-				var/crown_loan_content = ""
-				for(var/datum/loan/L in SStreasury.loans)
-					if(L.source_fund == SStreasury.discretionary_fund)
-						crown_loans++
-						var/loan_color = L.defaulted ? "#d9534f" : "#e07b39"
-						crown_loan_content += "<font color='[loan_color]'>[L.format()]</font><BR>"
-				contents += "<b>Active Crown Loans ([crown_loans]):</b><BR>"
-				contents += crown_loan_content
-				contents += "<BR>"
-			else
-				contents += "<i>No active loans.</i><BR><BR>"
-			// ── Poll Levy Arrears & Debtors ────────────────────────────────────
-			var/list/debt_rows = list()
-			for(var/mob/living/carbon/human/A in SStreasury.bank_accounts)
-				var/poll_owed = SStreasury.poll_levy_owed[A] || 0
-				var/is_debtor = HAS_TRAIT(A, TRAIT_DEBTOR)
-				if(poll_owed > 0 || is_debtor)
-					debt_rows += A
-			if(length(debt_rows))
-				contents += "<b>Poll Levy Debtors / Arrears ([length(debt_rows)]):</b><BR>"
-				for(var/mob/living/carbon/human/A in debt_rows)
-					var/poll_owed = SStreasury.poll_levy_owed[A] || 0
-					var/is_debtor = HAS_TRAIT(A, TRAIT_DEBTOR_CROWN)
-					var/balance = SStreasury.get_balance(A)
-					if(is_debtor)
-						var/owed_str = poll_owed > 0 ? ", owes [poll_owed]m" : ""
-						contents += "<font color='#d9534f'><b>[A.real_name]</b> \[DEBTOR[owed_str]\]</font> - balance: [format_mammon(balance)]m"
-					else
-						contents += "<font color='#e07b39'><b>[A.real_name]</b> \[ARREARS: [poll_owed]m\]</font> - balance: [format_mammon(balance)]m"
-					contents += "<BR>"
-				contents += "<BR>"
-			else
-				contents += "<i>No poll levy arrears.</i><BR><BR>"
-			contents += "<a href='?src=\ref[src];clearloandebtor=1'>\[Clear Defaulter Mark\]</a><BR>"
-			contents += "<font color='gray'><i>(Forgives their loan and poll levy arrears and removes the defaulter mark.)</i></font><BR>"
-			contents += "<a href='?src=\ref[src];clearpolllevy=1'>\[Clear Poll Levy Obligation\]</a><BR>"
-			contents += "<font color='gray'><i>(Wipes a subject's poll levy arrears.)</i></font><BR>"
 		if(TAB_FISCAL)
 			contents += "<a href='?src=\ref[src];switchtab=[TAB_MAIN]'>\[Return\]</a><BR>"
 			var/list/snap = SStreasury.compute_fiscal_snapshot()
@@ -601,41 +314,6 @@
 			contents += "<td align='right'><b>[GLOB.azure_round_stats[STATS_CONTRACTS_TAKEN]]</b></td>"
 			contents += "<td align='right'><b><font color='#5cb85c'>[GLOB.azure_round_stats[STATS_CONTRACTS_COMPLETED]]</font></b></td></tr>"
 			contents += "</table>"
-		if(TAB_PAYDAY)
-			contents += "<a href='?src=\ref[src];switchtab=[TAB_MAIN]'>\[Return\]</a><BR>"
-			contents += "<center>Daily Payments<BR>"
-			contents += "--------------<BR>"
-			contents += "Treasury: [format_mammon(SStreasury.discretionary_fund.balance)]m<BR>"
-			var/list/headcount_by_job = list()
-			for(var/mob/living/o as anything in SStreasury.bank_accounts)
-				if(!o || !daily_payments[o.job])
-					continue
-				var/datum/fund/acct = SStreasury.bank_accounts[o]
-				if(!acct || acct.wages_suspended)
-					continue
-				headcount_by_job[o.job] = (headcount_by_job[o.job] || 0) + 1
-			var/total_payroll = 0
-			for(var/job_name in daily_payments)
-				var/amt = daily_payments[job_name]
-				var/count = headcount_by_job[job_name] || 0
-				total_payroll += amt * count
-			contents += "Projected Daily Payroll: [total_payroll]m</center><BR>"
-			contents += "<a href='?src=\ref[src];setdailypay=1'>\[Add/Modify Job Payment\]</a><BR><BR>"
-			if(daily_payments.len)
-				contents += "<center>Current Payments:</center><BR>"
-				for(var/job_name in daily_payments)
-					var/amt = daily_payments[job_name]
-					var/count = headcount_by_job[job_name] || 0
-					var/job_floor = SStreasury.get_wage_floor(job_name)
-					contents += "<b>[job_name]:</b> [amt]m/day"
-					if(job_floor > 0)
-						contents += " <font color='#e07b39'>\[Charter minimum: [job_floor]m\]</font>"
-					if(count > 0)
-						contents += " ([count] employed, [amt * count]m total/day)"
-					contents += " <a href='?src=\ref[src];removedailypay=[job_name]'>\[Remove\]</a><BR>"
-			else
-				contents += "<center>No daily payments set.</center><BR>"
-
 	if(!canread)
 		contents = stars(contents)
 	var/datum/browser/popup = new(user, "VENDORTHING", "", 700, 800)
@@ -657,7 +335,4 @@
 		return advj
 
 #undef TAB_MAIN
-#undef TAB_BANK
 #undef TAB_FISCAL
-#undef TAB_PAYDAY
-#undef TAB_DEBT

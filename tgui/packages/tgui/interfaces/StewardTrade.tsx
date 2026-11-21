@@ -4,6 +4,7 @@ import { useBackend } from '../backend';
 import { Window } from '../layouts';
 import { formatMammon } from './common/format';
 import {
+  compactButtonStyle,
   INK_SOFT,
   pageStyle,
   SEAL_AMBER,
@@ -96,6 +97,13 @@ export const StewardTrade = () => {
                   {formatMammon(net)}m
                 </span>
               </span>
+              <button
+                type="button"
+                onClick={() => act('open_treasury')}
+                style={compactButtonStyle()}
+              >
+                Treasury
+              </button>
             </div>
           </div>
 

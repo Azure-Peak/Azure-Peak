@@ -550,6 +550,9 @@ GLOBAL_LIST_INIT(steward_trade_sequestration_locked_actions, list(
 	if(action in GLOB.steward_trade_sequestration_locked_actions)
 		SStreasury.dirty_market_view()
 	switch(action)
+		if("open_treasury")
+			open_treasury_tgui(usr)
+			return TRUE
 		if("sell_to_market")
 			var/quantity = text2num("[params["quantity"]]")
 			if(quantity)
