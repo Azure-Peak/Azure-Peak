@@ -1,0 +1,4 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - rscadd: "You may wear mercenary medals in every slot. It is no longer for sale on Etruscan or Ranesheni ships"
