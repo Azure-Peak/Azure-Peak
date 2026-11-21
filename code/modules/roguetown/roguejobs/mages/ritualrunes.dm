@@ -491,7 +491,7 @@ GLOBAL_LIST_INIT(t4rune_types, generate_t4rune_types())
 				familiar_names+=famcand.client.prefs.familiar_prefs.familiar_names[plane]
 				var/fam_species = GLOB.familiar_display_names[famcand.client.prefs.familiar_prefs.familiar_species[plane]]
 				familiar_choices+="[famcand.client.prefs.familiar_prefs.familiar_names[plane]] ([fam_species])"
-			var/pretty_choice = input(user,"Select a familiar candidate to summon","ACROSS THE VEIL") as anything in familiar_choices
+			var/pretty_choice = tgui_input_list(user,"Select a familiar candidate to summon","ACROSS THE VEIL", familiar_choices)
 			var/chosen_name = familiar_names[familiar_choices.Find(pretty_choice)] // if two people have the same familar name uhh idk lmao
 			for(var/mob/familiarcandidate in preferred_candidates)
 				if(familiarcandidate.client.prefs.familiar_prefs.familiar_names[plane]==chosen_name)
@@ -582,7 +582,7 @@ GLOBAL_LIST_INIT(t4rune_types, generate_t4rune_types())
 
 /obj/effect/decal/cleanable/roguerune/arcyne/binding/attack_right(mob/user)
 	. = ..()
-	if(summoned_mob && (input(user,"Would you like to cancel this summoning attempt?","Fallback","No") as anything in list("Yes","No") | null)=="Yes")
+	if(summoned_mob && (tgui_input_list(user,"Would you like to cancel this summoning attempt?","Fallback", list("Yes", "No"),"No") | null)=="Yes")
 		busy = FALSE
 		if(istype(summoned_mob,/mob/living/carbon/human/species/familiar/void))
 			var/static/list/refund_costs = list(/obj/item/magic/artifact = 1, /obj/item/magic/voidstone = 2, /obj/item/magic/leyline = 1)

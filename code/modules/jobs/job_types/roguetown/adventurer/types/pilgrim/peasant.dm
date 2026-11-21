@@ -70,7 +70,7 @@
 		for (var/name in seeds)
 			seedbag_names += name
 		for (var/i = 1 to 2)
-			var/seed_choice = input(H, "Choose your starting seed packs", "Select") as anything in seedbag_names
+			var/seed_choice = tgui_input_list(H, "Choose your starting seed packs", "Select", seedbag_names)
 			if (i == 1)
 				l_hand = seeds[seed_choice]
 			else

@@ -98,7 +98,7 @@
 	. = ..()
 	var/obj/item/held_item = user.get_active_held_item()
 	if(held_item?.type == /obj/item/rogueweapon/contraption/linker)
-		var/rotateoption = input(user, "Do you want to rotate the tracks or its triggered rotation?", "Choose a your mode", ) as null|anything in list("rotate","trigger")
+		var/rotateoption = tgui_input_list(user, "Do you want to rotate the tracks or its triggered rotation?", "Choose your mode", null|list("rotate","trigger"))
 		if(rotateoption == "rotate")
 			rotate_direction(user)
 			return
@@ -112,7 +112,7 @@
 
 /obj/structure/minecart_rail/proc/triggered_rotate_direction(mob/user)
 	var/list/triggeredchoices = list("Downwards Left Turn", "Downwards Right Turn", "Upwards Left Turn", "Upwards Right Turn", "Up and Down", "Left and Right")
-	var/triggeredchoice = input(user, "Rotate the rail towards a direction when triggered.", "Choose a Direction") as null|anything in triggeredchoices
+	var/triggeredchoice = tgui_input_list(user, "Rotate the rail towards a direction when triggered.", "Choose a Direction", triggeredchoices)
 	if(!triggeredchoice)
 		return
 	playsound(src, 'sound/misc/ratchet.ogg', 20, TRUE)
@@ -121,7 +121,7 @@
 
 /obj/structure/minecart_rail/proc/rotate_direction(mob/user)
 	var/list/choices = list("Downwards Left Turn", "Downwards Right Turn", "Upwards Left Turn", "Upwards Right Turn", "Up and Down", "Left and Right")
-	var/choice = input(user, "Choose a direction to move to", "Choose a Direction", ) as null|anything in choices
+	var/choice = tgui_input_list(user, "Choose a direction to move to", "Choose a Direction", choices)
 	if(!choice)
 		return
 	playsound(src, 'sound/misc/ratchet.ogg', 20, TRUE)

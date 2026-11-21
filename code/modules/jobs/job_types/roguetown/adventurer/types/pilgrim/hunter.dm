@@ -71,7 +71,7 @@
 		SStreasury.grant_savings(ECONOMIC_LOWER_CLASS, H)
 	if(H.mind)
 		var/weapons = list("Bow","Heavy Crossbow","Light Crossbow")
-		var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
+		var/weapon_choice = tgui_input_list(H, "Choose your weapon.", "TAKE UP ARMS", weapons)
 		H.set_blindness(0)
 		switch(weapon_choice)
 			if("Bow")

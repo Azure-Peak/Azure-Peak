@@ -57,7 +57,7 @@
 		H.mind.teach_crafting_recipe(/datum/crafting_recipe/roguetown/leather/unique/monkrobes)//Generic
 //Seamster should get the local stuff, makes sense really.
 		var/regions = list("The Familiar", "The Unfamiliar")
-		var/regional_specilization = input(H, "Choose your specilization.", "TAKE UP NEEDLE") as anything in regions
+		var/regional_specilization = tgui_input_list(H, "Choose your specilization.", "TAKE UP NEEDLE", regions)
 		H.set_blindness(0)
 		switch(regional_specilization)
 			if("The Familiar")

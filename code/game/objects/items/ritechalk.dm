@@ -51,7 +51,7 @@
 	if(HAS_TRAIT(user, TRAIT_DREAMWALKER) && !("Rune of Stirring" in ritechoices))
 		ritechoices+="Rune of Stirring"
 
-	var/runeselection = input(user, "Which rune shall I inscribe?", src) as null|anything in ritechoices
+	var/runeselection = tgui_input_list(user, "Which rune shall I inscribe?", src, null|ritechoices)
 	var/turf/step_turf = get_step(get_turf(user), user.dir)
 	switch(runeselection)
 		if("Rune of Sun")

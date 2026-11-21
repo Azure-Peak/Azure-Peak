@@ -118,7 +118,7 @@
 /datum/outfit/job/roguetown/sojourner/choose_loadout(mob/living/carbon/human/H)
 	. = ..()
 	var/list/armor_choices = list("Light Armor", "Bare Skin (Sewing Repair)", "Bare Skin (Meditation Repair)")
-	var/armor_choice = input(H,"Choose your DEFENSE.", "HOW WILL YOU ENDURE?") as anything in armor_choices
+	var/armor_choice = tgui_input_list(H,"Choose your DEFENSE.", "HOW WILL YOU ENDURE?", armor_choices)
 	switch(armor_choice)
 		if("Light Armor")
 			H.equip_to_slot_or_del(new /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/pontifex, SLOT_ARMOR, TRUE)

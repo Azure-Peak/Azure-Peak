@@ -50,7 +50,7 @@
 
 /datum/action/cooldown/spell/conjure_instrument/cast(list/targets, mob/living/user = usr)
 	. = ..()
-	var/instrument_choice = input(user, "Choose a instrument", "Conjure Instrument") as anything in instrument
+	var/instrument_choice = tgui_input_list(user, "Choose a instrument", "Conjure Instrument", instrument)
 	if(!instrument_choice)
 		return
 	if(src.conjured_instrument)

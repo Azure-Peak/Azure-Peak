@@ -44,7 +44,7 @@
 
 /obj/item/rogueweapon/contraption/bronzeprosthetic/attack_self(mob/user)
 	. = ..()
-	var/choice = input(user, "Choose the side and the limb") as null|anything in list("Left Arm", "Right Arm", "Left Leg", "Right Leg", "Cancel")
+	var/choice = tgui_input_list(user, "Choose the side and the limb", "make your choice", null|list("Left Arm", "Right Arm", "Left Leg", "Right Leg", "Cancel"))
 	switch(choice)
 		if("Cancel")
 			return
@@ -69,7 +69,7 @@
 
 /obj/item/rogueweapon/contraption/ironprosthetic/attack_self(mob/user)
 	. = ..()
-	var/choice = input(user, "Choose the side and the limb") as null|anything in list("Left Arm", "Right Arm", "Left Leg", "Right Leg", "Cancel")
+	var/choice = tgui_input_list(user, "Choose the side and the limb", "make your choice", null|list("Left Arm", "Right Arm", "Left Leg", "Right Leg", "Cancel"))
 	switch(choice)
 		if("Cancel")
 			return
@@ -94,7 +94,7 @@
 
 /obj/item/rogueweapon/contraption/steelprosthetic/attack_self(mob/user)
 	. = ..()
-	var/choice = input(user, "Choose the side and the limb") as null|anything in list("Left Arm", "Right Arm", "Left Leg", "Right Leg", "Cancel")
+	var/choice = tgui_input_list(user, "Choose the side and the limb", "make your choice", list("Left Arm", "Right Arm", "Left Leg", "Right Leg", "Cancel"))
 	switch(choice)
 		if("Cancel")
 			return
@@ -119,7 +119,7 @@
 
 /obj/item/rogueweapon/contraption/goldprosthetic/attack_self(mob/user)
 	. = ..()
-	var/choice = input(user, "Choose the side and the limb") as null|anything in list("Left Arm", "Right Arm", "Left Leg", "Right Leg", "Cancel")
+	var/choice = tgui_input_list(user, "Choose the side and the limb", "make your choice", null|list("Left Arm", "Right Arm", "Left Leg", "Right Leg", "Cancel"))
 	switch(choice)
 		if("Cancel")
 			return

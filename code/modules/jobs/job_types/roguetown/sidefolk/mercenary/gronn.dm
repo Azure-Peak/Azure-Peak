@@ -58,7 +58,7 @@
 	H.adjust_blindness(-3)
 	if(H.mind)
 		var/classes = list("Leðurháls - Byrine Grunt", "Skemmdarvargur - Ravager")
-		var/classchoice = input(H, "Choose your archetypes", "Available archetypes") as anything in classes
+		var/classchoice = tgui_input_list(H, "Choose your archetypes", "Available archetypes", classes)
 
 		switch(classchoice)
 			if("Leðurháls - Byrine Grunt")	//Medium armor, pick between swords or axes. Boots-on-the-ground for hire.
@@ -113,7 +113,7 @@
 				ADD_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_GENERIC)
 				H.dna.species.soundpack_m = GLOB.voice_packs[/datum/voicepack/male/evil] //Dodge builds are evil
 				var/weapons = list("Handclaws","Dual Handaxes")
-				var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
+				var/weapon_choice = tgui_input_list(H, "Choose your weapon.", "TAKE UP ARMS", weapons)
 				if(H.mind)
 					switch(weapon_choice)
 						if("Handclaws")

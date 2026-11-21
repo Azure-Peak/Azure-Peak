@@ -270,7 +270,7 @@
 		if(user.has_status_effect(buff))
 			to_chat(user, span_warning("You can only bear one planar pact at a time!"))
 			return FALSE
-	var/pretty_choice = input(user, "Choose a pact:","ACROSS THE VEIL") as anything in pretty_buff_names
+	var/pretty_choice = tgui_input_list(user, "Choose a pact:","ACROSS THE VEIL", pretty_buff_names)
 	var/datum/status_effect/buff/familiar/chosen_buff = planar_buffs[pretty_buff_names.Find(pretty_choice)]
 	if(!chosen_buff)
 		return FALSE

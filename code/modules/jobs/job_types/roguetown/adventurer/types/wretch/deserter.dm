@@ -77,7 +77,7 @@
 			"Grand Mace",
 			"Polehammer"
 		)
-		var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
+		var/weapon_choice = tgui_input_list(H, "Choose your weapon.", "TAKE UP ARMS", weapons)
 		H.set_blindness(0)
 		switch(weapon_choice)
 			if("Estoc")
@@ -157,7 +157,7 @@
 			"Snouted Roundface Bascinet"	= /obj/item/clothing/head/roguetown/helmet/bascinet/pigface/roundface/snouted,
 			"None"
 		)
-		var/helmchoice = input(H, "Choose your Helm.", "TAKE UP HELMS") as anything in helmets
+		var/helmchoice = tgui_input_list(H, "Choose your Helm.", "TAKE UP HELMS", helmets)
 		if(helmchoice != "None")
 			head = helmets[helmchoice]
 
@@ -173,7 +173,7 @@
 			"Lamellar Scalemail"		= /obj/item/clothing/suit/roguetown/armor/plate/scale/steppe,
 			"Haraate Brigandine"		= /obj/item/clothing/suit/roguetown/armor/brigandine/haraate,
 		)
-		var/armorchoice = input(H, "Choose your armor.", "TAKE UP ARMOR") as anything in armors
+		var/armorchoice = tgui_input_list(H, "Choose your armor.", "TAKE UP ARMOR", armors)
 		armor = armors[armorchoice]
 		wretch_select_bounty(H)
 	gloves = /obj/item/clothing/gloves/roguetown/plate
@@ -246,7 +246,7 @@
 	..()
 	if(H.mind)
 		var/weapons = list("Warhammer & Shield","Sabre & Shield","Axe & Shield","Billhook","Greataxe","Halberd","Crossbow")
-		var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
+		var/weapon_choice = tgui_input_list(H, "Choose your weapon.", "TAKE UP ARMS", weapons)
 		H.set_blindness(0)
 		switch(weapon_choice)
 			if("Warhammer & Shield")
@@ -297,7 +297,7 @@
 			"Snouted Visored Sallet"		= /obj/item/clothing/head/roguetown/helmet/sallet/visored/snouted,
 			"Knight's Helmet"	= /obj/item/clothing/head/roguetown/helmet/heavy/knight/old,
 		)
-		var/helmchoice = input(H, "Choose your Helm.", "TAKE UP HELMS") as anything in helmets
+		var/helmchoice = tgui_input_list(H, "Choose your Helm.", "TAKE UP HELMS", helmets)
 		head = helmets[helmchoice]
 
 		var/armors = list(
@@ -305,11 +305,11 @@
 			"Brigandine"		= /obj/item/clothing/suit/roguetown/armor/brigandine,
 			"Scalemail"			= /obj/item/clothing/suit/roguetown/armor/plate/scale,
 		)
-		var/armorchoice = input(H, "Choose your armor.", "TAKE UP ARMOR") as anything in armors
+		var/armorchoice = tgui_input_list(H, "Choose your armor.", "TAKE UP ARMOR", armors)
 		armor = armors[armorchoice]
 
 		var/cloaks = list("Bog Green","Black","Brown and Longcoat")
-		var/cloak_choice = input(H, "Choose your cloak.", "FOR THE BOG") as anything in cloaks
+		var/cloak_choice = tgui_input_list(H, "Choose your cloak.", "FOR THE BOG", cloaks)
 		switch(cloak_choice)
 			if("Bog Green")
 				cloak = /obj/item/clothing/cloak/tabard/stabard/bog
@@ -355,7 +355,7 @@
 	if(!length(recruitment))
 		to_chat(user, span_warning("There are no potential recruits in range."))
 		return
-	var/inputty = input(user, "Select a potential recruit!", "[name]") as anything in recruitment
+	var/inputty = tgui_input_list(user, "Select a potential recruit!", "[name]", recruitment)
 	if(inputty)
 		var/mob/living/carbon/human/recruit = recruitment[inputty]
 		if(!QDELETED(recruit) && (recruit in get_hearers_in_view(recruitment_range, user)))

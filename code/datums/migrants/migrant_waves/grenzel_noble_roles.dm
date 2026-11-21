@@ -127,7 +127,7 @@
 	var/weapons = list("Zweihander","Kriegmesser & Buckler","Halberd","Partizan")
 	var/weapon_choice
 	if(H.client)
-		weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
+		weapon_choice = tgui_input_list(H, "Choose your weapon.", "TAKE UP ARMS", weapons)
 	if(!weapon_choice)
 		weapon_choice = "Zweihander"
 	H.set_blindness(0)

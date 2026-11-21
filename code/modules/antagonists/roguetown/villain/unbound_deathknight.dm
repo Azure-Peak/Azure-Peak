@@ -152,11 +152,11 @@
 		"Etruscan Bascinet" = /obj/item/clothing/head/roguetown/helmet/bascinet/etruscan/black,
 		"Slitted Kettle"	= /obj/item/clothing/head/roguetown/helmet/heavy/knight/skettle/black,
 	)
-	var/helmchoice = input(H, "Choose your Helm.", "TAKE UP HELMS") as anything in helmets
+	var/helmchoice = tgui_input_list(H, "Choose your Helm.", "TAKE UP HELMS", helmets)
 	if(helmchoice != "None")
 		head = helmets[helmchoice]
 
-	var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in list("Longsword", "Warhammer", "Halberd")
+	var/weapon_choice = tgui_input_list(H, "Choose your weapon.", "TAKE UP ARMS", list("Longsword", "Warhammer", "Halberd"))
 	switch(weapon_choice)
 		if("Longsword")
 			beltl = /obj/item/rogueweapon/scabbard/sword

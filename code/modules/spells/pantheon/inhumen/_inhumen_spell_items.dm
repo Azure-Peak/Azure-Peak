@@ -615,11 +615,11 @@ GLOBAL_LIST_INIT(da_bubbles, list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 		to_chat(user, span_warning("The vial contains no transactable value."))
 		return
 
-	var/choice = input(user, "How shall the First Law resolve?", "First Law") as null|anything in list(
+	var/choice = tgui_input_list(user, "How shall the First Law resolve?", "First Law", null|list(
 		"Coin begets Coin!",
 		"Return as Stones",
 		"Cancel"
-	)
+	))
 
 	if(!choice || choice == "Cancel")
 		return
@@ -802,7 +802,7 @@ GLOBAL_LIST_INIT(da_bubbles, list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 		"Meat Handpie" = /obj/item/reagent_containers/food/snacks/rogue/handpie/meat,
 	)
 
-	var/choice = input(user, "What form shall your greed take?", "Kingsfeast") as null|anything in options
+	var/choice = tgui_input_list(user, "What form shall your greed take?", "Kingsfeast", null|options)
 	if(!choice)
 		return
 

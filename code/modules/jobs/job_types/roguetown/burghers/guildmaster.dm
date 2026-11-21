@@ -96,7 +96,7 @@
 		beltl = /obj/item/storage/belt/rogue/pouch/coins/rich
 		beltr = /obj/item/storage/keyring/guildmaster
 		var/wrenches = list("Compact Golden Wrench", "Massive Golden Wrench")
-		var/wrench_choice = input(H, "Choose your wrench.", "SYMBOL OF OFFICE") as anything in wrenches
+		var/wrench_choice = tgui_input_list(H, "Choose your wrench.", "SYMBOL OF OFFICE", wrenches)
 		switch(wrench_choice)
 			if("Compact Golden Wrench")
 				r_hand = /obj/item/rogueweapon/contraption/linker/mace/master

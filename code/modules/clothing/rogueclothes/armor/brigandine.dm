@@ -27,7 +27,7 @@
 	if(detail_tag)
 		return
 	var/the_time = world.time
-	var/pickedcolor = input(user, "Select a color.","Brigandine Color") as null|anything in COLOR_MAP
+	var/pickedcolor = tgui_input_list(user, "Select a color.","Brigandine Color", null|COLOR_MAP)
 	if(!pickedcolor)
 		return
 	if(world.time > (the_time + 30 SECONDS))
@@ -101,7 +101,7 @@
 	if(detail_tag)
 		return
 	var/the_time = world.time
-	var/pickedcolor = input(user, "Select a color.","Brigandine Color") as null|anything in COLOR_MAP
+	var/pickedcolor = tgui_input_list(user, "Select a color.","Brigandine Color", null|COLOR_MAP)
 	if(!pickedcolor)
 		return
 	if(world.time > (the_time + 30 SECONDS))
@@ -192,7 +192,7 @@
 /obj/item/clothing/suit/roguetown/armor/brigandine/haraate/attack_right(mob/user)
 	..()
 	if(!picked)
-		var/choice = input(user, "Choose a color.", "Uniform colors") as anything in COLOR_MAP
+		var/choice = tgui_input_list(user, "Choose a color.", "Uniform colors", null|COLOR_MAP)
 		var/playerchoice = COLOR_MAP[choice]
 		picked = TRUE
 		detail_color = playerchoice

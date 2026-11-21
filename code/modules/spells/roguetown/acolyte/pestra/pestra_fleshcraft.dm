@@ -68,7 +68,7 @@
 		return FALSE
 
 	var/list/choices = get_fleshcraft_transform_choices()
-	var/chosen = input(caster, "Change what?", "Fleshcraft") as null|anything in choices
+	var/chosen = tgui_input_list(caster, "Change what?", "Fleshcraft", null|choices)
 
 	if(!chosen)
 		to_chat(caster, span_warning("You stop shaping the flesh."))
@@ -396,7 +396,7 @@
 		var/datum/sprite_accessory/hair/head/hair = new hair_type()
 		valid_hairstyles[hair.name] = hair_type
 
-	var/new_style = input(chooser, "Choose hairstyle for [H]", "Hair Styling") as null|anything in valid_hairstyles
+	var/new_style = tgui_input_list(chooser, "Choose hairstyle for [H]", "Hair Styling", null|valid_hairstyles)
 	if(!new_style)
 		return FALSE
 
@@ -476,7 +476,7 @@
 		var/datum/sprite_accessory/hair/facial/facial = new facial_type()
 		valid_facial_hairstyles[facial.name] = facial_type
 
-	var/new_style = input(chooser, "Choose facial hairstyle for [H]", "Hair Styling") as null|anything in valid_facial_hairstyles
+	var/new_style = tgui_input_list(chooser, "Choose facial hairstyle for [H]", "Hair Styling", null|valid_facial_hairstyles)
 	if(!new_style)
 		return FALSE
 
@@ -580,7 +580,7 @@
 	for(var/gradient_type in GLOB.hair_gradients)
 		valid_gradients[gradient_type] = gradient_type
 
-	var/new_style = input(chooser, "Choose [natural ? "natural" : "dye"] gradient for [H]", "Hair Gradient") as null|anything in valid_gradients
+	var/new_style = tgui_input_list(chooser, "Choose [natural ? "natural" : "dye"] gradient for [H]", "Hair Gradient", null|valid_gradients)
 	if(!new_style)
 		return FALSE
 
@@ -664,7 +664,7 @@
 		var/datum/sprite_accessory/A = new accessory_type()
 		valid_features[A.name] = accessory_type
 
-	var/new_style = input(chooser, "[prompt] for [H]", title) as null|anything in valid_features
+	var/new_style = tgui_input_list(chooser, "[prompt] for [H]", title, null|valid_features)
 	if(!new_style)
 		return FALSE
 
@@ -692,7 +692,7 @@
 		var/datum/descriptor_choice/choice = DESCRIPTOR_CHOICE(choice_type)
 		descriptor_categories[choice.name] = choice_type
 
-	var/chosen_category = input(chooser, "Which descriptor category for [H]?", "Descriptor Category") as null|anything in descriptor_categories
+	var/chosen_category = tgui_input_list(chooser, "Which descriptor category for [H]?", "Descriptor Category", null|descriptor_categories)
 	if(!chosen_category)
 		return FALSE
 
@@ -705,7 +705,7 @@
 		var/datum/mob_descriptor/desc = MOB_DESCRIPTOR(desc_type)
 		descriptor_options[desc.name] = desc_type
 
-	var/chosen_descriptor_name = input(chooser, "Choose [H]'s [chosen_category]", "[chosen_category] Selection") as null|anything in descriptor_options
+	var/chosen_descriptor_name = tgui_input_list(chooser, "Choose [H]'s [chosen_category]", "[chosen_category] Selection", null|descriptor_options)
 	if(!chosen_descriptor_name)
 		return FALSE
 
@@ -730,7 +730,7 @@
 		var/datum/sprite_accessory/A = new accessory_path()
 		valid_types[A.name] = accessory_path
 
-	var/new_style = input(chooser, "[prompt] for [H]", title) as null|anything in valid_types
+	var/new_style = tgui_input_list(chooser, "[prompt] for [H]", title, null|valid_types)
 	if(!new_style)
 		return FALSE
 
@@ -788,7 +788,7 @@
 		to_chat(chooser, span_warning("[H] does not have that organ."))
 		return FALSE
 
-	var/new_size = input(chooser, "[prompt] for [H]", title) as null|anything in size_map
+	var/new_size = tgui_input_list(chooser, "[prompt] for [H]", title, null|size_map)
 	if(!new_size)
 		return FALSE
 

@@ -61,7 +61,7 @@
 		var/weapons = list("Arming Sword", "Longsword", "Mace", "Flail", "Battle Axe", "Billhook")
 		if(!HAS_TRAIT(H, TRAIT_PSYDONIAN_GRIT)) //Remove Regular Axe BEFORE choice, is picked (so we don't mislead)
 			weapons += "Steel Axe"
-		var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
+		var/weapon_choice = tgui_input_list(H, "Choose your weapon.", "TAKE UP ARMS", weapons)
 		switch(weapon_choice)
 			if("Arming Sword")
 				H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_EXPERT, TRUE)
@@ -196,7 +196,7 @@
 				)
 			if(H.mind)
 				var/cloaks = list("Tabard", "Cloak")
-				var/cloakchoice = input(H,"Choose your covering", "TAKE UP FASHION") as anything in cloaks
+				var/cloakchoice = tgui_input_list(H,"Choose your covering", "TAKE UP FASHION", cloaks)
 				switch(cloakchoice)
 					if("Tabard")
 						H.equip_to_slot_or_del(new /obj/item/clothing/cloak/templar/astratan, SLOT_CLOAK, TRUE)
@@ -236,7 +236,7 @@
 			helmets += list("Old Necran Helm" = /obj/item/clothing/head/roguetown/helmet/heavy/necrahelm)
 			if(H.mind)
 				var/cloaks = list("Tabard", "Cloak")
-				var/cloakchoice = input(H,"Choose your covering", "TAKE UP FASHION") as anything in cloaks
+				var/cloakchoice = tgui_input_list(H,"Choose your covering", "TAKE UP FASHION", cloaks)
 				switch(cloakchoice)
 					if("Tabard")
 						H.equip_to_slot_or_del(new /obj/item/clothing/cloak/templar/necran, SLOT_CLOAK, TRUE)
@@ -278,7 +278,7 @@
 			helmets += list("Ravox Helmet" = /obj/item/clothing/head/roguetown/helmet/heavy/ravoxhelm/cleric)
 			if(H.mind)
 				var/cloaks = list("Tabard", "Cloak")
-				var/cloakchoice = input(H,"Choose your covering", "TAKE UP FASHION") as anything in cloaks
+				var/cloakchoice = tgui_input_list(H,"Choose your covering", "TAKE UP FASHION", cloaks)
 				switch(cloakchoice)
 					if("Tabard")
 						H.equip_to_slot_or_del(new /obj/item/clothing/cloak/templar/ravox, SLOT_CLOAK, TRUE)
@@ -302,7 +302,7 @@
 			H.adjust_skillrank(/datum/skill/magic/holy, 1, TRUE)
 			if(H.mind) //To make it obviously not clergy related
 				var/cloaks = list("Cloak", "Tabard")
-				var/cloakchoice = input(H,"Choose your covering", "TAKE UP FASHION") as anything in cloaks
+				var/cloakchoice = tgui_input_list(H,"Choose your covering", "TAKE UP FASHION", cloaks)
 				switch(cloakchoice)
 					if("Cloak")
 						H.equip_to_slot_or_del(new /obj/item/clothing/cloak/undividedcleric, SLOT_CLOAK, TRUE)
@@ -324,7 +324,7 @@
 				"Psydonic Volfskulle Bascinet" = /obj/item/clothing/head/roguetown/helmet/heavy/ornate/volfhelm,
 				"Psydonic Bucket Helm" = /obj/item/clothing/head/roguetown/helmet/heavy/ornate/bucket)
 	if(H.mind)
-		var/helmchoice = input(H, "Choose your Helm.", "TAKE UP HELMS") as anything in helmets
+		var/helmchoice = tgui_input_list(H, "Choose your Helm.", "TAKE UP HELMS", helmets)
 		if(helmchoice != "None")
 			var/helmet = helmets[helmchoice]
 			H.equip_to_slot_if_possible(new helmet, SLOT_HEAD)
@@ -393,7 +393,7 @@
 	H.cmode_music = 'sound/music/cmode/antag/combat_cutpurse.ogg'
 	if(H.mind)
 		var/weapons = list("Daggers", "Rapier", "Sabre", "Bow", "Crossbow", "Slurbow")
-		var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
+		var/weapon_choice = tgui_input_list(H, "Choose your weapon.", "TAKE UP ARMS", weapons)
 		H.set_blindness(0)
 		switch(weapon_choice)
 			if("Daggers")

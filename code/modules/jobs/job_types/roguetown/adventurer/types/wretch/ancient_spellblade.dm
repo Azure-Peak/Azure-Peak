@@ -99,7 +99,7 @@
 		"Gilbranze Helmet"	= /obj/item/clothing/head/roguetown/helmet/heavy/paalloy,
 		"None",
 	)
-	var/helmchoice = input(H, "Choose your Helm.", "A VISAGE UNBOUND.") as anything in helmets
+	var/helmchoice = tgui_input_list(H, "Choose your Helm.", "A VISAGE UNBOUND.", helmets)
 	if(helmchoice != "None")
 		head = helmets[helmchoice]
 
@@ -108,7 +108,7 @@
 	switch(spellblade_chant_selected)
 		if("blade")
 			var/weapons = list("Ancient Khopesh", "Ancient Longsword", "Ancient Dagger")
-			var/weapon_choice = input(H, "Choose your WEAPON.", "RAGE AGAINST THE LYVING.") as anything in weapons
+			var/weapon_choice = tgui_input_list(H, "Choose your WEAPON.", "RAGE AGAINST THE LYVING.", weapons)
 			switch(weapon_choice)
 				if("Ancient Khopesh")
 					beltr = granted_weapon = /obj/item/rogueweapon/sword/sabre/palloy
@@ -118,7 +118,7 @@
 					beltr = granted_weapon = /obj/item/rogueweapon/huntingknife/idagger/steel/padagger
 		if("phalangite")
 			var/weapons = list("Ancient Spear", "Ancient Bardiche", "Dory")
-			var/weapon_choice = input(H, "Choose your WEAPON.", "RAGE AGAINST THE LYVING.") as anything in weapons
+			var/weapon_choice = tgui_input_list(H, "Choose your WEAPON.", "RAGE AGAINST THE LYVING.", weapons)
 			switch(weapon_choice)
 				if("Ancient Spear")
 					r_hand = granted_weapon = /obj/item/rogueweapon/spear/paalloy
@@ -131,7 +131,7 @@
 					backr = /obj/item/rogueweapon/shield/heater
 		if("macebearer")
 			var/weapons = list("Ancient Mace", "Ancient Warhammer", "Ancient Grand Mace", "Ancient Alloy Axe", "Steel Greataxe")
-			var/weapon_choice = input(H, "Choose your WEAPON.", "RAGE AGAINST THE LYVING.") as anything in weapons
+			var/weapon_choice = tgui_input_list(H, "Choose your WEAPON.", "RAGE AGAINST THE LYVING.", weapons)
 			switch(weapon_choice)
 				if("Ancient Mace")
 					beltr = granted_weapon = /obj/item/rogueweapon/mace/steel/palloy
@@ -150,7 +150,7 @@
 	H.set_blindness(0)
 
 	var/tabards = list("Black Jupon", "Black Tabard", "Black Cloak", "Black Toga")
-	var/tabard_choice = input(H, "Choose your CLOAK.", "BEAR YOUR HERALDRY.") as anything in tabards
+	var/tabard_choice = tgui_input_list(H, "Choose your CLOAK.", "BEAR YOUR HERALDRY.", tabards)
 	switch(tabard_choice)
 		if("Black Jupon")
 			cloak = /obj/item/clothing/cloak/tabard/stabard/surcoat/necro

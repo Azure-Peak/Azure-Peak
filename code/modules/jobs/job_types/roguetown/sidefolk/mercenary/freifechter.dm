@@ -52,13 +52,13 @@
 			"Etruscan Longsword"	= /obj/item/rogueweapon/sword/long/etruscan,
 			"Reformist Longsword"	= /obj/item/rogueweapon/sword/long/etruscan/freifechter
 		)
-		var/weaponchoice = input(H, "Draw a sword.", "As presented to me by Master Oktawiusz...") as anything in weapons
+		var/weaponchoice = tgui_input_list(H, "Draw a sword.", "As presented to me by Master Oktawiusz...", weapons)
 		r_hand = weapons[weaponchoice]
 		var/armors = list(
 			"Fencing Cuirass"	= /obj/item/clothing/suit/roguetown/armor/plate/cuirass/fencer,
 			"Fencing Jacket"	= /obj/item/clothing/suit/roguetown/armor/leather/heavy/freifechter
 		)
-		var/armorchoice = input(H, "Don your armour.", "Security or Flexibility?") as anything in armors
+		var/armorchoice = tgui_input_list(H, "Don your armour.", "Security or Flexibility?", armors)
 		armor = armors[armorchoice]
 	H.merctype = 6
 
@@ -117,7 +117,7 @@
 			"Banner of Szöréndnížina"		= /obj/item/rogueweapon/spear/boar/frei/pike,
 			"Banner of Psydonic Reformism"	= /obj/item/rogueweapon/spear/boar/frei/pike/reformist
 		)
-		var/weaponchoice = input(H, "Spear or Pike-Banner?", "As presented to me by Lance-Master Szörénsław...") as anything in weapons
+		var/weaponchoice = tgui_input_list(H, "Spear or Pike-Banner?", "As presented to me by Lance-Master Szörénsław...", weapons)
 		r_hand = weapons[weaponchoice]
 	H.merctype = 6
 
@@ -175,6 +175,6 @@
 			"Fencing Cuirass"	= /obj/item/clothing/suit/roguetown/armor/plate/cuirass/fencer,
 			"Fencing Jacket"	= /obj/item/clothing/suit/roguetown/armor/leather/heavy/freifechter
 		)
-		var/armorchoice = input(H, "Don your armour.", "Security or Flexibility?") as anything in armors
+		var/armorchoice = tgui_input_list(H, "Don your armour.", "Security or Flexibility?", armors)
 		armor = armors[armorchoice]
 	H.merctype = 6

@@ -35,7 +35,8 @@
 
 		possible_classes += CHECKS
 
-	var/datum/advclass/C = input(H.client, "What is my class?", "HOW DO YOU SERVE YOUR MASTER?") as null|anything in possible_classes
-	C.equipme(H)
+	var/datum/advclass/C = tgui_input_list(H.client, "What is my class?", "HOW DO YOU SERVE YOUR MASTER?", null|possible_classes)
+	if(C)
+		C.equipme(H)
 
 	H.adjust_skillrank_up_to(/datum/skill/magic/blood, 3, TRUE)

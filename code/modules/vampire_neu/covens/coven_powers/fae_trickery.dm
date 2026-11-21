@@ -321,7 +321,7 @@
 
 /datum/coven_power/fae_trickery/chanjelin_ward/activate()
 	. = ..()
-	var/try_trap = input(owner, "Select a Trap:", "Trap") as null|anything in list("Brutal", "Spin", "Drop")
+	var/try_trap = tgui_input_list(owner, "Select a Trap:", "Trap", null|list("Brutal", "Spin", "Drop"))
 	if(!try_trap)
 		return
 
@@ -359,7 +359,7 @@
 		var/list/riddle_list = list("Create a new riddle...")
 		for(var/datum/riddle/riddle in stored_riddles)
 			riddle_list += riddle.riddle_text
-		var/try_riddle = input(owner, "Select a Riddle:", "Riddle") as null|anything in riddle_list
+		var/try_riddle = tgui_input_list(owner, "Select a Riddle:", "Riddle", null|riddle_list)
 		if(try_riddle)
 			if(try_riddle == "Create a new riddle...")
 				var/datum/riddle/riddle = new ()
@@ -405,7 +405,7 @@
 			riddle.try_answer(M, src)
 
 /datum/riddle/proc/try_answer(mob/living/answerer, atom/movable/screen/alert/riddle/new_alert)
-	var/try_answer = input(answerer, riddle_text, "Riddle") as null|anything in riddle_options
+	var/try_answer = tgui_input_list(answerer, riddle_text, "Riddle", null|riddle_options)
 	if(try_answer)
 		answer_riddle(answerer, try_answer, new_alert)
 

@@ -51,7 +51,7 @@
 	..()
 	if(H.mind)
 		var/tattoos = list("Defiant (Blacksteel, fragile)","Harmonious (Plate, balanced)","Enduring (Padded, durable)")
-		var/tattoo_choice = input(H, "Choose your tattoos", "WHAT MARKS DO YOU CARRY?") as anything in tattoos
+		var/tattoo_choice = tgui_input_list(H, "Choose your tattoos", "WHAT MARKS DO YOU CARRY?", tattoos)
 		switch(tattoo_choice)
 			if("Defiant (Blacksteel, fragile)")
 				armor = /obj/item/clothing/suit/roguetown/armor/manual/meditation/body/easttats/ruma/blacksteel //200 blacksteel
@@ -61,7 +61,7 @@
 				armor = /obj/item/clothing/suit/roguetown/armor/manual/meditation/body/easttats/ruma/padded //300 padded
 				H.adjust_skillrank_up_to(/datum/skill/misc/medicine, SKILL_LEVEL_NOVICE, TRUE) //you're going to need it.
 		var/clothing = list("White Shirt","Dark Shirt","Dress")
-		var/clothing_choice = input(H, "Choose your attire.", "WHAT SILK SWATHES YOU?") as anything in clothing
+		var/clothing_choice = tgui_input_list(H, "Choose your attire.", "WHAT SILK SWATHES YOU?", clothing)
 		switch(clothing_choice)
 			if("White Shirt")
 				l_hand = /obj/item/clothing/suit/roguetown/shirt/undershirt/eastshirt2
@@ -70,7 +70,7 @@
 			if("Dress")
 				l_hand = /obj/item/clothing/suit/roguetown/shirt/dress/captainrobe
 		var/weapons = list("Ruma Hwando (Onehanded sabre)","Golden Ruma Hwando","Ssangsudo (Heavy sword)", "Nodachi (Two-Handed sword)", "Naginata & Tanto (Polearm & dagger)","Kodachi & Tanto (Shortsword & dagger)","Longbow & Kodachi","Longbow & Tanto")
-		var/weapon_choice = input(H, "Choose your weapon.", "WHEN STEEL MUST SPEAK...") as anything in weapons
+		var/weapon_choice = tgui_input_list(H, "Choose your weapon.", "WHEN STEEL MUST SPEAK...", weapons)
 		switch(weapon_choice)
 			if("Ruma Hwando (Onehanded sabre)")
 				H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_EXPERT, TRUE)
@@ -173,7 +173,7 @@
 	..()
 	if(H.mind)
 		var/tattoos = list("Defiant (Blacksteel, fragile)","Harmonious (Plate, balanced)","Enduring (Padded, durable)")
-		var/tattoo_choice = input(H, "Choose your tattoos", "WHAT MARKS DO YOU CARRY?") as anything in tattoos
+		var/tattoo_choice = tgui_input_list(H, "Choose your tattoos", "WHAT MARKS DO YOU CARRY?", tattoos)
 		switch(tattoo_choice)
 			if("Defiant (Blacksteel, fragile)")
 				armor = /obj/item/clothing/suit/roguetown/armor/manual/meditation/body/easttats/ruma/blacksteel //200 blacksteel
@@ -183,7 +183,7 @@
 				armor = /obj/item/clothing/suit/roguetown/armor/manual/meditation/body/easttats/ruma/padded //300 padded
 				H.adjust_skillrank_up_to(/datum/skill/misc/medicine, SKILL_LEVEL_NOVICE, TRUE) //you're going to need it.
 		var/clothing = list("White Shirt","Dark Shirt","Dress")
-		var/clothing_choice = input(H, "Choose your attire.", "WHAT SILK SWATHES YOU?") as anything in clothing
+		var/clothing_choice = tgui_input_list(H, "Choose your attire.", "WHAT SILK SWATHES YOU?", clothing)
 		switch(clothing_choice)
 			if("White Shirt")
 				l_hand = /obj/item/clothing/suit/roguetown/shirt/undershirt/eastshirt2
@@ -192,7 +192,7 @@
 			if("Dress")
 				l_hand = /obj/item/clothing/suit/roguetown/shirt/dress/captainrobe
 		var/weapons = list("Bow & Tanto","Bow & Kodachi","Sling & Tanto","Sling & Kodachi","Kodachi & Tanto","Kodachi, Tanto, & Tossblades","Dual Tanto","Blacksteel Tanto")
-		var/weapon_choice = input(H, "Choose your weapon.", "WHEN STEEL MUST SPEAK...") as anything in weapons
+		var/weapon_choice = tgui_input_list(H, "Choose your weapon.", "WHEN STEEL MUST SPEAK...", weapons)
 		switch(weapon_choice)
 			if("Bow & Tanto")
 				H.adjust_skillrank_up_to(/datum/skill/combat/bows, SKILL_LEVEL_MASTER, TRUE) //Dedicated bow user, best skill there.

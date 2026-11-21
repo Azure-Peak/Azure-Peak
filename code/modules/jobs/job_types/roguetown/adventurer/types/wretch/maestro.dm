@@ -67,7 +67,7 @@
 		H.mind.AddSpell(new /datum/action/cooldown/spell/projectile/vicious_mockery)
 
 		var/instruments = list("Harp","Lute","Accordion","Guitar","Hurdy-Gurdy","Viola","Vocal Talisman","Psyaltery","Flute","Drums")
-		var/instrument_choice = input(H, "Choose your instrument.", "Choose your instrument.") as anything in instruments
+		var/instrument_choice = tgui_input_list(H, "Choose your instrument.", "Choose your instrument.", instruments)
 		H.set_blindness(0)
 		switch(instrument_choice)
 			if("Harp")
@@ -92,7 +92,7 @@
 				backr = /obj/item/rogue/instrument/drum
 
 		var/paths = list("Busker", "Cacophonist", "Boomwhacker", "Chanter", "Cipher")
-		var/path_choice = input(H, "Choose your genre.", "Choose your genre") as anything in paths
+		var/path_choice = tgui_input_list(H, "Choose your genre.", "Choose your genre", paths)
 		switch(path_choice)
 			if("Busker")
 				ADD_TRAIT(H, TRAIT_EMPATH, TRAIT_GENERIC)

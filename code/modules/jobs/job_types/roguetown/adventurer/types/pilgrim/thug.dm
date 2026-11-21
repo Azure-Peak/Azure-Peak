@@ -57,7 +57,7 @@
 				/obj/item/rogueweapon/huntingknife = 1,
 				)
 	var/options = list("Frypan", "Knuckles", "Navaja", "Bare Hands", "My Trusty Cudgel", "Whatever I Can Find")
-	var/option_choice = input(H, "Choose your means.", "TAKE UP ARMS") as anything in options
+	var/option_choice = tgui_input_list(H, "Choose your means.", "TAKE UP ARMS", options)
 	switch(option_choice)
 		if("Frypan")
 			H.adjust_skillrank_up_to(/datum/skill/craft/cooking, SKILL_LEVEL_EXPERT, TRUE) // expert cook; expert pan-handler
@@ -131,7 +131,7 @@
 		/obj/item/rogueweapon/huntingknife = 1,
 		)
 	var/options = list("Sling", "Magic Bricks", "Lockpicking Equipment")
-	var/option_choice = input(H, "Choose your means.", "TAKE UP ARMS") as anything in options
+	var/option_choice = tgui_input_list(H, "Choose your means.", "TAKE UP ARMS", options)
 	switch(option_choice)
 		if("Sling")
 			H.adjust_skillrank_up_to(/datum/skill/combat/slings, SKILL_LEVEL_JOURNEYMAN, TRUE)
@@ -199,7 +199,7 @@
 		l_hand = /obj/item/clothing/suit/roguetown/shirt/desertbra //Let's not set our ladies naked roundstart.	...unless we have to. Should be able to toss into skin-armor cosmetic overlay easy enough inround.
 
 	var/options = list("Hands-On", "Big Axe")
-	var/option_choice = input(H, "Choose your means.", "TAKE UP ARMS") as anything in options
+	var/option_choice = tgui_input_list(H, "Choose your means.", "TAKE UP ARMS", options)
 	switch(option_choice) // you are big dumb guy, none of your options give you expert-level weapons skill
 		if("Hands-On")
 			ADD_TRAIT(H, TRAIT_BASHDOORS, TRAIT_GENERIC) // deal 200 damage to a door you sprint-charge into
@@ -227,7 +227,7 @@
 		"Stony" = "Stony",
 		"Quick" = "Quick"
 		)
-	var/prefixchoice = input(H, "What did people start calling you.", "YOU BIG FELLA") as anything in prefixs
+	var/prefixchoice = tgui_input_list(H, "What did people start calling you.", "YOU BIG FELLA", prefixs)
 	var/prev_real_name = H.real_name
 	var/prev_name = H.name
 	var/prefix = prefixs[prefixchoice]

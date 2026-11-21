@@ -188,7 +188,7 @@
 
 		return
 	else
-		var/obj/totake = input(user, "What will you take off?", "[src.name]") as obj in attacheditems
+		var/obj/totake = tgui_input_list(user, "What will you take off?", "[src.name]", attacheditems)
 		if(!totake)
 			return
 		if(totake == baited)

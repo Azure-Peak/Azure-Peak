@@ -63,9 +63,9 @@
 		)
 	if(H.mind)
 		var/weapons = list("Executioner's Sword", "Hammer", "Axe")
-		var/weapon_choice = input(H, "Do you like hurting other people?", "TAKE UP ARMS") as anything in weapons
+		var/weapon_choice = tgui_input_list(H, "Do you like hurting other people?", "TAKE UP ARMS", weapons)
 		var/specialization = list("Fast (Dodge Expert, Sneaking, +2 SPD)", "Strong (No Pain, Blood Resistance, +1 STR/CON/WIL)") //thank you outlaw coders i love you mwah
-		var/specialization_choice = input(H, "How?", "TAKE UP ARMS") as anything in specialization
+		var/specialization_choice = tgui_input_list(H, "How?", "TAKE UP ARMS", specialization)
 		H.set_blindness(0)
 		switch(weapon_choice)
 			if("Executioner's Sword") // silent hill?

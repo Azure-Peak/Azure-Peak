@@ -493,7 +493,7 @@
 		options = list("Brigand (battleaxe and flail)", "Blackblade (longsword and shield)", "Poacher (longbow and dagger)")
 	else
 		options = list("Spear & Shield", "Billhook", "Cudgel & Shield", "Hunting Bow", "Goedendag", "Thresher", "Scythe", "Militia Pickaxe")
-	var/choice = input(H, "How shall I arm myself?", "FREEMAN'S ARSENAL") as null|anything in options
+	var/choice = tgui_input_list(H, "How shall I arm myself?", "FREEMAN'S ARSENAL", null|options)
 	if(!choice)
 		revert_cast()
 		return
@@ -632,7 +632,7 @@
 		to_chat(H, span_warning("No subdued member of the upper-class, nor rebel leader, is within my reach."))
 		revert_cast()
 		return
-	var/choice = input(H, "Who shall be discarded?", "DISCARD UPPER-CLASS") as null|anything in victims
+	var/choice = tgui_input_list(H, "Who shall be discarded?", "DISCARD UPPER-CLASS", null|victims)
 	if(!choice)
 		revert_cast()
 		return

@@ -86,7 +86,7 @@
 		if(!picker.len)
 			to_chat(sender, span_warning("There are no adventurers currently available."))
 			return
-		var/choice = input(sender, "Which adventurer do I wish to contact?", "Adventurer Contact") as null|anything in picker
+		var/choice = tgui_input_list(sender, "Which adventurer do I wish to contact?", "Adventurer Contact", null|picker)
 		if(!choice)
 			return
 		target_key = picker[choice]
@@ -155,7 +155,7 @@
 		if(!picker.len)
 			to_chat(sender, span_warning("There are no wretches currently available."))
 			return
-		var/choice = input(sender, "Which wretch do I wish to contact?", "Wretch Contact") as null|anything in picker
+		var/choice = tgui_input_list(sender, "Which wretch do I wish to contact?", "Wretch Contact", null|picker)
 		if(!choice)
 			return
 		target_key = picker[choice]

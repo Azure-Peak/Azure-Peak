@@ -72,7 +72,7 @@
 	if(!H || !H.mind)
 		return plain_path
 	var/list/visages = list("Standard" = plain_path, "Snouted" = snouted_path)
-	var/choice = input(H, "Choose your helm's visage.", "TAKE UP HELMS") as anything in visages
+	var/choice = tgui_input_list(H, "Choose your helm's visage.", "TAKE UP HELMS", visages)
 	if(!choice)
 		return plain_path
 	return visages[choice]

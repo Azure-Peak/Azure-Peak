@@ -68,7 +68,7 @@
 	switch(spellblade_chant_selected)
 		if("blade")
 			var/blade_weapons = list("Dual Shamshirs", "Shalal sabre & Shield")
-			var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in blade_weapons
+			var/weapon_choice = tgui_input_list(H, "Choose your weapon.", "TAKE UP ARMS", blade_weapons)
 			switch(weapon_choice)
 				if("Dual Shamshirs")
 					ADD_TRAIT(H, TRAIT_DUALWIELDER, TRAIT_GENERIC)
@@ -82,7 +82,7 @@
 					backl = /obj/item/rogueweapon/shield/tower/raneshen
 		if("phalangite")
 			var/polearm_weapons = list("Spear", "Dory & Shield")
-			var/polearm_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in polearm_weapons
+			var/polearm_choice = tgui_input_list(H, "Choose your weapon.", "TAKE UP ARMS", polearm_weapons)
 			switch(polearm_choice)
 				if("Spear")
 					r_hand = granted_weapon = /obj/item/rogueweapon/spear
@@ -92,7 +92,7 @@
 					backl = /obj/item/rogueweapon/shield/tower/raneshen
 		if("macebearer")
 			var/mace_weapons = list("Steel Mace", "Steel Warhammer & Shield", "Grand Mace", "Battle Axe", "Steel Greataxe")
-			var/mace_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in mace_weapons
+			var/mace_choice = tgui_input_list(H, "Choose your weapon.", "TAKE UP ARMS", mace_weapons)
 			switch(mace_choice)
 				if("Steel Mace")
 					r_hand = granted_weapon = /obj/item/rogueweapon/mace/steel

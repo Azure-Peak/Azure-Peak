@@ -258,7 +258,7 @@
 
 			if(HAS_TRAIT(user, TRAIT_GOODWRITER))
 				if(alert(user, "Would you like to choose a book appearance?", "Book Appearance", "Yes", "No") == "Yes")
-					var/sprite_choice = input(user, "Choose book appearance:", "Book Appearance") as null|anything in available_sprites
+					var/sprite_choice = tgui_input_list(user, "Choose book appearance:", "Book Appearance", null|available_sprites)
 					if(sprite_choice)
 						chosen_icon_state = available_sprites[sprite_choice]
 
@@ -304,7 +304,7 @@
 			if(!length(writable_skills))//nobody has ever been as dumb as you are. feel bad.
 				to_chat(user, span_warning("I know nothing of value to write."))
 				return
-		var/skill_choice = input(user, "Begin your story","Skills") as null|anything in skill_names
+		var/skill_choice = input(user, "Begin your story","Skills", null|skill_names)
 		if(skill_choice)
 			for(var/real_skill in writable_skills)//real_skill is the actual datum for the skill rather than the "Skill" string
 				if(skill_choice == GetSkillRef(real_skill))//if skill_choice (the name string) is equal to real_skill's name ref, essentially

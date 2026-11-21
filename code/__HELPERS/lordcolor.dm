@@ -22,10 +22,10 @@ GLOBAL_VAR(lordsecondary)
 		return
 	var/prim
 	var/sec
-	var/choice = input(src, "Choose a Primary Color", "ROYAL STANDARD") as anything in COLOR_MAP
+	var/choice = tgui_input_list(src, "Choose a Primary Color", "ROYAL STANDARD", COLOR_MAP)
 	if(choice)
 		prim = COLOR_MAP[choice]
-	choice = input(src, "Choose a Secondary Color", "ROYAL STANDARD") as anything in COLOR_MAP
+	choice = tgui_input_list(src, "Choose a Secondary Color", "ROYAL STANDARD", COLOR_MAP)
 	if(choice)
 		sec = COLOR_MAP[choice]
 	if(!prim || !sec)

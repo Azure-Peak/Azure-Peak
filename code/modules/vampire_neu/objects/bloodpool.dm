@@ -735,7 +735,7 @@ GLOBAL_LIST_EMPTY(crimson_crucible_personal_servant_summons)
 		var/remaining = project.total_cost - project.paid_amount
 		project_choices["[project.display_name] (Remaining: [remaining])"] = project_type
 
-	var/choice = input(user, "Select project to contribute to:", "CONTRIBUTION") as null|anything in project_choices
+	var/choice = tgui_input_list(user, "Select project to contribute to:", "CONTRIBUTION", null|project_choices)
 	if(!choice)
 		return
 
@@ -755,14 +755,14 @@ GLOBAL_LIST_EMPTY(crimson_crucible_personal_servant_summons)
 		var/progress_percent = round((project.paid_amount / project.total_cost) * 100, 1)
 		project_options["[project.display_name] ([progress_percent]%)"] = project_type
 
-	var/choice = input(user, "Select project to manage:", "PROJECT MANAGEMENT") as null|anything in project_options
+	var/choice = tgui_input_list(user, "Select project to manage:", "PROJECT MANAGEMENT", null|project_options)
 	if(!choice)
 		return
 
 	var/project_type = project_options[choice]
 	var/datum/vampire_project/project = active_projects[project_type]
 
-	var/action = input(user, "What would you like to do?", "MANAGEMENT") as null|anything in list("View Details", "Cancel Project")
+	var/action = tgui_input_list(user, "What would you like to do?", "MANAGEMENT", null|list("View Details", "Cancel Project"))
 
 	switch(action)
 		if("View Details")

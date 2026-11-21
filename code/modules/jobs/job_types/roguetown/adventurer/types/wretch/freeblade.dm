@@ -55,9 +55,9 @@
 		)
 	if(H.mind)
 		var/weapons = list("The Aristocrat's Choice","An Etruscan's Finesse", "A Southerner's Versatility")
-		var/weapon_choice = input(H, "HOW WILL YOU BE ARMED?", "TAKE UP ARMS") as anything in weapons
+		var/weapon_choice = tgui_input_list(H, "HOW WILL YOU BE ARMED?", "TAKE UP ARMS", weapons)
 		var/armors = list ("IN BRAZEN GLORY", "AS ANY OTHER MAN")
-		var/armor_choice = input(H, "HOW WILL YOU BE OUTFITTED?", "TAKE UP ARMOR") as anything in armors
+		var/armor_choice = tgui_input_list(H, "HOW WILL YOU BE OUTFITTED?", "TAKE UP ARMOR", armors)
 
 		switch(weapon_choice)
 			if("The Aristocrat's Choice")

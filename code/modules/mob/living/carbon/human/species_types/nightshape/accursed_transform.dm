@@ -43,7 +43,7 @@
 		options[name] = possible_forms[name]
 	options["Random each time"] = "RANDOM"
 
-	var/chosen_name = input(H, "What shape did the Wild One force upon your soul?", "Bestial Form") as null|anything in options
+	var/chosen_name = tgui_input_list(H, "What shape did the Wild One force upon your soul?", "Bestial Form", null|options)
 
 	if(!chosen_name)
 		random_form = TRUE

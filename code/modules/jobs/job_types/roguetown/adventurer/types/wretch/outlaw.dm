@@ -65,11 +65,11 @@
 		)
 	if(H.mind)
 		var/weapons = list("Rapier","Parrying Dagger", "Whip")
-		var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
+		var/weapon_choice = tgui_input_list(H, "Choose your weapon.", "TAKE UP ARMS", weapons)
 		var/rangedweapons = list("Slurbow", "Crossbow")
-		var/rangedweapon_choice = input(H,"Choose your BOW.", "TAKE AIM.") as anything in rangedweapons
+		var/rangedweapon_choice = tgui_input_list(H,"Choose your BOW.", "TAKE AIM.", rangedweapons)
 		var/specialization = list("Fleet-Footed","Marksmanship","Athleticism","Night-Burglar","Master-Tracker","Dualist")
-		var/specialization_choice = input(H, "Choose your talent.", "TAKE UP ARMS") as anything in specialization
+		var/specialization_choice = tgui_input_list(H, "Choose your talent.", "TAKE UP ARMS", specialization)
 		H.set_blindness(0)
 		switch(weapon_choice)
 			if("Rapier")

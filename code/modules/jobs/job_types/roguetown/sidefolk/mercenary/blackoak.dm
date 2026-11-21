@@ -62,7 +62,7 @@
 /datum/outfit/job/roguetown/mercenary/blackoak/choose_loadout(mob/living/carbon/human/H)
 	. = ..()
 	var/weapons = list("Elvish Glaive", "Elvish Curveblade", "Elvish Longsword")
-	var/weapon_choice = input(H, "Choose your WEAPON.", "FOR THE OAKS AND THE PEAKS.") as anything in weapons
+	var/weapon_choice = tgui_input_list(H, "Choose your WEAPON.", "FOR THE OAKS AND THE PEAKS.", weapons)
 	switch(weapon_choice)
 		if("Elvish Glaive")
 			H.adjust_skillrank_up_to(/datum/skill/combat/polearms, SKILL_LEVEL_EXPERT, TRUE)
@@ -140,7 +140,7 @@
 /datum/outfit/job/roguetown/mercenary/blackoak_ranger/choose_loadout(mob/living/carbon/human/H)
 	. = ..()
 	var/weapons = list("Elvish Dagger", "Elvish Sabre", "Elvish Shortsword")
-	var/weapon_choice = input(H, "Choose your WEAPON.", "FOR THE OAKS AND THE PEAKS.") as anything in weapons
+	var/weapon_choice = tgui_input_list(H, "Choose your WEAPON.", "FOR THE OAKS AND THE PEAKS.", weapons)
 	switch(weapon_choice)
 		if("Elvish Dagger")
 			H.adjust_skillrank_up_to(/datum/skill/combat/knives, SKILL_LEVEL_EXPERT, TRUE)
@@ -155,7 +155,7 @@
 			H.put_in_hands(new /obj/item/rogueweapon/sword/short/elvish)
 			H.equip_to_slot_or_del(new /obj/item/rogueweapon/scabbard/sword, SLOT_BELT_R, TRUE)
 	var/armors = list("Woad Elven Maille", "Fur-Lined Trophy Robes")
-	var/armor_choice = input(H, "Choose your ARMOR.", "THE FOREST CLOAKS YOU.") as anything in armors
+	var/armor_choice = tgui_input_list(H, "Choose your ARMOR.", "THE FOREST CLOAKS YOU.", armors)
 	switch(armor_choice)
 		if("Woad Elven Maille")
 			REMOVE_TRAIT(H, TRAIT_DODGEEXPERT, JOB_TRAIT)
@@ -163,7 +163,7 @@
 		if("Fur-Lined Trophy Robes")
 			H.equip_to_slot_or_del(new /obj/item/clothing/suit/roguetown/armor/leather/heavy/coat/elven, SLOT_ARMOR, TRUE)
 	var/helmets = list("Woad Elven Barbute", "Elven Barbute", "Winged Elven Barbute")
-	var/helmet_choice = input(H, "Choose your HELMET.", "LEAVES OVER STEEL.") as anything in helmets
+	var/helmet_choice = tgui_input_list(H, "Choose your HELMET.", "LEAVES OVER STEEL.", helmets)
 	switch(helmet_choice)
 		if("Woad Elven Barbute")
 			H.equip_to_slot_or_del(new /obj/item/clothing/head/roguetown/helmet/heavy/elven_helm/light, SLOT_HEAD, TRUE)
@@ -248,7 +248,7 @@
 	switch(spellblade_chant_selected)
 		if("blade")
 			var/weapons = list("Elvish Longsword", "Elvish Sabre", "Elvish Curveblade", "Elvish Dirk")
-			var/weapon_choice = input(H, "Choose your WEAPON.", "FOR THE OAKS AND THE PEAKS.") as anything in weapons
+			var/weapon_choice = tgui_input_list(H, "Choose your WEAPON.", "FOR THE OAKS AND THE PEAKS.", weapons)
 			switch(weapon_choice)
 				if("Elvish Longsword")
 					r_hand = granted_weapon = /obj/item/rogueweapon/sword/long/elvish
@@ -270,7 +270,7 @@
 		if("macebearer")
 			backr = /obj/item/rogueweapon/shield/wood
 			var/mace_weapons = list("Steel Mace", "Steel Warhammer", "Grand Mace", "Battle Axe", "Steel Greataxe")
-			var/mace_choice = input(H, "Choose your WEAPON.", "FOR THE OAKS AND THE PEAKS.") as anything in mace_weapons
+			var/mace_choice = tgui_input_list(H, "Choose your WEAPON.", "FOR THE OAKS AND THE PEAKS.", mace_weapons)
 			switch(mace_choice)
 				if("Steel Mace")
 					r_hand = granted_weapon = /obj/item/rogueweapon/mace/steel

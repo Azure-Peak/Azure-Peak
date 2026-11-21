@@ -62,7 +62,7 @@
 
 	// Armor choice: Discretion (lighter robes, subtle similar to rogue mage) vs Progress (open armored necromancer robes) with better protection potental and unique drip
 	var/armor_style = list("Discretion (Mage Disguise)", "Progress (Open Necromancer Robes)")
-	var/armor_choice = input(H, "Choose your scholarship route.", "NO COST TOO GREAT") as anything in armor_style
+	var/armor_choice = tgui_input_list(H, "Choose your scholarship route.", "NO COST TOO GREAT", armor_style)
 	switch(armor_choice)
 		if("Discretion (Mage Disguise)")
 			head = /obj/item/clothing/head/roguetown/roguehood/black

@@ -158,14 +158,14 @@
 		var/list/poster_choices = list()
 		for(var/key in GLOB.bounty_posters)
 			poster_choices[GLOB.bounty_posters[key]] = key
-		var/choice = input(H, "Who placed a bounty on you?", "Bounty Poster") as anything in poster_choices
+		var/choice = tgui_input_list(H, "Who placed a bounty on you?", "Bounty Poster", poster_choices)
 		bounty_poster_key = poster_choices[choice]
 
 	if(!bounty_severity_key)
 		var/list/sev_choices = list()
 		for(var/key in GLOB.wretch_bounty_severities)
 			sev_choices[GLOB.wretch_bounty_severities[key]["name"]] = key
-		var/choice = input(H, "How severe are your crimes?", "Bounty Amount") as anything in sev_choices
+		var/choice = tgui_input_list(H, "How severe are your crimes?", "Bounty Amount", sev_choices)
 		bounty_severity_key = sev_choices[choice]
 
 	var/bounty_poster = GLOB.bounty_posters[bounty_poster_key]

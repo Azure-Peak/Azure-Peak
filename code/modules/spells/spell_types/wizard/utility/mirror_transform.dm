@@ -51,7 +51,7 @@
 	var/list/choices = list("Accessory", "Breast Quantity", "Breast Size", "Ears", "Ear Color One", "Ear Color Two", "Eye Color", "Skin Color", "Skin Color 2", "Skin Color 3", "Facial Hairstyle", "Facial Hair Color", "Face Detail", "Hairstyle", "Hair Primary Color", "Hair Secondary Gradient", "Hair Secondary Natural Color", "Hair Third Gradient", "Hair Third Dye Color", "Horns", "Horn Color", "Penis", "Penis Size", "Pubes", "Pits", "Tail", "Tail Color One", "Tail Color Two", "Tail Color Three", "Snout", "Snout Color One", "Snout Color Two", "Snout Color Three", "Fluff", "Fluff Color One", "Fluff Color Two", "Testicles", "Testicle Size", "Vagina", "Wings", "Wing Color")
 	if(HAS_TRAIT(H, TRAIT_EDIT_DESCRIPTORS))
 		choices += "Descriptors"
-	var/chosen = input(H, "Change what?", "Appearance") as null|anything in choices
+	var/chosen = tgui_input_list(H, "Change what?", "Appearance", null|choices)
 
 	if(!chosen)
 		return
@@ -64,7 +64,7 @@
 				var/datum/sprite_accessory/hair/head/hair = new hair_type()
 				valid_hairstyles[hair.name] = hair_type
 
-			var/new_style = input(H, "Choose your hairstyle", "Hair Styling") as null|anything in valid_hairstyles
+			var/new_style = tgui_input_list(H, "Choose your hairstyle", "Hair Styling", null|valid_hairstyles)
 			if(new_style)
 				var/obj/item/bodypart/head/head = H.get_bodypart(BODY_ZONE_HEAD)
 				if(head && head.bodypart_features)
@@ -203,7 +203,7 @@
 			for(var/gradient_type in GLOB.hair_gradients)
 				valid_gradients[gradient_type] = gradient_type
 
-			var/new_style = input(H, "Choose your natural gradient", "Secondary Natural Hair Gradient") as null|anything in valid_gradients
+			var/new_style = tgui_input_list(H, "Choose your natural gradient", "Secondary Natural Hair Gradient", null|valid_gradients)
 			if(new_style)
 				var/obj/item/bodypart/head/head = H.get_bodypart(BODY_ZONE_HEAD)
 				if(head && head.bodypart_features)
@@ -265,7 +265,7 @@
 			for(var/gradient_type in GLOB.hair_gradients)
 				valid_gradients[gradient_type] = gradient_type
 
-			var/new_style = input(H, "Choose your dye gradient", "Hair Third Dye Gradient") as null|anything in valid_gradients
+			var/new_style = tgui_input_list(H, "Choose your dye gradient", "Hair Third Dye Gradient", null|valid_gradients)
 			if(new_style)
 				var/obj/item/bodypart/head/head = H.get_bodypart(BODY_ZONE_HEAD)
 				if(head && head.bodypart_features)
@@ -328,7 +328,7 @@
 				var/datum/sprite_accessory/hair/facial/facial = new facial_type()
 				valid_facial_hairstyles[facial.name] = facial_type
 
-			var/new_style = input(H, "Choose your facial hairstyle", "Hair Styling") as null|anything in valid_facial_hairstyles
+			var/new_style = tgui_input_list(H, "Choose your facial hairstyle", "Hair Styling", null|valid_facial_hairstyles)
 			if(new_style)
 				var/obj/item/bodypart/head/head = H.get_bodypart(BODY_ZONE_HEAD)
 				if(head && head.bodypart_features)
@@ -358,7 +358,7 @@
 				var/datum/sprite_accessory/accessory/acc = new accessory_type()
 				valid_accessories[acc.name] = accessory_type
 
-			var/new_style = input(H, "Choose your accessory", "Accessory Styling") as null|anything in valid_accessories
+			var/new_style = tgui_input_list(H, "Choose your accessory", "Accessory Styling", null|valid_accessories)
 			if(new_style)
 				var/obj/item/bodypart/head/head = H.get_bodypart(BODY_ZONE_HEAD)
 				if(head && head.bodypart_features)
@@ -379,7 +379,7 @@
 				var/datum/sprite_accessory/face_detail/detail = new detail_type()
 				valid_details[detail.name] = detail_type
 
-			var/new_detail = input(H, "Choose your face detail", "Face Detail") as null|anything in valid_details
+			var/new_detail = tgui_input_list(H, "Choose your face detail", "Face Detail", null|valid_details)
 			if(new_detail)
 				var/obj/item/bodypart/head/head = H.get_bodypart(BODY_ZONE_HEAD)
 				if(head && head.bodypart_features)
@@ -400,7 +400,7 @@
 				var/datum/sprite_accessory/pubes/pube_accessory = new pubes_type()
 				valid_pubes[pube_accessory.name] = pubes_type
 
-			var/new_pubes = input(H, "Style your pubic hair", "Pube Styling") as null|anything in valid_pubes
+			var/new_pubes = tgui_input_list(H, "Style your pubic hair", "Pube Styling", null|valid_pubes)
 			if(new_pubes)
 				var/obj/item/bodypart/chest = H.get_bodypart(BODY_ZONE_CHEST)
 				if(chest && chest.bodypart_features)
@@ -424,7 +424,7 @@
 				var/datum/sprite_accessory/pits/pits_accessory = new pits_type()
 				valid_pits[pits_accessory.name] = pits_type
 
-			var/new_pits = input(H, "Style your armpit hair", "Armpit Hair Styling") as null|anything in valid_pits
+			var/new_pits = tgui_input_list(H, "Style your armpit hair", "Armpit Hair Styling", null|valid_pits)
 			if(new_pits)
 				var/obj/item/bodypart/chest = H.get_bodypart(BODY_ZONE_CHEST)
 				if(chest && chest.bodypart_features)
@@ -447,7 +447,7 @@
 				var/datum/sprite_accessory/penis/penis = new penis_path()
 				valid_penis_types[penis.name] = penis_path
 
-			var/new_style = input(H, "Choose your penis type", "Penis Customization") as null|anything in valid_penis_types
+			var/new_style = tgui_input_list(H, "Choose your penis type", "Penis Customization", null|valid_penis_types)
 			if(new_style)
 				if(new_style == "none")
 					var/obj/item/organ/penis/penis = H.getorganslot(ORGAN_SLOT_PENIS)
@@ -473,7 +473,7 @@
 				var/datum/sprite_accessory/testicles/testicles = new testicle_path()
 				valid_testicle_types[testicles.name] = testicle_path
 
-			var/new_style = input(H, "Choose your testicles type", "Testicles Customization") as null|anything in valid_testicle_types
+			var/new_style = tgui_input_list(H, "Choose your testicles type", "Testicles Customization", null|valid_testicle_types)
 			if(new_style)
 				if(new_style == "none")
 					var/obj/item/organ/testicles/testicles = H.getorganslot(ORGAN_SLOT_TESTICLES)
@@ -499,7 +499,7 @@
 				var/datum/sprite_accessory/breasts/breasts = new breast_path()
 				valid_breast_types[breasts.name] = breast_path
 
-			var/new_style = input(H, "Choose your breast type", "Breast Customization") as null|anything in valid_breast_types
+			var/new_style = tgui_input_list(H, "Choose your breast type", "Breast Customization", null|valid_breast_types)
 
 			if(new_style)
 				if(new_style == "none")
@@ -523,7 +523,7 @@
 
 		if("Vagina")
 			var/list/valid_vagina_types = list("none", "human", "hairy", "spade", "furred", "gaping", "cloaca")
-			var/new_style = input(H, "Choose your vagina type", "Vagina Customization") as null|anything in valid_vagina_types
+			var/new_style = tgui_input_list(H, "Choose your vagina type", "Vagina Customization", null|valid_vagina_types)
 
 			if(new_style)
 				if(new_style == "none")
@@ -552,7 +552,7 @@
 
 		if("Breast Size")
 			var/list/breast_sizes = list("Flat", "Slight", "Small", "Moderate", "Large", "Generous", "Heavy", "Massive", "Heaping", "Obscene")
-			var/new_size = input(H, "Choose your breast size", "Breast Size") as null|anything in breast_sizes
+			var/new_size = tgui_input_list(H, "Choose your breast size", "Breast Size", null|breast_sizes)
 			if(new_size)
 				var/obj/item/organ/breasts/breasts = H.getorganslot(ORGAN_SLOT_BREASTS)
 				if(breasts)
@@ -585,7 +585,7 @@
 
 		if("Penis Size")
 			var/list/penis_sizes = list("small", "average", "large")
-			var/new_size = input(H, "Choose your penis size", "Penis Size") as null|anything in penis_sizes
+			var/new_size = tgui_input_list(H, "Choose your penis size", "Penis Size", null|penis_sizes)
 			if(new_size)
 				var/obj/item/organ/penis/penis = H.getorganslot(ORGAN_SLOT_PENIS)
 				if(penis)
@@ -604,7 +604,7 @@
 
 		if("Testicle Size")
 			var/list/testicle_sizes = list("small", "average", "large")
-			var/new_size = input(H, "Choose your testicle size", "Testicle Size") as null|anything in testicle_sizes
+			var/new_size = tgui_input_list(H, "Choose your testicle size", "Testicle Size", null|testicle_sizes)
 			if(new_size)
 				var/obj/item/organ/testicles/testicles = H.getorganslot(ORGAN_SLOT_TESTICLES)
 				if(testicles)
@@ -627,7 +627,7 @@
 				var/datum/sprite_accessory/tail/tail = new tail_path()
 				valid_tails[tail.name] = tail_path
 
-			var/new_style = input(H, "Choose your tail", "Tail Customization") as null|anything in valid_tails
+			var/new_style = tgui_input_list(H, "Choose your tail", "Tail Customization", null|valid_tails)
 			if(new_style)
 				if(new_style == "none")
 					var/obj/item/organ/tail/tail = H.getorganslot(ORGAN_SLOT_TAIL)
@@ -713,7 +713,7 @@
 				var/datum/sprite_accessory/snout/snout = new snout_path()
 				valid_snouts[snout.name] = snout_path
 
-			var/new_style = input(H, "Choose your snout", "Snout Customization") as null|anything in valid_snouts
+			var/new_style = tgui_input_list(H, "Choose your snout", "Snout Customization", null|valid_snouts)
 			if(new_style)
 				if(new_style == "none")
 					var/obj/item/organ/snout/snout = H.getorganslot(ORGAN_SLOT_SNOUT)
@@ -799,7 +799,7 @@
 				var/datum/sprite_accessory/neck_feature/neck_feature = new neck_feature_path()
 				valid_neck_features[neck_feature.name] = neck_feature_path
 
-			var/new_style = input(H, "Choose your fluff", "Fluff Customization") as null|anything in valid_neck_features
+			var/new_style = tgui_input_list(H, "Choose your fluff", "Fluff Customization", null|valid_neck_features)
 			if(new_style)
 				if(new_style == "none")
 					var/obj/item/organ/neck_feature/neck_feature = H.getorganslot(ORGAN_SLOT_NECK_FEATURE)
@@ -865,7 +865,7 @@
 				var/datum/sprite_accessory/ears/ears = new ears_path()
 				valid_ears[ears.name] = ears_path
 
-			var/new_style = input(H, "Choose your ears", "Ears Customization") as null|anything in valid_ears
+			var/new_style = tgui_input_list(H, "Choose your ears", "Ears Customization", null|valid_ears)
 			if(new_style)
 				if(new_style == "none")
 					var/obj/item/organ/ears/ears = H.getorganslot(ORGAN_SLOT_EARS)
@@ -931,7 +931,7 @@
 				var/datum/sprite_accessory/horns/horns = new horns_path()
 				valid_horns[horns.name] = horns_path
 
-			var/new_style = input(H, "Choose your horns", "Horns Customization") as null|anything in valid_horns
+			var/new_style = tgui_input_list(H, "Choose your horns", "Horns Customization", null|valid_horns)
 			if(new_style)
 				if(new_style == "none")
 					var/obj/item/organ/horns/horns = H.getorganslot(ORGAN_SLOT_HORNS)
@@ -977,7 +977,7 @@
 				var/datum/sprite_accessory/wings/wings = new wings_path()
 				valid_wings[wings.name] = wings_path
 
-			var/new_style = input(H, "Choose your wings", "Wings Customization") as null|anything in valid_wings
+			var/new_style = tgui_input_list(H, "Choose your wings", "Wings Customization", null|valid_wings)
 			if(new_style)
 				if(new_style == "none")
 					var/obj/item/organ/wings/wings = H.getorganslot(ORGAN_SLOT_WINGS)
@@ -1026,7 +1026,7 @@
 			for(var/path in species_choices)
 				var/datum/descriptor_choice/C = DESCRIPTOR_CHOICE(path)
 				choice_map[C.name] = path
-			var/choice_name = input(H, "Which feature do you want to describe?", "Standard Descriptors") as null|anything in choice_map
+			var/choice_name = tgui_input_list(H, "Which feature do you want to describe?", "Standard Descriptors", null|choice_map)
 			if(!choice_name)
 				return
 			var/choice_type = choice_map[choice_name]
@@ -1036,7 +1036,7 @@
 				var/datum/mob_descriptor/descriptor = MOB_DESCRIPTOR(desc_type)
 				if(descriptor)
 					picklist[descriptor.name] = desc_type
-			var/picked_name = input(H, "Choose a new description for [choice_name]:", "Describe Myself") as null|anything in picklist
+			var/picked_name = tgui_input_list(H, "Choose a new description for [choice_name]:", "Describe Myself", null|picklist)
 			if(picked_name)
 				for(var/old_path in picklist)
 					H.remove_mob_descriptor(picklist[old_path])

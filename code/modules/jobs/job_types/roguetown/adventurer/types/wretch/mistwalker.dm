@@ -65,9 +65,9 @@
 
 	if(H.mind)
 		var/armor_options = list("Ceremonial Robes", "Enchanted Inks")
-		var/armor_choice = input(H, "Choose your armor.", "TAKE UP ARMOR") as anything in armor_options
+		var/armor_choice = tgui_input_list(H, "Choose your armor.", "TAKE UP ARMOR", armor_options)
 		var/weapons = list("Ssangsudo +2 CON, +2 INT", "Nodachi +2 CON, +2 INT", "Kanabo +1 STR, +2 CON", "Naginata +2 PER, +2 INT", "Hwando +2 INT, +1 SPD", "Longbow +2 PER, +1 SPD", "Kodachi +2 SPD")
-		var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
+		var/weapon_choice = tgui_input_list(H, "Choose your weapon.", "TAKE UP ARMS", weapons)
 		H.set_blindness(0)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/bloodlet)
 		switch(armor_choice)

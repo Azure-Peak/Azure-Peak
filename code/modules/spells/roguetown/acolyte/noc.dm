@@ -377,7 +377,7 @@
 	if(!grant_all)
 		var/choice_count_visual = choice_count
 		for(var/i in 1 to choice_count)
-			var/choice = input(owner, "Choose a spell! Choices remaining: [choice_count_visual]") as null|anything in spells
+			var/choice = tgui_input_list(owner, "Choose a spell! Choices remaining: [choice_count_visual]", "make your choice", null|spells)
 			if(!isnull(choice))
 				var/picked_spell = spells[choice]
 				var/datum/new_spell = new picked_spell

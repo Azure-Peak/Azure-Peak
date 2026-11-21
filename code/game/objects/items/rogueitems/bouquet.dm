@@ -82,7 +82,7 @@
 /obj/item/flowercrown/rosa/dyecrown/attackby(obj/item/W, mob/living/user, params)
 	..()
 	if(istype(W, /obj/item/natural/thorn) && !detail_tag)
-		var/choice = input(user, "Choose a color.", "Thorns.") as anything in COLOR_MAP
+		var/choice = tgui_input_list(user, "Choose a color.", "Thorns.", COLOR_MAP)
 		detail_color = COLOR_MAP[choice]
 		detail_tag = "_detail"
 		user.visible_message(span_warning("[user] adds [W] to [src]."))

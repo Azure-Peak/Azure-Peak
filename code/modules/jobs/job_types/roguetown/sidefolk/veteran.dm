@@ -112,7 +112,7 @@
 	H.adjust_blindness(-3)
 	if(H.mind)
 		var/weapons = list("Longsword","Sabre", "Mace")
-		var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
+		var/weapon_choice = tgui_input_list(H, "Choose your weapon.", "TAKE UP ARMS", weapons)
 		H.set_blindness(0)
 		switch(weapon_choice)
 			if("Longsword")
@@ -124,7 +124,7 @@
 			if("Mace")
 				H.put_in_hands(new /obj/item/rogueweapon/mace)
 		var/retirement = list("Pursue Homesteading", "Dabble in Artisan Smithing", "Write an autobiography", "Keep up with your old regimen")
-		var/retirement_choice = input(H, "During your retirement, you decided to...", "PICK A HOBBY.") as anything in retirement
+		var/retirement_choice = tgui_input_list(H, "During your retirement, you decided to...", "PICK A HOBBY.", retirement)
 		switch(retirement_choice)
 			if("Pursue Homesteading")
 				ADD_TRAIT(H, TRAIT_HOMESTEAD_EXPERT, TRAIT_GENERIC)
@@ -148,7 +148,7 @@
 				H.adjust_skillrank_up_to(/datum/skill/misc/athletics, SKILL_LEVEL_EXPERT, TRUE)
 				H.adjust_skillrank_up_to(/datum/skill/misc/swimming, SKILL_LEVEL_EXPERT, TRUE)
 		var/discharged = list("ONE-EYED", "BRITTLE-BONAGE", "HAUNTED", "STIFF-JOINTED")
-		var/discharged_choice = input(H, "What forced you into retirement?", "PICK A DEBILITATION.") as anything in discharged
+		var/discharged_choice = tgui_input_list(H, "What forced you into retirement?", "PICK A DEBILITATION.", discharged)
 		switch(discharged_choice)
 			if("ONE-EYED")
 				ADD_TRAIT(H, TRAIT_CYCLOPS_RIGHT, TRAIT_GENERIC)
@@ -228,7 +228,7 @@
 	H.adjust_blindness(-3)
 	if(H.mind)
 		var/retirement = list("Pursue Homesteading", "Dabble in Artisan Smithing", "Write an autobiography", "Keep up with your old regimen")
-		var/retirement_choice = input(H, "During your retirement, you decided to...", "PICK A HOBBY.") as anything in retirement
+		var/retirement_choice = tgui_input_list(H, "During your retirement, you decided to...", "PICK A HOBBY.", retirement)
 		switch(retirement_choice)
 			if("Pursue Homesteading")
 				ADD_TRAIT(H, TRAIT_HOMESTEAD_EXPERT, TRAIT_GENERIC)
@@ -252,7 +252,7 @@
 				H.adjust_skillrank_up_to(/datum/skill/misc/athletics, SKILL_LEVEL_EXPERT, TRUE)
 				H.adjust_skillrank_up_to(/datum/skill/misc/swimming, SKILL_LEVEL_EXPERT, TRUE)
 		var/discharged = list("ONE-EYED", "BRITTLE-BONAGE", "HAUNTED", "STIFF-JOINTED")
-		var/discharged_choice = input(H, "What forced you into retirement?", "PICK A DEBILITATION.") as anything in discharged
+		var/discharged_choice = tgui_input_list(H, "What forced you into retirement?", "PICK A DEBILITATION.", discharged)
 		switch(discharged_choice)
 			if("ONE-EYED")
 				ADD_TRAIT(H, TRAIT_CYCLOPS_RIGHT, TRAIT_GENERIC)
@@ -334,7 +334,7 @@
 	H.adjust_blindness(-3)
 	if(H.mind)
 		var/weapons = list("Sword + Bow","Axe + Crossbow","Spear + Shield")
-		var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
+		var/weapon_choice = tgui_input_list(H, "Choose your weapon.", "TAKE UP ARMS", weapons)
 		H.set_blindness(0)
 		switch(weapon_choice)
 			if("Sword + Bow")
@@ -352,7 +352,7 @@
 				r_hand = /obj/item/rogueweapon/spear
 				backl = /obj/item/rogueweapon/shield/tower/metal
 		var/retirement = list("Pursue Homesteading", "Dabble in Artisan Smithing", "Write an autobiography", "Keep up with your old regimen")
-		var/retirement_choice = input(H, "During your retirement, you decided to...", "PICK A HOBBY.") as anything in retirement
+		var/retirement_choice = tgui_input_list(H, "During your retirement, you decided to...", "PICK A HOBBY.", retirement)
 		switch(retirement_choice)
 			if("Pursue Homesteading")
 				ADD_TRAIT(H, TRAIT_HOMESTEAD_EXPERT, TRAIT_GENERIC)
@@ -376,7 +376,7 @@
 				H.adjust_skillrank_up_to(/datum/skill/misc/athletics, SKILL_LEVEL_EXPERT, TRUE)
 				H.adjust_skillrank_up_to(/datum/skill/misc/swimming, SKILL_LEVEL_EXPERT, TRUE)
 		var/discharged = list("ONE-EYED", "BRITTLE-BONAGE", "HAUNTED", "STIFF-JOINTED")
-		var/discharged_choice = input(H, "What forced you into retirement?", "PICK A DEBILITATION.") as anything in discharged
+		var/discharged_choice = tgui_input_list(H, "What forced you into retirement?", "PICK A DEBILITATION.", discharged)
 		switch(discharged_choice)
 			if("ONE-EYED")
 				ADD_TRAIT(H, TRAIT_CYCLOPS_RIGHT, TRAIT_GENERIC)
@@ -459,7 +459,7 @@
 	H.adjust_blindness(-3)
 	if(H.mind)
 		var/weapons = list("Zweihander","Halberd")
-		var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
+		var/weapon_choice = tgui_input_list(H, "Choose your weapon.", "TAKE UP ARMS", weapons)
 		H.set_blindness(0)
 		switch(weapon_choice)
 			if("Zweihander")
@@ -471,7 +471,7 @@
 				H.adjust_skillrank_up_to(/datum/skill/combat/polearms, 6, TRUE)
 				H.equip_to_slot_or_del(new /obj/item/rogueweapon/scabbard/gwstrap, SLOT_BACK_L)
 		var/retirement = list("Pursue Homesteading", "Dabble in Artisan Smithing", "Write an autobiography", "Keep up with your old regimen")
-		var/retirement_choice = input(H, "During your retirement, you decided to...", "PICK A HOBBY.") as anything in retirement
+		var/retirement_choice = tgui_input_list(H, "During your retirement, you decided to...", "PICK A HOBBY.", retirement)
 		switch(retirement_choice)
 			if("Pursue Homesteading")
 				ADD_TRAIT(H, TRAIT_HOMESTEAD_EXPERT, TRAIT_GENERIC)
@@ -494,7 +494,7 @@
 				H.adjust_skillrank_up_to(/datum/skill/misc/athletics, SKILL_LEVEL_EXPERT, TRUE)
 				H.adjust_skillrank_up_to(/datum/skill/misc/swimming, SKILL_LEVEL_EXPERT, TRUE)
 		var/discharged = list("ONE-EYED", "BRITTLE-BONAGE", "HAUNTED", "STIFF-JOINTED")
-		var/discharged_choice = input(H, "What forced you into retirement?", "PICK A DEBILITATION.") as anything in discharged
+		var/discharged_choice = tgui_input_list(H, "What forced you into retirement?", "PICK A DEBILITATION.", discharged)
 		switch(discharged_choice)
 			if("ONE-EYED")
 				ADD_TRAIT(H, TRAIT_CYCLOPS_RIGHT, TRAIT_GENERIC)
@@ -560,7 +560,7 @@
 	shoes = /obj/item/clothing/shoes/roguetown/boots/leather
 	saiga_shoes = /obj/item/clothing/shoes/roguetown/horseshoes
 	var/weapons = list("Long Bow", "Slurbow", "Crossbow")
-	var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
+	var/weapon_choice = tgui_input_list(H, "Choose your weapon.", "TAKE UP ARMS", weapons)
 	H.set_blindness(0)
 	switch(weapon_choice)
 		if("Long Bow")
@@ -588,7 +588,7 @@
 	H.adjust_blindness(-3)
 	if(H.mind)
 		var/retirement = list("Pursue Homesteading", "Dabble in Artisan Smithing", "Write an autobiography", "Keep up with your old regimen")
-		var/retirement_choice = input(H, "During your retirement, you decided to...", "PICK A HOBBY.") as anything in retirement
+		var/retirement_choice = tgui_input_list(H, "During your retirement, you decided to...", "PICK A HOBBY.", retirement)
 		switch(retirement_choice)
 			if("Pursue Homesteading")
 				ADD_TRAIT(H, TRAIT_HOMESTEAD_EXPERT, TRAIT_GENERIC)
@@ -612,7 +612,7 @@
 				H.adjust_skillrank_up_to(/datum/skill/misc/athletics, SKILL_LEVEL_EXPERT, TRUE)
 				H.adjust_skillrank_up_to(/datum/skill/misc/swimming, SKILL_LEVEL_EXPERT, TRUE)
 		var/discharged = list("ONE-EYED", "BRITTLE-BONAGE", "HAUNTED", "STIFF-JOINTED")
-		var/discharged_choice = input(H, "What forced you into retirement?", "PICK A DEBILITATION.") as anything in discharged
+		var/discharged_choice = tgui_input_list(H, "What forced you into retirement?", "PICK A DEBILITATION.", discharged)
 		switch(discharged_choice)
 			if("ONE-EYED")
 				ADD_TRAIT(H, TRAIT_CYCLOPS_RIGHT, TRAIT_GENERIC)
@@ -698,7 +698,7 @@
 	H.adjust_blindness(-3)
 	if(H.mind)
 		var/retirement = list("Pursue Homesteading", "Dabble in Artisan Smithing", "Write an autobiography", "Keep up with your old regimen")
-		var/retirement_choice = input(H, "During your retirement, you decided to...", "PICK A HOBBY.") as anything in retirement
+		var/retirement_choice = tgui_input_list(H, "During your retirement, you decided to...", "PICK A HOBBY.", retirement)
 		switch(retirement_choice)
 			if("Pursue Homesteading")
 				ADD_TRAIT(H, TRAIT_HOMESTEAD_EXPERT, TRAIT_GENERIC)
@@ -722,7 +722,7 @@
 				H.adjust_skillrank_up_to(/datum/skill/misc/athletics, SKILL_LEVEL_EXPERT, TRUE)
 				H.adjust_skillrank_up_to(/datum/skill/misc/swimming, SKILL_LEVEL_EXPERT, TRUE)
 		var/discharged = list("ONE-EYED", "BRITTLE-BONAGE", "HAUNTED", "STIFF-JOINTED")
-		var/discharged_choice = input(H, "What forced you into retirement?", "PICK A DEBILITATION.") as anything in discharged
+		var/discharged_choice = tgui_input_list(H, "What forced you into retirement?", "PICK A DEBILITATION.", discharged)
 		switch(discharged_choice)
 			if("ONE-EYED")
 				ADD_TRAIT(H, TRAIT_CYCLOPS_RIGHT, TRAIT_GENERIC)

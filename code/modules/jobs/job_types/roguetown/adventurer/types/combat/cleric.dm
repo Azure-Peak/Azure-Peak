@@ -67,7 +67,7 @@
 	C.grant_miracles(H, cleric_tier = CLERIC_T1, passive_gain = CLERIC_REGEN_MINOR, devotion_limit = CLERIC_REQ_1)	//Capped to T1 miracles. Better passive regeneration.
 	if(H.mind)
 		var/weapons = list("Penance - Unarmored","Pugilist","Katar","Knuckledusters","Quarterstaff")
-		var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
+		var/weapon_choice = tgui_input_list(H, "Choose your weapon.", "TAKE UP ARMS", weapons)
 		switch(weapon_choice)
 			if("Penance - Unarmored") // Loses Dodge Expert, gains Enduring, swaps light armor for skin armor.
 				ADD_TRAIT(H, TRAIT_NOPAINSTUN, JOB_TRAIT)
@@ -137,7 +137,7 @@
 			mask = /obj/item/clothing/head/roguetown/roguehood/undividedcleric
 			if(H.mind)
 				var/cloaks = list("Cloak", "Tabard", "Robes")
-				var/cloakchoice = input(H,"Choose your covering", "TAKE UP FASHION") as anything in cloaks
+				var/cloakchoice = tgui_input_list(H,"Choose your covering", "TAKE UP FASHION", cloaks)
 				switch(cloakchoice)
 					if("Cloak")
 						H.equip_to_slot_or_del(new /obj/item/clothing/cloak/undividedcleric, SLOT_CLOAK, TRUE)
@@ -230,7 +230,7 @@
 		armors += list("Psydonic Cuirass")
 		shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/inq/cleric
 
-	var/armor_choice = input(H, "Choose your MAILLE.", "STAND BEFORE THE DARKNESS.") as anything in armors //
+	var/armor_choice = tgui_input_list(H, "Choose your MAILLE.", "STAND BEFORE THE DARKNESS.", armors)
 	switch(armor_choice)
 		if("Hauberk")
 			armor = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk
@@ -283,12 +283,12 @@
 	C.grant_miracles(H, cleric_tier = CLERIC_T1, passive_gain = CLERIC_REGEN_WEAK, devotion_limit = CLERIC_REQ_1)	//Capped to T1 miracles.
 	if(H.mind)
 		// HELM CHOICE.
-		var/helmchoice = input(H, "Choose your Helm.", "TAKE UP HELMS") as anything in helmets
+		var/helmchoice = tgui_input_list(H, "Choose your Helm.", "TAKE UP HELMS", helmets)
 		if(helmchoice != "None")
 			head = helmets[helmchoice]
 		// WEAPON CHOICE.
 		var/weapons = list("Arming Sword","Longsword","Broadsword","Mace","Flail","Flail, Studded","Whip","Spear","Axe")
-		var/weapon_choice = input(H, "Choose your WEAPON.", "TAKE UP YOUR GOD'S ARMS.") as anything in weapons
+		var/weapon_choice = tgui_input_list(H, "Choose your WEAPON.", "TAKE UP YOUR GOD'S ARMS.", weapons)
 		switch(weapon_choice)
 			if("Arming Sword")
 				beltr = /obj/item/rogueweapon/sword
@@ -331,7 +331,7 @@
 				H.adjust_skillrank_up_to(/datum/skill/combat/axes, SKILL_LEVEL_JOURNEYMAN, TRUE)
 				r_hand = /obj/item/rogueweapon/stoneaxe/woodcut
 		var/oaths = list("Cleric - Medicine Training + Supplies","Crusader - Anointed Weapon","None")
-		var/oath_choice = input(H, "Choose your OATH.", "PROFESS YOUR BLESSINGS.") as anything in oaths
+		var/oath_choice = tgui_input_list(H, "Choose your OATH.", "PROFESS YOUR BLESSINGS.", oaths)
 		switch(oath_choice)
 			if("Cleric - Medicine Training + Supplies")
 				H.adjust_skillrank_up_to(/datum/skill/misc/medicine, SKILL_LEVEL_APPRENTICE, TRUE)
@@ -339,7 +339,7 @@
 				beltl = /obj/item/reagent_containers/glass/bottle/rogue/healthpot //No cloth, but a basic potion of lifeblood - similar to the Sorcerer's manna potion. Take the 'Physician's Apprentice' virtue for that, uncapped skills, and more.
 			if("Crusader - Anointed Weapon")
 				var/silver = list("Anointed Dagger","Anointed Longsword","Anointed Mace","Anointed Morningstar","Anointed Whip","Anointed War Axe","Anointed Spear")
-				var/silver_choice = input(H, "Choose your ARM.", "STAND AGAINST PERDITION.") as anything in silver //Trimmed down from the exorcist's usual list, only one option of each weapon-type.
+				var/silver_choice = tgui_input_list(H, "Choose your ARM.", "STAND AGAINST PERDITION.", silver) //Trimmed down from the exorcist's usual list, only one option of each weapon-type.
 				switch(silver_choice)
 					if("Anointed Dagger")
 						H.adjust_skillrank_up_to(/datum/skill/combat/knives, SKILL_LEVEL_JOURNEYMAN, TRUE)
@@ -412,7 +412,7 @@
 	var/is_bard = FALSE
 	if(H.mind)
 		var/callings = list("Devotion","Inspiration")
-		var/calling_choice = input(H, "Devote yourself wholly to your patron, or take up the bard's songs? You cannot walk both paths.", "YOUR CALLING") as anything in callings
+		var/calling_choice = tgui_input_list(H, "Devote yourself wholly to your patron, or take up the bard's songs? You cannot walk both paths.", "YOUR CALLING", callings)
 		is_bard = (calling_choice == "Inspiration")
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)
 	if(is_bard)
@@ -435,7 +435,7 @@
 		if(/datum/patron/old_god)
 			if(H.mind)
 				var/cloaks = list("Robe", "Tabard")
-				var/cloakchoice = input(H,"Choose your covering", "DON THY VESTAMENTS") as anything in cloaks
+				var/cloakchoice = tgui_input_list(H,"Choose your covering", "DON THY VESTAMENTS", cloaks)
 				switch(cloakchoice)
 					if("Robe")
 						H.equip_to_slot_or_del(new /obj/item/clothing/cloak/absolutionistrobe/black, SLOT_CLOAK, TRUE)
@@ -464,7 +464,7 @@
 		if (/datum/patron/divine/undivided)
 			if(H.mind)
 				var/cloaks = list("Cloak", "Tabard")
-				var/cloakchoice = input(H,"Choose your covering", "TAKE UP FASHION") as anything in cloaks
+				var/cloakchoice = tgui_input_list(H,"Choose your covering", "TAKE UP FASHION", cloaks)
 				switch(cloakchoice)
 					if("Cloak")
 						H.equip_to_slot_or_del(new /obj/item/clothing/cloak/undividedcleric, SLOT_CLOAK, TRUE)
@@ -553,7 +553,7 @@
 			shirt = /obj/item/clothing/suit/roguetown/armor/vestments_padded
 			if(H.mind)
 				var/cloaks = list("Robe + Tabard", "Robe", "Tabard")
-				var/cloakchoice = input(H,"Choose your covering", "DON THY VESTAMENTS") as anything in cloaks
+				var/cloakchoice = tgui_input_list(H,"Choose your covering", "DON THY VESTAMENTS", cloaks)
 				switch(cloakchoice)
 					if("Robe + Tabard")
 						H.equip_to_slot_or_del(new /obj/item/clothing/cloak/absolutionistrobe/black, SLOT_CLOAK, TRUE)
@@ -570,7 +570,7 @@
 			shirt = /obj/item/clothing/suit/roguetown/armor/vestments_padded
 			if(H.mind)
 				var/cloaks = list("Cloak", "Tabard")
-				var/cloakchoice = input(H,"Choose your covering", "TAKE UP FASHION") as anything in cloaks
+				var/cloakchoice = tgui_input_list(H,"Choose your covering", "TAKE UP FASHION", cloaks)
 				switch(cloakchoice)
 					if("Cloak")
 						H.equip_to_slot_or_del(new /obj/item/clothing/cloak/undividedcleric, SLOT_CLOAK, TRUE)
@@ -627,7 +627,7 @@
 			ADD_TRAIT(H, TRAIT_SEEDKNOW, TRAIT_GENERIC) //no free woodwalker, no.
 
 			var/helms = list("Briar Mask (Classic)","Saiga Skull","Antler Hood")
-			var/helm_choice = input(H, "Choose your HEADWEAR.", "DENDOR. FATHER. SPIRIT-GUIDE.") as anything in helms
+			var/helm_choice = tgui_input_list(H, "Choose your HEADWEAR.", "DENDOR. FATHER. SPIRIT-GUIDE.", helms)
 			switch(helm_choice)
 				if("Briar Mask (Classic)")
 					head = /obj/item/clothing/head/roguetown/dendormask
@@ -650,7 +650,7 @@
 		/obj/item/burial_shroud = 1,
 		)
 			var/list/necra_tools = list("Shovel", "Scythe")
-			var/tool_choice = input(H, "A reaper, or a digger?", "HOW WILL YOU APPEASE THE UNDERMAIDEN?") as anything in necra_tools
+			var/tool_choice = tgui_input_list(H, "A reaper, or a digger?", "HOW WILL YOU APPEASE THE UNDERMAIDEN?", necra_tools)
 			switch(tool_choice) // choose wisely... larp or effectiveness?
 				if("Shovel")
 					l_hand = /obj/item/rogueweapon/shovel
@@ -684,7 +684,7 @@
 			H.adjust_skillrank(/datum/skill/labor/farming, SKILL_LEVEL_NOVICE, TRUE)
 			H.adjust_skillrank(/datum/skill/craft/cooking, SKILL_LEVEL_APPRENTICE, TRUE)
 			var/robes = list("Modest","Exposed")
-			var/robe_choice = input(H, "Choose your ROBES.", "TAKE UP ROBES.") as anything in robes
+			var/robe_choice = tgui_input_list(H, "Choose your ROBES.", "TAKE UP ROBES.", robes)
 			switch(robe_choice) // This feels wrong to do but I am unsure how else to do it
 				if("Modest")
 					cloak = /obj/item/clothing/suit/roguetown/shirt/robe/eora
@@ -767,7 +767,7 @@
 			cloak = /obj/item/clothing/cloak/raincloak/furcloak/brown
 
 			var/helms = list("Skull Mask + Hood (Classic)","Saiga Skull","Antler Hood")
-			var/helm_choice = input(H, "Choose your HEADWEAR.", "SHATTER YOUR BINDS.") as anything in helms
+			var/helm_choice = tgui_input_list(H, "Choose your HEADWEAR.", "SHATTER YOUR BINDS.", helms)
 			switch(helm_choice) //like dendor, consider these as "lesser trophies" and asimilar of a shaman
 				if("Skull Mask + Hood (Classic)")
 					head = /obj/item/clothing/head/roguetown/roguehood/black
@@ -786,7 +786,7 @@
 	C.grant_miracles(H, cleric_tier = CLERIC_T3, passive_gain = CLERIC_REGEN_MINOR, devotion_limit = CLERIC_REQ_3)	//Minor regen, capped to T3, parity with other Holy and/or Arcyne caster - no others spend 15 minutes idling only to unlock their entire potencial.
 	if(H.mind)
 		var/weapons = list("Woodstaff", "Quarterstaff")
-		var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
+		var/weapon_choice = tgui_input_list(H, "Choose your weapon.", "TAKE UP ARMS", weapons)
 		switch(weapon_choice)
 			if("Woodstaff")
 				r_hand = /obj/item/rogueweapon/woodstaff

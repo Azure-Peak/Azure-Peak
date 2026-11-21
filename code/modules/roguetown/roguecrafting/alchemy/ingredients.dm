@@ -324,7 +324,7 @@
 	if(!do_after(user, 5 SECONDS))
 		return
 
-	var/p_input = input(user, "Choose your character's pronouns", "Pronouns") as null|anything in GLOB.pronouns_list
+	var/p_input = tgui_input_list(user, "Choose your character's pronouns", "Pronouns", null|GLOB.pronouns_list)
 	if(p_input)
 		user.pronouns = p_input
 	if(alert(user, "Do you wish to change your frame?", "Body Type", "Yes", "No") == "Yes")

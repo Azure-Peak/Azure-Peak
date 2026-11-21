@@ -83,10 +83,10 @@
 		"Elven Barbute"				= /obj/item/clothing/head/roguetown/helmet/elvenbarbute/blackoak,
 		"Winged Elven Barbute"		= /obj/item/clothing/head/roguetown/helmet/elvenbarbute/winged/blackoak,
 	)
-	var/helmchoice = input(H, "Choose your HELMET.", "LEAVES OVER STEEL.") as anything in helmets
+	var/helmchoice = tgui_input_list(H, "Choose your HELMET.", "LEAVES OVER STEEL.", helmets)
 	head = helmets[helmchoice]
 	var/armor_style = list("Haste (Light Armor, +1 Spd)", "Heritage (Medium Armor, +1 Wil/Con)")
-	var/armor_choice = input(H, "Choose your ARMOR.", "FOR THE OAKS AND THE PEAKS") as anything in armor_style
+	var/armor_choice = tgui_input_list(H, "Choose your ARMOR.", "FOR THE OAKS AND THE PEAKS", armor_style)
 	switch(armor_choice)
 		if("Haste (Light Armor, +1 Spd)")
 			ADD_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_GENERIC)
@@ -104,7 +104,7 @@
 	switch(spellblade_chant_selected)
 		if("blade")
 			var/weapons = list("Elvish Longsword", "Elvish sabre", "Elvish Curveblade", "Elvish Dirk")
-			var/weapon_choice = input(H, "Choose your WEAPON.", "FOR THE OAKS AND THE PEAKS.") as anything in weapons
+			var/weapon_choice = tgui_input_list(H, "Choose your WEAPON.", "FOR THE OAKS AND THE PEAKS.", weapons)
 			switch(weapon_choice)
 				if("Elvish Longsword")
 					r_hand = granted_weapon = /obj/item/rogueweapon/sword/long/elvish
@@ -126,7 +126,7 @@
 		if("macebearer")
 			backr = /obj/item/rogueweapon/shield/wood
 			var/mace_weapons = list("Steel Mace", "Steel Warhammer", "Grand Mace", "Battle Axe", "Steel Greataxe")
-			var/mace_choice = input(H, "Choose your WEAPON.", "FOR THE OAKS AND THE PEAKS.") as anything in mace_weapons
+			var/mace_choice = tgui_input_list(H, "Choose your WEAPON.", "FOR THE OAKS AND THE PEAKS.", mace_weapons)
 			switch(mace_choice)
 				if("Steel Mace")
 					r_hand = granted_weapon = /obj/item/rogueweapon/mace/steel

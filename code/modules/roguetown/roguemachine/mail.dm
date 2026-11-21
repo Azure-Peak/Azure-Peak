@@ -276,7 +276,7 @@
 	if(pen)
 		choices["Pen name: [pen]"] = MAIL_SIGN_PEN
 	choices["Anonymous"] = MAIL_SIGN_ANON
-	var/picked = input(user, "Who is this from?", "ROGUETOWN") as null|anything in choices
+	var/picked = tgui_input_list(user, "Who is this from?", "ROGUETOWN", null|choices)
 	if(!picked)
 		return null
 	return mail_signature(user, choices[picked])

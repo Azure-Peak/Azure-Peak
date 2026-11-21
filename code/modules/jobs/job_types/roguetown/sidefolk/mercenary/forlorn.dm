@@ -69,7 +69,7 @@
 	"Militia War Axe",
 	"Militia Thresher",
 	"Militia Goedendag (Pair)") // Any that scales off labor skill isn't included
-	var/weapon_choice = input(H, "Choose your weapon.", "ARMS TO SLAY THE OPPRESSORS") as anything in weapons
+	var/weapon_choice = tgui_input_list(H, "Choose your weapon.", "ARMS TO SLAY THE OPPRESSORS", weapons)
 	switch(weapon_choice)
 		if("Warhammer")
 			H.equip_to_slot_or_del(new /obj/item/rogueweapon/mace/warhammer/steel, SLOT_BELT_L)

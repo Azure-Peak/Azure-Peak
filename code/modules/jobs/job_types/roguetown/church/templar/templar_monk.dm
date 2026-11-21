@@ -123,7 +123,7 @@
 		if(/datum/patron/divine/noc)
 			weapons += "Lunar Crescent"
 
-	var/weapon_choice = input(H,"Choose your weapon.", "TAKE UP ARMS") as anything in weapons
+	var/weapon_choice = tgui_input_list(H,"Choose your weapon.", "TAKE UP ARMS", weapons)
 	switch(weapon_choice)
 		if("Pugilist")
 			H.adjust_skillrank_up_to(/datum/skill/misc/athletics, SKILL_LEVEL_MASTER, TRUE)

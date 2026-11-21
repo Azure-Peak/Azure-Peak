@@ -2,7 +2,7 @@
 	name = "Hedge Alchemist"
 	tutorial = "Where most devotees greedily take from others you create your own wealth out of nothing, expert in both medicine and alchemical matters you are true menace to society - as your old Lord found out the hard way."
 	allowed_sexes = list(MALE, FEMALE)
-	
+
 	outfit = /datum/outfit/job/roguetown/bandit/hedgealchemist
 	category_tags = list(CTAG_BANDIT)
 	maximum_possible_slots = 2
@@ -59,7 +59,7 @@
 	if(H.mind)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/diagnose/secular)
 		var/armor_options = list("Light Armor", "Medium Armor")
-		var/armor_choice = input(H, "Choose your armor.", "TAKE UP ARMS") as anything in armor_options
+		var/armor_choice = tgui_input_list(H, "Choose your armor.", "TAKE UP ARMS", armor_options)
 
 		switch(armor_choice)
 			if("Light Armor")

@@ -79,11 +79,11 @@
 		"Gilbranze Knight Helmet"	= /obj/item/clothing/head/roguetown/helmet/heavy/knight/paalloy,
 		"Gilbranze Sayovard Helmet"	= /obj/item/clothing/head/roguetown/helmet/heavy/guard/paalloy,
 	)
-	var/helmchoice = input(H, "Choose your Helm.", "A VISAGE UNBOUND.") as anything in helmets
+	var/helmchoice = tgui_input_list(H, "Choose your Helm.", "A VISAGE UNBOUND.", helmets)
 	if(helmchoice != "None")
 		head = helmets[helmchoice]
 
-	var/armor_choice = input(H, "Choose your Armor.", "A BULWARK TO LAST FOREVER.") as anything in list("Halfplate", "Cuirass & Haulberk", "Heavy Haulberk")
+	var/armor_choice = tgui_input_list(H, "Choose your Armor.", "A BULWARK TO LAST FOREVER.", list("Halfplate", "Cuirass & Haulberk", "Heavy Haulberk"))
 	switch(armor_choice)
 		if("Halfplate")
 			shirt = /obj/item/clothing/suit/roguetown/armor/gambeson
@@ -98,7 +98,7 @@
 			armor = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/paalloy/heavy
 			wrists = /obj/item/clothing/wrists/roguetown/bracers/paalloy/chain
 
-	var/weapon_choice = input(H, "Choose your WEAPON.", "RAGE AGAINST THE LYVING.") as anything in list("Ancient Longsword + Shield", "Ancient Greatsword", "Ancient Axe + Shield", "Ancient Mace + Shield", "Ancient Flail + Shield", "Ancient Warhammer + Shield", "Bardiche", "Grand Mace")
+	var/weapon_choice = tgui_input_list(H, "Choose your WEAPON.", "RAGE AGAINST THE LYVING.", list("Ancient Longsword + Shield", "Ancient Greatsword", "Ancient Axe + Shield", "Ancient Mace + Shield", "Ancient Flail + Shield", "Ancient Warhammer + Shield", "Bardiche", "Grand Mace"))
 	switch(weapon_choice)
 		if("Ancient Longsword + Shield")
 			beltl = /obj/item/rogueweapon/scabbard/sword
@@ -147,7 +147,7 @@
 	H.set_blindness(0)
 
 	var/tabards = list("Black Jupon", "Black Tabard", "Black Cloak", "Black Toga")
-	var/tabard_choice = input(H, "Choose your CLOAK.", "BEAR YOUR HERALDRY.") as anything in tabards
+	var/tabard_choice = tgui_input_list(H, "Choose your CLOAK.", "BEAR YOUR HERALDRY.", tabards)
 	switch(tabard_choice)
 		if("Black Jupon")
 			cloak = /obj/item/clothing/cloak/tabard/stabard/surcoat/necro

@@ -71,7 +71,7 @@
 /datum/outfit/job/roguetown/chasseur/choose_loadout(mob/living/carbon/human/H)
 	. = ..()
 	var/weapons = list("Psydonic Arming Sword", "Psydonic Shortsword", "Psydonic War Axe")
-	var/weapon_choice = input(H, "Choose your WEAPON.", "TAKE UP PSYDON'S ARMS.") as anything in weapons
+	var/weapon_choice = tgui_input_list(H, "Choose your WEAPON.", "TAKE UP PSYDON'S ARMS.", weapons)
 	switch(weapon_choice)
 		if("Psydonic Arming Sword")
 			H.put_in_hands(new /obj/item/rogueweapon/sword/silver/psy)
@@ -91,12 +91,12 @@
 			H.adjust_skillrank_up_to(/datum/skill/combat/axes, SKILL_LEVEL_EXPERT, TRUE)
 
 	var/bows = list("Crossbow - Access To Special Bolts", "Siegebow - Greater Damage, Structurebreaker")
-	var/bow_choice = input(H, "Choose your BOW.", "TAKE UP PSYDON'S ARCAGE.") as anything in bows
+	var/bow_choice = tgui_input_list(H, "Choose your BOW.", "TAKE UP PSYDON'S ARCAGE.", bows)
 	switch(bow_choice)
 		if("Crossbow - Access To Special Bolts")
 			H.equip_to_slot_or_del(new /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow, SLOT_BACK_L, TRUE)
 			var/quivers = list("Bolts - Steel-Tipped", "Sunderbolts - Silver-Tipped, Halved Damage", "Pyrobolts - Incendiary-Tipped, Minimal Damage")
-			var/bolt_choice = input(H, "Choose your MUNITIONS.", "TAKE UP PSYDON'S MISSILES.") as anything in quivers
+			var/bolt_choice = tgui_input_list(H, "Choose your MUNITIONS.", "TAKE UP PSYDON'S MISSILES.", quivers)
 			switch(bolt_choice)
 				if("Bolts - Steel-Tipped")
 					H.equip_to_slot_or_del(new /obj/item/quiver/bolt/standard, SLOT_BELT_L, TRUE)

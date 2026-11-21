@@ -40,7 +40,7 @@
 	armor = /obj/item/clothing/suit/roguetown/armor/plate/cuirass/blacksteel
 	if(H.mind)
 		var/weapons = list("Zweihander", "Kriegmesser & Buckler")
-		var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
+		var/weapon_choice = tgui_input_list(H, "Choose your weapon.", "TAKE UP ARMS", weapons)
 		switch(weapon_choice)
 			if("Zweihander")
 				r_hand = /obj/item/rogueweapon/greatsword/grenz
@@ -107,7 +107,7 @@
 	armor = /obj/item/clothing/suit/roguetown/armor/plate/cuirass/blacksteel
 	if(H.mind)
 		var/weapons = list("Halberd", "Partizan")
-		var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
+		var/weapon_choice = tgui_input_list(H, "Choose your weapon.", "TAKE UP ARMS", weapons)
 		switch(weapon_choice)
 			if("Halberd")
 				r_hand = /obj/item/rogueweapon/halberd
@@ -176,14 +176,14 @@
 	beltl = /obj/item/rogueweapon/stoneaxe/woodcut/steel
 	if(H.mind)
 		var/armor_options = list("Light Brigandine", "Studded Leather Vest")
-		var/armor_choice = input(H, "Choose your armor.", "DRESS UP") as anything in armor_options
+		var/armor_choice = tgui_input_list(H, "Choose your armor.", "DRESS UP", armor_options)
 		switch(armor_choice)
 			if("Light Brigandine")
 				armor = /obj/item/clothing/suit/roguetown/armor/brigandine/light	// find a smithy to fix it
 			if("Studded Leather Vest")
 				armor = /obj/item/clothing/suit/roguetown/armor/leather/studded		// or maintain it yourself!
 		var/weapons = list("Crossbow & 16 Bolts","Heavy Crossbow & 8 Heavy Bolts")
-		var/weapon_choice = input(H, "Choose your weapon.", "RENOCK AND REBOLT") as anything in weapons
+		var/weapon_choice = tgui_input_list(H, "Choose your weapon.", "RENOCK AND REBOLT", weapons)
 		switch(weapon_choice)
 			if("Crossbow & 16 Bolts")
 				beltr = /obj/item/quiver/bolt/standard
