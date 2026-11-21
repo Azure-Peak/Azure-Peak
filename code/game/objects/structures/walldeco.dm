@@ -9,6 +9,10 @@
 	layer = ABOVE_MOB_LAYER+0.1
 
 /obj/structure/fluff/walldeco/OnCrafted(dirin, user)
+	set_wall_offset(dirin)
+	. = ..()
+
+/obj/structure/fluff/walldeco/proc/set_wall_offset(dirin)
 	pixel_x = 0
 	pixel_y = 0
 	switch(dirin)
@@ -20,7 +24,6 @@
 			pixel_x = 32
 		if(WEST)
 			pixel_x = -32
-	. = ..()
 
 /obj/structure/fluff/walldeco/proc/get_attached_wall()
 	return
