@@ -549,6 +549,7 @@
 		return FALSE
 
 	dream_messages[target] = message
+	log_game("[key_name(leader)] sent a dream vision to [key_name(target)] with contents [message]")
 	RegisterSignal(target, COMSIG_MOB_SLEEP, PROC_REF(on_sleep))
 	P.visible_message(span_purple("[P] flares softly, carrying your message away!"))
 	return TRUE
