@@ -8,7 +8,7 @@
 	statpack = /datum/npc_statpack/line/t3 //fallback
 	patron = /datum/patron/old_god //PSYDON WILL ENDVRE
 	armor_training = ARMOR_CLASS_MEDIUM //all of them can use maile
-	melee = SKILL_LEVEL_APPRENTICE
+	melee = SKILL_LEVEL_JOURNEYMAN
 	magic = SKILL_LEVEL_JOURNEYMAN
 	brawl = SKILL_LEVEL_EXPERT
 	survival = SKILL_LEVEL_JOURNEYMAN
