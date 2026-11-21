@@ -3,7 +3,7 @@
  *
  * Ravox-themed usurpation rite.
  *
- * Design intent: A military junta in all but name to makes a disloyal garrison a threat. The retinue (Marshal, Knight, Squire) and garrison (Sergeant, Man at Arms) can invoke this to seize the throne by rallying anyone with Expert weapon skill — guards, veterans, mercenaries, adventurers. Requires 7 assents due to the relative abundance of combat-skilled characters, making it a broad coalition play.
+ * Design intent: A military junta in all but name to makes a disloyal garrison a threat. The retinue (Marshal, Knight, Squire) and garrison (Sergeant, Man at Arms) can invoke this to seize the throne by rallying anyone with Expert weapon skill — guards, veterans, mercenaries, adventurers. Requires 6 assents due to the relative abundance of combat-skilled characters, making it a broad coalition play.
  *
  * The undead are explicitly excluded from this path - there's alternative paths for true antagonists.
  */

@@ -58,7 +58,7 @@
 	return ..()
 
 /datum/usurpation_rite/golden_accord/get_contest_announcement()
-	return "The people of [SSticker.realm_name] has spoken — a merchant republic shall be established, and [invoker.real_name] elected its first Chancellor!\n\n" + \
+	return "The people of [SSticker.realm_name] have spoken — a merchant republic shall be established, and [invoker.real_name] elected its first [new_ruler_title]!\n\n" + \
 		"A Council of Burghers has affirmed this claim.\n\n" + \
 		"The Accord shall be sealed in [RITE_CONTEST_DURATION / (1 MINUTES)] minutes -- unless the claim is struck down."
 

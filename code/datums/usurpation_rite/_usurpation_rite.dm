@@ -95,13 +95,15 @@
 		return FALSE
 	if(!can_assent(person))
 		return FALSE
-	if(assenters[person])
+	var/assenter_key = REF(person)
+	if(assenters[assenter_key])
 		to_chat(person, span_warning("You have already spoken your assent."))
 		return FALSE
 	if(!throne || get_dist(person, throne) > RITE_ASSENT_RANGE)
 		return FALSE
-	assenters[person] = TRUE
-	on_assent_accepted(person)
+	var/weight = get_vote_weight(person)
+	assenters[assenter_key] = weight
+	on_assent_accepted(person, weight)
 	if(get_assent_total() >= get_required_assents())
 		start_contesting()
 	return TRUE
@@ -115,11 +117,11 @@
 		return FALSE
 	return TRUE
 
-/datum/usurpation_rite/proc/on_assent_accepted(mob/living/carbon/human/person)
+/datum/usurpation_rite/proc/on_assent_accepted(mob/living/carbon/human/person, weight)
 	person.visible_message( \
 		span_notice("[person.real_name] speaks their assent to the [name]."), \
 		span_notice("You speak your assent. [assent_flavor]"))
-	var/weight_text = vote_weight_note ? " as [describe_vote_weight(get_vote_weight(person))]" : ""
+	var/weight_text = vote_weight_note ? " as [describe_vote_weight(weight)]" : ""
 	to_chat(invoker, span_notice("[person.real_name] has assented[weight_text]. ([get_assent_total()]/[get_required_assents()])"))
 
 /datum/usurpation_rite/proc/get_required_assents()
@@ -130,8 +132,8 @@
 
 /datum/usurpation_rite/proc/get_assent_total()
 	var/total = 0
-	for(var/mob/living/carbon/human/person in assenters)
-		total += get_vote_weight(person)
+	for(var/assenter_key in assenters)
+		total += assenters[assenter_key]
 	return total
 
 /datum/usurpation_rite/proc/describe_vote_weight(weight)
@@ -294,7 +296,10 @@
 		to_chat(invoker, span_warning("The [name] has failed. [reason]"))
 
 /datum/usurpation_rite/proc/cleanup()
-	cancel_counter_claim()
+	if(contester_timer_id)
+		deltimer(contester_timer_id)
+		contester_timer_id = null
+	contester = null
 	if(phase_timer_id)
 		deltimer(phase_timer_id)
 		phase_timer_id = null
@@ -321,9 +326,10 @@
 	if(contester)
 		to_chat(claimant, span_warning("Someone is already contesting from the throne."))
 		return FALSE
-	contest_time_remaining -= (world.time - contest_started_at)
-	if(contest_time_remaining <= 0)
+	var/time_left = get_contest_time_left()
+	if(time_left <= 0)
 		return FALSE
+	contest_time_remaining = time_left
 	deltimer(phase_timer_id)
 	phase_timer_id = null
 	contester = claimant
@@ -361,6 +367,8 @@
 	fail("The throne has been reclaimed by [contester_name].")
 
 /datum/usurpation_rite/proc/get_contest_time_left()
+	if(contester)
+		return max(contest_time_remaining, 0)
 	return max(contest_time_remaining - (world.time - contest_started_at), 0)
 
 /datum/usurpation_rite/proc/get_status_text()
@@ -377,7 +385,8 @@
 			return "[invoker?.real_name] claims the throne [claim_basis]. [capitalize(assenter_group)], speak your assent -- or stop them. ([get_assent_total()]/[get_required_assents()] voices)"
 		if(RITE_STAGE_CONTESTING)
 			var/remaining = "moments"
-			if(contest_time_remaining > 0)
-				remaining = "[round(get_contest_time_left() / (1 SECONDS))] seconds"
+			var/time_left = get_contest_time_left()
+			if(time_left > 0)
+				remaining = "[round(time_left / (1 SECONDS))] seconds"
 			return "Affirmed by [council_name], [invoker?.real_name] will ascend in [remaining]. Defend or destroy this claim!"
 	return null
