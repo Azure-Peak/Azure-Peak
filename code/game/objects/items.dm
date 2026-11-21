@@ -1763,11 +1763,9 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 	return TRUE
 
 /obj/item/proc/update_damaged_state()
-	// TA EDIT START
 	if(damage_overlay)
 		cut_overlay(damage_overlay)
 		damage_overlay = null
-	// TA EDIT END
 	if (!obj_broken)
 		return
 	var/icon/damaged_icon = icon(initial(icon), icon_state, , TRUE)
@@ -1775,7 +1773,7 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 	damaged_icon.Blend(icon(dam_icon, dam_icon_state), ICON_MULTIPLY)
 	var/mutable_appearance/damage = new(damaged_icon)
 	damage.alpha = 150
-	damage_overlay = damage // TA EDIT
+	damage_overlay = damage
 	add_overlay(damage)
 
 /obj/item/proc/repair_coverage()
