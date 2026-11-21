@@ -107,22 +107,7 @@ GLOBAL_LIST_INIT(hedgeknight_aggro, world.file2list("strings/rt/hedgeknightaggro
 	emote("superagony")
 	. = ..()
 	if(!gibbed)
-		if(preset_lines == "matthios")
-			playsound(src, 'sound/effects/matth_barter.ogg', 100)
-			src.visible_message(span_matthios("[src.real_name] is unmade by gilded light for their [pick("debt's repayment","failure","final transaction","final exchange","insolence")]!"))
-			var/turf/T = get_turf(src)
-			new /obj/effect/temp_visual/barter_fx(T) //hilarious
-		if(preset_lines == "graggar")
-			playsound(src, 'sound/magic/graggar_bloodrush.ogg', 100)
-			src.visible_message(span_graggar("[src.real_name] is unmade by motive force after their [pick("pitiful fight","failure","worthy fight","loss to another","insolence")]!"))
-		if(preset_lines == "zizo")
-			playsound(src, 'sound/misc/zizo.ogg', 100)
-			src.visible_message(span_zizo("[src.real_name] is unmade by profane magic for their [pick("ignorance","failure","backwards ways","stagnation","insolence")]!"))
-		if(preset_lines == "baotha")
-			playsound(src, 'sound/magic/baotha_blessdrink.ogg', 100)
-			src.visible_message(span_baotha("[src.real_name] is unmade by a prismatic mist for their [pick("greatest end","failure","joyless demise","lack of true indulgence","insolence")]!"))
-		gib() //aura
-		//dust(FALSE, FALSE, TRUE)
+		dust(FALSE, FALSE, TRUE)
 /*
  * Goon preset
  * Intended to support knight, but should not have any special/overly expensive gear.
