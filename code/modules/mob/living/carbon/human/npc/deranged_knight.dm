@@ -7,6 +7,7 @@
 GLOBAL_LIST_INIT(matthios_aggro, world.file2list("strings/rt/matthiosaggrolines.txt"))
 GLOBAL_LIST_INIT(zizo_aggro, world.file2list("strings/rt/zizoaggrolines.txt"))
 GLOBAL_LIST_INIT(graggar_aggro, world.file2list("strings/rt/graggaraggrolines.txt"))
+GLOBAL_LIST_INIT(baotha_aggro, world.file2list("strings/rt/baothaaggrolines.txt"))
 GLOBAL_LIST_INIT(hedgeknight_aggro, world.file2list("strings/rt/hedgeknightaggrolines.txt"))
 
 /mob/living/carbon/human/species/human/northern/deranged_knight
@@ -20,6 +21,7 @@ GLOBAL_LIST_INIT(hedgeknight_aggro, world.file2list("strings/rt/hedgeknightaggro
 	a_intent = INTENT_HELP
 	d_intent = INTENT_PARRY
 	possible_mmb_intents = list(INTENT_BITE, INTENT_JUMP, INTENT_KICK, INTENT_SPECIAL)
+	var/preset_lines = "hedgeknight"
 
 /mob/living/carbon/human/species/human/northern/deranged_knight/Initialize(mapload)
 	. = ..()
@@ -39,13 +41,26 @@ GLOBAL_LIST_INIT(hedgeknight_aggro, world.file2list("strings/rt/hedgeknightaggro
 	ADD_TRAIT(src, TRAIT_BREADY, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_HEAVYARMOR, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_NPC_EXAMINE, TRAIT_GENERIC)
+	var/list/aggro_lines
+	switch(preset_lines)
+		if("graggar")
+			aggro_lines = GLOB.graggar_aggro
+		if("matthios")
+			aggro_lines = GLOB.matthios_aggro
+		if("zizo")
+			aggro_lines = GLOB.zizo_aggro
+			src.grant_language(/datum/language/undead)
+		if("baotha")
+			aggro_lines = GLOB.baotha_aggro
+		if("hedgeknight")
+			aggro_lines = GLOB.hedgeknight_aggro
+	if(aggro_lines)
+		SEND_SIGNAL(src, COMSIG_MOB_MODIFY_AGGRO_LINES, aggro_lines, TRUE)
 
 	for(var/obj/item/equipped_item in get_equipped_items() + held_items)
 		equipped_item.AddComponent(/datum/component/item_on_drop/dust)
 	for(var/obj/item/held_item in held_items)
 		ADD_TRAIT(held_item, TRAIT_NODROP, TRAIT_GENERIC)
-
-	SEND_SIGNAL(src, COMSIG_MOB_MODIFY_AGGRO_LINES, GLOB.hedgeknight_aggro, TRUE)
 
 	regenerate_icons()
 
@@ -99,19 +114,25 @@ GLOBAL_LIST_INIT(hedgeknight_aggro, world.file2list("strings/rt/hedgeknightaggro
 
 /mob/living/carbon/human/species/human/northern/deranged_knight/zizo
 	npc_archetype = /datum/npc_archetype/deranged_knight/zizo
+	preset_lines = "zizo"
 
 /mob/living/carbon/human/species/human/northern/deranged_knight/zizo_heavy
 	npc_archetype = /datum/npc_archetype/deranged_knight/zizo_heavy
+	preset_lines = "zizo"
 
 /mob/living/carbon/human/species/human/northern/deranged_knight/graggar
 	npc_archetype = /datum/npc_archetype/deranged_knight/graggar
+	preset_lines = "graggar"
 
 /mob/living/carbon/human/species/human/northern/deranged_knight/graggar_heavy
 	npc_archetype = /datum/npc_archetype/deranged_knight/graggar_heavy
+	preset_lines = "graggar"
 
 /mob/living/carbon/human/species/human/northern/deranged_knight/matthios
 	npc_archetype = /datum/npc_archetype/deranged_knight/matthios_heavy
+	preset_lines = "matthios"
 
 /mob/living/carbon/human/species/human/northern/deranged_knight/baotha
 	d_intent = INTENT_DODGE
 	npc_archetype = /datum/npc_archetype/deranged_knight/baotha
+	preset_lines = "baotha"

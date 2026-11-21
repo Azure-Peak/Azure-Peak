@@ -17,30 +17,38 @@
 /datum/npc_archetype/deranged_knight/zizo
 	name = "Zizite Templar"
 	statpack = /datum/npc_statpack/line/t4
-	armor_training = ARMOR_CLASS_HEAVY
+	stat_modifiers = list("intelligence" = 1)
+	patron = /datum/patron/inhumen/zizo
+	armor_training = ARMOR_CLASS_MEDIUM
+	ai_controller = /datum/ai_controller/human_npc/caster/melee
 	loadouts = list(
 		/datum/npc_loadout/armor/luxplate/zizo,
 		/datum/npc_loadout/kit/zizo_flavor,
 		/datum/npc_loadout/weapon/zizo,
-		/datum/npc_loadout/kit/caster/zizo_cantrip,
+		/datum/npc_loadout/kit/zizo_cantrip,
 	)
 
 /datum/npc_archetype/deranged_knight/zizo_heavy
 	name = "Zizite Champion"
 	statpack = /datum/npc_statpack/heavy/t4
+	stat_modifiers = list("intelligence" = 1)
+	patron = /datum/patron/inhumen/zizo
 	armor_training = ARMOR_CLASS_HEAVY
+	ai_controller = /datum/ai_controller/human_npc/caster/melee
 	loadouts = list(
 		/datum/npc_loadout/armor/luxplate/zizo_heavy,
 		/datum/npc_loadout/kit/zizo_flavor,
 		/datum/npc_loadout/weapon/zizo_heavy,
-		/datum/npc_loadout/kit/caster/zizo_cantrip,
+		/datum/npc_loadout/kit/zizo_cantrip,
 	)
 
 //** GRAGGAR. GRAGGAR. GRAGGAR. **//
 /datum/npc_archetype/deranged_knight/graggar
 	name = "Graggarite Templar"
 	statpack = /datum/npc_statpack/line/t4
-	armor_training = ARMOR_CLASS_HEAVY
+	stat_modifiers = list("strength" = 2)
+	patron = /datum/patron/inhumen/graggar
+	armor_training = ARMOR_CLASS_MEDIUM
 	loadouts = list(
 		/datum/npc_loadout/armor/luxplate/graggar,
 		/datum/npc_loadout/kit/graggar_flavor,
@@ -50,6 +58,8 @@
 /datum/npc_archetype/deranged_knight/graggar_heavy
 	name = "Graggarite Champion"
 	statpack = /datum/npc_statpack/heavy/t4
+	stat_modifiers = list("strength" = 2)
+	patron = /datum/patron/inhumen/graggar
 	armor_training = ARMOR_CLASS_HEAVY
 	loadouts = list(
 		/datum/npc_loadout/armor/luxplate/graggar_heavy,
@@ -61,6 +71,8 @@
 /datum/npc_archetype/deranged_knight/matthios_heavy
 	name = "Matthiosian Champion"
 	statpack = /datum/npc_statpack/heavy/t4
+	stat_modifiers = list("willpower" = 2)
+	patron = /datum/patron/inhumen/matthios
 	armor_training = ARMOR_CLASS_HEAVY
 	loadouts = list(
 		/datum/npc_loadout/armor/luxplate/matthios_heavy,
@@ -72,6 +84,8 @@
 /datum/npc_archetype/deranged_knight/baotha
 	name = "Baothan Champion"
 	statpack = /datum/npc_statpack/light/t4
+	stat_modifiers = list("speed" = 2)
+	patron = /datum/patron/inhumen/baotha
 	armor_training = ARMOR_CLASS_LIGHT
 	loadouts = list(
 		/datum/npc_loadout/armor/luxplate/baotha,
@@ -81,7 +95,8 @@
 
 //** CASTING **//
 
-/datum/npc_loadout/kit/caster/zizo_cantrip
+/datum/npc_loadout/kit/zizo_cantrip
+	traits = list(TRAIT_WARLOCK) //to use w/ weapon
 	spells = list(
 		list(/datum/action/cooldown/spell/projectile/greater_arcyne_bolt),
 		list(/datum/action/cooldown/spell/projectile/spitfire),
@@ -149,13 +164,11 @@
 //** WEAPONS **//
 
 /datum/npc_loadout/weapon/zizo
-	traits = list(TRAIT_WARLOCK)
 	weapons = list(
 		list(/obj/item/rogueweapon/sword/zizo, /obj/item/rogueweapon/shield/tower/metal/zizo, 100),
 	)
 
 /datum/npc_loadout/weapon/zizo_heavy
-	traits = list(TRAIT_WARLOCK)
 	weapons = list(
 		list(/obj/item/rogueweapon/sword/long/zizo),
 	)
