@@ -115,6 +115,30 @@
 	material = "silver"
 	is_silver = TRUE
 
+
+/obj/item/prybar
+	name = "prybar"
+	desc = "A small piece of metal used to aid in opening windows."
+	icon_state = "prybar"
+	icon = 'icons/roguetown/items/keys.dmi'
+	w_class = WEIGHT_CLASS_NORMAL
+	dropshrink = 0.75
+	throwforce = 0
+	max_integrity = 10
+	slot_flags = ITEM_SLOT_HIP
+	destroy_sound = 'sound/items/pickbreak.ogg'
+	resistance_flags = FIRE_PROOF
+	associated_skill = /datum/skill/misc/lockpicking	//Doesn't do anything, for tracking purposes only
+	always_destroy = TRUE
+
+	grid_width = 32
+	grid_height = 96
+
+/obj/item/prybar/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Left-click a closed window to attempt to open it.")
+	. += span_info("The chance to successfully open a window scales with your Lockpicking skill and perception.")
+
 /obj/item/roguekey/lord
 	name = "master key"
 	desc = "A magical key that molds itself to fit any lock. Can always be recalled by the Crown."
