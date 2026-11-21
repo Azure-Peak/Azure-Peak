@@ -112,10 +112,3 @@
 	)
 	ship_qty_min = 2
 	ship_qty_max = 5
-
-/datum/supply_pack/rogue/etrusca/vaquero_ring
-	name = "Vaquero's Ring"
-	cost = 150
-	contains = list(/obj/item/clothing/neck/roguetown/luckcharm/mercmedal/vaquero)
-	ship_qty_min = 1
-	ship_qty_max = 1

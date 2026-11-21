@@ -38,6 +38,11 @@
 		is_high_tier = TRUE
 	// skill happens as per normal
 	human_target.check_for_injuries(user)
+	var/list/missing_organs = human_target.get_missing_organs()
+	if(length(missing_organs))
+		to_chat(user, span_boldwarning("Missing organs: [english_list(missing_organs)]."))
+	else
+		to_chat(user, span_notice("No missing organs detected."))
 	//but from here on out, is where the magic happens...
 	//anyway starting from something that diagnosis will now make -very clear- is when someone is rotting to death and needs immediate care, behold:
 	if(human_target.has_status_effect(/datum/status_effect/zombie_infection))

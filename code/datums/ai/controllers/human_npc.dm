@@ -81,6 +81,30 @@
 /// Melee-only human NPC. Same as base — the base class is already melee-focused since it
 /datum/ai_controller/human_npc/melee
 
+/datum/ai_controller/human_npc/melee/abilities
+	planning_subtrees = list(
+		/datum/ai_planning_subtree/being_a_minion,
+		/datum/ai_planning_subtree/call_for_help,
+		/datum/ai_planning_subtree/generic_break_restraints,
+		/datum/ai_planning_subtree/use_throwable,
+		/datum/ai_planning_subtree/generic_wield,
+		/datum/ai_planning_subtree/kick_attack,
+		/datum/ai_planning_subtree/generic_resist,
+		/datum/ai_planning_subtree/generic_stand,
+		/datum/ai_planning_subtree/flee_target,
+		/datum/ai_planning_subtree/tree_climb,
+		/datum/ai_planning_subtree/tree_descend,
+		/datum/ai_planning_subtree/aggro_find_target,
+		/datum/ai_planning_subtree/spell_rotation,
+		/datum/ai_planning_subtree/stamina_disengage,
+		/datum/ai_planning_subtree/attack_obstacle_in_path,
+		/datum/ai_planning_subtree/leap_attack,
+		/datum/ai_planning_subtree/basic_melee_attack_subtree/human_npc,
+		/datum/ai_planning_subtree/find_weapon,
+		/datum/ai_planning_subtree/equip_item,
+		/datum/ai_planning_subtree/loot,
+	)
+
 /// Archer human NPC. Adds archer-specific planning subtrees and blackboard keys on top of
 /// the base. Uses the same melee subtree as a fallback when out of ammo / in melee range.
 /datum/ai_controller/human_npc/archer

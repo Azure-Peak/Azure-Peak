@@ -483,8 +483,8 @@
 /obj/item/rogueweapon/example/valorian_sword
 	name = "valorian sword"
 	icon = 'icons/roguetown/weapons/swords32.dmi'
-	desc = "A modest take on a mythical design, hailing from the blood-splattered crossroads \
-	between Valoria and Rockhill. It feels right at home, in the palm of your hand."
+	desc = "A modest take on a mythical design, hailing from the forges of \
+	Rockhill. It feels right at home, in the palm of your hand."
 	icon_state = "iswordalt"
 	sheathe_icon = "iswordalt"
 
@@ -802,7 +802,7 @@
 /obj/item/rogueweapon/mace/steel/silver/rungu
 	name = "silver rungu"
 	desc = "A silver craning mace from the southern reaches of Psydonia, following an ancient design that has survived \
-	for centuries-hence. It is cherished by the clerics of Lakkari, Naledi, and Ranenshen."
+	for centuries-hence. It is cherished by the clerics of Lakkari, Naledi, and Raneshen."
 	icon_state = "silverrungu"
 
 /obj/item/rogueweapon/huntingknife/combat/iron/kris
@@ -1218,3 +1218,41 @@
 	result_item = null
 	custom_name = TRUE
 
+/obj/item/enchantingkit/triumph_tomekit_enduring
+	name = "'The Enduring Codex' morphing elixir"
+	desc = "A small container of special morphing dust, perfect to make a specific item. It can be used to alter the appearance of a lesser, greater or grand arcyne tome of any design, but not one that already has a special appearance."
+	target_items = list(
+		/obj/item/rogueweapon/spellbook/grand		= /obj/item/rogueweapon/spellbook/grand/enduring_codex,
+		/obj/item/rogueweapon/spellbook/greater		= /obj/item/rogueweapon/spellbook/greater/enduring_codex,
+		/obj/item/rogueweapon/spellbook				= /obj/item/rogueweapon/spellbook/enduring_codex
+		)
+	result_item = null
+	exact_type = TRUE
+	custom_name = TRUE
+
+/obj/item/rogueweapon/spellbook/enduring_codex
+	name = "\improper The Enduring Codex"
+	desc = "A war scholar's codex in the Naledian manner, its pages crowded with marginalia, diagrams and battlefield notes. Well kept, and carried in the name of Psydon's knowledge."
+	icon = 'icons/obj/items/triumph_tomes.dmi'
+	icon_state = "spellbookten_0"
+	base_icon_state = "spellbookten"
+	base_implement_name = null // keeps its proper name through tier upgrades and attunement glow
+	picked = TRUE // design already chosen, so right-click only opens and closes it
+
+/obj/item/rogueweapon/spellbook/greater/enduring_codex
+	name = "\improper The Enduring Codex"
+	desc = "A Naledian war scholar's codex, kept in the name of Psydon's knowledge and handed down through more owners than its margins have room for. It is well kept for its years. The newest notes are in a careful, hurried hand, and the oldest have been written over so many times that they can only be read with the page tilted to the light."
+	icon = 'icons/obj/items/triumph_tomes.dmi'
+	icon_state = "spellbookten_0"
+	base_icon_state = "spellbookten"
+	base_implement_name = null
+	picked = TRUE
+
+/obj/item/rogueweapon/spellbook/grand/enduring_codex
+	name = "\improper The Enduring Codex"
+	desc = "A Naledian war scholar's codex, kept in the name of Psydon's knowledge and handed down through more owners than its margins have room for. It is well kept for its years. The newest notes are in a careful, hurried hand, and the oldest have been written over so many times that they can only be read with the page tilted to the light."
+	icon = 'icons/obj/items/triumph_tomes.dmi'
+	icon_state = "spellbookten_0"
+	base_icon_state = "spellbookten"
+	base_implement_name = null
+	picked = TRUE

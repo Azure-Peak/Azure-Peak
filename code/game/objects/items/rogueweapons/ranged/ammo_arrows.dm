@@ -328,7 +328,7 @@
 		return
 	var/mob/living/M = target
 	M.electrocute_act(1, src, 1, SHOCK_NOSTUN)
-	M.Slowdown(1 SECONDS)
+	M.apply_slowdown(1 SECONDS)
 	to_chat(M, span_danger("Arcyne thunder sears through my body!"))
 
 // --- KINETIC --- (Arcyne sprite)

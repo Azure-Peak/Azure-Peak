@@ -52,6 +52,8 @@
 	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/aalloy
 	pants = /obj/item/clothing/under/roguetown/chainlegs/kilt/aalloy
 	shoes = /obj/item/clothing/shoes/roguetown/sandals/aalloy //Legionnaire look
+	mask = /obj/item/clothing/mask/rogue/facemask/aalloy
+	gloves = /obj/item/clothing/gloves/roguetown/fingerless_leather
 
 /datum/npc_loadout/armor/medium/aalloy_helm
 	head = /obj/item/clothing/head/roguetown/helmet/kettle/aalloy
@@ -65,6 +67,7 @@
 	neck = /obj/item/clothing/neck/roguetown/chaincoif/iron/aalloy
 	gloves = /obj/item/clothing/gloves/roguetown/chain/aalloy
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/aalloy
+	mask = /obj/item/clothing/mask/rogue/facemask/aalloy
 
 /datum/npc_loadout/armor/medium/aalloy_archer
 	head = /obj/item/clothing/head/roguetown/helmet/kettle/aalloy
@@ -74,6 +77,7 @@
 	gloves = /obj/item/clothing/gloves/roguetown/chain/aalloy
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/aalloy
 	shoes = /obj/item/clothing/shoes/roguetown/boots/aalloy
+	mask = /obj/item/clothing/mask/rogue/facemask/aalloy
 
 //** IRON CHAIN **//
 

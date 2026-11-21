@@ -375,7 +375,8 @@ SUBSYSTEM_DEF(migrants)
 		character.mind.add_antag_datum(role.antag_datum)
 
 	// Adding antag datums can move your character to places, so here's a bandaid
-	if(spawn_on_location)
+	// Skipped for Forlorne, which already relocated them during outfit equip
+	if(spawn_on_location && !character.has_flaw(/datum/charflaw/forlorne))
 		character.forceMove(assignment.spawn_location)
 
 	if(role.grant_lit_torch)

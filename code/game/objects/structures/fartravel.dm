@@ -23,6 +23,9 @@
 	if(in_use) // Someone's already going in.
 		return
 	var/mob/living/carbon/human/departing_mob = dropping
+	if(HAS_TRAIT(user, TRAIT_POSSESSED)) // no fartravelling while possessing someone please
+		to_chat(user, span_warning("It'd be awfully rude to just leave with this body."))
+		return
 	if(departing_mob != user && departing_mob.client)
 		to_chat(user, "<span class='warning'>This one retains their free will. It's their choice if they want to leave the round or not.</span>")
 		return
@@ -68,11 +71,16 @@
 			if(removing_bounty.target == real_name)
 				GLOB.head_bounties -= removing_bounty
 	GLOB.dominant_faith_tracker.handle_removal(src)
+	roundremove_restore_name()
+	for(var/mob/living/carbon/human/hag in GLOB.active_hags)
+		var/datum/component/hag_curio_tracker/HCT = hag.GetComponent(/datum/component/hag_curio_tracker)
+		HCT.boon_registry -= real_name
 	if(SSticker.rulermob == src)
 		SSticker.rulermob = null
 	if(SSticker.regentmob == src)
 		SSticker.regentmob = null
 	GLOB.chosen_names -= real_name
+	LAZYREMOVE(GLOB.fey_vessels, src)
 	LAZYREMOVE(GLOB.actors_list, mobid)
 	if(SStreasury)
 		dat += process_far_travel_treasury()

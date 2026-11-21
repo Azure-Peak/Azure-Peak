@@ -46,12 +46,12 @@ GLOBAL_LIST_INIT(quest_bounty_goblin_goons, list(
 		goblin_warlord_variant = TRUE
 		target_mob_type = /mob/living/carbon/human/species/goblin/npc/large
 		var/datum/quest_faction/goblin_faction = get_quest_faction(QUEST_FACTION_FOREST_GOBLIN)
-		boss_name = goblin_faction ? goblin_faction.generate_boss_name() : "the Goblin Warchief"
+		boss_name = goblin_faction ? goblin_faction.generate_boss_name(target_mob_type) : "the Goblin Warchief"
 	else
 		target_mob_type = faction.pick_boss_mob_type()
 		if(!target_mob_type)
 			return FALSE
-		boss_name = faction.generate_boss_name()
+		boss_name = faction.generate_boss_name(target_mob_type)
 	progress_required = 1
 	finalize_preview_title()
 	return TRUE
