@@ -24,10 +24,6 @@ GLOBAL_VAR(king_throne)
 	..()
 	density = FALSE
 	M.reset_offsets("bed_buckle")
-	if(!active_rite)
-		return
-	if(active_rite.invoker == M && active_rite.stage == RITE_STAGE_GATHERING)
-		active_rite.on_invoker_unseated()
 	if(active_rite?.contester == M)
 		active_rite.cancel_counter_claim()
 
@@ -93,9 +89,7 @@ GLOBAL_VAR(king_throne)
 			if(RITE_STAGE_GATHERING)
 				. += span_warning("A claim is being made upon the throne. Say 'I assent' near the throne to support it, or act to stop [active_rite.invoker?.real_name].")
 			if(RITE_STAGE_CONTESTING)
-				var/elapsed = world.time - active_rite.contest_started_at
-				var/remaining = max(active_rite.contest_time_remaining - elapsed, 0)
-				. += span_warning("[active_rite.invoker?.real_name] is claiming the throne! Sit on the throne and say 'stop ascent' to halt the succession. Alternatively, kill, knock them unconscious or remove them far away from the throne room by the end of the rite. [round(remaining / (1 SECONDS))] second(s) remain.")
+				. += span_warning("[active_rite.invoker?.real_name] is claiming the throne! Sit on the throne and say 'stop ascent' to halt the succession. Alternatively, kill, knock them unconscious or remove them far away from the throne room by the end of the rite. [round(active_rite.get_contest_time_left() / (1 SECONDS))] second(s) remain.")
 
 /obj/structure/roguethrone/get_mechanics_examine(mob/user)
 	. = ..()
