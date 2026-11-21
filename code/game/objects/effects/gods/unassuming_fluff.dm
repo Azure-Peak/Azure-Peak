@@ -26,7 +26,7 @@ GLOBAL_LIST_EMPTY(players_in_dream)
 	stressadd = 20
 	desc = span_userdanger("WHAT IS THAT THING?!")
 
-/proc/teleport_to_dream(mob/living/carbon/human/user, base_probability = 10000, probability = 10, weapons = TRUE, duration = 2 MINUTES, force = FALSE)
+/proc/teleport_to_dream(mob/living/carbon/human/user, base_probability = 10000, probability = 10, weapons = TRUE, duration = 2 MINUTES, force = FALSE, silent = FALSE)
 	if(!ishuman(user))
 		return
 
@@ -74,7 +74,8 @@ GLOBAL_LIST_EMPTY(players_in_dream)
 	playsound(original_turf, 'sound/misc/area.ogg')
 	user.add_stress(/datum/stressevent/dream_horror)
 	user.blind_eyes(2)
-	user.AddComponent(/datum/component/dream_echo, original_turf)
+	if(!silent)
+		user.AddComponent(/datum/component/dream_echo, original_turf)
 	if(!HAS_TRAIT(user, TRAIT_DARKVISION))
 		ADD_TRAIT(user, TRAIT_DARKVISION, CULT_TRAIT)
 

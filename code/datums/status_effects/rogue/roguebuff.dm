@@ -1877,7 +1877,9 @@
 	var/obj/IP = P
 	if(istype(P, /obj/projectile/bullet/reusable))
 		var/obj/projectile/bullet/reusable/RP = P	//This will ensure it gets dropped as an item first. Otherwise a non-reusable projectile will get poofed in a cloud of sparks.
-		IP = RP.handle_drop()
+		var/temp = RP.handle_drop()
+		if(temp)
+			IP = temp
 	if(check_zone(hit_zone) == protected_zone)
 		do_sparks(2, TRUE, get_turf(IP))
 		target.visible_message(span_warning("[target] blocks \the [IP]!"))

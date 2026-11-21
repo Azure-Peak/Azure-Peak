@@ -434,32 +434,91 @@
 	embedchance = 0
 
 /obj/item/ammo_casing/caseless/rogue/arrow/iron/paint
-	name = "painted arrow"
+	name = "dream shard"
 	icon_state = "paint_arrow"
 	desc = "A painted arrow, it almost doesn't seem real, if not for the fact it reflects with iridescent light."
-	projectile_type = /obj/projectile/bullet/reusable/arrow/iron/paint
+	projectile_type = /obj/projectile/bullet/reusable/arrow/iron/paint/shard
 	item_flags = DROPDEL
 
-/obj/projectile/bullet/reusable/arrow/iron/paint/on_hit(atom/target, blocked = 0, piercing_hit = FALSE)
+/obj/item/ammo_casing/caseless/rogue/arrow/iron/paint/coat
+	name = "shielding paint"
+	desc = "A glob of paint held together by an unseen force, it clings to flesh."
+	projectile_type = /obj/projectile/bullet/reusable/arrow/iron/paint/coat
+
+/obj/item/ammo_casing/caseless/rogue/arrow/iron/paint/grasp
+	name = "abyssal tendril"
+	desc = "A grasping appendage from the depths, its form shimmers and wavers in the light."
+	projectile_type = /obj/projectile/bullet/reusable/arrow/iron/paint/grasp
+
+/obj/projectile/bullet/reusable/arrow/iron/paint/shard/on_hit(atom/target, blocked = 0, piercing_hit = FALSE)
 	// If not primed, or if it didn't hit a living mob, act like a standard arrow
 	if(!primed || !isliving(target))
 		return ..()
 
 	var/mob/living/living_target = target
 	var/mob/living/caster = firer
-	var/is_mindless = FALSE
 
-	if(istype(living_target, /mob/living/simple_animal) || !living_target.mind)
-		is_mindless = TRUE
-
-	if(is_mindless)
-		living_target.visible_message(span_purple("The umbral paint on \the [src] violently implodes against [living_target]!"))
-		living_target.adjustBruteLoss(60)
-	else
-		if(caster)
-			to_chat(caster, span_notice("My strike doesn't harm [living_target] much, but it does make them ooze beneficial ink."))
-		living_target.adjustBruteLoss(10)
+	living_target.adjustBruteLoss(10)
 	living_target.apply_status_effect(/datum/status_effect/debuff/ink_leak, caster)
+	return ..()
+
+/obj/projectile/bullet/reusable/arrow/iron/paint/coat
+	name = "shielding paint"
+	nodamage = TRUE
+	embedchance = 0
+
+/obj/projectile/bullet/reusable/arrow/iron/paint/coat/on_hit(atom/target, blocked = 0, piercing_hit = FALSE)
+	var/mob/living/carbon/human/H = target
+	// If not primed, or if it didn't hit a living mob, or they have skin armor/ward already, act like a standard arrow
+	if(!primed || !ishuman(target) || H.skin_armor)
+		return ..()
+
+	var/obj/item/clothing/suit/roguetown/armor/manual/arcyne_ward/bestowed/paint/ward = new /obj/item/clothing/suit/roguetown/armor/manual/arcyne_ward/bestowed/paint(H)
+	H.skin_armor = ward
+	ward.setup_ward(H)
+	ward.set_duration(15 SECONDS) // shouldn't be impossible to wait out but mostly you just want to whack them
+
+	H.visible_message(span_notice("[H] is coated in protective - but fragile - ink!"))
+
+/obj/item/clothing/suit/roguetown/armor/manual/arcyne_ward/bestowed/paint
+	name = "painted ward"
+	desc = "A thick coating of shielding paint. Looks protective, but fragile."
+	break_sound = 'sound/magic/slimesquish.ogg'	// it's paint
+	armor = ARMOR_INDESTRUCTIBLE				// nearly total protection from everything...
+	max_integrity = 1							// but only blocks 1 attack
+	ward_color = "#5c0099"
+
+/obj/item/clothing/suit/roguetown/armor/manual/arcyne_ward/bestowed/paint/obj_break(damage_flag)
+	if(obj_broken)
+		return
+	obj_broken = TRUE
+	if(ward_owner)
+		ward_owner.visible_message(span_yellow("<i>[ward_owner]'s painted coating fades away!</i>"))
+	if(break_sound)
+		playsound(get_turf(src), break_sound, 120, TRUE)
+	addtimer(CALLBACK(src, PROC_REF(shatter_delete)), 0)
+
+/obj/projectile/bullet/reusable/arrow/iron/paint/grasp
+	name = "abyssal tendril"
+	nodamage = TRUE
+	embedchance = 0
+
+/obj/projectile/bullet/reusable/arrow/iron/paint/grasp/on_hit(atom/target, blocked = 0, piercing_hit = FALSE)
+	// If not primed, or if it didn't hit a living mob, or they don't have paint affinity, act like a standard arrow
+	if(!primed || !isliving(target) || !HAS_TRAIT(target, TRAIT_INK_AFFINITY))
+		return ..()
+
+	var/mob/living/living_target = target
+	var/mob/living/caster = firer
+
+	var/target_turf = get_step(caster, get_dir(caster, target))
+	if(!istype(target_turf, /turf/open) || living_target.can_zFall(target_turf))
+		target_turf = get_turf(caster) // fallback: don't put people in walls, or throw them off cliffs
+		living_target.set_resting(TRUE, TRUE)
+	playsound(get_turf(living_target), 'sound/foley/footsteps/FTWAT_1.ogg', 100)
+	playsound(target_turf, 'sound/foley/footsteps/FTWAT_1.ogg', 100)
+	living_target.visible_message(span_warning("[living_target] is pulled to [caster] by a shimmering tendril!"), span_warning("I'm grabbed by a shimmering tendril!")) // do this before move so the yanking isn't silent for those near the original location. also out the caster in case they're trying to be sneaky about this
+	living_target.forceMove(target_turf)
 	return ..()
 
 #undef MIN_ARROW_RANGE

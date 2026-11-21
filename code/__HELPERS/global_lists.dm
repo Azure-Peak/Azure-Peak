@@ -102,6 +102,11 @@
 	for(var/mob/living/carbon/human/species/wildshape/shape as anything in subtypesof(/mob/living/carbon/human/species/wildshape))
 		GLOB.wildshapes[shape.name] = shape
 
+	// Abyssor dream fragments
+	for(var/path in subtypesof(/datum/component/dream_fragment))
+		if(!is_abstract(path))
+			GLOB.dream_fragments += path // these are stored as paths, and instantiated on mobs later; we need the list to pick from randomly
+
 //creates every subtype of prototype (excluding prototype) and adds it to list L.
 //if no list/L is provided, one is created.
 /proc/init_subtypes(prototype, list/L)

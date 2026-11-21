@@ -244,7 +244,7 @@
 
 /datum/status_effect/debuff/ink_leak/on_apply()
 	RegisterSignal(owner, COMSIG_MOVABLE_MOVED, PROC_REF(spill_trail))
-	to_chat(owner, span_userdanger("Paint oozes from your flesh!"))
+	owner.visible_message(span_danger("Paint oozes from [owner]'s flesh!"))
 	return ..()
 
 /datum/status_effect/debuff/ink_leak/proc/spill_trail(mob/living/victim, turf/old_turf, dir)

@@ -65,6 +65,7 @@
 			cf.flaw_on_life(src)
 	if(health <= 0)
 		adjustOxyLoss(0.5)
+#ifndef LOCALTEST
 	if(!client && !ai_controller && !HAS_TRAIT(src, TRAIT_NOSLEEP))
 		if(mob_timers["slo"])
 			if(world.time > mob_timers["slo"] + 90 SECONDS)
@@ -74,7 +75,7 @@
 	else
 		if(mob_timers["slo"])
 			mob_timers["slo"] = null
-
+#endif
 	if(dna?.species)
 		dna.species.spec_life(src) // for mutantraces
 

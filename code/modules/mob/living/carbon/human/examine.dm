@@ -1010,6 +1010,9 @@
 					if(length(vice_desc))
 						. += span_voyeurvice("[m1] [english_list(vice_desc)]...")
 
+			if(has_flaw(/datum/charflaw/sleepless) && HAS_TRAIT(user, TRAIT_INK_AFFINITY))
+				. += span_secradio("[m1] forsaken by the Dream, sleep escapes them entirely.")
+
 			if(HAS_TRAIT(user, TRAIT_EMPATH) && HAS_TRAIT(src, TRAIT_PERMAMUTE))
 				. += span_notice("[m3] no voice. [m1] mute!") // [they have] no voice [they are] mute.
 

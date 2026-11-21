@@ -101,6 +101,7 @@
 				return span_boldwarning("An ancient vampyr. I must be careful!")
 
 /datum/antagonist/werewolf/on_gain()
+	SSmapping.retainer.werewolves |= owner
 	greet()
 	owner.special_role = name
 	if(increase_votepwr)

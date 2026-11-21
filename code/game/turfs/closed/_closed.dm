@@ -262,7 +262,7 @@
 				var/stamina_cost_final = round((baseline_stamina_cost / climbing_skill), 1)
 				if(ismob(pulling))
 					user.pulling.forceMove(target)
-				var/climber_armor_class = climber.highest_ac_worn()
+				var/climber_armor_class = (ishuman(user) ? climber.highest_ac_worn() : ARMOR_CLASS_NONE)
 				var/hadflying = (user.movement_type & FLYING)
 				if((climber_armor_class <= ARMOR_CLASS_LIGHT) && !(ismob(pulling))) // if our armour is not light or none OR we are pulling someone we eat shit and die and can't climb vertically at all, except for 'vaulting' aka we got a sold turf we can walk on in front of us
 					user.movement_type |= FLYING

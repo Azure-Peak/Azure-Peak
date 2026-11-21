@@ -18,11 +18,13 @@
 		dropped.forceMove(get_turf(src))
 	else	//Otherwise create it
 		var/turf/T = get_turf(src)
-		dropped = new ammo_type(T)
+		if(ammo_type)
+			dropped = new ammo_type(T)
 	return dropped
 
 /obj/projectile/bullet/reusable/on_hit()
-	dropped = new ammo_type(src)
+	if(ammo_type)
+		dropped = new ammo_type(src)
 	..()
 
 /obj/projectile/bullet/reusable/on_range()
