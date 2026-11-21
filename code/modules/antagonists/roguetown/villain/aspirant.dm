@@ -36,6 +36,7 @@
 			owner.special_items["Poison"] = /obj/item/reagent_containers/glass/bottle/rogue/poison
 			owner.special_items["Killer's Knife"] = /obj/item/rogueweapon/huntingknife/idagger/steel/corroded
 			aspirant_mob.adjust_skillrank_up_to(/datum/skill/combat/knives, 4, TRUE)
+			ADD_TRAIT(aspirant_mob, TRAIT_VENOMCRAFT, TRAIT_GENERIC)
 		if(CHOICE_SKILLS)
 			owner.special_items["Mace"] = /obj/item/rogueweapon/mace/cudgel
 			owner.special_items["Chains"] = /obj/item/rope/chain

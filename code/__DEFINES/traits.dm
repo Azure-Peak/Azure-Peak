@@ -174,6 +174,7 @@
 //Skill Related Traits
 #define TRAIT_GOODTRAINER "Good Trainer" //Combat skill leveling is equal to ours (current skill = what we train them as)
 #define TRAIT_BADTRAINER "Bad Trainer" //Extra tier below combat skill leveling (current skill -2 is what we train them as)
+#define TRAIT_VENOMCRAFT "Venomcraft"
 
 //AREA BASED STATBOONS/MALUSES
 #define TRAIT_GUARDSMAN "Vigilant Guardsman"
@@ -653,6 +654,7 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_NOWW = span_info("Dendor's madness shall find no hold in me."),
 	TRAIT_GOODTRAINER = span_info("I am a good teacher, and when it comes to weaponry I can train others to be just as skilled as I am."),
 	TRAIT_BADTRAINER = span_info("I've spent yils studying the art of a single weapon, but unfortunately I've no patience to train anyone else. Everyone learning from me will only learn up to two skill levels below mine."),
+	TRAIT_VENOMCRAFT = span_info("I am experienced with handling poison, and can handle a poisoned blade or dagger to great effect. Ordinary people won't be able to do the same"),
 	TRAIT_SEA_DRINKER = span_info("As a denizen of the deep, I can drink salty ocean water safely."),
 	TRAIT_BIGGUY = span_info("My immense frame and size allows me to smash through wooden doors, and throw people more easily."),
 	TRAIT_OUTDOORSMAN = span_info("My experience in the wilds allows me to fall asleep on surfaces like tree branches as if they were beds."),
