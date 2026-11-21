@@ -54,16 +54,16 @@
 	return ..()
 
 /datum/usurpation_rite/golden_accord/get_contest_announcement()
-	return "The people of [SSticker.realm_name] have spoken — a merchant republic shall be established, and [invoker.real_name] elected its first [new_ruler_title]!\n\n" + \
+	return "The people of [SSticker.realm_name] have spoken — a merchant republic shall be established, and [invoker.get_unmasked_name()] elected its first [new_ruler_title]!\n\n" + \
 		"A Council of Burghers has affirmed this claim.\n\n" + \
 		"The Accord shall be sealed in [RITE_CONTEST_DURATION / (1 MINUTES)] minutes -- unless the claim is struck down."
 
 /datum/usurpation_rite/golden_accord/get_victory_announcement(old_ruler_name)
 	return "Power belongs to those who bring prosperity to the realm.\n\n" + \
-		"The Council of Burghers declares [invoker.real_name] the rightful [SSticker.rulertype] of [SSticker.realm_name], establishing a PROSPEROUS republic of free commerce.\n\n" + \
+		"The Council of Burghers declares [invoker.get_unmasked_name()] the rightful [SSticker.rulertype] of [SSticker.realm_name], establishing a PROSPEROUS republic of free commerce.\n\n" + \
 		"[old_ruler_name], unable to contest this succession, has been found wanting in stewardship, " + \
 		"and their authority is hereby rendered insolvent.\n\n" + \
-		"Long live [invoker.real_name], [SSticker.rulertype] of [SSticker.realm_name]!"
+		"Long live [invoker.get_unmasked_name()], [SSticker.rulertype] of [SSticker.realm_name]!"
 
 /// Returns the total mammon value on the mob's person plus their bank account.
 /datum/usurpation_rite/golden_accord/proc/get_total_wealth(mob/living/carbon/human/user)

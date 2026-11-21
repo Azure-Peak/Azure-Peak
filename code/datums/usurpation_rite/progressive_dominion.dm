@@ -73,15 +73,15 @@
 		"Grant us armaments! Grant us power! " + \
 		"Let us stand fast against the darkness of stagnation! " + \
 		"Let us stand fast against the rot of the old order! " + \
-		"Long live [invoker.real_name], [new_ruler_title] of [SSticker.realm_name]!"
+		"Long live [invoker.get_unmasked_name()], [new_ruler_title] of [SSticker.realm_name]!"
 
 /datum/usurpation_rite/progressive_dominion/get_victory_announcement(old_ruler_name)
 	return "To cling to the past is to rot in place. Progress waits for no one.\n\n" + \
 		"A Council of the Enlightened, under the gaze of Zizo, Mistress of Progress, " + \
-		"declares [invoker.real_name] the rightful [SSticker.rulertype] of [SSticker.realm_name], establishing a PROGRESSIVE rule of arcane enlightenment.\n\n" + \
+		"declares [invoker.get_unmasked_name()] the rightful [SSticker.rulertype] of [SSticker.realm_name], establishing a PROGRESSIVE rule of arcane enlightenment.\n\n" + \
 		"[old_ruler_name], unable to contest this succession, has been found wanting in vision, " + \
 		"and their claim to rulership crumbles before the march of progress.\n\n" + \
-		"Long live [invoker.real_name], [SSticker.rulertype] of [SSticker.realm_name]!"
+		"Long live [invoker.get_unmasked_name()], [SSticker.rulertype] of [SSticker.realm_name]!"
 
 /// Returns TRUE if the mob is a mage (any arcyne training), a Zizite follower, or undead.
 /datum/usurpation_rite/progressive_dominion/proc/is_qualified_voice(mob/living/carbon/human/user)

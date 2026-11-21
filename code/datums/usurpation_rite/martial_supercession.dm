@@ -57,10 +57,10 @@
 /datum/usurpation_rite/martial_supercession/get_victory_announcement(old_ruler_name)
 	return "Those who fail to defend their throne do not deserve to sit upon it.\n\n" + \
 		"A Council of Arms, in the name of Ravox, " + \
-		"declares [invoker.real_name] the rightful [SSticker.rulertype] of [SSticker.realm_name], establishing a JUST rule of law.\n\n" + \
+		"declares [invoker.get_unmasked_name()] the rightful [SSticker.rulertype] of [SSticker.realm_name], establishing a JUST rule of law.\n\n" + \
 		"[old_ruler_name], unable to contest this succession, has been judged unfit to lead, " + \
 		"and their authority is hereby revoked.\n\n" + \
-		"Long live [invoker.real_name], [SSticker.rulertype] of [SSticker.realm_name]!"
+		"Long live [invoker.get_unmasked_name()], [SSticker.rulertype] of [SSticker.realm_name]!"
 
 /// Returns TRUE if the mob has Expert (4+) in any combat skill.
 /datum/usurpation_rite/martial_supercession/proc/has_expert_combat_skill(mob/living/carbon/human/user)

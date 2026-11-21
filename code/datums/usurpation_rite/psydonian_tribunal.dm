@@ -77,7 +77,7 @@
 
 /datum/usurpation_rite/psydonian_tribunal/get_victory_announcement(old_ruler_name)
 	return "There are many gods, but only one who was truly, wholly good.\n\n" + \
-		"The Inquisition, in His name, declares [invoker.real_name] the rightful [SSticker.rulertype] of [SSticker.realm_name], restoring ORDER to this realm.\n\n" + \
+		"The Inquisition, in His name, declares [invoker.get_unmasked_name()] the rightful [SSticker.rulertype] of [SSticker.realm_name], restoring ORDER to this realm.\n\n" + \
 		"[old_ruler_name], unable to contest this judgment, shall be cast to the dustbin of history, " + \
 		"and their authority is hereby annulled.\n\n" + \
-		"Long live [invoker.real_name], [SSticker.rulertype] of [SSticker.realm_name]!"
+		"Long live [invoker.get_unmasked_name()], [SSticker.rulertype] of [SSticker.realm_name]!"

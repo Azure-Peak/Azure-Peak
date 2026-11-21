@@ -60,10 +60,10 @@
 /datum/usurpation_rite/solar_succession/get_victory_announcement(old_ruler_name)
 	return "The sun must set so that dawn may come again.\n\n" + \
 		"The Council of Lords, under Astrata's watchful gaze, " + \
-		"declares [invoker.real_name] the rightful [SSticker.rulertype] of [SSticker.realm_name], in an ORDERLY transfer of power.\n\n" + \
+		"declares [invoker.get_unmasked_name()] the rightful [SSticker.rulertype] of [SSticker.realm_name], in an ORDERLY transfer of power.\n\n" + \
 		"[old_ruler_name], unable to contest this succession, has surely lost the favor of the Sun Goddess, " + \
 		"and their divine right to rulership!\n\n" + \
-		"Long live [invoker.real_name], [SSticker.rulertype] of [SSticker.realm_name]!"
+		"Long live [invoker.get_unmasked_name()], [SSticker.rulertype] of [SSticker.realm_name]!"
 
 /// Returns the number of assent voices required based on the invoker's position.
 /// Insiders need fewer (insider / diplomatic coup).

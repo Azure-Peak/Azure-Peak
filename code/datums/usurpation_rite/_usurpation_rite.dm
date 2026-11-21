@@ -115,10 +115,10 @@
 
 /datum/usurpation_rite/proc/on_assent_accepted(mob/living/carbon/human/person, weight)
 	person.visible_message( \
-		span_notice("[person.real_name] speaks their assent to the [name]."), \
+		span_notice("[person.get_unmasked_name()] speaks their assent to the [name]."), \
 		span_notice("You speak your assent."))
 	var/weight_text = vote_weight_note ? " as [describe_vote_weight(weight)]" : ""
-	to_chat(invoker, span_notice("[person.real_name] has assented[weight_text]. ([get_assent_total()]/[get_required_assents()])"))
+	to_chat(invoker, span_notice("[person.get_unmasked_name()] has assented[weight_text]. ([get_assent_total()]/[get_required_assents()])"))
 
 /datum/usurpation_rite/proc/get_required_assents()
 	return required_assents
@@ -181,7 +181,7 @@
 	on_contesting_started()
 
 /datum/usurpation_rite/proc/on_contesting_started()
-	priority_announce("[invoker.real_name] has invoked the [name]!\n\n" + get_contest_announcement(), name, sound_contesting)
+	priority_announce("[invoker.get_unmasked_name()] has invoked the [name]!\n\n" + get_contest_announcement(), name, sound_contesting)
 	to_chat(invoker, span_notice("The [assenter_group] have spoken. The realm has been alerted. Stay near the throne for [RITE_CONTEST_DURATION / (1 MINUTES)] minutes and the throne is yours. You may move freely, but do not stray too far."))
 	phase_timer_id = addtimer(CALLBACK(src, PROC_REF(complete)), RITE_CONTEST_DURATION, TIMER_STOPPABLE)
 
@@ -193,13 +193,13 @@
 		fail("The claimant has vanished.")
 		return
 	if(invoker.stat == DEAD)
-		fail("[invoker.real_name] lies dead. The succession cannot be completed.")
+		fail("[invoker.get_unmasked_name()] lies dead. The succession cannot be completed.")
 		return
 	if(invoker.stat != CONSCIOUS)
-		fail("[invoker.real_name] has fallen unconscious before the succession could be completed.")
+		fail("[invoker.get_unmasked_name()] has fallen unconscious before the succession could be completed.")
 		return
 	if(!throne || get_dist(invoker, throne) > RITE_CONTEST_PROXIMITY)
-		fail("The cowardly [invoker.real_name] has abandoned their claim to the throne.")
+		fail("The cowardly [invoker.get_unmasked_name()] has abandoned their claim to the throne.")
 		return
 	stage = RITE_STAGE_COMPLETE
 	on_complete()
@@ -207,7 +207,7 @@
 
 /datum/usurpation_rite/proc/on_complete()
 	var/mob/living/old_ruler = SSticker.rulermob
-	var/old_ruler_name = old_ruler?.real_name || "Their predecessor"
+	var/old_ruler_name = old_ruler?.get_unmasked_name() || "Their predecessor"
 	var/epilogue = get_roundend_epilogue()
 	if(epilogue)
 		SSticker.roundend_epilogue = epilogue
@@ -219,7 +219,7 @@
 	return roundend_epilogue
 
 /datum/usurpation_rite/proc/get_victory_announcement(old_ruler_name)
-	return "Long live [invoker.real_name], [SSticker.rulertype] of [SSticker.realm_name]!"
+	return "Long live [invoker.get_unmasked_name()], [SSticker.rulertype] of [SSticker.realm_name]!"
 
 /// Follows the same pattern as coronate_lord() in priest.dm.
 /datum/usurpation_rite/proc/transfer_power()
@@ -279,7 +279,7 @@
 
 	var/realm = SSticker.realm_name || "Azure Peak"
 	// Imitate the text whenever a new Duke joins the game
-	to_world("<b><span class='notice'><span class='big'>[invoker.real_name] is [SSticker.rulertype] of [realm].</span></span></b>")
+	to_world("<b><span class='notice'><span class='big'>[invoker.get_unmasked_name()] is [SSticker.rulertype] of [realm].</span></span></b>")
 
 /datum/usurpation_rite/proc/fail(reason)
 	on_fail(reason)
@@ -333,9 +333,9 @@
 
 /datum/usurpation_rite/proc/on_counter_claim_started(mob/living/carbon/human/claimant)
 	claimant.visible_message( \
-		span_warning("[claimant.real_name] has taken the throne and declared 'Stop Ascent!' The rite is being contested!"), \
+		span_warning("[claimant.get_unmasked_name()] has taken the throne and declared 'Stop Ascent!' The rite is being contested!"), \
 		span_notice("You have taken the throne. Hold it for [RITE_COUNTER_CLAIM_DURATION / (1 MINUTES)] minute(s) to halt the succession. The rite's timer has been paused."))
-	to_chat(invoker, span_danger("[claimant.real_name] has taken the throne and is attempting to stop the rite! Remove them!"))
+	to_chat(invoker, span_danger("[claimant.get_unmasked_name()] has taken the throne and is attempting to stop the rite! Remove them!"))
 
 /datum/usurpation_rite/proc/release_contester()
 	if(contester_timer_id)
@@ -367,7 +367,7 @@
 	cancel_counter_claim()
 
 /datum/usurpation_rite/proc/on_counter_claim_complete()
-	var/contester_name = contester?.real_name || "another"
+	var/contester_name = contester?.get_unmasked_name() || "another"
 	contester_timer_id = null
 	release_contester()
 	fail("The throne has been reclaimed by [contester_name].")
@@ -382,17 +382,17 @@
 		if(RITE_STAGE_GATHERING)
 			return "The [name] is underway. [get_assent_total()]/[get_required_assents()] voices have spoken their assent."
 		if(RITE_STAGE_CONTESTING)
-			return "[invoker?.real_name]'s claim has been affirmed by [council_name]."
+			return "[invoker?.get_unmasked_name()]'s claim has been affirmed by [council_name]."
 	return null
 
 /datum/usurpation_rite/proc/get_periodic_announcement()
 	switch(stage)
 		if(RITE_STAGE_GATHERING)
-			return "[invoker?.real_name] claims the throne [claim_basis]. [capitalize(assenter_group)], speak your assent -- or stop them. ([get_assent_total()]/[get_required_assents()] voices)"
+			return "[invoker?.get_unmasked_name()] claims the throne [claim_basis]. [capitalize(assenter_group)], speak your assent -- or stop them. ([get_assent_total()]/[get_required_assents()] voices)"
 		if(RITE_STAGE_CONTESTING)
 			var/remaining = "moments"
 			var/time_left = get_contest_time_left()
 			if(time_left > 0)
 				remaining = "[round(time_left / (1 SECONDS))] seconds"
-			return "Affirmed by [council_name], [invoker?.real_name] will ascend in [remaining]. Defend or destroy this claim!"
+			return "Affirmed by [council_name], [invoker?.get_unmasked_name()] will ascend in [remaining]. Defend or destroy this claim!"
 	return null

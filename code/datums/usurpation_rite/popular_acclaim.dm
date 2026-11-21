@@ -58,7 +58,7 @@
 	return FALSE
 
 /datum/usurpation_rite/popular_acclaim/get_contest_announcement()
-	return "The people of [SSticker.realm_name] have spoken — [invoker.real_name] shall step forth as the Tribune of [SSticker.realm_name]. A rule by the people, for the people!\n\n" + \
+	return "The people of [SSticker.realm_name] have spoken — [invoker.get_unmasked_name()] shall step forth as the Tribune of [SSticker.realm_name]. A rule by the people, for the people!\n\n" + \
 		"The will of the people shall be settled in [RITE_CONTEST_DURATION / (1 MINUTES)] minutes -- unless the claim is struck down.\n\n"
 
 /datum/usurpation_rite/popular_acclaim/on_complete()
@@ -70,10 +70,10 @@
 
 /datum/usurpation_rite/popular_acclaim/get_victory_announcement(old_ruler_name)
 	return "A ruler must rule for the benefits of their subjects. And no one is more fit than one elected by their subjects.\n\n" + \
-		"The people of [SSticker.realm_name] declare [invoker.real_name] the rightful [SSticker.rulertype], chosen by POPULAR acclaim.\n\n" + \
+		"The people of [SSticker.realm_name] declare [invoker.get_unmasked_name()] the rightful [SSticker.rulertype], chosen by POPULAR acclaim.\n\n" + \
 		"[old_ruler_name], unable to contest this claim, has lost the confidence of the people, " + \
 		"and their authority is hereby revoked.\n\n" + \
-		"Long live [invoker.real_name], [SSticker.rulertype] of [SSticker.realm_name], raised up by the will of the freefolk!"
+		"Long live [invoker.get_unmasked_name()], [SSticker.rulertype] of [SSticker.realm_name], raised up by the will of the freefolk!"
 
 /// Returns the vote weight: outlaws/bandits count double, everyone else single.
 /datum/usurpation_rite/popular_acclaim/get_vote_weight(mob/living/carbon/human/person)

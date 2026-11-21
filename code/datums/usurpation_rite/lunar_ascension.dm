@@ -51,7 +51,7 @@
 
 /datum/usurpation_rite/lunar_ascension/get_victory_announcement(old_ruler_name)
 	return "Noc granted us the arcyne arts so humen may seize their own destiny.\n\n" + \
-		"A Council of Magos, under Noc's watchful gaze, declares [invoker.real_name] the rightful [SSticker.rulertype] of [SSticker.realm_name], establishing a rule of true enlightenment.\n\n" + \
+		"A Council of Magos, under Noc's watchful gaze, declares [invoker.get_unmasked_name()] the rightful [SSticker.rulertype] of [SSticker.realm_name], establishing a rule of true enlightenment.\n\n" + \
 		"[old_ruler_name], unable to contest this succession, has been found wanting in wisdom, " + \
 		"and their claim to rulership fades like starlight at dawn.\n\n" + \
-		"Long live [invoker.real_name], [SSticker.rulertype] of [SSticker.realm_name]!"
+		"Long live [invoker.get_unmasked_name()], [SSticker.rulertype] of [SSticker.realm_name]!"

@@ -1,4 +1,0 @@
-author: "radarseas"
-delete-after: True
-changes:
-  - code_imp: "Hunted vice now correctly informs you of what to expect + what escalation you'll receive upon taking it."

@@ -72,10 +72,10 @@
 
 /datum/usurpation_rite/sacred_supercession/get_victory_announcement(old_ruler_name)
 	return "The sun rises on a new order.\n\n" + \
-		"The faithful of Astrata declare [invoker.real_name] the rightful [SSticker.rulertype] of [SSticker.realm_name], establishing a HOLY reign.\n\n" + \
+		"The faithful of Astrata declare [invoker.get_unmasked_name()] the rightful [SSticker.rulertype] of [SSticker.realm_name], establishing a HOLY reign.\n\n" + \
 		"[old_ruler_name], unable to contest this succession, has been found lacking in faith, " + \
 		"and their divine mandate is hereby revoked.\n\n" + \
-		"Long live [invoker.real_name], [SSticker.rulertype] of [SSticker.realm_name]!"
+		"Long live [invoker.get_unmasked_name()], [SSticker.rulertype] of [SSticker.realm_name]!"
 
 /// Returns TRUE if the mob qualifies: either a church position holder, or has T1+ Divine devotion.
 /datum/usurpation_rite/sacred_supercession/proc/is_qualified_faithful(mob/living/carbon/human/user)
