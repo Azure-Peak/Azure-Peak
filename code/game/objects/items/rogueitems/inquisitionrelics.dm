@@ -1271,9 +1271,9 @@ Inquisitorial armory down here
 	if(!active)
 		var/other = "Someone else..."
 		var/list/names = list(other) + sortList(user.mind.known_people.Copy())
-		var/input = tgui_input_list(user, "WHO DO YOU SEEK?", "THE PRICE IS PAID", names)
+		var/input = tgui_input_list(user, "WHOM DO YOU SEEK?", "THE PRICE IS PAID", names)
 		if(input == other)
-			input = tgui_input_text(user, "WHO DO YOU SEEK?", "THE PRICE IS PAID", max_length = MAX_NAME_LEN, encode = FALSE)
+			input = tgui_input_text(user, "WHOM DO YOU SEEK?", "THE PRICE IS PAID", max_length = MAX_NAME_LEN, encode = FALSE)
 		if(!input)
 			return
 		if(!user.key)
