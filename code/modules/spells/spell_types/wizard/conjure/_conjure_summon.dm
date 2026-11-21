@@ -56,18 +56,13 @@
 	var/summons_per_cast = 1
 	var/summon_replace_mode = CONJURE_SUMMON_GROUP
 	var/list/conjured_mobs = list()
-	var/current_mode = 1
-	var/list/modes = list()
+	default_maptext_x = 5
 	var/summon_noun = "servant"
 	var/recoil_severity = CONJURE_RECOIL_FULL
 	var/recoil_stamina_only = FALSE
 	var/overload_power = 1
 	var/reclaim_recoil = TRUE
 	var/reclaim_recoil_threshold = 0.25
-
-/datum/action/cooldown/spell/conjure_summon/Grant(mob/grant_to)
-	. = ..()
-	apply_mode()
 
 /datum/action/cooldown/spell/conjure_summon/Destroy()
 	for(var/mob/living/M in conjured_mobs.Copy())
@@ -76,7 +71,7 @@
 	conjured_mobs.Cut()
 	return ..()
 
-/datum/action/cooldown/spell/conjure_summon/toggle_alt_mode(mob/user)
+/datum/action/cooldown/spell/conjure_summon/toggle_alt_mode(mob/user) // we have unique logic here that's not in any other mode switch spell. don't call parent
 	if(length(modes) < 2)
 		return
 	var/next = current_mode
@@ -85,8 +80,9 @@
 		if(mode_available(next, user))
 			break
 	current_mode = next
-	apply_mode()
 	to_chat(user, span_notice("[name]: [modes[current_mode]["name"]]."))
+	apply_mode()
+	update_mode_maptext()
 	return TRUE
 
 /datum/action/cooldown/spell/conjure_summon/proc/mode_available(index, mob/user)
@@ -94,31 +90,6 @@
 	if(!req)
 		return TRUE
 	return get_summon_tier(user) >= req
-
-/datum/action/cooldown/spell/conjure_summon/proc/apply_mode()
-	if(!length(modes))
-		return
-	var/list/mode = modes[current_mode]
-	if(mode["invocation"])
-		invocations = list(mode["invocation"])
-	update_mode_maptext()
-
-/datum/action/cooldown/spell/conjure_summon/proc/update_mode_maptext()
-	if(!length(modes))
-		return
-	var/list/mode = modes[current_mode]
-	for(var/datum/hud/hud as anything in viewers)
-		var/atom/movable/screen/movable/action_button/B = viewers[hud]
-		var/atom/movable/screen/arc_maptext_holder/holder
-		for(var/atom/movable/screen/arc_maptext_holder/existing in B.vis_contents)
-			holder = existing
-			break
-		if(!holder)
-			holder = new(B)
-			B.vis_contents.Add(holder)
-		holder.maptext = MAPTEXT(mode["tag"])
-		holder.maptext_x = 5
-		holder.color = mode["color"]
 
 /datum/action/cooldown/spell/conjure_summon/get_spell_statistics(mob/living/user)
 	var/list/stats = ..()
