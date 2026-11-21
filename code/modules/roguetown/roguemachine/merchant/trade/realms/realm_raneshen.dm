@@ -94,7 +94,6 @@
 		/datum/supply_pack/rogue/raneshen/javelins,
 		/datum/supply_pack/rogue/raneshen/headscarf,
 		/datum/supply_pack/rogue/raneshen/shalal_hood,
-		/datum/supply_pack/rogue/raneshen/shalal_scarf,
 		/datum/supply_pack/rogue/raneshen/copper_gorget,
 		/datum/supply_pack/rogue/raneshen/copper_facemask,
 		/datum/supply_pack/rogue/raneshen/copper_bracers,
