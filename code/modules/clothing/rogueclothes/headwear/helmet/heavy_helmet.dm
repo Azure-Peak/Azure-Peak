@@ -65,7 +65,7 @@
 	name = "decrepit barbute"
 	desc = "Rotted metal plates, pounded into a visored helmet. Scrapes and dents line the curved plating, weathered from centuries of \
 	neglect. The remains of a plume's stub hang atop its rim."
-	body_parts_covered = COVERAGE_HEAD
+	body_parts_covered = COVERAGE_HEAD_NOSE
 	max_integrity = ARMOR_INT_HELMET_HEAVY_DECREPIT
 	icon_state = "ancientbarbute"
 	color = "#bb9696"

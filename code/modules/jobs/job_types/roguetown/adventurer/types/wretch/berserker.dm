@@ -58,7 +58,7 @@
 	H.dna.species.soundpack_m = GLOB.voice_packs[/datum/voicepack/male/warrior]
 	if(H.mind)
 		H.set_blindness(0)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/rage)
+		H.mind.AddSpell(new /datum/action/cooldown/spell/rage)
 		var/list/armor_choices = list("Light Armor", "Bare Skin")
 		var/armor_choice = input(H,"Choose your DEFENSE.", "I CAN TAKE IT!!") as anything in armor_choices
 		switch(armor_choice)

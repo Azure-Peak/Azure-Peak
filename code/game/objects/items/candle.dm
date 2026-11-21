@@ -14,6 +14,7 @@
 	var/lit = FALSE
 	var/infinite = FALSE
 	var/start_lit = FALSE
+	var/melted_item = /obj/item/trash/candle
 
 /obj/item/candle/lit
 	start_lit = TRUE
@@ -85,8 +86,9 @@
 	if(!infinite)
 		wax--
 	if(!wax)
-		new /obj/item/trash/candle(loc)
+		new melted_item(loc)
 		qdel(src)
+		return PROCESS_KILL
 	update_icon()
 	open_flame()
 
@@ -104,14 +106,19 @@
 /obj/item/candle/eora
 	icon = 'icons/roguetown/items/lighting.dmi'
 	name = "eora's candle"
-	desc = "A rather lovely candle with a reddish hue."
-	color = "#f858b5ff"
+	desc = "A heart-shaped candle blessed by Eora, with a pink flame and a \
+		sweet floral scent."
+	icon_state = "candle_eora"
+	melted_item = /obj/item/trash/candle/eora
 	light_color = "#ff13d8ff"
 	infinite = TRUE
 
+/obj/item/candle/eora/update_icon()
+	icon_state = "candle_eora[lit ? "_lit" : ""]"
+
 /obj/item/candle/eora/lit
 	start_lit = TRUE
-	icon_state = "candle1_lit"
+	icon_state = "candle_eora_lit"
 
 /obj/item/candle/infinite
 	infinite = TRUE

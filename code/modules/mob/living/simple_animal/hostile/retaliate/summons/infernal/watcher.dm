@@ -1,6 +1,7 @@
 /mob/living/simple_animal/hostile/retaliate/rogue/infernal/watcher
 	anatomy_type = /datum/anatomy/orb
 	threat_point = 70
+	boss_class = BOSS_CLASS_WATCHER
 	icon = 'icons/mob/summonable/32x32.dmi'
 	name = "infernal watcher"
 	icon_state = "watcher"

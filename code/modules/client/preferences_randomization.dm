@@ -88,6 +88,7 @@
 // Only run this for "new character" style randomization
 // new characters get all texts merked and a random species assigned
 /datum/preferences/proc/randomize_new_character()
+	ooze_color_shifting = initial(ooze_color_shifting)
 	// assign new species
 	var/random_species_type = GLOB.species_list[pick(get_selectable_species())]
 	set_new_race(new random_species_type, skip_random = TRUE)

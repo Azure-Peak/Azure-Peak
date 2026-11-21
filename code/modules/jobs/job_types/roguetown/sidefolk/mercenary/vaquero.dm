@@ -15,6 +15,9 @@
 		STATKEY_INT = 2,
 		STATKEY_WIL = 1
 	)
+	subclass_stashed_items = list(
+		"Wax Putty" = /obj/item/waxputty,
+	)
 	subclass_skills = list(
 		/datum/skill/combat/swords = SKILL_LEVEL_EXPERT,
 		/datum/skill/combat/crossbows = SKILL_LEVEL_APPRENTICE,

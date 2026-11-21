@@ -620,7 +620,7 @@ Medical defines
 	Melee Accuracy Defines. See resolve_aimed_zone() and melee_accuracy_check().
 */
 #define ACC_MAJOR_ZONE_BONUS 10			//Aiming at a major limb rather than one of its precise subzones.
-#define ACC_FACE_SUBZONE_PENALTY 24		//Aiming at a face subzone on a player.
+#define ACC_FACE_SUBZONE_PENALTY 24		//Aiming at a face subzone.
 #define ACC_PER_BONUS_PER_POINT 8		//Accuracy gained per PER above 10.
 #define ACC_PER_BONUS_CAP 40			//Ceiling on the PER bonus. Reached at PER 15.
 #define ACC_PER_PENALTY_PER_POINT 10	//Accuracy lost per PER below 10. Deliberately harsher than the bonus.

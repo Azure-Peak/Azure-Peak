@@ -2,7 +2,7 @@
 	name = "Condottiero Ringleader"
 	tutorial = "Hailing from the Kingdom of Etrusca, you are a Condotierro - an upstart mercenary, dedicated to leading a group of trained soldiers of fortune oft found in the employ of powerful merchants and lords for your efficiency and grace. Without a war to fight back home, the Grand Duchy has become a much-needed source of contracts. Afterall, this land is rich in coin yet poor in manpower..."
 	allowed_sexes = list(MALE, FEMALE)
-	
+
 	outfit = /datum/outfit/job/roguetown/mercenary/etrusca_condottiero
 	class_select_category = CLASS_CAT_ETRUSCA
 	category_tags = list(CTAG_MERCENARY, CTAG_MERCPARTY_BRAVO)
@@ -38,7 +38,7 @@
 	cloak = /obj/item/clothing/cloak/tabard/blkknight //Aura farming
 	gloves = /obj/item/clothing/gloves/roguetown/plate
 	belt = /obj/item/storage/belt/rogue/leather/battleskirt
-	head = /obj/item/clothing/head/roguetown/helmet/bascinet/etruscan //Literally Etruscan. You don't get a choice, you're wearing this, sire. 
+	head = /obj/item/clothing/head/roguetown/helmet/bascinet/etruscan //Literally Etruscan. You don't get a choice, you're wearing this, sire.
 	armor = /obj/item/clothing/suit/roguetown/armor/brigandine //It's THE Etruscan armor, come on!
 	backl = /obj/item/storage/backpack/rogue/satchel
 	shirt = /obj/item/clothing/suit/roguetown/shirt/shadowshirt //padded is too strong I guess.
@@ -66,7 +66,7 @@
 				H.change_stat(STATKEY_STR, 2)
 				H.change_stat(STATKEY_CON, 2)
 				H.change_stat(STATKEY_PER, -2)
-			if("Calculating Tactician - Crossbow + Shortsword") 
+			if("Calculating Tactician - Crossbow + Shortsword")
 				H.adjust_skillrank_up_to(/datum/skill/combat/crossbows, SKILL_LEVEL_MASTER, TRUE)
 				beltr = /obj/item/quiver/bolt/standard
 				backr = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow
@@ -78,7 +78,7 @@
 	name = "Balestriero Guildsman"
 	tutorial = "You are a Balestriero - one of many loyal crossbowmen who work under the Condotierro. Armed with your trusty arbalest and navaja, a single volley from the balestrieri are said to be more lethal than a thousand cuts of a blade."
 	allowed_sexes = list(MALE, FEMALE)
-	
+
 	outfit = /datum/outfit/job/roguetown/mercenary/etrusca_balestrieri
 	class_select_category = CLASS_CAT_ETRUSCA
 	category_tags = list(CTAG_MERCENARY, CTAG_MERCPARTY_MARKSMAN)
@@ -89,6 +89,10 @@
 		STATKEY_WIL = 2,
 		STATKEY_PER = 3, //sharpshooters
 		STATKEY_SPD = 2
+	)
+	subclass_stashed_items = list(
+		"Wax Putty I" = /obj/item/waxputty,
+		"Wax Putty II" = /obj/item/waxputty,
 	)
 	subclass_skills = list(
 		/datum/skill/combat/crossbows = SKILL_LEVEL_MASTER, //Possibly too high, no idea.
