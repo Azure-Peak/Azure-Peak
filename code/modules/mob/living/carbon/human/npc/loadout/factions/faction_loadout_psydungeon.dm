@@ -21,7 +21,7 @@
 	threat_point = THREAT_TOUGH
 	statpack = /datum/npc_statpack/line/t3
 	melee = SKILL_LEVEL_EXPERT //'LETS FRAG', 'JUST THIS ONCE'
-	traits = list(TRAIT_PSYDONITE, TRAIT_CRITICAL_RESISTANCE, TRAIT_BIGGUY) //devotee + critical resistance fragger
+	traits = list(TRAIT_PSYDONITE, TRAIT_CRITICAL_RESISTANCE, TRAIT_BIGGUY) //devotee + critical resistance monster
 	loadouts = list(
 		/datum/npc_loadout/weapon/psy_vault_guard_melee_weapon,
 		/datum/npc_loadout/kit/psy_vault_guard_flavor,
