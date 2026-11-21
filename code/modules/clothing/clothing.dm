@@ -304,7 +304,7 @@
 			if(FEMALE in allowed_sex)
 				allowed_sexes -= FEMALE
 				allowed_sexes += MALE
-	if(slot_flags & slotdefine2slotbit(slot))
+	if(fits_slot(slot))
 		if(!length(allowed_sexes) || (M.gender in allowed_sex))
 			if(length(allowed_race) && H)
 				if(H.dna.species.type in allowed_race)
@@ -384,7 +384,7 @@
 	..()
 	if (!istype(user))
 		return
-	if(slot_flags & slotdefine2slotbit(slot)) //Was equipped to a valid slot for this item?
+	if(fits_slot(slot)) //Was equipped to a valid slot for this item?
 		if (LAZYLEN(user_vars_to_edit))
 			for(var/variable in user_vars_to_edit)
 				if(variable in user.vars)

@@ -56,6 +56,7 @@ export type FeaturesData = {
 
 export type Customizer = {
   name: string;
+  group?: string | null;
   type: Path;
   disabled: BooleanLike;
   allows_disabling: BooleanLike;

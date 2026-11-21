@@ -193,7 +193,7 @@
 	icon_state = "great"
 
 /datum/sprite_accessory/horns/bunhorns
-	name = "Bunny horns"
+	name = "Bunny Horns"
 	icon_state = "bunhorns"
 
 /datum/sprite_accessory/horns/marauder

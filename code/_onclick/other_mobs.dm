@@ -180,6 +180,10 @@
 
 /mob/living/MiddleClickOn(atom/A, params)
 	..()
+	if(ishuman(A) && (A == src || !cmode || zone_selected == BODY_ZONE_PRECISE_EARS))
+		var/mob/living/carbon/human/wearer = A
+		if(wearer.try_remove_earrings(src))
+			return
 	if(!mmb_intent)
 		if(!A.Adjacent(src))
 			return

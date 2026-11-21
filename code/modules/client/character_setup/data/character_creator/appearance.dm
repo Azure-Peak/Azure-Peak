@@ -96,6 +96,7 @@
 
 		UNTYPED_LIST_ADD(customizers_data, list(
 			"name" = customizer.name,
+			"group" = customizer.ui_group,
 			"type" = customizer_type,
 			"disabled" = entry.disabled,
 			"allows_disabling" = customizer.allows_disabling,
