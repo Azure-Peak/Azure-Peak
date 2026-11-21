@@ -469,6 +469,11 @@
 	path = /obj/item/clothing/suit/roguetown/shirt/dress/silkdress/steward/donator_fregian_mage
 	ckeywhitelist = list("lucine")
 
+/datum/loadout_item/donator/lucine_enduring_codex
+	name = "Donator Kit - The Enduring Codex"
+	path = /obj/item/enchantingkit/triumph_tomekit_enduring
+	ckeywhitelist = list("lucine")
+
 /datum/loadout_item/donator/eekasqueak
 	name = "Saffira encrusted tiara"
 	path = /obj/item/clothing/head/roguetown/circlet/saffiratiara
