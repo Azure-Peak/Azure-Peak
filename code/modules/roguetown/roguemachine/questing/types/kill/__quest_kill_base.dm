@@ -261,9 +261,7 @@
 		return "[objective_verb] ~[progress_required] [initial(target_mob_type.name)]."
 	return "[objective_verb] ~[progress_required] [faction.name_plural]."
 
-/datum/quest/kill/project_fellowship_objective(mob/living/user)
-	var/extras = count_fellowship_extras(user)
-	var/missing = count_fellowship_missing(user)
+/datum/quest/kill/project_objective(extras, missing)
 	if(!kills_count_progress || (!veteran && ((!extras && !missing) || !fellowship_threat_rate)))
 		return get_objective_text()
 	var/saved_required = progress_required

@@ -84,9 +84,11 @@ GLOBAL_LIST_INIT(quest_prototypes, build_quest_prototypes())
 	var/fellowship_threat_mult = 1
 	var/fellowship_reward_mult = 1
 	var/fellowship_split_payout = FALSE
-	var/size_table_key
+	var/projection_key
 	var/list/cached_size_table
 	var/list/cached_veteran_size_table
+	var/list/cached_objectives
+	var/list/cached_veteran_objectives
 	var/datum/weakref/roster_fellowship_ref
 	var/turf/reward_origin_turf
 	var/turf/reward_target_turf
@@ -514,7 +516,7 @@ GLOBAL_LIST_INIT(quest_prototypes, build_quest_prototypes())
 		return fallback
 	return length(shares) ? shares[1] : null
 
-/datum/quest/proc/project_fellowship_objective(mob/living/user)
+/datum/quest/proc/project_objective(extras, missing)
 	return get_objective_text()
 
 /datum/quest/proc/project_fellowship_reward(mob/living/user)
@@ -544,8 +546,8 @@ GLOBAL_LIST_INIT(quest_prototypes, build_quest_prototypes())
 		reward_amount = calculate_reward(reward_origin_turf, reward_target_turf)
 	. = list()
 	for(var/size in 1 to QUEST_FELLOWSHIP_SCALE_MAX)
-		var/extras = max(0, size - max(1, required_fellowship_size))
-		var/missing = max(0, required_fellowship_size - size)
+		var/extras = extras_at_size(size)
+		var/missing = missing_at_size(size)
 		. += list(list(
 			"size" = size,
 			"threat_pct" = round(group_threat_mult(extras - missing) * veteran_threat_mult() * 100, 1),
@@ -555,12 +557,24 @@ GLOBAL_LIST_INIT(quest_prototypes, build_quest_prototypes())
 	veteran = saved_veteran
 	reward_amount = saved_amount
 
-/datum/quest/proc/get_size_table(as_veteran = FALSE)
+/datum/quest/proc/extras_at_size(size)
+	return max(0, size - max(1, required_fellowship_size))
+
+/datum/quest/proc/missing_at_size(size)
+	return max(0, required_fellowship_size - size)
+
+/datum/quest/proc/check_projection_key()
 	var/key = "[reward_amount]|[reward_bonus_mult]|[required_fellowship_size]|[veteran]|[is_directive]|[fellowship_extras]|[fellowship_threat_mult]"
-	if(key != size_table_key)
-		size_table_key = key
-		cached_size_table = null
-		cached_veteran_size_table = null
+	if(key == projection_key)
+		return
+	projection_key = key
+	cached_size_table = null
+	cached_veteran_size_table = null
+	cached_objectives = null
+	cached_veteran_objectives = null
+
+/datum/quest/proc/get_size_table(as_veteran = FALSE)
+	check_projection_key()
 	if(as_veteran)
 		if(!cached_veteran_size_table)
 			cached_veteran_size_table = build_size_table(TRUE)
@@ -568,6 +582,23 @@ GLOBAL_LIST_INIT(quest_prototypes, build_quest_prototypes())
 	if(!cached_size_table)
 		cached_size_table = build_size_table()
 	return cached_size_table
+
+/datum/quest/proc/get_projected_objective(size, as_veteran = FALSE)
+	check_projection_key()
+	var/list/cache = as_veteran ? cached_veteran_objectives : cached_objectives
+	if(!cache)
+		cache = new /list(QUEST_FELLOWSHIP_SCALE_MAX)
+		if(as_veteran)
+			cached_veteran_objectives = cache
+		else
+			cached_objectives = cache
+	if(isnull(cache[size]))
+		var/saved_veteran = veteran
+		if(as_veteran)
+			veteran = TRUE
+		cache[size] = project_objective(extras_at_size(size), missing_at_size(size))
+		veteran = saved_veteran
+	return cache[size]
 
 /datum/quest/proc/can_be_veteran()
 	return veteran_allowed && !is_directive && (source == QUEST_SOURCE_POOL || source == QUEST_SOURCE_RUMOR)
@@ -583,12 +614,6 @@ GLOBAL_LIST_INIT(quest_prototypes, build_quest_prototypes())
 	. = project_fellowship_reward(user)
 	veteran = saved_veteran
 	reward_amount = saved_amount
-
-/datum/quest/proc/project_veteran_objective(mob/living/user)
-	var/saved_veteran = veteran
-	veteran = TRUE
-	. = project_fellowship_objective(user)
-	veteran = saved_veteran
 
 /datum/quest/proc/claim_failure_reason(mob/living/user)
 	if(required_fellowship_size > 0)

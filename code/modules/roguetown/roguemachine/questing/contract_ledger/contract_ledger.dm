@@ -366,7 +366,7 @@ GLOBAL_LIST_INIT(contract_issuer_roles, list(
 			"deposit" = Q.deposit_amount,
 			"area" = Q.target_spawn_area,
 			"region" = Q.region,
-			"objective" = Q.project_fellowship_objective(user),
+			"objective" = Q.get_projected_objective(party_size),
 			"threat_bands" = threat_bands,
 			"levy_exempt" = Q.levy_exempt,
 			"guild_cut_rate" = Q.guild_cut_rate,
@@ -381,7 +381,7 @@ GLOBAL_LIST_INIT(contract_issuer_roles, list(
 			"can_veteran" = can_veteran,
 			"veteran" = Q.veteran,
 			"veteran_reward" = veteran_reward,
-			"veteran_objective" = can_veteran ? Q.project_veteran_objective(user) : null,
+			"veteran_objective" = can_veteran ? Q.get_projected_objective(party_size, TRUE) : null,
 		))
 	return listing
 
