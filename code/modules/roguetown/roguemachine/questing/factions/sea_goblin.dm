@@ -13,4 +13,10 @@
 		/mob/living/carbon/human/species/goblin/npc/bomber/sea = 8,
 		/mob/living/carbon/human/species/goblin/npc/large/sea = 5,
 		/mob/living/carbon/human/species/hobgoblin/npc/ambush = 15,
+		/mob/living/carbon/human/species/goblin/npc/magos/sea = 4,
+		/mob/living/carbon/human/species/goblin/npc/brickomancer/sea = 3,
+		/mob/living/carbon/human/species/goblin/npc/knifomancer/sea = 3,
+	)
+	variant_chances = list(
+		/datum/quest_faction_variant/goblin_magi/sea = 10,
 	)

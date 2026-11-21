@@ -446,12 +446,14 @@
 	if(source != QUEST_SOURCE_POOL && source != QUEST_SOURCE_RUMOR)
 		return FALSE
 	var/datum/quest_faction/base = get_quest_faction(faction_id)
-	return base && faction == base && length(base.variant_factions) > 0
+	return base && faction == base && length(foe_choices()) > 1
 
 /datum/quest/kill/proc/foe_choices()
 	var/datum/quest_faction/base = get_quest_faction(faction_id)
 	. = list("[base.id]" = base)
-	for(var/variant_type in base.variant_factions)
+	for(var/datum/quest_faction_variant/variant_type as anything in base.variant_factions)
+		if(!initial(variant_type.pickable))
+			continue
 		.["[variant_type]"] = base.variant_factions[variant_type]
 
 /datum/quest/kill/proc/foe_key(list/choices)
