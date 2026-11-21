@@ -289,14 +289,18 @@
 	. = ..()
 	owner.remove_movespeed_modifier("sunbrand_slowdown")
 
-/datum/status_effect/debuff/sunbrand/tick()
-	apply_scorch_stack(owner, 1, BODY_ZONE_CHEST)
-	owner.adjustFireLoss(8, TRUE)
-	if(HAS_TRAIT(owner, TRAIT_SILVER_WEAK) || HAS_TRAIT(owner, TRAIT_MATTHIOS_EYES) || !owner.mind) // we hate the impure, we hate these damn anarchists too
-		arcyne_strike(owner, owner, null, 5, BODY_ZONE_CHEST, BCLASS_BURN, PEN_LIGHT, "Sunfyre", FALSE, TRUE, null, BURN, 1, null, 2)
-	if(!owner.mind && owner.stat == DEAD && owner.can_be_gibbed())
-		owner.visible_message(span_astrata("[owner] disintegrates into pale ash!"))
-		owner.dust()
+/datum/status_effect/debuff/sunbrand/tick() // each tick, the sunbrand debuff burns its owner for 6 fire damage (doubled for silver-weak n matthios), switching from direct fire accumulation to wound attempts w/ arcyne strike, once they're at 200+ fire loss. this dusts npc corpses.
+	var/mob/living/H = owner
+	if(!H.mind && H.stat == DEAD && H.can_be_gibbed())
+		H.visible_message(span_astrata("[H] disintegrates into pale ash!"))
+		H.dust()
+	var/damage_mult = 1
+	if(HAS_TRAIT(H, TRAIT_SILVER_WEAK) || HAS_TRAIT(H, TRAIT_MATTHIOS_EYES)) // we hate the impure, we hate these damn anarchists too
+		damage_mult = 2
+	if(H.getFireLoss() < 200)
+		H.adjustFireLoss(6 * damage_mult, TRUE)
+	else
+		arcyne_strike(H, H, null, 6 * damage_mult, BODY_ZONE_CHEST, BCLASS_BURN, PEN_NONE, "Sunfyre", FALSE, TRUE, null, BURN, 1, null, 2)
 
 //////////////////////////////////////////////////////////
 // T2 - Sacred Flame - Deals damage and ignites target. //
