@@ -182,12 +182,27 @@
 /datum/npc_loadout/armor/medium/psy_vault_lighter
 	wrists = list(
 		/obj/item/clothing/neck/roguetown/psicross = 75,
-		/obj/item/clothing/neck/roguetown/psicross/g = 25,
+		/obj/item/clothing/neck/roguetown/psicross/silver = 25,
 	)
 	mask = /obj/item/clothing/mask/rogue/facemask/psydonmask
 	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail
 	armor = /obj/item/clothing/suit/roguetown/armor/vestments_padded
+	head = /obj/item/clothing/head/roguetown/roguehood/psydon
 	neck = /obj/item/clothing/neck/roguetown/coif/padded
 	pants = /obj/item/clothing/under/roguetown/trou/leather
 	shoes = /obj/item/clothing/shoes/roguetown/sandals
 	gloves = /obj/item/clothing/gloves/roguetown/otavan/psygloves
+
+/datum/npc_loadout/armor/medium/psy_vault_mage
+	wrists = list(
+		/obj/item/clothing/wrists/roguetown/bracers/cloth/naledi = 75,
+		/obj/item/clothing/neck/roguetown/psicross/g = 25,
+	)
+	mask = /obj/item/clothing/mask/rogue/lordmask/naledi/lesser //weaker ver
+	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail
+	armor = /obj/item/clothing/suit/roguetown/armor/vestments_padded
+	head = /obj/item/clothing/head/roguetown/headband/monk/psy_vault_guard
+	neck = /obj/item/clothing/neck/roguetown/coif
+	pants = /obj/item/clothing/under/roguetown/trou/leather
+	shoes = /obj/item/clothing/shoes/roguetown/sandals
+	gloves = /obj/item/clothing/gloves/roguetown/bandages

@@ -5,8 +5,7 @@
 	job = "Psydonite Tomb Monk"
 	category = FACTION_PSY_VAULT_GUARD
 	faction_tag = "psy_vault_guard"
-	body = /datum/npc_body/psyvault
-	statpack = /datum/npc_statpack/line/t2 //fallback
+	statpack = /datum/npc_statpack/line/t3 //fallback
 	patron = /datum/patron/old_god //PSYDON WILL ENDVRE
 	armor_training = ARMOR_CLASS_MEDIUM //all of them can use maile
 	melee = SKILL_LEVEL_APPRENTICE
@@ -47,16 +46,31 @@
 	)
 	ai_controller = /datum/ai_controller/human_npc/archer
 
+//Entryway Mages
+
 /datum/npc_archetype/psy_vault_guard/magemonk
 	name = "Psydonite Tomb Magemonk"
 	job = "Psydonite Tomb Magemonk"
-	statpack = /datum/npc_statpack/caster/t2 //weaker statline
+	statpack = /datum/npc_statpack/caster/t3
+	traits = list(TRAIT_PSYDONITE, TRAIT_WARLOCK) //devotee + mage so no crit resist
+	//journeyman tradeoff for weapon + cantrip + decent light armor + can cast w/out penalty
+	loadouts = list(
+		/datum/npc_loadout/kit/psy_vault_guard_caster_flavor,
+		/datum/npc_loadout/kit/psytomb_mage_lesser,
+		/datum/npc_loadout/armor/medium/psy_vault_mage, //squishier if you limb-aim - naledi themed
+	)
+	ai_controller = /datum/ai_controller/human_npc/caster/melee
+
+/datum/npc_archetype/psy_vault_guard/magemonk_entry
+	name = "Psydonite Tomb Sentinal"
+	job = "Psydonite Tomb Sentinal"
+	statpack = /datum/npc_statpack/caster/t2 //get up close and they're dead-meat
 	traits = list(TRAIT_PSYDONITE, TRAIT_WARLOCK) //devotee + mage so no crit resist
 	//journeyman tradeoff for weapon + cantrip + decent light armor + can cast w/out penalty
 	loadouts = list(
 		/datum/npc_loadout/kit/psy_vault_guard_flavor,
-		/datum/npc_loadout/kit/psytomb_mage_lesser,
-		/datum/npc_loadout/armor/medium/psy_vault_lighter, //squishier if you limb-aim
+		/datum/npc_loadout/kit/psytomb_mage_lesser_entry,
+		/datum/npc_loadout/armor/medium/psy_vault_lighter, //squishier if you limb-aim - otavan themed
 	)
 	ai_controller = /datum/ai_controller/human_npc/caster/melee
 
@@ -82,8 +96,8 @@
 	name = "Psydonite Tomb Telomancer"
 	job = "Psydonite Tomb Telomancer"
 	loadouts = list(
-		/datum/npc_loadout/kit/psy_vault_guard_flavor,
-		/datum/npc_loadout/armor/medium/psy_vault_lighter, //squishier if you limb-aim
+		/datum/npc_loadout/kit/psy_vault_guard_caster_flavor,
+		/datum/npc_loadout/armor/medium/psy_vault_mage, //squishier if you limb-aim - naledi themed
 		/datum/npc_loadout/kit/telomancer_psymonk,
 	)
 	ai_controller = /datum/ai_controller/human_npc/caster
@@ -92,8 +106,8 @@
 	name = "Psydonite Tomb Cryomancer"
 	job = "Psydonite Tomb Cryomancer"
 	loadouts = list(
-		/datum/npc_loadout/kit/psy_vault_guard_flavor,
-		/datum/npc_loadout/armor/medium/psy_vault_lighter, //squishier if you limb-aim
+		/datum/npc_loadout/kit/psy_vault_guard_caster_flavor,
+		/datum/npc_loadout/armor/medium/psy_vault_mage, //squishier if you limb-aim - naledi themed
 		/datum/npc_loadout/kit/cryomancer_psymonk,
 	)
 	ai_controller = /datum/ai_controller/human_npc/caster
@@ -102,8 +116,8 @@
 	name = "Psydonite Tomb Fulgurmancer"
 	job = "Psydonite Tomb Fulgurmancer"
 	loadouts = list(
-		/datum/npc_loadout/kit/psy_vault_guard_flavor,
-		/datum/npc_loadout/armor/medium/psy_vault_lighter, //squishier if you limb-aim
+		/datum/npc_loadout/kit/psy_vault_guard_caster_flavor,
+		/datum/npc_loadout/armor/medium/psy_vault_mage, //squishier if you limb-aim - naledi themed
 		/datum/npc_loadout/kit/fulgurmancer_psymonk,
 	)
 	ai_controller = /datum/ai_controller/human_npc/caster
@@ -113,28 +127,59 @@
 	magic_aspects = list(
 		/datum/magic_aspect/telomancy,
 	)
-	r_hand = /obj/item/rogueweapon/woodstaff/implement/greater
+	spells = list(/datum/action/cooldown/spell/blink/shadowstep) //unique addition of shadowstep on TOP of their mage skillset
+	r_hand = /obj/item/rogueweapon/woodstaff/implement/grand/naledi
 
 /datum/npc_loadout/kit/cryomancer_psymonk
 	magic_aspects = list(
 		/datum/magic_aspect/telomancy,
 	)
-	r_hand = /obj/item/rogueweapon/woodstaff/implement/greater
+	spells = list(/datum/action/cooldown/spell/blink/shadowstep) //unique addition of shadowstep on TOP of their mage skillset
+	r_hand = /obj/item/rogueweapon/woodstaff/implement/grand/naledi
 
 /datum/npc_loadout/kit/fulgurmancer_psymonk
 	magic_aspects = list(
 		/datum/magic_aspect/telomancy,
 	)
-	r_hand = /obj/item/rogueweapon/woodstaff/implement/greater
+	spells = list(/datum/action/cooldown/spell/blink/shadowstep) //unique addition of shadowstep on TOP of their mage skillset
+	r_hand = /obj/item/rogueweapon/woodstaff/implement/grand/naledi
 
 //** FLAVOR **//
 
 /datum/npc_loadout/kit/psy_vault_guard_flavor
 	belt = list(
-		/obj/item/storage/belt/rogue/leather/rope/upgraded/dark = 60,
+		/obj/item/storage/belt/rogue/leather/rope/upgraded/dark = 50,
 		/obj/item/storage/belt/rogue/leather/sash = 30,
-		/obj/item/storage/belt/rogue/leather/tossbelt/blade/black/steel = 10, //because I am evil
+		/obj/item/storage/belt/rogue/leather/tossbelt/blade/black/steel = 20, //because I am evil
 	)
+	beltr = list(
+		/obj/item/storage/belt/rogue/pouch/food = 15,
+		/obj/item/storage/belt/rogue/pouch/medicine = 15,
+		/obj/item/storage/belt/rogue/pouch/coins/mid = 20,
+		/obj/item/reagent_containers/glass/bottle/waterskin = 10,
+		/obj/item/rope/chain = 30,
+		/obj/item/reagent_containers/glass/bottle/alchemical/healthpot = 20,
+		NPC_NOTHING = 25,
+	)
+	beltl = list(
+		/obj/item/clothing/neck/roguetown/psicross = 40,
+		/obj/item/book/rogue/bibble/psy = 40,
+		/obj/item/clothing/neck/roguetown/psicross/silver = 20,
+	)
+	id = list(
+		/obj/item/clothing/neck/roguetown/psicross = 40,
+		/obj/item/clothing/ring/silver/cleric = 20,
+		/obj/item/clothing/neck/roguetown/psicross/silver = 10,
+		NPC_NOTHING = 30,
+	)
+	cloak = list(
+		/obj/item/clothing/cloak/absolutionistrobe/black = 15,
+		/obj/item/clothing/cloak/tabard/psydontabard/black = 40,
+		NPC_NOTHING = 25,
+	)
+
+/datum/npc_loadout/kit/psy_vault_guard_caster_flavor
+	belt = /obj/item/storage/belt/rogue/leather/rope/upgraded/dark
 	beltr = list(
 		/obj/item/storage/belt/rogue/pouch/food = 15,
 		/obj/item/storage/belt/rogue/pouch/medicine = 15,
@@ -146,17 +191,17 @@
 	beltl = list(
 		/obj/item/clothing/neck/roguetown/psicross = 40,
 		/obj/item/book/rogue/bibble/psy = 40,
-		/obj/item/clothing/neck/roguetown/psicross/silver = 20,
+		/obj/item/clothing/neck/roguetown/psicross/g = 20,
 	)
 	id = list(
-		/obj/item/clothing/neck/roguetown/psicross = 40,
-		/obj/item/clothing/ring/silver/cleric = 40,
-		/obj/item/clothing/neck/roguetown/psicross/silver = 20,
+		/obj/item/clothing/neck/roguetown/psicross/g = 30,
+		/obj/item/clothing/neck/roguetown/psicross/naledi = 40,
+		NPC_NOTHING = 30,
 	)
 	cloak = list(
-		/obj/item/clothing/cloak/absolutionistrobe/black = 15,
-		/obj/item/clothing/cloak/tabard/psydontabard/black = 40,
-		NPC_NOTHING = 45,
+		/obj/item/clothing/cloak/hierophant = 2,
+		/obj/item/clothing/suit/roguetown/shirt/robe/pointfex = 1,
+		NPC_NOTHING = 2,
 	)
 
 //** WEAPONS **//
@@ -180,4 +225,10 @@
 	spells = list(/datum/action/cooldown/spell/projectile/arc_bolt, /datum/action/cooldown/spell/blink/shadowstep, /datum/action/cooldown/spell/mending) //unique lbolt into shadowstep skillset, w/ quarterstaff melee
 	weapons = list(
 		list(/obj/item/rogueweapon/woodstaff/quarterstaff/steel),
+	)
+
+/datum/npc_loadout/kit/psytomb_mage_lesser_entry
+	spells = list(/datum/action/cooldown/spell/projectile/arc_bolt, /datum/action/cooldown/spell/mending) //no shadowstep so they don't teleport
+	weapons = list(
+		list(/obj/item/rogueweapon/woodstaff/quarterstaff/iron), //weaker
 	)

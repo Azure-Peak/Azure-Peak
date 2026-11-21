@@ -18,10 +18,6 @@ GLOBAL_LIST_INIT(psyvault_aggro, world.file2list("strings/rt/psyvaultaggrolines.
 	. = ..()
 	gender = pick(MALE, FEMALE)
 	set_species(/datum/species/lizardfolk)
-	if(big_guy_lizard)
-		transform = transform.Scale(1.25, 1.25)
-		transform = transform.Translate(0, 0.25 * 16)
-		update_transform()
 	if(!npc_archetype)
 		spawn(10) // To prevent dropping weapons
 			after_creation()
@@ -59,19 +55,20 @@ GLOBAL_LIST_INIT(psyvault_aggro, world.file2list("strings/rt/psyvaultaggrolines.
 	ADD_TRAIT(src, TRAIT_STRONGBITE, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_NPC_EXAMINE, TRAIT_GENERIC)
 	equipOutfit(new /datum/outfit/job/roguetown/human/species/lizardfolk/psy_vault_guard)
-	update_hair()
-	update_body()
 	update_overlays()
 	var/obj/item/bodypart/head/head = get_bodypart(BODY_ZONE_HEAD)
 	head.sellprice = HEAD_BOUNTY_LIZARDMAN
-	random_voice_NPC()
-	random_eye_color_NPC()
+	//are we beeg?
+	if(big_guy_lizard)
+		transform = transform.Scale(1.25, 1.25)
+		transform = transform.Translate(0, 0.25 * 16)
+		update_transform()
 	src.regenerate_icons() //Fixes the weird body but lets check performance first
 
 
 /datum/outfit/job/roguetown/human/species/lizardfolk/psy_vault_guard/pre_equip(mob/living/carbon/human/H)
 	..()
-	//Body Stufff
+	//Body Stuff
 	H.skin_tone = "e9d298"
 	//purity afloat
 	H.grant_language(/datum/language/otavan)
@@ -79,6 +76,10 @@ GLOBAL_LIST_INIT(psyvault_aggro, world.file2list("strings/rt/psyvaultaggrolines.
 
 /mob/living/carbon/human/species/lizardfolk/psy_vault_guard/magemonk
 	npc_archetype = /datum/npc_archetype/psy_vault_guard/magemonk
+	big_guy_lizard = FALSE
+
+/mob/living/carbon/human/species/lizardfolk/psy_vault_guard/magemonk_entry
+	npc_archetype = /datum/npc_archetype/psy_vault_guard/magemonk_entry
 	big_guy_lizard = FALSE
 
 /mob/living/carbon/human/species/lizardfolk/psy_vault_guard/archer
