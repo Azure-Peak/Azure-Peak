@@ -62,6 +62,17 @@ GLOBAL_LIST_EMPTY(vampire_objects)
 		if(GENERATION_THINBLOOD, GENERATION_THINNERBLOOD)
 			research_points = 0
 
+	// Thinnerbloods always belong to the Deject clan and skip clan selection entirely.
+	if(src.generation == GENERATION_THINNERBLOOD && !forced)
+		default_clan = /datum/clan/deject
+		clan_selected = TRUE
+		// No bonus stats from becoming a vampire. L bozo???
+		STASTR = 10
+		STASPD = 10
+		STAWIL = 10
+		STACON = 10
+		STAPER = 10
+
 /datum/antagonist/vampire/get_antag_cap_weight()
 	switch(generation)
 		if(GENERATION_METHUSELAH)
@@ -190,8 +201,6 @@ GLOBAL_LIST_EMPTY(vampire_objects)
 	switch(vampdude.get_vampire_generation())
 		if(GENERATION_NEONATE, GENERATION_THINBLOOD)
 			new_clan.covens_to_select = COVENS_PER_WRETCH_CLAN
-		if(GENERATION_THINNERBLOOD)
-			new_clan.covens_to_select = COVENS_PER_VAGABOND
 	vampdude.set_clan_direct(new_clan)
 	clan_selected = TRUE
 	after_gain()
