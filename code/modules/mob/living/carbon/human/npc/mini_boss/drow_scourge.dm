@@ -1,5 +1,6 @@
 /mob/living/carbon/human/species/elf/dark/drowraider/scourge
 	threat_point = THREAT_ELITE
+	boss_class = BOSS_CLASS_SCOURGE
 	dodgetime = 20
 	npc_archetype = /datum/npc_archetype/drow/scourge
 

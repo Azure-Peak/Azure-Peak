@@ -1,4 +1,0 @@
-author: "WeNeedMorePhoron"
-delete-after: True
-changes:
-  - rscadd: "Added item stats and intents preview to Commissioner / Silverface / Goldface / Encyclopedia. Cleaned up intents examine to show less useless stats."

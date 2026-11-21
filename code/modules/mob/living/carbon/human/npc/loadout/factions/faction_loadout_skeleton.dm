@@ -314,8 +314,10 @@
 	)
 	shoes = list(
 		/obj/item/clothing/shoes/roguetown/simpleshoes = 60,
-		NPC_NOTHING = 40,
+		/obj/item/clothing/shoes/roguetown/boots/leather/reinforced/shoddy = 40,
 	)
+	mask = /obj/item/clothing/mask/rogue/facemask/aalloy
+	gloves = /obj/item/clothing/gloves/roguetown/fingerless_leather
 	head = list(
 		/obj/item/clothing/head/roguetown/cap = 1,
 		/obj/item/clothing/head/roguetown/roguehood = 1,
@@ -444,6 +446,9 @@
 		/obj/item/clothing/cloak/tabard/stabard/bog = 1,
 		NPC_NOTHING = 1,
 	)
+	mask = /obj/item/clothing/mask/rogue/facemask/aalloy
+	gloves = /obj/item/clothing/gloves/roguetown/fingerless_leather
+	shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced/shoddy
 
 /datum/npc_loadout/kit/bog_skeleton_archer
 	clear_slots = list("head", "mask", "neck")

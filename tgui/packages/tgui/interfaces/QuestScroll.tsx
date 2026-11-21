@@ -52,6 +52,7 @@ const BountyHeader = (props: {
   guildCutRate: number;
   fellowshipSize: number;
   fellowshipExtras: number;
+  fellowshipMissing: number;
   fellowshipSplit: boolean;
   fellowshipThreatPct: number;
   fellowshipRewardPct: number;
@@ -63,6 +64,7 @@ const BountyHeader = (props: {
     guildCutRate,
     fellowshipSize,
     fellowshipExtras,
+    fellowshipMissing,
     fellowshipSplit,
     fellowshipThreatPct,
     fellowshipRewardPct,
@@ -73,12 +75,14 @@ const BountyHeader = (props: {
       <span style={marginaliaLabel}>Bounty as it now stands:</span>
       <b>{reward} mammon</b>
       {net !== reward && <span>({net} in hand after deductions)</span>}
-      {fellowshipSize > 1 && (
+      {(fellowshipSize > 1 || fellowshipMissing > 0) && (
         <>
           <span>
             Fellowship Size: {fellowshipSize}
             {fellowshipExtras > 0 &&
               ` (+${fellowshipExtras} > Contract Requirement. +${fellowshipThreatPct}% threat +${fellowshipRewardPct}% reward)`}
+            {fellowshipMissing > 0 &&
+              ` (-${fellowshipMissing} < Contract Requirement.${fellowshipThreatPct < 0 ? ` ${fellowshipThreatPct}% threat.` : ''} Reward cut to those present)`}
           </span>
           <span>Rewards: {fellowshipSplit ? 'Split' : 'Turned In'}</span>
         </>
@@ -253,6 +257,7 @@ const FACTION_WRIT_RENDERERS: Record<string, WritRenderer> = {
   [FACTION_CAT_UNDEAD]: (props) => (
     <UndeadWrit
       realm={props.realm}
+      ringleader={props.data.band_leader}
       {...factionGroupPropsOf(props)}
       {...rewardPropsOf(props)}
       {...sealPropsOf(props)}
@@ -262,6 +267,7 @@ const FACTION_WRIT_RENDERERS: Record<string, WritRenderer> = {
   [FACTION_CAT_GOBLINOID]: (props) => (
     <GoblinoidWrit
       realm={props.realm}
+      ringleader={props.data.band_leader}
       {...factionGroupPropsOf(props)}
       {...rewardPropsOf(props)}
       {...sealPropsOf(props)}
@@ -384,10 +390,17 @@ export const QuestScroll = () => {
               guildCutRate={guildCutRate}
               fellowshipSize={data.fellowship_size ?? 0}
               fellowshipExtras={data.fellowship_extras ?? 0}
+              fellowshipMissing={data.fellowship_missing ?? 0}
               fellowshipSplit={!!data.fellowship_split}
               fellowshipThreatPct={data.fellowship_threat_pct ?? 0}
               fellowshipRewardPct={data.fellowship_reward_pct ?? 0}
             />
+          )}
+
+          {!!data.veteran && (
+            <div style={{ textAlign: 'center', fontStyle: 'italic' }}>
+              Veteran contract: threat increased by {data.veteran_threat_pct}%.
+            </div>
           )}
 
           <div style={writBody}>

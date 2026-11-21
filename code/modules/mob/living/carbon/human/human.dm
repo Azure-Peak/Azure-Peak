@@ -34,7 +34,7 @@
 					held_item.melee_attack_chain(user, src, params)
 		return
 	if(user == src)
-		if(get_num_arms(FALSE) < 1)
+		if(get_num_arms(FALSE) < 1 || cmode)
 			return
 		if(user.zone_selected == BODY_ZONE_PRECISE_GROIN)
 			if(!is_inventory_slot_obscured(SLOT_UNDERWEAR_BOTTOM))
@@ -57,10 +57,11 @@
 		if(user.zone_selected == BODY_ZONE_CHEST)
 			if(!piercings_item)
 				return
-			var/under_clothes = get_location_accessible(src, BODY_ZONE_CHEST, skipundies = TRUE)
-			src.visible_message(span_notice("[src] begins to take off [piercings_item][under_clothes ? " from under their clothes" : ""]..."))
-			var/delay = under_clothes ? 25 : 40
-			if(do_after(user, delay, target = src))
+			if(!get_location_accessible(src, BODY_ZONE_CHEST))
+				to_chat(src, span_warning("My chest is covered."))
+				return
+			src.visible_message(span_notice("[src] begins to take off [piercings_item]..."))
+			if(do_after(user, 25, target = src))
 				var/obj/item/bodypart/chest = get_bodypart(BODY_ZONE_CHEST)
 				chest.remove_bodypart_feature(piercings_item.piercings_feature)
 				piercings_item.forceMove(get_turf(src))

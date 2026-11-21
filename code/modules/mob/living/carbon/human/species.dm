@@ -2215,7 +2215,7 @@ GLOBAL_LIST_INIT(body_builds, init_body_builds())
 					shake_camera(H, 2, 2)
 					H.stuttering += 5
 				if(damage_amount > 10 && !HAS_TRAIT(H, TRAIT_NOPAINSTUN) && !HAS_TRAIT(H, TRAIT_IRONMAN) && !HAS_TRAIT(H, TRAIT_IGNOREDAMAGESLOWDOWN))
-					H.Slowdown(clamp(damage_amount/10, 1, 5))
+					H.apply_slowdown(clamp(damage_amount / 5, 3, 9) SECONDS)
 					shake_camera(H, 1, 1)
 				if(H.show_redflash())
 					if(damage_amount < 10)

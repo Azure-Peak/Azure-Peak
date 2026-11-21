@@ -271,6 +271,7 @@ Works together with spawning an observer, noted above.
 		SSdroning.kill_loop(client)
 		SSdroning.kill_droning(client)
 	var/mob/dead/observer/ghost = new ghostpath(src)
+	ghost.flags_1 |= flags_1 & ANTAGOOC_ACCESS_1
 	ghost.ghostize_time = world.time
 	SStgui.on_transfer(src, ghost)
 	ghost.can_reenter_corpse = reenter

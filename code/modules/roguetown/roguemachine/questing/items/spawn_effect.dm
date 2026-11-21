@@ -49,6 +49,9 @@
 	if(get_dist(our_turf, scroll_turf) > prox_range)
 		return
 
+	if(!quest.may_trigger(scroll_turf))
+		return
+
 	// Pop every spawner this quest owns at once so the whole encounter materializes together.
 	quest.pop_all_spawners()
 
@@ -69,6 +72,8 @@
 	if(our_turf.z != scroll_turf.z)
 		return
 	if(get_dist(our_turf, scroll_turf) > prox_range)
+		return
+	if(!quest.may_trigger(scroll_turf))
 		return
 	INVOKE_ASYNC(quest, TYPE_PROC_REF(/datum/quest/kill, check_arrival))
 
@@ -101,6 +106,20 @@
 
 /obj/effect/quest_spawn/ex_act()
 	return
+
+/obj/effect/quest_spawn/item
+
+/obj/effect/quest_spawn/item/reveal_contained()
+	if(!contained_atom)
+		qdel(src)
+		return
+	var/image/I = image(icon = 'icons/effects/effects.dmi', loc = get_turf(src), icon_state = "hidden", layer = 18)
+	I.plane = 18
+	I.mouse_opacity = MOUSE_OPACITY_TRANSPARENT
+	flick_overlay_view(I, 5 SECONDS)
+	contained_atom.forceMove(get_turf(src))
+	contained_atom = null
+	qdel(src)
 
 /obj/effect/quest_spawn/notorious
 	prox_range = NOTORIOUS_BOUNTY_PROX_RANGE

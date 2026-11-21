@@ -324,22 +324,22 @@ GLOBAL_LIST_INIT(melee_combat_skills, list( \
 	for(var/obj/structure/flora/roguetree/RT in orange(max_dist, src))
 		if(istype(RT,/obj/structure/flora/roguetree/stump))
 			continue
-		if(isturf(RT.loc) && !get_dist(RT.loc, src) < min_dist)
+		if(isturf(RT.loc) && get_dist(RT.loc, src) >= min_dist)
 			possible_targets += get_adjacent_ambush_turfs(RT.loc)
 	for(var/obj/structure/flora/roguegrass/bush/RB in orange(max_dist, src))
-		if(isturf(RB.loc) && !get_dist(RB.loc, src) < min_dist)
+		if(isturf(RB.loc) && get_dist(RB.loc, src) >= min_dist)
 			possible_targets += get_adjacent_ambush_turfs(RB.loc)
 	for(var/obj/structure/flora/rogueshroom/RX in orange(max_dist, src))
-		if(isturf(RX.loc) && !get_dist(RX.loc, src) < min_dist)
+		if(isturf(RX.loc) && get_dist(RX.loc, src) >= min_dist)
 			possible_targets += get_adjacent_ambush_turfs(RX.loc)
 	for(var/obj/structure/flora/newtree/RS in orange(max_dist, src))
 		if(!RS.density)
 			continue
-		if(isturf(RS.loc) && !get_dist(RS.loc, src) < min_dist)
+		if(isturf(RS.loc) && get_dist(RS.loc, src) >= min_dist)
 			possible_targets += get_adjacent_ambush_turfs(RS.loc)
 	// Ambush mobs can spawn in aquatic foliage, so they can still occur on the coast which lacks all other objects.
 	for(var/obj/structure/flora/roguegrass/water/WF in orange(max_dist, src))
-		if(isturf(WF.loc) && !get_dist(WF.loc, src) < min_dist)
+		if(isturf(WF.loc) && get_dist(WF.loc, src) >= min_dist)
 			possible_targets += get_adjacent_ambush_turfs(WF.loc)
 	return possible_targets
 

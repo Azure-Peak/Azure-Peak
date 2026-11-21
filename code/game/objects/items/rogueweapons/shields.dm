@@ -32,7 +32,7 @@
 
 /obj/item/rogueweapon/shield/equipped(mob/user, slot, initial)
 	. = ..()
-	if(HAS_TRAIT(user, TRAIT_TINYPAWS))
+	if(HAS_TRAIT(user, TRAIT_WEAPONLESS))
 		to_chat(user, span_danger("The shield is too bulky for me to wield effectively!"))
 		forceMove(user.loc)
 
