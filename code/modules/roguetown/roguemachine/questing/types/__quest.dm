@@ -84,6 +84,9 @@ GLOBAL_LIST_INIT(quest_prototypes, build_quest_prototypes())
 	var/fellowship_threat_mult = 1
 	var/fellowship_reward_mult = 1
 	var/fellowship_split_payout = FALSE
+	var/size_table_key
+	var/list/cached_size_table
+	var/list/cached_veteran_size_table
 	var/datum/weakref/roster_fellowship_ref
 	var/turf/reward_origin_turf
 	var/turf/reward_target_turf
@@ -438,7 +441,7 @@ GLOBAL_LIST_INIT(quest_prototypes, build_quest_prototypes())
 			return FALSE
 	return TRUE
 
-/datum/quest/proc/available_fellowship_members(mob/living/user)
+/proc/available_fellowship_members(mob/living/user)
 	. = list()
 	if(!isliving(user))
 		return
@@ -551,6 +554,20 @@ GLOBAL_LIST_INIT(quest_prototypes, build_quest_prototypes())
 		))
 	veteran = saved_veteran
 	reward_amount = saved_amount
+
+/datum/quest/proc/get_size_table(as_veteran = FALSE)
+	var/key = "[reward_amount]|[reward_bonus_mult]|[required_fellowship_size]|[veteran]|[is_directive]|[fellowship_extras]|[fellowship_threat_mult]"
+	if(key != size_table_key)
+		size_table_key = key
+		cached_size_table = null
+		cached_veteran_size_table = null
+	if(as_veteran)
+		if(!cached_veteran_size_table)
+			cached_veteran_size_table = build_size_table(TRUE)
+		return cached_veteran_size_table
+	if(!cached_size_table)
+		cached_size_table = build_size_table()
+	return cached_size_table
 
 /datum/quest/proc/can_be_veteran()
 	return veteran_allowed && !is_directive && (source == QUEST_SOURCE_POOL || source == QUEST_SOURCE_RUMOR)

@@ -333,6 +333,7 @@ GLOBAL_LIST_INIT(contract_issuer_roles, list(
 	var/claim_barred_towner = is_quest_claim_barred(user, TRUE)
 	var/solo_limited = is_quest_solo_limited(user)
 	var/solo_limited_towner = is_quest_solo_limited(user, TRUE)
+	var/party_size = max(1, length(available_fellowship_members(user)))
 	for(var/datum/quest/Q as anything in SSquestpool.pool)
 		var/towner_posting = Q.source == QUEST_SOURCE_TOWNER
 		var/threat_bands = 0
@@ -341,17 +342,27 @@ GLOBAL_LIST_INIT(contract_issuer_roles, list(
 			threat_bands = KQ.threat_bands_cleared
 		var/lapse_minutes = Q.lapses ? max(0, round((Q.get_lapse_time() - world.time) / 600, 1)) : null
 		var/can_veteran = !Q.veteran && Q.can_be_veteran()
-		var/scales = Q.scales_with_group()
+		var/list/size_table
+		var/list/veteran_size_table
+		if(Q.scales_with_group())
+			size_table = Q.get_size_table()
+			if(can_veteran)
+				veteran_size_table = Q.get_size_table(TRUE)
+		var/veteran_reward
+		if(veteran_size_table)
+			veteran_reward = veteran_size_table[party_size]["reward"]
+		else if(can_veteran)
+			veteran_reward = Q.project_veteran_reward(user)
 		listing += list(list(
 			"ref" = REF(Q),
 			"title" = Q.title || "Unnamed Contract",
 			"type" = Q.quest_type,
 			"difficulty" = Q.quest_difficulty,
 			"reward" = Q.reward_amount,
-			"projected_reward" = Q.project_fellowship_reward(user),
+			"projected_reward" = size_table ? size_table[party_size]["reward"] : Q.project_fellowship_reward(user),
 			"fellowship_reward_rate" = Q.fellowship_reward_rate,
-			"size_table" = scales ? Q.build_size_table() : null,
-			"veteran_size_table" = (scales && can_veteran) ? Q.build_size_table(TRUE) : null,
+			"size_table" = size_table,
+			"veteran_size_table" = veteran_size_table,
 			"deposit" = Q.deposit_amount,
 			"area" = Q.target_spawn_area,
 			"region" = Q.region,
@@ -369,7 +380,7 @@ GLOBAL_LIST_INIT(contract_issuer_roles, list(
 			"lapse_minutes" = lapse_minutes,
 			"can_veteran" = can_veteran,
 			"veteran" = Q.veteran,
-			"veteran_reward" = can_veteran ? Q.project_veteran_reward(user) : null,
+			"veteran_reward" = veteran_reward,
 			"veteran_objective" = can_veteran ? Q.project_veteran_objective(user) : null,
 		))
 	return listing
