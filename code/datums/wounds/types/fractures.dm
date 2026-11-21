@@ -342,7 +342,7 @@
 			if(iscarbon(affected))
 				var/mob/living/carbon/carbon_affected = affected
 				carbon_affected.update_disabled_bodyparts()
-		if(HAS_TRAIT(CA, TRAIT_SHATTER_KILL) && !mind.CA) //NPCs die because their AI freaks out easily + we want to clear them from existance instead of keeping them alone to reduce AI lag.
+		if(HAS_TRAIT(CA, TRAIT_SHATTER_KILL) && !mind.affected) //NPCs die because their AI freaks out easily + we want to clear them from existance instead of keeping them alone to reduce AI lag.
 			CA.death()
 
 /datum/wound/fracture/chest/on_mob_loss(mob/living/affected)

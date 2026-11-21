@@ -432,7 +432,7 @@
 	)
 	head = list(
 		/obj/item/clothing/head/roguetown/helmet/kettle/iron = 8,
-		/obj/item/clothing/head/roguetown/helmet/kettle/leather = 15,
+		/obj/item/clothing/head/roguetown/helmet/leather = 15,
 		/obj/item/clothing/head/roguetown/roguehood/bogman = 8, //no colored varients, these were who didn't defect
 		NPC_NOTHING = 10,
 	)
