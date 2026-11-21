@@ -795,7 +795,7 @@
 	if(istype(H.patron, /datum/patron/divine))
 		H.mind?.AddSpell(new /datum/action/cooldown/spell/projectile/divine_blast)
 	if(istype(H.patron, /datum/patron/inhumen))
-		H.mind?.AddSpell(new /datum/action/cooldown/spell/projectile/unholy_blast)
+		H.mind?.AddSpell(new /datum/action/cooldown/spell/projectile/divine_blast/inhumen)
 	if(istype(H.patron, /datum/patron/old_god))
 		H.mind?.AddSpell(new /datum/action/cooldown/spell/psydon/enduring_blast) //99% rock chance, 1% boulder, hilarious.
 	neck = apply_cleric_pre_equip(H)
