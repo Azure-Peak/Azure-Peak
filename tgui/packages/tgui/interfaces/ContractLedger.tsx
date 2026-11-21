@@ -20,6 +20,19 @@ type SizeRow = {
   short: BooleanLike;
 };
 
+type SizeTableData = {
+  reward: number[];
+  threat_pct: number[];
+};
+
+const toSizeRows = (table: SizeTableData, requiredSize: number): SizeRow[] =>
+  table.reward.map((reward, i) => ({
+    size: i + 1,
+    threat_pct: table.threat_pct[i],
+    reward,
+    short: i + 1 < requiredSize,
+  }));
+
 const SizeTable = (props: {
   rows: SizeRow[];
   mySize: number;
@@ -83,8 +96,8 @@ type Contract = {
   reward: number;
   projected_reward: number;
   fellowship_reward_rate: number;
-  size_table: SizeRow[] | null;
-  veteran_size_table: SizeRow[] | null;
+  size_table: SizeTableData | null;
+  veteran_size_table: SizeTableData | null;
   deposit: number;
   area: string;
   region: string;
@@ -736,8 +749,11 @@ const ContractCard = (props: { contract: Contract }) => {
         const levy = Math.round(payout * levyRate);
         const guild = Math.round(payout * guildRate);
         const purse = payout - levy - guild;
-        const sizeRows =
+        const sizeTable =
           (useVeteran && c.veteran_size_table) || c.size_table;
+        const sizeRows = sizeTable
+          ? toSizeRows(sizeTable, c.required_fellowship_size)
+          : null;
         const mySize = Math.min(
           Math.max(data.user_fellowship_size || 1, 1),
           sizeRows?.length || 1,

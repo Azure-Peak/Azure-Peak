@@ -354,7 +354,7 @@ GLOBAL_LIST_INIT(contract_issuer_roles, list(
 				veteran_size_table = Q.get_size_table(TRUE)
 		var/veteran_reward
 		if(veteran_size_table)
-			veteran_reward = veteran_size_table[party_size]["reward"]
+			veteran_reward = veteran_size_table["reward"][party_size]
 		else if(can_veteran)
 			veteran_reward = Q.project_veteran_reward(user)
 		listing += list(list(
@@ -363,7 +363,7 @@ GLOBAL_LIST_INIT(contract_issuer_roles, list(
 			"type" = Q.quest_type,
 			"difficulty" = Q.quest_difficulty,
 			"reward" = Q.reward_amount,
-			"projected_reward" = size_table ? size_table[party_size]["reward"] : Q.project_fellowship_reward(user),
+			"projected_reward" = size_table ? size_table["reward"][party_size] : Q.project_fellowship_reward(user),
 			"fellowship_reward_rate" = Q.fellowship_reward_rate,
 			"size_table" = size_table,
 			"veteran_size_table" = veteran_size_table,

@@ -544,16 +544,14 @@ GLOBAL_LIST_INIT(quest_prototypes, build_quest_prototypes())
 	if(as_veteran)
 		veteran = TRUE
 		reward_amount = calculate_reward(reward_origin_turf, reward_target_turf)
-	. = list()
+	var/list/rewards = list()
+	var/list/threat_pcts = list()
 	for(var/size in 1 to QUEST_FELLOWSHIP_SCALE_MAX)
 		var/extras = extras_at_size(size)
 		var/missing = missing_at_size(size)
-		. += list(list(
-			"size" = size,
-			"threat_pct" = round(group_threat_mult(extras - missing) * veteran_threat_mult() * 100, 1),
-			"reward" = project_reward(extras, missing),
-			"short" = missing > 0,
-		))
+		rewards += project_reward(extras, missing)
+		threat_pcts += round(group_threat_mult(extras - missing) * veteran_threat_mult() * 100, 1)
+	. = list("reward" = rewards, "threat_pct" = threat_pcts)
 	veteran = saved_veteran
 	reward_amount = saved_amount
 
