@@ -316,7 +316,6 @@
 		/obj/item/clothing/shoes/roguetown/simpleshoes = 60,
 		/obj/item/clothing/shoes/roguetown/boots/leather/reinforced/shoddy = 40,
 	)
-	mask = /obj/item/clothing/mask/rogue/facemask/aalloy
 	gloves = /obj/item/clothing/gloves/roguetown/fingerless_leather
 	head = list(
 		/obj/item/clothing/head/roguetown/cap = 1,
@@ -419,34 +418,36 @@
 	)
 	armor = list(
 		/obj/item/clothing/suit/roguetown/armor/chainmail/iron = 10,
-		NPC_NOTHING = 90,
+		NPC_NOTHING = 30,
 	)
 	shirt = list(
-		/obj/item/clothing/suit/roguetown/armor/gambeson/light = 340,
-		/obj/item/clothing/suit/roguetown/armor/gambeson = 51,
-		/obj/item/clothing/suit/roguetown/armor/gambeson/heavy = 9,
-		NPC_NOTHING = 400,
+		/obj/item/clothing/suit/roguetown/armor/gambeson/light = 40,
+		/obj/item/clothing/suit/roguetown/armor/gambeson = 10,
 	)
 	pants = list(
 		/obj/item/clothing/under/roguetown/tights/vagrant = 12,
 		/obj/item/clothing/under/roguetown/chainlegs/iron = 3,
-		/obj/item/clothing/under/roguetown/heavy_leather_pants = 1,
-		NPC_NOTHING = 16,
+		/obj/item/clothing/under/roguetown/trou/leather = 15,
+		NPC_NOTHING = 5,
 	)
 	head = list(
-		/obj/item/clothing/neck/roguetown/coif = 35,
-		/obj/item/clothing/head/roguetown/helmet/kettle/iron = 15,
-		NPC_NOTHING = 50,
+		/obj/item/clothing/head/roguetown/helmet/kettle/iron = 8,
+		/obj/item/clothing/head/roguetown/helmet/kettle/leather = 15,
+		/obj/item/clothing/head/roguetown/roguehood/bogman = 8, //no colored varients, these were who didn't defect
+		NPC_NOTHING = 10,
 	)
 	neck = list(
+		/obj/item/clothing/neck/roguetown/coif = 25,
 		/obj/item/clothing/neck/roguetown/chaincoif/iron = 1,
-		NPC_NOTHING = 1,
+	)
+	mask = list(
+		/obj/item/clothing/mask/rogue/facemask = 1,
+		NPC_NOTHING = 10,
 	)
 	cloak = list(
 		/obj/item/clothing/cloak/tabard/stabard/bog = 1,
 		NPC_NOTHING = 1,
 	)
-	mask = /obj/item/clothing/mask/rogue/facemask/aalloy
 	gloves = /obj/item/clothing/gloves/roguetown/fingerless_leather
 	shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced/shoddy
 

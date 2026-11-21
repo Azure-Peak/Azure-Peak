@@ -138,7 +138,7 @@ GLOBAL_LIST_INIT(skeleton_aggro, list(
 	if(skel_untamable) //For Re-Factionised Groups
 		ADD_TRAIT(src, TRAIT_NOZIZORECRUIT, TRAIT_GENERIC)
 	if(skel_fragile)
-		ADD_TRAIT(src, TRAIT_CRITICAL_WEAKNESS, TRAIT_GENERIC)
+		ADD_TRAIT(src, TRAIT_SHATTER_KILL, TRAIT_GENERIC) //this surely can't end badly
 	else
 		ADD_TRAIT(src, TRAIT_SELF_SUSTENANCE, TRAIT_GENERIC) // If not fragile, then you're summoned by a real antag
 		// Therefore you get the trait to grind up to Jman.
