@@ -5,7 +5,7 @@
  *
  * Flow:
  * 1. Invoked at the titan/throat via "I ascend"
- * 2. GATHERING: Invoker is seated; supporters fulfill the rite condition
+ * 2. GATHERING: Supporters fulfill the rite condition
  * 3. CONTESTING: Conditions met; opponents can stop the rite by force
  * 4. COMPLETE: Power transfers to the invoker
  */
@@ -296,10 +296,7 @@
 		to_chat(invoker, span_warning("The [name] has failed. [reason]"))
 
 /datum/usurpation_rite/proc/cleanup()
-	if(contester_timer_id)
-		deltimer(contester_timer_id)
-		contester_timer_id = null
-	contester = null
+	release_contester()
 	if(phase_timer_id)
 		deltimer(phase_timer_id)
 		phase_timer_id = null
@@ -333,6 +330,7 @@
 	deltimer(phase_timer_id)
 	phase_timer_id = null
 	contester = claimant
+	RegisterSignal(contester, list(COMSIG_QDELETING, COMSIG_MOB_DEATH), PROC_REF(on_contester_death))
 	contester_timer_id = addtimer(CALLBACK(src, PROC_REF(on_counter_claim_complete)), RITE_COUNTER_CLAIM_DURATION, TIMER_STOPPABLE)
 	on_counter_claim_started(claimant)
 	return TRUE
@@ -343,27 +341,39 @@
 		span_notice("You have taken the throne. Hold it for [RITE_COUNTER_CLAIM_DURATION / (1 MINUTES)] minute(s) to halt the succession. The rite's timer has been paused."))
 	to_chat(invoker, span_danger("[claimant.real_name] has taken the throne and is attempting to stop the rite! Remove them!"))
 
-/datum/usurpation_rite/proc/cancel_counter_claim()
-	if(!contester)
-		return
+/datum/usurpation_rite/proc/release_contester()
 	if(contester_timer_id)
 		deltimer(contester_timer_id)
 		contester_timer_id = null
-	var/mob/living/carbon/human/old_contester = contester
+	if(contester)
+		UnregisterSignal(contester, list(COMSIG_QDELETING, COMSIG_MOB_DEATH))
 	contester = null
+
+/datum/usurpation_rite/proc/cancel_counter_claim()
+	if(!contester)
+		return
+	var/mob/living/carbon/human/old_contester = contester
+	release_contester()
 	on_counter_claim_cancelled(old_contester)
 	if(stage == RITE_STAGE_CONTESTING && contest_time_remaining > 0)
 		contest_started_at = world.time
 		phase_timer_id = addtimer(CALLBACK(src, PROC_REF(complete)), contest_time_remaining, TIMER_STOPPABLE)
 
 /datum/usurpation_rite/proc/on_counter_claim_cancelled(mob/living/carbon/human/claimant)
+	if(QDELETED(claimant) || claimant.stat == DEAD)
+		to_chat(invoker, span_notice("The contester has fallen. The rite continues."))
+		return
 	to_chat(claimant, span_warning("You have left the throne. Your attempt to stop the rite has failed."))
 	to_chat(invoker, span_notice("The contester has left the throne."))
+
+/datum/usurpation_rite/proc/on_contester_death(datum/source)
+	SIGNAL_HANDLER
+	cancel_counter_claim()
 
 /datum/usurpation_rite/proc/on_counter_claim_complete()
 	var/contester_name = contester?.real_name || "another"
 	contester_timer_id = null
-	contester = null
+	release_contester()
 	fail("The throne has been reclaimed by [contester_name].")
 
 /datum/usurpation_rite/proc/get_contest_time_left()
