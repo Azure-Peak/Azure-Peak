@@ -40,10 +40,6 @@
 	assenter_group = "people"
 	council_name = "the people"
 	claim_basis = "by popular will"
-	assent_flavor = "Your voice is heard."
-	judgment_text = "The will of the people approaches."
-	fail_flavor = "The old order holds — for now."
-	victory_flavor = "The people stand behind you."
 
 /// Bandits, outlaws (including outlawed nobles), peasants, or sidefolk can invoke. No undead.
 /datum/usurpation_rite/popular_acclaim/can_invoke(mob/living/carbon/human/user)

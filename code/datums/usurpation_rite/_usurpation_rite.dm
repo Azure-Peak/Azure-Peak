@@ -41,10 +41,6 @@
 	var/assenter_group = "supporters"
 	var/council_name = "the council"
 	var/claim_basis = "by rite"
-	var/assent_flavor = "Your voice is heard."
-	var/judgment_text = "The judgment approaches."
-	var/fail_flavor = "The claim is struck down."
-	var/victory_flavor = "The claim is fulfilled."
 
 /datum/usurpation_rite/New()
 	. = ..()
@@ -120,7 +116,7 @@
 /datum/usurpation_rite/proc/on_assent_accepted(mob/living/carbon/human/person, weight)
 	person.visible_message( \
 		span_notice("[person.real_name] speaks their assent to the [name]."), \
-		span_notice("You speak your assent. [assent_flavor]"))
+		span_notice("You speak your assent."))
 	var/weight_text = vote_weight_note ? " as [describe_vote_weight(weight)]" : ""
 	to_chat(invoker, span_notice("[person.real_name] has assented[weight_text]. ([get_assent_total()]/[get_required_assents()])"))
 
@@ -217,7 +213,7 @@
 		SSticker.roundend_epilogue = epilogue
 	transfer_power()
 	priority_announce(get_victory_announcement(old_ruler_name), "A New [SSticker.rulertype] Ascends", sound_victory)
-	to_chat(invoker, span_notice("[victory_flavor] The throne is yours."))
+	to_chat(invoker, span_notice("The throne is yours."))
 
 /datum/usurpation_rite/proc/get_roundend_epilogue()
 	return roundend_epilogue
@@ -291,7 +287,7 @@
 
 /datum/usurpation_rite/proc/on_fail(reason)
 	if(stage >= RITE_STAGE_CONTESTING)
-		priority_announce("The [name] has failed. [reason] [fail_flavor]", "Rite Failed", sound_failure)
+		priority_announce("The [name] has failed. [reason]", "Rite Failed", sound_failure)
 	if(invoker)
 		to_chat(invoker, span_warning("The [name] has failed. [reason]"))
 
@@ -386,7 +382,7 @@
 		if(RITE_STAGE_GATHERING)
 			return "The [name] is underway. [get_assent_total()]/[get_required_assents()] voices have spoken their assent."
 		if(RITE_STAGE_CONTESTING)
-			return "[invoker?.real_name]'s claim has been affirmed by [council_name]. [judgment_text]"
+			return "[invoker?.real_name]'s claim has been affirmed by [council_name]."
 	return null
 
 /datum/usurpation_rite/proc/get_periodic_announcement()

@@ -29,10 +29,6 @@
 	assenter_group = "mages"
 	council_name = "the Council of Magos"
 	claim_basis = "by Noc's wisdom"
-	assent_flavor = "Noc acknowledges your voice."
-	judgment_text = "The moon's judgment approaches."
-	fail_flavor = "The moon turns its gaze away."
-	victory_flavor = "The pale light of Noc settles upon you."
 
 /// Any mage with arcyne training can invoke — no noble blood required.
 /datum/usurpation_rite/lunar_ascension/can_invoke(mob/living/carbon/human/user)

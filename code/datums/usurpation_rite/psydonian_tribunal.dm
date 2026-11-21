@@ -51,10 +51,6 @@
 	assenter_group = "faithful"
 	council_name = "the Inquisition"
 	claim_basis = "by Psydon's judgment"
-	assent_flavor = "Psydon acknowledges your judgment."
-	judgment_text = "The Tribunal's verdict approaches."
-	fail_flavor = "A dead god has no place amongst the living."
-	victory_flavor = "The judgment of Psydon is rendered."
 
 /// Only Inquisition members (Inquisitor, Absolver, Orthodoxist) who follow Psydon can invoke. No undead.
 /datum/usurpation_rite/psydonian_tribunal/can_invoke(mob/living/carbon/human/user)

@@ -38,10 +38,6 @@
 	assenter_group = "nobles"
 	council_name = "the Council of Lords"
 	claim_basis = "by Astrata's light"
-	assent_flavor = "Astrata acknowledges your voice."
-	judgment_text = "The Sun's judgment approaches."
-	fail_flavor = "The sun sets on this claim."
-	victory_flavor = "The warmth of Astrata's gaze settles upon you."
 
 /datum/usurpation_rite/solar_succession/can_invoke(mob/living/carbon/human/user)
 	if(!..())

@@ -38,10 +38,6 @@
 	assenter_group = "burghers"
 	council_name = "the Council of Burghers"
 	claim_basis = "by weight of coin"
-	assent_flavor = "The ledger marks your name."
-	judgment_text = "The Accord approaches."
-	fail_flavor = "The ledger is closed."
-	victory_flavor = "The weight of coin settles in your hands."
 
 /// Steward, Merchant, Guildmaster, or Bathmaster with 200+ mammon. No outlaws or undead.
 /datum/usurpation_rite/golden_accord/can_invoke(mob/living/carbon/human/user)

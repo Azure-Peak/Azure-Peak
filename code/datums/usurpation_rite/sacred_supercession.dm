@@ -45,10 +45,6 @@
 	assenter_group = "faithful"
 	council_name = "the faithful"
 	claim_basis = "by Astrata's mandate"
-	assent_flavor = "Astrata acknowledges your devotion."
-	judgment_text = "The Sun's judgment approaches."
-	fail_flavor = "The sun sets on this claim."
-	victory_flavor = "The radiance of Astrata crowns you."
 
 /// Any member of the Church of the Ten with a divine patron. No outlaws or undead.
 /datum/usurpation_rite/sacred_supercession/can_invoke(mob/living/carbon/human/user)

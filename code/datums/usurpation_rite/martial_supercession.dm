@@ -34,10 +34,6 @@
 	assenter_group = "warriors"
 	council_name = "the Council of Arms"
 	claim_basis = "by right of arms"
-	assent_flavor = "Ravox acknowledges your voice."
-	judgment_text = "Ravox's judgment approaches."
-	fail_flavor = "The sword has been sheathed."
-	victory_flavor = "Ravox's iron gaze settles upon you."
 
 /// Retinue and senior garrison can invoke. No outlaws or undead.
 /datum/usurpation_rite/martial_supercession/can_invoke(mob/living/carbon/human/user)

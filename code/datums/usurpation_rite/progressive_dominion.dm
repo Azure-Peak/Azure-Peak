@@ -35,10 +35,6 @@
 	assenter_group = "enlightened"
 	council_name = "the Council of the Enlightened"
 	claim_basis = "in the name of progress"
-	assent_flavor = "Progress demands no less."
-	judgment_text = "The future approaches."
-	fail_flavor = "Progress is halted — for now."
-	victory_flavor = "The future bends to your will."
 
 /// Any mage with T2+ arcyne training, any Zizite follower, or any undead, can invoke.
 /datum/usurpation_rite/progressive_dominion/can_invoke(mob/living/carbon/human/user)
