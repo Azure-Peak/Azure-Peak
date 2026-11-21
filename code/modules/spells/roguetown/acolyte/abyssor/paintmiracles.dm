@@ -410,7 +410,7 @@
 		return FALSE
 	ADD_TRAIT(fiend, TRAIT_INK_AFFINITY, TRAIT_MIRACLE) // it's a friend!
 	RegisterSignal(fiend, COMSIG_MOB_DEATH, PROC_REF(handle_death))
-	RegisterSignal(fiend, COMSIG_PARENT_PREQDELETED, PROC_REF(handle_death)) // despite the name this is a generic proc for 'the fiend is gone'; if it vanishes on its own it gets qdel'd without calling death()
+	RegisterSignal(fiend, COMSIG_QDELETING, PROC_REF(handle_death)) // despite the name this is a generic proc for 'the fiend is gone'; if it vanishes on its own it gets qdel'd without calling death()
 	spell_feedback(owner)
 	return FALSE // we only start the cooldown once the fiend dies or is dismissed; however we want the invocation to happen here
 
