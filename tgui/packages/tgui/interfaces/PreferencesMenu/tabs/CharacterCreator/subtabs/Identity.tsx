@@ -127,6 +127,7 @@ export const SubtabIdentityCardInfo = () => {
           <LabeledGridList.Item
             label="Race Title"
             tooltip="A cosmetic title shown when someone examines you. Your race and its mechanics remain unchanged."
+            tooltipPosition="bottom-start"
           >
             <Button fluid onClick={() => act('race_title')}>
               {race_title}
