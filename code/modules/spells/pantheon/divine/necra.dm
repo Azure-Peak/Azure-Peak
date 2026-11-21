@@ -1256,7 +1256,7 @@ GLOBAL_DATUM_INIT(_corpse_sort_ref, /mob, null)
 	var/radius_min = 12
 	var/radius_max = 26
 	var/speed_min = 10
-	var/speed_max = 32
+	var/speed_max = 22
 	var/orbit_segments = 12
 	var/center_offset_x = 0
 	var/center_offset_y = 0
