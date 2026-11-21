@@ -2,6 +2,7 @@
 	var/list/data = list(
 		"species_base_name" = pref_species.base_name,
 		"species_sub_name" = pref_species.sub_name,
+		"race_title" = length(pref_species.race_titles) ? (race_title || "None") : null,
 		"species_check" = spec_check(user),
 		"race_bonus" = null,
 
