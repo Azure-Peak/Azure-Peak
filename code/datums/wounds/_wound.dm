@@ -409,11 +409,12 @@ GLOBAL_LIST_INIT(primordial_wounds, init_primordial_wounds())
 	return TRUE
 
 /datum/wound/proc/suncauterize_wound()
+	var/bleed_floor = isnull(clotting_threshold) ? 0 : clotting_threshold
+	if(bleed_rate > bleed_floor)
+		set_bleed_rate(max(bleed_rate * 0.7, bleed_floor)) // -30% of current bleeding, never below clotting_threshold
 	if(!can_cauterize)
 		return FALSE
-	if(!isnull(clotting_threshold) && bleed_rate > clotting_threshold)
-		set_bleed_rate(clotting_threshold)
-	heal_wound((whp * 0.5) + 40)
+	heal_wound((whp * 0.5) + 40) // heal 50% of the whp, then 40, but only on wounds we can cauterize
 	return TRUE
 
 /// Checks if this wound is sewn
