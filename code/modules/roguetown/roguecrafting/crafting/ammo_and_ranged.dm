@@ -222,6 +222,17 @@
 				)
 	req_table = TRUE
 
+/datum/crafting_recipe/roguetown/survival/blessedlightbolt
+	name = "holy water light bolt"
+	display_category = ITEM_CAT_WEAPONS_AMMO
+	category = "Ranged"
+	result = /obj/item/ammo_casing/caseless/rogue/bolt/lightholy
+	reqs = list(
+				/obj/item/ammo_casing/caseless/rogue/bolt/light = 1,
+				/datum/reagent/water/blessed = 5
+				)
+	req_table = TRUE
+
 /datum/crafting_recipe/roguetown/survival/poisonarrow_stone
 	name = "poisoned stone arrow"
 	display_category = ITEM_CAT_WEAPONS_AMMO
