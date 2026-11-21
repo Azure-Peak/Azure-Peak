@@ -28504,6 +28504,12 @@
 /area/rogue/outdoors/woods/northwest)
 "eRP" = (
 /obj/item/clothing/ring/jade,
+/obj/structure/lever/wall{
+	dir = 1;
+	pixel_x = -20;
+	pixel_y = 0;
+	redstone_id = "BathhouseVault"
+	},
 /turf/open/floor/rogue/churchbrick,
 /area/rogue/outdoors/exposed/bath/vault)
 "eRR" = (
@@ -67775,6 +67781,10 @@
 /obj/structure/roguewindow/harem2{
 	density = 0
 	},
+/obj/structure/bars/passage/shutter/bookcase{
+	redstone_id = "BathhouseVault"
+	},
+/obj/structure/curtain/magenta,
 /turf/open/floor/rogue/tile/harem2,
 /area/rogue/indoors/town/bath)
 "luZ" = (
@@ -95931,6 +95941,14 @@
 /obj/item/roguekey/bathworker,
 /obj/item/roguekey/bathworker,
 /obj/item/roguekey/bathmaster,
+/obj/item/roguekey/bathmaster,
+/obj/item/roguekey/bathmaster,
+/obj/item/roguekey/bathmaster,
+/obj/item/roguekey/bathmaster,
+/obj/item/roguekey/bathworker,
+/obj/item/roguekey/bathworker,
+/obj/item/roguekey/bathworker,
+/obj/item/roguekey/bathworker,
 /turf/open/floor/rogue/churchbrick{
 	icon_state = "concretefloor1"
 	},
@@ -118819,7 +118837,6 @@
 /obj/structure/chair/wood/rogue/throne{
 	color = "#f858b5ff"
 	},
-/obj/structure/fluff/walldeco/mona,
 /turf/open/floor/carpet/purple,
 /area/rogue/indoors/town/bath)
 "tSK" = (
@@ -119430,9 +119447,11 @@
 /turf/open/floor/rogue/carpet,
 /area/rogue/under/town/basement/keep)
 "tXB" = (
+/obj/structure/lever/bookcase/bathhouse{
+	redstone_id = "BathhouseVault"
+	},
 /obj/structure/roguewindow/harem2,
 /obj/structure/curtain/magenta,
-/obj/structure/fluff/walldeco/rpainting/crown,
 /turf/open/floor/rogue/tile/brownbrick,
 /area/rogue/indoors/town/bath)
 "tXG" = (
@@ -132507,7 +132526,7 @@
 /area/rogue/under/cave/fishmandungeon)
 "wjJ" = (
 /obj/structure/roguewindow/harem2,
-/obj/structure/fluff/walldeco/rpainting,
+/obj/structure/bookcase/random,
 /obj/structure/curtain/magenta,
 /turf/open/floor/rogue/tile/brownbrick,
 /area/rogue/indoors/town/bath)
