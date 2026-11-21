@@ -52,6 +52,15 @@
 	new_pawn.AddComponent(/datum/component/ai_inventory_manager)
 	new_pawn.AddElement(/datum/element/interrupt_on_damage)
 	new_pawn.AddComponent(/datum/component/combat_vocalizer)
+	force_cmode(new_pawn)
+
+/datum/ai_controller/human_npc/SelectBehaviors(delta_time)
+	force_cmode(pawn)
+	return ..()
+
+/datum/ai_controller/human_npc/proc/force_cmode(mob/living/living_pawn)
+	if(istype(living_pawn) && !living_pawn.client && !living_pawn.cmode)
+		living_pawn.cmode = TRUE
 
 /datum/ai_controller/human_npc/UnpossessPawn(destroy)
 	var/mob/living/living_pawn = pawn
