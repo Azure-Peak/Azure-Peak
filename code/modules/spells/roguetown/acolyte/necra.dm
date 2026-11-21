@@ -89,6 +89,7 @@
 	charge_time = 2 SECONDS
 	charge_slowdown = CHARGING_SLOWDOWN_SMALL
 	charge_swingdelay_type = SWINGDELAY_CANCEL
+	primary_resource_cost = 30
 	sound = 'sound/misc/deadbell.ogg'
 	charge_sound = 'sound/magic/chargingold.ogg'
 	cooldown_time = 30 SECONDS
