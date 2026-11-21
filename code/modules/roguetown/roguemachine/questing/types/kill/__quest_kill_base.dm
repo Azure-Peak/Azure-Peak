@@ -444,12 +444,16 @@
 		return FALSE
 	if(source != QUEST_SOURCE_POOL && source != QUEST_SOURCE_RUMOR)
 		return FALSE
-	var/datum/quest_faction/base = get_quest_faction(faction_id)
-	return length(base?.variant_factions) > 0
+	return length(foe_choices()) > 1
 
+// If you rolled a special faction, you cannot select the easier baseline one, but other way round is OK
 /datum/quest/kill/proc/foe_choices()
+	. = list()
 	var/datum/quest_faction/base = get_quest_faction(faction_id)
-	. = list("[base.id]" = base)
+	if(!base)
+		return
+	if(faction == base)
+		.["[base.id]"] = base
 	for(var/variant_type in base.variant_factions)
 		.["[variant_type]"] = base.variant_factions[variant_type]
 
