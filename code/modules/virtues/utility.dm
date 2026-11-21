@@ -284,6 +284,12 @@
 	. = ..()
 	add_verb(recipient, /mob/living/carbon/human/proc/praysuicide)
 
+/datum/virtue/utility/hollow/handle_traits(mob/living/carbon/human/recipient)
+	..()
+	if(HAS_TRAIT(recipient, TRAIT_HEMOPHAGE))
+		to_chat(recipient, "My reliance on lyfeblood cannot be severed!")
+		REMOVE_TRAIT(recipient, TRAIT_NOHUNGER, TRAIT_VIRTUE)
+
 /datum/virtue/utility/deadened
 	name = "Deadened"
 	desc = "Some terrible incident colours my past, and now, I feel nothing."
@@ -295,6 +301,12 @@
 	desc = "Raw, toxic or spoiled food doesn't bother my superior digestive system."
 	ui_fa_icon = "drumstick-bite"
 	added_traits = list(TRAIT_NASTY_EATER)
+
+/datum/virtue/utility/feral_appetite/handle_traits(mob/living/carbon/human/recipient)
+	..()
+	if(HAS_TRAIT(recipient, TRAIT_HEMOPHAGE))
+		to_chat(recipient, "My reliance on lyfeblood cannot be severed!")
+		REMOVE_TRAIT(recipient, TRAIT_NASTY_EATER, TRAIT_VIRTUE)
 
 /datum/virtue/utility/prowler
 	name = "Prowler"
