@@ -76,6 +76,10 @@ have ways of interacting with a specific atom and control it. They posses a blac
 	var/next_climb_time = 0
 	///Delay between climb attempts so AI doesn't rapidly hop back and forth across fences.
 	var/climb_interval = 10 SECONDS
+	var/climb_windup = 0
+	var/turf/climb_windup_turf
+	var/climb_ready_time = 0
+	var/turf/climb_failed_turf
 	///
 	var/movement_displacement_time = 0
 
@@ -237,6 +241,15 @@ have ways of interacting with a specific atom and control it. They posses a blac
 /datum/ai_controller/proc/ai_can_interact()
 	SHOULD_CALL_PARENT(TRUE)
 	return !QDELETED(pawn)
+
+/datum/ai_controller/proc/climb_windup_done(turf/climb_turf)
+	if(!climb_windup)
+		return TRUE
+	if(climb_windup_turf != climb_turf)
+		climb_windup_turf = climb_turf
+		climb_ready_time = world.time + climb_windup
+		return FALSE
+	return world.time >= climb_ready_time
 
 ///Interact with objects
 /datum/ai_controller/proc/ai_interact(target, combat_mode, nextmove = FALSE, list/modifiers)

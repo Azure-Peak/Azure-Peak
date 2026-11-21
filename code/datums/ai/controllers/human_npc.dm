@@ -4,6 +4,8 @@
 /datum/ai_controller/human_npc
 	max_target_distance = 13
 	ai_movement = /datum/ai_movement/hybrid_pathing
+	climb_windup = 1 SECONDS
+	climb_interval = 3 SECONDS
 	blackboard = list(
 		BB_WEAPON_TYPE = /obj/item/rogueweapon,
 		BB_ARMOR_CLASS = 2,
