@@ -14,22 +14,101 @@
 	athletics = SKILL_LEVEL_EXPERT
 
 //** ZIZO. ZIZO. ZIZO. **//
+
 /datum/npc_archetype/deranged_knight/zizo
 	name = "Zizite Templar"
+	statpack = /datum/npc_statpack/line/t4
+	stat_modifiers = list("intelligence" = 1, "willpower" = 1) //tradeoff in higher base-stats
+	patron = /datum/patron/inhumen/zizo
+	armor_training = ARMOR_CLASS_MEDIUM
+	body = /datum/npc_body/northern_commoner/soldier/deranged_knight
+	ai_controller = /datum/ai_controller/human_npc
+	loadouts = list(
+		/datum/npc_loadout/armor/luxplate/zizo,
+		/datum/npc_loadout/kit/zizo_flavor,
+		/datum/npc_loadout/weapon/zizo,
+	)
+
+/datum/npc_archetype/deranged_knight/zizo/mixed
+	name = "Zizite Templar Mix"
+	variants = list(
+		/datum/npc_archetype/deranged_knight/zizo = 1, //not every zizite knight is a caster, sire.
+		/datum/npc_archetype/deranged_knight/zizo/spitfire = 2,
+		/datum/npc_archetype/deranged_knight/zizo/arcyne_bolt = 2,
+		/datum/npc_archetype/deranged_knight/zizo/arc_bolt = 2,
+	)
+
+/datum/npc_archetype/deranged_knight/zizo/spitfire
+	name = "Zizite Templar Fyrespitter"
 	statpack = /datum/npc_statpack/line/t4
 	stat_modifiers = list("intelligence" = 1)
 	patron = /datum/patron/inhumen/zizo
 	armor_training = ARMOR_CLASS_MEDIUM
+	body = /datum/npc_body/northern_commoner/soldier/deranged_knight
 	ai_controller = /datum/ai_controller/human_npc/caster/melee
 	loadouts = list(
 		/datum/npc_loadout/armor/luxplate/zizo,
 		/datum/npc_loadout/kit/zizo_flavor,
 		/datum/npc_loadout/weapon/zizo,
-		/datum/npc_loadout/kit/zizo_cantrip,
+		/datum/npc_loadout/kit/zizo_cantrip_spitfire,
 	)
+
+/datum/npc_archetype/deranged_knight/zizo/arcyne_bolt
+	name = "Zizite Templar Arcyne Bolter"
+	statpack = /datum/npc_statpack/line/t4
+	stat_modifiers = list("intelligence" = 1)
+	patron = /datum/patron/inhumen/zizo
+	armor_training = ARMOR_CLASS_MEDIUM
+	body = /datum/npc_body/northern_commoner/soldier/deranged_knight
+	ai_controller = /datum/ai_controller/human_npc/caster/melee
+	loadouts = list(
+		/datum/npc_loadout/armor/luxplate/zizo,
+		/datum/npc_loadout/kit/zizo_flavor,
+		/datum/npc_loadout/weapon/zizo,
+		/datum/npc_loadout/kit/zizo_cantrip_arcyne_bolt,
+	)
+
+/datum/npc_archetype/deranged_knight/zizo/arc_bolt
+	name = "Zizite Templar Arc Bolter"
+	statpack = /datum/npc_statpack/line/t4
+	stat_modifiers = list("intelligence" = 1)
+	patron = /datum/patron/inhumen/zizo
+	armor_training = ARMOR_CLASS_MEDIUM
+	body = /datum/npc_body/northern_commoner/soldier/deranged_knight
+	ai_controller = /datum/ai_controller/human_npc/caster/melee
+	loadouts = list(
+		/datum/npc_loadout/armor/luxplate/zizo,
+		/datum/npc_loadout/kit/zizo_flavor,
+		/datum/npc_loadout/weapon/zizo,
+		/datum/npc_loadout/kit/zizo_cantrip_arc_bolt,
+	)
+
+//** ZIZO. ZIZO. ZIZO. (Heavy) **//
 
 /datum/npc_archetype/deranged_knight/zizo_heavy
 	name = "Zizite Champion"
+	statpack = /datum/npc_statpack/heavy/t4
+	stat_modifiers = list("intelligence" = 1, "willpower" = 1) //tradeoff in higher base stats
+	patron = /datum/patron/inhumen/zizo
+	armor_training = ARMOR_CLASS_HEAVY
+	ai_controller = /datum/ai_controller/human_npc
+	loadouts = list(
+		/datum/npc_loadout/armor/luxplate/zizo_heavy,
+		/datum/npc_loadout/kit/zizo_flavor,
+		/datum/npc_loadout/weapon/zizo_heavy,
+	)
+
+/datum/npc_archetype/deranged_knight/zizo_heavy/mixed
+	name = "Zizite Champion Mix"
+	variants = list(
+		/datum/npc_archetype/deranged_knight/zizo_heavy = 1, //not every zizite knight is a caster, sire.
+		/datum/npc_archetype/deranged_knight/zizo_heavy/spitfire = 2,
+		/datum/npc_archetype/deranged_knight/zizo_heavy/arcyne_bolt = 2,
+		/datum/npc_archetype/deranged_knight/zizo_heavy/arc_bolt = 2,
+	)
+
+/datum/npc_archetype/deranged_knight/zizo_heavy/spitfire
+	name = "Zizite Champion Fyrespitter"
 	statpack = /datum/npc_statpack/heavy/t4
 	stat_modifiers = list("intelligence" = 1)
 	patron = /datum/patron/inhumen/zizo
@@ -39,7 +118,35 @@
 		/datum/npc_loadout/armor/luxplate/zizo_heavy,
 		/datum/npc_loadout/kit/zizo_flavor,
 		/datum/npc_loadout/weapon/zizo_heavy,
-		/datum/npc_loadout/kit/zizo_cantrip,
+		/datum/npc_loadout/kit/zizo_cantrip_spitfire,
+	)
+
+/datum/npc_archetype/deranged_knight/zizo_heavy/arcyne_bolt
+	name = "Zizite Champion Arcyne Bolter"
+	statpack = /datum/npc_statpack/heavy/t4
+	stat_modifiers = list("intelligence" = 1)
+	patron = /datum/patron/inhumen/zizo
+	armor_training = ARMOR_CLASS_HEAVY
+	ai_controller = /datum/ai_controller/human_npc/caster/melee
+	loadouts = list(
+		/datum/npc_loadout/armor/luxplate/zizo_heavy,
+		/datum/npc_loadout/kit/zizo_flavor,
+		/datum/npc_loadout/weapon/zizo_heavy,
+		/datum/npc_loadout/kit/zizo_cantrip_arcyne_bolt,
+	)
+
+/datum/npc_archetype/deranged_knight/zizo_heavy/arc_bolt
+	name = "Zizite Champion Arc Bolter"
+	statpack = /datum/npc_statpack/heavy/t4
+	stat_modifiers = list("intelligence" = 1)
+	patron = /datum/patron/inhumen/zizo
+	armor_training = ARMOR_CLASS_HEAVY
+	ai_controller = /datum/ai_controller/human_npc/caster/melee
+	loadouts = list(
+		/datum/npc_loadout/armor/luxplate/zizo_heavy,
+		/datum/npc_loadout/kit/zizo_flavor,
+		/datum/npc_loadout/weapon/zizo_heavy,
+		/datum/npc_loadout/kit/zizo_cantrip_arc_bolt,
 	)
 
 //** GRAGGAR. GRAGGAR. GRAGGAR. **//
@@ -93,11 +200,24 @@
 		/datum/npc_loadout/weapon/baotha,
 	)
 
+//** HEAD BOUNTIES **//
+
+/datum/npc_body/northern_commoner/soldier/deranged_knight/get_head_sellprice()
+	return HEAD_BOUNTY_BIG_GUY
+
 //** CASTING **//
 
-/datum/npc_loadout/kit/zizo_cantrip
+/datum/npc_loadout/kit/zizo_cantrip_spitfire
 	traits = list(TRAIT_WARLOCK) //to use w/ weapon
-	spells = list(/datum/action/cooldown/spell/projectile/greater_arcyne_bolt, /datum/action/cooldown/spell/projectile/spitfire, /datum/action/cooldown/spell/projectile/arc_bolt, /datum/action/cooldown/spell/projectile/arcyne_lance)
+	spells = list(/datum/action/cooldown/spell/projectile/spitfire)
+
+/datum/npc_loadout/kit/zizo_cantrip_arcyne_bolt
+	traits = list(TRAIT_WARLOCK) //to use w/ weapon
+	spells = list(/datum/action/cooldown/spell/projectile/greater_arcyne_bolt)
+
+/datum/npc_loadout/kit/zizo_cantrip_arc_bolt
+	traits = list(TRAIT_WARLOCK) //to use w/ weapon
+	spells = list(/datum/action/cooldown/spell/projectile/arc_bolt)
 
 //** FLAVOR **//
 
@@ -108,7 +228,7 @@
 		/obj/item/clothing/neck/roguetown/psicross/inhumen/g = 1,
 		/obj/item/clothing/neck/roguetown/psicross/inhumen/paalloy = 10,
 		/obj/item/clothing/neck/roguetown/psicross/inhumen/bronze = 15,
-		NPC_NOTHING = 60,
+		NPC_NOTHING = 30,
 	)
 	belt = list(
 		/obj/item/storage/belt/rogue/leather/steel/tasset,
@@ -121,7 +241,7 @@
 		/obj/item/clothing/neck/roguetown/psicross/inhumen/graggar = 25,
 		/obj/item/clothing/neck/roguetown/psicross/inhumen/graggar/g = 1,
 		/obj/item/clothing/neck/roguetown/psicross/inhumen/graggar/bronze = 16,
-		NPC_NOTHING = 40,
+		NPC_NOTHING = 20,
 	)
 	belt = list(
 		/obj/item/storage/belt/rogue/leather/steel/tasset,
@@ -134,7 +254,7 @@
 		/obj/item/clothing/neck/roguetown/psicross/inhumen/matthios = 30,
 		/obj/item/clothing/neck/roguetown/psicross/astrata/g/triumph = 15, //is this TRVE?
 		/obj/item/clothing/neck/roguetown/psicross/inhumen/matthios/g = 1,
-		NPC_NOTHING = 40,
+		NPC_NOTHING = 20,
 	)
 	belt = list(
 		/obj/item/storage/belt/rogue/leather/plaquegold,
@@ -147,7 +267,7 @@
 	id = list(
 		/obj/item/clothing/neck/roguetown/psicross/inhumen/baotha = 30,
 		/obj/item/clothing/neck/roguetown/psicross/inhumen/baotha/g = 1,
-		NPC_NOTHING = 40,
+		NPC_NOTHING = 20,
 	)
 	belt = list(
 		/obj/item/storage/belt/rogue/leather/plaquegold,

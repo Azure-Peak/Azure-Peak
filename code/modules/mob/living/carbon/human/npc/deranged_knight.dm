@@ -26,7 +26,6 @@ GLOBAL_LIST_INIT(hedgeknight_aggro, world.file2list("strings/rt/hedgeknightaggro
 /mob/living/carbon/human/species/human/northern/deranged_knight/Initialize(mapload)
 	. = ..()
 	//Begin RANDOMISE here
-	set_species(pick(NPC_RACES_TYPES))
 	gender = pick(MALE, FEMALE)
 	dna.species.random_character(src) //Now we just randomise here, MUST be called after both race + gender
 	cut_overlays()
@@ -78,10 +77,46 @@ GLOBAL_LIST_INIT(hedgeknight_aggro, world.file2list("strings/rt/hedgeknightaggro
 	update_body()
 
 /mob/living/carbon/human/species/human/northern/deranged_knight/death(gibbed, nocutscene)
-	emote("painscream")
+	if(prob(50))
+		if(preset_lines == "matthios")
+			if(prob(95))
+				say(pick("Matthios, I have failed you...","My lord... I tried...","The weight of myne wealth was too much...","My final... Transaction..?"), forced = TRUE, npc_speech = TRUE)
+			else
+				say("Matthios, is this true?!", forced = TRUE, npc_speech = TRUE)
+		else if(preset_lines == "zizo")
+			if(prob(95))
+				say(pick("Zizo, forgive me!","Zizo, one last... chance...","Death is never... The end...?","Failure... How...?","Not like this... Zizo..."), forced = TRUE, npc_speech = TRUE)
+			else
+				say("We lyve in a Zociety...", forced = TRUE, npc_speech = TRUE)
+		else if(preset_lines == "graggar")
+			if(prob(95))
+				say(pick("NO... More... Blood...","Shatter... My..-","I feel... calm...?","This... Cannot be...","Free at... Last...","Failure...? N-No..."), forced = TRUE, npc_speech = TRUE)
+			else
+				say("WHERE'S THE BLOOD?!!", forced = TRUE, npc_speech = TRUE)
+		else if(preset_lines == "baotha")
+			if(prob(95))
+				say(pick("Where's the high...","I just... Wanted to be happy..","It hurts... So much","I... Don't feel so good..","My... Greatest end..?"), forced = TRUE, npc_speech = TRUE)
+			else
+				say("YOU ARE EVERRRRRYTHING BOATHAAAA!!!", forced = TRUE, npc_speech = TRUE)
+	emote("superagony")
 	. = ..()
 	if(!gibbed)
-		dust(FALSE, FALSE, TRUE)
+		if(preset_lines == "matthios")
+			playsound(src, 'sound/effects/matth_barter.ogg', 100)
+			src.visible_message(span_matthios("[src] is unmade by gilded light for their [pick("debt's repayment","failure","final transaction","final exchange","insolence")]!"))
+			var/turf/T = get_turf(src)
+			new /obj/effect/temp_visual/barter_fx(T)
+		if(preset_lines == "graggar")
+			playsound(src, 'sound/magic/graggar_bloodrush.ogg', 100)
+			src.visible_message(span_graggar("[src] is unmade by motive force after their [pick("pitiful fight","failure","worthy fight","loss to another","insolence")]!"))
+		if(preset_lines == "zizo")
+			playsound(src, 'sound/misc/zizo.ogg', 100)
+			src.visible_message(span_zizo("[src] is unmade by profane magic for their [pick("ignorance","failure","backwards ways","stagnation","insolence")]!"))
+		if(preset_lines == "baotha")
+			playsound(src, 'sound/magic/baotha_blessdrink.ogg', 100)
+			src.visible_message(span_baotha("[src] is unmade by a prismatic mist for their [pick("greatest end","failure","joyless demise","lack of true indulgence","insolence")]!"))
+		gib()
+		//dust(FALSE, FALSE, TRUE)
 
 /datum/outfit/job/roguetown/quest_miniboss/pre_equip(mob/living/carbon/human/H, visualsOnly)
 	. = ..()
@@ -116,11 +151,11 @@ GLOBAL_LIST_INIT(hedgeknight_aggro, world.file2list("strings/rt/hedgeknightaggro
 	faction = list(FACTION_DUNDEAD)
 
 /mob/living/carbon/human/species/human/northern/deranged_knight/zizo
-	npc_archetype = /datum/npc_archetype/deranged_knight/zizo
+	npc_archetype = /datum/npc_archetype/deranged_knight/zizo/mixed
 	preset_lines = "zizo"
 
 /mob/living/carbon/human/species/human/northern/deranged_knight/zizo_heavy
-	npc_archetype = /datum/npc_archetype/deranged_knight/zizo_heavy
+	npc_archetype = /datum/npc_archetype/deranged_knight/zizo_heavy/mixed
 	preset_lines = "zizo"
 
 /mob/living/carbon/human/species/human/northern/deranged_knight/graggar
