@@ -222,7 +222,7 @@
 		M.visible_message(span_warning("[M] staggers back from the tremendous impact!"))
 		M.apply_status_effect(/datum/status_effect/debuff/staggered, 6 SECONDS)
 		M.apply_status_effect(/datum/status_effect/debuff/exposed, 6 SECONDS) //Done in conjunction with the new Feint testmerge - opens up for a single integrity-destroying attack.
-		M.Slowdown(6)
+		M.apply_slowdown(6 SECONDS)
 		M.OffBalance(1 SECONDS)
 		M.Immobilize(1 SECONDS)
 		return

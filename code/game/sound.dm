@@ -450,6 +450,12 @@
 							'sound/foley/footsteps/armor/coatplates (2).ogg',
 							'sound/foley/footsteps/armor/coatplates (3).ogg',
 							)
+			if(SFX_PLATE_FULL_STEP)
+				soundin = pick(
+							'sound/foley/footsteps/armor/fullplate (1).ogg',
+							'sound/foley/footsteps/armor/fullplate (2).ogg',
+							'sound/foley/footsteps/armor/fullplate (3).ogg',
+							)
 			if(SFX_JINGLE_BELLS)
 				soundin = pick(
 							'sound/items/jinglebell1.ogg',

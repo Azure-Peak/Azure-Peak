@@ -15436,7 +15436,7 @@
 /obj/structure/roguemachine/scomm/r{
 	pixel_x = 0;
 	pixel_y = -32;
-	scom_tag = "Heartbeast Chamber"
+	scom_tag = "Sanctum of Pestra"
 	},
 /obj/effect/decal/edge_corner{
 	color = "#3f3f3f";

@@ -323,7 +323,7 @@
 
 /datum/action/cooldown/spell/command_word/proc/summon_overload(mob/living/summon)
 	summon.do_jitter_animation(1000)
-	summon.Slowdown(3)
+	summon.apply_slowdown(CONJURE_OVERLOAD_WINDUP)
 	summon.balloon_alert_to_viewers("<font color='[GLOW_COLOR_FIRE]'>detonating! (-4 spd)</font>")
 	addtimer(CALLBACK(src, PROC_REF(do_overload), summon, overload_scale(summon)), CONJURE_OVERLOAD_WINDUP)
 	return TRUE

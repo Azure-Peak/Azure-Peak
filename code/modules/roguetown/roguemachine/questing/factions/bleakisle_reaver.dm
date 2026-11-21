@@ -22,11 +22,14 @@
 		/mob/living/carbon/human/species/human/northern/outlaw_tank = 40,
 		/mob/living/carbon/human/species/human/northern/outlaw_ranger = 30,
 		/mob/living/carbon/human/species/human/northern/outlaw_duelist = 30,
-	)
-	boss_title_templates = list(
-		"%N Saltbone",
-		"%N the Wavesworn",
-		"Captain %N",
-		"%N of the Grey Isles",
+		/mob/living/carbon/human/species/human/northern/highwayman/caster/boss/pyromancer = 4,
+		/mob/living/carbon/human/species/human/northern/highwayman/caster/boss/fulgurmancer = 4,
+		/mob/living/carbon/human/species/human/northern/highwayman/caster/boss/geomancer = 4,
+		/mob/living/carbon/human/species/human/northern/highwayman/caster/boss/telomancer = 4,
+		/mob/living/carbon/human/species/human/northern/highwayman/caster/boss/cryomancer = 4,
+		/mob/living/carbon/human/species/human/northern/highwayman/spellblade/boss/blade = 4,
+		/mob/living/carbon/human/species/human/northern/highwayman/spellblade/boss/phalangite = 4,
+		/mob/living/carbon/human/species/human/northern/highwayman/spellblade/boss/macebearer = 4,
+		/mob/living/carbon/human/species/human/northern/highwayman/spellblade/boss/spellfist = 4,
 	)
 	boss_name_file = "strings/rt/names/human/humnorm.txt"

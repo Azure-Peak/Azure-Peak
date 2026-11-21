@@ -155,6 +155,15 @@
 			ooc_extra_image = holder_human.ooc_extra_img
 			if(is_naked)
 				nsfw_ooc_extra_image = holder_human.nsfw_ooc_extra_img
+	else if(istype(holder, /mob/living/simple_animal/hostile/retaliate/rogue/ooze_blob/pure_form))
+		var/mob/living/simple_animal/hostile/retaliate/rogue/ooze_blob/pure_form/pure_ooze = holder
+		is_naked = TRUE
+		flavor_text = pure_ooze.flavortext_cached
+		ooc_notes = pure_ooze.ooc_notes_cached
+		headshot = pure_ooze.familiar_headshot_link
+		artist_credit = pure_ooze.headshot_artist_credit
+		artist_link = pure_ooze.headshot_artist_link
+		char_name = pure_ooze.name
 		if(!headshot)
 			headshot = "headshot_red.png"
 
@@ -198,6 +207,9 @@
 	if(ishuman(holder))
 		var/mob/living/carbon/human/holder_human = holder
 		char_examine_theme = holder_human.examine_theme
+	else if(istype(holder, /mob/living/simple_animal/hostile/retaliate/rogue/ooze_blob/pure_form))
+		var/mob/living/simple_animal/hostile/retaliate/rogue/ooze_blob/pure_form/pure_ooze = holder
+		char_examine_theme = pure_ooze.examine_theme
 	else if(pref)
 		char_examine_theme = pref.examine_theme
 	// Validate — reject meme themes and unknown keys, fall back to default

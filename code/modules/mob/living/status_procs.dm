@@ -3,17 +3,10 @@
 // eye damage, eye_blind, eye_blurry, druggy, TRAIT_BLIND trait, and TRAIT_NEARSIGHT trait.
 
 
-///Set the slowdown of a mob
-/mob/living/Slowdown(amount)
-	var/oldslow = slowdown
-	if(amount > 0)
-		if(!(status_flags & CANSTUN) || HAS_TRAIT(src, TRAIT_STUNIMMUNE))
-			amount = 0
-	slowdown = max(slowdown,amount,0)
-	if(oldslow <= 0 && slowdown > 0)
-		add_movespeed_modifier(MOVESPEED_ID_LIVING_SLOWDOWN_STATUS, update=TRUE, priority=100, multiplicative_slowdown=2, movetypes=GROUND)
-	if(slowdown <= 0)
-		remove_movespeed_modifier(MOVESPEED_ID_LIVING_SLOWDOWN_STATUS)
+/mob/living/apply_slowdown(duration, severity = SLOWDOWN_SEVERITY_MODERATE)
+	if(duration <= 0)
+		return
+	return apply_status_effect(/datum/status_effect/debuff/slowed, duration, severity)
 
 
 ////////////////////////////// STUN ////////////////////////////////////
