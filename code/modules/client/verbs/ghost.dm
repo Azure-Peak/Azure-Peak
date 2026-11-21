@@ -75,6 +75,13 @@ GLOBAL_LIST_INIT(ghost_verbs, list(
 		if(my_job)
 			my_job.on_round_removal(src)
 
+	if(isobserver(src) && mind.current && ishuman(mind.current))
+		var/mob/living/carbon/human/H = mind.current
+		H.roundremove_restore_name()
+	else if(ishuman(src))
+		var/mob/living/carbon/human/H = src
+		H.roundremove_restore_name()
+
 	log_game("[key_name(usr)] respawned from underworld")
 
 	to_chat(src, span_info("Returned to lobby successfully."))
