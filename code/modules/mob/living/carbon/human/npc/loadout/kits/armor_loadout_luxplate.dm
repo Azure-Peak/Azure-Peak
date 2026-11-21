@@ -15,7 +15,6 @@
 	head = /obj/item/clothing/head/roguetown/helmet/heavy/graggar
 	neck = /obj/item/clothing/neck/roguetown/gorget/steel/graggar
 	cloak = /obj/item/clothing/cloak/graggar
-	id = /obj/item/clothing/neck/roguetown/psicross/inhumen/graggar //SHATTER MY BINDS
 	belt = list(
 		/obj/item/storage/belt/rogue/leather/steel/tasset,
 		/obj/item/storage/belt/rogue/leather,
@@ -35,7 +34,6 @@
 	mask = /obj/item/clothing/mask/rogue/facemask/steel/graggar
 	neck = /obj/item/clothing/neck/roguetown/gorget/steel/graggar
 	cloak = /obj/item/clothing/cloak/graggar/heavy
-	id = /obj/item/clothing/neck/roguetown/psicross/inhumen/graggar //SHATTER MY BINDS
 	belt = list(
 		/obj/item/storage/belt/rogue/leather/steel/tasset,
 		/obj/item/storage/belt/rogue/leather,
@@ -89,7 +87,6 @@
 		/obj/item/storage/belt/rogue/leather,
 		/obj/item/storage/belt/rogue/leather/black,
 	)
-	id = /obj/item/clothing/neck/roguetown/psicross/inhumen/matthios //IS THIS TRVE?!
 
 //** BAOTHA **//
 
