@@ -154,9 +154,7 @@
 		to_chat(user, span_warning("I need a free hand to tend wounds with sunlight."))
 		return FALSE
 	user.say(gentle ? "Endure in Her name!" : "By Her radiance, be purged!", forced = "spell")
-	if(!user.apply_status_effect(/datum/status_effect/sunbrand, held, gentle))
-		return FALSE
-	return TRUE
+	return user.apply_status_effect(/datum/status_effect/sunbrand, held, gentle) ? TRUE : FALSE
 
 /atom/movable/screen/alert/status_effect/buff/sunbrand
 	name = "Sunbrand"
@@ -185,132 +183,102 @@
 			I.set_light(1)
 			added_light = TRUE
 		RegisterSignal(I, COMSIG_ITEM_AFTERATTACK, PROC_REF(item_afterattack))
-	else
-		RegisterSignal(owner, COMSIG_MOB_ATTACK_HAND, PROC_REF(hand_attack))
-		if(gentle && linked_alert)
-			linked_alert.desc = "Your next touch cauterizes ALL the bleeding wounds on the limb you are aiming at."
+		return
+	RegisterSignal(owner, COMSIG_MOB_ATTACK_HAND, PROC_REF(hand_attack))
+	if(gentle && linked_alert)
+		linked_alert.desc = "Your next touch cauterizes ALL the bleeding wounds on the limb you are aiming at."
 
 /datum/status_effect/sunbrand/on_remove()
 	. = ..()
 	if(owner)
 		UnregisterSignal(owner, COMSIG_MOB_ATTACK_HAND)
-	if(buffed_item)
-		var/obj/item/I = buffed_item.resolve()
-		if(istype(I))
-			if(added_light)
-				I.set_light(0)
-			UnregisterSignal(I, COMSIG_ITEM_AFTERATTACK)
-
-/datum/status_effect/sunbrand/proc/fizzle(mob/living/user, message)
-	to_chat(user, span_warning(message))
-	qdel(src)
-
-/datum/status_effect/sunbrand/proc/brand_combat(mob/living/target, mob/living/attacker, weapon_text)
-	if(QDELETED(src)) // already consumed, don't double-brand
+	var/obj/item/I = buffed_item?.resolve()
+	if(!I)
 		return
-	qdel(src) // consume right away, nothing below needs the effect itself
-	target.apply_status_effect(/datum/status_effect/debuff/sunbrand)
-	target.apply_status_effect(/datum/status_effect/debuff/sunbrand_scorch)
-	apply_scorch_stack(target, 1, BODY_ZONE_CHEST)
-	if(HAS_TRAIT(target, TRAIT_SILVER_WEAK))
-		target.adjust_fire_stacks(3, /datum/status_effect/fire_handler/fire_stacks/sunder)
-		target.ignite_mob()
-	if(!target.mind && target.stat && ishuman(target))
-		target.apply_status_effect(/datum/status_effect/debuff/sunbrand_pyre)
-	target.visible_message(span_astrata("The strike from [attacker]'s [weapon_text] sears [target] with a brand of sunlight!"), vision_distance = COMBAT_MESSAGE_RANGE)
-	target.emote("pain")
-	playsound(get_turf(target), 'sound/magic/fireball.ogg', 100, TRUE)
+	if(added_light)
+		I.set_light(0)
+	UnregisterSignal(I, COMSIG_ITEM_AFTERATTACK)
 
-/datum/status_effect/sunbrand/proc/cauterize_target(mob/living/target, mob/living/carbon/human/caster)
-	if(tending || QDELETED(src))
-		return FALSE
-	tending = TRUE
-	. = do_cauterize(target, caster)
-	if(!QDELETED(src))
-		tending = FALSE
-
-/datum/status_effect/sunbrand/proc/do_cauterize(mob/living/target, mob/living/carbon/human/caster)
-	var/mob/living/carbon/C = target
-	if(!istype(C))
-		return FALSE
-	var/zone = check_zone(caster.zone_selected)
-	var/obj/item/bodypart/bodypart = C.get_bodypart(zone)
-	if(!bodypart)
-		to_chat(caster, span_warning("[C] has no [parse_zone(zone)] to tend."))
-		return FALSE
-	if(!length(bodypart.wounds))
-		to_chat(caster, span_warning("[C]'s [parse_zone(zone)] has no wounds to cauterize."))
-		return FALSE
-	if(!do_after(caster, 2 SECONDS, target = C))
-		to_chat(caster, span_warning("I fail to cauterize them! I need to concentrate..."))
-		return FALSE
-	// State may have changed while we were busy
-	if(QDELETED(src))
-		to_chat(caster, span_warning("The sunlight fades from my hand before I can finish."))
-		return FALSE
-	if(QDELETED(bodypart) || bodypart.owner != C || !length(bodypart.wounds))
-		to_chat(caster, span_warning("There is nothing left to cauterize there."))
-		return FALSE
-	C.visible_message(span_notice("[caster] presses a hand wreathed in sunlight against [C]'s [parse_zone(zone)], searing the wounds shut."), \
-		span_notice("[caster]'s sunlit touch sears the wounds on my [parse_zone(zone)] shut!"), vision_distance = COMBAT_MESSAGE_RANGE)
-	var/damages = 0
-	for(var/datum/wound/bleeder as anything in bodypart.wounds.Copy())
-		bleeder.cauterize_wound() // double-cauterize on purpose
-		bleeder.cauterize_wound()
-		damages++
-	bodypart.receive_damage(burn = (15 * damages)) // painful, but the wounds go away, ALSO dmg multiplier per wound, so normal cautery isn't powercrept
-	if(C.has_status_effect(/datum/status_effect/buff/ozium) || HAS_TRAIT(C, TRAIT_NOPAINSTUN) || HAS_TRAIT(C, TRAIT_NOPAIN) || HAS_TRAIT(C, TRAIT_APRICITY) || HAS_TRAIT(C, TRAIT_PSYDONIAN_GRIT) || HAS_TRAIT(C, TRAIT_MATTHIOS_EYES))
-		C.emote("groan")
-	else
-		C.emote("scream")
-	playsound(get_turf(C), 'sound/surgery/cautery2.ogg', 100, TRUE)
-	qdel(src) // only 1 use, greedy fucc
-	return TRUE
-
+/// Weapon hit (brand mode only): brand if still in combat mode, otherwise fizzle.
 /datum/status_effect/sunbrand/proc/item_afterattack(obj/item/source, atom/target, mob/user, proximity_flag, click_parameters)
 	SIGNAL_HANDLER
-	if(user != owner || target == user) // a dropped/stolen weapon or a self-use must not spend the brand
-		return
-	if(!proximity_flag || !isliving(target))
+	if(user != owner || target == user || !proximity_flag || !isliving(target)) // a dropped/stolen weapon or self-use must not spend the brand
 		return
 	if(!user.cmode)
-		fizzle(user, "I lack the resolve to burn them.")
+		to_chat(user, span_warning("I lack the resolve to burn them."))
+		qdel(src)
 		return
-	INVOKE_ASYNC(src, PROC_REF(brand_combat), target, user, "weapon")
+	INVOKE_ASYNC(src, PROC_REF(discharge), target, user, "weapon")
 
+/// Bare-hand interaction. Cauterize mode swallows EVERY hand interaction (relies on spec_attack_hand honoring
+/// COMPONENT_CANCEL_ATTACK_CHAIN). Brand mode only reacts to real unarmed attacks; help/grab/shove pass through.
 /datum/status_effect/sunbrand/proc/hand_attack(datum/source, mob/living/carbon/human/M, mob/living/carbon/human/H, datum/martial_art/attacker_style)
 	SIGNAL_HANDLER
+	var/static/list/non_attacks = list(/datum/intent/unarmed/help, /datum/intent/unarmed/grab, /datum/intent/unarmed/shove)
 	if(!istype(M) || M != owner)
 		return
-	if(gentle)
-		// CAUTERIZE mode. EVERY bare-hand interaction is swallowed (punch, shove, shake awake, grab...).
-		// Relies on spec_attack_hand honoring COMPONENT_CANCEL_ATTACK_CHAIN from COMSIG_MOB_ATTACK_HAND.
-		if(M.cmode)
-			fizzle(M, "My adrenaline spikes, disrupting my focus.")
-			return COMPONENT_CANCEL_ATTACK_CHAIN
-		if(istype(H) && H != M && !tending)
-			INVOKE_ASYNC(src, PROC_REF(cauterize_target), H, M)
+	if(!gentle && (!istype(M.used_intent, /datum/intent/unarmed) || is_type_in_list(M.used_intent, non_attacks)))
+		return
+	if(!!M.cmode == gentle) // cauterize needs cmode off, brand needs it on
+		to_chat(M, span_warning(gentle ? "My adrenaline spikes, disrupting my focus." : "I lack the resolve to burn them."))
+		qdel(src)
 		return COMPONENT_CANCEL_ATTACK_CHAIN
+	if(istype(H) && H != M)
+		INVOKE_ASYNC(src, PROC_REF(discharge), H, M, "fist")
+	return gentle ? COMPONENT_CANCEL_ATTACK_CHAIN : null
 
-	// BRAND mode: only real unarmed attacks count (punch, claws...). Touch, grab, shove pass through and keep the effect.
-	if(!istype(M.used_intent, /datum/intent/unarmed))
+/// Spends the effect: brands the target (combat) or cauterizes the aimed limb (gentle, hand only).
+/datum/status_effect/sunbrand/proc/discharge(mob/living/target, mob/living/carbon/human/user, weapon_text)
+	if(QDELETED(src) || tending) // already consumed / already tending
 		return
-	if(!M.cmode)
-		fizzle(M, "I lack the resolve to burn them.")
-		return COMPONENT_CANCEL_ATTACK_CHAIN
-	if(!istype(H) || H == M)
+	if(!gentle)
+		qdel(src) // consume right away, nothing below needs the effect itself
+		target.apply_status_effect(/datum/status_effect/debuff/sunbrand)
+		apply_scorch_stack(target, 1, BODY_ZONE_CHEST)
+		target.visible_message(span_astrata("The strike from [user]'s [weapon_text] sears [target] with a brand of sunlight!"), vision_distance = COMBAT_MESSAGE_RANGE)
+		target.emote("pain")
+		playsound(get_turf(target), 'sound/magic/fireball.ogg', 100, TRUE)
 		return
-	INVOKE_ASYNC(src, PROC_REF(brand_combat), H, M, "fist")
+
+	var/mob/living/carbon/C = target // only reachable through hand_attack, so always a human
+	var/zone = check_zone(user.zone_selected)
+	var/zone_name = parse_zone(zone)
+	var/obj/item/bodypart/bodypart = C.get_bodypart(zone)
+	var/fail = !bodypart ? "[C] has no [zone_name] to tend." : (!length(bodypart.wounds) ? "[C]'s [zone_name] has no wounds to cauterize." : null)
+	if(!fail)
+		tending = TRUE
+		if(!do_after(user, 2 SECONDS, target = C))
+			fail = "I fail to cauterize them! I need to concentrate..."
+		else if(QDELETED(src)) // state may have changed while we were busy
+			fail = "The sunlight fades from my hand before I can finish."
+		else if(QDELETED(bodypart) || bodypart.owner != C || !length(bodypart.wounds))
+			fail = "There is nothing left to cauterize there."
+	if(fail)
+		to_chat(user, span_warning(fail))
+		tending = FALSE
+		return
+	C.visible_message(span_notice("[user] presses a hand wreathed in sunlight against [C]'s [zone_name], searing the wounds shut."), \
+		span_notice("[user]'s sunlit touch sears the wounds on my [zone_name] shut!"), vision_distance = COMBAT_MESSAGE_RANGE)
+	var/damages = length(bodypart.wounds)
+	for(var/datum/wound/bleeder as anything in bodypart.wounds.Copy())
+		bleeder.suncauterize_wound()
+	bodypart.receive_damage(burn = (15 * damages)) // painful, but the wounds go away, ALSO dmg multiplier per wound, so normal cautery isn't powercrept
+	var/numb = C.has_status_effect(/datum/status_effect/buff/ozium) || HAS_TRAIT(C, TRAIT_NOPAINSTUN) || HAS_TRAIT(C, TRAIT_NOPAIN) || HAS_TRAIT(C, TRAIT_APRICITY) || HAS_TRAIT(C, TRAIT_PSYDONIAN_GRIT) || HAS_TRAIT(C, TRAIT_MATTHIOS_EYES)
+	C.emote(numb ? "groan" : "scream")
+	playsound(get_turf(C), 'sound/surgery/cautery2.ogg', 100, TRUE)
+	qdel(src) // only 1 use, greedy fucc
 
 /atom/movable/screen/alert/status_effect/debuff/sunbrand
 	name = "Sunbrand"
 	desc = "Searing light is branded into my flesh, weighing down my every step while the heat builds. It will not fade until the flames finally take hold!"
 	icon_state = "restrained"
 
+/// Brand debuff: -2 SPD, 50% slow, and a burn tick every 4s for 16s.
 /datum/status_effect/debuff/sunbrand
 	id = "sunbrand_debuff"
 	alert_type = /atom/movable/screen/alert/status_effect/debuff/sunbrand
-	duration = -1
+	duration = 16 SECONDS
+	tick_interval = 4 SECONDS
 	effectedstats = list(STATKEY_SPD = -2)
 
 /datum/status_effect/debuff/sunbrand/on_apply()
@@ -321,35 +289,13 @@
 	. = ..()
 	owner.remove_movespeed_modifier("sunbrand_slowdown")
 
-/datum/status_effect/debuff/sunbrand_scorch
-	id = "sunbrand_scorch_debuff"
-	alert_type = null
-	duration = 16 SECONDS
-	tick_interval = 4 SECONDS
-
-/datum/status_effect/debuff/sunbrand_scorch/tick()
+/datum/status_effect/debuff/sunbrand/tick()
 	apply_scorch_stack(owner, 1, BODY_ZONE_CHEST)
 	owner.adjustFireLoss(8, TRUE)
-
-/datum/status_effect/debuff/sunbrand_scorch/on_remove()
-	. = ..()
-	owner.remove_status_effect(/datum/status_effect/debuff/sunbrand)
-
-/datum/status_effect/debuff/sunbrand_pyre
-	id = "sunbrand_pyre_debuff"
-	alert_type = null
-	duration = 40 SECONDS // failsafe
-	tick_interval = 2 SECONDS
-	var/stacks_applied = 0
-
-/datum/status_effect/debuff/sunbrand_pyre/tick()
-	if(owner.mind)
-		qdel(src)
-		return
-	owner.adjust_fire_stacks(1)
-	owner.ignite_mob()
-	if(++stacks_applied >= 12)
-		owner.visible_message(span_boldwarning("[owner] is consumed by the sunfire and crumbles to ash!"), vision_distance = COMBAT_MESSAGE_RANGE)
+	if(HAS_TRAIT(owner, TRAIT_SILVER_WEAK) || HAS_TRAIT(owner, TRAIT_MATTHIOS_EYES) || !owner.mind) // we hate the impure, we hate these damn anarchists too
+		arcyne_strike(owner, owner, null, 5, BODY_ZONE_CHEST, BCLASS_BURN, PEN_LIGHT, "Sunfyre", FALSE, TRUE, null, BURN, 1, null, 2)
+	if(!owner.mind && owner.stat == DEAD && owner.can_be_gibbed())
+		owner.visible_message(span_astrata("[owner] disintegrates into pale ash!"))
 		owner.dust()
 
 //////////////////////////////////////////////////////////

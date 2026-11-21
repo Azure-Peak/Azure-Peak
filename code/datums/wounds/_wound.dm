@@ -408,6 +408,14 @@ GLOBAL_LIST_INIT(primordial_wounds, init_primordial_wounds())
 	heal_wound(40)
 	return TRUE
 
+/datum/wound/proc/suncauterize_wound()
+	if(!can_cauterize)
+		return FALSE
+	if(!isnull(clotting_threshold) && bleed_rate > clotting_threshold)
+		set_bleed_rate(clotting_threshold)
+	heal_wound((whp * 0.5) + 40)
+	return TRUE
+
 /// Checks if this wound is sewn
 /datum/wound/proc/is_sewn()
 	return (sew_progress >= sew_threshold)
