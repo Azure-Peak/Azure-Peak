@@ -5239,3 +5239,18 @@ As Excaliber."
 		icon_state = unique_reskin[current_skin]
 		item_state = icon_state
 	return ..()
+
+// ClemTheDuck
+/obj/item/clothing/mask/rogue/lunarmuzzle
+	name = "ceremonial lunar muzzle"
+	desc = "A ceremonial mask often used by Noccite cultists, forged of blessed steel alloy with a blue hue. Shaped like a Lupian muzzle to cover the mouth, these masks remind their wearers to listen more than they speak."
+	icon = 'icons/clothing/donor_clothes.dmi'
+	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
+	icon_state = "lunarmuzzle"
+	item_state = "lunarmuzzle"
+	resistance_flags = FIRE_PROOF
+	flags_inv = HIDEFACE|HIDESNOUT
+	body_parts_covered = FACE
+	block2add = FOV_BEHIND
+	slot_flags = ITEM_SLOT_MASK|ITEM_SLOT_HEAD|ITEM_SLOT_MOUTH
+	experimental_onhip = TRUE

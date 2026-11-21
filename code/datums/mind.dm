@@ -189,6 +189,8 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 		person = M.current
 	if(ishuman(person))
 		var/mob/living/carbon/human/H = person
+		if(!H.client)
+			return
 		if(!known_people[H.real_name])
 			known_people[H.real_name] = list()
 		known_people[H.real_name]["VCOLOR"] = H.voice_color
@@ -231,6 +233,8 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 		if(M.known_people)
 			if(ishuman(current))
 				var/mob/living/carbon/human/H = current
+				if(!H.client)
+					return
 				if(!M.known_people[H.real_name])
 					M.known_people[H.real_name] = list()
 				M.known_people[H.real_name]["VCOLOR"] = H.voice_color
@@ -383,10 +387,10 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 	transfer_antag_huds(hud_to_transfer)				//inherit the antag HUD
 	transfer_actions(new_character)
 	transfer_martial_arts(new_character)
-	if(old_current.skills)
+	if(old_current?.skills)
 		old_current.skills.set_current(new_character)
 
-	RegisterSignal(new_character, COMSIG_MOB_DEATH, PROC_REF(set_death_time))
+	RegisterSignal(new_character, COMSIG_MOB_DEATH, PROC_REF(set_death_time), TRUE)
 	if(active || force_key_move)
 
 		new_character.key = key		//now transfer the key to link the client to our new body

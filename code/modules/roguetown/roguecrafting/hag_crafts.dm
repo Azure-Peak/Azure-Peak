@@ -69,6 +69,11 @@
 	reqs = list(/obj/item/alch/hag_moss/mercy = 1, /obj/item/natural/fibers = 3)
 	craftdiff = 6
 
+/datum/crafting_recipe/roguetown/alchemy/hag/vibrant_moss
+	name = "moss vibrant"
+	result = list(/obj/item/alch/hag_moss/enchanted/vibrant = 1)
+	reqs = list(/obj/item/alch/hag_moss/mercy = 1, /obj/item/alch/rosa = 1, /obj/item/alch/hypericum = 1)
+	craftdiff = 6
 
 /datum/crafting_recipe/roguetown/alchemy/hag/creeping_moss
 	name = "moss creeping"

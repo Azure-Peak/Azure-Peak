@@ -1,6 +1,6 @@
 /datum/charflaw/paranoid
 	name = "Paranoid"
-	desc = "I'm more anxious than most people. I can hear them, whispering behind my back - speaking in their tongues about my demise.. I know they are out to get me, I just know it!"
+	desc = "I'm more anxious than most people. I can hear them, whispering behind my back - speaking in their tongues about my demise... I know they are out to get me, I just know it!"
 	ui_fa_icon = "house-crack"
 	var/last_check = 0
 

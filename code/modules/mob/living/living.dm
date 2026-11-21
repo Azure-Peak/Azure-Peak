@@ -1034,7 +1034,7 @@
 	stuttering = 0
 	slurring = 0
 	jitteriness = 0
-	slowdown = 0
+	remove_status_effect(/datum/status_effect/debuff/slowed)
 	update_mobility()
 	stop_sound_channel(CHANNEL_HEARTBEAT)
 
@@ -2867,3 +2867,7 @@ GLOBAL_LIST_INIT(sight_trait_signals, build_sight_trait_signals())
 	if(QDELETED(src) || stat != DEAD) // skip if it was somehow revived in the meantime
 		return
 	dust()
+
+///the humanmob version of this proc accounts for hag names. in general, use real_name directly when you want to use it INTERNALLY. use get_unmasked_name if you want to display someone's "real name" to players
+/mob/living/proc/get_unmasked_name()
+	return real_name

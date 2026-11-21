@@ -166,3 +166,23 @@
 /datum/mob_descriptor/skin/custom/eight
 	name = "Custom Skin"
 	custom_index = 8
+
+/datum/mob_descriptor/skin/custom/fur
+	name = "Custom Fur"
+	custom_index = 13
+	suffix = "fur"
+
+/datum/mob_descriptor/skin/custom/chitin
+	name = "Custom Chitin"
+	custom_index = 14
+	suffix = "chitin"
+
+/datum/mob_descriptor/skin/custom/feathers
+	name = "Custom Feathers"
+	custom_index = 15
+	suffix = "feathers"
+
+/datum/mob_descriptor/skin/custom/scales
+	name = "Custom Scales"
+	custom_index = 15
+	suffix = "scales"
