@@ -40,6 +40,10 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 /obj/item/match/spark_act()
 	fire_act()
 
+/obj/item/match/get_mechanics_examine(mob/user)
+	. = ..()
+	. += IGNITER_HINT
+
 /obj/item/match/proc/matchignite()
 	if(!lit && !burnt)
 
@@ -81,7 +85,8 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 	. = ..()
 	if(!proximity)
 		return
-	if(lit && !burnt)
+	var/obj/O = A
+	if(lit && !burnt && (user.cmode || !(isturf(A) || (isobj(A) && (O.resistance_flags & FLAMMABLE)))))
 		A.spark_act()
 
 /obj/item/match/attack(mob/living/carbon/M, mob/living/carbon/user)
