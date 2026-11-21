@@ -10,6 +10,7 @@ GLOBAL_LIST_INIT(psyvault_aggro, world.file2list("strings/rt/psyvaultaggrolines.
 	a_intent = INTENT_HELP
 	d_intent = INTENT_PARRY
 	possible_mmb_intents = list(INTENT_BITE, INTENT_JUMP, INTENT_KICK, INTENT_SPECIAL)
+	var/big_guy_lizard = TRUE
 
 	npc_archetype = /datum/npc_archetype/psy_vault_guard/guardian
 
@@ -17,10 +18,13 @@ GLOBAL_LIST_INIT(psyvault_aggro, world.file2list("strings/rt/psyvaultaggrolines.
 	. = ..()
 	gender = pick(MALE, FEMALE)
 	set_species(/datum/species/lizardfolk)
-	addtimer(CALLBACK(src, PROC_REF(after_creation)), 1 SECONDS)
-	transform = transform.Scale(1.25, 1.25)
-	transform = transform.Translate(0, 0.25 * 16)
-	update_transform()
+	if(big_guy_lizard)
+		transform = transform.Scale(1.25, 1.25)
+		transform = transform.Translate(0, 0.25 * 16)
+		update_transform()
+	if(!npc_archetype)
+		spawn(10) // To prevent dropping weapons
+			after_creation()
 
 /mob/living/carbon/human/species/lizardfolk/psy_vault_guard/after_creation()
 	..()
@@ -52,7 +56,6 @@ GLOBAL_LIST_INIT(psyvault_aggro, world.file2list("strings/rt/psyvaultaggrolines.
 	ADD_TRAIT(src, TRAIT_NOHUNGER, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_LEECHIMMUNE, INNATE_TRAIT)
 	ADD_TRAIT(src, TRAIT_BREADY, TRAIT_GENERIC)
-	ADD_TRAIT(src, TRAIT_BIGGUY, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_STRONGBITE, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_NPC_EXAMINE, TRAIT_GENERIC)
 	equipOutfit(new /datum/outfit/job/roguetown/human/species/lizardfolk/psy_vault_guard)
@@ -76,36 +79,24 @@ GLOBAL_LIST_INIT(psyvault_aggro, world.file2list("strings/rt/psyvaultaggrolines.
 
 /mob/living/carbon/human/species/lizardfolk/psy_vault_guard/magemonk
 	npc_archetype = /datum/npc_archetype/psy_vault_guard/magemonk
-
-/mob/living/carbon/human/species/lizardfolk/psy_vault_guard/magemonk/Initialize(mapload)
-	. = ..()
-	gender = pick(MALE, FEMALE)
-	set_species(/datum/species/lizardfolk)
-	addtimer(CALLBACK(src, PROC_REF(after_creation)), 1 SECONDS)
+	big_guy_lizard = FALSE
 
 /mob/living/carbon/human/species/lizardfolk/psy_vault_guard/archer
 	npc_archetype = /datum/npc_archetype/psy_vault_guard/archer
-
-/mob/living/carbon/human/species/lizardfolk/psy_vault_guard/archer/Initialize(mapload)
-	. = ..()
-	gender = pick(MALE, FEMALE)
-	set_species(/datum/species/lizardfolk)
-	addtimer(CALLBACK(src, PROC_REF(after_creation)), 1 SECONDS)
+	big_guy_lizard = FALSE
 
 /mob/living/carbon/human/species/lizardfolk/psy_vault_guard/caster
 	npc_archetype = /datum/npc_archetype/psy_vault_guard/caster/mixed
-
-/mob/living/carbon/human/species/lizardfolk/psy_vault_guard/caster/Initialize(mapload)
-	. = ..()
-	gender = pick(MALE, FEMALE)
-	set_species(/datum/species/lizardfolk)
-	addtimer(CALLBACK(src, PROC_REF(after_creation)), 1 SECONDS)
+	big_guy_lizard = FALSE
 
 /mob/living/carbon/human/species/lizardfolk/psy_vault_guard/caster/cryomancer
 	npc_archetype = /datum/npc_archetype/psy_vault_guard/caster/cryomancer
+	big_guy_lizard = FALSE
 
 /mob/living/carbon/human/species/lizardfolk/psy_vault_guard/caster/telomancer
 	npc_archetype = /datum/npc_archetype/psy_vault_guard/caster/telomancer
+	big_guy_lizard = FALSE
 
 /mob/living/carbon/human/species/lizardfolk/psy_vault_guard/caster/fulgurmancer
 	npc_archetype = /datum/npc_archetype/psy_vault_guard/caster/fulgurmancer
+	big_guy_lizard = FALSE

@@ -22,7 +22,7 @@
 	threat_point = THREAT_TOUGH
 	statpack = /datum/npc_statpack/line/t3
 	melee = SKILL_LEVEL_EXPERT //'LETS FRAG', 'JUST THIS ONCE'
-	traits = list(TRAIT_PSYDONITE, TRAIT_CRITICAL_RESISTANCE) //devotee + critical resistance fragger
+	traits = list(TRAIT_PSYDONITE, TRAIT_CRITICAL_RESISTANCE, TRAIT_BIGGUY) //devotee + critical resistance fragger
 	skills = list(
 		/datum/skill/combat/wrestling = SKILL_LEVEL_MASTER, //you ain't tackling this big guy, sire.
 	)
@@ -83,7 +83,7 @@
 	loadouts = list(
 		/datum/npc_loadout/kit/psy_vault_guard_flavor,
 		/datum/npc_loadout/armor/medium/psy_vault_lighter, //squishier if you limb-aim
-		/datum/npc_loadout/kit/caster/telomancer,
+		/datum/npc_loadout/kit/telomancer_psymonk,
 	)
 	ai_controller = /datum/ai_controller/human_npc/caster
 
@@ -93,7 +93,7 @@
 	loadouts = list(
 		/datum/npc_loadout/kit/psy_vault_guard_flavor,
 		/datum/npc_loadout/armor/medium/psy_vault_lighter, //squishier if you limb-aim
-		/datum/npc_loadout/kit/caster/cryomancer,
+		/datum/npc_loadout/kit/cryomancer_psymonk,
 	)
 	ai_controller = /datum/ai_controller/human_npc/caster
 
@@ -103,9 +103,28 @@
 	loadouts = list(
 		/datum/npc_loadout/kit/psy_vault_guard_flavor,
 		/datum/npc_loadout/armor/medium/psy_vault_lighter, //squishier if you limb-aim
-		/datum/npc_loadout/kit/caster/fulgurmancer,
+		/datum/npc_loadout/kit/fulgurmancer_psymonk,
 	)
 	ai_controller = /datum/ai_controller/human_npc/caster
+
+//** CASTER STUFF **//
+/datum/npc_loadout/kit/telomancer_psymonk
+	magic_aspects = list(
+		/datum/magic_aspect/telomancy,
+	)
+	r_hand = /obj/item/rogueweapon/woodstaff/implement/greater
+
+/datum/npc_loadout/kit/cryomancer_psymonk
+	magic_aspects = list(
+		/datum/magic_aspect/telomancy,
+	)
+	r_hand = /obj/item/rogueweapon/woodstaff/implement/greater
+
+/datum/npc_loadout/kit/fulgurmancer_psymonk
+	magic_aspects = list(
+		/datum/magic_aspect/telomancy,
+	)
+	r_hand = /obj/item/rogueweapon/woodstaff/implement/greater
 
 //** FLAVOR **//
 
@@ -157,7 +176,7 @@
 	backl = /obj/item/quiver/randomfill/highwayman
 
 /datum/npc_loadout/kit/psytomb_mage_lesser
-	spells = list(/datum/action/cooldown/spell/projectile/arc_bolt)
+	spells = list(/datum/action/cooldown/spell/projectile/arc_bolt, /datum/action/cooldown/spell/blink/shadowstep, /datum/action/cooldown/spell/mending) //unique lbolt into shadowstep skillset, w/ quarterstaff melee
 	weapons = list(
 		list(/obj/item/rogueweapon/woodstaff/quarterstaff/steel),
 	)
