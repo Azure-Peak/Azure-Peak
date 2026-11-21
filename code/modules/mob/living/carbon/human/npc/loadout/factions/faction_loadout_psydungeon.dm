@@ -22,9 +22,6 @@
 	statpack = /datum/npc_statpack/line/t3
 	melee = SKILL_LEVEL_EXPERT //'LETS FRAG', 'JUST THIS ONCE'
 	traits = list(TRAIT_PSYDONITE, TRAIT_CRITICAL_RESISTANCE, TRAIT_BIGGUY) //devotee + critical resistance fragger
-	skills = list(
-		/datum/skill/combat/wrestling = SKILL_LEVEL_MASTER, //you ain't tackling this big guy, sire.
-	)
 	loadouts = list(
 		/datum/npc_loadout/weapon/psy_vault_guard_melee_weapon,
 		/datum/npc_loadout/kit/psy_vault_guard_flavor,
@@ -32,13 +29,14 @@
 	)
 	ai_controller = /datum/ai_controller/human_npc
 
+//Few and far between, most of the monks rely on blades or magic. These ones just exist to catch you off-guard if your armor breaks from a distance.
 /datum/npc_archetype/psy_vault_guard/archer
 	name = "Psydonite Tomb Archer"
 	job = "Psydonite Tomb Archer"
 	statpack = /datum/npc_statpack/marksman/t3
-	melee = SKILL_LEVEL_EXPERT //'LETS FRAG', 'JUST THIS ONCE'
+	//weaker up close, b.c they get master in bows otherwise to kill you.
 	traits = list(TRAIT_PSYDONITE) //devotee + archer so no crit resist
-	skills = list(/datum/skill/combat/bows = SKILL_LEVEL_MASTER) //parry this you filthy casual
+	skills = list(/datum/skill/combat/bows = SKILL_LEVEL_MASTER)
 	loadouts = list(
 		/datum/npc_loadout/weapon/psy_vault_guard_ranged_weapon,
 		/datum/npc_loadout/kit/psy_vault_guard_flavor,
