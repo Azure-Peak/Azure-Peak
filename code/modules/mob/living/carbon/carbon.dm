@@ -612,10 +612,9 @@
 	nausea = clamp(nausea + amt, 0, 300)
 
 /mob/living/carbon/proc/handle_nausea()
-	if(stat == DEAD)
+	if(HAS_TRAIT(src, TRAIT_ROTMAN)||HAS_TRAIT(src, TRAIT_IRONMAN))
 		return TRUE
-	if(HAS_TRAIT(src, TRAIT_ROTMAN) || HAS_TRAIT(src, TRAIT_IRONMAN) || HAS_TRAIT(src, TRAIT_DEADITE))
-		add_nausea(-1)
+	if(stat == DEAD)
 		return TRUE
 	if(nausea >= 100)
 		if(mob_timers["puke"])
