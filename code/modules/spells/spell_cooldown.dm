@@ -2120,6 +2120,7 @@
 	var/list/mode = modes[current_mode]
 	if(mode["invocation"])
 		invocations = list(mode["invocation"])
+	invocation_type = (mode["invocation_type"] || invocation_type)
 	button_icon_state = (mode["icon"] || button_icon_state)
 	primary_resource_cost = (mode["cost"] || primary_resource_cost)
 	cooldown_time = (mode["cooldown"] || cooldown_time)
