@@ -51,12 +51,7 @@
 	shoes = /obj/item/clothing/shoes/roguetown/boots/armor/zizo
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/zizo
 	gloves = /obj/item/clothing/gloves/roguetown/plate/zizo
-	head = list(
-		/obj/item/clothing/head/roguetown/helmet/heavy/zizo,
-		/obj/item/clothing/head/roguetown/helmet/heavy/zizo/bascinet,
-		/obj/item/clothing/head/roguetown/helmet/heavy/zizo/frogge,
-		/obj/item/clothing/head/roguetown/helmet/heavy/zizo/volfhelm,
-	)
+	head = /obj/item/clothing/head/roguetown/helmet/heavy/zizo/bascinet //just looks better tbh
 	neck = /obj/item/clothing/neck/roguetown/bevor/zizo
 
 //** ZIZO HEAVY **//
