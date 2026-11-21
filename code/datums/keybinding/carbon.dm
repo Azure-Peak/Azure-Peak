@@ -102,6 +102,12 @@
 	if(istype(v2_generic) && v2_generic.toggle_alt_mode(H))
 		return TRUE
 
+	// if there's no modes, it might be an arc mode spell
+	var/datum/action/cooldown/spell/projectile/v2_spell = H.click_intercept
+	if(istype(v2_spell))
+		v2_spell.toggle_arc_mode(H)
+		return TRUE
+
 	// Fall back to old proc_holder system
 	var/obj/effect/proc_holder/spell/invoked/projectile/spell = H.ranged_ability
 	if(!istype(spell))
