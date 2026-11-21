@@ -329,7 +329,12 @@ GLOBAL_LIST_INIT(contract_issuer_roles, list(
 
 /obj/structure/roguemachine/contractledger/proc/build_pool_listing(mob/living/user)
 	var/list/listing = list()
+	var/claim_barred = is_quest_claim_barred(user)
+	var/claim_barred_towner = is_quest_claim_barred(user, TRUE)
+	var/solo_limited = is_quest_solo_limited(user)
+	var/solo_limited_towner = is_quest_solo_limited(user, TRUE)
 	for(var/datum/quest/Q as anything in SSquestpool.pool)
+		var/towner_posting = Q.source == QUEST_SOURCE_TOWNER
 		var/threat_bands = 0
 		if(istype(Q, /datum/quest/kill))
 			var/datum/quest/kill/KQ = Q
@@ -356,9 +361,9 @@ GLOBAL_LIST_INIT(contract_issuer_roles, list(
 			"guild_cut_rate" = Q.guild_cut_rate,
 			"is_rumor" = Q.source == QUEST_SOURCE_RUMOR,
 			"shows_commission_seal" = Q.shows_commission_seal,
-			"is_towner" = Q.source == QUEST_SOURCE_TOWNER,
-			"claim_barred" = is_quest_claim_barred(user, Q),
-			"solo_limited" = is_quest_solo_limited(user, Q),
+			"is_towner" = towner_posting,
+			"claim_barred" = towner_posting ? claim_barred_towner : claim_barred,
+			"solo_limited" = towner_posting ? solo_limited_towner : solo_limited,
 			"is_standing" = Q.source != QUEST_SOURCE_POOL,
 			"required_fellowship_size" = Q.required_fellowship_size,
 			"lapse_minutes" = lapse_minutes,

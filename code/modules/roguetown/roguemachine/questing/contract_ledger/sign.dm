@@ -18,12 +18,13 @@
 		play_reject_sound()
 		return
 
-	if(is_quest_claim_barred(user, Q))
+	var/towner_posting = Q.source == QUEST_SOURCE_TOWNER
+	if(is_quest_claim_barred(user, towner_posting))
 		say(quest_claim_barred_reason(user))
 		play_reject_sound()
 		return
 
-	var/uses_solo_allowance = quest_claim_uses_solo_allowance(user, Q)
+	var/uses_solo_allowance = quest_claim_uses_solo_allowance(user, towner_posting)
 	if(uses_solo_allowance && !SSquestpool.is_solo_sign_ready(user))
 		say(quest_solo_limit_reason(user))
 		play_reject_sound()
