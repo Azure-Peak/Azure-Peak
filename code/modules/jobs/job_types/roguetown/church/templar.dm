@@ -254,7 +254,6 @@
 			H.put_in_hands(new /obj/item/rogueweapon/huntingknife/idagger/steel/pestrasickle(H))
 			H.put_in_hands(new /obj/item/rogueweapon/huntingknife/idagger/steel/pestrasickle(H))
 			H.adjust_skillrank_up_to(/datum/skill/combat/knives, SKILL_LEVEL_EXPERT, TRUE) // actually makes them usable for the templar.
-			ADD_TRAIT(H, TRAIT_VENOMCRAFT, TRAIT_GENERIC)
 		if("Lance of Boils")
 			H.put_in_hands(new /obj/item/rogueweapon/halberd/pestran(H))
 			H.put_in_hands(new /obj/item/rogueweapon/scabbard/gwstrap(H))

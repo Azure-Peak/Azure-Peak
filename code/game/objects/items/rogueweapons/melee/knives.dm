@@ -546,7 +546,7 @@
 
 /obj/item/rogueweapon/huntingknife/idagger/steel/stalker
 	name = "stalker dagger"
-	desc = "A wave-bladed dagger, forged in reverence to the visage of an anthraxi spider's fang. Offer a keen-eyed glance to its obsidian edge, and you might just notice the hundreds of capillary-like channels lining its surface.."
+	desc = "A wave-bladed dagger, forged in reverence to the visage of an anthraxi spider's fang. Offer a keen-eyed glance to its obsidian edge, and you might just notice the hundreds of capillary-like channels lining its surface."
 	icon_state = "spiderdaggeralt"
 	sheathe_icon = "spiderdaggeralt"
 	smeltresult = /obj/item/ingot/drow
@@ -554,7 +554,7 @@
 
 /obj/item/rogueweapon/huntingknife/idagger/steel/corroded
 	name = "corroded dagger"
-	desc = "A wicked deliverer of poison, serrated and notched. Curved steel cradles the knuckles, ensuring that the wielder doesn't inflict the fatal dose on themselves. Only a skilled poisoner can make use of this dagger's true potential."
+	desc = "A wicked deliverer of poison, serrated and notched. Curved steel cradles the knuckles, ensuring that the wielder doesn't inflict the fatal dose on themselves."
 	icon_state = "pdagger"
 	sheathe_icon = "spdagger"
 
@@ -564,7 +564,7 @@
 
 /obj/item/rogueweapon/huntingknife/idagger/steel/corroded/dirk
 	name = "stalker dirk"
-	desc = "A wave-bladed dagger, forged in reverence to the visage of an anthraxi spider's fang. Offer a keen-eyed glance to its obsidian edge, and you might just notice the hundreds of capillary-like channels lining its surface; a cruel finishing touch, soon to be understood by the sundrunk. Only a skilled poisoner can make use of this dagger's true potential."
+	desc = "A wave-bladed dagger, forged in reverence to the visage of an anthraxi spider's fang. Offer a keen-eyed glance to its obsidian edge, and you might just notice the hundreds of capillary-like channels lining its surface; a cruel finishing touch, soon to be understood by the sundrunk."
 	icon_state = "spiderdagger"
 	sheathe_icon = "spiderdagger"
 	smeltresult = /obj/item/ingot/drow
@@ -686,7 +686,7 @@
 
 /obj/item/rogueweapon/huntingknife/idagger/steel/pestrasickle
 	name = "plaguebringer sickle"
-	desc = "A wicked edge brings feculent delights. Only a skilled poisoner can make use of this blade's true potential."
+	desc = "A wicked edge brings feculent delights."
 	icon_state = "pestrasickle"
 	force = 22 // 10% - This is a 8 clickCD weapon
 	max_integrity = 200

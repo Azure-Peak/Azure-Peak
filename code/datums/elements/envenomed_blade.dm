@@ -14,12 +14,11 @@
 
 /datum/element/envenomed_blade/proc/on_examine(datum/source, mob/user, list/examine_list)
 	SIGNAL_HANDLER
-	if(HAS_TRAIT(user, TRAIT_VENOMCRAFT))
-		examine_list += span_red("Its edge is laced with poison.")
+	examine_list += span_red("Its edge is laced with poison.")
 
 /datum/element/envenomed_blade/proc/on_hit(obj/item/source, mob/living/user, obj/item/bodypart/affecting, intent, mob/living/victim, selzone)
 	SIGNAL_HANDLER
-	if(!user || !HAS_TRAIT(user, TRAIT_VENOMCRAFT) || !isliving(victim) || HAS_TRAIT(victim, TRAIT_TOXIMMUNE))
+	if(!user || !isliving(victim) || HAS_TRAIT(victim, TRAIT_TOXIMMUNE))
 		return
 	var/bleeding = affecting ? affecting.get_bleed_rate() : victim.simple_bleeding
 	if(bleeding <= 0)
