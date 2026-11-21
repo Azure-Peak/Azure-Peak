@@ -22,10 +22,10 @@ GLOBAL_LIST_INIT(hedgeknight_aggro, world.file2list("strings/rt/hedgeknightaggro
 	d_intent = INTENT_PARRY
 	possible_mmb_intents = list(INTENT_BITE, INTENT_JUMP, INTENT_KICK, INTENT_SPECIAL)
 	var/preset_lines = "hedgeknight"
+	var/preset_title ="the untitled"
 
 /mob/living/carbon/human/species/human/northern/deranged_knight/Initialize(mapload)
 	. = ..()
-	//Begin RANDOMISE here
 	gender = pick(MALE, FEMALE)
 	dna.species.random_character(src) //Now we just randomise here, MUST be called after both race + gender
 	cut_overlays()
@@ -46,15 +46,20 @@ GLOBAL_LIST_INIT(hedgeknight_aggro, world.file2list("strings/rt/hedgeknightaggro
 	var/list/aggro_lines
 	switch(preset_lines)
 		if("graggar")
+			preset_title = pick("of Graggar","the Butcherer","Orphanbane","the Warlord","Blood-Chosen","the Bloody","of the Darkstar","of the Sinistar","the Chainbreaker","the Unshackled","the War-Born","the Murderer","Bane of Peace","herald of Graggar")
 			aggro_lines = GLOB.graggar_aggro
 		if("matthios")
+			preset_title = pick("the Rich","of Equal Exchange","the Opulant","of the Gilded Flame","Fyre-Kindled","the Brigand","of Matthios","of the Transactor","the Free","the Wealthy","of the Kindled Pyre","of the Gilded Drakkyn","Herald of Matthios")
 			aggro_lines = GLOB.matthios_aggro
 		if("zizo")
+			preset_title = pick("of Zizo","of the Avantyne Legion","bane of the Hallowed","the Defiler","Shadow-Blessed","the Insane","sworn-in-her-name","herald of Progress","herald of Zizo","the Luxbane","of the Dark Shield","of Shadows")
 			aggro_lines = GLOB.zizo_aggro
 			src.grant_language(/datum/language/undead)
 		if("baotha")
+			preset_title = pick("of Baotha","the Heartache","the Indulgent","the Mirthful","the Never-Sober","the Manic","of the Spider","herald of Baotha","herald of Heartache","the Luxdrinker","of the The Overflowing Goblet","of the Lady of Heartache","of the Lady of Pleasure")
 			aggro_lines = GLOB.baotha_aggro
 		if("hedgeknight")
+			preset_title = pick("the Outlawed","the Brigand","the Disgraced","the Bastard","of the Outcast","disgrace of Azuria","herald of the People")
 			aggro_lines = GLOB.hedgeknight_aggro
 	if(aggro_lines)
 		SEND_SIGNAL(src, COMSIG_MOB_MODIFY_AGGRO_LINES, aggro_lines, TRUE)
@@ -70,9 +75,10 @@ GLOBAL_LIST_INIT(hedgeknight_aggro, world.file2list("strings/rt/hedgeknightaggro
 	random_hair_no_beard_NPC()
 	random_eye_color_NPC()
 	correct_features_NPC()
-
 	if(prob(1))
 		real_name = "Taras Mura"
+	else
+		real_name = "[real_name] [preset_title]" //give us a fancy title.
 	update_hair()
 	update_body()
 
@@ -97,51 +103,26 @@ GLOBAL_LIST_INIT(hedgeknight_aggro, world.file2list("strings/rt/hedgeknightaggro
 			if(prob(95))
 				say(pick("Where's the high...","I just... Wanted to be happy..","It hurts... So much","I... Don't feel so good..","My... Greatest end..?"), forced = TRUE, npc_speech = TRUE)
 			else
-				say("YOU ARE EVERRRRRYTHING BOATHAAAA!!!", forced = TRUE, npc_speech = TRUE)
+				say("YOU ARE EVERRRRRYTHING!!!", forced = TRUE, npc_speech = TRUE)
 	emote("superagony")
 	. = ..()
 	if(!gibbed)
 		if(preset_lines == "matthios")
 			playsound(src, 'sound/effects/matth_barter.ogg', 100)
-			src.visible_message(span_matthios("[src] is unmade by gilded light for their [pick("debt's repayment","failure","final transaction","final exchange","insolence")]!"))
+			src.visible_message(span_matthios("[src.real_name] is unmade by gilded light for their [pick("debt's repayment","failure","final transaction","final exchange","insolence")]!"))
 			var/turf/T = get_turf(src)
-			new /obj/effect/temp_visual/barter_fx(T)
+			new /obj/effect/temp_visual/barter_fx(T) //hilarious
 		if(preset_lines == "graggar")
 			playsound(src, 'sound/magic/graggar_bloodrush.ogg', 100)
-			src.visible_message(span_graggar("[src] is unmade by motive force after their [pick("pitiful fight","failure","worthy fight","loss to another","insolence")]!"))
+			src.visible_message(span_graggar("[src.real_name] is unmade by motive force after their [pick("pitiful fight","failure","worthy fight","loss to another","insolence")]!"))
 		if(preset_lines == "zizo")
 			playsound(src, 'sound/misc/zizo.ogg', 100)
-			src.visible_message(span_zizo("[src] is unmade by profane magic for their [pick("ignorance","failure","backwards ways","stagnation","insolence")]!"))
+			src.visible_message(span_zizo("[src.real_name] is unmade by profane magic for their [pick("ignorance","failure","backwards ways","stagnation","insolence")]!"))
 		if(preset_lines == "baotha")
 			playsound(src, 'sound/magic/baotha_blessdrink.ogg', 100)
-			src.visible_message(span_baotha("[src] is unmade by a prismatic mist for their [pick("greatest end","failure","joyless demise","lack of true indulgence","insolence")]!"))
-		gib()
+			src.visible_message(span_baotha("[src.real_name] is unmade by a prismatic mist for their [pick("greatest end","failure","joyless demise","lack of true indulgence","insolence")]!"))
+		gib() //aura
 		//dust(FALSE, FALSE, TRUE)
-
-/datum/outfit/job/roguetown/quest_miniboss/pre_equip(mob/living/carbon/human/H, visualsOnly)
-	. = ..()
-
-	if(prob(60))
-		var/voicepack_choice = rand(1, 6)
-		switch(voicepack_choice)
-			if(1)
-				H.dna.species.soundpack_m = GLOB.voice_packs[/datum/voicepack/male/warrior]
-				H.dna.species.soundpack_f = GLOB.voice_packs[/datum/voicepack/female/warrior]
-			if(2)
-				H.dna.species.soundpack_m = GLOB.voice_packs[/datum/voicepack/male/stern]
-				H.dna.species.soundpack_f = GLOB.voice_packs[/datum/voicepack/female/haughty]
-			if(3)
-				H.dna.species.soundpack_m = GLOB.voice_packs[/datum/voicepack/male/foppish]
-				H.dna.species.soundpack_f = GLOB.voice_packs[/datum/voicepack/female/dainty]
-			if(4)
-				H.dna.species.soundpack_m = GLOB.voice_packs[/datum/voicepack/male/knight]
-				H.dna.species.soundpack_f = GLOB.voice_packs[/datum/voicepack/female/haughty]
-			if(5)
-				H.dna.species.soundpack_m = GLOB.voice_packs[/datum/voicepack/male/wizard]
-				H.dna.species.soundpack_f = GLOB.voice_packs[/datum/voicepack/female/warrior]
-			if(6)
-				H.dna.species.soundpack_m = GLOB.voice_packs[/datum/voicepack/male/evil]
-				H.dna.species.soundpack_f = GLOB.voice_packs[/datum/voicepack/female/warrior]
 /*
  * Goon preset
  * Intended to support knight, but should not have any special/overly expensive gear.
