@@ -219,10 +219,6 @@
 /mob/living/proc/handle_status_effects()
 	if(confused)
 		confused = max(confused - 1, 0)
-	if(slowdown)
-		slowdown = max(slowdown - 1, 0)
-	if(slowdown <= 0)
-		remove_movespeed_modifier(MOVESPEED_ID_LIVING_SLOWDOWN_STATUS)
 
 /mob/living/proc/handle_traits()
 	//Eyes

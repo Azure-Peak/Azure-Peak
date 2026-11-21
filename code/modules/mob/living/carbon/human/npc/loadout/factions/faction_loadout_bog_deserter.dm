@@ -224,6 +224,7 @@
 
 /datum/npc_loadout/kit/deserter_flavor/ranged
 	shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced
+	mask = /obj/item/clothing/mask/rogue/facemask/padded/shoddy
 
 //** WEAPONS **//
 

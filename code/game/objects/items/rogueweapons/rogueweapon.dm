@@ -44,7 +44,7 @@
 
 	var/malumblessed_w = FALSE
 
-	// whether this is actually a tool, like hoes and hammers, not a weapon proper. used to allow TRAIT_TINYPAWS users to conduct repairs and such
+	// whether this is actually a tool, like hoes and hammers, not a weapon proper. used to allow TRAIT_WEAPONLESS users to conduct repairs and such
 	var/is_tool = FALSE
 	/// sigh
 	var/hoe_damage = null //the durability damage received for every work cycle

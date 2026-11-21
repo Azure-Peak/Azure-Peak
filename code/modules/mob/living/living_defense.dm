@@ -236,7 +236,7 @@
 	attacker.remove_status_effect(/datum/status_effect/debuff/exposed)
 	attacker.apply_status_effect(/datum/status_effect/debuff/exposed, 5 SECONDS)
 	attacker.apply_status_effect(/datum/status_effect/debuff/clickcd, 3 SECONDS)
-	attacker.Slowdown(3)
+	attacker.apply_slowdown(5 SECONDS)
 	var/datum/status_effect/buff/arcyne_momentum/momentum = attacker.has_status_effect(/datum/status_effect/buff/arcyne_momentum)
 	if(momentum && momentum.stacks > 0)
 		momentum.consume_all_stacks()
@@ -336,7 +336,7 @@
 		var/zone = throwingdatum?.target_zone || ran_zone(BODY_ZONE_CHEST, 65)
 		SEND_SIGNAL(I, COMSIG_MOVABLE_IMPACT_ZONE, src, zone)
 		if(SEND_SIGNAL(src, COMSIG_LIVING_IMPACT_ZONE, I, zone) & COMPONENT_CANCEL_THROW)
-			return FALSE
+			return TRUE
 		if(!blocked)
 			var/armor = run_armor_check(zone, damage_flag, "", "", armor_penetration = I.armor_penetration, damage = I.throwforce, used_weapon = I)
 			next_attack_msg.Cut()
@@ -416,14 +416,13 @@
 //proc to upgrade a simple pull into a more aggressive grab.
 /mob/living/proc/grippedby(mob/living/carbon/user, instant = FALSE)
 	var/clickcd = CLICK_CD_MELEE
-	if(mind && src != user)
+	if(src != user && !isanimal(src))
 		clickcd = CLICK_CD_WRESTLING
 	user.changeNext_move(clickcd)
 	var/skill_diff = 0
 	var/combat_modifier = 1
-	if(user.mind)
-		skill_diff += (user.get_skill_level(/datum/skill/combat/wrestling)) //NPCs don't use this
-	if(mind)
+	skill_diff += (user.get_skill_level(/datum/skill/combat/wrestling))
+	if(!isanimal(src))
 		skill_diff -= (get_skill_level(/datum/skill/combat/wrestling))
 
 	if(user == src)
@@ -467,7 +466,7 @@
 			to_chat(user, span_warning("I struggle with [src]!"))
 		playsound(src.loc, 'sound/foley/struggle.ogg', 100, FALSE, -1)
 		user.Immobilize(2 SECONDS)
-		user.changeNext_move((mind ? CLICK_CD_WRESTLING : CLICK_CD_MELEE))
+		user.changeNext_move(isanimal(src) ? CLICK_CD_MELEE : CLICK_CD_WRESTLING)
 		src.Immobilize(1 SECONDS)
 		src.changeNext_move(CLICK_CD_GRAB_RESIST)
 		if(user.badluck(5))

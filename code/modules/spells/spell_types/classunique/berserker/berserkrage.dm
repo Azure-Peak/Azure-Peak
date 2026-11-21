@@ -1,4 +1,11 @@
 #define RAGE_FILTER "rage_aura"
+#define RAGE_NPC_REACH 2
+#define RAGE_NPC_HURT_SCORE 40
+#define RAGE_NPC_TIER_BONUS 15
+#define RAGE_NPC_FATIGUE_RATIO 0.6
+#define RAGE_NPC_FATIGUE_BONUS 20
+#define RAGE_NPC_MOBBED_COUNT 2
+#define RAGE_NPC_MOBBED_SCORE 35
 
 /proc/get_buff_value(mob/living/L)
 	var/brute = L.getBruteLoss()
@@ -14,30 +21,63 @@
 		ragedmgbuff = 3
 	return ragedmgbuff
 
-/obj/effect/proc_holder/spell/self/rage
+/datum/action/cooldown/spell/rage
 	source_aspect = /datum/magic_aspect/pseudo/berserker
 	name = "RAGE"
 	desc = "GETTING HURT MAKES YOU ANGRY, MAKE THEM HURT BACK- MORE HURT IS MORE ANGRY!"
-	antimagic_allowed = TRUE
-	clothes_req = FALSE
-	recharge_time = 1 MINUTES
-	invocations = list("enters a state of furious rage!")
-	overlay_state = "bcry"
-	invocation_type = "emote"
+	button_icon_state = "bcry"
+	sound = null
+	has_visual_effects = FALSE
+	associated_skill = null
 
-/obj/effect/proc_holder/spell/self/rage/cast(mob/living/carbon/human/user)
+	click_to_activate = FALSE
+	self_cast_possible = TRUE
+
+	primary_resource_type = SPELL_COST_NONE
+	primary_resource_cost = 0
+
+	charge_required = FALSE
+	cooldown_time = 1 MINUTES
+
+	invocation_type = INVOCATION_EMOTE
+	invocations = list("%CASTER enters a state of furious rage!")
+
+	check_flags = AB_CHECK_CONSCIOUS
+	spell_requirements = SPELL_REQUIRES_HUMAN | SPELL_CASTABLE_WITHOUT_INVOCATION
+
+	npc_max_range = RAGE_NPC_REACH
+	npc_escape = TRUE
+
+/datum/action/cooldown/spell/rage/cast(atom/cast_on)
 	. = ..()
+	var/mob/living/carbon/human/user = owner
 	if(!ishuman(user))
-		revert_cast()
 		return FALSE
 	user.apply_status_effect(/datum/status_effect/buff/rage)
-	if(get_buff_value(user) >= 1)
-		user.apply_status_effect(/datum/status_effect/buff/adrenaline_rush) //15 seconds of no bleed, stamina restore, minor buff
-	if(get_buff_value(user) >= 2)
+	var/rage_tier = get_buff_value(user)
+	if(rage_tier >= 1)
+		user.apply_status_effect(/datum/status_effect/buff/adrenaline_rush)
+	if(rage_tier >= 2)
 		user.apply_status_effect(/datum/status_effect/buff/rage_stamina)
-	if(get_buff_value(user) >= 3)
+	if(rage_tier >= 3)
 		user.apply_status_effect(/datum/status_effect/buff/berserk_rush)
 	return TRUE
+
+/datum/action/cooldown/spell/rage/npc_cast_target(atom/target)
+	return owner
+
+/datum/action/cooldown/spell/rage/npc_use_chance(atom/target)
+	var/mob/living/carbon/human/user = owner
+	if(!istype(user) || user.has_status_effect(/datum/status_effect/buff/rage))
+		return 0
+	. = 0
+	var/rage_tier = get_buff_value(user)
+	if(rage_tier >= 1)
+		. = RAGE_NPC_HURT_SCORE + RAGE_NPC_TIER_BONUS * (rage_tier - 1)
+		if(user.max_stamina > 0 && user.stamina >= user.max_stamina * RAGE_NPC_FATIGUE_RATIO)
+			. += RAGE_NPC_FATIGUE_BONUS
+	if(npc_hostiles_in(npc_turfs_around(get_turf(user), 1)) >= RAGE_NPC_MOBBED_COUNT)
+		. = max(., RAGE_NPC_MOBBED_SCORE)
 
 /atom/movable/screen/alert/status_effect/buff/rage
 	name = "RAGE"
@@ -108,3 +148,10 @@
 	REMOVE_TRAIT(owner, TRAIT_HARDDISMEMBER, INNATE_TRAIT)
 
 #undef RAGE_FILTER
+#undef RAGE_NPC_REACH
+#undef RAGE_NPC_HURT_SCORE
+#undef RAGE_NPC_TIER_BONUS
+#undef RAGE_NPC_FATIGUE_RATIO
+#undef RAGE_NPC_FATIGUE_BONUS
+#undef RAGE_NPC_MOBBED_COUNT
+#undef RAGE_NPC_MOBBED_SCORE

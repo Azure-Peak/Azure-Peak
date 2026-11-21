@@ -377,6 +377,9 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 	..()
 	update_damage_overlays()
 	show_damage_stage()
+	if(istype(hud_used, /datum/hud/dextrous/oozeling))
+		var/datum/hud/dextrous/oozeling/oozeling_hud = hud_used
+		oozeling_hud.update_health_indicator(src)
 
 /mob/living/simple_animal/hostile/forceMove(turf/T)
 	var/list/BM = list()
@@ -528,7 +531,7 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 
 	var/rotstuff = FALSE
 	var/datum/component/rot/simple/CR = GetComponent(/datum/component/rot/simple)
-	if(CR && CR.amount >= 10 MINUTES)
+	if(CR && CR.amount >= CR.rot_start)
 		rotstuff = TRUE
 	var/atom/Tsec = drop_location()
 
@@ -610,7 +613,7 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 	var/botch_chance = 50
 	var/rotstuff = FALSE
 	var/datum/component/rot/simple/CR = GetComponent(/datum/component/rot/simple)
-	if(CR && CR.amount >= 10 MINUTES)
+	if(CR && CR.amount >= CR.rot_start)
 		rotstuff = TRUE
 
 	for(var/path in butcher_results)

@@ -10,12 +10,9 @@
 		/mob/living/carbon/human/species/human/northern/highwayman/archer = 10,
 	)
 	boss_mob_types = list(
-		/mob/living/carbon/human/species/human/northern/highwayman/caster/magister = 100,
-	)
-	boss_title_templates = list(
-		"%N the Magister",
-		"%N the Hexer",
-		"%N the Magi",
-		"%N the Great",
-		"%N the Ancient"
+		/mob/living/carbon/human/species/human/northern/highwayman/caster/boss/pyromancer = 20,
+		/mob/living/carbon/human/species/human/northern/highwayman/caster/boss/fulgurmancer = 20,
+		/mob/living/carbon/human/species/human/northern/highwayman/caster/boss/geomancer = 20,
+		/mob/living/carbon/human/species/human/northern/highwayman/caster/boss/telomancer = 20,
+		/mob/living/carbon/human/species/human/northern/highwayman/caster/boss/cryomancer = 20,
 	)
