@@ -511,6 +511,7 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_WOODSMAN = span_info("I am vigilant in my duties. In the grove and coast of Azure Peak, my abilities are sharper due to my routine and familiarity."),
 	TRAIT_ANTHRAXI = span_info("I am the deadliest being in the underdark. No beast or foe can ever hope to match me in the caves."),
 	TRAIT_DEATHBARGAIN = span_info("A horrible deal has been prepared in your name. May you never see it fulfilled..."),
+	TRAIT_FASTSLEEP = span_info("I fall asleep twice as fast!"),
 	TRAIT_RITUALIST = span_info("I am skilled in the holy arts. Using a ritual chalk, I can more deftly channel my God's powers via runes."),
 	TRAIT_LESSER_RITUALIST = span_info("I am knowledgeable in the holy arts. Using a ritual chalk, I can channel one of my God's rites via runes."),
 	TRAIT_MARRIAGE_CAPABLE = span_info("By the favor of Eora or the authority of Astrata, I can perform the Eoran rite of marriage."),

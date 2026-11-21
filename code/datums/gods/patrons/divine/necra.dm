@@ -14,7 +14,7 @@
 					/obj/effect/proc_holder/spell/invoked/raise_spirits_vengeance	= CLERIC_T2,
 					/datum/action/cooldown/spell/miracle/necra_consecrate			= CLERIC_T2,
 					/obj/effect/proc_holder/spell/invoked/bless_cross				= CLERIC_T3,
-					/obj/effect/proc_holder/spell/invoked/deaths_door				= CLERIC_T4
+					/datum/action/cooldown/spell/necra/deaths_door					= CLERIC_T4
 	)
 	confess_lines = list(
 		"ALL SOULS FIND THEIR WAY TO NECRA!",

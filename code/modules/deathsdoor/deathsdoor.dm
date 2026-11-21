@@ -15,9 +15,10 @@ GLOBAL_VAR(deaths_door_exit)//turf at necra's shrine on each map
 	if(!do_after(user, 4 SECONDS, src))
 		return
 
-	if(user.mob_biotypes & MOB_UNDEAD)
-		user.visible_message(span_danger("The Undermaiden churns the undead!"))
-		explosion(get_turf(user), light_impact_range = 1, flame_range = 1, smoke = FALSE)
+	if((user.mob_biotypes & MOB_UNDEAD) && user.stat != DEAD && !user.is_chudpire()) // if somehow you're an undead and alive, you're not escaping from here, sorry
+		user.visible_message(span_purple("<i>[user] almost slips through the shrine, but just before they escape, countless ghastly hands burst from the mist and drag them back. The spirits swarm over [user] until all that remains crumbles to pale dust.</i>"),
+			span_userdanger("<i>The way out is right there, so close... Then hands seize me from every side. The spirits will not let me leave. I am pulled apart, and it is so... quiet here...</i>"))
+		user.dust(TRUE, FALSE, TRUE)
 		return
 
 	exit_deaths_door(user, user)
@@ -27,9 +28,10 @@ GLOBAL_VAR(deaths_door_exit)//turf at necra's shrine on each map
 		return
 	var/mob/living/target = O
 
-	if(target.mob_biotypes & MOB_UNDEAD)
-		target.visible_message(span_danger("The Undermaiden churns the undead!"))
-		explosion(get_turf(target), light_impact_range = 1, flame_range = 1, smoke = FALSE)
+	if((target.mob_biotypes & MOB_UNDEAD) && target.stat != DEAD && !target.is_chudpire()) // if somehow you're an undead and alive, you're not escaping from here, sorry
+		target.visible_message(span_purple("<i>[target] almost slips through the shrine, but just before they escape, countless ghastly hands burst from the mist and drag them back. The spirits swarm over [target] until all that remains crumbles to pale dust.</i>"),
+			span_userdanger("<i>The way out is right there, so close... Then hands seize me from every side. The spirits will not let me leave. I am pulled apart, and it is so... quiet here...</i>"))
+		target.dust(TRUE, FALSE, TRUE)
 		return
 
 	if(user.incapacitated())
@@ -41,38 +43,67 @@ GLOBAL_VAR(deaths_door_exit)//turf at necra's shrine on each map
 
 	exit_deaths_door(user, target)
 
-	user.visible_message(
-		span_notice("[user] guides [target] through Necra's shrine.")
-	)
+	user.visible_message(span_notice("[user] guides [target] through Necra's shrine."))
 
 /obj/structure/deaths_door_shrine/proc/exit_deaths_door(mob/living/user, mob/living/target = null)
+	if(!target)
+		target = user
+
+	var/is_necran = istype(user.patron, /datum/patron/divine/necra)
+	var/has_sight = user.mind?.has_spell(/obj/effect/proc_holder/spell/invoked/necras_sight)
 	var/list/dests = list()
+	var/forlorne_exit = FALSE
 
-	// Acolytes can choose exits
-	if(user.mind?.has_spell(/obj/effect/proc_holder/spell/invoked/necras_sight))
+	// Grave Marks: anyone holding them can use them as exits, even non-necrans!
+	if(has_sight)
 		var/list/sight_dests = get_necras_sight_entries(user)
-		if(length(sight_dests))
-			for(var/turf/T in sight_dests)
-				dests[T] = sight_dests[T]
+		for(var/turf/T in sight_dests)
+			dests[T] = sight_dests[T]
 
-	// Always allow shrine exit
-	if(GLOB.deaths_door_exit)
-		dests[GLOB.deaths_door_exit] = "Necra's Shrine"
-	// Warn Necra followers without sight
-	if(!user.mind?.has_spell(/obj/effect/proc_holder/spell/invoked/necras_sight))
-		if(user.patron == /datum/patron/divine/necra)
+	// Only Necrans auto-see Necra's Shrine as a way out
+	if(is_necran)
+		if(GLOB.deaths_door_exit)
+			dests[GLOB.deaths_door_exit] = "Necra's Shrine"
+		if(!has_sight)
 			to_chat(user, span_warning("Necra's paths blur before you. You lack the sight to choose."))
 
-	if(!length(dests))
+	var/turf/exit_turf
+	if(length(dests))
+		exit_turf = prompt_deaths_door_exit(user, dests)
+		if(!exit_turf)
+			return
+	else if(is_necran)
+		// A Necran with no shrine exit and no marks means the map is missing its exit landmark
 		message_admins("Death's Door Shrine: No exit destinations! Inform a mapper!")	//You're missing /obj/effect/landmark/deaths_door/exit from the map
 		return
+	else
+		// Not Necran, no Grave Marks: the mists spit them out somewhere lost
+		exit_turf = get_random_forlorne_turf()
+		if(!exit_turf)
+			message_admins("Death's Door Shrine: No forlorne landmarks! Inform a mapper!")
+			return
+		forlorne_exit = TRUE
+		to_chat(target, span_warning("<br><i>Without a guide, the mists offer you no path. You are cast out, lost and forlorne... Where..?</i><br>"))
+		message_admins("[ADMIN_LOOKUPFLW(user)] exited Death's Door without a Necran guide, and has become... Death Stranded...")
 
-	var/turf/T = prompt_deaths_door_exit(user, dests)
-	if(!T)
-		return
-	target.forceMove(T)
+	target.forceMove(exit_turf)
 	playsound(get_turf(target), 'sound/misc/portalenter.ogg', 50, TRUE, -2, ignore_walls = TRUE)
-	target.visible_message(span_purple("[user] emerges from a thick deathly cold mist that clings to their form!"))
+	target.visible_message(span_purple("[target] emerges from a thick deathly cold mist that clings to their form!"))
+
+	// Forlorne grace period: a flare and a short window where they can't be ambushed
+	if(forlorne_exit)
+		new /obj/item/flashlight/flare/light/forlorne/necran(exit_turf)
+		ADD_TRAIT(target, TRAIT_NO_AMBUSH, "deaths_door_forlorne")
+		addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(___TraitRemove), target, TRAIT_NO_AMBUSH, "deaths_door_forlorne"), 30 SECONDS)
+
+/proc/get_random_forlorne_turf()
+	var/list/spots = list()
+	for(var/obj/effect/landmark/forlorne/L as anything in GLOB.forlorne_landmarks)
+		if(isturf(L.loc))
+			spots += L.loc
+	if(!length(spots))
+		return null
+	return pick(spots)
 
 /proc/prompt_deaths_door_exit(mob/living/user, list/dests)
 	if(!length(dests))
@@ -131,6 +162,7 @@ GLOBAL_VAR(deaths_door_exit)//turf at necra's shrine on each map
 	anchored = TRUE
 	density = FALSE
 	var/turf/destination
+	var/list/reaching = list()
 
 /obj/structure/deaths_door_portal/Initialize(mapload, mob/living/_caster)
 	. = ..()
@@ -140,7 +172,7 @@ GLOBAL_VAR(deaths_door_exit)//turf at necra's shrine on each map
 		return
 
 	destination = pick(dests)
-	addtimer(CALLBACK(src, PROC_REF(expire)), 15 SECONDS)
+	addtimer(CALLBACK(src, PROC_REF(expire)), 20 SECONDS)
 
 /obj/structure/deaths_door_portal/proc/expire()
 	if(QDELETED(src))
@@ -150,13 +182,23 @@ GLOBAL_VAR(deaths_door_exit)//turf at necra's shrine on each map
 	qdel(src)
 
 /obj/structure/deaths_door_portal/attack_hand(mob/living/user)
+	if(user in reaching)
+		return
+	reaching += user
 	playsound(get_turf(src), 'sound/misc/carriage2.ogg', 50, TRUE, -2, ignore_walls = TRUE)
 	to_chat(user, span_notice("You reach for the glowing portal..."))
-	if(!do_after(user, 4 SECONDS, src))
+	var/completed = do_after(user, 4 SECONDS, src)
+	reaching -= user // always release, whether it finished or was interrupted
+	if(!completed)
 		return
-	if(user.mob_biotypes & MOB_UNDEAD)
-		to_chat(user, span_danger("The Undermaiden churns the undead!"))
-		explosion(get_turf(user), light_impact_range = 1, flame_range = 1, smoke = FALSE)
+	if((user.mob_biotypes & MOB_UNDEAD) && user.stat != DEAD && !user.is_chudpire())
+		user.visible_message(span_silver("The Undermaiden rebukes the living dead!"), span_silver("The Undermaiden rebukes your unliving presence within her realm!"))
+		var/turf/target_turf = get_turf(user)
+		new /obj/effect/temp_visual/thunderstrike_actual(target_turf)
+		playsound(target_turf, 'sound/magic/lightning.ogg', 50)
+		user.electrocute_act(400, user) // explosion is too much for what's just divine disapproval
+		if(!user.mind) // but we do this as a treat, sure
+			user.gib(TRUE, TRUE, FALSE, FALSE, TRUE)
 		return
 	enter_portal(user)
 
@@ -173,16 +215,19 @@ GLOBAL_VAR(deaths_door_exit)//turf at necra's shrine on each map
 	if(!do_after_mob(user, M, 4 SECONDS))
 		return
 
-	if(M.mob_biotypes & MOB_UNDEAD)
-		to_chat(user, span_danger("The Undermaiden churns the undead!"))
-		explosion(get_turf(M), light_impact_range = 1, flame_range = 1, smoke = FALSE)
+	if((M.mob_biotypes & MOB_UNDEAD) && M.stat != DEAD && !M.is_chudpire())
+		M.visible_message(span_silver("The Undermaiden rebukes the living dead!"), span_silver("The Undermaiden rebukes your unliving presence within her realm!"))
+		var/turf/target_turf = get_turf(M)
+		new /obj/effect/temp_visual/thunderstrike_actual(target_turf)
+		playsound(target_turf, 'sound/magic/lightning.ogg', 50)
+		user.electrocute_act(400, M) // explosion is too much for what's just divine disapproval
+		if(!M.mind) // but we do this as a treat, sure
+			M.gib(TRUE, TRUE, FALSE, FALSE, TRUE)
 		return
 
 	enter_portal(M, user)
 
-	user.visible_message(
-		span_warning("[user] drags [M] into Death's Door!")
-	)
+	user.visible_message(span_warning("[user] drags [M] into a mysterious portal!"))
 
 /obj/structure/deaths_door_portal/proc/enter_portal(mob/living/target, mob/living/forcer)
 	if(!destination)

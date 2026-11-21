@@ -491,7 +491,7 @@
 		/obj/effect/proc_holder/spell/self/howl/call_of_the_moon::name		= /obj/effect/proc_holder/spell/self/howl/call_of_the_moon,
 		/obj/effect/proc_holder/spell/invoked/pomegranate::name				= /obj/effect/proc_holder/spell/invoked/pomegranate,
 		/datum/action/cooldown/spell/malum/fortress::name					= /datum/action/cooldown/spell/malum/fortress,
-		/obj/effect/proc_holder/spell/invoked/deaths_door::name				= /obj/effect/proc_holder/spell/invoked/deaths_door,
+		/datum/action/cooldown/spell/necra/deaths_door::name				= /datum/action/cooldown/spell/necra/deaths_door,
 		/datum/action/cooldown/spell/noc/moonlight::name					= /datum/action/cooldown/spell/noc/moonlight,
 		//Pestra has actually nothing, son 😢
 		/datum/action/cooldown/spell/ravox/challenge::name					= /datum/action/cooldown/spell/ravox/challenge,

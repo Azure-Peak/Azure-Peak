@@ -48,11 +48,8 @@ GLOBAL_LIST_INIT(roguetown_areas_typecache, typecacheof(list(/area/rogue/indoors
 		guy.apply_status_effect(/datum/status_effect/buff/wardenbuff)
 	if((src.drow_area == TRUE) && HAS_TRAIT(guy, TRAIT_ANTHRAXI) && !guy.has_status_effect(/datum/status_effect/buff/anthraxbuff)) // Drow Mercenaries
 		guy.apply_status_effect(/datum/status_effect/buff/anthraxbuff)
-	if((src.necra_area == TRUE) && !(guy.has_status_effect(/datum/status_effect/debuff/necrandeathdoorwilloss)||(guy.has_status_effect(/datum/status_effect/debuff/deathdoorwilloss)))) //Necra saps at wil
-		if(HAS_TRAIT(guy, TRAIT_SOUL_EXAMINE))
-			guy.apply_status_effect(/datum/status_effect/debuff/necrandeathdoorwilloss)
-		else
-			guy.apply_status_effect(/datum/status_effect/debuff/deathdoorwilloss)
+	if((src.necra_area == TRUE) && !(guy.has_status_effect(/datum/status_effect/debuff/deathly_calm))) // Slowly saps your will to live. Don't close your eyes and sleep~
+		guy.apply_status_effect(/datum/status_effect/debuff/deathly_calm)
 
 /area/rogue/indoors
 	name = "indoors rt"
