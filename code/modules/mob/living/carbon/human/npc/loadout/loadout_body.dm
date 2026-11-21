@@ -16,7 +16,6 @@ GLOBAL_LIST_EMPTY(npc_aggro_lines)
 	var/body_gender
 	var/randomise_character = TRUE
 	var/random_hair = TRUE
-	var/custom_skin_tone
 	var/beards = TRUE
 	var/random_eyes = TRUE
 	var/random_voice = TRUE
@@ -83,8 +82,6 @@ GLOBAL_LIST_EMPTY(npc_aggro_lines)
 			H.random_hair_no_beard_NPC()
 	if(random_eyes)
 		H.random_eye_color_NPC()
-	if(custom_skin_tone)
-		H.skin_tone = "[custom_skin_tone]"
 	H.correct_features_NPC()
 	apply_voicepack(H)
 
