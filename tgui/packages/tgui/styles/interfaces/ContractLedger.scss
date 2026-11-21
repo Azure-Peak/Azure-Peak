@@ -254,6 +254,18 @@
   overflow: hidden;
 }
 
+.ContractLedger__FoesArrow {
+  padding: 0 3px;
+  color: hsl(30, 35%, 45%);
+  font-size: 0.85em;
+  cursor: pointer;
+  user-select: none;
+
+  &:hover {
+    color: hsl(28, 52%, 20%);
+  }
+}
+
 .ContractLedger__CardObjective {
   font-size: 0.88em;
   font-style: italic;

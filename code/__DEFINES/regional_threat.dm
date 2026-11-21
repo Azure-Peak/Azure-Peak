@@ -12,7 +12,7 @@
 #define THREAT_REGION_TERRORBOG "Terrorbog"
 #define THREAT_REGION_UNDERDARK "Underdark"
 
-#define LOWPOP_THRESHOLD 30 // When do we give highpop tick?
+#define LOWPOP_THRESHOLD 60 // When do we give highpop tick?
 
 /// Threat Point tiers for ambush mobs. Base unit: 10 = one wolf.
 #define THREAT_TRASH 8		// Fox, raccoon, bigrat, mire crawler, all goblins — trivial critters
