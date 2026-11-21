@@ -31,6 +31,7 @@
 		/datum/npc_loadout/kit/psy_vault_guard_flavor,
 		/datum/npc_loadout/armor/medium/psy_vault_guard
 	)
+	ai_controller = /datum/ai_controller/human_npc
 
 /datum/npc_archetype/psy_vault_guard/archer
 	name = "Psydonite Tomb Archer"
