@@ -182,7 +182,7 @@
 		prob2defend += 20
 	if(used_weapon && !allow_unarmed_fallback)
 		if(!has_status_effect(/datum/status_effect/buff/weapon_binded) && !has_status_effect(/datum/status_effect/debuff/weapon_binded))
-			if(ishuman(src) && user.get_tempo_bonus(TEMPO_TAG_BINDABLE))
+			if(ishuman(src) && user.get_tempo_bonus(TEMPO_TAG_BINDABLE) && mind)
 				var/mob/living/carbon/human/binding_defender = src
 				if(binding_defender.try_bind(used_weapon, user))
 					return TRUE	//Tentative, might be better if it only increased parry chance on the initial binding rather than a full block.
