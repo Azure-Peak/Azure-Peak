@@ -137,7 +137,7 @@
 		if(spell_guard_check(victim, FALSE, user, punish_caster = deflected ? FALSE : null))
 			if(!deflected)
 				deflected = TRUE
-				user.Slowdown(2)
+				user.apply_slowdown(3 SECONDS)
 			continue
 		var/total_damage = strike_damage
 		arcyne_strike(user, victim, weapon, total_damage, def_zone, spell_name = "Caedo", skip_animation = TRUE)

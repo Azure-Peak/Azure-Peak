@@ -1034,7 +1034,7 @@
 	stuttering = 0
 	slurring = 0
 	jitteriness = 0
-	slowdown = 0
+	remove_status_effect(/datum/status_effect/debuff/slowed)
 	update_mobility()
 	stop_sound_channel(CHANNEL_HEARTBEAT)
 
