@@ -26,6 +26,7 @@ GLOBAL_LIST_INIT(duelist_aggro, list(
 	dodgetime = 20
 	d_intent = INTENT_DODGE
 	threat_point = THREAT_ELITE
+	boss_class = BOSS_CLASS_DUELIST
 
 /mob/living/carbon/human/species/human/northern/outlaw_duelist/Initialize(mapload)
 	. = ..()

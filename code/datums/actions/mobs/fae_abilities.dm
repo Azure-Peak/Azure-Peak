@@ -65,7 +65,7 @@
 	hitsound = 'sound/misc/woodhit.ogg'
 	var/splinter_radius = 1
 	var/splinter_damage = 40
-	var/victim_slowdown = 6
+	var/victim_slowdown = 6 SECONDS
 
 /obj/projectile/thrown_log/on_hit(target, blocked = FALSE)
 	. = ..()
@@ -87,7 +87,7 @@
 /obj/projectile/thrown_log/proc/plant_victim(mob/living/L)
 	if(!victim_slowdown)
 		return
-	L.Slowdown(victim_slowdown)
+	L.apply_slowdown(victim_slowdown)
 	L.apply_status_effect(/datum/status_effect/debuff/vulnerable, 6 SECONDS)
 	to_chat(L, span_danger("<B>OUCH! THAT HURTS</B>"))
 

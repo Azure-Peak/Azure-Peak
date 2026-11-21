@@ -622,6 +622,8 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 		char_toggles = legacy_dnr ? CHAR_TOGGLE_DNR : NONE
 
 	S["update_mutant_colors"] >> update_mutant_colors
+	ooze_color_shifting = null
+	S["ooze_color_shifting"] >> ooze_color_shifting
 
 	S["headshot_link"]						>> headshot_link
 	S["headshot_artist_credit"]				>> headshot_artist_credit
@@ -775,6 +777,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	// complex/other stuff
 	preset_bounty_enabled = sanitize_bool(preset_bounty_enabled, initial(preset_bounty_enabled))
 	update_mutant_colors = sanitize_bool(update_mutant_colors, initial(update_mutant_colors))
+	ooze_color_shifting = sanitize_bool(ooze_color_shifting, initial(ooze_color_shifting))
 
 	body_markings = SANITIZE_LIST(body_markings)
 	validate_body_markings()
@@ -863,6 +866,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	WRITE_FILE(S["gender"]				, gender)
 	WRITE_FILE(S["domhand"]				, domhand)
 	WRITE_FILE(S["age"]					, age)
+	WRITE_FILE(S["ooze_color_shifting"]	, ooze_color_shifting)
 	WRITE_FILE(S["vampire_skin"]		, vampire_skin)
 	WRITE_FILE(S["vampire_hair"]		, vampire_hair)
 	WRITE_FILE(S["vampire_eyes"]		, vampire_eyes)

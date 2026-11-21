@@ -103,6 +103,7 @@ SUBSYSTEM_DEF(droning)
 	//kill the previous droning sound
 	kill_droning(dreamer)
 	var/sound/combat_music = sound(pick(music), repeat = TRUE, wait = 0, channel = CHANNEL_BUZZ, volume = (dreamer?.prefs.musicvol)*1.2)
+	combat_music.status = SOUND_STREAM
 	combat_music.frequency = frenq
 	if(!HAS_TRAIT(dreamer.mob, TRAIT_DRUQK))
 		combat_music.pitch = 1 / combat_music.frequency
@@ -135,6 +136,7 @@ SUBSYSTEM_DEF(droning)
 
 	if(shouldskip)
 		var/sound/droning = sound(pick(area_player.droning_sound_current), area_player.droning_repeat, area_player.droning_wait, area_player.droning_channel, listener?.prefs.musicvol)
+		droning.status = SOUND_STREAM
 
 
 		if(HAS_TRAIT(listener.mob, TRAIT_PSYCHOSIS))
@@ -159,6 +161,7 @@ SUBSYSTEM_DEF(droning)
 		listener.droning_sound = null
 		listener.last_droning_sound = null
 		var/sound/droning = sound(pick(area_player.droning_sound_current), area_player.droning_repeat, area_player.droning_wait, area_player.droning_channel, listener?.prefs.musicvol)
+		droning.status = SOUND_STREAM
 
 		if(HAS_TRAIT(listener.mob, TRAIT_PSYCHOSIS))
 			droning.file = 'sound/music/asunderedmind.ogg'

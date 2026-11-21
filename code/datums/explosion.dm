@@ -128,12 +128,12 @@ GLOBAL_LIST_EMPTY(explosions)
 			soundin = pick(shitty)
 		var/sound/explosion_sound = sound(soundin)
 		var/sound/far_explosion_sound = sound(pick('sound/misc/explode/explosionfar (1).ogg','sound/misc/explode/explosionfar (2).ogg','sound/misc/explode/explosionfar (3).ogg'))
+		var/turf/E_turf = get_turf(epicenter)
 
 		for(var/mob/M in GLOB.player_list)
 			// Double check for client
 			var/turf/M_turf = get_turf(M)
-			var/turf/E_turf = get_turf(epicenter)
-			if(is_in_zweb(M_turf.z,E_turf.z))
+			if(M_turf && is_in_zweb(M_turf.z, E_turf.z))
 				var/dist = get_dist(M_turf, epicenter)
 				var/baseshakeamount
 				if(orig_max_distance - dist > 0)
