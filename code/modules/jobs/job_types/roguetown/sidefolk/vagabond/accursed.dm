@@ -7,7 +7,7 @@
 	maximum_possible_slots = 2
 	category_tags = list(CTAG_VAGABOND)
 	subclass_stats = list(
-		STATKEY_STR = -2,
+		STATKEY_STR = -1,
 		STATKEY_WIL = 2
 	)
 	subclass_skills = list(
