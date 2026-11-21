@@ -9,6 +9,7 @@
 					/datum/action/cooldown/spell/miracle/heal					= CLERIC_T1,
 					/datum/action/cooldown/spell/miracle/bloodmiracle			= CLERIC_T1,
 					/datum/action/cooldown/spell/astrata/astrata_gaze			= CLERIC_T1,
+					/datum/action/cooldown/spell/astrata/sunbrand				= CLERIC_T1,
 					/datum/action/cooldown/spell/projectile/sacred_flame		= CLERIC_T2,
 					/datum/action/cooldown/spell/miracle/fortify/astrata		= CLERIC_T2,
 					/datum/action/cooldown/spell/astrata/miracle_pyre			= CLERIC_T3,

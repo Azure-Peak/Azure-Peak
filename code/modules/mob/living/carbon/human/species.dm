@@ -1870,7 +1870,8 @@ GLOBAL_LIST_INIT(body_builds, init_body_builds())
 						span_danger("[M] attempts to touch you!"), span_hear("I hear a swoosh!"), COMBAT_MESSAGE_RANGE, M)
 		to_chat(M, span_warning("I attempt to touch [H]!"))
 		return 0
-	SEND_SIGNAL(M, COMSIG_MOB_ATTACK_HAND, M, H, attacker_style)
+	if(SEND_SIGNAL(M, COMSIG_MOB_ATTACK_HAND, M, H, attacker_style) & COMPONENT_CANCEL_ATTACK_CHAIN)
+		return FALSE
 	if(SEND_SIGNAL(H, COMSIG_MOB_ATTACKED_BY_HAND, M, H, attacker_style) & COMPONENT_HAND_NO_ATTACK)
 		return FALSE
 	switch(M.used_intent.type)
