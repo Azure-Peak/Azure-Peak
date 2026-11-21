@@ -21,3 +21,22 @@
 
 	if(cnt > 6)
 		H.add_stress(/datum/stressevent/parablood)
+
+/datum/charflaw/pacifist
+	name = "Pacifist"
+	desc = "I have taken a vow of non-violence. I will never do harm to another person, and I do not condone violence as an answer, even if my lyfe is at risk."
+	ui_fa_icon = "person-praying"
+	needs_extra_vice = TRUE
+
+/datum/charflaw/pacifist/on_mob_creation(mob/user)
+	. = ..()
+	ADD_TRAIT(user, TRAIT_PACIFISM, "[type]")
+
+/datum/charflaw/defenseless
+	name = "Defenseless"
+	desc = "I am either reckless to a fault or simply not savvy enough for combat. I will never block or dodge incoming attacks, leaving myself completely exposed to harm."
+	ui_fa_icon = "person-praying"
+
+/datum/charflaw/defenseless/on_mob_creation(mob/user)
+	. = ..()
+	ADD_TRAIT(user, TRAIT_NODEF, "[type]")
