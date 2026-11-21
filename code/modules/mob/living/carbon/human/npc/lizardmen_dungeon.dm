@@ -55,10 +55,8 @@ GLOBAL_LIST_INIT(psyvault_aggro, world.file2list("strings/rt/psyvaultaggrolines.
 	ADD_TRAIT(src, TRAIT_NOHUNGER, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_LEECHIMMUNE, INNATE_TRAIT)
 	ADD_TRAIT(src, TRAIT_BREADY, TRAIT_GENERIC)
-	ADD_TRAIT(src, TRAIT_CRITICAL_RESISTANCE, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_BIGGUY, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_STRONGBITE, TRAIT_GENERIC)
-	ADD_TRAIT(src, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_NPC_EXAMINE, TRAIT_GENERIC)
 	equipOutfit(new /datum/outfit/job/roguetown/human/species/lizardfolk/psy_vault_guard)
 	patron = /datum/patron/old_god
@@ -76,24 +74,8 @@ GLOBAL_LIST_INIT(psyvault_aggro, world.file2list("strings/rt/psyvaultaggrolines.
 	..()
 	//Body Stufff
 	H.skin_tone = "e9d298"
-	//Stat Stuff
-	H.STASTR = 15
-	H.STASPD = 13
-	H.STACON = 11
-	H.STAWIL = 11
-	H.STAPER = 12
-	H.STAINT = 10
-	H.STALUC = 13
+	//purity afloat
 	H.grant_language(/datum/language/otavan)
-	//skill Stuff
-	H.adjust_skillrank_up_to(/datum/skill/combat/maces, SKILL_LEVEL_EXPERT, TRUE) //NPCs do not get these skills unless a mind takes them over, hopefully in the future someone can fix
-	H.adjust_skillrank_up_to(/datum/skill/combat/whipsflails, SKILL_LEVEL_EXPERT, TRUE)
-	H.adjust_skillrank_up_to(/datum/skill/combat/polearms, SKILL_LEVEL_EXPERT, TRUE)
-	H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_EXPERT, TRUE)
-	H.adjust_skillrank_up_to(/datum/skill/combat/shields, SKILL_LEVEL_EXPERT, TRUE)
-	H.adjust_skillrank_up_to(/datum/skill/combat/wrestling, SKILL_LEVEL_EXPERT, TRUE)
-	H.adjust_skillrank_up_to(/datum/skill/combat/unarmed, SKILL_LEVEL_EXPERT, TRUE)
-	H.adjust_skillrank_up_to(/datum/skill/misc/athletics, SKILL_LEVEL_EXPERT, TRUE)
 	ADD_TRAIT(H, TRAIT_NIGHT_VISION, TRAIT_GENERIC)
 	//Clothing Stuff
 	if(prob(20))
@@ -101,38 +83,9 @@ GLOBAL_LIST_INIT(psyvault_aggro, world.file2list("strings/rt/psyvaultaggrolines.
 	//Head Gear
 	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk
 	armor = /obj/item/clothing/suit/roguetown/armor/vestments_padded //ENDVRE
-	add_random_psy_vault_guard_mask(H)
 	neck = /obj/item/clothing/neck/roguetown/gorget/steel
-	//wrist Gear
-	add_random_psy_vault_guard_psycross(H)
 	//Lower Gear
-	belt = /obj/item/storage/belt/rogue/leather/sash
-	add_random_psy_vault_guard_beltr_stuff(H)
-	add_random_psy_vault_guard_beltl_stuff(H)
 	pants = /obj/item/clothing/under/roguetown/chainlegs/kilt
-	//Weapons
-	add_random_psy_vault_guard_weapon(H)
-
-/datum/outfit/job/roguetown/human/species/lizardfolk/psy_vault_guard/proc/add_random_psy_vault_guard_weapon(mob/living/carbon/human/H)
-	var/add_random_psy_vault_guard_weapon = rand(1, 7)
-	switch(add_random_psy_vault_guard_weapon)
-		if(1)
-			r_hand = /obj/item/rogueweapon/sword/short/messer
-			l_hand = /obj/item/rogueweapon/shield/tower/metal
-		if(2)
-			r_hand = /obj/item/rogueweapon/sword/long/kriegmesser
-		if(3)
-			r_hand = /obj/item/rogueweapon/eaglebeak
-		if(4)
-			r_hand = /obj/item/rogueweapon/mace/warhammer/steel
-			l_hand = /obj/item/rogueweapon/shield/tower/metal
-		if(5)
-			r_hand = /obj/item/rogueweapon/greatsword/grenz/flamberge
-		if(6)
-			r_hand = /obj/item/rogueweapon/greataxe/steel
-		if(7)
-			r_hand = /obj/item/rogueweapon/mace/goden/steel
-		// 2 hand weapon to dilute the pool to keep ranged viable
 
 /datum/outfit/job/roguetown/human/species/lizardfolk/psy_vault_guard/proc/add_random_psy_vault_guard_mask(mob/living/carbon/human/H)
 	var/add_random_psy_vault_guard_mask = rand(1,5)
@@ -160,58 +113,6 @@ GLOBAL_LIST_INIT(psyvault_aggro, world.file2list("strings/rt/psyvaultaggrolines.
 		if(5)
 			wrists = /obj/item/clothing/wrists/roguetown/bracers/psythorns
 
-/datum/outfit/job/roguetown/human/species/lizardfolk/psy_vault_guard/proc/add_random_psy_vault_guard_beltl_stuff(mob/living/carbon/human/H)
-	var/add_random_psy_vault_guard_beltl_stuff = rand(1,12)
-	switch(add_random_psy_vault_guard_beltl_stuff)
-		if(1)
-			beltl = /obj/item/storage/belt/rogue/pouch/food
-		if(2)
-			beltl = /obj/item/storage/belt/rogue/pouch/medicine
-		if(3)
-			beltl = /obj/item/storage/belt/rogue/pouch/coins/poor
-		if(4)
-			beltl = /obj/item/storage/belt/rogue/pouch/coins/mid
-		if(5)
-			beltl = /obj/item/reagent_containers/glass/bottle/waterskin
-		if(6)
-			beltl = /obj/item/reagent_containers/glass/bottle/alchemical/healthpot
-		if(7)
-			beltl = /obj/item/rope/chain
-		if(8)
-			beltl = /obj/item/clothing/neck/roguetown/psicross/aalloy
-		if(9)
-			beltl = /obj/item/clothing/neck/roguetown/psicross/wood
-		if(10)
-			beltl = /obj/item/clothing/neck/roguetown/psicross/silver
-		if(11)
-			beltl = /obj/item/clothing/neck/roguetown/psicross
-		if(12)
-			beltr = /obj/item/book/rogue/bibble/psy
-
-/datum/outfit/job/roguetown/human/species/lizardfolk/psy_vault_guard/proc/add_random_psy_vault_guard_beltr_stuff(mob/living/carbon/human/H)
-	var/add_random_psy_vault_guard_beltr_stuff = rand(1,12)
-	switch(add_random_psy_vault_guard_beltr_stuff)
-		if(1)
-			beltr = /obj/item/storage/belt/rogue/pouch/food
-		if(2)
-			beltr = /obj/item/storage/belt/rogue/pouch/medicine
-		if(3)
-			beltr = /obj/item/storage/belt/rogue/pouch/coins/poor
-		if(4)
-			beltr = /obj/item/storage/belt/rogue/pouch/coins/mid
-		if(5)
-			beltr = /obj/item/reagent_containers/glass/bottle/waterskin
-		if(6)
-			beltr = /obj/item/reagent_containers/glass/bottle/alchemical/healthpot
-		if(7)
-			beltr = /obj/item/rope/chain
-		if(8)
-			beltr = /obj/item/clothing/neck/roguetown/psicross/aalloy
-		if(9)
-			beltr = /obj/item/clothing/neck/roguetown/psicross/wood
-		if(10)
-			beltr = /obj/item/clothing/neck/roguetown/psicross/silver
-		if(11)
-			beltr = /obj/item/clothing/neck/roguetown/psicross
-		if(12)
-			beltr = /obj/item/book/rogue/bibble/psy
+/datum/npc_loadout/kit/zizo_cantrip_arc_bolt
+	traits = list(TRAIT_WARLOCK) //to use w/ weapon
+	spells = list(/datum/action/cooldown/spell/projectile/arc_bolt)
