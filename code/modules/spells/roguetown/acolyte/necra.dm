@@ -86,7 +86,7 @@
 	button_icon_state = "deathdoor"
 	charge_required = TRUE
 	weapon_cast_penalized = FALSE
-	charge_time = 3 SECONDS
+	charge_time = 2 SECONDS
 	charge_slowdown = CHARGING_SLOWDOWN_SMALL
 	charge_swingdelay_type = SWINGDELAY_CANCEL
 	sound = 'sound/misc/deadbell.ogg'

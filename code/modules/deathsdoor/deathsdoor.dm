@@ -15,7 +15,7 @@ GLOBAL_VAR(deaths_door_exit)//turf at necra's shrine on each map
 	if(!do_after(user, 4 SECONDS, src))
 		return
 
-	if((user.mob_biotypes & MOB_UNDEAD) && user.stat != DEAD) // if somehow you're an undead and alive, you're not escaping from here, sorry
+	if((user.mob_biotypes & MOB_UNDEAD) && user.stat != DEAD && !user.is_chudpire()) // if somehow you're an undead and alive, you're not escaping from here, sorry
 		user.visible_message(span_purple("<i>[user] almost slips through the shrine, but just before they escape, countless ghastly hands burst from the mist and drag them back. The spirits swarm over [user] until all that remains crumbles to pale dust.</i>"),
 			span_userdanger("<i>The way out is right there, so close... Then hands seize me from every side. The spirits will not let me leave. I am pulled apart, and it is so... quiet here...</i>"))
 		user.dust(TRUE, FALSE, TRUE)
@@ -28,7 +28,7 @@ GLOBAL_VAR(deaths_door_exit)//turf at necra's shrine on each map
 		return
 	var/mob/living/target = O
 
-	if((target.mob_biotypes & MOB_UNDEAD) && target.stat != DEAD) // if somehow you're an undead and alive, you're not escaping from here, sorry
+	if((target.mob_biotypes & MOB_UNDEAD) && target.stat != DEAD && !target.is_chudpire()) // if somehow you're an undead and alive, you're not escaping from here, sorry
 		target.visible_message(span_purple("<i>[target] almost slips through the shrine, but just before they escape, countless ghastly hands burst from the mist and drag them back. The spirits swarm over [target] until all that remains crumbles to pale dust.</i>"),
 			span_userdanger("<i>The way out is right there, so close... Then hands seize me from every side. The spirits will not let me leave. I am pulled apart, and it is so... quiet here...</i>"))
 		target.dust(TRUE, FALSE, TRUE)
@@ -191,7 +191,7 @@ GLOBAL_VAR(deaths_door_exit)//turf at necra's shrine on each map
 	reaching -= user // always release, whether it finished or was interrupted
 	if(!completed)
 		return
-	if((user.mob_biotypes & MOB_UNDEAD) && user.stat != DEAD)
+	if((user.mob_biotypes & MOB_UNDEAD) && user.stat != DEAD && !user.is_chudpire())
 		user.visible_message(span_silver("The Undermaiden rebukes the living dead!"), span_silver("The Undermaiden rebukes your unliving presence within her realm!"))
 		var/turf/target_turf = get_turf(user)
 		new /obj/effect/temp_visual/thunderstrike_actual(target_turf)
@@ -215,7 +215,7 @@ GLOBAL_VAR(deaths_door_exit)//turf at necra's shrine on each map
 	if(!do_after_mob(user, M, 4 SECONDS))
 		return
 
-	if((M.mob_biotypes & MOB_UNDEAD) && M.stat != DEAD)
+	if((M.mob_biotypes & MOB_UNDEAD) && M.stat != DEAD && !M.is_chudpire())
 		M.visible_message(span_silver("The Undermaiden rebukes the living dead!"), span_silver("The Undermaiden rebukes your unliving presence within her realm!"))
 		var/turf/target_turf = get_turf(M)
 		new /obj/effect/temp_visual/thunderstrike_actual(target_turf)
