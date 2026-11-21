@@ -180,7 +180,7 @@
 
 /datum/npc_loadout/weapon/graggar_heavy
 	weapons = list(
-		list(r_hand = /obj/item/rogueweapon/stoneaxe/woodcut/steel/graggar, /obj/item/rogueweapon/sword/falx/stalker, 100),
+		list(r_hand = /obj/item/rogueweapon/stoneaxe/woodcut/steel/graggar, /obj/item/rogueweapon/shield/iron/graggar, 100),
 	)
 
 /datum/npc_loadout/weapon/matthios_heavy
