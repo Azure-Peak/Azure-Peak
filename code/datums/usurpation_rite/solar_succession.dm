@@ -50,9 +50,9 @@
 	var/weight = get_vote_weight(noble)
 	var/voice_desc = weight >= SOLAR_VOTE_RESIDENT ? "a full voice" : "half a voice"
 	noble.visible_message( \
-		span_notice("[noble.real_name] speaks their assent to the Rite of Solar Succession."), \
+		span_notice("[noble.get_unmasked_name()] speaks their assent to the Rite of Solar Succession."), \
 		span_notice("You speak your assent. Astrata acknowledges your voice."))
-	to_chat(invoker, span_notice("[noble.real_name] has assented as [voice_desc]. ([get_assent_total()]/[get_required_assents()])"))
+	to_chat(invoker, span_notice("[noble.get_unmasked_name()] has assented as [voice_desc]. ([get_assent_total()]/[get_required_assents()])"))
 
 /datum/usurpation_rite/solar_succession/check_assent_threshold()
 	if(get_assent_total() >= get_required_assents())
@@ -60,7 +60,7 @@
 
 /datum/usurpation_rite/solar_succession/on_contesting_started()
 	priority_announce( \
-		"[invoker.real_name] has invoked the Rite of Solar Succession!\n\n" + \
+		"[invoker.get_unmasked_name()] has invoked the Rite of Solar Succession!\n\n" + \
 		"In the name of Astrata, Goddess of Order, a claim is made upon the throne of [SSticker.realm_name].\n\n" + \
 		"A Council of Lords has affirmed this claim.\n\n" + \
 		"The Sun's judgement shall fall in [RITE_CONTEST_DURATION / (1 MINUTES)] minutes -- unless the claim is struck down.\n\n", \
@@ -71,15 +71,15 @@
 
 /datum/usurpation_rite/solar_succession/on_complete()
 	var/mob/living/old_ruler = SSticker.rulermob
-	var/old_ruler_name = old_ruler?.real_name || "Their predecessor"
+	var/old_ruler_name = old_ruler?.get_unmasked_name() || "Their predecessor"
 	..()
 	priority_announce( \
 		"The sun must set so that dawn may come again.\n\n" + \
 		"The Council of Lords, under Astrata's watchful gaze, " + \
-		"declares [invoker.real_name] the rightful [SSticker.rulertype] of [SSticker.realm_name], in an ORDERLY transfer of power.\n\n" + \
+		"declares [invoker.get_unmasked_name()] the rightful [SSticker.rulertype] of [SSticker.realm_name], in an ORDERLY transfer of power.\n\n" + \
 		"[old_ruler_name], unable to contest this succession, has surely lost the favor of the Sun Goddess, " + \
 		"and their divine right to rulership!\n\n" + \
-		"Long live [invoker.real_name], [SSticker.rulertype] of [SSticker.realm_name]!", \
+		"Long live [invoker.get_unmasked_name()], [SSticker.rulertype] of [SSticker.realm_name]!", \
 		"A New [SSticker.rulertype] Ascends", \
 		sound_victory)
 	to_chat(invoker, span_notice("The warmth of Astrata's gaze settles upon you. The throne is yours."))
@@ -97,7 +97,7 @@
 /datum/usurpation_rite/solar_succession/get_periodic_announcement()
 	switch(stage)
 		if(RITE_STAGE_GATHERING)
-			return "[invoker?.real_name] claims the throne by Astrata's light. Nobles, speak your assent -- or stop them. ([get_assent_total()]/[get_required_assents()] voices)"
+			return "[invoker?.get_unmasked_name()] claims the throne by Astrata's light. Nobles, speak your assent -- or stop them. ([get_assent_total()]/[get_required_assents()] voices)"
 		if(RITE_STAGE_CONTESTING)
 			var/remaining = ""
 			if(contest_time_remaining > 0)
@@ -106,7 +106,7 @@
 				remaining = "[round(left / (1 SECONDS))] seconds"
 			else
 				remaining = "moments"
-			return "The Council of Lords has spoken. [invoker?.real_name] will ascend in [remaining]. Defend or destroy this claim!"
+			return "The Council of Lords has spoken. [invoker?.get_unmasked_name()] will ascend in [remaining]. Defend or destroy this claim!"
 	return null
 
 /datum/usurpation_rite/solar_succession/get_status_text()
@@ -114,7 +114,7 @@
 		if(RITE_STAGE_GATHERING)
 			return "The Rite of Solar Succession is underway. [get_assent_total()]/[get_required_assents()] voices have spoken their assent."
 		if(RITE_STAGE_CONTESTING)
-			return "The Council of Lords has affirmed [invoker?.real_name]'s claim. The Sun's judgment approaches."
+			return "The Council of Lords has affirmed [invoker?.get_unmasked_name()]'s claim. The Sun's judgment approaches."
 	return null
 
 /// Returns the number of assent voices required based on the invoker's position.

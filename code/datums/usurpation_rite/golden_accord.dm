@@ -82,9 +82,9 @@
 
 /datum/usurpation_rite/golden_accord/on_assent_accepted(mob/living/carbon/human/burgher)
 	burgher.visible_message( \
-		span_notice("[burgher.real_name] speaks their assent to the Golden Accord."), \
+		span_notice("[burgher.get_unmasked_name()] speaks their assent to the Golden Accord."), \
 		span_notice("You speak your assent. The ledger marks your name."))
-	to_chat(invoker, span_notice("[burgher.real_name] has assented. ([length(assenters)]/[GOLDEN_REQUIRED_ASSENTS])"))
+	to_chat(invoker, span_notice("[burgher.get_unmasked_name()] has assented. ([length(assenters)]/[GOLDEN_REQUIRED_ASSENTS])"))
 
 /datum/usurpation_rite/golden_accord/check_assent_threshold()
 	if(length(assenters) >= GOLDEN_REQUIRED_ASSENTS)
@@ -92,8 +92,8 @@
 
 /datum/usurpation_rite/golden_accord/on_contesting_started()
 	priority_announce( \
-		"[invoker.real_name] has invoked the Rite of Golden Accord!\n\n" + \
-		"The people of [SSticker.realm_name] has spoken — a merchant republic shall be established, and [invoker.real_name] elected its first Chancellor!\n\n" + \
+		"[invoker.get_unmasked_name()] has invoked the Rite of Golden Accord!\n\n" + \
+		"The people of [SSticker.realm_name] has spoken — a merchant republic shall be established, and [invoker.get_unmasked_name()] elected its first Chancellor!\n\n" + \
 		"A Council of Burghers has affirmed this claim.\n\n" + \
 		"The Accord shall be sealed in [RITE_CONTEST_DURATION / (1 MINUTES)] minutes -- unless the claim is struck down.", \
 		"Rite of Golden Accord", \
@@ -103,14 +103,14 @@
 
 /datum/usurpation_rite/golden_accord/on_complete()
 	var/mob/living/old_ruler = SSticker.rulermob
-	var/old_ruler_name = old_ruler?.real_name || "Their predecessor"
+	var/old_ruler_name = old_ruler?.get_unmasked_name() || "Their predecessor"
 	..()
 	priority_announce( \
 		"Power belongs to those who bring prosperity to the realm.\n\n" + \
-		"The Council of Burghers declares [invoker.real_name] the rightful [SSticker.rulertype] of [SSticker.realm_name], establishing a PROSPEROUS republic of free commerce.\n\n" + \
+		"The Council of Burghers declares [invoker.get_unmasked_name()] the rightful [SSticker.rulertype] of [SSticker.realm_name], establishing a PROSPEROUS republic of free commerce.\n\n" + \
 		"[old_ruler_name], unable to contest this succession, has been found wanting in stewardship, " + \
 		"and their authority is hereby rendered insolvent.\n\n" + \
-		"Long live [invoker.real_name], [SSticker.rulertype] of [SSticker.realm_name]!", \
+		"Long live [invoker.get_unmasked_name()], [SSticker.rulertype] of [SSticker.realm_name]!", \
 		"A New [SSticker.rulertype] Ascends", \
 		sound_victory)
 	to_chat(invoker, span_notice("The weight of coin settles in your hands. The throne is yours."))
@@ -130,13 +130,13 @@
 		if(RITE_STAGE_GATHERING)
 			return "The Golden Accord is underway. [length(assenters)]/[GOLDEN_REQUIRED_ASSENTS] burghers have spoken their assent."
 		if(RITE_STAGE_CONTESTING)
-			return "The Council of Burghers has affirmed [invoker?.real_name]'s claim. The Accord approaches."
+			return "The Council of Burghers has affirmed [invoker?.get_unmasked_name()]'s claim. The Accord approaches."
 	return null
 
 /datum/usurpation_rite/golden_accord/get_periodic_announcement()
 	switch(stage)
 		if(RITE_STAGE_GATHERING)
-			return "[invoker?.real_name] claims the throne by weight of coin. Burghers, speak your assent -- or stop them. ([length(assenters)]/[GOLDEN_REQUIRED_ASSENTS] voices)"
+			return "[invoker?.get_unmasked_name()] claims the throne by weight of coin. Burghers, speak your assent -- or stop them. ([length(assenters)]/[GOLDEN_REQUIRED_ASSENTS] voices)"
 		if(RITE_STAGE_CONTESTING)
 			var/remaining = ""
 			if(contest_time_remaining > 0)
@@ -145,7 +145,7 @@
 				remaining = "[round(left / (1 SECONDS))] seconds"
 			else
 				remaining = "moments"
-			return "The Council of Burghers has spoken. [invoker?.real_name] will ascend in [remaining]. Defend or destroy this claim!"
+			return "The Council of Burghers has spoken. [invoker?.get_unmasked_name()] will ascend in [remaining]. Defend or destroy this claim!"
 	return null
 
 /// Returns the total mammon value on the mob's person plus their bank account.
