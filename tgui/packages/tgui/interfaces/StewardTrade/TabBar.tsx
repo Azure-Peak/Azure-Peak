@@ -14,7 +14,6 @@ const TABS: { key: TabKey; label: string }[] = [
   { key: 'commissions', label: 'Commission' },
   { key: 'dispatches', label: 'Dispatches' },
   { key: 'market', label: 'Market' },
-  { key: 'ledger', label: 'Ledger' },
   { key: 'regions', label: 'Regions' },
   { key: 'petition', label: 'Petition' },
 ];

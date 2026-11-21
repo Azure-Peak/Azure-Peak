@@ -1,5 +1,3 @@
-#define LEDGER_PAGE_SIZE 50
-
 /obj/structure/roguemachine/steward/ui_state(mob/user)
 	return GLOB.human_adjacent_state
 
@@ -105,70 +103,8 @@
 
 	return data
 
-/obj/structure/roguemachine/steward/proc/build_ledger_page(ckey)
-	var/list/lview = ledger_view[ckey]
-	var/view_mode = lview ? (lview["view"] || "journal") : "journal"
-	var/list/page_data = list("view" = view_mode)
-	switch(view_mode)
-		if("ledger")
-			var/account_id = lview ? (lview["account"] || LEDGER_CROWN_CASH) : LEDGER_CROWN_CASH
-			page_data["chart"] = SStreasury.get_chart_listing(LEDGER_BOOK_CROWN)
-			page_data["account_ledger"] = SStreasury.get_account_ledger(account_id, 100)
-			return page_data
-		if("trial")
-			page_data["trial_balance"] = SStreasury.get_trial_balance(LEDGER_BOOK_CROWN)
-			page_data["reconciliation"] = SStreasury.reconcile_ledger(LEDGER_BOOK_CROWN)
-			return page_data
-		if("income")
-			page_data["income_statement"] = SStreasury.get_income_statement(LEDGER_BOOK_CROWN)
-			return page_data
-		if("balance")
-			page_data["balance_sheet"] = SStreasury.get_balance_sheet(LEDGER_BOOK_CROWN)
-			return page_data
-		if("subsidiary")
-			page_data["subsidiary"] = SStreasury.get_subsidiary_ledgers()
-			return page_data
-
-	var/page = max(1, lview ? (lview["page"] || 1) : 1)
-	var/filter = lview ? (lview["filter"] || "") : ""
-	var/window_start = (page - 1) * LEDGER_PAGE_SIZE + 1
-	var/window_end = page * LEDGER_PAGE_SIZE
-	var/list/entries = list()
-	var/matched = 0
-	var/total = length(SStreasury.ledger)
-	var/crown_name = SStreasury.discretionary_fund?.name
-	for(var/i = total to 1 step -1)
-		var/datum/treasury_entry/E = SStreasury.ledger[i]
-		if(E.legs)
-			if(!E.touches_book(LEDGER_BOOK_CROWN))
-				continue
-		else if(crown_name && E.from_name != crown_name && E.to_name != crown_name)
-			continue
-		if(filter && !findtext(E.reason, filter) && !findtext(E.from_name, filter) && !findtext(E.to_name, filter))
-			continue
-		matched++
-		if(matched < window_start)
-			continue
-		if(matched > window_end)
-			break
-		entries += list(SStreasury.journal_entry_view(E, LEDGER_BOOK_CROWN))
-	page_data["entries"] = entries
-	page_data["page"] = page
-	page_data["page_size"] = LEDGER_PAGE_SIZE
-	page_data["shown"] = length(entries)
-	page_data["has_more"] = (matched > window_end) ? TRUE : FALSE
-	page_data["filtered"] = filter ? TRUE : FALSE
-	return page_data
-
 /obj/structure/roguemachine/steward/ui_data(mob/user)
 	var/list/data = list()
-	// The ledger page rides on normal updates, sent once after each ledger action. Static data is
-	// rate-limited to one full update a second, and tgui swaps the whole window for a "Loading"
-	// screen while one is pending - rapid ledger clicks used to kick the Steward back to its base menu.
-	var/list/ledger_state = ledger_view[user.ckey]
-	if(ledger_state && ledger_state["open"] && ledger_state["dirty"])
-		ledger_state["dirty"] = FALSE
-		data["ledger_page"] = build_ledger_page(user.ckey)
 	data["treasury"] = SStreasury?.discretionary_fund?.balance || 0
 	data["day"] = ECONOMY_DAY
 	data["expected_rural_revenue"] = SStreasury?.get_rural_tax_amount() || 0
@@ -550,8 +486,8 @@ GLOBAL_LIST_INIT(steward_trade_sequestration_locked_actions, list(
 	if(action in GLOB.steward_trade_sequestration_locked_actions)
 		SStreasury.dirty_market_view()
 	switch(action)
-		if("open_treasury")
-			open_treasury_tgui(usr)
+		if("open_window")
+			open_steward_window(usr, params["window"])
 			return TRUE
 		if("sell_to_market")
 			var/quantity = text2num("[params["quantity"]]")
@@ -652,58 +588,3 @@ GLOBAL_LIST_INIT(steward_trade_sequestration_locked_actions, list(
 				visible_message(span_notice("[src] stamps the loan papers with the ATC seal."))
 			SStgui.update_uis(src)
 			return TRUE
-		if("ledger_open")
-			SStreasury.revalue_stockpile_inventory()
-			ledger_view[usr.ckey] = list("open" = TRUE, "page" = 1, "filter" = "", "dirty" = TRUE)
-			return TRUE
-		if("ledger_close")
-			var/list/lview = ledger_view[usr.ckey]
-			if(lview)
-				lview["open"] = FALSE
-			return TRUE
-		if("ledger_page")
-			var/list/lview = ledger_view[usr.ckey]
-			if(!lview || !lview["open"])
-				return TRUE
-			lview["page"] = max(1, text2num("[params["page"]]") || 1)
-			lview["dirty"] = TRUE
-			return TRUE
-		if("ledger_filter")
-			var/list/lview = ledger_view[usr.ckey]
-			if(!lview || !lview["open"])
-				return TRUE
-			lview["filter"] = trim("[params["filter"]]")
-			lview["page"] = 1
-			lview["dirty"] = TRUE
-			return TRUE
-		if("ledger_view")
-			var/list/lview = ledger_view[usr.ckey]
-			if(!lview || !lview["open"])
-				return TRUE
-			var/new_view = "[params["view"]]"
-			if(!(new_view in list("journal", "ledger", "trial", "income", "balance", "subsidiary")))
-				return TRUE
-			SStreasury.revalue_stockpile_inventory()
-			lview["view"] = new_view
-			lview["page"] = 1
-			lview["dirty"] = TRUE
-			return TRUE
-		if("ledger_account")
-			var/list/lview = ledger_view[usr.ckey]
-			if(!lview || !lview["open"])
-				return TRUE
-			var/datum/ledger_account/picked = SStreasury.get_ledger_account("[params["id"]]")
-			if(!picked || picked.book != LEDGER_BOOK_CROWN)
-				return TRUE
-			lview["account"] = picked.id
-			lview["dirty"] = TRUE
-			return TRUE
-		if("ledger_refresh")
-			var/list/lview = ledger_view[usr.ckey]
-			if(!lview || !lview["open"])
-				return TRUE
-			SStreasury.revalue_stockpile_inventory()
-			lview["dirty"] = TRUE
-			return TRUE
-
-#undef LEDGER_PAGE_SIZE

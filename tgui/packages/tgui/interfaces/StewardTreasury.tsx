@@ -3,16 +3,8 @@ import { useState } from 'react';
 import { useBackend } from '../backend';
 import { Window } from '../layouts';
 import { formatMammon } from './common/format';
-import {
-  compactButtonStyle,
-  INK_SOFT,
-  pageStyle,
-  SEAL_AMBER,
-  tabBarStyle,
-  tabStyle,
-  TITLE,
-  TITLE_FONT,
-} from './common/parchment';
+import { pageStyle, SEAL_AMBER, tabBarStyle, tabStyle } from './common/parchment';
+import { StewardHeader } from './common/StewardHeader';
 import { AccountsView } from './StewardTreasury/AccountsView';
 import { DebtsView } from './StewardTreasury/DebtsView';
 import { PayrollView } from './StewardTreasury/PayrollView';
@@ -25,63 +17,28 @@ const TABS: { key: TabKey; label: string }[] = [
 ];
 
 export const StewardTreasury = () => {
-  const { data, act } = useBackend<Data>();
+  const { data } = useBackend<Data>();
   const [tab, setTab] = useState<TabKey>('accounts');
 
   return (
     <Window title="Treasury" width={760} height={720} theme="parchment">
       <Window.Content scrollable>
         <div style={{ ...pageStyle, padding: '12px 20px 16px 20px' }}>
-          <div
-            style={{
-              display: 'flex',
-              flexWrap: 'wrap',
-              alignItems: 'baseline',
-              justifyContent: 'space-between',
-              gap: '4px 16px',
-            }}
-          >
-            <div
-              style={{
-                fontFamily: TITLE_FONT,
-                fontSize: '22px',
-                fontWeight: 'bold',
-                color: TITLE,
-              }}
-            >
-              Treasury
-            </div>
-            <div
-              style={{
-                display: 'flex',
-                flexWrap: 'wrap',
-                alignItems: 'baseline',
-                gap: '2px 12px',
-                color: INK_SOFT,
-              }}
-            >
-              <span>
-                Treasury:{' '}
-                <span style={{ color: SEAL_AMBER, fontWeight: 'bold' }}>
-                  {formatMammon(data.treasury)}m
-                </span>
+          <StewardHeader title="Treasury" current="treasury">
+            <span>
+              Treasury:{' '}
+              <span style={{ color: SEAL_AMBER, fontWeight: 'bold' }}>
+                {formatMammon(data.treasury)}m
               </span>
-              <span>
-                Payroll:{' '}
-                <span style={{ color: SEAL_AMBER }}>
-                  {formatMammon(payrollTotal(data))}m
-                </span>{' '}
-                a dae
-              </span>
-              <button
-                type="button"
-                onClick={() => act('open_trade')}
-                style={compactButtonStyle()}
-              >
-                Trade
-              </button>
-            </div>
-          </div>
+            </span>
+            <span>
+              Payroll:{' '}
+              <span style={{ color: SEAL_AMBER }}>
+                {formatMammon(payrollTotal(data))}m
+              </span>{' '}
+              a dae
+            </span>
+          </StewardHeader>
 
           <div style={tabBarStyle}>
             {TABS.map((t) => (

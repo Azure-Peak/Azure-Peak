@@ -110,8 +110,8 @@
 	if(!still_usable(user))
 		return
 	switch(action)
-		if("open_trade")
-			host.open_trade_tgui(user)
+		if("open_window")
+			host.open_steward_window(user, params["window"])
 		if("give_money")
 			give_money(user, locate(params["ref"]) in SStreasury.bank_accounts)
 		if("fine")
