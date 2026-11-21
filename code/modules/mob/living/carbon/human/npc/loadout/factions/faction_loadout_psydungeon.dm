@@ -6,12 +6,15 @@
 	category = FACTION_PSY_VAULT_GUARD
 	faction_tag = "psy_vault_guard"
 	body = /datum/npc_body/psyvault
-	statpack = /datum/npc_statpack/line/t1
+	statpack = /datum/npc_statpack/line/t2 //fallback
+	patron = /datum/patron/old_god //PSYDON WILL ENDVRE
 	armor_training = ARMOR_CLASS_MEDIUM //all of them can use maile
 	melee = SKILL_LEVEL_APPRENTICE
 	magic = SKILL_LEVEL_JOURNEYMAN
 	brawl = SKILL_LEVEL_EXPERT
 	survival = SKILL_LEVEL_JOURNEYMAN
+
+//** BEGIN CLASS VARIENT ARCHETYPES **//
 
 /datum/npc_archetype/psy_vault_guard/guardian
 	name = "Psydonite Tomb Gaurdian"
@@ -19,26 +22,92 @@
 	threat_point = THREAT_TOUGH
 	statpack = /datum/npc_statpack/line/t3
 	melee = SKILL_LEVEL_EXPERT //'LETS FRAG', 'JUST THIS ONCE'
+	traits = list(TRAIT_PSYDONITE, TRAIT_CRITICAL_RESISTANCE) //devotee + critical resistance fragger
 	skills = list(
 		/datum/skill/combat/wrestling = SKILL_LEVEL_MASTER, //you ain't tackling this big guy, sire.
 	)
 	loadouts = list(
 		/datum/npc_loadout/weapon/psy_vault_guard_melee_weapon,
 		/datum/npc_loadout/kit/psy_vault_guard_flavor,
-		/datum/npc_loadout/weapon/bandit_melee,
+		/datum/npc_loadout/armor/medium/psy_vault_guard
 	)
 
 /datum/npc_archetype/psy_vault_guard/archer
 	name = "Psydonite Tomb Archer"
 	job = "Psydonite Tomb Archer"
 	statpack = /datum/npc_statpack/marksman/t3
+	melee = SKILL_LEVEL_EXPERT //'LETS FRAG', 'JUST THIS ONCE'
+	traits = list(TRAIT_PSYDONITE) //devotee + archer so no crit resist
 	skills = list(/datum/skill/combat/bows = SKILL_LEVEL_MASTER) //parry this you filthy casual
 	loadouts = list(
 		/datum/npc_loadout/weapon/psy_vault_guard_ranged_weapon,
 		/datum/npc_loadout/kit/psy_vault_guard_flavor,
-		/datum/npc_loadout/weapon/bandit_bow,
+		/datum/npc_loadout/armor/medium/psy_vault_lighter //squishier if you limb-aim
 	)
 	ai_controller = /datum/ai_controller/human_npc/archer
+
+/datum/npc_archetype/psy_vault_guard/magemonk
+	name = "Psydonite Tomb Magemonk"
+	job = "Psydonite Tomb Magemonk"
+	statpack = /datum/npc_statpack/caster/t2 //weaker statline
+	traits = list(TRAIT_PSYDONITE, TRAIT_WARLOCK) //devotee + mage so no crit resist
+	//journeyman tradeoff for weapon + cantrip + decent light armor + can cast w/out penalty
+	loadouts = list(
+		/datum/npc_loadout/kit/psy_vault_guard_flavor,
+		/datum/npc_loadout/kit/psytomb_mage_lesser,
+		/datum/npc_loadout/armor/medium/psy_vault_lighter, //squishier if you limb-aim
+	)
+	ai_controller = /datum/ai_controller/human_npc/caster/melee
+
+//** FULL CASTERS **//
+
+/datum/npc_archetype/psy_vault_guard/caster
+	name = "Psydonite Tomb Magos"
+	job = "Psydonite Tomb Magos"
+	statpack = /datum/npc_statpack/caster/t3 //stronger statline miniboss
+	magic = SKILL_LEVEL_EXPERT
+	traits = list(TRAIT_PSYDONITE) //devotee
+
+/datum/npc_archetype/psy_vault_guard/caster/mixed
+	variants = list(
+		/datum/npc_archetype/psy_vault_guard/caster/telomancer = 1,
+		/datum/npc_archetype/psy_vault_guard/caster/cryomancer = 1,
+		/datum/npc_archetype/psy_vault_guard/caster/fulgurmancer = 1,
+	)
+
+//** CASTER SUBTYPES **//
+
+/datum/npc_archetype/psy_vault_guard/caster/telomancer
+	name = "Psydonite Tomb Telomancer"
+	job = "Psydonite Tomb Telomancer"
+	loadouts = list(
+		/datum/npc_loadout/kit/psy_vault_guard_flavor,
+		/datum/npc_loadout/armor/medium/psy_vault_lighter, //squishier if you limb-aim
+		/datum/npc_loadout/kit/caster/telomancer,
+	)
+	ai_controller = /datum/ai_controller/human_npc/caster
+
+/datum/npc_archetype/psy_vault_guard/caster/cryomancer
+	name = "Psydonite Tomb Cryomancer"
+	job = "Psydonite Tomb Cryomancer"
+	loadouts = list(
+		/datum/npc_loadout/kit/psy_vault_guard_flavor,
+		/datum/npc_loadout/armor/medium/psy_vault_lighter, //squishier if you limb-aim
+		/datum/npc_loadout/kit/caster/cryomancer,
+	)
+	ai_controller = /datum/ai_controller/human_npc/caster
+
+/datum/npc_archetype/psy_vault_guard/caster/fulgurmancer
+	name = "Psydonite Tomb Fulgurmancer"
+	job = "Psydonite Tomb Fulgurmancer"
+	loadouts = list(
+		/datum/npc_loadout/kit/psy_vault_guard_flavor,
+		/datum/npc_loadout/armor/medium/psy_vault_lighter, //squishier if you limb-aim
+		/datum/npc_loadout/kit/caster/fulgurmancer,
+	)
+	ai_controller = /datum/ai_controller/human_npc/caster
+
+//** FLAVOR **//
 
 /datum/npc_loadout/kit/psy_vault_guard_flavor
 	belt = list(
@@ -86,3 +155,9 @@
 	r_hand = /obj/item/rogueweapon/huntingknife/idagger/steel
 	backr = /obj/item/gun/ballistic/revolver/grenadelauncher/bow
 	backl = /obj/item/quiver/randomfill/highwayman
+
+/datum/npc_loadout/kit/psytomb_mage_lesser
+	spells = list(/datum/action/cooldown/spell/projectile/arc_bolt)
+	weapons = list(
+		list(/obj/item/rogueweapon/woodstaff/quarterstaff/steel),
+	)

@@ -3,7 +3,6 @@ GLOBAL_LIST_INIT(psyvault_aggro, world.file2list("strings/rt/psyvaultaggrolines.
 //Intended difficulty [HARD]
 /mob/living/carbon/human/species/lizardfolk/psy_vault_guard
 	race = /datum/species/lizardfolk
-	ai_controller = /datum/ai_controller/human_npc
 	faction = list(FACTION_PSY_VAULT_GUARD)
 	ambushable = FALSE
 	cmode = 1
@@ -12,9 +11,7 @@ GLOBAL_LIST_INIT(psyvault_aggro, world.file2list("strings/rt/psyvaultaggrolines.
 	d_intent = INTENT_PARRY
 	possible_mmb_intents = list(INTENT_BITE, INTENT_JUMP, INTENT_KICK, INTENT_SPECIAL)
 
-/mob/living/carbon/human/species/lizardfolk/psy_vault_guard/ambush
-
-
+	npc_archetype = /datum/npc_archetype/psy_vault_guard/gaurdian
 
 /mob/living/carbon/human/species/lizardfolk/psy_vault_guard/Initialize(mapload)
 	. = ..()
@@ -59,7 +56,6 @@ GLOBAL_LIST_INIT(psyvault_aggro, world.file2list("strings/rt/psyvaultaggrolines.
 	ADD_TRAIT(src, TRAIT_STRONGBITE, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_NPC_EXAMINE, TRAIT_GENERIC)
 	equipOutfit(new /datum/outfit/job/roguetown/human/species/lizardfolk/psy_vault_guard)
-	patron = /datum/patron/old_god
 	update_hair()
 	update_body()
 	update_overlays()
@@ -77,42 +73,39 @@ GLOBAL_LIST_INIT(psyvault_aggro, world.file2list("strings/rt/psyvaultaggrolines.
 	//purity afloat
 	H.grant_language(/datum/language/otavan)
 	ADD_TRAIT(H, TRAIT_NIGHT_VISION, TRAIT_GENERIC)
-	//Clothing Stuff
-	if(prob(20))
-		cloak = /obj/item/clothing/cloak/absolutionistrobe/black
-	//Head Gear
-	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk
-	armor = /obj/item/clothing/suit/roguetown/armor/vestments_padded //ENDVRE
-	neck = /obj/item/clothing/neck/roguetown/gorget/steel
-	//Lower Gear
-	pants = /obj/item/clothing/under/roguetown/chainlegs/kilt
 
-/datum/outfit/job/roguetown/human/species/lizardfolk/psy_vault_guard/proc/add_random_psy_vault_guard_mask(mob/living/carbon/human/H)
-	var/add_random_psy_vault_guard_mask = rand(1,5)
-	switch(add_random_psy_vault_guard_mask)
-		if(1)
-			mask = /obj/item/clothing/mask/rogue/facemask/psydonmask
-		if(2)
-			mask = /obj/item/clothing/mask/rogue/sack/psy
-		if(3)
-			head = /obj/item/clothing/head/roguetown/helmet/blacksteel/psythorns
-		if(4)
-			head = /obj/item/clothing/head/roguetown/roguehood/psydon
+/mob/living/carbon/human/species/lizardfolk/psy_vault_guard/magemonk
+	npc_archetype = /datum/npc_archetype/psy_vault_guard/magemonk
 
-/datum/outfit/job/roguetown/human/species/lizardfolk/psy_vault_guard/proc/add_random_psy_vault_guard_psycross(mob/living/carbon/human/H)
-	var/add_random_psy_vault_guard_psycross = rand(1,5)
-	switch(add_random_psy_vault_guard_psycross)
-		if(1)
-			wrists = /obj/item/clothing/neck/roguetown/psicross/aalloy
-		if(2)
-			wrists = /obj/item/clothing/neck/roguetown/psicross/wood
-		if(3)
-			wrists = /obj/item/clothing/neck/roguetown/psicross/silver
-		if(4)
-			wrists = /obj/item/clothing/neck/roguetown/psicross
-		if(5)
-			wrists = /obj/item/clothing/wrists/roguetown/bracers/psythorns
+/mob/living/carbon/human/species/lizardfolk/psy_vault_guard/magemonk/Initialize(mapload)
+	. = ..()
+	gender = pick(MALE, FEMALE)
+	set_species(/datum/species/lizardfolk)
+	addtimer(CALLBACK(src, PROC_REF(after_creation)), 1 SECONDS)
 
-/datum/npc_loadout/kit/zizo_cantrip_arc_bolt
-	traits = list(TRAIT_WARLOCK) //to use w/ weapon
-	spells = list(/datum/action/cooldown/spell/projectile/arc_bolt)
+/mob/living/carbon/human/species/lizardfolk/psy_vault_guard/archer
+	npc_archetype = /datum/npc_archetype/psy_vault_guard/archer
+
+/mob/living/carbon/human/species/lizardfolk/psy_vault_guard/archer/Initialize(mapload)
+	. = ..()
+	gender = pick(MALE, FEMALE)
+	set_species(/datum/species/lizardfolk)
+	addtimer(CALLBACK(src, PROC_REF(after_creation)), 1 SECONDS)
+
+/mob/living/carbon/human/species/lizardfolk/psy_vault_guard/caster
+	npc_archetype = /datum/npc_archetype/psy_vault_guard/caster/mixed
+
+/mob/living/carbon/human/species/lizardfolk/psy_vault_guard/caster/Initialize(mapload)
+	. = ..()
+	gender = pick(MALE, FEMALE)
+	set_species(/datum/species/lizardfolk)
+	addtimer(CALLBACK(src, PROC_REF(after_creation)), 1 SECONDS)
+
+/mob/living/carbon/human/species/lizardfolk/psy_vault_guard/caster/cryomancer
+	npc_archetype = /datum/npc_archetype/psy_vault_guard/caster/cryomancer
+
+/mob/living/carbon/human/species/lizardfolk/psy_vault_guard/caster/telomancer
+	npc_archetype = /datum/npc_archetype/psy_vault_guard/caster/telomancer
+
+/mob/living/carbon/human/species/lizardfolk/psy_vault_guard/caster/fulgurmancer
+	npc_archetype = /datum/npc_archetype/psy_vault_guard/caster/fulgurmancer

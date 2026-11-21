@@ -167,9 +167,10 @@
 		/obj/item/clothing/neck/roguetown/psicross/g = 5,
 	)
 	head = list(
-		/obj/item/clothing/wrists/roguetown/bracers/psythorns = 40,
+		/obj/item/clothing/wrists/roguetown/bracers/psythorns = 20,
 		/obj/item/clothing/mask/rogue/sack = 30,
 		/obj/item/clothing/mask/rogue/sack/psy = 30,
+		/obj/item/clothing/head/roguetown/roguehood/psydon = 20,
 	)
 	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk
 	armor = /obj/item/clothing/suit/roguetown/armor/vestments_padded
@@ -180,28 +181,13 @@
 
 /datum/npc_loadout/armor/medium/psy_vault_lighter
 	wrists = list(
-		/obj/item/rope/chain = 55,
-		/obj/item/clothing/neck/roguetown/psicross = 20,
-		/obj/item/clothing/neck/roguetown/psicross/g = 5,
-	)
-	head = /obj/item/clothing/head/roguetown/roguehood/psydon
-	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail
-	armor = /obj/item/clothing/suit/roguetown/armor/vestments_padded
-	neck = /obj/item/clothing/neck/roguetown/bevor
-	pants = /obj/item/clothing/under/roguetown/brigandinelegs
-	shoes = /obj/item/clothing/shoes/roguetown/boots/psydonboots
-	gloves = /obj/item/clothing/gloves/roguetown/otavan/psygloves
-
-/datum/npc_loadout/armor/medium/psy_vault_mage
-	wrists = list(
-		/obj/item/rope/chain = 55,
-		/obj/item/clothing/neck/roguetown/psicross = 20,
-		/obj/item/clothing/neck/roguetown/psicross/g = 5,
+		/obj/item/clothing/neck/roguetown/psicross = 75,
+		/obj/item/clothing/neck/roguetown/psicross/g = 25,
 	)
 	mask = /obj/item/clothing/mask/rogue/facemask/psydonmask
-	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/inq/cleric
+	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail
 	armor = /obj/item/clothing/suit/roguetown/armor/vestments_padded
 	neck = /obj/item/clothing/neck/roguetown/coif/padded
-	pants = /obj/item/clothing/under/roguetown/heavy_leather_pants
-	shoes = /obj/item/clothing/shoes/roguetown/boots/psydonboots
+	pants = /obj/item/clothing/under/roguetown/trou/leather
+	shoes = /obj/item/clothing/shoes/roguetown/sandals
 	gloves = /obj/item/clothing/gloves/roguetown/otavan/psygloves
