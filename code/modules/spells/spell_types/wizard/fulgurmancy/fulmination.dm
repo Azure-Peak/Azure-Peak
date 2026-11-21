@@ -47,14 +47,6 @@
 		list("name" = "Thunderstrike", "tag" = "STORM", "icon" = "thunderstrike", "cost" = SPELLCOST_MAJOR_AOE, "cooldown" = 20 SECONDS, "charge" = CHARGETIME_HEAVY, "invocation" = "Feri Fulmine Hostem!"),
 	)
 
-/datum/action/cooldown/spell/fulmination/apply_mode()
-	var/list/mode = modes[current_mode]
-	button_icon_state = mode["icon"]
-	primary_resource_cost = mode["cost"]
-	cooldown_time = mode["cooldown"]
-	charge_time = mode["charge"]
-	build_all_button_icons()
-
 /datum/action/cooldown/spell/fulmination/get_spell_statistics(mob/living/user)
 	var/list/stats = ..()
 	stats += span_info("Damage: [hs_damage] (Heaven's Strike) / [ts_damage] (Thunderstrike, 5x5)")
