@@ -86,7 +86,7 @@
 			else if(istype(localarea, /area/rogue/indoors/town/bath))
 				rolestonotify = list("Bathmaster", "Bathhouse Attendant")
 			else if(istype(localarea, /area/rogue/indoors/inq))
-				rolestonotify = list("Inquisitor", "Orthodoxist", "Absolver")
+				rolestonotify = list("Inquisitor", "Orthodoxist", "Absolver", "Neophyte")
 			else if(istype(localarea, /area/rogue/indoors/town/garrison))
 				rolestonotify = list("Man at Arms", "Sergeant", "Watchman")
 			else if(istype(localarea, /area/rogue/indoors/town/manor) || istype(localarea, /area/rogue/under/town/basement/keep))
