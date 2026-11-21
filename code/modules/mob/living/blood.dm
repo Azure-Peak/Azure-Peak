@@ -197,15 +197,15 @@
 					if(has_status_effect(/datum/status_effect/debuff/bloody_mess))
 						oxy_amt *= 6
 				adjustOxyLoss(oxy_amt)
-				if(world.time >= last_gasp)
+				// Bloodloss gasp or deathgasp only for mobs that can actually die of bloodloss, ser
+				var/can_gasp = !(HAS_TRAIT(src, TRAIT_DEATHLESS) || HAS_TRAIT(src, TRAIT_BLOODLOSS_IMMUNE))
+				if(can_gasp && world.time >= last_gasp)
 					last_gasp = world.time + rand(3 SECONDS, 9 SECONDS)
 					if(ishuman(src))
 						var/mob/living/carbon/human/H = src
 						H.deathgasp_noise() // wanton noise pollution, blame RYON >:(
-						if(H.mind && H.mind.key) // NPC filter
+						if(H.mind?.key) // NPC filter
 							H.deathgasp_visual()
-							if(prob(50)) // mostly to halve the potential chatlog spam, we don't care if it never appears or always appear, on the former, tough luck, on the latter, drama queen
-								H.emote(pick("struggles to breathe, deathly pale!"))
 
 			else if((blood_volume > BLOOD_VOLUME_SURVIVE) || HAS_TRAIT(src, TRAIT_BLOODLOSS_IMMUNE))
 				if(getOxyLoss())
@@ -574,29 +574,41 @@
 		..()
 
 /mob/living/carbon/human/proc/deathgasp_visual()
-	var/le_gasp = pick("gasp", "choke", "gag", "wheeze", "gurgle", "sputter")
-	var/gasp_color = "#ffffff"
-	switch(getOxyLoss())
-		if(0 to 20)
-			gasp_color = "#00ff40"
-		if(21 to 40)
-			gasp_color = "#c8ff00"
-		if(41 to 60)
-			gasp_color = "#eeff00"
-		if(61 to 80)
-			gasp_color = "#ff9100"
-		if(81 to INFINITY)
-			gasp_color = "#ff0000"
-	var/gasptext = "<font color='[gasp_color]'>*[le_gasp]!* (dying)</font>"
-	filtered_balloon_alert(TRAIT_COMBAT_AWARE, gasptext, show_self = FALSE)
-	skill_filtered_balloon_alert(/datum/skill/misc/medicine, SKILL_LEVEL_APPRENTICE, gasptext, 0, 0)
+	if(stat == CONSCIOUS || HAS_TRAIT(src, TRAIT_NOBREATH) || HAS_TRAIT(src, TRAIT_DEATHLESS))
+		return
+	var/oxy = getOxyLoss()
+	// The more oxygen damage, the redder the gasp, only seen by specific people however
+	var/gasp_color = "#ff0000"
+	if(oxy <= 20)
+		gasp_color = "#00ff40"
+	else if(oxy <= 40)
+		gasp_color = "#c8ff00"
+	else if(oxy <= 60)
+		gasp_color = "#eeff00"
+	else if(oxy <= 80)
+		gasp_color = "#ff9100"
+	var/gasp = "*[pick("gasp", "choke", "gag", "wheeze", "gurgle", "sputter", "struggle")]!* (dying)"
+	for(var/mob/living/carbon/human/viewer in get_hearers_in_view(DEFAULT_MESSAGE_RANGE, src, RECURSIVE_CONTENTS_CLIENT_MOBS))
+		if(viewer == src || is_blind(viewer) || !viewer.mind)
+			continue
+		var/true_color = gasp_color
+		if(!(HAS_TRAIT(viewer, TRAIT_COMBAT_AWARE) || HAS_TRAIT(viewer, TRAIT_MEDICINE_EXPERT) || istype(viewer.patron, /datum/patron/divine/pestra) || istype(viewer.patron, /datum/patron/divine/necra) || istype(viewer.patron, /datum/patron/inhumen/zizo)))
+			var/medicine = viewer.get_skill_level(/datum/skill/misc/medicine)
+			if(medicine < SKILL_LEVEL_APPRENTICE) // if we have no or novice skill, we don't see anything
+				continue
+			if(medicine < SKILL_LEVEL_EXPERT) // only expert+ knows the exact condition, it'll always display red otherwise
+				true_color = "#ff0000"
+		balloon_alert(viewer, "<font color='[true_color]'>[gasp]</font>")
 
 /mob/living/carbon/human/proc/deathgasp_noise()
-	var/gaspnoise = null
-	if(gender == MALE)
-		gaspnoise = pick('sound/vo/male/gen/mchoke1.ogg', 'sound/vo/male/gen/mchoke2.ogg', 'sound/vo/male/gen/mchoke3.ogg', 'sound/vo/male/gen/mchoke4.ogg')
-	else if(gender == FEMALE)
-		gaspnoise = pick('sound/vo/female/gen/femchoke1.ogg', 'sound/vo/female/gen/femchoke2.ogg', 'sound/vo/female/gen/femchoke3.ogg', 'sound/vo/female/gen/femchoke4.ogg')
-
-	if(gaspnoise && !(HAS_TRAIT(src, TRAIT_NOBREATH)))
-		playsound(get_turf(src), gaspnoise, vol = 50, ignore_walls = FALSE, quiet = TRUE) //Only if you can SEE said-dying person.
+	if(stat == CONSCIOUS || HAS_TRAIT(src, TRAIT_NOBREATH) || HAS_TRAIT(src, TRAIT_DEATHLESS))
+		return
+	var/list/gasp_sounds
+	switch(gender)
+		if(MALE)
+			gasp_sounds = list('sound/vo/male/gen/mchoke1.ogg', 'sound/vo/male/gen/mchoke2.ogg', 'sound/vo/male/gen/mchoke3.ogg', 'sound/vo/male/gen/mchoke4.ogg')
+		if(FEMALE)
+			gasp_sounds = list('sound/vo/female/gen/femchoke1.ogg', 'sound/vo/female/gen/femchoke2.ogg', 'sound/vo/female/gen/femchoke3.ogg', 'sound/vo/female/gen/femchoke4.ogg')
+	if(!gasp_sounds)
+		return
+	playsound(get_turf(src), pick(gasp_sounds), vol = 50, ignore_walls = FALSE, quiet = TRUE) // Only if you can SEE said-dying person
