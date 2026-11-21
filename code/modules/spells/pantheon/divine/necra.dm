@@ -1043,12 +1043,14 @@ GLOBAL_DATUM_INIT(_corpse_sort_ref, /mob, null)
 	button_icon_state = "vengeful_spirit"
 	charge_required = TRUE
 	charge_time = 2 SECONDS
-	charge_slowdown = CHARGING_SLOWDOWN_NONE
+	charge_slowdown = CHARGING_SLOWDOWN_SMALL
 	sound = 'sound/magic/magnet.ogg'
 	charge_sound = 'sound/magic/chargingold.ogg'
 	cooldown_time = 45 SECONDS
 	cast_range = 7
 	primary_resource_cost = 50
+	secondary_resource_type = SPELL_COST_STAMINA
+	secondary_resource_cost = 40
 	invocations = list("Awaken, rancor!!")
 	invocation_type = INVOCATION_SHOUT
 	var/crow_mode = FALSE
@@ -1091,6 +1093,9 @@ GLOBAL_DATUM_INIT(_corpse_sort_ref, /mob, null)
 		return FALSE
 	if(target.stat == DEAD)
 		to_chat(user, span_warning("The dead should be left to rest. You know what to do, now."))
+		return FALSE
+	if(istype(get_area(user), /area/rogue/indoors/ravoxarena))
+		to_chat(user, span_userdanger("I reach for outer help, but something rebukes me! This challenge is only for me to overcome!"))
 		return FALSE
 
 	var/hostile_npc = is_npc(target) && target.stat == CONSCIOUS
@@ -1168,9 +1173,9 @@ GLOBAL_DATUM_INIT(_corpse_sort_ref, /mob, null)
 			spirit.disperse()
 		return
 	var/aimloc = pick(BODY_ZONE_CHEST, BODY_ZONE_HEAD, BODY_ZONE_L_ARM, BODY_ZONE_R_ARM)
-	var/pennis = HAS_TRAIT(owner, TRAIT_SILVER_WEAK) ? PEN_BSTEEL : PEN_LIGHT
-	arcyne_strike(owner, owner, null, tick_damage, aimloc, BCLASS_BITE, pennis, "spirit ravage", TRUE, TRUE, FALSE, BRUTE, PUNCH_INT_DAMAGEFACTOR, null, null)
-	arcyne_strike(owner, owner, null, tick_damage, aimloc, BCLASS_BURN, pennis, "spirit rancor", TRUE, TRUE, FALSE, BURN, PUNCH_INT_DAMAGEFACTOR, null, null)
+	var/deadite_bias = HAS_TRAIT(owner, TRAIT_SILVER_WEAK) ? 2 : 1
+	arcyne_strike(owner, owner, null, tick_damage, aimloc, BCLASS_BITE, PEN_NONE, "spirit ravage", TRUE, TRUE, FALSE, BRUTE, PUNCH_INT_DAMAGEFACTOR, null, deadite_bias)
+	arcyne_strike(owner, owner, null, tick_damage, aimloc, BCLASS_BURN, PEN_NONE, "spirit rancor", TRUE, TRUE, FALSE, BURN, PUNCH_INT_DAMAGEFACTOR, null, deadite_bias)
 
 /datum/status_effect/debuff/vengeful_spirit/proc/disperse()
 	if(orbiter)
