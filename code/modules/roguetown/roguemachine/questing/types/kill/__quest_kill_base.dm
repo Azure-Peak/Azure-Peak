@@ -8,6 +8,7 @@
 	var/total_spawned_tp = 0
 	var/kills_count_progress = TRUE
 	var/rolls_faction_variants = TRUE
+	var/foes_pickable = TRUE
 	var/objective_verb = "Eliminate"
 	var/failed = FALSE
 	var/armed = FALSE
@@ -261,9 +262,7 @@
 		return "[objective_verb] ~[progress_required] [initial(target_mob_type.name)]."
 	return "[objective_verb] ~[progress_required] [faction.name_plural]."
 
-/datum/quest/kill/project_fellowship_objective(mob/living/user)
-	var/extras = count_fellowship_extras(user)
-	var/missing = count_fellowship_missing(user)
+/datum/quest/kill/project_objective(extras, missing)
 	if(!kills_count_progress || (!veteran && ((!extras && !missing) || !fellowship_threat_rate)))
 		return get_objective_text()
 	var/saved_required = progress_required
@@ -439,6 +438,76 @@
 
 /datum/quest/kill/proc/faction_fits(datum/quest_faction/F, datum/threat_region/TR)
 	return TRUE
+
+// If you rolled a special faction, it is locked. Only the baseline faction can be swapped for a special one
+/datum/quest/kill/proc/can_pick_foes()
+	if(!foes_pickable || !rolls_faction_variants || is_directive)
+		return FALSE
+	if(source != QUEST_SOURCE_POOL && source != QUEST_SOURCE_RUMOR)
+		return FALSE
+	var/datum/quest_faction/base = get_quest_faction(faction_id)
+	return base && faction == base && length(foe_choices()) > 1
+
+/datum/quest/kill/proc/foe_choices()
+	var/datum/quest_faction/base = get_quest_faction(faction_id)
+	. = list("[base.id]" = base)
+	for(var/datum/quest_faction_variant/variant_type as anything in base.variant_factions)
+		if(!initial(variant_type.pickable))
+			continue
+		.["[variant_type]"] = base.variant_factions[variant_type]
+
+/datum/quest/kill/proc/foe_key(list/choices)
+	for(var/key in choices)
+		if(choices[key] == faction)
+			return key
+
+/datum/quest/kill/proc/set_foes(datum/quest_faction/F)
+	faction = F
+	target_mob_type = F.pick_mob_type()
+	if(kills_count_progress)
+		progress_required = estimate_mob_count()
+	pick_ringleader()
+	title = ""
+	title = get_title()
+	projection_key = null
+
+/datum/quest/kill/proc/pick_foes(key)
+	if(!istext(key) || !can_pick_foes())
+		return FALSE
+	var/list/choices = foe_choices()
+	var/datum/quest_faction/F = choices[key]
+	if(!F || F == faction)
+		return FALSE
+	set_foes(F)
+	reward_amount = calculate_reward(reward_origin_turf, reward_target_turf)
+	return TRUE
+
+/datum/quest/kill/proc/build_foe_options(list/choices, party_size, can_veteran)
+	var/datum/quest_faction/held_faction = faction
+	var/held_required = progress_required
+	var/held_title = title
+	var/held_veteran = veteran
+	var/extras = extras_at_size(party_size)
+	var/missing = missing_at_size(party_size)
+	. = list()
+	for(var/key in choices)
+		var/datum/quest_faction/F = choices[key]
+		var/list/option = list("key" = key, "label" = capitalize(F.name_plural))
+		if(F != held_faction)
+			faction = F
+			if(kills_count_progress)
+				progress_required = estimate_mob_count()
+			title = ""
+			option["title"] = get_title()
+			option["objective"] = project_objective(extras, missing)
+			if(can_veteran)
+				veteran = TRUE
+				option["veteran_objective"] = project_objective(extras, missing)
+				veteran = held_veteran
+		. += list(option)
+	faction = held_faction
+	progress_required = held_required
+	title = held_title
 
 /datum/quest/kill/fits_region(datum/threat_region/TR)
 	return ..() && !!pick_region_faction_for(TR)

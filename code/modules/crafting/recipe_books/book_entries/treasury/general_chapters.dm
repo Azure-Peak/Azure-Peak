@@ -346,17 +346,9 @@
 		contracts, and the Innkeeper's rumors.
 		</p>
 
-		<h3>Guild Contracts</h3> <p>Guild contracts regenerate every
-		[QUEST_POOL_REGEN_INTERVAL / 600] minutes. Each time, up to
-		[QUEST_KILL_REGEN_PER_TICK] new kill contracts are posted in the regions that
+		<h3>Guild Contracts</h3> <p>New kill contracts are posted in the regions that
 		need them most. Evergreen contracts (Retrieval, Courier) top up independently
-		to a flat target in each region. The pool starts at
-		[QUEST_POOL_ROUNDSTART_MULT * 100]% of its usual size at roundstart. The extra
-		contracts are not replaced once they lapse.</p>
-
-		<p>Each region has its own kill target scaled to the number of active people.
-		The pool routes new kill contracts to whichever region is furthest below its
-		target. Blockaded or high threat regions accumulate more work as a result.</p>
+		to a flat target in each region.</p>
 
 		<p>All guild contracts must pay the Guild referral fee and contract levy. A
 		Steward can stamp a contract with their Signet ring after the fact to make it

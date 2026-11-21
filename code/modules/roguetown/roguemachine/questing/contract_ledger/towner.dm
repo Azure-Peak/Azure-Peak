@@ -121,6 +121,9 @@
 	return english_list(parts)
 
 /proc/towner_variety_listing(posting_type)
+	var/static/list/cache = list()
+	if(cache[posting_type])
+		return cache[posting_type]
 	var/datum/quest/kill/recovery/towner/proto = get_towner_prototype(posting_type)
 	var/list/vtable = proto?.varieties
 	if(!length(vtable))
@@ -138,6 +141,7 @@
 			"blurb" = meta["blurb"],
 			"poster_summaries" = poster_summaries,
 		))
+	cache[posting_type] = out
 	return out
 
 /proc/build_towner_posting_listing(mob/user)

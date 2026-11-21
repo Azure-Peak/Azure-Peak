@@ -14,10 +14,11 @@
 	quest_difficulty = QUEST_DIFFICULTY_NOTORIOUS
 	tp_budget = QUEST_TP_BUDGET_NOTORIOUS_GOONS
 	threat_bands_cleared = QUEST_BANDS_NOTORIOUS
-	required_fellowship_size = 2
 	fellowship_reward_rate = QUEST_FELLOWSHIP_REWARD_PER_EXTRA
+	solo_pay_share = NOTORIOUS_BOUNTY_SOLO_SHARE
 	hunt_duration = NOTORIOUS_BOUNTY_HUNT_TIMER
 	hunt_overtime_max = 0
+	foes_pickable = FALSE
 	var/boss_name
 	var/datum/weakref/boss_ref
 	var/turf/leash_origin
@@ -32,7 +33,7 @@
 	var/takeover_resolved = FALSE
 	var/hunt_tick_id
 	var/party_down_since = 0
-	var/escort_settled = FALSE
+	var/gang_settled = FALSE
 
 /datum/quest/kill/notorious_bounty/Destroy()
 	stop_hunt_tick()
@@ -53,7 +54,7 @@
 /datum/quest/kill/notorious_bounty/on_first_pop()
 	var/obj/effect/landmark/quest_spawner/landmark = pending_landmark_ref?.resolve()
 	settle_fellowship_arrival(landmark)
-	spawn_extra_escort(landmark)
+	spawn_gang(landmark)
 	. = ..()
 	if(complete || hunt_tick_id)
 		return
@@ -139,18 +140,20 @@
 
 
 /datum/quest/kill/notorious_bounty/get_objective_text()
-	. = "Slay the target, but be warned! They are rumored to be a truly formidable opponent!"
+	. = "Slay the target, but be warned! They are rumored to be a truly formidable opponent! Bringing two is recommended."
 	if(!takeover_resolved)
-		. += " If a ghost possesses the outlaw, the reward rises by [NOTORIOUS_BOUNTY_PLAYER_BONUS] mammon. If not, their gang arrives and it rises by [NOTORIOUS_BOUNTY_NPC_BONUS]."
+		. += " If a ghost possesses the outlaw, the reward rises by [NOTORIOUS_BOUNTY_PLAYER_BONUS_SOLO] mammon alone and [NOTORIOUS_BOUNTY_PLAYER_BONUS] in a fellowship. If not, their gang arrives and it rises by [NOTORIOUS_BOUNTY_NPC_BONUS_SOLO] alone and [NOTORIOUS_BOUNTY_NPC_BONUS] in a fellowship."
 
 /datum/quest/kill/notorious_bounty/get_additional_reward(turf/origin_turf, turf/target_turf)
 	if(!target_mob_type)
 		return 0
 	var/boss_threat = initial(target_mob_type.threat_point) || 0
-	var/goon_threat = (total_spawned_tp > 0) ? total_spawned_tp : scaled_threat_budget()
-	if(!escort_settled)
-		goon_threat += scaled_threat_budget(extra_escort_tp(fellowship_extras))
-	return (boss_threat * QUEST_NOTORIOUS_BOUNTY_THREAT_MULT) + kill_tp_reward(goon_threat) + (faction?.notorious_bounty_amount || 0)
+	return (boss_threat * QUEST_NOTORIOUS_BOUNTY_THREAT_MULT) + kill_tp_reward(projected_gang_tp(max(1, fellowship_extras))) + (faction?.notorious_bounty_amount || 0)
+
+/datum/quest/kill/notorious_bounty/proc/projected_gang_tp(extras)
+	if(extras <= 0)
+		return 0
+	return scaled_threat_budget() + scaled_threat_budget(extra_escort_tp(extras - 1))
 
 /datum/quest/kill/notorious_bounty/scaled_threat_budget(budget = tp_budget)
 	. = round(budget * veteran_threat_mult())
@@ -159,10 +162,15 @@
 		. = min(., round(QUEST_KILL_MAX_MOBS * max_tp))
 
 /datum/quest/kill/notorious_bounty/group_threat_mult(extras)
-	var/base_tp = tp_budget + (target_mob_type ? (initial(target_mob_type.threat_point) || 0) : 0)
-	if(extras <= 0 || base_tp <= 0)
+	var/boss_tp = target_mob_type ? (initial(target_mob_type.threat_point) || 0) : 0
+	if(extras <= 0 || boss_tp <= 0)
 		return 1
-	return 1 + extra_escort_tp(extras) / base_tp
+	return 1 + (tp_budget + extra_escort_tp(extras - 1)) / boss_tp
+
+/datum/quest/kill/notorious_bounty/group_reward_mult(extras)
+	if(extras <= 0)
+		return solo_pay_share
+	return ..(extras - 1)
 
 /datum/quest/kill/notorious_bounty/proc/extra_escort_tp(extras)
 	if(extras <= 0)
@@ -170,13 +178,16 @@
 	var/datum/threat_region/TR = SSregionthreat.get_region(region)
 	return round(extras * NOTORIOUS_BOUNTY_ESCORT_TP_PER_EXTRA * (TR ? region_scale(TR) : 1))
 
-/datum/quest/kill/notorious_bounty/proc/spawn_extra_escort(obj/effect/landmark/quest_spawner/landmark)
-	if(escort_settled)
+/datum/quest/kill/notorious_bounty/proc/spawn_gang(obj/effect/landmark/quest_spawner/landmark)
+	if(gang_settled)
 		return
-	escort_settled = TRUE
-	var/budget = extra_escort_tp(fellowship_extras)
-	if(budget > 0 && !QDELETED(landmark))
-		spawn_goons(landmark, budget, QUEST_KILL_MAX_MOBS)
+	gang_settled = TRUE
+	if(fellowship_extras <= 0 || QDELETED(landmark))
+		return
+	spawn_goons(landmark, tp_budget, NOTORIOUS_BOUNTY_GOON_CAP)
+	var/escort_tp = extra_escort_tp(fellowship_extras - 1)
+	if(escort_tp > 0)
+		spawn_goons(landmark, escort_tp, QUEST_KILL_MAX_MOBS)
 
 /datum/quest/kill/notorious_bounty/estimate_mob_count()
 	return 1
@@ -187,7 +198,6 @@
 	if(!faction)
 		return FALSE
 	spawn_boss(landmark)
-	spawn_goons(landmark, tp_budget, NOTORIOUS_BOUNTY_GOON_CAP)
 	progress_required = 1
 	addtimer(CALLBACK(src, PROC_REF(apply_boss_name)), QUEST_BOSS_RENAME_DELAY)
 	addtimer(CALLBACK(src, PROC_REF(preserve_boss_corpse)), QUEST_BOSS_RENAME_DELAY)
@@ -203,9 +213,12 @@
 
 /datum/quest/kill/notorious_bounty/proc/spawn_goons(obj/effect/landmark/quest_spawner/landmark, budget, cap, immediate = FALSE)
 	var/saved_budget = tp_budget
+	var/saved_extras = fellowship_extras
 	tp_budget = budget
+	fellowship_extras = max(0, fellowship_extras - 1)
 	var/list/to_spawn = compose_warband()
 	tp_budget = saved_budget
+	fellowship_extras = saved_extras
 	if(length(to_spawn) > cap)
 		to_spawn.Cut(cap + 1)
 	for(var/goon_type in to_spawn)
@@ -220,10 +233,12 @@
 	var/obj/effect/landmark/quest_spawner/landmark = pending_landmark_ref?.resolve()
 	if(QDELETED(landmark))
 		return
-	spawn_goons(landmark, NOTORIOUS_BOUNTY_REINFORCE_TP, NOTORIOUS_BOUNTY_REINFORCE_CAP, immediate = TRUE)
-	reward_amount += NOTORIOUS_BOUNTY_NPC_BONUS
+	var/solo = fellowship_extras <= 0
+	spawn_goons(landmark, solo ? NOTORIOUS_BOUNTY_REINFORCE_TP_SOLO : NOTORIOUS_BOUNTY_REINFORCE_TP, solo ? NOTORIOUS_BOUNTY_REINFORCE_CAP_SOLO : NOTORIOUS_BOUNTY_REINFORCE_CAP, immediate = TRUE)
+	var/npc_bonus = solo ? NOTORIOUS_BOUNTY_NPC_BONUS_SOLO : NOTORIOUS_BOUNTY_NPC_BONUS
+	reward_amount += npc_bonus
 	quest_scroll?.update_quest_text()
-	announce_to_bearer("<b>The outlaw's gang arrives.</b> The reward for [boss_name] grows by [NOTORIOUS_BOUNTY_NPC_BONUS] mammon.")
+	announce_to_bearer("<b>The outlaw's gang arrives.</b> The reward for [boss_name] grows by [npc_bonus] mammon.")
 
 /datum/quest/kill/notorious_bounty/proc/preserve_boss_corpse()
 	var/mob/living/M = boss_ref?.resolve()
@@ -277,9 +292,10 @@
 	boss.add_filter("notorious_bounty_outline", 1, list("type" = "drop_shadow", "color" = "#ffee00", "size" = 0.1))
 	boss.update_sight()
 	refresh_hunter_marks()
-	reward_amount += NOTORIOUS_BOUNTY_PLAYER_BONUS
+	var/player_bonus = fellowship_extras > 0 ? NOTORIOUS_BOUNTY_PLAYER_BONUS : NOTORIOUS_BOUNTY_PLAYER_BONUS_SOLO
+	reward_amount += player_bonus
 	quest_scroll?.update_quest_text()
-	announce_to_bearer("<b>[boss_name] has been warned of you.</b> The reward rises by [NOTORIOUS_BOUNTY_PLAYER_BONUS] mammon.")
+	announce_to_bearer("<b>[boss_name] has been warned of you.</b> The reward rises by [player_bonus] mammon.")
 	to_chat(boss, span_danger("You are [boss_name]. Someone signed a contract for your head and the hunting party is on its way."))
 	to_chat(boss, span_danger("You cannot leave this ground. Fight them [DisplayTimeText(timeleft(hunt_timer_id), 1)] to earn [NOTORIOUS_BOUNTY_TRIUMPH] TRIUMPH. Success or failure does not matter, only that you have fought in glorious combat."))
 	to_chat(boss, span_boldnotice("You may kill them. Do not remove them from the round. Follow escalation rules. You may join any fight your gang has already started."))
