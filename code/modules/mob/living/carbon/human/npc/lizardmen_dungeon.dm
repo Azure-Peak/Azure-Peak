@@ -70,6 +70,8 @@ GLOBAL_LIST_INIT(psyvault_aggro, world.file2list("strings/rt/psyvaultaggrolines.
 	H.skin_tone = "e9d298"
 	//purity afloat
 	H.grant_language(/datum/language/otavan)
+	//cause there's naledians in that vault too now
+	H.grant_language(/datum/language/celestial)
 	ADD_TRAIT(H, TRAIT_NIGHT_VISION, TRAIT_GENERIC)
 	if(prob(60))
 		var/voicepack_choice = rand(1, 3)
