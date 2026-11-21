@@ -45,6 +45,35 @@
 		else
 			to_chat(src, span_warning("The earth is hollow and silent. You are beyond the reach of the Mossmother."))
 
+/mob/living/carbon/human/proc/adopt_name()
+	set name = "Adopt Name"
+	set category = "RoleUnique.Hag"
+	set desc = "Take on one of your collected names for a time, or restore your original name. You won't be able to give it away until you return to your original name."
+
+	var/datum/component/hag_curio_tracker/HCT = GetComponent(/datum/component/hag_curio_tracker)
+
+	// Just in case.
+	if(stat || !HAS_TRAIT(src, TRAIT_ANCIENT_HAG) || !HCT)
+		return
+
+	var/datum/component/hag_name/ID = GetComponent(/datum/component/hag_name)
+	if(ID) // we're already wearing a name, take it off
+		var/datum/hag_identity/identity = ID.identity
+		to_chat(src, span_warning("I cease mimicking the presence of [identity.name]."))
+		HCT.stored_names[ID.identity.name] = identity
+		HCT.prepared_boons[/datum/hag_boon/name] = (HCT.prepared_boons[/datum/hag_boon/name] || 0) + 1
+		qdel(ID)
+	else // we want to put on a name
+		var/response = tgui_input_list(src, "Which name to adopt?", "Don a visage", HCT.stored_names)
+		if(!response)
+			return
+		var/datum/hag_identity/identity = HCT.stored_names[response]
+		if(!identity)
+			return
+		AddComponent(/datum/component/hag_name, identity)
+		HCT.prepared_boons[/datum/hag_boon/name] = (HCT.prepared_boons[/datum/hag_boon/name] || 1) - 1
+		to_chat(src, span_warning("I assume the mantle of [identity.name]."))
+
 /mob/living/carbon/human/proc/listen_through_roots()
 	set name = "Listen through Roots"
 	set category = "RoleUnique.Hag"
@@ -86,6 +115,7 @@
 	var/parsed_secret = parsemarkdown_basic(html_encode(secret), hyperlink = TRUE)
 	to_chat(src, span_boldnotice("A familiar rhythm rises through the roots. The Mossmother remembers what [target.real_name] tried to bury..."))
 	to_chat(src, "<span class='info'>[parsed_secret]</span>")
+
 /mob/living/carbon/human/proc/remember_fey()
 	set name = "Remember Fey"
 	set category = "RoleUnique.Hag"
