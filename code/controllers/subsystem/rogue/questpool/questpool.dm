@@ -149,7 +149,8 @@ SUBSYSTEM_DEF(questpool)
 	evergreen_targets_by_region = list()
 	var/list/kill_caps = list()
 	var/list/weights = list()
-	var/left = 0
+	var/total_kill = 0
+	var/total_weight = 0
 	for(var/datum/threat_region/TR as anything in SSregionthreat.threat_regions)
 		var/kill = region_allows_pool(TR, QUEST_POOL_KILL) ? TR.get_kill_target(pop, target_mult * kill_supply_mult) : 0
 		var/evergreen = region_allows_pool(TR, QUEST_POOL_EVERGREEN) ? TR.get_evergreen_target(target_mult) : 0
@@ -159,28 +160,13 @@ SUBSYSTEM_DEF(questpool)
 		evergreen_targets_by_region[TR.region_name] = evergreen
 		kill_targets_by_region[TR.region_name] = 0
 		kill_caps[TR.region_name] = capacity - evergreen
-		left += kill
 		var/weight = kill * (QUEST_POOL_THREAT_MIN_WEIGHT + TR.get_threat_weight())
 		if(weight > 0 && capacity > evergreen)
 			weights[TR.region_name] = weight
-	while(left > 0 && length(weights))
-		var/total_weight = 0
-		for(var/region in weights)
-			total_weight += weights[region]
-		var/spill = 0
-		var/list/full = list()
-		for(var/region in weights)
-			var/share = left * weights[region] / total_weight
-			var/room = kill_caps[region] - kill_targets_by_region[region]
-			if(share >= room)
-				spill += share - room
-				share = room
-				full += region
-			kill_targets_by_region[region] += share
-		weights -= full
-		left = spill
-	for(var/region in kill_targets_by_region)
-		kill_targets_by_region[region] = round(kill_targets_by_region[region], 1)
+			total_weight += weight
+			total_kill += kill
+	for(var/region in weights)
+		kill_targets_by_region[region] = min(kill_caps[region], round(total_kill * weights[region] / total_weight, 1))
 
 /datum/controller/subsystem/questpool/proc/stagger_roundstart_lapses()
 	for(var/datum/quest/Q as anything in pool)
