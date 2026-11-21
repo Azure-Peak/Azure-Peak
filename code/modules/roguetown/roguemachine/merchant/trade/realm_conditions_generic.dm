@@ -116,7 +116,7 @@
 		list("op" = CONDITION_OP_MODIFY_CULTURAL, "typepath" = /datum/supply_pack/rogue/merc_weapons/grenzelstaff, "price_mod" = CONDITION_PRICE_VERY_CHEAP, "qty_mod" = CONDITION_QTY_HEAVY),
 		list("op" = CONDITION_OP_MODIFY_CULTURAL, "typepath" = /datum/supply_pack/rogue/grenzelhoft/magos_mantle, "price_mod" = CONDITION_PRICE_VERY_CHEAP, "qty_mod" = CONDITION_QTY_HEAVY),
 		list("op" = CONDITION_OP_MODIFY_CULTURAL, "typepath" = /datum/supply_pack/rogue/grenzelhoft/blacksteel_cuirass, "price_mod" = CONDITION_PRICE_CHEAP, "qty_mod" = CONDITION_QTY_MODERATE),
-	) 
+	)
 	demand_modifiers = list(
 		list("op" = CONDITION_OP_MODIFY, "good" = TRADE_GOOD_SILK, "price_mod" = CONDITION_PRICE_VERY_CHEAP, "qty_mod" = CONDITION_QTY_LOW),
 		list("op" = CONDITION_OP_ADD, "good" = TRADE_GOOD_CURED_LEATHER, "qty_min" = BULK_QTY_MEDIUM_MIN, "qty_max" = BULK_QTY_MEDIUM_MAX, "price_mod" = BULK_PRICE_EAGER_PREMIUM),
@@ -209,6 +209,7 @@
 	demand_modifiers = list(
 		list("op" = CONDITION_OP_ADD, "good" = TRADE_GOOD_STEEL_INGOT, "qty_min" = BULK_QTY_LARGE_MIN, "qty_max" = BULK_QTY_LARGE_MAX, "price_mod" = BULK_PRICE_EAGER_PREMIUM),
 		list("op" = CONDITION_OP_ADD, "good" = TRADE_GOOD_WOOD, "qty_min" = BULK_QTY_LARGE_MIN, "qty_max" = BULK_QTY_LARGE_MAX, "price_mod" = BULK_PRICE_PREMIUM),
+		list("op" = CONDITION_OP_ADD, "good" = TRADE_GOOD_PLANK, "qty_min" = BULK_QTY_LARGE_MIN, "qty_max" = BULK_QTY_LARGE_MAX, "price_mod" = BULK_PRICE_EAGER_PREMIUM),
 	)
 
 /datum/realm_condition/hammerhold_brigand_uprising

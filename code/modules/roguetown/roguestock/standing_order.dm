@@ -171,6 +171,8 @@ GLOBAL_LIST_EMPTY(standing_order_pool)
 	mix[TRADE_GOOD_STONE] = rand(40, 70)
 	if(prob(70))
 		mix[TRADE_GOOD_WOOD] = rand(12, 25)
+	if(prob(50))
+		mix[TRADE_GOOD_PLANK] = rand(10, 20)
 	return mix
 
 /datum/standing_order/demand_construction_bulk/generate_name(datum/economic_region/region)
@@ -179,8 +181,8 @@ GLOBAL_LIST_EMPTY(standing_order_pool)
 /datum/standing_order/demand_construction_bulk/generate_description(datum/economic_region/region)
 	var/list/projects = project_by_region[region.region_id]
 	if(length(projects))
-		return "[region.name] needs stone and timber for [pick(projects)]."
-	return "Builders in [region.name] need stone and timber."
+		return "[region.name] needs stone, timber, and planks for [pick(projects)]."
+	return "Builders in [region.name] need stone, timber, and planks."
 
 /datum/standing_order/demand_construction_smithy
 	pair_label = "Construction"
