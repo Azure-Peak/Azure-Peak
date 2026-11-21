@@ -312,12 +312,9 @@
 		if(!agent || !istype(agent) || !agent.mind)
 			to_chat(user, span_warning("Invalid agent. This is a bug."))
 			return
-		var/list/agent_prefs = agent.mind.job_subprefs["Court Agent"]
-		if(!length(agent_prefs))
-			to_chat(user, span_warning("Invalid agent prefs. This is a bug."))
-			return
-		var/codename = agent_prefs["codename"]
-		var/hand_notes_html = agent_prefs["hand_file_notes"]
+		var/list/agent_prefs = agent.mind.job_subprefs?["Court Agent"]
+		var/codename = agent_prefs?["codename"]
+		var/hand_notes_html = agent_prefs?["hand_file_notes"]
 
 		var/list/d_list = agent.get_mob_descriptors()
 		var/trait_desc = "[capitalize(build_coalesce_description_nofluff(d_list, agent, list(MOB_DESCRIPTOR_SLOT_TRAIT), "%DESC1%"))]"
