@@ -104,10 +104,10 @@
 	if(!trade_good_id)
 		return
 	for(var/datum/economic_event/E as anything in GLOB.active_economic_events.Copy())
-		if(E.event_type != ECON_EVENT_OVERSUPPLY || !(trade_good_id in E.affected_goods))
+		if(!(trade_good_id in E.glut_goods))
 			continue
 		var/still_glutted = FALSE
-		for(var/good_id in E.affected_goods)
+		for(var/good_id in E.glut_goods)
 			var/datum/roguestock/D = SStreasury.stockpile_by_trade_good[good_id]
 			if(D && D.market_stock * 100 / D.market_target >= MARKET_RATIO_OVERSTOCKED)
 				still_glutted = TRUE
@@ -290,11 +290,9 @@
 	if(!trade_good_id)
 		return ""
 	for(var/datum/economic_event/E as anything in GLOB.active_economic_events)
-		if(!(trade_good_id in E.affected_goods))
-			continue
-		if(E.event_type == ECON_EVENT_SHORTAGE)
+		if(trade_good_id in E.shortage_goods)
 			return "SHORTAGE"
-		if(E.event_type == ECON_EVENT_OVERSUPPLY)
+		if(trade_good_id in E.glut_goods)
 			return "GLUT"
 	return ""
 
@@ -302,12 +300,10 @@
 	if(!trade_good_id)
 		return null
 	for(var/datum/economic_event/E as anything in GLOB.active_economic_events)
-		if(E.event_type != ECON_EVENT_SHORTAGE)
-			continue
-		if(!(trade_good_id in E.affected_goods))
+		if(!(trade_good_id in E.shortage_goods))
 			continue
 		var/list/good_names = list()
-		for(var/good_id in E.affected_goods)
+		for(var/good_id in E.shortage_goods)
 			var/datum/trade_good/tg = GLOB.trade_goods[good_id]
 			good_names += (tg && tg.name) ? tg.name : good_id
 		return list(

@@ -93,9 +93,9 @@ export type Charter = {
 export type EconomicEvent = {
   name: string;
   description: string;
-  event_type: string;
   days_left: number;
-  affected_goods: string[];
+  shortage_goods: string[];
+  glut_goods: string[];
 };
 
 export type MercenaryEntry = {

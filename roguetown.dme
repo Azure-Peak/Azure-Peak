@@ -3240,6 +3240,7 @@
 #include "code\modules\roguetown\roguemachine\zadcote\zadcote_dispatch.dm"
 #include "code\modules\roguetown\roguemachine\zadcote\zadlink.dm"
 #include "code\modules\roguetown\roguestock\_crown_imports.dm"
+#include "code\modules\roguetown\roguestock\_economic_event.dm"
 #include "code\modules\roguetown\roguestock\_roguestock.dm"
 #include "code\modules\roguetown\roguestock\blockade.dm"
 #include "code\modules\roguetown\roguestock\crown_imports.dm"

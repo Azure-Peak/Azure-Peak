@@ -113,17 +113,27 @@ SUBSYSTEM_DEF(economy)
 	roll_economic_events()
 
 /datum/controller/subsystem/economy/proc/roll_economic_events()
-	var/wanted = rand(ECON_EVENT_DAILY_MIN, ECON_EVENT_DAILY_MAX)
-	while(length(GLOB.active_economic_events) >= wanted)
-		if(!displace_oldest_event())
+	roll_event_kind(TRUE, ECON_EVENT_FISH_CROP_ACTIVE, ECON_EVENT_FISH_CROP_ACTIVE)
+	roll_event_kind(FALSE, ECON_EVENT_OTHER_MIN, ECON_EVENT_OTHER_MAX)
+
+/datum/controller/subsystem/economy/proc/roll_event_kind(fish_crops, min_count, max_count)
+	var/wanted = rand(min_count, max_count)
+	while(count_economic_events(fish_crops) >= wanted)
+		if(!displace_oldest_event(fish_crops))
 			break
-	while(length(GLOB.active_economic_events) < wanted)
-		if(!roll_single_event())
+	while(count_economic_events(fish_crops) < wanted)
+		if(!roll_single_event(fish_crops))
 			break
 
-/datum/controller/subsystem/economy/proc/displace_oldest_event()
+/datum/controller/subsystem/economy/proc/count_economic_events(fish_crops)
+	. = 0
 	for(var/datum/economic_event/E as anything in GLOB.active_economic_events)
-		if(E.day_started >= ECONOMY_DAY)
+		if(E.fish_crops == fish_crops)
+			.++
+
+/datum/controller/subsystem/economy/proc/displace_oldest_event(fish_crops)
+	for(var/datum/economic_event/E as anything in GLOB.active_economic_events)
+		if(E.fish_crops != fish_crops || E.day_started >= ECONOMY_DAY)
 			continue
 		end_economic_event(E)
 		return TRUE
@@ -133,13 +143,15 @@ SUBSYSTEM_DEF(economy)
 	for(var/datum/economic_event/active as anything in GLOB.active_economic_events)
 		if(length(E.affected_goods & active.affected_goods))
 			return TRUE
+		if(length(E.exclusive & active.exclusive))
+			return TRUE
 	return FALSE
 
-/datum/controller/subsystem/economy/proc/roll_single_event()
+/datum/controller/subsystem/economy/proc/roll_single_event(fish_crops)
 	var/list/eligible = list()
 	for(var/path in subtypesof(/datum/economic_event))
 		var/datum/economic_event/probe = path
-		if(!initial(probe.name))
+		if(!initial(probe.name) || initial(probe.fish_crops) != fish_crops)
 			continue
 		var/cooled_until = event_path_cooldowns[path]
 		if(cooled_until && ECONOMY_DAY < cooled_until)

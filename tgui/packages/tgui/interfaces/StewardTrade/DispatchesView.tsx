@@ -19,7 +19,7 @@ import { formatMammon } from '../common/format';
 export const dispatchCount = (data: Data) =>
   (data.atc_loan?.available ? 1 : 0) +
   (data.active_events || []).filter(
-    (e) => e.event_type === 'shortage' && e.saturation_target > 0,
+    (e) => (e.shortage_goods || []).length > 0 && e.saturation_target > 0,
   ).length;
 
 const headerStyle: CSSProperties = {
@@ -149,15 +149,17 @@ const EventRow = (props: {
   goodName: (id: string) => string;
 }) => {
   const e = props.event;
-  const isShortage = e.event_type === 'shortage';
+  const scarce = e.shortage_goods || [];
+  const cheap = e.glut_goods || [];
   const target = e.saturation_target || 0;
   const progress = e.saturation_progress || 0;
   const pct =
-    isShortage && target > 0
+    scarce.length > 0 && target > 0
       ? Math.min(100, Math.round((progress / target) * 100))
       : 0;
-  const affected = (e.affected_goods || []).map(props.goodName).join(', ');
-  const relief = `Relief: ${formatMammon(Math.round(progress))}m / ${formatMammon(Math.round(target))}m sold (${pct}%). Accepts: ${affected}`;
+  const scarceNames = scarce.map(props.goodName).join(', ');
+  const cheapNames = cheap.map(props.goodName).join(', ');
+  const relief = `Relief: ${formatMammon(Math.round(progress))}m / ${formatMammon(Math.round(target))}m sold (${pct}%). Accepts: ${scarceNames}`;
   return (
     <div
       style={{
@@ -169,18 +171,20 @@ const EventRow = (props: {
       }}
     >
       <div style={{ display: 'flex', alignItems: 'baseline', gap: '8px' }}>
-        <span
-          style={{ fontSize: FONT_SMALL, color: isShortage ? SEAL_RED : SEAL_GREEN }}
-        >
-          {isShortage ? 'Shortage' : 'Glut'}
-        </span>
+        {scarce.length > 0 && (
+          <span style={{ fontSize: FONT_SMALL, color: SEAL_RED }}>Shortage</span>
+        )}
+        {cheap.length > 0 && (
+          <span style={{ fontSize: FONT_SMALL, color: SEAL_GREEN }}>Glut</span>
+        )}
         <b style={{ ...ellipsisCellStyle, color: INK }}>{e.name}</b>
         <span style={{ flex: '0 0 auto', color: INK_SOFT }}>
           {e.days_left}d left
         </span>
       </div>
       <div style={smallSoft}>{e.description}</div>
-      {isShortage && target > 0 && (
+      {cheap.length > 0 && <div style={smallSoft}>Cheap: {cheapNames}</div>}
+      {scarce.length > 0 && target > 0 && (
         <div
           style={{
             display: 'flex',

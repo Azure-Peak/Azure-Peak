@@ -161,9 +161,7 @@ export const CaravansView = (props: { data: Data }) => {
 
   const shortageGoods = new Set<string>();
   for (const e of data.active_events || []) {
-    if (e.event_type === 'shortage') {
-      for (const gid of e.affected_goods || []) shortageGoods.add(gid);
-    }
+    for (const gid of e.shortage_goods || []) shortageGoods.add(gid);
   }
 
   const selectedRequest = data.active_orders.find((o) => o.ref === requestRef);

@@ -340,9 +340,9 @@ export type CaravanQuote = {
 export type EconomicEvent = {
   name: string;
   description: string;
-  event_type: string; // ECON_EVENT_SHORTAGE | ECON_EVENT_OVERSUPPLY
   days_left: number;
-  affected_goods: string[];
+  shortage_goods: string[];
+  glut_goods: string[];
   saturation_target: number;
   saturation_progress: number;
 };

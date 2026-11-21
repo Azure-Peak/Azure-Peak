@@ -174,7 +174,8 @@
 
 		<ul>
 			<li><b>Shortage</b> - affected goods spike in price.</li>
-			<li><b>Oversupply</b> - affected goods drop in price.</li>
+			<li><b>Glut</b> - affected goods drop in price.</li>
+			<li><b>Both</b> - some events make one set of goods scarce and another cheap.</li>
 		</ul>
 
 		<h3>Ending a Shortage Early</h3> <p>A shortage ends early once enough of the

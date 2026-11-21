@@ -181,9 +181,9 @@
 		events += list(list(
 			"name" = E.name,
 			"description" = E.description,
-			"event_type" = E.event_type,
 			"days_left" = max(0, E.day_expires - ECONOMY_DAY),
-			"affected_goods" = E.affected_goods ? E.affected_goods.Copy() : list(),
+			"shortage_goods" = E.shortage_goods.Copy(),
+			"glut_goods" = E.glut_goods.Copy(),
 			"saturation_target" = E.saturation_target,
 			"saturation_progress" = E.saturation_progress,
 		))
@@ -469,8 +469,10 @@
 	if(isnull(event_tag_by_good))
 		event_tag_by_good = list()
 		for(var/datum/economic_event/E as anything in GLOB.active_economic_events)
-			for(var/gid in E.affected_goods)
-				event_tag_by_good[gid] = E.event_type
+			for(var/gid in E.shortage_goods)
+				event_tag_by_good[gid] = "SHORTAGE"
+			for(var/gid in E.glut_goods)
+				event_tag_by_good[gid] = "GLUT"
 
 	var/list/market_rows = list()
 	var/list/market_stockpile_entries = SStreasury.stockpile_by_trade_good
@@ -482,11 +484,7 @@
 		if(!entry)
 			continue
 
-		var/event_tag = ""
-		if(event_tag_by_good[good_id] == ECON_EVENT_SHORTAGE)
-			event_tag = "SHORTAGE"
-		else if(event_tag_by_good[good_id] == ECON_EVENT_OVERSUPPLY)
-			event_tag = "GLUT"
+		var/event_tag = event_tag_by_good[good_id] || ""
 
 		market_rows += list(list(
 			"good_id" = good_id,
