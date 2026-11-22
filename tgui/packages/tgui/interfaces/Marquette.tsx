@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Tooltip } from 'tgui-core/components';
 import type { BooleanLike } from 'tgui-core/react';
 
 import { useBackend } from '../backend';
@@ -54,8 +55,8 @@ const ItemRow = (props: {
 }) => {
   const { item, contents, disabled, onBuy } = props;
   const outOfStock = !!item.maximum && !item.remaining;
-  return (
-    <div style={denseRowStyle} title={contents.join('\n')}>
+  const row = (
+    <div style={denseRowStyle}>
       <div
         style={{
           ...ellipsisCellStyle,
@@ -102,6 +103,19 @@ const ItemRow = (props: {
         Buy
       </button>
     </div>
+  );
+  if (!contents.length) {
+    return row;
+  }
+  return (
+    <Tooltip
+      position="bottom-start"
+      content={contents.map((line) => (
+        <div key={line}>{line}</div>
+      ))}
+    >
+      {row}
+    </Tooltip>
   );
 };
 
