@@ -297,7 +297,7 @@
 		if ("Unarmed")
 			H.adjust_skillrank_up_to(/datum/skill/combat/unarmed, SKILL_LEVEL_EXPERT, TRUE)
 			ADD_TRAIT(H, TRAIT_CIVILIZEDBARBARIAN, TRAIT_GENERIC)
-		if ("Greatsword") //Better starting protection than the bronze sword option, but cannot upgrade to brigandine.
+		if ("Greatsword")
 			H.adjust_skillrank_up_to(/datum/skill.combat/swords, SKILL_LEVEL_JOURNEYMAN, TRUE)
 			r_hand = /obj/item/rogueweapon/greatsword/iron
 			backr = /obj/item/rogueweapon/scabbard/gwstrap
@@ -316,11 +316,11 @@
 				armor = /obj/item/clothing/suit/roguetown/armor/leather/bikini
 			else
 				armor = /obj/item/clothing/suit/roguetown/armor/leather/hide
-		if("Skin")
+		if("Skin") //Better starting protection than Hide, cannot upgrade
 			head = /obj/item/clothing/head/roguetown/helmet/leather/volfhelm
 			armor = /obj/item/clothing/suit/roguetown/armor/manual/resting/chest/barbarian //a leather armor.
 			shirt = /obj/item/clothing/suit/roguetown/armor/manual/resting/body/barbarian //a gambeson. The skin armor options start better protected, but cannot upgrade. A basic gamby + leather armor will match them, and heavy gamby + light brig will eclipse them significantly.
-		if("Muscles - Bodybuilder")
+		if("Muscles - Bodybuilder")  //More tedius to maintain than Skin, cannot upgrade
 			head = /obj/item/clothing/head/roguetown/helmet/leather/volfhelm
 			armor = /obj/item/clothing/suit/roguetown/armor/manual/resting/chest/barbarian //a leather armor.
 			shirt = /obj/item/clothing/suit/roguetown/armor/manual/pushups/barbarian //a fullbody leather armor.
