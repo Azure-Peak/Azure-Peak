@@ -174,17 +174,6 @@
 		return
 	return ..()
 
-// flying creatures with leeches is a menace as it turns out
-/obj/item/natural/worms/leech/pickup(mob/user)
-	. = ..()
-	if(ishuman(user) && HAS_TRAIT(user, TRAIT_LESSER_FAE))
-		var/mob/living/carbon/human/H = user
-		H.visible_message(span_warning("\The [src] squirms and latches onto [H]!"), span_warning("I can't get a good grasp on [src], it squirms and bites me!"))
-		user.dropItemToGround(src)
-		var/obj/item/bodypart/affecting = H.get_bodypart(BODY_ZONE_CHEST)
-		src.forceMove(H)
-		affecting.add_embedded_object(src, silent = TRUE, crit_message = FALSE)
-
 /// LEECH LORE... Collect em all!
 /obj/item/natural/worms/leech/proc/leech_lore()
 	if(consistent)

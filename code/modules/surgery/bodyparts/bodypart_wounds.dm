@@ -155,6 +155,8 @@
 				do_crit = TRUE
 	if(do_crit && get_damage() <= (max_damage * CRIT_DISMEMBER_DAMAGE_THRESHOLD)) //No crits unless the limb is at 90%+ damage.
 		do_crit = FALSE
+	if(istype(weapon) && HAS_TRAIT(owner, TRAIT_IRON_WEAK) && weapon.is_iron())
+		dam *= 1.2 // a flat damage bonus would benefit swiftspamming overbearingly so we just do a little multiplier
 	if(user)
 		if(user.goodluck(2))
 			dam += 10

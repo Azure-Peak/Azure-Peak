@@ -368,13 +368,6 @@ GLOBAL_LIST_INIT(stone_personality_descs, list(
 	else // if we're in cmode, beat them to death with rocks.
 		return ..()
 
-// flying creatures picking up magic high-force rocks is also a nightmare
-/obj/item/natural/stone/pickup(mob/user)
-	. = ..()
-	if(HAS_TRAIT(user, TRAIT_LESSER_FAE) && (/datum/materia_aspect/arcyne in materia))
-		to_chat(user, span_warning("The earthen enchantment threatens to ground me, I drop \the [src] reflexively!"))
-		user.dropItemToGround(src)
-
 /obj/item/natural/rock
 	name = "boulder"
 	desc = "They're not 'rocks', they're minerals!"

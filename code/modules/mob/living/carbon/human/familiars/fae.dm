@@ -52,7 +52,7 @@
 		TRAIT_UNCONVERTIBLE,
 		TRAIT_NONAMESTEAL,
 		TRAIT_IRON_WEAK, // iron makes them uncomfy and iron weapons hurt more
-		TRAIT_LESSER_FAE // iron can shackle them, plus some more specific restrictions (leeches/rocks/sack shenanigan prevention)
+		TRAIT_LESSER_FAE // iron can shackle them
 	)
 	origin = "The Faewyld"
 	origin_default = /datum/virtue/origin/unselectable/fae
@@ -319,7 +319,8 @@
 	owner.movement_type = initial(owner.movement_type)
 	REMOVE_TRAIT(owner, TRAIT_SPELLCOCKBLOCK, TRAIT_GENERIC)
 	if(still_has_iron)
-		owner.apply_status_effect(/datum/status_effect/debuff/iron_weakness) // it shouldn't go away if you're still ironclad
+		spawn(1)
+			owner.apply_status_effect(/datum/status_effect/debuff/iron_weakness) // it shouldn't go away if you're still ironclad
 
 /atom/movable/screen/alert/status_effect/debuff/iron_weakness
 	name = "Iron Weakness"

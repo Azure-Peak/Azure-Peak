@@ -450,7 +450,7 @@
 #define TRAIT_EDIT_DESCRIPTORS "Edit Descriptors"
 #define TRAIT_NIGHT_OWL_LESSER "Nocturnal" // inverted sleepcycle but no moodbuff
 #define TRAIT_IRON_WEAK "Iron Weakness" // iron items are uncomfy, and deal increased force to you
-#define TRAIT_LESSER_FAE "Lesser Fae" // for fae familiars. harsher ironweakness, some cheese prevention
+#define TRAIT_LESSER_FAE "Lesser Fae" // for fae familiars. harsher ironweakness
 
 //Ecom Related traits
 #define TRAIT_DEBTOR "Default Debtor"

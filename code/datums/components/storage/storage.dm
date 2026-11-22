@@ -909,9 +909,6 @@
 	for(var/mob/M in range(1, A))
 		if(M.active_storage == src)
 			close(M)
-	if(isitem(A) && click_gather && HAS_TRAIT(user, TRAIT_LESSER_FAE))
-		to_chat(user, "\The [A] is too bulky for me to carry.")
-		user.dropItemToGround(A)
 
 /datum/component/storage/proc/signal_take_obj(datum/source, atom/movable/AM, new_loc, force = FALSE)
 	if(!(AM in real_location()))

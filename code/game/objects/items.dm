@@ -2032,6 +2032,6 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 /obj/item/proc/remove_floating() // needed for timers
 	item_flags &= ~FLOATING_ITEM
 
-/// should return true if the item is majority iron, for example armor or weapons, that should trigger iron weaknesses in fae
+/// should return true if the item is majority iron, for example armor or weapons, that should trigger iron weaknesses in fae. don't allow cheesey renaming strats though
 /obj/item/proc/is_iron()
-	return (smeltresult && smeltresult == /obj/item/ingot/iron) || findtext(name, "iron")
+	return (smeltresult && smeltresult == /obj/item/ingot/iron) || findtext(initial(name), "iron")
