@@ -47,7 +47,7 @@
 	. += span_info("Some <b>townsfolk</b> can post contracts of their own and pay for them with their own money, up to [TOWNER_MAX_ACTIVE_POSTINGS] at a time. They can pin them to the Ledger or hand them over in person. The <b>[english_list(GLOB.crown_authority_roles)]</b> can post any of them. The Treasury pays [TOWNER_POSTING_CROWN_COST_MULT] times the price. The <b>[english_list(GLOB.atc_positions)]</b> can post any of them from the ATC's treasury at [TOWNER_POSTING_COMPANY_COST_MULT] times the price. Only the poster can open what is recovered.")
 	. += span_info("Your <b>fellowship</b> can turn in contracts you hold if you fall in battle. By default the reward is split evenly between everyone in the fellowship when the contract was taken. Each member's levy exemption applies to their own share. The leader can switch to paying whoever turns it in. Contracts taken while rewards were split stay split.")
 	. += span_info("A <b>fellowship of [BLOCKADE_FELLOWSHIP_REQUIREMENT] or more</b> can put up a stake of <b>[HOARD_RECOVERY_PLEDGE] mammon</b> to call for a <b>Hoard Recovery</b> in a region whose brigand hoard has reached <b>[HOARD_RECOVERY_HOARD_MINIMUM] mammon</b>. It pays the usual blockade reward. The Crown taxes the recovered hoard as <b>Recovered Spoils</b>. Crown officials can also issue a hoard recovery scroll like any other defense scroll.")
-	. += span_info("A ghost may take up a <b>Notorious Bounty</b> and play the outlaw fighting against you. Its reward then rises by <b>[NOTORIOUS_BOUNTY_PLAYER_BONUS] mammon</b>. If no one answers, it rises by <b>[NOTORIOUS_BOUNTY_NPC_BONUS]</b>.")
+	. += span_info("A ghost may take up a <b>Notorious Bounty</b> and play the outlaw fighting against you. Its reward then rises by <b>[NOTORIOUS_BOUNTY_PLAYER_BONUS_SOLO] mammon</b> alone and <b>[NOTORIOUS_BOUNTY_PLAYER_BONUS]</b> in a fellowship. If no one answers, it rises by <b>[NOTORIOUS_BOUNTY_NPC_BONUS_SOLO]</b> alone and <b>[NOTORIOUS_BOUNTY_NPC_BONUS]</b> in a fellowship.")
 	. += span_info("The <b>[english_list(GLOB.contract_proxy_officials)]</b> may turn in any completed contract on the holder's behalf. The reward goes to the holder's own account. They take no cut.")
 
 /obj/structure/roguemachine/contractledger/attackby(obj/item/P, mob/living/carbon/human/user, params)
@@ -115,7 +115,6 @@
 /obj/structure/roguemachine/contractledger/ui_data(mob/user)
 	var/list/data = list()
 	var/datum/job/mob_job = user?.job ? SSjob.GetJob(user.job) : null
-	data["is_handler"] = !!mob_job?.is_quest_giver
 	data["balance"] = SStreasury.get_balance(user)
 	data["has_account"] = SStreasury.has_account(user)
 	var/active_base = mob_job?.max_active_quests || QUEST_MAX_ACTIVE_PER_PLAYER
@@ -131,10 +130,6 @@
 		if(elapsed < CONTRACT_TOWNIE_GATE_TIME)
 			gate_remaining = round((CONTRACT_TOWNIE_GATE_TIME - elapsed) / 10)
 	data["townie_gate_remaining"] = gate_remaining
-	data["townie_contract_gate_exempt_jobs"] = SSjob.townie_contract_gate_exempt_display_names()
-	data["quest_claim_barred_jobs"] = SSjob.quest_claim_barred_display_names()
-	data["quest_claim_towner_jobs"] = SSjob.quest_claim_towner_names
-	data["quest_claim_lowpop_jobs"] = SSjob.quest_claim_lowpop_names
 	data["quest_claim_lowpop_active"] = quest_claim_lowpop_active()
 	data["take_cooldown_remaining"] = round(SSquestpool.take_cooldown_remaining(user) / 10)
 	var/mob/living/L = user
@@ -148,55 +143,24 @@
 	data["solo_limit_applies"] = quest_claim_uses_solo_allowance(user)
 	data["solo_limit_ready"] = SSquestpool.is_solo_sign_ready(user)
 	data["solo_limit_reason"] = quest_solo_limit_reason(user)
-	data["solo_limit_minutes"] = QUEST_SOLO_SIGN_COOLDOWN / (1 MINUTES)
-	data["quest_claim_solo_jobs"] = SSjob.quest_claim_solo_names
-	data["arrival_scan_range"] = QUEST_ARRIVAL_SCAN_RANGE
 	data["pool"] = build_pool_listing(user)
 	data["active"] = build_active_listing(user)
-	data["regions"] = build_region_listing()
 	data["hoard_recovery_regions"] = build_hoard_recovery_region_listing()
-	data["hoard_recovery_pledge"] = HOARD_RECOVERY_PLEDGE
-	data["hoard_recovery_fellowship_min"] = BLOCKADE_FELLOWSHIP_REQUIREMENT
-	data["hoard_recovery_hoard_min"] = HOARD_RECOVERY_HOARD_MINIMUM
-	data["townie_gate_minutes"] = CONTRACT_TOWNIE_GATE_TIME / (1 MINUTES)
-	data["veteran_threat_pct"] = round((QUEST_VETERAN_THREAT_MULT - 1) * 100)
-	data["fellowship_reward_cap_pct"] = round((QUEST_FELLOWSHIP_REWARD_MULT_CAP - 1) * 100)
-	data["blockade_defender_min"] = BLOCKADE_FELLOWSHIP_REQUIREMENT
-	data["blockade_defender_max"] = QUEST_FELLOWSHIP_SCALE_MAX
-	data["blockade_extra_defender_pct"] = round(QUEST_FELLOWSHIP_REWARD_PER_EXTRA * 100)
-	data["blockade_extra_threat_pct"] = round(QUEST_FELLOWSHIP_THREAT_PER_EXTRA_BLOCKADE * 100)
-	data["towner_crown_cost_mult"] = TOWNER_POSTING_CROWN_COST_MULT
-	data["fellowship_bonus_first"] = QUEST_ACTIVE_FELLOWSHIP_BONUS_FIRST
-	data["fellowship_bonus_per_member"] = QUEST_ACTIVE_FELLOWSHIP_BONUS_PER_MEMBER
 	data["scout_regions"] = SSregionthreat.build_scout_region_rows()
 	data["spoils_tax_rate"] = SStreasury.get_tax_rate(TAX_CATEGORY_RECOVERED_SPOILS)
 	data["tax_rate"] = SStreasury.get_tax_rate(TAX_CATEGORY_CONTRACT_LEVY)
-	data["region_scales_by_type"] = build_region_scales_by_type()
-	data["can_proxy_turnin"] = (user.job in GLOB.contract_proxy_officials)
-	data["can_admin_complete"] = can_admin_complete(user)
 	data["issued"] = build_issued_listing(user)
-	data["issuer_cancel_window_minutes"] = MIN_TIME_BEFORE_CANCEL_TAKEN_QUEST / (1 MINUTES)
-	data["refund_on_not_taken_pct"] = REFUND_ON_NOT_TAKEN * 100
-	data["refund_on_failure_pct"] = REFUND_ON_FAILURE * 100
 	var/list/dynamic_roles = resolve_dynamic_roles(user)
 	data["dynamic_roles"] = dynamic_roles
 	data["dynamic_role"] = length(dynamic_roles) ? dynamic_roles[1] : null
-	if(("innkeeper" in dynamic_roles) || ("steward" in dynamic_roles))
-		data["veteran_types"] = build_veteran_types()
 	if("innkeeper" in dynamic_roles)
 		data["rumor_points"] = round(SStreasury.rumor_points, 0.1)
-		data["rumor_refill_base"] = RUMOR_POINTS_BASE_REFILL
-		data["rumor_refill_per_player"] = RUMOR_POINTS_PER_PLAYER
 		data["rumor_active_players"] = get_active_player_count()
 		add_rumor_types(data)
-		data["rumor_destinations"] = build_rumor_destinations()
 		data["rumor_log"] = SStreasury.rumor_log
-		data["rumor_lucrative_mult"] = RUMOR_LUCRATIVE_MULT
 	if("steward" in dynamic_roles)
 		data["is_alderman_acting"] = (SScity_assembly?.is_alderman(user) && user.job != "Steward") ? TRUE : FALSE
 		data["pledge_balance"] = SStreasury.burgher_pledge_fund ? SStreasury.burgher_pledge_fund.balance : 0
-		data["pledge_refill_base"] = BURGHER_PLEDGE_BASE_REFILL
-		data["pledge_refill_per_player"] = BURGHER_PLEDGE_PER_PLAYER
 		data["pledge_active_players"] = get_active_player_count()
 		data["pledge_available"] = SStreasury.burgher_pledge_fund ? TRUE : FALSE
 		// Guild Charter of Arms tribute contributes a flat bonus to the Pledge refill when active.
@@ -209,18 +173,58 @@
 		data["blockade_region_labels"] = build_blockade_region_labels()
 		data["defense_log"] = SStreasury.defense_log
 		data["active_writ_regions"] = build_active_writ_regions()
-		data["bonus_pay_light_mult"] = COMMISSION_BONUS_PAY_LIGHT_MULT
-		data["bonus_pay_full_mult"] = COMMISSION_BONUS_PAY_MULT
 		refresh_directive_quota()
-		data["directives_per_day"] = COMMISSION_REQUESTS_PER_DAY
 		data["directives_issued_today"] = directives_issued_today
 	if("towner" in dynamic_roles)
-		data["towner_postings"] = build_towner_posting_listing(user)
 		data["towner_purse_balance"] = SStreasury?.discretionary_fund?.balance || 0
 		data["towner_company_balance"] = SStreasury?.merchant_fund?.balance || 0
-		data["towner_company_cost_mult"] = TOWNER_POSTING_COMPANY_COST_MULT
 		data["towner_active_postings"] = count_active_towner_postings(user)
-		data["towner_max_postings"] = TOWNER_MAX_ACTIVE_POSTINGS
+	return data
+
+/obj/structure/roguemachine/contractledger/ui_static_data(mob/user)
+	var/list/data = list()
+	var/datum/job/mob_job = user?.job ? SSjob.GetJob(user.job) : null
+	data["is_handler"] = !!mob_job?.is_quest_giver
+	data["can_proxy_turnin"] = (user.job in GLOB.contract_proxy_officials)
+	data["can_admin_complete"] = can_admin_complete(user)
+	data["townie_contract_gate_exempt_jobs"] = SSjob.townie_contract_gate_exempt_display_names()
+	data["quest_claim_barred_jobs"] = SSjob.quest_claim_barred_display_names()
+	data["quest_claim_towner_jobs"] = SSjob.quest_claim_towner_names
+	data["quest_claim_lowpop_jobs"] = SSjob.quest_claim_lowpop_names
+	data["quest_claim_solo_jobs"] = SSjob.quest_claim_solo_names
+	data["solo_limit_minutes"] = QUEST_SOLO_SIGN_COOLDOWN / (1 MINUTES)
+	data["arrival_scan_range"] = QUEST_ARRIVAL_SCAN_RANGE
+	data["regions"] = build_region_listing()
+	data["hoard_recovery_pledge"] = HOARD_RECOVERY_PLEDGE
+	data["hoard_recovery_fellowship_min"] = BLOCKADE_FELLOWSHIP_REQUIREMENT
+	data["hoard_recovery_hoard_min"] = HOARD_RECOVERY_HOARD_MINIMUM
+	data["townie_gate_minutes"] = CONTRACT_TOWNIE_GATE_TIME / (1 MINUTES)
+	data["veteran_threat_pct"] = round((QUEST_VETERAN_THREAT_MULT - 1) * 100)
+	data["fellowship_reward_cap_pct"] = round((QUEST_FELLOWSHIP_REWARD_MULT_CAP - 1) * 100)
+	data["blockade_defender_min"] = BLOCKADE_FELLOWSHIP_REQUIREMENT
+	data["blockade_defender_max"] = QUEST_FELLOWSHIP_SCALE_MAX
+	data["blockade_extra_defender_pct"] = round(QUEST_FELLOWSHIP_REWARD_PER_EXTRA * 100)
+	data["blockade_extra_threat_pct"] = round(QUEST_FELLOWSHIP_THREAT_PER_EXTRA_BLOCKADE * 100)
+	data["fellowship_bonus_first"] = QUEST_ACTIVE_FELLOWSHIP_BONUS_FIRST
+	data["fellowship_bonus_per_member"] = QUEST_ACTIVE_FELLOWSHIP_BONUS_PER_MEMBER
+	data["region_scales_by_type"] = build_region_scales_by_type()
+	data["issuer_cancel_window_minutes"] = MIN_TIME_BEFORE_CANCEL_TAKEN_QUEST / (1 MINUTES)
+	data["refund_on_not_taken_pct"] = REFUND_ON_NOT_TAKEN * 100
+	data["refund_on_failure_pct"] = REFUND_ON_FAILURE * 100
+	data["veteran_types"] = build_veteran_types()
+	data["rumor_refill_base"] = RUMOR_POINTS_BASE_REFILL
+	data["rumor_refill_per_player"] = RUMOR_POINTS_PER_PLAYER
+	data["rumor_destinations"] = build_rumor_destinations()
+	data["rumor_lucrative_mult"] = RUMOR_LUCRATIVE_MULT
+	data["pledge_refill_base"] = BURGHER_PLEDGE_BASE_REFILL
+	data["pledge_refill_per_player"] = BURGHER_PLEDGE_PER_PLAYER
+	data["bonus_pay_light_mult"] = COMMISSION_BONUS_PAY_LIGHT_MULT
+	data["bonus_pay_full_mult"] = COMMISSION_BONUS_PAY_MULT
+	data["directives_per_day"] = COMMISSION_REQUESTS_PER_DAY
+	data["towner_postings"] = build_towner_posting_listing(user)
+	data["towner_crown_cost_mult"] = TOWNER_POSTING_CROWN_COST_MULT
+	data["towner_company_cost_mult"] = TOWNER_POSTING_COMPANY_COST_MULT
+	data["towner_max_postings"] = TOWNER_MAX_ACTIVE_POSTINGS
 	return data
 
 GLOBAL_LIST_INIT(crown_authority_roles, list(
@@ -236,6 +240,12 @@ GLOBAL_LIST_INIT(crown_authority_roles, list(
 GLOBAL_LIST_INIT(contract_proxy_officials, list(
 	"Steward",
 	"Clerk",
+))
+
+GLOBAL_LIST_INIT(contract_issuer_roles, list(
+	"Steward",
+	"Clerk",
+	"Innkeeper",
 ))
 
 /obj/structure/roguemachine/contractledger/proc/can_commission(mob/user)
@@ -323,43 +333,68 @@ GLOBAL_LIST_INIT(contract_proxy_officials, list(
 
 /obj/structure/roguemachine/contractledger/proc/build_pool_listing(mob/living/user)
 	var/list/listing = list()
+	var/claim_barred = is_quest_claim_barred(user)
+	var/claim_barred_towner = is_quest_claim_barred(user, TRUE)
+	var/solo_limited = is_quest_solo_limited(user)
+	var/solo_limited_towner = is_quest_solo_limited(user, TRUE)
+	var/party_size = max(1, length(available_fellowship_members(user)))
 	for(var/datum/quest/Q as anything in SSquestpool.pool)
+		var/towner_posting = Q.source == QUEST_SOURCE_TOWNER
+		var/can_veteran = !Q.veteran && Q.can_be_veteran()
 		var/threat_bands = 0
+		var/foes
+		var/list/foe_options
 		if(istype(Q, /datum/quest/kill))
 			var/datum/quest/kill/KQ = Q
 			threat_bands = KQ.threat_bands_cleared
+			if(KQ.can_pick_foes())
+				var/list/choices = KQ.foe_choices()
+				foes = KQ.foe_key(choices)
+				foe_options = KQ.build_foe_options(choices, party_size, can_veteran)
 		var/lapse_minutes = Q.lapses ? max(0, round((Q.get_lapse_time() - world.time) / 600, 1)) : null
-		var/can_veteran = !Q.veteran && Q.can_be_veteran()
-		var/scales = Q.scales_with_group()
+		var/list/size_table
+		var/list/veteran_size_table
+		if(Q.scales_with_group())
+			size_table = Q.get_size_table()
+			if(can_veteran)
+				veteran_size_table = Q.get_size_table(TRUE)
+		var/veteran_reward
+		if(veteran_size_table)
+			veteran_reward = veteran_size_table["reward"][party_size]
+		else if(can_veteran)
+			veteran_reward = Q.project_veteran_reward(user)
 		listing += list(list(
 			"ref" = REF(Q),
 			"title" = Q.title || "Unnamed Contract",
 			"type" = Q.quest_type,
 			"difficulty" = Q.quest_difficulty,
 			"reward" = Q.reward_amount,
-			"projected_reward" = Q.project_fellowship_reward(user),
+			"projected_reward" = size_table ? size_table["reward"][party_size] : Q.project_fellowship_reward(user),
 			"fellowship_reward_rate" = Q.fellowship_reward_rate,
-			"size_table" = scales ? Q.build_size_table() : null,
-			"veteran_size_table" = (scales && can_veteran) ? Q.build_size_table(TRUE) : null,
+			"solo_pay_share" = Q.solo_pay_share,
+			"size_table" = size_table,
+			"veteran_size_table" = veteran_size_table,
 			"deposit" = Q.deposit_amount,
 			"area" = Q.target_spawn_area,
 			"region" = Q.region,
-			"objective" = Q.project_fellowship_objective(user),
+			"objective" = Q.get_projected_objective(party_size),
 			"threat_bands" = threat_bands,
 			"levy_exempt" = Q.levy_exempt,
 			"guild_cut_rate" = Q.guild_cut_rate,
 			"is_rumor" = Q.source == QUEST_SOURCE_RUMOR,
 			"shows_commission_seal" = Q.shows_commission_seal,
-			"is_towner" = Q.source == QUEST_SOURCE_TOWNER,
-			"claim_barred" = is_quest_claim_barred(user, Q),
-			"solo_limited" = is_quest_solo_limited(user, Q),
+			"is_towner" = towner_posting,
+			"claim_barred" = towner_posting ? claim_barred_towner : claim_barred,
+			"solo_limited" = towner_posting ? solo_limited_towner : solo_limited,
 			"is_standing" = Q.source != QUEST_SOURCE_POOL,
 			"required_fellowship_size" = Q.required_fellowship_size,
 			"lapse_minutes" = lapse_minutes,
 			"can_veteran" = can_veteran,
 			"veteran" = Q.veteran,
-			"veteran_reward" = can_veteran ? Q.project_veteran_reward(user) : null,
-			"veteran_objective" = can_veteran ? Q.project_veteran_objective(user) : null,
+			"veteran_reward" = veteran_reward,
+			"veteran_objective" = can_veteran ? Q.get_projected_objective(party_size, TRUE) : null,
+			"foes" = foes,
+			"foe_options" = foe_options,
 		))
 	return listing
 
@@ -446,7 +481,7 @@ GLOBAL_LIST_INIT(contract_proxy_officials, list(
 		return TRUE
 	switch(action)
 		if("sign")
-			sign_contract(user, params["ref"], !!text2num("[params["veteran"]]"))
+			sign_contract(user, params["ref"], !!text2num("[params["veteran"]]"), params["foes"])
 			return TRUE
 		if("abandon")
 			abandon_by_ref(user, params["ref"])

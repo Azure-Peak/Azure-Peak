@@ -425,8 +425,8 @@ GLOBAL_LIST_INIT(averse_factions, list(
 /datum/charflaw/hunted
 	name = "Hunted"
 	desc = "Something in my past has made me a target. I'm always looking over my shoulder.	\
-	\nTHIS IS A DIFFICULT FLAW, YOU WILL BE HUNTED BY GNOLLS. \
-	EXPECT A MORE DIFFICULT EXPERIENCE. PLAY AT YOUR OWN RISK. IT REQUIRES AN EXTRA VICE."
+	\nTHIS IS A DIFFICULT FLAW, Gnolls DO-NOT NEED to ESCALATE against you if you have this vice. To reiterate: please expect \
+	random attacks and-or potential round removal, even if not permanent."
 	ui_fa_icon = "tooth"
 	needs_extra_vice = TRUE
 	var/logged = FALSE

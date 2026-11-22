@@ -3,8 +3,8 @@
 //The effects include: stun, knockdown, unconscious, sleeping, resting, jitteriness, dizziness, ear damage,
 // eye damage, eye_blind, eye_blurry, druggy, TRAIT_BLIND trait, and TRAIT_NEARSIGHT trait.
 
-///Set the slowdown of a mob
-/mob/proc/Slowdown(amount)
+/// duration is in deciseconds, pass it with SECONDS
+/mob/proc/apply_slowdown(duration, severity = SLOWDOWN_SEVERITY_MODERATE)
 	return
 
 ///Set the jitter of a mob

@@ -8,6 +8,7 @@
 		/datum/advclass/guildmaster,
 		/datum/advclass/guildsman/architect,
 		/datum/advclass/guildsman/artificer,
+		/datum/advclass/homesteader,
 		/datum/advclass/elder,
 	)
 	eligible_regions = list(

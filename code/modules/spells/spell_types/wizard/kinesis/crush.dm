@@ -81,6 +81,6 @@
 			skip_animation = TRUE, \
 			intdamage_factor = crush_intdamage_factor, SPELL_STRIKE_SCALING) == ARCYNE_STRIKE_WARDED)
 			continue
-		L.Slowdown(1)
+		L.apply_slowdown(1 SECONDS)
 		to_chat(L, span_userdanger("Gravitational force compresses around me!"))
 		new /obj/effect/temp_visual/spell_impact(get_turf(L), spell_color, spell_impact_intensity)
