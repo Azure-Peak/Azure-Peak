@@ -50,7 +50,7 @@ export const SubtabPolitics = () => {
       <Stack.Item>
         <FactionSection constantData={constantData} />
       </Stack.Item>
-      <Stack.Item grow basis={0}>
+      <Stack.Item grow basis={0} style={{ minHeight: 0 }}>
         <EstateSection constantData={constantData} />
       </Stack.Item>
     </Stack>
@@ -182,92 +182,89 @@ const EstateSection = (props: { constantData: ConstantData }) => {
   const selected = found?.region.id === data.estate_region;
 
   return (
-    <Section
-      fill
-      title="Estate"
-      buttons={
-        <>
-          <HelpButton text={ESTATE_HELP} />
-          {found ? (
-            <Button
-              disabled={selected}
-              color="justNotTransparent"
-              onClick={() =>
-                act('set_estate_region', { region_id: found.region.id })
-              }
-            >
-              {selected ? 'Already Selected' : 'Select This Estate'}
-            </Button>
-          ) : null}
-        </>
-      }
-    >
-      <Stack vertical fill>
-        <Stack.Item grow basis={0}>
-          <Stack fill>
-            <Stack.Item width="16em" style={{ overflowY: 'auto' }}>
-              {routes.map((route) => (
-                <Box key={route.name} mb={1}>
-                  <Box bold>{route.name}</Box>
-                  {route.subroutes.map((sub) => (
-                    <Box key={sub.name} ml={1} mt={0.5}>
-                      <Box color="label">{sub.name}</Box>
-                      <Tabs vertical mt={0}>
-                        {sub.regions.map((region) => (
-                          <Tabs.Tab
-                            key={region.id}
-                            selected={viewing === region.id}
-                            onClick={() => setViewing(region.id)}
-                            leftSlot={region.name}
-                            rightSlot={
-                              region.id === data.estate_region ? (
-                                <Icon name="check" />
-                              ) : (
-                                <Icon name="" />
-                              )
-                            }
-                          />
-                        ))}
-                      </Tabs>
-                    </Box>
-                  ))}
+    <Stack fill>
+      <Stack.Item width="16em">
+        <Section
+          fill
+          scrollable
+          title="Estate"
+          buttons={<HelpButton text={ESTATE_HELP} />}
+        >
+          {routes.map((route) => (
+            <Box key={route.name} mb={1}>
+              <Box bold>{route.name}</Box>
+              {route.subroutes.map((sub) => (
+                <Box key={sub.name} ml={1} mt={0.5}>
+                  <Box color="label">{sub.name}</Box>
+                  <Tabs vertical mt={0}>
+                    {sub.regions.map((region) => (
+                      <Tabs.Tab
+                        key={region.id}
+                        selected={viewing === region.id}
+                        onClick={() => setViewing(region.id)}
+                        leftSlot={region.name}
+                        rightSlot={
+                          region.id === data.estate_region ? (
+                            <Icon name="check" />
+                          ) : (
+                            <Icon name="" />
+                          )
+                        }
+                      />
+                    ))}
+                  </Tabs>
                 </Box>
               ))}
-            </Stack.Item>
-            <Stack.Divider />
-            <Stack.Item grow basis={0} style={{ overflowY: 'auto' }}>
-              {found ? (
-                <>
-                  <Box bold fontSize={1.1}>
-                    {found.region.name}
-                  </Box>
-                  <Box color="label">
-                    {found.subroute}, {found.route}
-                  </Box>
-                  {found.region.tribute.length ? (
-                    <Box mt={1}>
-                      <b>Parcels:</b> {found.region.tribute.join(', ')}
-                    </Box>
-                  ) : null}
-                  {found.region.gifts.length ? (
-                    <Box mt={0.5}>
-                      <b>Gifts, every third dae:</b>{' '}
-                      {found.region.gifts.join(', ')}
-                    </Box>
-                  ) : null}
-                  <Box mt={0.5} color="average">
-                    A raid on {found.subroute} holds back estate income until
-                    it is cleared.
-                  </Box>
-                  {found.region.description ? (
-                    <Box mt={1}>{found.region.description}</Box>
-                  ) : null}
-                </>
+            </Box>
+          ))}
+        </Section>
+      </Stack.Item>
+      <Stack.Item grow basis={0}>
+        <Section
+          fill
+          scrollable
+          title={found?.region.name}
+          buttons={
+            found ? (
+              <Button
+                disabled={selected}
+                color="justNotTransparent"
+                onClick={() =>
+                  act('set_estate_region', { region_id: found.region.id })
+                }
+              >
+                {selected ? 'Already Selected' : 'Select This Estate'}
+              </Button>
+            ) : null
+          }
+        >
+          {found ? (
+            <>
+              <Box color="label">
+                {found.subroute}, {found.route}
+              </Box>
+              {found.region.tribute.length ? (
+                <Box mt={1}>
+                  <b>Parcels:</b> {found.region.tribute.join(', ')}
+                </Box>
               ) : null}
-            </Stack.Item>
-          </Stack>
-        </Stack.Item>
-      </Stack>
-    </Section>
+              {found.region.gifts.length ? (
+                <Box mt={0.5}>
+                  <b>Gifts, every third dae:</b>{' '}
+                  {found.region.gifts.join(', ')}
+                </Box>
+              ) : null}
+              <Box mt={0.5} color="average">
+                A raid on {found.subroute} holds back estate income until it is
+                cleared.
+              </Box>
+              {found.region.description ? (
+                <Box mt={1}>{found.region.description}</Box>
+              ) : null}
+            </>
+          ) : null}
+        </Section>
+      </Stack.Item>
+    </Stack>
   );
 };
