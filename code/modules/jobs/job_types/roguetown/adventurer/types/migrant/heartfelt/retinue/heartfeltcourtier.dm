@@ -16,7 +16,7 @@
 // HIGH COURT - /ONE SLOT/ Roles that were previously in the Court, but moved here.
 
 	traits_applied = list(TRAIT_SEEPRICES, TRAIT_NOBLE, TRAIT_NUTCRACKER, TRAIT_HEARTFELT)
-	estate_tier = ESTATE_TIER_NORMAL
+	noble_rank = NOBLE_RANK_GENTRY
 
 	subclass_stats = list(
 		STATKEY_INT = 3,

@@ -101,7 +101,8 @@
 	var/announce_latejoin = TRUE
 	var/give_bank_account = FALSE
 	var/noble_income = FALSE //Passive income every day from noble estate
-	var/estate_tier = ESTATE_TIER_NONE
+	var/noble_rank = NOBLE_RANK_NONE
+	var/estate_pay_rank = NOBLE_RANK_NONE
 	var/political_faction
 
 	var/can_random = TRUE
@@ -342,8 +343,8 @@
 		else
 			SStreasury.create_bank_account(H)
 
-		if(estate_tier || noble_income)
-			SSeconomy.register_estate(H, estate_tier, noble_income, TRUE, M?.client)
+		if(noble_rank || noble_income)
+			SSeconomy.register_estate(H, noble_rank, noble_income, TRUE, M?.client, estate_pay_rank)
 
 	if(political_faction && ishuman(H))
 		var/mob/living/carbon/human/human = H

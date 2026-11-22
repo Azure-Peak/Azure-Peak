@@ -23,7 +23,8 @@
 	var/cmode_music
 
 	var/noble_income = FALSE //Passive income every day from noble estate
-	var/estate_tier = ESTATE_TIER_NONE
+	var/noble_rank = NOBLE_RANK_NONE
+	var/estate_pay_rank = NOBLE_RANK_NONE
 
 	/// This class is immune to species-based swapped gender locks
 	var/immune_to_genderswap = FALSE
@@ -120,8 +121,8 @@
 	for(var/trait in traits_applied)
 		ADD_TRAIT(H, trait, ADVENTURER_TRAIT)
 
-	if(estate_tier || noble_income)
-		SSeconomy.register_estate(H, estate_tier, noble_income)
+	if(noble_rank || noble_income)
+		SSeconomy.register_estate(H, noble_rank, noble_income, pay_rank = estate_pay_rank)
 
 	if(adaptive_name)
 		H.adaptive_name = TRUE

@@ -18,7 +18,7 @@
 	advclass_cat_rolls = list(CTAG_COUNCILLOR = 2)
 
 	give_bank_account = TRUE
-	estate_tier = ESTATE_TIER_HIGH
+	noble_rank = NOBLE_RANK_PEER
 	min_pq = 1 //Probably a bad idea to have a complete newbie advising the monarch
 	max_pq = null
 	round_contrib_points = 2

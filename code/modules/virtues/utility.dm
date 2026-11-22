@@ -46,7 +46,7 @@
 			recipient.mind?.special_items[choice] = extra_choices[choice]
 	if(HAS_TRAIT(recipient, TRAIT_OUTLAW))
 		return
-	SSeconomy.register_estate(recipient, ESTATE_TIER_NORMAL)
+	SSeconomy.register_estate(recipient, NOBLE_RANK_GENTRY)
 
 #define NOTABLE_RESIDENCY "Residency"
 #define NOTABLE_SHREWD "Shrewd Lyfestyle"

@@ -43,6 +43,7 @@
 	var/nickname = "Please Change Me"
 	var/highlight_color = "#FF0000"
 	var/political_faction = POLITICAL_FACTION_NEUTRAL
+	var/noble_rank = NOBLE_RANK_NONE
 	var/detail_color = "000"
 
 	/// This is your skin tone, uses words such as 'caucasian1', but also accepts hexcode strings (without #).

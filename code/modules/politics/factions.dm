@@ -80,11 +80,13 @@ GLOBAL_LIST_INIT(political_factions, init_political_factions())
 	psydonite_only = TRUE
 
 /mob/living/carbon/human/proc/political_faction_seen_by(mob/viewer)
-	if(viewer == src || HAS_TRAIT(src, TRAIT_OUTLAW))
+	if(HAS_TRAIT(src, TRAIT_OUTLAW))
 		return null
 	var/datum/political_faction/faction = GLOB.political_factions[political_faction]
 	if(!faction || faction.id == POLITICAL_FACTION_NEUTRAL)
 		return null
+	if(viewer == src)
+		return faction
 	if(is_political_noble(src) && is_political_noble(viewer))
 		return faction
 	var/mob/living/carbon/human/human_viewer = viewer

@@ -85,16 +85,16 @@
 #define TRIBUTE_POP_MAX_MULT 2
 
 // Number tweaking or tuning for noble essay, for the value and the interval of their gifts
-#define ESTATE_TIER_NONE 0
-#define ESTATE_TIER_NORMAL 1
-#define ESTATE_TIER_HIGH 2
-#define ESTATE_TIER_LORD 3
-#define ESTATE_COIN_NORMAL 15
-#define ESTATE_COIN_HIGH 30
-#define ESTATE_COIN_LORD 50
-#define ESTATE_PARCELS_NORMAL 1
-#define ESTATE_PARCELS_HIGH 2
-#define ESTATE_PARCELS_LORD 3
+#define NOBLE_RANK_NONE 0
+#define NOBLE_RANK_GENTRY 1
+#define NOBLE_RANK_PEER 2
+#define NOBLE_RANK_ROYAL 3
+#define ESTATE_COIN_GENTRY 15
+#define ESTATE_COIN_PEER 30
+#define ESTATE_COIN_ROYAL 50
+#define ESTATE_PARCELS_GENTRY 1
+#define ESTATE_PARCELS_PEER 2
+#define ESTATE_PARCELS_ROYAL 3
 #define ESTATE_PARCEL_VALUE 15
 #define ESTATE_GIFT_INTERVAL 3
 

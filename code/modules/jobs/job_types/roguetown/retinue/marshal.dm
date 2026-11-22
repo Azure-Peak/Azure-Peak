@@ -19,7 +19,7 @@
 	outfit = /datum/outfit/job/roguetown/marshal
 
 	give_bank_account = TRUE
-	estate_tier = ESTATE_TIER_HIGH
+	noble_rank = NOBLE_RANK_PEER
 	min_pq = 8
 	max_pq = null
 	round_contrib_points = 3

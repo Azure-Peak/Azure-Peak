@@ -16,7 +16,7 @@
 	advclass_cat_rolls = list(CTAG_ROYALGUARD = 20)
 	job_traits = list(TRAIT_NOBLE, TRAIT_STEELHEARTED, TRAIT_GUARDSMAN, TRAIT_EXPERT_HUNTER)
 	give_bank_account = TRUE
-	estate_tier = ESTATE_TIER_NORMAL
+	noble_rank = NOBLE_RANK_GENTRY
 	min_pq = 8
 	max_pq = null
 	round_contrib_points = 2

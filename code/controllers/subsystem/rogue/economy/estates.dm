@@ -1,6 +1,7 @@
 /datum/noble_estate
 	var/region_id = TRADE_REGION_KINGSFIELD
-	var/tier = ESTATE_TIER_NONE
+	var/rank = NOBLE_RANK_NONE
+	var/pay_rank = NOBLE_RANK_NONE
 	var/coin_override = 0
 	var/undelivered_days = 0
 	var/undelivered_gifts = 0
@@ -8,27 +9,27 @@
 /datum/noble_estate/proc/daily_income()
 	if(coin_override)
 		return coin_override
-	switch(tier)
-		if(ESTATE_TIER_LORD)
-			return ESTATE_COIN_LORD
-		if(ESTATE_TIER_HIGH)
-			return ESTATE_COIN_HIGH
-		if(ESTATE_TIER_NORMAL)
-			return ESTATE_COIN_NORMAL
+	switch(max(rank, pay_rank))
+		if(NOBLE_RANK_ROYAL)
+			return ESTATE_COIN_ROYAL
+		if(NOBLE_RANK_PEER)
+			return ESTATE_COIN_PEER
+		if(NOBLE_RANK_GENTRY)
+			return ESTATE_COIN_GENTRY
 	return 0
 
 /datum/noble_estate/proc/parcels_per_day()
-	switch(tier)
-		if(ESTATE_TIER_LORD)
-			return ESTATE_PARCELS_LORD
-		if(ESTATE_TIER_HIGH)
-			return ESTATE_PARCELS_HIGH
-		if(ESTATE_TIER_NORMAL)
-			return ESTATE_PARCELS_NORMAL
+	switch(max(rank, pay_rank))
+		if(NOBLE_RANK_ROYAL)
+			return ESTATE_PARCELS_ROYAL
+		if(NOBLE_RANK_PEER)
+			return ESTATE_PARCELS_PEER
+		if(NOBLE_RANK_GENTRY)
+			return ESTATE_PARCELS_GENTRY
 	return 0
 
 /datum/noble_estate/proc/get_region()
-	if(tier == ESTATE_TIER_NONE)
+	if(rank == NOBLE_RANK_NONE && pay_rank == NOBLE_RANK_NONE)
 		return null
 	return GLOB.economic_regions[region_id] || GLOB.economic_regions[TRADE_REGION_KINGSFIELD]
 
@@ -39,7 +40,7 @@
 		return TRADE_REGION_KINGSFIELD
 	return region_id
 
-/datum/controller/subsystem/economy/proc/register_estate(mob/living/H, tier = ESTATE_TIER_NONE, coin_override = 0, grant_now = TRUE, client/C)
+/datum/controller/subsystem/economy/proc/register_estate(mob/living/H, rank = NOBLE_RANK_NONE, coin_override = 0, grant_now = TRUE, client/C, pay_rank = NOBLE_RANK_NONE)
 	if(!H)
 		return
 	var/datum/noble_estate/E = estates[H]
@@ -48,7 +49,11 @@
 		E = new()
 		E.region_id = estate_region_pref(H, C)
 		estates[H] = E
-	E.tier = max(E.tier, tier)
+	E.rank = max(E.rank, rank)
+	E.pay_rank = max(E.pay_rank, pay_rank)
+	if(ishuman(H))
+		var/mob/living/carbon/human/human = H
+		human.noble_rank = E.rank
 	if(coin_override)
 		E.coin_override = coin_override
 	if(is_new && grant_now)

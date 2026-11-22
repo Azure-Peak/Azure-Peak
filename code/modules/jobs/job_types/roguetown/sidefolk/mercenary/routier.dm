@@ -8,7 +8,7 @@
 	class_select_category = CLASS_CAT_OTAVA
 	category_tags = list(CTAG_MERCENARY, CTAG_MERCPARTY_VANGUARD)
 	traits_applied = list(TRAIT_HEAVYARMOR, TRAIT_NOBLE)
-	estate_tier = ESTATE_TIER_NORMAL
+	noble_rank = NOBLE_RANK_GENTRY
 	cmode_music = 'sound/music/combat_routier.ogg'
 	subclass_stats = list(
 		STATKEY_CON = 4,

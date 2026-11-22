@@ -830,22 +830,31 @@
 		if((HAS_TRAIT(user, TRAIT_FEYBOUND) || HAS_TRAIT(user, TRAIT_FEYTOUCHED) ||	istype(user, /mob/living/carbon/human/species/familiar/fae)) && HAS_TRAIT(src, TRAIT_ANCIENT_HAG))
 			. += span_nicegreen("A true force of the fey, the mossmother speaks to this one closely.")
 
-		if(SSticker.rulermob == src)
-			. += span_notice("<b>The ruler of this land.</b>")
+		var/is_ruler = SSticker.rulermob == src
+		var/list/standing = list()
+		if(is_ruler)
+			standing += "<b>The ruler of this land.</b>"
 		else if(GLOB.lord_titles[name])
 			. += span_notice("[m3] been granted the title of \"[GLOB.lord_titles[name]]\".")
 
 		if(show_descriptors)
 			var/datum/political_faction/faction = political_faction_seen_by(user)
-			if(is_political_noble(src))
-				if(is_political_noble(user))
-					. += span_notice(faction ? "A fellow noble of the [faction.name] faction." : "A fellow noble.")
-				else
-					. += span_notice("A noble!")
-					if(faction)
-						. += span_notice("Of the [faction.name] faction.")
+			var/fellow = user != src && is_political_noble(user)
+			if(is_political_noble(src) && !is_ruler)
+				var/rank_line = noble_rank_examine_line(noble_rank)
+				if(fellow)
+					standing += faction ? "A fellow noble of the [faction.name] faction." : "A fellow noble."
+				if(rank_line)
+					standing += rank_line
+				else if(!fellow)
+					standing += "A noble!"
+				if(faction && !fellow)
+					standing += "Of the [faction.name] faction."
 			else if(faction)
-				. += span_notice("Of the [faction.name] faction.")
+				standing += "Of the [faction.name] faction."
+
+		if(length(standing))
+			. += span_notice(jointext(standing, " "))
 
 		if(HAS_TRAIT(src, TRAIT_RESIDENT))
 			. += span_notice("A chartered resident of Azuria.")
