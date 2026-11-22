@@ -248,8 +248,9 @@ const StockpileStrip = (props: { row: MarketRow }) => {
       </span>
       <DawnForecast
         change={row.dawn_change}
-        supplyPct={row.supply_pct}
+        openPct={row.open_pct}
         raidedBy={row.raided_by || []}
+        raidedDemand={!!row.raided_demand}
       />
       <button
         type="button"

@@ -17,6 +17,7 @@ SUBSYSTEM_DEF(economy)
 	var/fresh_caravan_rentals = 0
 	var/midday_market_rate = 0
 	var/list/producer_volumes
+	var/list/demand_volumes
 	var/list/escorted_subroutes = list()
 	var/list/commission_orders = list()
 	var/list/estates = list()

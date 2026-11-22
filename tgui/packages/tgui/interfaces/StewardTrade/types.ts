@@ -204,8 +204,9 @@ export type MarketRow = {
   sold_out: BooleanLike;
   event_tag: string;
   dawn_change: number;
-  supply_pct: number;
+  open_pct: number;
   raided_by: string[];
+  raided_demand: BooleanLike;
 };
 
 export type MarketDaeState = {

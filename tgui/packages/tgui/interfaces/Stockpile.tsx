@@ -46,8 +46,9 @@ type StockRow = {
   shortage_target: number;
   shortage_affected: string;
   dawn_change: number;
-  supply_pct: number;
+  open_pct: number;
   raided_by: string[];
+  raided_demand: BooleanLike;
 };
 
 type PriceChange = {
@@ -136,8 +137,9 @@ const StockRowView = (props: {
         </span>
         <DawnForecast
           change={row.dawn_change}
-          supplyPct={row.supply_pct}
+          openPct={row.open_pct}
           raidedBy={row.raided_by || []}
+          raidedDemand={!!row.raided_demand}
         />
         {!!row.event_tag && (
           <span

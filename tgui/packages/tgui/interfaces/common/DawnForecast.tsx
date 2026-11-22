@@ -2,18 +2,25 @@ import { FONT_BODY, INK_SOFT, SEAL_RED } from './parchment';
 
 export const DawnForecast = (props: {
   change: number;
-  supplyPct: number;
+  openPct: number;
   raidedBy: string[];
+  raidedDemand: boolean;
 }) => {
-  const { change, supplyPct, raidedBy } = props;
+  const { change, openPct, raidedBy, raidedDemand } = props;
   const raided = raidedBy.length > 0;
   if (!change && !raided) {
     return null;
   }
-  const arrives =
-    supplyPct > 0
-      ? `${supplyPct}% of supply arrives.`
-      : 'No supply will arrive.';
+  let arrives: string;
+  if (raidedDemand) {
+    arrives =
+      openPct > 0
+        ? `${openPct}% of the surplus can be traded away.`
+        : 'None of the surplus can be traded away.';
+  } else {
+    arrives =
+      openPct > 0 ? `${openPct}% of supply arrives.` : 'No supply will arrive.';
+  }
   return (
     <span
       style={{
@@ -39,7 +46,7 @@ export const DawnForecast = (props: {
             cursor: 'help',
           }}
         >
-          RAIDED {100 - supplyPct}%
+          RAIDED {100 - openPct}%
         </span>
       )}
     </span>

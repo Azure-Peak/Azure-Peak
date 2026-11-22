@@ -26,19 +26,50 @@
 
 /datum/controller/subsystem/economy/proc/good_producer_volumes(good_id)
 	if(!producer_volumes)
-		producer_volumes = list()
-		for(var/region_id in GLOB.economic_regions)
-			var/datum/economic_region/region = GLOB.economic_regions[region_id]
-			for(var/gid in region.produces)
-				var/volume = region.produces[gid]
-				if(volume <= 0)
-					continue
-				var/list/by_region = producer_volumes[gid]
-				if(!by_region)
-					by_region = list()
-					producer_volumes[gid] = by_region
-				by_region[region_id] = volume
+		producer_volumes = build_volume_index(TRUE)
 	return producer_volumes[good_id] || list()
+
+/datum/controller/subsystem/economy/proc/good_demand_volumes(good_id)
+	if(!demand_volumes)
+		demand_volumes = build_volume_index(FALSE)
+	return demand_volumes[good_id] || list()
+
+/datum/controller/subsystem/economy/proc/build_volume_index(produced)
+	var/list/index = list()
+	for(var/region_id in GLOB.economic_regions)
+		var/datum/economic_region/region = GLOB.economic_regions[region_id]
+		var/list/volumes = produced ? region.produces : region.demands
+		for(var/gid in volumes)
+			var/volume = volumes[gid]
+			if(volume <= 0)
+				continue
+			var/list/by_region = index[gid]
+			if(!by_region)
+				by_region = list()
+				index[gid] = by_region
+			by_region[region_id] = volume
+	return index
+
+/proc/open_volume_share(list/volumes, escort_day = ECONOMY_DAY)
+	var/total = 0
+	var/open = 0
+	for(var/region_id in volumes)
+		var/volume = volumes[region_id]
+		total += volume
+		var/datum/economic_region/region = GLOB.economic_regions[region_id]
+		if(!region.is_region_blockaded || SSeconomy.subroute_escorted(region.subroute, escort_day))
+			open += volume
+	if(!total)
+		return null
+	return open / total
+
+/proc/raided_region_names(list/volumes)
+	var/list/names = list()
+	for(var/region_id in volumes)
+		var/datum/economic_region/region = GLOB.economic_regions[region_id]
+		if(region.is_region_blockaded && !SSeconomy.subroute_escorted(region.subroute))
+			names += region.name
+	return names
 
 /datum/controller/subsystem/economy/proc/good_supply_share(good_id, region_id)
 	var/list/producers = good_producer_volumes(good_id)
@@ -100,11 +131,15 @@
 	var/gap = market_target - market_stock
 	if(!gap)
 		return 0
-	var/share = 1
+	var/share
 	if(gap > 0)
 		share = market_open_supply_share(escort_day)
-		if(!share)
-			return 0
+	else
+		share = market_open_demand_share(escort_day)
+		if(isnull(share))
+			share = 1
+	if(!share)
+		return 0
 	var/step = abs(gap) * rate / 100
 	if(use_floor)
 		step = max(step, market_target * MARKET_DAY_FLOOR / 100)
@@ -117,31 +152,24 @@
 	var/datum/trade_good/tg = GLOB.trade_goods[trade_good_id]
 	if(!tg?.importable)
 		return null
-	var/list/producers = SSeconomy.good_producer_volumes(trade_good_id)
-	var/total = 0
-	var/open = 0
-	for(var/region_id in producers)
-		var/volume = producers[region_id]
-		total += volume
-		var/datum/economic_region/region = GLOB.economic_regions[region_id]
-		if(!region.is_region_blockaded || SSeconomy.subroute_escorted(region.subroute, escort_day))
-			open += volume
-	if(!total)
+	return open_volume_share(SSeconomy.good_producer_volumes(trade_good_id), escort_day)
+
+/datum/roguestock/proc/market_open_demand_share(escort_day = ECONOMY_DAY)
+	if(!trade_good_id)
 		return null
-	return open / total
+	return open_volume_share(SSeconomy.good_demand_volumes(trade_good_id), escort_day)
 
 /datum/roguestock/proc/dawn_forecast()
 	var/list/raided = list()
 	var/share = null
-	if(market_stock < market_target && !get_event_label())
-		share = market_open_supply_share()
+	var/draining = market_stock > market_target
+	if(market_stock != market_target && !get_event_label())
+		share = draining ? market_open_demand_share() : market_open_supply_share()
 		if(!isnull(share) && share < 1)
-			for(var/region_id in SSeconomy.good_producer_volumes(trade_good_id))
-				var/datum/economic_region/region = GLOB.economic_regions[region_id]
-				if(region.is_region_blockaded && !SSeconomy.subroute_escorted(region.subroute))
-					raided += region.name
+			raided = raided_region_names(draining ? SSeconomy.good_demand_volumes(trade_good_id) : SSeconomy.good_producer_volumes(trade_good_id))
 	return list(
 		"dawn_change" = market_day_change(SSeconomy.market_day_rate(), ECONOMY_DAY),
-		"supply_pct" = isnull(share) ? 100 : round(share * 100),
+		"open_pct" = isnull(share) ? 100 : round(share * 100),
 		"raided_by" = raided,
+		"raided_demand" = draining,
 	)

@@ -93,7 +93,8 @@
 			"shortage_target" = shortage ? shortage["target"] : 0,
 			"shortage_affected" = shortage ? shortage["affected"] : "",
 			"dawn_change" = dawn["dawn_change"],
-			"supply_pct" = dawn["supply_pct"],
+			"open_pct" = dawn["open_pct"],
+			"raided_demand" = dawn["raided_demand"],
 			"raided_by" = dawn["raided_by"],
 		))
 	data["stocks"] = rows

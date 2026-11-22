@@ -434,7 +434,8 @@
 			"sold_out" = entry.market_available() <= 0 ? TRUE : FALSE,
 			"event_tag" = event_tag,
 			"dawn_change" = dawn["dawn_change"],
-			"supply_pct" = dawn["supply_pct"],
+			"open_pct" = dawn["open_pct"],
+			"raided_demand" = dawn["raided_demand"],
 			"raided_by" = dawn["raided_by"],
 		))
 

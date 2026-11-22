@@ -7,6 +7,11 @@
 		TRADE_GOOD_GRAIN,
 		TRADE_GOOD_CHEESE,
 	)
+	gifts = list(
+		/obj/item/reagent_containers/glass/bottle/rogue/beer,
+		/obj/item/reagent_containers/food/snacks/rogue/biscuit,
+		/obj/item/soap/bath,
+	)
 	region_types = list(
 		/datum/region_type/population/settlement = REGION_SIZE_MEDIUM,
 		/datum/region_type/agriculture/temperate = REGION_SIZE_MEDIUM,
@@ -26,6 +31,11 @@
 	tribute_goods = list(
 		TRADE_GOOD_WOOD,
 		TRADE_GOOD_PORK,
+	)
+	gifts = list(
+		/obj/item/reagent_containers/glass/bottle/rogue/elfred,
+		/obj/item/bouquet/rosa,
+		/obj/item/perfume/rose,
 	)
 	region_types = list(
 		/datum/region_type/population/settlement = REGION_SIZE_MEDIUM,
@@ -52,6 +62,11 @@
 		TRADE_GOOD_APPLE,
 		TRADE_GOOD_PEAR,
 	)
+	gifts = list(
+		/obj/item/perfume/pear,
+		/obj/item/clothing/mask/cigarette/rollie/apple,
+		/obj/item/soap/jackberry,
+	)
 	region_types = list(
 		/datum/region_type/population/settlement = REGION_SIZE_MEDIUM,
 		/datum/region_type/population/mariners = REGION_SIZE_SMALL,
@@ -71,6 +86,11 @@
 		TRADE_GOOD_IRON_ORE,
 		TRADE_GOOD_COAL,
 	)
+	gifts = list(
+		/obj/item/reagent_containers/glass/bottle/rogue/beer/butterhairs,
+		/obj/item/clothing/mask/cigarette/rollie/zigar,
+		/obj/item/candle,
+	)
 	region_types = list(
 		/datum/region_type/population/settlement = REGION_SIZE_MEDIUM,
 		/datum/region_type/mining/iron_steel = REGION_SIZE_MEDIUM,
@@ -88,6 +108,11 @@
 	tribute_goods = list(
 		TRADE_GOOD_SILK,
 		TRADE_GOOD_VISCERA,
+	)
+	gifts = list(
+		/obj/item/clothing/mask/cigarette/rollie/cannabis,
+		/obj/item/candle/skull,
+		/obj/item/reagent_containers/glass/bottle/rogue/beer/ratkept,
 	)
 	region_types = list(
 		/datum/region_type/population/settlement = REGION_SIZE_MEDIUM,
@@ -108,6 +133,11 @@
 		TRADE_GOOD_SALT,
 		TRADE_GOOD_DRIED_FISH,
 	)
+	gifts = list(
+		/obj/item/reagent_containers/glass/bottle/rogue/beer/voddena,
+		/obj/item/reagent_containers/food/snacks/rogue/fryfish,
+		/obj/item/clothing/mask/cigarette/rollie/nicotine,
+	)
 	region_types = list(
 		/datum/region_type/population/settlement = REGION_SIZE_MEDIUM,
 		/datum/region_type/population/mariners = REGION_SIZE_MEDIUM,
@@ -126,6 +156,11 @@
 	tribute_goods = list(
 		TRADE_GOOD_FISH_FILET,
 		TRADE_GOOD_GLASS_BATCH,
+	)
+	gifts = list(
+		/obj/item/reagent_containers/glass/bottle/rogue/beer/zagul,
+		/obj/item/reagent_containers/food/snacks/rogue/fryfish,
+		/obj/item/clothing/mask/cigarette/rollie/mentha,
 	)
 	region_types = list(
 		/datum/region_type/population/settlement = REGION_SIZE_MEDIUM,
@@ -146,6 +181,11 @@
 		TRADE_GOOD_COPPER_ORE,
 		TRADE_GOOD_TIN_ORE,
 	)
+	gifts = list(
+		/obj/item/reagent_containers/glass/bottle/rogue/wine/sourwine,
+		/obj/item/reagent_containers/glass/bottle/rogue/beer/jagdtrunk,
+		/obj/item/reagent_containers/glass/bottle/rogue/beer/hagwoodbitter,
+	)
 	region_types = list(
 		/datum/region_type/population/settlement = REGION_SIZE_MEDIUM,
 		/datum/region_type/population/garrison = REGION_SIZE_MEDIUM,
@@ -162,6 +202,11 @@
 	tribute_goods = list(
 		TRADE_GOOD_MEAT,
 		TRADE_GOOD_HIDE,
+	)
+	gifts = list(
+		/obj/item/reagent_containers/glass/bottle/rogue/spicedwine,
+		/obj/item/bouquet/salvia,
+		/obj/item/perfume/frankincense,
 	)
 	region_types = list(
 		/datum/region_type/population/settlement = REGION_SIZE_MEDIUM,
@@ -181,6 +226,11 @@
 		TRADE_GOOD_IRON_INGOT,
 		TRADE_GOOD_STEEL_INGOT,
 	)
+	gifts = list(
+		/obj/item/reagent_containers/glass/bottle/rogue/beer/apfelweinheim,
+		/obj/item/clothing/mask/cigarette/rollie/zigar,
+		/obj/item/soap/bath,
+	)
 	region_types = list(
 		/datum/region_type/population/settlement = REGION_SIZE_MEDIUM,
 		/datum/region_type/industry/refinement = REGION_SIZE_MEDIUM,
@@ -198,6 +248,11 @@
 	tribute_goods = list(
 		TRADE_GOOD_WOOD,
 		TRADE_GOOD_ROCKNUT,
+	)
+	gifts = list(
+		/obj/item/reagent_containers/glass/bottle/rogue/elfblue,
+		/obj/item/bouquet/matricaria,
+		/obj/item/clothing/mask/cigarette/rollie/calendula,
 	)
 	region_types = list(
 		/datum/region_type/population/settlement = REGION_SIZE_MEDIUM,
@@ -220,6 +275,11 @@
 		TRADE_GOOD_COD,
 		TRADE_GOOD_SALMON,
 	)
+	gifts = list(
+		/obj/item/reagent_containers/food/snacks/rogue/fryfish,
+		/obj/item/soap/citrus,
+		/obj/item/reagent_containers/food/snacks/rogue/tangerinebiscuit,
+	)
 	region_types = list(
 		/datum/region_type/population/settlement = REGION_SIZE_MEDIUM,
 		/datum/region_type/population/mariners = REGION_SIZE_SMALL,
@@ -237,6 +297,11 @@
 		TRADE_GOOD_CHEESE,
 		TRADE_GOOD_FUR,
 	)
+	gifts = list(
+		/obj/item/clothing/mask/cigarette/rollie/salvia,
+		/obj/item/bouquet/calendula,
+		/obj/item/soap/tea,
+	)
 	region_types = list(
 		/datum/region_type/population/settlement = REGION_SIZE_SMALL,
 		/datum/region_type/pastoral/mountain = REGION_SIZE_SMALL,
@@ -250,6 +315,11 @@
 	tribute_goods = list(
 		TRADE_GOOD_LEMON,
 		TRADE_GOOD_CHEESE,
+	)
+	gifts = list(
+		/obj/item/perfume/citrus,
+		/obj/item/clothing/mask/cigarette/rollie/lime,
+		/obj/item/soap/vanilla,
 	)
 	region_types = list(
 		/datum/region_type/population/settlement = REGION_SIZE_SMALL,
@@ -268,6 +338,11 @@
 		TRADE_GOOD_CARP,
 		TRADE_GOOD_GRAIN,
 	)
+	gifts = list(
+		/obj/item/candle,
+		/obj/item/perfume/lavender,
+		/obj/item/reagent_containers/food/snacks/rogue/chocolatebiscuit,
+	)
 	region_types = list(
 		/datum/region_type/population/settlement = REGION_SIZE_MEDIUM,
 		/datum/region_type/population/urban = REGION_SIZE_SMALL,
@@ -285,6 +360,11 @@
 		TRADE_GOOD_GRAIN,
 		TRADE_GOOD_PORK,
 	)
+	gifts = list(
+		/obj/item/reagent_containers/glass/bottle/rogue/beer/aurorian,
+		/obj/item/perfume/jasmine,
+		/obj/item/soap/rosa,
+	)
 	region_types = list(
 		/datum/region_type/population/settlement = REGION_SIZE_MEDIUM,
 		/datum/region_type/population/urban = REGION_SIZE_MEDIUM,
@@ -301,6 +381,11 @@
 	tribute_goods = list(
 		TRADE_GOOD_CHEESE,
 		TRADE_GOOD_APPLE,
+	)
+	gifts = list(
+		/obj/item/reagent_containers/glass/bottle/rogue/redwine,
+		/obj/item/reagent_containers/glass/bottle/rogue/whitewine,
+		/obj/item/reagent_containers/food/snacks/rogue/plumbiscuit,
 	)
 	region_types = list(
 		/datum/region_type/population/settlement = REGION_SIZE_MEDIUM,
