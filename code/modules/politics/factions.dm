@@ -18,6 +18,10 @@ GLOBAL_LIST_INIT(political_factions, init_political_factions())
 	var/goals
 	var/wiki_url
 	var/psydonite_only = FALSE
+	var/examine_text
+
+/datum/political_faction/proc/examine_line()
+	return examine_text || "Of the [name] faction."
 
 /datum/political_faction/proc/allows_patron(datum/patron/patron)
 	if(!psydonite_only)
@@ -28,6 +32,7 @@ GLOBAL_LIST_INIT(political_factions, init_political_factions())
 	id = POLITICAL_FACTION_NEUTRAL
 	name = "Neutral"
 	color = "#9a9a9a"
+	examine_text = "A despicable neutral."
 	motto = "And irresolute princes, to avoid present dangers, generally follow the neutral path, and are generally ruined."
 	description = "By circumstances, or because you truly do not hold an opinion, you do not declare your allegiance to any of the existing political factions in Azuria. A normal path for a wandering sort, a peasant, or perhaps one of the Church. But a rather odd choice if you're a noble, for there is none as perfidious as one who refuses to choose any side. For the victorious shall build a bond of amity with those who were on their side out of gratitude, and should those you ally with lose, you shall be sheltered and aided by them when they are able, and you become companions on a fortune that may rise again."
 
@@ -83,9 +88,13 @@ GLOBAL_LIST_INIT(political_factions, init_political_factions())
 	if(HAS_TRAIT(src, TRAIT_OUTLAW))
 		return null
 	var/datum/political_faction/faction = GLOB.political_factions[political_faction]
-	if(!faction || faction.id == POLITICAL_FACTION_NEUTRAL)
+	if(!faction)
 		return null
-	if(viewer == src)
+	if(faction.id == POLITICAL_FACTION_NEUTRAL)
+		if(is_political_noble(src) && (viewer == src || isobserver(viewer) || is_political_noble(viewer)))
+			return faction
+		return null
+	if(viewer == src || isobserver(viewer))
 		return faction
 	if(is_political_noble(src) && is_political_noble(viewer))
 		return faction

@@ -850,13 +850,14 @@
 		else if(GLOB.lord_titles[name])
 			. += span_notice("[m3] been granted the title of \"[GLOB.lord_titles[name]]\".")
 
-		if(show_descriptors)
+		if(show_descriptors || observer_privilege)
 			var/datum/political_faction/faction = political_faction_seen_by(user)
 			var/fellow = user != src && is_political_noble(user)
+			var/neutral = faction?.id == POLITICAL_FACTION_NEUTRAL
 			if(is_political_noble(src) && !is_ruler)
 				var/rank_line = noble_rank_examine_line(noble_rank)
 				if(fellow)
-					var/fellow_line = faction ? "A fellow noble of the [faction.name] faction" : "A fellow noble"
+					var/fellow_line = (faction && !neutral) ? "A fellow noble of the [faction.name] faction" : "A fellow noble"
 					var/estate_name = estate_region_name()
 					if(estate_name)
 						fellow_line += ", with an estate in [estate_name]"
@@ -865,10 +866,14 @@
 					standing += rank_line
 				else if(!fellow)
 					standing += "A noble!"
-				if(faction && !fellow)
-					standing += "Of the [faction.name] faction."
+				if(faction && (!fellow || neutral))
+					standing += faction.examine_line()
+				if(observer_privilege)
+					var/ghost_estate = estate_region_name()
+					if(ghost_estate)
+						standing += "Holds an estate in [ghost_estate]."
 			else if(faction)
-				standing += "Of the [faction.name] faction."
+				standing += faction.examine_line()
 
 		if(length(standing))
 			. += span_notice(jointext(standing, " "))
