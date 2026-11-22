@@ -267,14 +267,14 @@
 	data["caravans"] = list(
 		"fleet" = SSeconomy.caravan_fleet,
 		"home" = SSeconomy.caravans_home(),
-		"rented" = length(SSeconomy.caravan_rentals),
+		"rented" = SSeconomy.caravan_rentals,
 		"return_seconds" = max(0, round(seconds_until_dawn())),
 		"trips" = trips,
 	)
 	data["caravan_quote"] = build_caravan_quote(user.ckey)
 	data["market_dae"] = list(
 		"rate" = SSeconomy.market_day_rate(),
-		"rented" = length(SSeconomy.caravan_rentals),
+		"rented" = SSeconomy.caravan_rentals,
 		"returnable" = SSeconomy.returnable_rentals(),
 		"rent_blocker" = SSeconomy.rental_blocker() || "",
 		"next_seconds" = max(0, round(seconds_until_market_day())),

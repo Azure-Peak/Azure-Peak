@@ -22,7 +22,7 @@
 		SStgui.update_uis(SStreasury.steward_machine)
 
 /datum/controller/subsystem/economy/proc/market_day_rate()
-	return MARKET_DAY_RATE + MARKET_DAY_RENTAL_RATE * length(caravan_rentals)
+	return MARKET_DAY_RATE + MARKET_DAY_RENTAL_RATE * caravan_rentals
 
 /datum/controller/subsystem/economy/proc/good_producer_volumes(good_id)
 	if(!producer_volumes)
@@ -59,30 +59,27 @@
 	if(blocker)
 		to_chat(user, span_warning(blocker))
 		return FALSE
-	caravan_rentals += ECONOMY_DAY
+	caravan_rentals++
+	fresh_caravan_rentals++
 	SStreasury.dirty_market_view()
-	log_game("CARAVAN RENTAL: [key_name(user)] rented out a caravan ([length(caravan_rentals)] rented)")
+	log_game("CARAVAN RENTAL: [key_name(user)] rented out a caravan ([caravan_rentals] rented)")
 	return TRUE
 
 /datum/controller/subsystem/economy/proc/returnable_rentals()
-	. = 0
-	for(var/day in caravan_rentals)
-		if(day < ECONOMY_DAY)
-			.++
+	return max(0, caravan_rentals - fresh_caravan_rentals)
 
 /datum/controller/subsystem/economy/proc/return_rental(mob/user)
-	for(var/day in caravan_rentals)
-		if(day >= ECONOMY_DAY)
-			continue
-		caravan_rentals -= day
-		SStreasury.dirty_market_view()
-		log_game("CARAVAN RENTAL: [key_name(user)] took back a caravan ([length(caravan_rentals)] rented)")
-		return TRUE
-	to_chat(user, span_warning("A caravan rented today can't be taken back before dawn."))
-	return FALSE
+	if(returnable_rentals() <= 0)
+		to_chat(user, span_warning("A caravan rented today can't be taken back before dawn."))
+		return FALSE
+	caravan_rentals--
+	SStreasury.dirty_market_view()
+	log_game("CARAVAN RENTAL: [key_name(user)] took back a caravan ([caravan_rentals] rented)")
+	return TRUE
 
 /datum/controller/subsystem/economy/proc/pay_caravan_rentals()
-	var/count = length(caravan_rentals)
+	fresh_caravan_rentals = 0
+	var/count = caravan_rentals
 	if(!count)
 		return
 	SStreasury.mint(SStreasury.discretionary_fund, count * CARAVAN_RENTAL_PAY, "Caravan Rentals: [count] caravan\s", null, LEDGER_CROWN_REV_RENTALS)

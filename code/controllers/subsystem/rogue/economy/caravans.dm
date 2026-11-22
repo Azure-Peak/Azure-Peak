@@ -11,7 +11,7 @@
 	var/list/tribute_units
 
 /datum/controller/subsystem/economy/proc/caravans_home()
-	return max(0, caravan_fleet - length(caravan_trips) - length(caravan_rentals))
+	return max(0, caravan_fleet - length(caravan_trips) - caravan_rentals)
 
 /datum/controller/subsystem/economy/proc/region_raided(region_id)
 	var/datum/economic_region/region = GLOB.economic_regions[region_id]
