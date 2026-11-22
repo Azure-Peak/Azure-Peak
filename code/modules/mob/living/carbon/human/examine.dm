@@ -876,7 +876,7 @@
 				standing += faction.examine_line(is_political_noble(src))
 
 		if(length(standing))
-			. += span_notice(jointext(standing, " "))
+			. += span_smallnotice(jointext(standing, " "))
 
 		if(HAS_TRAIT(src, TRAIT_RESIDENT))
 			. += span_notice("A chartered resident of Azuria.")
