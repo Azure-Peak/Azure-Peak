@@ -1,9 +1,9 @@
 //Base hammer type. (Wood / Iron / Steel)
 /obj/item/rogueweapon/hammer
-	force = 21
-	possible_item_intents = list(/datum/intent/mace/strike, /datum/intent/mace/smash)
 	name = "hammer"
 	desc = "If you see this - scream, cry, piss, run, shit yourself, then report it to a dev. Shouldn't be here."
+	force = 21
+	possible_item_intents = list(/datum/intent/mace/strike, /datum/intent/mace/smash)
 	icon_state = "hammer"
 	icon = 'icons/roguetown/weapons/tools.dmi'
 	sharpness = IS_BLUNT
@@ -418,14 +418,14 @@
 	max_integrity = 15
 	anvilrepair = /datum/skill/craft/crafting
 
-/obj/item/rogueweapon/hammer/paalloy
+/obj/item/rogueweapon/hammer/ancient
 	name = "ancient hammer"
 	desc = "A hammer of polished gilbranze. Remade masterfully upon a smooth handle, it shall make forth the armaments of Her legionnaires and great works.."
 	icon_state = "ahammer"
 	force = 21
 	smeltresult = /obj/item/ingot/aaslag
 
-/obj/item/rogueweapon/hammer/aalloy
+/obj/item/rogueweapon/hammer/ancient/decrepit
 	name = "decrepit hammer"
 	desc = "A hammer of rotted metal. It has pounded out the beginning of a thousand legacies; of humble adventurers, of noble legionnaires, and of foolish heroes."
 	icon_state = "ahammer"
@@ -490,12 +490,12 @@
 	force = 28
 
 /obj/item/rogueweapon/tongs
-	force = 10
-	possible_item_intents = list(/datum/intent/mace/strike)
 	name = "tongs"
 	desc = "A pair of iron tongs that'll hold onto Psydonia's hottest metal, betwixt a hammering and an anvil's song to forge masterworks of craft."
 	icon_state = "tongs"
 	icon = 'icons/roguetown/weapons/tools.dmi'
+	force = 10
+	possible_item_intents = list(/datum/intent/mace/strike)
 	sharpness = IS_BLUNT
 	//dropshrink = 0.8
 	wlength = WLENGTH_SHORT
@@ -609,7 +609,24 @@
 		else
 			icon_state = "stonetongsi0"
 
-/obj/item/rogueweapon/tongs/aalloy
+/obj/item/rogueweapon/tongs/ancient
+	name = "ancient tongs"
+	desc = "Polished gilbranze pincers the molten alloy, putting it before the anvil and hammer. Soon, it will fashion a new legacy; one unmarred by this dogmatic millennia."
+	icon_state = "atongs"
+	smeltresult = null
+	auto_collect = TRUE
+
+/obj/item/rogueweapon/tongs/ancient/update_icon()
+	. = ..()
+	if(!hingot)
+		icon_state = "atongs"
+	else
+		if(hott)
+			icon_state = "atongsi1"
+		else
+			icon_state = "atongsi0"
+
+/obj/item/rogueweapon/tongs/ancient/decrepit
 	name = "decrepit tongs"
 	desc = "Rotted metal pincers the molten alloy, putting it before the anvil and hammer. Soon, it will fashion a new legacy; one unmarred by this dogmatic millennia."
 	icon_state = "atongs"
@@ -618,33 +635,6 @@
 	max_integrity = 10
 	color = "#bb9696"
 	auto_collect = FALSE
-
-/obj/item/rogueweapon/tongs/aalloy/update_icon()
-	. = ..()
-	if(!hingot)
-		icon_state = "atongs"
-	else
-		if(hott)
-			icon_state = "atongsi1"
-		else
-			icon_state = "atongsi0"
-
-/obj/item/rogueweapon/tongs/paalloy
-	name = "ancient tongs"
-	desc = "Polished gilbranze pincers the molten alloy, putting it before the anvil and hammer. Soon, it will fashion a new legacy; one unmarred by this dogmatic millennia."
-	icon_state = "atongs"
-	smeltresult = null
-	auto_collect = TRUE
-
-/obj/item/rogueweapon/tongs/paalloy/update_icon()
-	. = ..()
-	if(!hingot)
-		icon_state = "atongs"
-	else
-		if(hott)
-			icon_state = "atongsi1"
-		else
-			icon_state = "atongsi0"
 
 /obj/item/rogueweapon/tongs/bronze
 	name = "bronze tongs"
