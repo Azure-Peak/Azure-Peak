@@ -53,7 +53,7 @@
 	traits = list(TRAIT_PSYDONITE, TRAIT_WARLOCK) //devotee + mage so no crit resist
 	//journeyman tradeoff for weapon + cantrip + decent light armor + can cast w/out penalty
 	loadouts = list(
-		/datum/npc_loadout/kit/psy_vault_guard_caster_flavor,
+		/datum/npc_loadout/kit/psy_vault_guard_magemonk_flavor,
 		/datum/npc_loadout/kit/psytomb_mage_lesser,
 		/datum/npc_loadout/armor/medium/psy_vault_mage, //squishier if you limb-aim - naledi themed
 	)
@@ -186,6 +186,23 @@
 		/obj/item/rope/chain = 30,
 		/obj/item/reagent_containers/glass/bottle/alchemical/healthpot = 20,
 	)
+	beltl = /obj/item/clothing/neck/roguetown/psicross/g
+	id = /obj/item/clothing/neck/roguetown/psicross/naledi
+	cloak = list(
+		/obj/item/clothing/cloak/hierophant = 2,
+		/obj/item/clothing/suit/roguetown/shirt/robe/pointfex = 1,
+	)
+
+/datum/npc_loadout/kit/psy_vault_guard_magemonk_flavor
+	belt = /obj/item/storage/belt/rogue/leather/rope/upgraded/dark
+	beltr = list(
+		/obj/item/storage/belt/rogue/pouch/food = 15,
+		/obj/item/storage/belt/rogue/pouch/medicine = 15,
+		/obj/item/storage/belt/rogue/pouch/coins/mid = 20,
+		/obj/item/reagent_containers/glass/bottle/waterskin = 10,
+		/obj/item/rope/chain = 30,
+		/obj/item/reagent_containers/glass/bottle/alchemical/healthpot = 20,
+	)
 	beltl = list(
 		/obj/item/clothing/neck/roguetown/psicross = 40,
 		/obj/item/book/rogue/bibble/psy = 40,
@@ -197,9 +214,8 @@
 		NPC_NOTHING = 30,
 	)
 	cloak = list(
-		/obj/item/clothing/cloak/hierophant = 2,
-		/obj/item/clothing/suit/roguetown/shirt/robe/pointfex = 1,
-		NPC_NOTHING = 2,
+		/obj/item/clothing/cloak/tabard/psydontabard/black = 1,
+		NPC_NOTHING = 15,
 	)
 
 //** WEAPONS **//
