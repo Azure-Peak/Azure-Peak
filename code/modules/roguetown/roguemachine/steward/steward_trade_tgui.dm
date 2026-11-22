@@ -291,18 +291,20 @@
 	petition_state["pledge_balance"] = SStreasury.burgher_pledge_fund?.balance || 0
 	petition_state["petitions_remaining"] = petitions_remaining
 	var/selected_template = petition_view[user.ckey]
-	var/list/offers = list()
+	var/list/targets = list()
+	var/blocker = ""
 	if(selected_template && SSeconomy.petition_category_of(selected_template))
-		for(var/region_id in GLOB.economic_regions)
-			var/datum/economic_region/region = GLOB.economic_regions[region_id]
-			if(!(selected_template in region.request_kinds))
-				continue
-			offers += list(list(
-				"region_id" = region_id,
-				"blocker" = SSeconomy.petition_blocker(region_id, selected_template) || "",
+		blocker = SSeconomy.petition_blocker(selected_template) || ""
+		for(var/datum/economic_region/region as anything in SSeconomy.petition_target_regions(selected_template))
+			var/datum/standing_order/current = SSeconomy.region_request(region.region_id)
+			targets += list(list(
+				"region_id" = region.region_id,
+				"raided" = (region.is_region_blockaded && !SSeconomy.subroute_escorted(region.subroute)) ? TRUE : FALSE,
+				"replaces" = current ? current.name : "",
 			))
 	petition_state["selected_template"] = selected_template ? "[selected_template]" : null
-	petition_state["offers"] = offers
+	petition_state["blocker"] = blocker
+	petition_state["targets"] = targets
 	data["petition"] = petition_state
 
 	data["sequestration"] = sequestration_state()
@@ -546,10 +548,9 @@ GLOBAL_LIST_INIT(steward_trade_sequestration_locked_actions, list(
 			if(!(usr.job in GLOB.crown_authority_roles))
 				to_chat(usr, span_warning("Only Crown officials can petition regions."))
 				return TRUE
-			var/region_id = params["region_id"]
 			var/template = text2path(params["template"])
-			if(SSeconomy.petition_for_order(usr, region_id, template))
-				var/datum/economic_region/region = GLOB.economic_regions[region_id]
+			var/datum/economic_region/region = SSeconomy.petition_for_order(usr, template)
+			if(region)
 				playsound(src, 'sound/items/inqslip_sealed.ogg', 70, FALSE, -1)
-				visible_message(span_notice("[src] stamps the petition and seals it for [region?.name]."))
+				visible_message(span_notice("[src] stamps the petition and seals it for [region.name]."))
 			return TRUE

@@ -5,6 +5,8 @@
 	var/coin_override = 0
 	var/undelivered_days = 0
 	var/undelivered_gifts = 0
+	var/unsent_parcels = 0
+	var/unsent_gifts = 0
 
 /datum/noble_estate/proc/daily_income()
 	if(coin_override)
@@ -95,20 +97,48 @@
 	E.undelivered_gifts = 0
 	var/datum/economic_region/region = E.get_region()
 	SStreasury.grant_estate_income(H, E.daily_income() * days)
-	var/obj/item/smallDelivery/parcel = new()
-	parcel.name = "estate parcel"
-	for(var/i in 1 to E.parcels_per_day() * days)
+	var/parcels = E.parcels_per_day() * days + E.unsent_parcels
+	gifts += E.unsent_gifts
+	var/obj/item/roguemachine/mastermail/hermes = SSroguemachine.hermailermaster
+	if(QDELETED(hermes))
+		E.unsent_parcels = parcels
+		E.unsent_gifts = gifts
+		if(parcels || gifts)
+			send_ooc_note("<b>MEISTER:</b> HERMES is down. Your estates' tribute will not arrive until it is restored.", name = H.real_name)
+		return
+	E.unsent_parcels = 0
+	E.unsent_gifts = 0
+	var/list/items = list()
+	for(var/i in 1 to parcels)
 		var/list/goods = region.estate_parcel()
 		for(var/path in goods)
 			for(var/j in 1 to goods[path])
-				new path(parcel)
+				items += new path()
 	if(length(region.gifts))
 		for(var/i in 1 to gifts)
 			var/gift_type = pick(region.gifts)
-			var/obj/item/gift = new gift_type(parcel)
+			var/obj/item/gift = new gift_type()
 			gift.mark_as_gift()
-	if(!length(parcel.contents))
-		qdel(parcel)
+			items += gift
+	if(!length(items))
 		return
-	if(!deliver_mail(parcel, H.real_name, "[region.name] Estate"))
-		parcel.forceMove(get_turf(H))
+	var/list/deliveries = list()
+	var/obj/item/storage/roguebag/sack = new_estate_sack(deliveries)
+	for(var/obj/item/I as anything in items)
+		if(SEND_SIGNAL(sack, COMSIG_TRY_STORAGE_INSERT, I, null, TRUE, FALSE))
+			continue
+		sack = new_estate_sack(deliveries)
+		if(!SEND_SIGNAL(sack, COMSIG_TRY_STORAGE_INSERT, I, null, TRUE, FALSE))
+			deliveries += I
+	for(var/obj/item/delivery as anything in deliveries)
+		if(istype(delivery, /obj/item/storage/roguebag) && !length(delivery.contents))
+			qdel(delivery)
+			continue
+		if(!deliver_mail(delivery, H.real_name, "[region.name] Estate"))
+			qdel(delivery)
+
+/datum/controller/subsystem/economy/proc/new_estate_sack(list/deliveries)
+	var/obj/item/storage/roguebag/sack = new()
+	sack.name = "estate sack"
+	deliveries += sack
+	return sack

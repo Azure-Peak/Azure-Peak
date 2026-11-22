@@ -231,16 +231,18 @@ export type PetitionCategory = {
   templates: PetitionTemplate[];
 };
 
-export type PetitionOffer = {
+export type PetitionTarget = {
   region_id: string;
-  blocker: string;
+  raided: BooleanLike;
+  replaces: string;
 };
 
 export type PetitionState = {
   pledge_balance: number;
   petitions_remaining: number;
   selected_template: string | null;
-  offers: PetitionOffer[];
+  blocker: string;
+  targets: PetitionTarget[];
 };
 
 export type SequestrationState = {

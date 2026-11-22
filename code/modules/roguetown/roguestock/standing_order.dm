@@ -18,6 +18,7 @@ GLOBAL_LIST_INIT(request_kinds, init_request_kinds())
 	var/is_fulfilled = FALSE
 	/// Spawned by a Steward petition. Payout is shaved by PETITION_TAX_MULT and the UI tags it.
 	var/petitioned = FALSE
+	var/partly_delivered = FALSE
 
 /// Called after region_id is set. Return the order's display name.
 /datum/standing_order/proc/generate_name(datum/economic_region/region)

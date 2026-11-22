@@ -345,6 +345,7 @@ SUBSYSTEM_DEF(economy)
 	consume_equipment_payload(equip_avail)
 	consume_potion_payload(potion_avail)
 	consume_stockpile_payload(stock_avail)
+	order.partly_delivered = TRUE
 	for(var/list/avail_set in list(equip_avail, potion_avail, stock_avail))
 		for(var/good_id in avail_set)
 			var/list/entry = avail_set[good_id]
