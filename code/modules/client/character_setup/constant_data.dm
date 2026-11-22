@@ -78,7 +78,6 @@
 				regions += list(list(
 					"id" = region.region_id,
 					"name" = region.name,
-					"subtitle" = region.subtitle,
 					"description" = region.description,
 					"tribute" = trade_good_names(region.tribute_goods),
 					"gifts" = region.gift_names(),

@@ -241,11 +241,6 @@ const EstateSection = (props: { constantData: ConstantData }) => {
                   <Box bold fontSize={1.1}>
                     {found.region.name}
                   </Box>
-                  {found.region.subtitle ? (
-                    <Box italic color="label">
-                      {found.region.subtitle}
-                    </Box>
-                  ) : null}
                   <Box color="label">
                     {found.subroute}, {found.route}
                   </Box>

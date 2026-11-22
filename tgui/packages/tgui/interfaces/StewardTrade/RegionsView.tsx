@@ -558,9 +558,6 @@ const RegionDetail = (props: {
         <span style={detailTitleStyle}>{r.name}</span>
         {raidBadge(state?.blockaded, state?.escorted)}
       </div>
-      {!!r.subtitle && (
-        <div style={{ fontStyle: 'italic', color: INK_SOFT }}>{r.subtitle}</div>
-      )}
       <div style={{ color: INK_SOFT, fontSize: FONT_SMALL, marginTop: '2px' }}>
         {[sub?.name, route?.name].filter(Boolean).join(', ')}
       </div>

@@ -66,7 +66,6 @@ export type ConstantEstateRoute = {
 export type ConstantEstateRegion = {
   id: string;
   name: string;
-  subtitle: string;
   description: string;
   tribute: string[];
   gifts: string[];

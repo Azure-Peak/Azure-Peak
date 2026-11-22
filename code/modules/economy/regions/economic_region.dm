@@ -12,9 +12,6 @@ GLOBAL_LIST_INIT(economic_regions, init_economic_regions())
 /datum/economic_region
 	var/region_id
 	var/name
-	/// Italicized one-liner shown beneath the region name in the Lore Primer's
-	/// AZURIA'S REGIONS section and in the Steward's Regions tab.
-	var/subtitle = ""
 	var/description = ""
 	var/subroute
 	var/list/region_types = list()
@@ -182,9 +179,6 @@ GLOBAL_LIST_INIT(economic_regions, init_economic_regions())
 		parts += "<details>"
 		parts += "<summary><strong> [uppertext(region.name)] </strong></summary>"
 		parts += "<br>"
-		if(region.subtitle)
-			parts += "<em>[region.subtitle]</em>"
-			parts += "<br><br>"
 		parts += region.description
 		parts += "<br>"
 		parts += "</details>"

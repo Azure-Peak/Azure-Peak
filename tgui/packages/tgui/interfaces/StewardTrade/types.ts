@@ -21,7 +21,6 @@ export type RegionDemandRow = {
 
 export type RegionCatalogEntry = {
   name: string;
-  subtitle: string;
   description: string;
   subroute: string;
   tribute: string[];

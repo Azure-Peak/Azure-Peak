@@ -56,7 +56,6 @@
 		var/datum/economic_region/region = GLOB.economic_regions[region_id]
 		region_catalog[region_id] = list(
 			"name" = region.name,
-			"subtitle" = region.subtitle,
 			"description" = region.description,
 			"subroute" = "[region.subroute]",
 			"tribute" = region.tribute_goods.Copy(),
