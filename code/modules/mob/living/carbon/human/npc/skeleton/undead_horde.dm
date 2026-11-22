@@ -21,6 +21,7 @@
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/aalloy
 	neck = /obj/item/clothing/neck/roguetown/chaincoif/iron/aalloy
 	head = /obj/item/clothing/head/roguetown/helmet/kettle/aalloy
+	mask = /obj/item/clothing/mask/rogue/facemask/aalloy
 
 /datum/outfit/job/roguetown/undead_horde/khopesh/pre_equip(mob/living/carbon/human/H, visualsOnly)
 	. = ..()

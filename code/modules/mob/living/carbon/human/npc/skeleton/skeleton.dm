@@ -44,7 +44,7 @@ GLOBAL_LIST_INIT(skeleton_aggro, list(
 	src.regenerate_icons() //Fixes the weird body with random genders for NPCs.
 
 /mob/living/carbon/human/species/skeleton/npc/ambush
-	threat_point = THREAT_MODERATE
+	threat_point = THREAT_TRASH
 
 // Ultra easy tier skeleton with no armor and just a single weapon.
 /mob/living/carbon/human/species/skeleton/npc/supereasy
@@ -64,22 +64,22 @@ GLOBAL_LIST_INIT(skeleton_aggro, list(
 
 // Medium tier skeleton, 3 skills.
 /mob/living/carbon/human/species/skeleton/npc/medium
-	threat_point = THREAT_MODERATE
+	threat_point = THREAT_HIGH
 	npc_archetype = /datum/npc_archetype/skeleton/medium
 
 // High tier skeleton, 4 skills. Heavy Armor.
 /mob/living/carbon/human/species/skeleton/npc/hard
-	threat_point = THREAT_TOUGH
+	threat_point = THREAT_DANGEROUS
 	npc_archetype = /datum/npc_archetype/skeleton/hard/mixed
 
 // Medium tier skeleton archer, bow skill 3.
 /mob/living/carbon/human/species/skeleton/npc/archer
-	threat_point = THREAT_MODERATE
+	threat_point = THREAT_HIGH
 	npc_archetype = /datum/npc_archetype/skeleton/archer
 
 // For Duke Manor & Zizo Manor - Ground based spread, so no pirate in pool!
 /mob/living/carbon/human/species/skeleton/npc/mediumspread
-	threat_point = THREAT_MODERATE
+	threat_point = THREAT_HIGH
 	npc_archetype = /datum/npc_archetype/skeleton/mediumspread
 
 // For underdark lich-miniboss + contracts - Cannot tame + different Spread
@@ -316,6 +316,7 @@ GLOBAL_LIST_INIT(skeleton_aggro, list(
 	gloves = /obj/item/clothing/gloves/roguetown/leather
 	neck = /obj/item/clothing/neck/roguetown/gorget/copper
 	head = /obj/item/clothing/head/roguetown/headband/bloodied
+	mask = /obj/item/clothing/mask/rogue/facemask/aalloy
 	pants = /obj/item/clothing/under/roguetown/heavy_leather_pants/bronzeskirt
 	shirt = /obj/item/clothing/suit/roguetown/armor/leather/studded/cuirbouilli
 	armor = /obj/item/clothing/suit/roguetown/armor/plate/cuirass/copper

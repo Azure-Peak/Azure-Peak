@@ -12,6 +12,7 @@
 		/datum/advclass/soilson,
 		/datum/advclass/masterchef,
 		/datum/advclass/farmermaster,
+		/datum/advclass/homesteader,
 		/datum/advclass/trader/cuisiner,
 		/datum/advclass/seneschal/seneschal,
 		/datum/advclass/seneschal/headmaid,

@@ -95,7 +95,7 @@
 	to_chat(L, span_danger("<B>The rune erupts in flames!</B>"))
 	playsound(src, pick('sound/misc/explode/incendiary (1).ogg', 'sound/misc/explode/incendiary (2).ogg'), 80, TRUE)
 	new /obj/effect/hotspot(get_turf(src))
-	L.Slowdown(4)
+	L.apply_slowdown(7 SECONDS)
 	apply_scorch_stack(L, 3, BODY_ZONE_CHEST)
 
 /obj/structure/rune_ward/chill
@@ -106,7 +106,7 @@
 	to_chat(L, span_danger("<B>Frost erupts from the rune and seizes your limbs!</B>"))
 	playsound(src, 'sound/spellbooks/crystal.ogg', 80, TRUE)
 	new /obj/effect/temp_visual/telegraph/ice(get_turf(src))
-	L.Slowdown(4)
+	L.apply_slowdown(7 SECONDS)
 	L.adjustFireLoss(SPELL_DMG_VS(L, SPELL_DMG(10)))
 	apply_frost_stack(L, 4)
 
@@ -120,7 +120,7 @@
 	playsound(src, 'sound/magic/blade_burst.ogg', 80, TRUE)
 	playsound(src, pick('sound/combat/hits/bladed/genstab (1).ogg', 'sound/combat/hits/bladed/genstab (2).ogg', 'sound/combat/hits/bladed/genstab (3).ogg'), 80, TRUE)
 	new /obj/effect/temp_visual/blade_burst(get_turf(src))
-	L.Slowdown(4)
+	L.apply_slowdown(7 SECONDS)
 	var/mob/living/carbon/human/owner = owner_ref?.resolve()
 	if(ishuman(owner) && ishuman(L))
 		arcyne_strike(owner, L, null, rune_damage, BODY_ZONE_CHEST, \

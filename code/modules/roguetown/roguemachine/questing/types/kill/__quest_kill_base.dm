@@ -1,5 +1,6 @@
 /datum/quest/kill
 	abstract_type = /datum/quest/kill
+	veteran_allowed = TRUE
 	var/tp_budget = 0
 	var/max_region_tp_mult
 	var/min_mobs = 1
@@ -7,6 +8,7 @@
 	var/total_spawned_tp = 0
 	var/kills_count_progress = TRUE
 	var/rolls_faction_variants = TRUE
+	var/foes_pickable = TRUE
 	var/objective_verb = "Eliminate"
 	var/failed = FALSE
 	var/armed = FALSE
@@ -20,8 +22,10 @@
 	var/hunt_overtime_max = QUEST_KILL_HUNT_OVERTIME_MAX
 	var/hunt_overtime_used = 0
 	var/last_guardian_kill = 0
+	var/ringleader_type
 	var/leash_tick_id
 	var/list/leash_strayed_since = list()
+	var/last_trigger_block_warning = 0
 
 /datum/quest/kill/Destroy()
 	clear_hunt_timers()
@@ -46,6 +50,41 @@
 	start_leash_tick()
 	start_hunt_timer(hunt_duration)
 	announce_to_bearer("<b>The hunt has begun.</b> You have [DisplayTimeText(hunt_duration)] to kill them before they scatter and the contract fails.")
+
+/datum/quest/kill/may_trigger(turf/scroll_turf)
+	if(engaged)
+		return TRUE
+	var/mob/living/carrier = get(quest_scroll_ref?.resolve(), /mob/living)
+	var/mob/living/receiver = quest_receiver_reference?.resolve()
+	for(var/obj/item/quest_writ/other as anything in GLOB.quest_scrolls)
+		var/datum/quest/other_quest = other.assigned_quest
+		if(!other_quest || other_quest == src)
+			continue
+		if(!(carrier && get(other, /mob/living) == carrier) && !(receiver && other_quest.quest_receiver_reference?.resolve() == receiver))
+			continue
+		if(!other_quest.fight_underway_near(scroll_turf))
+			continue
+		warn_trigger_blocked(carrier || receiver, other_quest)
+		return FALSE
+	return TRUE
+
+/datum/quest/kill/fight_underway_near(turf/T)
+	if(!T || !engaged || complete || failed)
+		return FALSE
+	for(var/datum/weakref/W in tracked_atoms)
+		var/mob/living/M = W.resolve()
+		if(!istype(M) || M.stat == DEAD)
+			continue
+		var/turf/MT = get_turf(M)
+		if(MT && MT.z == T.z && get_dist(MT, T) <= QUEST_TRIGGER_BLOCK_RANGE)
+			return TRUE
+	return FALSE
+
+/datum/quest/kill/proc/warn_trigger_blocked(mob/living/target, datum/quest/blocker)
+	if(!target || world.time < last_trigger_block_warning + QUEST_TRIGGER_BLOCK_WARN_COOLDOWN)
+		return
+	last_trigger_block_warning = world.time
+	to_chat(target, span_warning("You have another contract underway nearby. Finish <b>[blocker.get_title()]</b> before <b>[get_title()]</b> can begin."))
 
 /datum/quest/kill/proc/start_hunt_timer(duration)
 	clear_hunt_timers()
@@ -223,9 +262,7 @@
 		return "[objective_verb] ~[progress_required] [initial(target_mob_type.name)]."
 	return "[objective_verb] ~[progress_required] [faction.name_plural]."
 
-/datum/quest/kill/project_fellowship_objective(mob/living/user)
-	var/extras = count_fellowship_extras(user)
-	var/missing = count_fellowship_missing(user)
+/datum/quest/kill/project_objective(extras, missing)
 	if(!kills_count_progress || (!veteran && ((!extras && !missing) || !fellowship_threat_rate)))
 		return get_objective_text()
 	var/saved_required = progress_required
@@ -347,10 +384,31 @@
 	if(!target_mob_type)
 		return FALSE
 	progress_required = estimate_mob_count()
-	if(faction.boss_name_file)
-		band_leader_name = faction.generate_boss_name()
+	pick_ringleader()
 	finalize_preview_title()
 	return TRUE
+
+/datum/quest/kill/proc/pick_ringleader()
+	ringleader_type = null
+	band_leader_name = ""
+	if(writ_type != WRIT_TYPE_OUTLAWRY || !faction.boss_name_file)
+		return
+	var/max_tp = tp_budget * QUEST_RINGLEADER_MAX_BUDGET_SHARE
+	var/list/affordable = list()
+	for(var/boss_path in faction.boss_mob_types)
+		if(initial_threat_point(boss_path) <= max_tp)
+			affordable[boss_path] = faction.boss_mob_types[boss_path]
+	if(!length(affordable))
+		return
+	ringleader_type = pickweight(affordable)
+	band_leader_name = faction.generate_boss_name(ringleader_type)
+
+/datum/quest/kill/proc/rename_quest_boss(datum/weakref/boss_ref, boss_name)
+	var/mob/living/boss = boss_ref?.resolve()
+	if(QDELETED(boss) || !boss_name)
+		return
+	boss.real_name = boss_name
+	boss.name = boss_name
 
 /datum/quest/kill/region_scale(datum/threat_region/TR)
 	if(max_region_tp_mult)
@@ -381,14 +439,81 @@
 /datum/quest/kill/proc/faction_fits(datum/quest_faction/F, datum/threat_region/TR)
 	return TRUE
 
+// If you rolled a special faction, it is locked. Only the baseline faction can be swapped for a special one
+/datum/quest/kill/proc/can_pick_foes()
+	if(!foes_pickable || !rolls_faction_variants || is_directive)
+		return FALSE
+	if(source != QUEST_SOURCE_POOL && source != QUEST_SOURCE_RUMOR)
+		return FALSE
+	var/datum/quest_faction/base = get_quest_faction(faction_id)
+	return base && faction == base && length(foe_choices()) > 1
+
+/datum/quest/kill/proc/foe_choices()
+	var/datum/quest_faction/base = get_quest_faction(faction_id)
+	. = list("[base.id]" = base)
+	for(var/datum/quest_faction_variant/variant_type as anything in base.variant_factions)
+		if(!initial(variant_type.pickable))
+			continue
+		.["[variant_type]"] = base.variant_factions[variant_type]
+
+/datum/quest/kill/proc/foe_key(list/choices)
+	for(var/key in choices)
+		if(choices[key] == faction)
+			return key
+
+/datum/quest/kill/proc/set_foes(datum/quest_faction/F)
+	faction = F
+	target_mob_type = F.pick_mob_type()
+	if(kills_count_progress)
+		progress_required = estimate_mob_count()
+	pick_ringleader()
+	title = ""
+	title = get_title()
+	projection_key = null
+
+/datum/quest/kill/proc/pick_foes(key)
+	if(!istext(key) || !can_pick_foes())
+		return FALSE
+	var/list/choices = foe_choices()
+	var/datum/quest_faction/F = choices[key]
+	if(!F || F == faction)
+		return FALSE
+	set_foes(F)
+	reward_amount = calculate_reward(reward_origin_turf, reward_target_turf)
+	return TRUE
+
+/datum/quest/kill/proc/build_foe_options(list/choices, party_size, can_veteran)
+	var/datum/quest_faction/held_faction = faction
+	var/held_required = progress_required
+	var/held_title = title
+	var/held_veteran = veteran
+	var/extras = extras_at_size(party_size)
+	var/missing = missing_at_size(party_size)
+	. = list()
+	for(var/key in choices)
+		var/datum/quest_faction/F = choices[key]
+		var/list/option = list("key" = key, "label" = capitalize(F.name_plural))
+		if(F != held_faction)
+			faction = F
+			if(kills_count_progress)
+				progress_required = estimate_mob_count()
+			title = ""
+			option["title"] = get_title()
+			option["objective"] = project_objective(extras, missing)
+			if(can_veteran)
+				veteran = TRUE
+				option["veteran_objective"] = project_objective(extras, missing)
+				veteran = held_veteran
+		. += list(option)
+	faction = held_faction
+	progress_required = held_required
+	title = held_title
+
 /datum/quest/kill/fits_region(datum/threat_region/TR)
 	return ..() && !!pick_region_faction_for(TR)
 
 /datum/quest/kill/proc/average_threat_point()
 	return faction ? faction.average_threat_point() : 0
-
-/datum/quest/kill/can_be_veteran()
-	return !is_directive && (source == QUEST_SOURCE_POOL || source == QUEST_SOURCE_RUMOR)
 
 /datum/quest/kill/proc/scaled_threat_budget(budget = tp_budget)
 	. = round(budget * fellowship_threat_mult * veteran_threat_mult())
@@ -411,9 +536,17 @@
 	return max(tp, QUEST_MOB_MIN_TP)
 
 /datum/quest/kill/proc/spawn_kill_mobs(obj/effect/landmark/quest_spawner/landmark)
-	var/list/to_spawn = compose_warband()
+	var/ringleader_tp = ringleader_type ? initial_threat_point(ringleader_type) : 0
+	var/list/to_spawn = compose_warband(ringleader_tp)
 	var/spawned = 0
 	total_spawned_tp = 0
+	if(ringleader_type)
+		var/mob/living/leader = spawn_hidden_mob(landmark, ringleader_type)
+		ringleader_type = null
+		if(leader)
+			total_spawned_tp += ringleader_tp
+			spawned++
+			addtimer(CALLBACK(src, PROC_REF(rename_quest_boss), WEAKREF(leader), band_leader_name), QUEST_BOSS_RENAME_DELAY)
 	for(var/mob_path in to_spawn)
 		var/mob/living/new_mob = spawn_hidden_mob(landmark, mob_path)
 		if(!new_mob)
@@ -434,6 +567,7 @@
 	if(tag_faction && faction?.faction_tag)
 		new_mob.faction |= faction.faction_tag
 	new_mob.mark_contract_spawned(dust_corpse)
+	ADD_TRAIT(new_mob, TRAIT_CONTRACT_HOSTILE, CONTRACT_SPAWN_TRAIT)
 	if(is_target)
 		new_mob.AddComponent(/datum/component/quest_object/kill, src)
 		add_tracked_atom(new_mob)
@@ -468,11 +602,11 @@
 	var/datum/npc_archetype/archetype = initial(living_path.npc_archetype)
 	return ispath(archetype) && ispath(initial(archetype.ai_controller), /datum/ai_controller/human_npc/archer)
 
-/datum/quest/kill/proc/compose_warband()
+/datum/quest/kill/proc/compose_warband(reserved_tp = 0)
 	var/list/result = list()
 	if(!faction || !length(faction.mob_types) || tp_budget <= 0)
 		return result
-	var/budget = scaled_threat_budget()
+	var/budget = scaled_threat_budget() - reserved_tp
 	var/list/candidates = compose_candidates()
 	if(!length(candidates))
 		return result

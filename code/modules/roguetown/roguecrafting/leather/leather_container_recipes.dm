@@ -53,7 +53,7 @@
 
 /datum/crafting_recipe/roguetown/leather/container/satchelshort/black
 	name = "short black satchel"
-	result = /obj/item/storage/backpack/rogue/satchel/short
+	result = /obj/item/storage/backpack/rogue/satchel/short/black
 
 /datum/crafting_recipe/roguetown/leather/container/backpack
 	name = "backpack"

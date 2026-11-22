@@ -23,15 +23,19 @@
 		/mob/living/carbon/human/species/human/northern/outlaw_tank = 40,
 		/mob/living/carbon/human/species/human/northern/outlaw_ranger = 30,
 		/mob/living/carbon/human/species/human/northern/outlaw_duelist = 30,
+		/mob/living/carbon/human/species/human/northern/highwayman/caster/boss/pyromancer = 4,
+		/mob/living/carbon/human/species/human/northern/highwayman/caster/boss/fulgurmancer = 4,
+		/mob/living/carbon/human/species/human/northern/highwayman/caster/boss/geomancer = 4,
+		/mob/living/carbon/human/species/human/northern/highwayman/caster/boss/telomancer = 4,
+		/mob/living/carbon/human/species/human/northern/highwayman/caster/boss/cryomancer = 4,
+		/mob/living/carbon/human/species/human/northern/highwayman/spellblade/boss/blade = 4,
+		/mob/living/carbon/human/species/human/northern/highwayman/spellblade/boss/phalangite = 4,
+		/mob/living/carbon/human/species/human/northern/highwayman/spellblade/boss/macebearer = 4,
+		/mob/living/carbon/human/species/human/northern/highwayman/spellblade/boss/spellfist = 4,
 	)
 	variant_chances = list(
 		/datum/quest_faction_variant/rogue_coven = 10,
 		/datum/quest_faction_variant/rogue_azurcaephan = 10,
-	)
-	boss_title_templates = list(
-		"%N the Ironclad",
-		"%N Stonebreaker",
-		"%N the Bear",
-		"%N the Keen Eye",
+		/datum/quest_faction_variant/mountain_spirits = 10,
 	)
 	boss_name_file = "strings/rt/names/human/humnorm.txt"

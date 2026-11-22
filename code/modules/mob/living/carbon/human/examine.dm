@@ -1,7 +1,7 @@
 /mob/living/carbon/human/proc/on_examine_face(mob/living/carbon/human/user)
 	if(!istype(user))
 		return
-	if(user.mind)
+	if(user.mind && src.client)
 		user.mind.i_know_person(src)
 	if(user.has_flaw(/datum/charflaw/paranoid))	//The weak should fear the strong..
 		if((STASTR - user.STASTR) > 1 && !has_flaw(/datum/charflaw/paranoid))
@@ -209,7 +209,7 @@
 		. += str
 
 	for(var/obj/item/I in held_items)
-		if(!(I.item_flags & ABSTRACT))
+		if(!(I.item_flags & ABSTRACT) && !(I.item_flags & INHANDS_INVISIBLE))
 			var/str = "[m1] holding [get_item_examine_label(I, user)] in [m2] [get_held_index_name(get_held_index_of_item(I))]. "
 			str += I.integrity_check(is_smart, guarded)
 			. += str

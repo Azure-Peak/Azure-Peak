@@ -149,6 +149,7 @@
 	var/ambushable = 0
 	var/threat_point = 0 // Threat Point cost for the ambush budget system. Set on NPC subtypes.
 	var/ambush_faction = "" // Faction tag for ambush same/wrong-faction purchasing. Separate from mob faction list.
+	var/boss_class
 	var/gm_name // Display label in the game master panel. Unset derives one from the type path.
 	var/gm_category // Filter category in the game master panel. Unset uses the primary faction.
 	var/gm_hidden = FALSE // Keep this type out of the game master panel entirely.
@@ -192,8 +193,6 @@
 	var/obj/item/grabbing/l_grab = null
 
 	var/datum/sex_controller/sexcon
-
-	var/slowdown
 
 	var/last_integ_sound
 
@@ -266,3 +265,8 @@
 	/// Bypasses positioning and exposure checks entirely
 	var/freeuse = FALSE
 
+	/// ass list [id] = /datum/status_effect.
+	var/alist/status_effects_by_id // Now hopefully /living will lead to this again.
+
+	/// i hate this, AKA, grace window against wake/sleep spam
+	var/sleep_wake_timer

@@ -302,6 +302,7 @@
 
 #define TRAIT_NOFALLDAMAGE1 "Fall Damage Reduction"
 #define TRAIT_NOFALLDAMAGE2 "Fall Damage Immunity"
+#define TRAIT_AMORPHOUS_LANDING "Amorphous Landing"
 
 #define TRAIT_STRONGBITE "Strong Bite" //Higher critrate + damage
 #define TRAIT_STRONGKICK "Strong Kick" //Knockdown to the floor guarrenteed if it hits + knockback a tile
@@ -596,6 +597,7 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_SANGUIVORE = "I can drink blood without retching, though it does little to sate me.",
 	TRAIT_NOFALLDAMAGE1 = span_warning("I can easily handle minor falls."),
 	TRAIT_NOFALLDAMAGE2 = span_warning("I can handle a fall from any height."),
+	TRAIT_AMORPHOUS_LANDING = span_warning("I flatten into a puddle of ooze when I land from a fall."),
 	TRAIT_GRABIMMUNE = span_warning("My great strength, or slippery agility, prevents others from getting ahold of me!"),
 	TRAIT_DISFIGURED = span_warning("No one can recognize me..."),
 	TRAIT_MISSING_NOSE = span_warning("I struggle to breathe."),
@@ -662,7 +664,7 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_COUNTERCOUNTERSPELL = span_info("I automatically know when to counter Counterspells, and can do so without even thinking about it."),
 	TRAIT_UNSEEMLY = span_info("My face is ugly and makes everyone who looks at me miserable."),
 	TRAIT_HERETIC_SEER = span_info("I can tell other Ascendant followers without sharing their faith."),
-	TRAIT_DUALWIELDER = span_info("While wielding two one-hand weapons with at least Journeyman skill on each, I alternate attacks between them. After 4 strikes, I'll attack with both at once. My parry and dodge are reduced by 5% while holding two weapons."),
+	TRAIT_DUALWIELDER = span_info("While wielding two one-hand weapons with at least Journeyman skill on each, I alternate attacks between them. After 4 strikes, I'll attack with both at once. My parry and dodge are reduced by 5% while holding two weapons (or no weapons)."),
 	TRAIT_SENTINELOFWITS = span_info("My Intelligence aids in my defense. Every 2 points above 10 INT become an additional 10% chance to dodge or parry. Does not count positive buffs from potions or substances."),
 	TRAIT_KEENEARS = span_info("I've a good pair of ears, and can tell who is speaking, even when they're out of sight. I can also hear whispers from further away."),
 	TRAIT_SCREENSHAKE = span_suicide("I don't feel very steady anymore..."),
@@ -802,7 +804,7 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_DUSTRUNNER = span_info("I run dust for the Thieves' Guild. Those in the trade know how to spot one of their own."),
 	TRAIT_INK_AFFINITY = span_info("I can thread sacred abyssorite paint splotches safely, and benefit from them."),
 	TRAIT_BLEED_PAINT = span_info("I bleed sacred abyssorite paint when I'm injured, as long as I can bleed."),
-	TRAIT_REGROW_LIMBS = span_info("I can regrow my limbs in my sleep, but doing so will make me hungry."),
+	TRAIT_REGROW_LIMBS = span_info("I can regrow my limbs, either by falling asleep or concetrating while awake. Doing so will make me hungry."),
 	TRAIT_MUSES_GRACE = span_info("I feel a sudden and powerful urge to break out into song."),
 	TRAIT_NOHEAL = span_artery("I cannot be healed by supernatural means. Healing magic has no effect."),
 	TRAIT_NOREGEN = span_artery("I cannot be healed by natural means. Rest and potions have no effect."),
@@ -897,8 +899,7 @@ Remember to update _globalvars/traits.dm if you're adding/removing/renaming trai
 #define TRAIT_CLUMSY			"clumsy"
 #define TRAIT_CHUNKYFINGERS		"chunkyfingers" //means that you can't use weapons with normal trigger guards.
 #define TRAIT_GNARLYDIGITS		"gnarlydigits" //less aggressive version of chunky fingers to allow -some- fun.
-#define TRAIT_TINYPAWS			"tinypaws" // even less aggressive version of chunky fingers to allow familiars to perform repairs.
-#define TRAIT_WEAPONLESS		"weaponless" // reskinned variant of the above.
+#define TRAIT_WEAPONLESS		"weaponless" // even less aggressive version of chunky fingers to allow noncombat "weapon" use (think cutting down trees).
 #define TRAIT_NOTIGHTGRABMESSAGE "notightgrabmessage" // Hides grab tightening messages.
 #define TRAIT_NOSSDINDICATOR "nossdindicator" // Hides the SSD indicator. Used with scrying.
 #define TRAIT_NOSTRUGGLE "nostruggle" // Instant grabs on someone else.
@@ -913,6 +914,7 @@ Remember to update _globalvars/traits.dm if you're adding/removing/renaming trai
 #define TRAIT_RIGIDMOVEMENT		"Ignore Natural Health Slowdown"
 #define TRAIT_DEATHCOMA			"Death Coma" //Causes death-like unconsciousness
 #define TRAIT_FRESHSPAWN "freshspawn"
+#define TRAIT_CONTRACT_HOSTILE "contract_hostile"
 #define TRAIT_RELAYING_ATTACKER "relaying_attacker"
 #define TRAIT_CHARGE_AIRBORNE "charge_airborne"
 #define TRAIT_FAKEDEATH			"Fake Death" //Makes the owner appear as dead to most forms of medical examination

@@ -1,14 +1,18 @@
 										//(This isn't exact time. Extended 5 -> 7 because only takes 2-3 min in testing at 5.)
 
 #define CORPSE_ROT_START_TIME 5 MINUTES
-#define CORPSE_SKELETONIZE_TIME 12 MINUTES
-#define CORPSE_DUST_TIME 20 MINUTES
+#define CORPSE_SKELETONIZE_TIME 15 MINUTES
+#define CORPSE_DUST_TIME 25 MINUTES
 
-#define SIMPLE_CORPSE_ROT_START 12 MINUTES
-#define SIMPLE_CORPSE_DUST_TIME 15 MINUTES
+#define SIMPLE_CORPSE_ROT_START 15 MINUTES
+#define SIMPLE_CORPSE_DUST_TIME 20 MINUTES
 
 #define HUNT_CORPSE_ROT_START 20 MINUTES
 #define HUNT_CORPSE_DUST_TIME 35 MINUTES
+
+// Give a longer limit for tamed animals
+#define TAME_CORPSE_ROT_START 45 MINUTES
+#define TAME_CORPSE_DUST_TIME 60 MINUTES
 
 /datum/component/rot
 	var/amount = 0
@@ -157,6 +161,15 @@
 	var/rot_start = SIMPLE_CORPSE_ROT_START
 	var/dust_time = SIMPLE_CORPSE_DUST_TIME
 
+/datum/component/rot/simple/Initialize(new_amount)
+	. = ..()
+	if(.)
+		return
+	var/mob/living/simple_animal/animal = parent
+	if(istype(animal) && (animal.tame || animal.ssaddle))
+		rot_start = TAME_CORPSE_ROT_START
+		dust_time = TAME_CORPSE_DUST_TIME
+
 /datum/component/rot/simple/process()
 	..()
 	var/mob/living/L = parent
@@ -196,3 +209,5 @@
 #undef SIMPLE_CORPSE_DUST_TIME
 #undef HUNT_CORPSE_ROT_START
 #undef HUNT_CORPSE_DUST_TIME
+#undef TAME_CORPSE_ROT_START
+#undef TAME_CORPSE_DUST_TIME

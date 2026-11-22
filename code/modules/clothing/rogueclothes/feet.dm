@@ -239,6 +239,11 @@
 	icon_state = "albootsb"
 	item_state = "albootsb"
 
+// For NPC usage
+/obj/item/clothing/shoes/roguetown/boots/leather/reinforced/shoddy
+	name = "shoddy hardened leather boots"
+	max_integrity = 75
+
 /obj/item/clothing/shoes/roguetown/boots/otavan
 	name = "otavan leather boots"
 	desc = "Boots of outstanding craft, your fragile feet have never felt so protected and comfortable before."
