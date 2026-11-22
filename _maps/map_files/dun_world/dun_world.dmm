@@ -2380,7 +2380,6 @@
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/indoors/cave)
 "avR" = (
-/obj/structure/roguemachine/vendor/inn,
 /turf/closed/wall/mineral/rogue/wooddark/window,
 /area/rogue/indoors/town/tavern)
 "avV" = (
@@ -7260,6 +7259,10 @@
 	},
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town/church/chapel)
+"bmr" = (
+/obj/structure/roguemachine/vendor/inn,
+/turf/closed/wall/mineral/rogue/wooddark,
+/area/rogue/indoors/town/tavern)
 "bmu" = (
 /obj/structure/fluff/walldeco/church/line,
 /obj/structure/flora/ausbushes/sparsegrass,
@@ -30402,9 +30405,6 @@
 /turf/open/floor/rogue/grass,
 /area/rogue/outdoors/woods/northwest)
 "fgP" = (
-/obj/machinery/light/rogue/candle{
-	pixel_y = -32
-	},
 /obj/structure/fluff/railing/corner/south_west,
 /obj/structure/table/wood/long_table/mid,
 /obj/structure/bars/passage/shutter{
@@ -291338,7 +291338,7 @@ pvg
 avR
 tuv
 fgP
-dJN
+bmr
 taS
 taS
 taS
