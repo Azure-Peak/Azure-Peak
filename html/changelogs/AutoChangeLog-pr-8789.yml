@@ -1,6 +1,0 @@
-author: "KatTheFox"
-delete-after: True
-changes:
-  - balance: "Feytouched can now choose between 30 points of boon capacity, or the ability for the hag to possess them. There's a toggle for the latter in the RoleUnique tab, in case you need to... not be interrupted for a while."
-  - rscadd: "Added a bunch of stuff to hags. Best to find this kind of stuff out IC."
-  - bugfix: "Fixed a lot of hag bugs idw to list here."

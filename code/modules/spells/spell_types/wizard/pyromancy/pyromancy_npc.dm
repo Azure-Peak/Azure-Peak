@@ -6,6 +6,7 @@
 #define SCORCH_BUILD_BONUS 5
 #define ARCED_SHOT_PENALTY 30
 #define CURTAIN_VS_PLAYER_WEIGHT 0.4
+#define BREATH_TRACK_CUTOFF 6
 
 /proc/pyro_npc_scorch_bonus(mob/living/victim, stacks)
 	var/current = get_scorch_stacks(victim)
@@ -103,6 +104,7 @@
 	npc_escape = TRUE
 	require_target_in_pattern = TRUE
 	track_target = TRUE
+	track_cutoff = BREATH_TRACK_CUTOFF
 
 /datum/action/cooldown/spell/telegraphed_strike/dragons_breath/npc_use_chance(atom/target)
 	var/mob/living/victim = target
@@ -182,3 +184,4 @@
 #undef SCORCH_BUILD_BONUS
 #undef ARCED_SHOT_PENALTY
 #undef CURTAIN_VS_PLAYER_WEIGHT
+#undef BREATH_TRACK_CUTOFF

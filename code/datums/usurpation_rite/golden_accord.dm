@@ -30,6 +30,14 @@
 		"Foreign rulers whisper of heresy, of Matthiosite plots, " + \
 		"but the people know the truth -- " + \
 		"that power belongs to those who bring prosperity to the realm!"
+	required_assents = GOLDEN_REQUIRED_ASSENTS
+	invoke_bars = RITE_BAR_OUTLAW | RITE_BAR_UNDEAD
+	assent_bars = RITE_BAR_OUTLAW | RITE_BAR_UNDEAD
+	outlaw_rejection = "Outlaws have no standing in matters of commerce."
+	undead_rejection = "The dead hold no contracts."
+	assenter_group = "burghers"
+	council_name = "the Council of Burghers"
+	claim_basis = "by weight of coin"
 
 /// Steward, Merchant, Guildmaster, or Bathmaster with 200+ mammon. No outlaws or undead.
 /datum/usurpation_rite/golden_accord/can_invoke(mob/living/carbon/human/user)
@@ -37,116 +45,25 @@
 		return FALSE
 	if(!(user.job in list("Steward", "Merchant", "Guildmaster", "Bathmaster")))
 		return FALSE
-	if(HAS_TRAIT(user, TRAIT_OUTLAW))
-		return FALSE
-	if(HAS_TRAIT(user, TRAIT_ROTMAN) || (user.mob_biotypes & MOB_UNDEAD))
-		return FALSE
 	return TRUE
 
-/datum/usurpation_rite/golden_accord/on_gathering_started()
-	to_chat(invoker, span_notice("The rite has begun. Citizens with bank accounts must now speak 'I assent' near the throne. You require [GOLDEN_REQUIRED_ASSENTS] voices within [RITE_GATHERING_DURATION / (1 MINUTES)] minutes. Alternatively, the current ruler may say 'I abdicate' near the throne to yield."))
-	phase_timer_id = addtimer(CALLBACK(src, PROC_REF(on_gathering_timeout)), RITE_GATHERING_DURATION, TIMER_STOPPABLE)
-
-/datum/usurpation_rite/golden_accord/on_gathering_timeout()
-	fail("The burghers of the realm did not grant sufficient assent.")
-
-/// Override: citizens with bank accounts assent, not nobles.
-/datum/usurpation_rite/golden_accord/try_assent(mob/living/carbon/human/burgher)
-	if(stage != RITE_STAGE_GATHERING)
-		return FALSE
-	if(!istype(burgher))
-		return FALSE
-	if(burgher.stat != CONSCIOUS)
-		return FALSE
-	if(burgher == invoker)
-		to_chat(burgher, span_warning("You cannot assent to your own claim."))
-		return FALSE
+/datum/usurpation_rite/golden_accord/can_assent(mob/living/carbon/human/burgher)
 	if(get_total_wealth(burgher) < GOLDEN_REQUIRED_WEALTH)
 		to_chat(burgher, span_warning("You need at least [GOLDEN_REQUIRED_WEALTH] mammons to your name to speak assent, pauper."))
 		return FALSE
-	if(HAS_TRAIT(burgher, TRAIT_OUTLAW))
-		to_chat(burgher, span_warning("Outlaws have no standing in matters of commerce."))
-		return FALSE
-	if(HAS_TRAIT(burgher, TRAIT_ROTMAN) || (burgher.mob_biotypes & MOB_UNDEAD))
-		to_chat(burgher, span_warning("The dead hold no contracts."))
-		return FALSE
-	if(assenters[burgher])
-		to_chat(burgher, span_warning("You have already spoken your assent."))
-		return FALSE
-	if(!throne || get_dist(burgher, throne) > RITE_ASSENT_RANGE)
-		return FALSE
-	assenters[burgher] = TRUE
-	on_assent_accepted(burgher)
-	check_assent_threshold()
-	return TRUE
+	return ..()
 
-/datum/usurpation_rite/golden_accord/on_assent_accepted(mob/living/carbon/human/burgher)
-	burgher.visible_message( \
-		span_notice("[burgher.get_unmasked_name()] speaks their assent to the Golden Accord."), \
-		span_notice("You speak your assent. The ledger marks your name."))
-	to_chat(invoker, span_notice("[burgher.get_unmasked_name()] has assented. ([length(assenters)]/[GOLDEN_REQUIRED_ASSENTS])"))
-
-/datum/usurpation_rite/golden_accord/check_assent_threshold()
-	if(length(assenters) >= GOLDEN_REQUIRED_ASSENTS)
-		start_contesting()
-
-/datum/usurpation_rite/golden_accord/on_contesting_started()
-	priority_announce( \
-		"[invoker.get_unmasked_name()] has invoked the Rite of Golden Accord!\n\n" + \
-		"The people of [SSticker.realm_name] has spoken — a merchant republic shall be established, and [invoker.get_unmasked_name()] elected its first Chancellor!\n\n" + \
+/datum/usurpation_rite/golden_accord/get_contest_announcement()
+	return "The people of [SSticker.realm_name] have spoken — a merchant republic shall be established, and [invoker.get_unmasked_name()] elected its first [new_ruler_title]!\n\n" + \
 		"A Council of Burghers has affirmed this claim.\n\n" + \
-		"The Accord shall be sealed in [RITE_CONTEST_DURATION / (1 MINUTES)] minutes -- unless the claim is struck down.", \
-		"Rite of Golden Accord", \
-		sound_contesting)
-	to_chat(invoker, span_notice("The burghers have spoken. The realm has been alerted. Stay near the throne for [RITE_CONTEST_DURATION / (1 MINUTES)] minutes and the succession is yours. You may move freely, but do not stray too far."))
-	phase_timer_id = addtimer(CALLBACK(src, PROC_REF(complete)), RITE_CONTEST_DURATION, TIMER_STOPPABLE)
+		"The Accord shall be sealed in [RITE_CONTEST_DURATION / (1 MINUTES)] minutes -- unless the claim is struck down."
 
-/datum/usurpation_rite/golden_accord/on_complete()
-	var/mob/living/old_ruler = SSticker.rulermob
-	var/old_ruler_name = old_ruler?.get_unmasked_name() || "Their predecessor"
-	..()
-	priority_announce( \
-		"Power belongs to those who bring prosperity to the realm.\n\n" + \
+/datum/usurpation_rite/golden_accord/get_victory_announcement(old_ruler_name)
+	return "Power belongs to those who bring prosperity to the realm.\n\n" + \
 		"The Council of Burghers declares [invoker.get_unmasked_name()] the rightful [SSticker.rulertype] of [SSticker.realm_name], establishing a PROSPEROUS republic of free commerce.\n\n" + \
 		"[old_ruler_name], unable to contest this succession, has been found wanting in stewardship, " + \
 		"and their authority is hereby rendered insolvent.\n\n" + \
-		"Long live [invoker.get_unmasked_name()], [SSticker.rulertype] of [SSticker.realm_name]!", \
-		"A New [SSticker.rulertype] Ascends", \
-		sound_victory)
-	to_chat(invoker, span_notice("The weight of coin settles in your hands. The throne is yours."))
-
-/datum/usurpation_rite/golden_accord/on_fail(reason)
-	if(stage >= RITE_STAGE_CONTESTING)
-		priority_announce( \
-			"The Golden Accord has failed. [reason] The ledger is closed.", \
-			"Rite Failed", \
-			sound_failure)
-	if(invoker)
-		to_chat(invoker, span_warning("The Golden Accord has failed. [reason]"))
-
-
-/datum/usurpation_rite/golden_accord/get_status_text()
-	switch(stage)
-		if(RITE_STAGE_GATHERING)
-			return "The Golden Accord is underway. [length(assenters)]/[GOLDEN_REQUIRED_ASSENTS] burghers have spoken their assent."
-		if(RITE_STAGE_CONTESTING)
-			return "The Council of Burghers has affirmed [invoker?.get_unmasked_name()]'s claim. The Accord approaches."
-	return null
-
-/datum/usurpation_rite/golden_accord/get_periodic_announcement()
-	switch(stage)
-		if(RITE_STAGE_GATHERING)
-			return "[invoker?.get_unmasked_name()] claims the throne by weight of coin. Burghers, speak your assent -- or stop them. ([length(assenters)]/[GOLDEN_REQUIRED_ASSENTS] voices)"
-		if(RITE_STAGE_CONTESTING)
-			var/remaining = ""
-			if(contest_time_remaining > 0)
-				var/elapsed = world.time - contest_started_at
-				var/left = max(contest_time_remaining - elapsed, 0)
-				remaining = "[round(left / (1 SECONDS))] seconds"
-			else
-				remaining = "moments"
-			return "The Council of Burghers has spoken. [invoker?.get_unmasked_name()] will ascend in [remaining]. Defend or destroy this claim!"
-	return null
+		"Long live [invoker.get_unmasked_name()], [SSticker.rulertype] of [SSticker.realm_name]!"
 
 /// Returns the total mammon value on the mob's person plus their bank account.
 /datum/usurpation_rite/golden_accord/proc/get_total_wealth(mob/living/carbon/human/user)

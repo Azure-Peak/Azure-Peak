@@ -190,10 +190,10 @@ GLOBAL_DATUM_INIT(openspace_backdrop_one_for_all, /atom/movable/openspace_backdr
 						if(climbing_skill != 6) //we keep the same checks as for usual climbing
 							wall_skill_requirement += 1
 						if(!(climbing_skill >= wall_skill_requirement)) //if we can normally move along the edge, attach
-							climber.visible_message(span_danger("I am not skilled enough at climbing to attach to the wall!"))
+							to_chat(climber, span_danger("I am not skilled enough at climbing to attach to the wall!"))
 						else
 							if(!(climber_armor_class <= ARMOR_CLASS_LIGHT)) //no climbing in medium/heavy
-								climber.visible_message(span_danger("The armor prevents me from attaching to the wall!"))
+								to_chat(climber, span_danger("The armor prevents me from attaching to the wall!"))
 								break
 							else
 								climber.zfalling = TRUE //we are floating, boss.
@@ -249,13 +249,13 @@ GLOBAL_DATUM_INIT(openspace_backdrop_one_for_all, /atom/movable/openspace_backdr
 		if(!(climber.movement_type == FLYING)) // if you fly then fuck off
 			var/pulling = climber.pulling
 			if(ismob(pulling)) // if you are grabbing someone then fuck off, could forceMove() both grabber and the grabee for fun doe
-				climber.visible_message(span_info("I can't get a good grip while dragging someone."))
+				to_chat(climber, span_info("I can't get a good grip while dragging someone."))
 				return
 			if(HAS_TRAIT(climber, TRAIT_DEADITE)) //Zombies CANNOT use advanced climbing
 				to_chat(user, span_warning("...What?"))
 				return
 			if(!(climber.mobility_flags & MOBILITY_STAND))
-				climber.visible_message(span_info("I can't get a good grip while prone."))
+				to_chat(climber, span_info("I can't get a good grip while prone."))
 				return
 			var/wall2wall_dir
 			var/list/adjacent_wall_list = get_adjacent_turfs(climb_target) // get and add to the list turfs centered around climb_target (turf we drag mob to) in CARDINAL (NORTH, SOUTH, WEST, EAST) directions
@@ -294,7 +294,7 @@ GLOBAL_DATUM_INIT(openspace_backdrop_one_for_all, /atom/movable/openspace_backdr
 					climber.visible_message(span_info("[climber] climbs along [wall_for_message]..."))
 					climber_armor_class = climber.highest_ac_worn()
 					if(!(climber_armor_class <= ARMOR_CLASS_LIGHT))
-						climber.visible_message(span_danger("The armor weighs me down!")) // if you can actually shuffle along the wall but wearing heavy armor, you get a grip on it... but fall, as a little treat
+						to_chat(climber, span_danger("The armor weighs me down!")) // if you can actually shuffle along the wall but wearing heavy armor, you get a grip on it... but fall, as a little treat
 					else
 						climber.movement_type = FLYING // the way this works is that we only really ever fall if we enter the open space turf with GROUND move type, otherwise we can just hover over indefinetely
 					var/stamina_cost_final = round((baseline_stamina_cost / climbing_skill), 1)

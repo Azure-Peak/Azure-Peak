@@ -189,8 +189,6 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 		person = M.current
 	if(ishuman(person))
 		var/mob/living/carbon/human/H = person
-		if(!H.client)
-			return
 		if(!known_people[H.real_name])
 			known_people[H.real_name] = list()
 		known_people[H.real_name]["VCOLOR"] = H.voice_color
@@ -233,8 +231,6 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 		if(M.known_people)
 			if(ishuman(current))
 				var/mob/living/carbon/human/H = current
-				if(!H.client)
-					return
 				if(!M.known_people[H.real_name])
 					M.known_people[H.real_name] = list()
 				M.known_people[H.real_name]["VCOLOR"] = H.voice_color

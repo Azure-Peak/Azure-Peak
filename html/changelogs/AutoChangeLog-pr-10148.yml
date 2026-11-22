@@ -1,0 +1,5 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - rscadd: "NPC climbing interval reduced, NPC climbing should no longer drop their weapons on stump / table, and Cmode should be on regularly."
+  - rscadd: "NPC should be less likely to try to melee with a tossblade."

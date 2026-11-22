@@ -1,6 +1,0 @@
-author: "jinxynii"
-delete-after: True
-changes:
-  - rscadd: "Added a Triumph morphing elixir (3 TRI) that turns an arcyne tome into The Enduring Codex"
-  - rscadd: "Added a donator loadout entry for the same elixir for Lucine"
-  - image: "Added the Enduring Codex tome sprite"

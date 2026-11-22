@@ -1,4 +1,0 @@
-author: "BobProductive"
-delete-after: True
-changes:
-  - bugfix: "Fixed NPCs being added to the known list"

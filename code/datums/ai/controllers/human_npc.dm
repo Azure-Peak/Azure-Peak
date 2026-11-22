@@ -4,6 +4,8 @@
 /datum/ai_controller/human_npc
 	max_target_distance = 13
 	ai_movement = /datum/ai_movement/hybrid_pathing
+	climb_windup = 1 SECONDS
+	climb_interval = 3 SECONDS
 	blackboard = list(
 		BB_WEAPON_TYPE = /obj/item/rogueweapon,
 		BB_ARMOR_CLASS = 2,
@@ -48,12 +50,19 @@
 /datum/ai_controller/human_npc/TryPossessPawn(atom/new_pawn)
 	. = ..()
 	new_pawn.AddComponent(/datum/component/ai_inventory_manager)
-	new_pawn.AddElement(/datum/element/interrupt_on_damage)
 	new_pawn.AddComponent(/datum/component/combat_vocalizer)
+	force_cmode(new_pawn)
+
+/datum/ai_controller/human_npc/SelectBehaviors(delta_time)
+	force_cmode(pawn)
+	return ..()
+
+/datum/ai_controller/human_npc/proc/force_cmode(mob/living/living_pawn)
+	if(istype(living_pawn) && !living_pawn.client && !living_pawn.cmode)
+		living_pawn.cmode = TRUE
 
 /datum/ai_controller/human_npc/UnpossessPawn(destroy)
 	var/mob/living/living_pawn = pawn
-	living_pawn.RemoveElement(/datum/element/interrupt_on_damage)
 	qdel(living_pawn.GetComponent(/datum/component/ai_inventory_manager))
 	qdel(living_pawn.GetComponent(/datum/component/combat_vocalizer))
 	return ..()
