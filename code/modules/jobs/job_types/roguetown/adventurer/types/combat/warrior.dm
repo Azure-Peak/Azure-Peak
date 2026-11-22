@@ -307,7 +307,7 @@
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/leather
 	if(should_wear_masc_clothes(H))
 		H.dna.species.soundpack_m = GLOB.voice_packs[/datum/voicepack/male/warrior]
-	var/armors = list("Hides","Skin","Muscles")
+	var/armors = list("Hides","Skin","Muscles - Bodybuilder")
 	var/armor_choice = input(H, "Choose your armor.", "TAKE UP ARMOR") as anything in armors
 	switch(armor_choice)
 		if("Hides")
@@ -317,9 +317,11 @@
 			else
 				armor = /obj/item/clothing/suit/roguetown/armor/leather/hide
 		if("Skin")
+			head = /obj/item/clothing/head/roguetown/helmet/leather/volfhelm
 			armor = /obj/item/clothing/suit/roguetown/armor/manual/resting/chest/barbarian //a leather armor.
 			shirt = /obj/item/clothing/suit/roguetown/armor/manual/resting/body/barbarian //a gambeson. The skin armor options start better protected, but cannot upgrade. A basic gamby + leather armor will match them, and heavy gamby + light brig will eclipse them significantly.
 		if("Muscles - Bodybuilder")
+			head = /obj/item/clothing/head/roguetown/helmet/leather/volfhelm
 			armor = /obj/item/clothing/suit/roguetown/armor/manual/resting/chest/barbarian //a leather armor.
 			shirt = /obj/item/clothing/suit/roguetown/armor/manual/pushups/barbarian //a fullbody leather armor.
 	if(weapon_choice == "Unarmed")
