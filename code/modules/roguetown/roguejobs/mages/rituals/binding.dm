@@ -12,17 +12,17 @@
 	category = "Binding"
 	abstract_type = /datum/runeritual/binding
 	blacklisted = TRUE
-	var/mob_to_bind
+	var/to_bind // this can be an /obj/effect or a /mob
 	var/invocation // some of these need unique invocations
 
 /datum/runeritual/binding/on_finished_recipe(mob/living/user, list/selected_atoms, turf/loc)
-	if(!mob_to_bind) // it's a non-binding binding recipe. yay?
+	if(!to_bind) // it's a non-binding binding recipe. yay?
 		return ..()
 	if(!locate(/obj/effect/decal/cleanable/roguerune/arcyne/binding) in loc)
 		to_chat(user, span_warning("The binding array has been destroyed! The ritual fizzles."))
 		return FALSE
 	// special case: only highly skilled mages can safely perform this act of hubris
-	if(mob_to_bind == /mob/living/carbon/human/species/familiar/void && !(user.mind.mage_aspect_config && user.mind.mage_aspect_config["major"]))
+	if(to_bind == /mob/living/carbon/human/species/familiar/void && !(user.mind.mage_aspect_config && user.mind.mage_aspect_config["major"]))
 		user.visible_message(span_boldwarning("The ritual spirals out of control! The void stares back, unappreciative of your hubris!"))
 		playsound(loc, 'sound/magic/cosmic_expansion.ogg', 100, TRUE, 14)
 		var/list/valid_turfs = list()
@@ -42,27 +42,25 @@
 			var/mob/living/simple_animal/hostile/retaliate/rogue/voidstoneobelisk/obelisk = new /mob/living/simple_animal/hostile/retaliate/rogue/voidstoneobelisk(spawn_turfs[spawned])
 			addtimer(CALLBACK(obelisk.ai_controller, TYPE_PROC_REF(/datum/ai_controller, force_aggro), user), 1 SECONDS) // so you have SOME time to react
 		return TRUE
-	var/mob/living/bound = bind_ritual_mob(user, loc, mob_to_bind)
+	var/bound = bind_ritual_mob(user, loc, to_bind)
 	if(!bound)
 		return FALSE
-	to_chat(user, span_notice("The array flares with power as [bound] is pulled through [istype(src,/datum/runeritual/binding/void)?"the rift":"the veil"]!"))
+	to_chat(user, span_notice(istype(src,/datum/runeritual/binding/void)?"The array flares with power, [bound] emerging from the rift!":"The veil parts, a small gap in the boundary forms... quickly now, the binding-rite!"))
 	playsound(loc, 'sound/magic/cosmic_expansion.ogg', 100, TRUE, 7)
 	return bound
 
-/datum/runeritual/binding/proc/bind_ritual_mob(mob/living/user, turf/loc, mob/living/mob_to_bind)
-	var/mob/living/carbon/human/species/familiar/binded
-	if(isliving(mob_to_bind))
-		binded = mob_to_bind
-	else
-		binded = new mob_to_bind(loc)
-		ADD_TRAIT(binded, TRAIT_PACIFISM, TRAIT_GENERIC)
-		binded.status_flags += GODMODE
-		binded.candodge = FALSE
-		animate(binded, color = "#ff0000",time = 5)
-		binded.move_resist = MOVE_FORCE_EXTREMELY_STRONG
-		binded.binded = TRUE
-		binded.SetParalyzed(900)
-		return binded
+/// note: this will only return a mob for voidlings. for everyone else it is an /obj/effect
+/datum/runeritual/binding/proc/bind_ritual_mob(mob/living/user, turf/loc, mob/living/to_bind)
+	var/binded = new to_bind(loc)
+	if(isliving(binded))
+		var/mob/living/L = binded
+		ADD_TRAIT(L, TRAIT_PACIFISM, TRAIT_GENERIC)
+		L.status_flags += GODMODE
+		L.candodge = FALSE
+		animate(L, color = "#ff0000",time = 5)
+		L.move_resist = MOVE_FORCE_EXTREMELY_STRONG
+		L.SetParalyzed(900)
+	return binded
 
 // ----- Familiar Binding -----
 
@@ -70,28 +68,28 @@
 	name = "Bind Lesser Daemon"
 	desc = "Bind a lesser infernal to your service: a being of daemonic hatred, specializing in fiery destruction."
 	blacklisted = FALSE
-	mob_to_bind = /mob/living/carbon/human/species/familiar/infernal
+	to_bind = /obj/effect/planar_rift/infernal
 	invocation = "Appare, spiritus infernus!"
 
 /datum/runeritual/binding/fae
 	name = "Bind Lesser Fae"
 	desc =		"Bind a lesser fae to your service: a being of natural whimsy, specializing in mobility and alchemy."
 	blacklisted = FALSE
-	mob_to_bind = /mob/living/carbon/human/species/familiar/fae
+	to_bind = /obj/effect/planar_rift/fae
 	invocation = "Appare, spiritus silvae!"
 
 /datum/runeritual/binding/elemental
 	name = "Bind Lesser Elemental"
 	desc = "Bind a lesser elemental to your service: a creature of earthen durability, specializing in world-manipulation and repairs."
 	blacklisted = FALSE
-	mob_to_bind = /mob/living/carbon/human/species/familiar/elemental
+	to_bind = /obj/effect/planar_rift/elemental
 	invocation = "Appare, spiritus terrae!"
 
 /datum/runeritual/binding/void
 	name = "Bind Void Drakeling"
 	desc = "Reach into the void and grasp a fragment of draconic power, shaping it into a familiar."
 	blacklisted = FALSE
-	mob_to_bind = /mob/living/carbon/human/species/familiar/void
+	to_bind = /mob/living/carbon/human/species/familiar/void
 	// 1 shard instead of 2 means if you summon in the bog you'll still have an extra 2 shards to make something cool with as a reward
 	required_atoms = list(/obj/item/magic/artifact = 1, /obj/item/magic/voidstone = 2, /obj/item/magic/leyline = 1)
 
@@ -100,6 +98,24 @@
 	desc = "A tear in the veil, reaching deeper and deeper to... what?"
 	icon = 'icons/effects/effects.dmi'
 	icon_state = "bluestream_fade"
+
+// these are placeholder effects summoned on the initial summoning rite, but before we know what COSMETIC TYPE of familiar it is going to be (i.e. we know it's a fae, but is it a fox? or something lesser like a sprite? we just don't know)
+/obj/effect/planar_rift
+	name = "Planar Rift"
+	icon = 'icons/effects/effects.dmi'
+	var/planar_origin
+
+/obj/effect/planar_rift/elemental
+	planar_origin = "elemental"
+	icon_state = "impact_laser_purple"
+
+/obj/effect/planar_rift/fae
+	planar_origin = "fae"
+	icon_state = "impact_laser_green"
+
+/obj/effect/planar_rift/infernal
+	planar_origin = "infernal"
+	icon_state = "impact_laser"
 
 // some familiar-binders get to aurafarm too. as a treat
 // we need to use the leyline here, so this search logic is in fact different from the generic 'requires leyline' logic

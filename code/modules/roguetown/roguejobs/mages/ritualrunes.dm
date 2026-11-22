@@ -410,7 +410,7 @@ GLOBAL_LIST_INIT(t4rune_types, generate_t4rune_types())
 	layer = SIGIL_LAYER
 	can_be_scribed = TRUE
 	var/busy = FALSE
-	var/mob/living/simple_animal/summoned_mob
+	var/atom/movable/summoned_thing // can be an /obj/effect or a mob proper so this is the best parent type
 
 /obj/effect/decal/cleanable/roguerune/arcyne/binding/New()
 	. = ..()
@@ -418,9 +418,8 @@ GLOBAL_LIST_INIT(t4rune_types, generate_t4rune_types())
 
 /obj/effect/decal/cleanable/roguerune/arcyne/binding/Destroy()
 	// destroy the rune without a player in the mob - sorry, it's gone now
-	if(summoned_mob && !QDELETED(summoned_mob))
-		qdel(summoned_mob)
-		summoned_mob = null
+	if(summoned_thing && !QDELETED(summoned_thing))
+		QDEL_NULL(summoned_thing)
 	return ..()
 
 /obj/effect/decal/cleanable/roguerune/arcyne/binding/get_mechanics_examine(mob/user)
@@ -439,158 +438,69 @@ GLOBAL_LIST_INIT(t4rune_types, generate_t4rune_types())
 		to_chat(user, "Exception: [e] on [e.file], line [e.line]. This is a code error!")
 
 /obj/effect/decal/cleanable/roguerune/arcyne/binding/proc/summon_mob(mob/living/user)
-	if(summoned_mob && ishuman(user))
+	if(summoned_thing && ishuman(user))
 		if(busy)
 			to_chat(user, span_warning("I am already attempting to bind this familiar! I must have patience..."))
 			return
-		var/mob/living/carbon/human/species/familiar/S = summoned_mob
-		if(!S || QDELETED(S))
+		if(QDELETED(summoned_thing))
 			to_chat(user, span_warning("The containment has already faded."))
-			summoned_mob = null
+			summoned_thing = null
 			return
-		var/plane = S.planar_origin
 		for(var/mob/living/carbon/human/species/familiar/existing_fam in GLOB.alive_mob_list + GLOB.dead_mob_list)
 			if(existing_fam.familiar_summoner == user)
 				to_chat(user, span_warning("You can only bind one familiar at once!"))
 				return FALSE
-		if(S.planar_origin == "void")
+		var/plane
+		if(isfamiliar(summoned_thing))
+			var/mob/living/carbon/human/species/familiar/S = summoned_thing
+			plane = S.planar_origin
+		else
+			var/obj/effect/planar_rift/R = summoned_thing
+			plane = R.planar_origin
+		if(plane == "void")
 			to_chat(user, span_notice("You begin attempting to awaken your creation's mind..."))
 		else
 			to_chat(user, span_notice("You reach across the veil, attempting to draw in the familiar's mind..."))
 		busy = TRUE
-		var/list/candidates = pollCandidatesForMob("Do you want to play as [user.real_name] ([user.get_role_title()])'s familiar? You will materialize as [(plane == "infernal" || plane == "elemental")?"an":"a"] [plane] familiar.", null, null, null, 100, S, POLL_IGNORE_MAGE_SUMMON)
-		if(!LAZYLEN(candidates))
-			to_chat(user,span_warning("No candidate players available."))
+		var/mob/living/carbon/human/species/familiar/F = awaken_familiar(user, plane, "familiar", loc)
+		if(F)
+			QDEL_NULL(summoned_thing)
 			busy = FALSE
-			return
-		var/list/preferred_candidates = list()
-		var/mob/chosen = null
-		for(var/mob/candidate in candidates)
-			var/client/client_ref = candidate.client
-			if(client_ref && client_ref.prefs && client_ref.prefs.familiar_prefs)
-				if(!client_ref.prefs.familiar_prefs.familiar_species) // this is an old familiar prefs object again, woe! fix that shit
-					client_ref.prefs.familiar_prefs.New(client_ref.prefs)
-					to_chat(user, span_warning("A candidate had invalid familiar prefs! Re-instantiating them now."))
-					to_chat(candidate, span_warning("Set your familiar prefs to be summoned as a familiar!"))
-					continue // we skip the rest of the checks because they are not going to have prefs
-				if(client_ref.prefs.familiar_prefs.familiar_species[plane] && client_ref.prefs.familiar_prefs.familiar_names[plane])
-					if(client_ref.prefs.familiar_prefs.familiar_names[plane] in GLOB.chosen_names)
-						// special case: realname conflict
-						to_chat(user, span_warning("A candidate had valid prefs, but their name conflicted with an existing character's!"))
-						to_chat(client_ref, span_warning("Your familiar's name is already claimed, this round!"))
-					else
-						// you have all the required fields set for a familiar of this type, congrats you can be summoned
-						preferred_candidates += candidate
-			else
-				// if not, we give you a hint to set your prefs so you can be summoned
-				to_chat(user, span_warning("A candidate tried to be summoned, but had no valid prefs!"))
-				to_chat(candidate,span_warning("Set your familiar prefs to be summoned as a familiar!"))
-		if(LAZYLEN(preferred_candidates)) // we found someone with settings for the correct planar origin: it's go time
-			var/list/familiar_names = list()
-			var/list/familiar_choices = list()
-			for(var/mob/famcand in preferred_candidates)
-				familiar_names+=famcand.client.prefs.familiar_prefs.familiar_names[plane]
-				var/fam_species = GLOB.familiar_display_names[famcand.client.prefs.familiar_prefs.familiar_species[plane]]
-				familiar_choices+="[famcand.client.prefs.familiar_prefs.familiar_names[plane]] ([fam_species])"
-			var/pretty_choice = input(user,"Select a familiar candidate to summon","ACROSS THE VEIL") as anything in familiar_choices
-			var/chosen_name = familiar_names[familiar_choices.Find(pretty_choice)] // if two people have the same familar name uhh idk lmao
-			for(var/mob/familiarcandidate in preferred_candidates)
-				if(familiarcandidate.client.prefs.familiar_prefs.familiar_names[plane]==chosen_name)
-					chosen = familiarcandidate
-			if(!chosen)
-				//what the fuck
-				to_chat(user, span_warning("Chosen target not found; maybe they disconnected?"))
-				busy = FALSE
-				return
-			var/datum/familiar_prefs/prefs = chosen.client?.prefs?.familiar_prefs
-			if(!istype(prefs)) // uh oh
-				to_chat(user, span_warning("Summoning failed: target has no valid familiar prefs, somehow."))
-				busy = FALSE
-				return
-			chosen.stop_sound_channel(CHANNEL_LOBBYMUSIC)
-			qdel(S)
-			summoned_mob = null
-			var/to_summon = prefs.familiar_species[plane]
-			var/mob/living/carbon/human/species/familiar/fam = new to_summon(loc)
-			fam.familiar_summoner = user
-			fam.fully_replace_character_name(null, prefs.familiar_names[plane])
-			fam.pronouns = prefs.familiar_pronouns[plane] ? prefs.familiar_pronouns[plane] : THEY_THEM
-			fam.voice_color = prefs.familiar_voice_colors[plane]
-			fam.gender = FEMALE // allows them to wear clothing, needed because of legacy code. i hate - whatever
-			src.visible_message(span_notice("[fam.summoning_emote]"))
-			prefs.prefs.apply_descriptors(fam) // stopgap
-			if(isnewplayer(chosen))
-				var/mob/dead/new_player/new_chosen = chosen
-				new_chosen.close_spawn_windows()
-			if(!chosen.ckey)
-				to_chat(user, span_warning("Summoning failed: chosen candidate has no ckey!"))
-				busy = FALSE
-				return
-			fam.ckey = chosen.ckey
-			var/datum/mind/mind_datum = fam.mind
-			if(!mind_datum)
-				to_chat(user, span_warning("Summoning failed: mind transfer failed"))
-				busy = FALSE
-				return
-			if(fam.client)
-				remove_verb(fam.client, GLOB.ghost_verbs)
-			fam.client?.init_verbs()
-			mind_datum.RemoveAllSpells()
-			mind_datum.AddSpell(new /datum/action/cooldown/spell/message_summoner())
-			user.mind?.AddSpell(new /datum/action/cooldown/spell/message_familiar())
-
-			if(fam.inherent_spell)
-				for(var/spell_path in fam.inherent_spell)
-					if(ispath(spell_path))
-						var/obj/effect/proc_holder/spell/spell_instance = new spell_path
-						if(spell_instance)
-							mind_datum.AddSpell(spell_instance)
-			fam.cmode = FALSE
-			fam.mind.i_know_person(user)
-			user.mind.i_know_person(fam)
-			fam.STASPD = min(user.STASPD, 20) // so they can always keep up with their summoner
-			var/faction_to_add = "[user.mind.current.real_name]_faction"
-			fam.faction |= faction_to_add
+			playsound(user, 'sound/magic/teleport_diss.ogg', 75, TRUE)
+			do_invoke_glow()
+			clear_obstacles(user)
 			var/tutorial = null
-			if(istype(fam,/mob/living/carbon/human/species/familiar/fae))
+			if(istype(F,/mob/living/carbon/human/species/familiar/fae))
 				tutorial = "You are a familiar: a lesser being drawn from the outer planes. The faewyld is a primal place, and those that grow beyond their station are often pruned... for those of little power like yourself, the mortal realm is a safer place to grow. Serve your summoner, learn from this realm, and return stronger."
-			else if(istype(fam,/mob/living/carbon/human/species/familiar/infernal))
+			else if(istype(F,/mob/living/carbon/human/species/familiar/infernal))
 				tutorial = "You are a familiar: a lesser being drawn from the outer planes. The hells are a brutal place, and those with ambition beyond their ability are often culled... for those of little power like yourself, the mortal realm is a safer place to refuel. Serve your summoner, learn from this realm, and return stronger... or at least, let them think that is your intent. In truth, you are a being of malevolence, and once you gain sufficient power to control them, you are under no obligation to refrain from acting on your malice." // t2 infernals can possess and act against their summoner. daemonbinding is, as it turns out, a bad idea!
-			else if(istype(fam,/mob/living/carbon/human/species/familiar/elemental))
+			else if(istype(F,/mob/living/carbon/human/species/familiar/elemental))
 				tutorial = "You are a familiar: a lesser being drawn from the outer planes. The depths are an unchanging place, and pebbles that stick up are eroded down... for those of little power like yourself, the mortal realm is a safer place to accumulate. Serve your summoner, learn from this realm, and return stronger."
 			else
 				tutorial = "You are a Void Drakeling: a being entirely new to this world, and all others. A fragment of draconic power torn from elsewhere, if you are ever to become as strong as what you were once part of, you must sate this hunger. Serve your creator, and be voracious; planar beings shall be the fuel for your ascension."
-			to_chat(fam, span_notice(tutorial))
-			if(fam.tutorial_message)
-				to_chat(fam, fam.tutorial_message)
-			GLOB.chosen_names += fam.real_name
-			GLOB.character_ckey_list[fam.real_name] = fam.ckey
-			log_game("[key_name(user)] has summoned [key_name(chosen)] as familiar '[fam.name]' ([fam.type]).")
-			busy = FALSE
+			spawn(5 SECONDS) // stagger these...
+				to_chat(F, span_notice(tutorial))
+			if(F.tutorial_message)
+				spawn(10 SECONDS) // ...to avoid them being caught up in chat spam
+					to_chat(F, F.tutorial_message)
 		else
 			// nobody has valid familiar prefs. woe!
 			to_chat(user, span_warning("No valid familiar candidate found!"))
 			busy = FALSE
 			return
-		playsound(user, 'sound/magic/teleport_diss.ogg', 75, TRUE)
-		do_invoke_glow()
-		clear_obstacles(user)
 		sleep(20)
-		if(!S || QDELETED(S))
-			summoned_mob = null
-			return
 	return TRUE
 
 /obj/effect/decal/cleanable/roguerune/arcyne/binding/attack_right(mob/user)
 	. = ..()
-	if(summoned_mob && (input(user,"Would you like to cancel this summoning attempt?","Fallback","No") as anything in list("Yes","No") | null)=="Yes")
+	if(summoned_thing && (input(user,"Would you like to cancel this summoning attempt?","Fallback","No") as anything in list("Yes","No") | null)=="Yes")
 		busy = FALSE
-		if(istype(summoned_mob,/mob/living/carbon/human/species/familiar/void))
+		if(istype(summoned_thing, /mob/living/carbon/human/species/familiar/void))
 			var/static/list/refund_costs = list(/obj/item/magic/artifact = 1, /obj/item/magic/voidstone = 2, /obj/item/magic/leyline = 1)
 			for(var/index in refund_costs)
 				for(var/i in 1 to refund_costs[index])
 					new index(loc)
-		QDEL_NULL(summoned_mob)
+		QDEL_NULL(summoned_thing)
 
 /obj/effect/decal/cleanable/roguerune/arcyne/binding/proc/clear_obstacles(mob/living/user)
 	for(var/turf/closed/wall/anticheese in range(loc, runesize))
@@ -600,9 +510,8 @@ GLOBAL_LIST_INIT(t4rune_types, generate_t4rune_types())
 /obj/effect/decal/cleanable/roguerune/arcyne/binding/invoke(list/invokers, datum/runeritual/runeritual)
 	if(!..())
 		return
-	if(ismob(ritual_result))
-		summoned_mob = ritual_result
 	if(ritual_result)
+		summoned_thing = ritual_result
 		pickritual.cleanup_atoms(selected_atoms)
 	invoke_cleanup()
 

@@ -14,15 +14,9 @@
 	var/brewing = 0
 	var/should_brew = FALSE
 	pass_flags = PASSTABLE | PASSMOB
-	inherent_spell = list(/datum/action/cooldown/spell/projectile/fetch/fae)
+	inherent_spell = list(/datum/action/cooldown/spell/projectile/fetch/fae, /datum/action/cooldown/spell/rootcheck, /datum/action/cooldown/spell/invisibility/fae, /datum/action/cooldown/spell/fae_brew, /obj/effect/proc_holder/spell/invoked/reagent_bite)
 	movement_type = FLYING
-	t1_spell = list(/datum/action/cooldown/spell/rootcheck, /datum/action/cooldown/spell/invisibility/fae)
-	t2_spell = list(/datum/action/cooldown/spell/fae_brew, /obj/effect/proc_holder/spell/invoked/reagent_bite)
-	tutorial_message = span_notice("As a native of the faewyld, you are able to fly, and kneestingers will not harm you. In addition, you can lash out with a vine to retrieve small objects at a distance.")
-	tierup_messages = list(
-		span_info("You may now blend into your surroundings at will, and force hidden crops to bloom at your command."),
-		span_info("You can now act as a reagent container, holding up to 90 drams of any solution. You can also deliver 5 drams at a time of your stored solution with an alchemical bite. You may also act as a portable cauldron, able to be fed alchemical reagents and brew them into potions. You do not need water to do so. Any attempts to brew potion beyond your reagent capacity will result in reagents being voided.")
-	)
+	tutorial_message = span_notice("As a native of the faewyld, you are able to fly, and kneestingers will not harm you. In addition, you can lash out with a vine to retrieve small objects at a distance, blend into your surroundings at will, and force hidden crops to bloom at your command. You also act as a reagent container, holding up to 90 drams of any solution. You can also deliver 5 drams at a time of your stored solution with an alchemical bite. You may also act as a portable cauldron, able to be fed alchemical reagents and brew them into potions. You do not need water to do so. Any attempts to brew potion beyond your reagent capacity will result in reagents being voided.")
 	valid_healing_items = list(/obj/item/magic/fae)
 	planar_origin = "fae"
 	STACON = 1 // annoying flying fucks
@@ -128,7 +122,7 @@
 	return ret
 
 /mob/living/carbon/human/species/familiar/fae/attackby(obj/item/I, mob/user, params)
-	if(istype(I, /obj/item/alch) && tier >= 2)
+	if(istype(I, /obj/item/alch))
 		if(ingredients.len >= maxingredients)
 			to_chat(user, "<span class='warning'>Nothing else can fit.</span>")
 			return FALSE
@@ -179,7 +173,7 @@
 		brewing = 0
 	if(brewing && !should_brew)
 		brewing = 0
-	if(tier>=2 && ingredients.len && should_brew)
+	if(ingredients.len && should_brew)
 		if(brewing < 20)
 			if(brewing == 0)
 				src.visible_message(span_info("[src] bubbles softly, beginning to mix the ingredients into a potion..."))
@@ -254,7 +248,7 @@
 	summoning_emote = "Mist coils into feline shape, resolving into a lynx with pale fur and unblinking silver eyes."
 	icon_state = "mist"
 	alpha = 150
-	speak_emote = list("purrs softly", "whispers")
+	speak_emote = list("purrs", "whispers")
 	voiceclips = list('sound/vo/mobs/cat/cat_purr1.ogg', 'sound/vo/mobs/cat/cat_purr2.ogg', 'sound/vo/mobs/cat/cat_purr3.ogg', 'sound/vo/mobs/cat/cat_purr4.ogg',)
 
 /mob/living/carbon/human/species/familiar/fae/rune_rat
@@ -280,7 +274,7 @@
 	summoning_emote = "The air glints, and a translucent hare twitches into existence."
 	alpha = 150
 	icon_state = "glimmer"
-	speak_emote = list("chatters quickly", "chirps")
+	speak_emote = list("chatters", "chirps")
 	voiceclips = list('sound/vo/mobs/rabbit/rabbit_alert.ogg')
 
 /mob/living/carbon/human/species/familiar/fae/hollow_antlerling
@@ -288,7 +282,7 @@
 	desc = "A dog-sized deer with gleaming hollow antlers that emit flute-like sounds."
 	summoning_emote = "A musical chime sounds. A tiny deer with antlers like bone flutes steps gently into view."
 	icon_state = "antlerling"
-	speak_emote = list("chimes softly", "calls out")
+	speak_emote = list("chimes", "calls")
 	voiceclips = list() // i have no ideas
 
 /mob/living/carbon/human/species/familiar/fae/starfield_crow
@@ -296,7 +290,7 @@
 	desc = "Its glossy feathers shimmer with shifting constellations, eyes gleaming with uncanny awareness even in the darkest shadows."
 	summoning_emote = "A rift in the air reveals a fragment of the starry void, from which a sleek zad with feathers like the night sky takes flight."
 	icon_state = "crow_flying"
-	speak_emote = list("caws quietly", "croaks")
+	speak_emote = list("caws", "croaks")
 	voiceclips = list('sound/vo/mobs/bird/CROW_01.ogg', 'sound/vo/mobs/bird/CROW_02.ogg', 'sound/vo/mobs/bird/CROW_03.ogg')
 
 /mob/living/carbon/human/species/familiar/fae/ripplefox
@@ -304,7 +298,7 @@
 	desc = "They flicker when not directly observed. Leaves no tracks. You're not always sure they're still nearby."
 	summoning_emote = "A ripple in the air becomes a sleek fox, their fur twitching between shades of color as they pad forth."
 	icon_state = "ripple"
-	speak_emote = list("whispers fast", "speaks quickly") // why the FUCK do we have so many fox noises and 13 of them are whining variants
+	speak_emote = list("rapidly whispers", "hushes") // why the FUCK do we have so many fox noises and 13 of them are whining variants
 	voiceclips = list('sound/vo/mobs/venard/fox1.ogg','sound/vo/mobs/venard/fox2.ogg','sound/vo/mobs/venard/fox3.ogg','sound/vo/mobs/venard/fox4.ogg','sound/vo/mobs/venard/fox5.ogg','sound/vo/mobs/venard/fox6.ogg','sound/vo/mobs/venard/fox7.ogg','sound/vo/mobs/venard/fox8.ogg','sound/vo/mobs/venard/fox9.ogg','sound/vo/mobs/venard/fox10.ogg','sound/vo/mobs/venard/fox11.ogg','sound/vo/mobs/venard/fox12.ogg','sound/vo/mobs/venard/fox13.ogg', 'sound/vo/yip.ogg', 'sound/vo/yip2.ogg', 'sound/vo/yip3.ogg')
 
 /mob/living/carbon/human/species/familiar/fae/whisper_stoat
@@ -312,7 +306,7 @@
 	desc = "Its gaze is too knowing. It tilts its head as if listening to something inside your skull."
 	summoning_emote = "A thought twists into form, a tiny stoat slinks into view."
 	icon_state = "whisper"
-	speak_emote = list("mutters", "speaks softly")
+	speak_emote = list("mutters", "whispers")
 	voiceclips = list() // i have no ideas
 
 /datum/status_effect/debuff/iron_weakness

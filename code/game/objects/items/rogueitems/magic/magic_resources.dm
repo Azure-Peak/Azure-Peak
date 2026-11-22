@@ -193,30 +193,74 @@
 	w_class = WEIGHT_CLASS_TINY
 	grid_width = 32
 	grid_height = 32
-	var/static/list/transformation_options = list( // a few notably good/popular weapons, a staff, non-secret stat ring, or chest armor for each of the 3 armor classes
-		/obj/item/rogueweapon/sword/long,
-		/obj/item/rogueweapon/sword/rapier,
-		/obj/item/rogueweapon/sword/sabre,
-		/obj/item/rogueweapon/halberd,
-		/obj/item/rogueweapon/woodstaff/implement/grand,
-		/obj/item/clothing/ring/statamythortz,
-		/obj/item/clothing/ring/statgemerald,
-		/obj/item/clothing/ring/statonyx,
-		/obj/item/clothing/ring/statrontz,
-		/obj/item/clothing/suit/roguetown/armor/plate/full/fluted,
-		/obj/item/clothing/suit/roguetown/armor/plate/cuirass/fluted,
-		/obj/item/clothing/suit/roguetown/armor/plate/cuirass/fencer,
+	var/obj/item/form // type path not instance
+	var/static/list/transformation_options = list( // a few notably good/popular weapons, a staff, non-secret stat ring, or chest armor for each of the 3 armor classes. feel free to add to this!
+		/obj/item/rogueweapon/sword/long::name = /obj/item/rogueweapon/sword/long,
+		/obj/item/rogueweapon/sword/rapier::name = /obj/item/rogueweapon/sword/rapier,
+		/obj/item/rogueweapon/sword/sabre::name = /obj/item/rogueweapon/sword/sabre,
+		/obj/item/rogueweapon/halberd::name = /obj/item/rogueweapon/halberd,
+		/obj/item/rogueweapon/woodstaff/implement/grand::name = /obj/item/rogueweapon/woodstaff/implement/grand,
+		/obj/item/clothing/ring/statamythortz::name = /obj/item/clothing/ring/statamythortz,
+		/obj/item/clothing/ring/statgemerald::name = /obj/item/clothing/ring/statgemerald,
+		/obj/item/clothing/ring/statonyx::name = /obj/item/clothing/ring/statonyx,
+		/obj/item/clothing/ring/statrontz::name = /obj/item/clothing/ring/statrontz,
+		/obj/item/clothing/suit/roguetown/armor/plate/full/fluted::name = /obj/item/clothing/suit/roguetown/armor/plate/full/fluted,
+		/obj/item/clothing/suit/roguetown/armor/plate/cuirass/fluted::name = /obj/item/clothing/suit/roguetown/armor/plate/cuirass/fluted,
+		/obj/item/clothing/suit/roguetown/armor/plate/cuirass/fencer::name = /obj/item/clothing/suit/roguetown/armor/plate/cuirass/fencer,
 	)
 	examine_highlight_severity = EXAMINEHIGHLIGHT_HERESYSEVERITY_ODD
 	examine_highlight_desc = "It beckons with a strange malice, inspiring a palpable feeling of unease."
 
+/obj/item/cursed_item_spawner/ComponentInitialize()
+	. = ..()
+	AddComponent(/datum/component/unsellable, "radiates foreboding power") // just in case. this is a very-limited avenue for ghostmobs we don't want people rushing it and RRing it
+
 /obj/item/cursed_item_spawner/get_mechanics_examine(mob/user)
 	. = ..()
-	. += span_info("Use this item in your hand to select what form the relic will take. From stat rings to weapons and armor, it can be quite a boon.")
+	. += span_info("Right-click this item in your hand to select what form the relic will take, then left-click to awaken its power. From stat rings to weapons and armor, it can be quite a boon.")
 	. += span_info("However, such power comes at a price. Something malevolent dwells within that may threaten to overtake you.")
 
-/obj/item/cursed_item_spawner/attack_self(mob/user)
-	. = ..() // todo
+/obj/item/cursed_item_spawner/attack_hand(mob/user)
+	if(!ishuman(user) || isfamiliar(user)) // nuh uh
+		to_chat(user, "The relic rejects me!")
+		return FALSE
+	var/mob/living/carbon/human/H = user
+	if(!form)
+		to_chat(user, span_warning("You need to identify the relic before you can awaken it!"))
+		return ..()
+	to_chat(user, span_notice("You attempt to awaken the relic's power..."))
+	var/mob/living/carbon/human/species/familiar/infernal/inhabitant = awaken_familiar(user, FAMILIAR_PLANE_INFERNAL, "cursed [form::name]", null) // we put the familiar in nullspace TEMPORARILY because they should not be visible to the user for a moment lmao; they get moved inside the relic during the component init
+	if(!inhabitant)
+		to_chat(user, span_warning("...but it remains silent. Perhaps an attempt later would bear more fruit?"))
+		return ..()
+	to_chat(inhabitant, span_notice("I am an infernal, bound within this relic by a longago magos. Long have I rested within these rotting halls, before being found by [H.get_unmasked_name()], who has foolishly unleashed my power... "))
+	var/obj/item/relic = new form(user.drop_location())
+	var/datum/component/possessed_item/P = relic.AddComponent(/datum/component/possessed_item, user, PATRON_COLOR_VHESLYN, EXAMINEHIGHLIGHT_HERESYSEVERITY_ODD, HERESYDESC_INFERNAL_PASSIVE, EXAMINEHIGHLIGHT_HERESYSEVERITY_SUSPICIOUS, HERESYDESC_INFERNAL_ACTIVE, TRUE, FALSE, TRUE)
+	user.dropItemToGround(src, TRUE, TRUE)
+	user.put_in_hands(relic)
+	var/datum/action/cooldown/spell/cursed_item_possession/spell = new
+	spell.relic = relic
+	inhabitant.mind.RemoveSpell(/datum/action/cooldown/spell/infernal_possession)
+	inhabitant.mind.AddSpell(spell)
+	inhabitant.RegisterSignal(relic, COMSIG_OBJ_DECONSTRUCT, TYPE_PROC_REF(/mob/living/carbon/human/species/familiar/infernal, relic_destroyed))
+	inhabitant.RegisterSignal(P, COMSIG_QDELETING, TYPE_PROC_REF(/mob/living/carbon/human/species/familiar/infernal, relic_unpossess))
+	qdel(src)
+	return TRUE
+
+/obj/item/cursed_item_spawner/attack_right(mob/user)
+	if(..())
+		return TRUE
+	if(!ishuman(user) || isfamiliar(user)) // nuh uh
+		to_chat(user, "The relic rejects me!")
+		return FALSE
+	var/mob/living/carbon/human/H = user
+	var/choice = tgui_input_list(H, "What manner of relic is this?", "WHISPERS OF POWER", transformation_options)
+	if(!choice) // again should only happen if they DC while doing this
+		return FALSE
+	form = transformation_options[choice]
+	to_chat(H, span_notice("[form?"I was wrong, before; it's clearly":"Ah, of course! It's"] \a [form::name]!"))
+	desc = "A strange [form::name]. It whispers promises of power, begging to be awakened..." // convey this step is done
+	return TRUE
 
 #undef LEYLINE_SELLPRICE
 #undef VOIDSTONE_SELLPRICE

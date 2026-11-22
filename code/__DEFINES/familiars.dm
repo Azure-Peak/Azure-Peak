@@ -1,3 +1,8 @@
+#define FAMILIAR_PLANE_FAE "fae"
+#define FAMILIAR_PLANE_ELEMENTAL "elemental"
+#define FAMILIAR_PLANE_INFERNAL "infernal"
+#define FAMILIAR_PLANE_VOID "void"
+
 GLOBAL_LIST_INIT(familiar_types, list(
 				"Sprite" = /mob/living/carbon/human/species/familiar/fae,
 				"Hellhound" = /mob/living/carbon/human/species/familiar/infernal,
@@ -102,12 +107,15 @@ GLOBAL_LIST_INIT(void_familiars, list(
 ))
 
 GLOBAL_LIST_INIT(planar_lists, list(
-	"fae" = GLOB.fae_familiars,
-	"infernal" = GLOB.infernal_familiars,
-	"elemental" = GLOB.elemental_familiars,
-	"void" = GLOB.void_familiars
+	FAMILIAR_PLANE_FAE = GLOB.fae_familiars,
+	FAMILIAR_PLANE_INFERNAL = GLOB.infernal_familiars,
+	FAMILIAR_PLANE_ELEMENTAL = GLOB.elemental_familiars,
+	FAMILIAR_PLANE_VOID = GLOB.void_familiars
 ))
 
 GLOBAL_LIST_INIT(familiar_advertised, list())
 
 #define NONCON_POSSESS_TIMELIMIT 15 // in minutes. doesn't apply if the person allows the possession, for longer arrangements
+#define HERESYDESC_INFERNAL_PASSIVE "It radiates a strange malice."
+#define HERESYDESC_INFERNAL_PASSIVE_OBVIOUS "It shimmers with infernal flame!"
+#define HERESYDESC_INFERNAL_ACTIVE "Its hellish flames wreath its bearer... parting them will break the link!"

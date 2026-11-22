@@ -6,13 +6,8 @@
 	icon_state = "hellhound"
 	race = /datum/species/familiar/infernal
 	speak_emote = list("growls","crackles")
-	tutorial_message = span_notice("As a weaker denizen of the hells, your fire is tame enough to act as a campfire: you can be cooked on, or rested near to aid in recuperation. You also shine with a small amount of light, and flames will not harm you.")
-	tierup_messages = list(
-		span_info("You can now possess weapons and clothing (including armor), granting cosmetic reskins to swords and chest-armor. Being worn as armor confers fire resistance to your bearer; being wielded as a weapon confers a minor lyfe-drain effect. While possessing equipment, you can silently whisper into your wielder's/wearer's mind. You can also possess the one who holds/wears you, if they allow it."),
-		span_info("You are now strong enough to wrest control from those who would harness you, so long as they give in to the power you offer. While you possess a blade, a single strike using you is enough to grant you a foothold; while possessing armor, any strike you block will be sufficient. Once you meet the conditions, you can possess your wielder involuntarily, though there is a time limit if they resist you. While possessing someone, you now distance yourself from them enough to feel no pain. If you are removed from your wielder physically, your possession will falter.")
-	)
-	inherent_spell = list(/obj/effect/proc_holder/spell/invoked/incendiary_bite)
-	t1_spell = list(/datum/action/cooldown/spell/infernal_possession) // their t2 ability is actually just an upgrade to their verb
+	tutorial_message = span_notice("As a weaker denizen of the hells, your fire is tame enough to act as a campfire: you can be cooked on, or rested near to aid in recuperation. You also shine with a small amount of light, and flames will not harm you. You can also possess certain objects (weapons, clothing, armor), increasing their power, but also granting YOU the ability to possess whoever wields them...")
+	inherent_spell = list(/obj/effect/proc_holder/spell/invoked/incendiary_bite, /datum/action/cooldown/spell/infernal_possession)
 	var/healing_range = 1
 	var/static/list/acceptable_beds = list(/obj/structure/bed, /obj/structure/flora/roguetree/stump, /obj/item/bedsheet)
 	valid_healing_items = list(/obj/item/magic/infernal)
@@ -148,6 +143,23 @@
 /mob/living/carbon/human/species/familiar/fire_act(added,max_stacks)
 	return
 
+//  called when we're a cursed item, and we're in item form, and our relic is destroyed (not just broken, as in like. deleted completely)
+/mob/living/carbon/human/species/familiar/infernal/proc/relic_destroyed()
+	forceMove(get_turf(src)) // come out of the relic if we were in one...
+	visible_message("[src], [src.p_their()] relic-form destroyed, is banished from whence they came!")
+	emote("agony")
+	qdel(src) // to-test: does this properly ghost them?
+
+/mob/living/carbon/human/species/familiar/infernal/proc/relic_unpossess(datum/component/possessed_item/source)
+	var/obj/item/relic = source.parent
+	if(!relic) // very obviously should not happen but in case the relic gets deleted AS IT IS BEING DEPOSSESSED, we should handle it
+		relic_destroyed()
+		return
+	if(ismob(relic.loc))
+		var/mob/holder = relic.loc
+		holder.dropItemToGround(relic, TRUE, FALSE)
+	relic.forceMove(src)
+	visible_message(span_warning("[relic] reveals their true form: [src]!"))
 
 /mob/living/carbon/human/species/familiar/infernal/ashcoiler
 	name = "Ashcoiler"
@@ -162,7 +174,7 @@
 	desc = "Tiny and warm to the touch, this drake's wingbeats stir old memories. Runes flicker behind it like afterimages. Though daemon-binding is generally frowned upon, the power it grants is tempting to many."
 	summoning_emote = "A hush falls as glowing ash collects into a fluttering emberdrake."
 	icon_state = "emberdrake"
-	speak_emote = list("crackles", "speaks warmly")
+	speak_emote = list("crackles")
 
 /mob/living/carbon/human/species/familiar/infernal/armour
 	name = "Infernal Armour"

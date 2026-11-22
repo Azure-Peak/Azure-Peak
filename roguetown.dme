@@ -2639,6 +2639,7 @@
 #include "code\modules\mob\living\carbon\human\voicepack.dm"
 #include "code\modules\mob\living\carbon\human\familiars\elemental.dm"
 #include "code\modules\mob\living\carbon\human\familiars\fae.dm"
+#include "code\modules\mob\living\carbon\human\familiars\familiar_summoning.dm"
 #include "code\modules\mob\living\carbon\human\familiars\infernal.dm"
 #include "code\modules\mob\living\carbon\human\familiars\void.dm"
 #include "code\modules\mob\living\carbon\human\npc\_npc.dm"

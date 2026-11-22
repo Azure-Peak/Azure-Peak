@@ -19,13 +19,9 @@
 	mob_biotypes = MOB_ORGANIC|MOB_BEAST
 	faction = list(FACTION_ROGUEANIMAL, FACTION_NEUTRAL)
 	footstep_type = FOOTSTEP_MOB_BAREFOOT
-	var/tier = 0 // increments once per dae survived; gates the stronger abilities
 	var/mob/living/carbon/familiar_summoner = null
 	var/inherent_spell = null
-	var/t1_spell = list()
 	var/tutorial_message = null
-	var/tierup_messages = list()
-	var/t2_spell = list()
 	var/summoning_emote = null
 	var/list/valid_healing_items = list() // what planar materials can heal you?
 	var/planar_origin = "void" // what plane are we from? avoids a bunch of istype checks
@@ -98,7 +94,7 @@
 	name = initial(name)
 
 /mob/living/carbon/human/species/familiar/say_mod(input, message_mode)
-	if(speak_emote && speak_emote.len)
+	if(LAZYLEN(speak_emote))
 		verb_say = pick(speak_emote)
 	. = ..()
 
@@ -232,40 +228,6 @@
 			to_chat(src, span_notice("I fly down."))
 		else
 			to_chat(src, span_notice("I can't fly away while being grabbed!"))
-
-/mob/living/carbon/human/species/familiar/proc/grant_tier_abilities(tier)
-	if(tier==1 && length(t1_spell))
-		for(var/path in t1_spell)
-			var/spell_instance = new path
-			if(spell_instance && mind)
-				mind.AddSpell(spell_instance)
-	if(tier==2)
-		if(length(t2_spell))
-			for(var/path in t2_spell)
-				var/spell_instance = new path
-				if(spell_instance && mind)
-					mind.AddSpell(spell_instance)
-		if(mind && length(mind.spell_list))
-			for(var/datum/action/cooldown/spell/infernal_possession/possession_spell in mind.spell_list)
-				possession_spell.desc = possession_spell.t2_desc
-		if(istype(loc, /obj/item))
-			var/datum/component/possessed_item/curse = loc.GetComponent(/datum/component/possessed_item)
-			if(curse)
-				curse.powerful = TRUE
-	return
-
-/mob/living/carbon/human/species/familiar/proc/debug_force_tierup()
-	GLOB.tod="night"
-	do_time_change()
-
-/mob/living/carbon/human/species/familiar/do_time_change()
-	. = ..()
-	if(src.planar_origin!="void" && GLOB.tod == "night" && tier < 2)
-		tier++
-		to_chat(src, span_info("As another nite falls, your powers grow, adjusting more to the mortal plane."))
-		if(LAZYLEN(tierup_messages) && tierup_messages[tier])
-			to_chat(src, tierup_messages[tier])
-		grant_tier_abilities(tier)
 
 /mob/living/carbon/human/species/familiar/Destroy()
 	if(familiar_summoner && familiar_summoner.mind)
