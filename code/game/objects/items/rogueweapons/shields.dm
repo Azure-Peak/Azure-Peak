@@ -507,7 +507,7 @@
 		silver_type = SILVER_PSYDONIAN\
 	)
 
-/obj/item/rogueweapon/shield/tower/metal/alloy
+/obj/item/rogueweapon/shield/tower/metal/ancient/decrepit
 	name = "decrepit shield"
 	desc = "A hefty tower shield, wrought from rotted metal. Looped with dried kelp and reeking of saltwater, you'd assume that this had been fished \
 	out from the remains of a long-sunken warship.. alongside its former legionnaire."
@@ -519,7 +519,7 @@
 	smeltresult = /obj/item/ingot/aaslag
 	anvilrepair = null
 
-/obj/item/rogueweapon/shield/tower/metal/palloy
+/obj/item/rogueweapon/shield/tower/metal/ancient
 	name = "ancient shield"
 	desc = "A venerable scutum, plated with polished gilbranze. An undying legionnaire's closest friend; that which rebukes arrow-and-bolt alike with \
 	unphasing prejudice. It is a reminder - one of many - that Her progress cannot be stopped."
@@ -609,7 +609,7 @@
 			if("onback")
 				return list("shrink" = 0.6,"sx" = 1,"sy" = 4,"nx" = 1,"ny" = 2,"wx" = 3,"wy" = 3,"ex" = -3,"ey" = 3,"nturn" = 0,"sturn" = 0,"wturn" = 0,"eturn" = 0,"nflip" = 8,"sflip" = 0,"wflip" = 0,"eflip" = 0,"northabove" = 1,"southabove" = 0,"eastabove" = 0,"westabove" = 0)
 
-/obj/item/rogueweapon/shield/buckler/palloy
+/obj/item/rogueweapon/shield/buckler/ancient
 	name = "ancient buckler"
 	desc = "An object once before its time, now out of it. The artisan's hammerstrikes are still visible in the mottled surface, yet \
 	the encroach of rust and rot threatens even this memory."
