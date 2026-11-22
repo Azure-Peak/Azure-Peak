@@ -1,5 +1,6 @@
 import type { CSSProperties } from 'react';
 
+import { formatMammon } from '../common/format';
 import {
   ellipsisCellStyle,
   FONT_BODY,
@@ -12,15 +13,8 @@ import {
   SEAL_RED,
   sectionHeaderStyle,
 } from '../common/parchment';
-import { ATCLoanBanner } from './ATCLoanBanner';
+import { ATCLoanSection } from './ATCLoanSection';
 import type { Data, EconomicEvent } from './types';
-import { formatMammon } from '../common/format';
-
-export const dispatchCount = (data: Data) =>
-  (data.atc_loan?.available ? 1 : 0) +
-  (data.active_events || []).filter(
-    (e) => (e.shortage_goods || []).length > 0 && e.saturation_target > 0,
-  ).length;
 
 const headerStyle: CSSProperties = {
   ...sectionHeaderStyle,
@@ -34,18 +28,8 @@ const smallSoft: CSSProperties = { fontSize: FONT_SMALL, color: INK_SOFT };
 
 export const DispatchesView = (props: { data: Data }) => {
   const { data } = props;
-  const events = data.active_events || [];
-  const goodName = (id: string) => data.good_catalog[id]?.name || id;
-
-  const blockades = (data.caravan_routes || [])
-    .map((r) => ({
-      name: r.name,
-      regions: ([] as string[])
-        .concat(...r.subroutes.map((s) => s.region_ids))
-        .filter((id) => data.region_caravan[id]?.blockaded)
-        .map((id) => data.region_catalog[id]?.name ?? id),
-    }))
-    .filter((r) => r.regions.length);
+  const events = data.events || [];
+  const blockades = data.blockades || [];
 
   const p = data.banditry_projection;
   const hasBrigands = !!p && (p.total > 0 || p.debt > 0 || p.hoard_total > 0);
@@ -54,12 +38,6 @@ export const DispatchesView = (props: { data: Data }) => {
   const hasLoan =
     !!loan?.can_view &&
     (!!loan.available || loan.loans_drawn > 0 || !!loan.arrears_consumed);
-
-  if (!events.length && !blockades.length && !hasBrigands && !hasLoan) {
-    return (
-      <div style={{ padding: '12px 0', color: INK_FAINT }}>No dispatches.</div>
-    );
-  }
 
   return (
     <div
@@ -74,24 +52,31 @@ export const DispatchesView = (props: { data: Data }) => {
       <div>
         <div style={headerStyle}>Active Economic Events</div>
         {events.length ? (
-          events.map((e) => (
-            <EventRow key={e.name} event={e} goodName={goodName} />
-          ))
+          events.map((e) => <EventRow key={e.name} event={e} />)
         ) : (
           <div style={{ color: INK_FAINT }}>None.</div>
         )}
       </div>
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-        {hasLoan && <ATCLoanBanner atc_loan={loan} />}
+        {hasLoan && <ATCLoanSection atc_loan={loan} />}
 
         {blockades.length > 0 && (
           <div>
             <div style={headerStyle}>Blockaded Regions</div>
-            {blockades.map((b) => (
-              <div key={b.name} style={{ marginBottom: '4px' }}>
-                <b>{b.name}</b>
-                <div style={smallSoft}>{b.regions.join(', ')}</div>
+            {blockades.map((route) => (
+              <div key={route.name} style={{ marginBottom: '6px' }}>
+                <b>{route.name}</b>
+                {route.legs.map((leg) => (
+                  <div key={leg.name} style={{ paddingLeft: '10px' }}>
+                    <div>
+                      {[leg.name, leg.threat_region, leg.raiders]
+                        .filter(Boolean)
+                        .join(' - ')}
+                    </div>
+                    <div style={smallSoft}>{leg.regions.join(', ')}</div>
+                  </div>
+                ))}
               </div>
             ))}
           </div>
@@ -144,10 +129,7 @@ export const DispatchesView = (props: { data: Data }) => {
   );
 };
 
-const EventRow = (props: {
-  event: EconomicEvent;
-  goodName: (id: string) => string;
-}) => {
+const EventRow = (props: { event: EconomicEvent }) => {
   const e = props.event;
   const scarce = e.shortage_goods || [];
   const cheap = e.glut_goods || [];
@@ -157,8 +139,8 @@ const EventRow = (props: {
     scarce.length > 0 && target > 0
       ? Math.min(100, Math.round((progress / target) * 100))
       : 0;
-  const scarceNames = scarce.map(props.goodName).join(', ');
-  const cheapNames = cheap.map(props.goodName).join(', ');
+  const scarceNames = scarce.join(', ');
+  const cheapNames = cheap.join(', ');
   const relief = `Relief: ${formatMammon(Math.round(progress))}m / ${formatMammon(Math.round(target))}m sold (${pct}%). Accepts: ${scarceNames}`;
   return (
     <div

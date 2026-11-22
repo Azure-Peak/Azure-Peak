@@ -12,8 +12,8 @@
 	layer = BELOW_OBJ_LAYER
 	var/locked = FALSE
 	var/keycontrol = "steward"
+	var/datum/steward_front_panel/front_panel
 	var/datum/steward_treasury_panel/treasury_panel
-	var/total_deposit = 0
 	var/list/excluded_jobs = list("Wretch","Vagabond","Adventurer")
 	var/list/daily_payments = list()
 	var/residency_print_cooldown = 0
@@ -28,6 +28,7 @@
 	setup_default_payments()
 
 /obj/structure/roguemachine/steward/Destroy()
+	QDEL_NULL(front_panel)
 	QDEL_NULL(treasury_panel)
 	QDEL_NULL(ledger_panel)
 	return ..()
@@ -110,49 +111,6 @@
 	return ..()
 
 
-/obj/structure/roguemachine/steward/Topic(href, href_list)
-	. = ..()
-	if(!usr.canUseTopic(src, BE_CLOSE) || locked)
-		return
-	if(href_list["printresidency"])
-		if(!usr.canUseTopic(src, BE_CLOSE) || locked)
-			return
-		if(world.time < residency_print_cooldown)
-			say("You just printed a letter. Wait [DisplayTimeText(residency_print_cooldown - world.time)] and try again.")
-			playsound(src, 'sound/misc/machineno.ogg', 100, FALSE, -1)
-			return
-		var/mob/living/carbon/human/H = usr
-		var/obj/item/citizenry_letter/letter = new(get_turf(src))
-		letter.issuer_name = H.real_name
-		letter.issuer_year = CALENDAR_EPOCH_YEAR
-		residency_print_cooldown = world.time + RESIDENCY_PRINT_COOLDOWN
-		playsound(src, 'sound/misc/coindispense.ogg', 60, FALSE, -1)
-		say("Letter of Citizenry issued, signed by [H.real_name].")
-	if(href_list["setpurchasefloor"])
-		if(!usr.canUseTopic(src, BE_CLOSE) || locked)
-			return
-		var/current_floor = SStreasury.stockpile_purchase_floor
-		var/new_floor = input(usr, "Set the purchase floor (0-10000m). If the Treasury drops below this, the stockpile stops paying people for goods.", src, current_floor) as null|num
-		if(isnull(new_floor))
-			return
-		if(!usr.canUseTopic(src, BE_CLOSE) || locked)
-			return
-		new_floor = CLAMP(round(new_floor), 0, 10000)
-		SStreasury.stockpile_purchase_floor = new_floor
-		say("Treasury purchase floor set to [new_floor]m.")
-		log_game("PURCHASE FLOOR: [key_name(usr)] set stockpile purchase floor to [new_floor]m")
-	if(href_list["treasury_tgui"])
-		open_treasury_tgui(usr)
-		return
-	if(href_list["ledger_tgui"])
-		open_ledger_tgui(usr)
-		return
-	if(href_list["trade_tgui"])
-		open_trade_tgui(usr)
-		return
-
-	return attack_hand(usr)
-
 /obj/structure/roguemachine/steward/attack_hand(mob/living/user)
 	. = ..()
 	if(.)
@@ -162,31 +120,38 @@
 		return
 	user.changeNext_move(CLICK_CD_INTENTCAP)
 	playsound(loc, 'sound/misc/keyboard_enter.ogg', 100, FALSE, -1)
-	var/canread = user.can_read(src, TRUE)
-	var/contents
-	contents += "<center>NERVE MASTER<BR>"
-	contents += "--------------<BR>"
-	contents += "<a href='?src=\ref[src];treasury_tgui=1'>\[Treasury\]</a><BR>"
-	contents += "<a href='?src=\ref[src];trade_tgui=1'>\[Trade & Stockpile\]</a><BR>"
-	contents += "<a href='?src=\ref[src];ledger_tgui=1'>\[Ledger\]</a><BR>"
-	contents += "<a href='?src=\ref[src];printresidency=1'>\[Print Letter of Citizenry\]</a><BR>"
-	contents += "<a href='?src=\ref[src];setpurchasefloor=1'>\[Purchase Floor: [SStreasury.stockpile_purchase_floor]m\]</a><BR>"
-	contents += "</center>"
-
-	if(!canread)
-		contents = stars(contents)
-	var/datum/browser/popup = new(user, "VENDORTHING", "", 700, 800)
-	popup.set_content(contents)
-	popup.open()
+	open_front_tgui(user)
 
 /obj/structure/roguemachine/steward/proc/open_steward_window(mob/user, window)
 	switch(window)
+		if("front")
+			open_front_tgui(user)
 		if("trade")
 			open_trade_tgui(user)
 		if("treasury")
 			open_treasury_tgui(user)
 		if("ledger")
 			open_ledger_tgui(user)
+
+/obj/structure/roguemachine/steward/proc/print_residency_letter(mob/user)
+	if(world.time < residency_print_cooldown)
+		say("You just printed a letter. Wait [DisplayTimeText(residency_print_cooldown - world.time)] and try again.")
+		playsound(src, 'sound/misc/machineno.ogg', 100, FALSE, -1)
+		return
+	var/obj/item/citizenry_letter/letter = new(get_turf(src))
+	letter.issuer_name = user.real_name
+	letter.issuer_year = CALENDAR_EPOCH_YEAR
+	residency_print_cooldown = world.time + RESIDENCY_PRINT_COOLDOWN
+	playsound(src, 'sound/misc/coindispense.ogg', 60, FALSE, -1)
+	say("Letter of Citizenry issued, signed by [user.real_name].")
+
+/obj/structure/roguemachine/steward/proc/sequestration_state()
+	return list(
+		"active" = SStreasury.is_in_receivership() ? TRUE : FALSE,
+		"in_arrears" = (SStreasury.treasury_state == TREASURY_IN_ARREARS) ? TRUE : FALSE,
+		"debt" = SStreasury.treasury_debt,
+		"state_label" = bankruptcy_state_label(SStreasury.treasury_state),
+	)
 
 /obj/structure/roguemachine/steward/proc/job_filter(advj, j, compact = FALSE)
 	if(advj in excluded_jobs)

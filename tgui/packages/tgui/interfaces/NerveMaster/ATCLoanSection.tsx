@@ -3,17 +3,15 @@ import { Button, NumberInput } from 'tgui-core/components';
 
 import { useBackend } from '../../backend';
 import {
-  bannerStyle,
   FONT_BODY,
-  FONT_TITLE,
   INK,
   INK_FAINT,
-  SEAL_AMBER,
   SEAL_RED_SOFT,
+  sectionHeaderStyle,
 } from '../common/parchment';
 import type { AtcLoanState, Data } from './types';
 
-export const ATCLoanBanner = (props: { atc_loan: AtcLoanState }) => {
+export const ATCLoanSection = (props: { atc_loan: AtcLoanState }) => {
   const { act } = useBackend<Data>();
   const { atc_loan } = props;
   const [amount, setAmount] = useState(atc_loan.min);
@@ -29,27 +27,9 @@ export const ATCLoanBanner = (props: { atc_loan: AtcLoanState }) => {
     return null;
   }
 
-  const accent = atc_loan.arrears_consumed ? SEAL_RED_SOFT : SEAL_AMBER;
-
   return (
-    <div
-      style={{
-        ...bannerStyle(accent),
-        padding: '10px 14px',
-        textAlign: 'left',
-        fontVariant: 'normal',
-      }}
-    >
-      <div
-        style={{
-          fontSize: FONT_TITLE,
-          fontWeight: 'bold',
-          marginBottom: '4px',
-          color: accent,
-        }}
-      >
-        ATC Clerk's Bench
-      </div>
+    <div>
+      <div style={{ ...sectionHeaderStyle, marginTop: 0 }}>ATC Loan</div>
       <div style={{ color: INK, marginBottom: '6px' }}>
         {atc_loan.available ? (
           <>
@@ -108,9 +88,7 @@ export const ATCLoanBanner = (props: { atc_loan: AtcLoanState }) => {
           <span style={{ color: SEAL_RED_SOFT }}>
             (owe {Math.round(amount * (1 + atc_loan.interest_pct / 100))}m)
           </span>
-          <Button.Confirm
-            onClick={() => act('take_atc_loan', { amount })}
-          >
+          <Button.Confirm onClick={() => act('take_atc_loan', { amount })}>
             Take Loan
           </Button.Confirm>
         </div>

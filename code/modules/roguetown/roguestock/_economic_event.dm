@@ -76,3 +76,10 @@ GLOBAL_LIST_EMPTY(active_economic_events)
 			relieved += E
 	for(var/datum/economic_event/E as anything in relieved)
 		E.end_with_relief()
+
+/proc/trade_good_names(list/good_ids)
+	var/list/names = list()
+	for(var/good_id in good_ids)
+		var/datum/trade_good/tg = GLOB.trade_goods[good_id]
+		names += (tg ? tg.name : good_id)
+	return names

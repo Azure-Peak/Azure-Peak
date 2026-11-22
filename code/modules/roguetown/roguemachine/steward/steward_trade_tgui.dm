@@ -107,23 +107,6 @@
 	var/list/data = list()
 	data["treasury"] = SStreasury?.discretionary_fund?.balance || 0
 	data["day"] = ECONOMY_DAY
-	data["expected_rural_revenue"] = SStreasury?.get_rural_tax_amount() || 0
-	data["expected_wage_outlay"] = SStreasury?.get_expected_wage_outlay() || 0
-
-	data["banditry_projection"] = SSeconomy.preview_banditry_drain()
-
-	var/list/events = list()
-	for(var/datum/economic_event/E as anything in GLOB.active_economic_events)
-		events += list(list(
-			"name" = E.name,
-			"description" = E.description,
-			"days_left" = max(0, E.day_expires - ECONOMY_DAY),
-			"shortage_goods" = E.shortage_goods.Copy(),
-			"glut_goods" = E.glut_goods.Copy(),
-			"saturation_target" = E.saturation_target,
-			"saturation_progress" = E.saturation_progress,
-		))
-	data["active_events"] = events
 
 	var/list/orders = list()
 	for(var/datum/standing_order/O as anything in GLOB.standing_order_pool)
@@ -290,26 +273,7 @@
 	petition_state["offers"] = offers
 	data["petition"] = petition_state
 
-	data["sequestration"] = list(
-		"active" = SStreasury.is_in_receivership() ? TRUE : FALSE,
-		"in_arrears" = (SStreasury.treasury_state == TREASURY_IN_ARREARS) ? TRUE : FALSE,
-		"debt" = SStreasury.treasury_debt,
-		"state_label" = bankruptcy_state_label(SStreasury.treasury_state),
-	)
-
-	var/can_draw_loan = (user.job in GLOB.crown_authority_roles)
-	data["atc_loan"] = list(
-		"available" = (can_draw_loan && SStreasury.atc_loan_available()) ? TRUE : FALSE,
-		"can_view" = can_draw_loan ? TRUE : FALSE,
-		"min" = ATC_LOAN_MIN_AMOUNT,
-		"max" = ATC_LOAN_MAX_AMOUNT,
-		"closed_day" = ATC_LOAN_CLOSED_DAY,
-		"interest_pct" = round(ATC_LOAN_INTEREST_RATE * 100),
-		"blocker" = SStreasury.atc_loan_blocker_reason() || "",
-		"arrears_consumed" = SStreasury.atc_loan_arrears_consumed ? TRUE : FALSE,
-		"loans_drawn" = SStreasury.atc_loans_drawn_this_round,
-		"outstanding" = SStreasury.atc_loan_arrears_consumed ? SStreasury.treasury_debt : 0,
-	)
+	data["sequestration"] = sequestration_state()
 
 	return data
 
@@ -574,17 +538,5 @@ GLOBAL_LIST_INIT(steward_trade_sequestration_locked_actions, list(
 				var/datum/economic_region/region = GLOB.economic_regions[region_id]
 				playsound(src, 'sound/items/inqslip_sealed.ogg', 70, FALSE, -1)
 				visible_message(span_notice("[src] stamps the petition and seals it for [region?.name]."))
-			SStgui.update_uis(src)
-			return TRUE
-		if("take_atc_loan")
-			if(!(usr.job in GLOB.crown_authority_roles))
-				to_chat(usr, span_warning("Only Crown officials can take loans from the ATC."))
-				return TRUE
-			var/amount = text2num("[params["amount"]]")
-			if(!isnum(amount))
-				return TRUE
-			if(SStreasury.take_atc_loan(amount, usr))
-				playsound(src, 'sound/items/inqslip_sealed.ogg', 70, FALSE, -1)
-				visible_message(span_notice("[src] stamps the loan papers with the ATC seal."))
 			SStgui.update_uis(src)
 			return TRUE

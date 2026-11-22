@@ -244,20 +244,12 @@
 /obj/structure/roguemachine/noticeboard/proc/build_economic_events()
 	var/list/rows = list()
 	for(var/datum/economic_event/E as anything in GLOB.active_economic_events)
-		var/list/scarce = list()
-		for(var/good_id in E.shortage_goods)
-			var/datum/trade_good/tg = GLOB.trade_goods[good_id]
-			scarce += (tg ? tg.name : good_id)
-		var/list/cheap = list()
-		for(var/good_id in E.glut_goods)
-			var/datum/trade_good/tg = GLOB.trade_goods[good_id]
-			cheap += (tg ? tg.name : good_id)
 		rows += list(list(
 			"name" = E.name,
 			"description" = E.description || "",
 			"days_left" = max(0, E.day_expires - ECONOMY_DAY),
-			"shortage_goods" = scarce,
-			"glut_goods" = cheap,
+			"shortage_goods" = trade_good_names(E.shortage_goods),
+			"glut_goods" = trade_good_names(E.glut_goods),
 		))
 	return rows
 

@@ -57,8 +57,9 @@
 	data["category"] = withdraw_tab.current_category
 	data["food_stipend"] = (ishuman(user) && HAS_TRAIT(user, TRAIT_ROYAL_SUBSIDY)) ? TRUE : FALSE
 	data["subsidy_remaining"] = data["food_stipend"] ? SStreasury.royal_subsidy_remaining(user) : 0
-	data["treasury_floor"] = SStreasury.stockpile_purchase_floor
-	data["below_floor"] = (SStreasury.discretionary_fund.balance < SStreasury.stockpile_purchase_floor) ? TRUE : FALSE
+	var/wage_reserve = data["food_stipend"] ? SStreasury.get_expected_wage_outlay() : 0
+	data["wage_reserve"] = wage_reserve
+	data["below_reserve"] = (data["food_stipend"] && SStreasury.discretionary_fund.balance < wage_reserve) ? TRUE : FALSE
 	data["no_deposit"] = FALSE
 	data["next_market_day_minutes"] = max(1, CEILING(seconds_until_market_day() / 60, 1))
 	data["title"] = ""

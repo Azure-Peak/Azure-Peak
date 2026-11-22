@@ -159,10 +159,11 @@ export const CaravansView = (props: { data: Data }) => {
     }
   }
 
-  const shortageGoods = new Set<string>();
-  for (const e of data.active_events || []) {
-    for (const gid of e.shortage_goods || []) shortageGoods.add(gid);
-  }
+  const shortageGoods = new Set(
+    data.market_rows
+      .filter((r) => r.event_tag === 'SHORTAGE')
+      .map((r) => r.good_id),
+  );
 
   const selectedRequest = data.active_orders.find((o) => o.ref === requestRef);
   const selectedOffer = data.active_offers.find((o) => o.ref === offerRef);

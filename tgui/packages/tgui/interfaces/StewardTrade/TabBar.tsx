@@ -1,18 +1,9 @@
-import {
-  FONT_BODY,
-  FONT_SMALL,
-  INK,
-  INK_FAINT,
-  INK_SOFT,
-  SEAL_RED,
-  SERIF,
-} from '../common/parchment';
+import { FONT_BODY, INK, INK_FAINT, INK_SOFT, SERIF } from '../common/parchment';
 import type { TabKey } from './types';
 
 const TABS: { key: TabKey; label: string }[] = [
   { key: 'caravans', label: 'Caravans' },
   { key: 'commissions', label: 'Commission' },
-  { key: 'dispatches', label: 'Dispatches' },
   { key: 'market', label: 'Market' },
   { key: 'regions', label: 'Regions' },
   { key: 'petition', label: 'Petition' },
@@ -43,25 +34,11 @@ const tabStyle = (active: boolean) => ({
   whiteSpace: 'nowrap' as const,
 });
 
-const badgeStyle = {
-  display: 'inline-block',
-  minWidth: '16px',
-  padding: '0 4px',
-  fontSize: FONT_SMALL,
-  fontWeight: 'bold' as const,
-  lineHeight: '16px',
-  textAlign: 'center' as const,
-  color: 'var(--p-badge-text)',
-  background: SEAL_RED,
-  borderRadius: '8px',
-};
-
 export const TabBar = (props: {
   tab: TabKey;
   onSwitch: (t: TabKey) => void;
-  dispatchCount: number;
 }) => {
-  const { tab, onSwitch, dispatchCount } = props;
+  const { tab, onSwitch } = props;
   return (
     <div style={tabBarStyle}>
       {TABS.map((t) => (
@@ -71,9 +48,6 @@ export const TabBar = (props: {
           onClick={() => onSwitch(t.key)}
         >
           {t.label}
-          {t.key === 'dispatches' && dispatchCount > 0 && (
-            <span style={badgeStyle}>{dispatchCount}</span>
-          )}
         </div>
       ))}
     </div>

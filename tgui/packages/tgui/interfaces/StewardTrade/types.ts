@@ -167,30 +167,6 @@ export type CaravanQuote = {
   tribute: TributeQuote | null;
 };
 
-export type EconomicEvent = {
-  name: string;
-  description: string;
-  days_left: number;
-  shortage_goods: string[];
-  glut_goods: string[];
-  saturation_target: number;
-  saturation_progress: number;
-};
-
-export type BanditryRow = {
-  region: string;
-  level: string;
-  cost: number;
-  detail: string;
-};
-
-export type BanditryProjection = {
-  total: number;
-  rows: BanditryRow[];
-  debt: number;
-  hoard_total: number;
-};
-
 export type MarketRow = {
   good_id: string;
   stock: number;
@@ -250,26 +226,9 @@ export type SequestrationState = {
   state_label: string;
 };
 
-export type AtcLoanState = {
-  available: BooleanLike;
-  can_view: BooleanLike;
-  min: number;
-  max: number;
-  closed_day: number;
-  interest_pct: number;
-  blocker: string;
-  arrears_consumed: BooleanLike;
-  loans_drawn: number;
-  outstanding: number;
-};
-
 export type Data = StaticData & {
   treasury: number;
   day: number;
-  expected_rural_revenue: number;
-  expected_wage_outlay: number;
-  banditry_projection: BanditryProjection;
-  active_events: EconomicEvent[];
   active_orders: Order[];
   active_offers: ActiveOffer[];
   region_caravan: Record<string, RegionCaravanState>;
@@ -284,13 +243,11 @@ export type Data = StaticData & {
   petitions_per_day: number;
   petition: PetitionState;
   sequestration: SequestrationState;
-  atc_loan: AtcLoanState;
 };
 
 export type TabKey =
   | 'caravans'
   | 'commissions'
-  | 'dispatches'
   | 'market'
   | 'regions'
   | 'petition';

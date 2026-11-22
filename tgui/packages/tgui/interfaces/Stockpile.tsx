@@ -76,8 +76,8 @@ type Data = {
   category: string;
   food_stipend: BooleanLike;
   subsidy_remaining: number;
-  treasury_floor: number;
-  below_floor: BooleanLike;
+  wage_reserve: number;
+  below_reserve: BooleanLike;
   stocks: StockRow[];
   bounties: Bounty[];
   no_deposit: BooleanLike;
@@ -100,7 +100,7 @@ const StockRowView = (props: {
   const subsidyCovers =
     !!data.food_stipend &&
     data.subsidy_remaining >= row.withdraw_price &&
-    (row.royal_amount > 0 || (!row.sold_out && !data.below_floor));
+    (row.royal_amount > 0 || (!row.sold_out && !data.below_reserve));
   const canWithdraw =
     !embargoed &&
     ((!row.sold_out && row.withdraw_price <= data.budget) || subsidyCovers);
@@ -338,12 +338,12 @@ export const Stockpile = () => {
             {!!data.food_stipend && (
               <span
                 style={{ color: SEAL_GREEN }}
-                title={`Roles with royal subsidy will pull from the royal stockpile, and then buy from the market using treasury money if the royal stock is empty, so long as there's enough fund above the treasury floor (${formatMammon(data.treasury_floor)}m) to cover the cost. Selling goods will go directly into the royal stockpile instead of the market`}
+                title={`Roles with royal subsidy will pull from the royal stockpile, and then buy from the market using treasury money if the royal stock is empty, so long as there's enough fund above tomorrow's wages (${formatMammon(data.wage_reserve)}m) to cover the cost. Selling goods will go directly into the royal stockpile instead of the market`}
               >
                 Royal Subsidy {formatMammon(data.subsidy_remaining)}m
               </span>
             )}
-            {!!data.food_stipend && !!data.below_floor && (
+            {!!data.food_stipend && !!data.below_reserve && (
               <span style={{ color: SEAL_RED }}>The Crown is broke</span>
             )}
             <span

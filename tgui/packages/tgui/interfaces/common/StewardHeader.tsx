@@ -3,9 +3,10 @@ import type { ReactNode } from 'react';
 import { useBackend } from '../../backend';
 import { compactButtonStyle, INK_SOFT, TITLE, TITLE_FONT } from './parchment';
 
-export type StewardWindow = 'trade' | 'treasury' | 'ledger';
+export type StewardWindow = 'front' | 'trade' | 'treasury' | 'ledger';
 
 const WINDOWS: { key: StewardWindow; label: string }[] = [
+  { key: 'front', label: 'Nerve Master' },
   { key: 'trade', label: 'Trade' },
   { key: 'treasury', label: 'Treasury' },
   { key: 'ledger', label: 'Ledger' },

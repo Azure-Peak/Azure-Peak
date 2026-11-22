@@ -104,8 +104,6 @@ SUBSYSTEM_DEF(treasury)
 	var/list/poll_levies = list()
 	var/list/poll_levy_grace_until = list()
 	var/levy_rates_changed_day = -1
-	/// Steward-settable floor. The Royal Subsidy stops paying from the Treasury when the Crown's Purse would drop below this.
-	var/stockpile_purchase_floor = STOCKPILE_CROWN_PURCHASE_FLOOR_DEFAULT
 	var/list/royal_subsidy_spent = list()
 	var/list/cached_market_rows = null
 	var/list/cached_region_rows = null
@@ -119,7 +117,7 @@ SUBSYSTEM_DEF(treasury)
 
 /datum/controller/subsystem/treasury/Initialize(mapload)
 	var/roundstart_pop = get_active_player_count()
-	var/seed = STOCKPILE_CROWN_PURCHASE_FLOOR_DEFAULT + rand(500, 1500) + (roundstart_pop * CROWN_PURSE_SEED_PER_PLAYER)
+	var/seed = CROWN_PURSE_SEED_BASE + rand(500, 1500) + (roundstart_pop * CROWN_PURSE_SEED_PER_PLAYER)
 	init_chart_of_accounts()
 	discretionary_fund = new("Treasury", null, seed, CURRENCY_MAMMON)
 	discretionary_fund.ledger_book = LEDGER_BOOK_CROWN
@@ -151,7 +149,7 @@ SUBSYSTEM_DEF(treasury)
 	royal_subsidy_spent["\ref[user]"] = mammon_round((royal_subsidy_spent["\ref[user]"] || 0) + amount)
 
 /datum/controller/subsystem/treasury/proc/royal_subsidy_treasury_covers(amount)
-	return mammon_round(discretionary_fund.balance - amount) >= stockpile_purchase_floor
+	return mammon_round(discretionary_fund.balance - amount) >= get_expected_wage_outlay()
 
 /datum/controller/subsystem/treasury/fire(resumed = 0)
 	if(world.time > next_treasury_check)

@@ -1,6 +1,7 @@
-import { type CSSProperties, Fragment, useEffect, useState } from 'react';
+import { type CSSProperties, Fragment } from 'react';
 
 import { useBackend } from '../../backend';
+import { CommitNumberInput } from '../common/CommitNumberInput';
 import { formatMammon } from '../common/format';
 import {
   compactButtonStyle,
@@ -8,7 +9,6 @@ import {
   INK,
   INK_FAINT,
   INK_SOFT,
-  inkInputStyle,
   SEAL_AMBER,
   sectionHeaderStyle,
 } from '../common/parchment';
@@ -28,38 +28,14 @@ const factionHeadingStyle: CSSProperties = {
 const WageInput = (props: { row: PayrollRow }) => {
   const { act } = useBackend<Data>();
   const { job, wage, floor } = props.row;
-  const [value, setValue] = useState(String(wage));
-
-  useEffect(() => setValue(String(wage)), [wage]);
-
-  const commit = () => {
-    const amount = Number(value);
-    if (value === '' || !Number.isFinite(amount) || amount === wage) {
-      setValue(String(wage));
-      return;
-    }
-    act('set_daily_pay', { job, amount });
-    setValue(String(wage));
-  };
 
   return (
     <div style={{ display: 'flex', alignItems: 'baseline', gap: '4px' }}>
-      <input
-        type="number"
+      <CommitNumberInput
+        value={wage}
         min={floor}
         max={999}
-        step={1}
-        value={value}
-        onChange={(e) => setValue(e.target.value)}
-        onBlur={commit}
-        onKeyDown={(e) => {
-          if (e.key === 'Enter') {
-            e.currentTarget.blur();
-          } else if (e.key === 'Escape') {
-            setValue(String(wage));
-          }
-        }}
-        style={{ ...inkInputStyle, width: 56, textAlign: 'right' }}
+        onCommit={(amount) => act('set_daily_pay', { job, amount })}
       />
       {floor > 0 && (
         <span
