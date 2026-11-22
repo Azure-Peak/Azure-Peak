@@ -307,7 +307,7 @@
 	summoning_emote = "A thought twists into form, a tiny stoat slinks into view."
 	icon_state = "whisper"
 	speak_emote = list("mutters", "whispers")
-	voiceclips = list() // i have no ideas
+	voiceclips = list() // they're silent. like a whisper...
 
 /datum/status_effect/debuff/iron_weakness
 	id = "iron_weakness"

@@ -190,4 +190,4 @@
 	summoning_emote = "A blade raises from the deepest pits, singing against the wind."
 	icon_state = "infernal_blade"
 	speak_emote = list("sings")
-	voiceclips = list('sound/magic/bladescrape.ogg', 'sound/magic/scrapeblade.ogg')
+	voiceclips = list('sound/magic/woundheal.ogg', 'sound/magic/chime.ogg') // they're meant to 'sing'.
