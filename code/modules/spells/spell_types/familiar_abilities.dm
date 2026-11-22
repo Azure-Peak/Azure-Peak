@@ -316,7 +316,7 @@
 	var/t2_desc = "Possess armor, a ring, an amulet, or a weapon; cast on yourself to turn into a potent—but obviously suspicious—staff and possess that instead. Resist to cancel the possession. Items you possess will be visibly odd. While possessing a wielded weapon or worn clothing/armor, whisper to speak directly into the mind of your bearer. Should they allow it, you can possess your bearer outright; you'll be able to use their skills, spells, and traits while you do, and the item housing you will become obviously suspicious. If they've used your power (hitting someone with you as a weapon, or blocking a hit with you as armor/clothing), you don't need their consent to possess them; however, if they resist, you will be on a time limit, after which you will be unable to possess them again for some time. Your malice grows strong, now; while listening to them may be wise, it is by no means mandatory."
 	button_icon = 'icons/mob/actions/actions_cult.dmi'
 	button_icon_state = "hand"
-	spell_color = GLOW_COLOR_VHESLYN
+	spell_color = PATRON_COLOR_VHESLYN
 	glow_intensity = GLOW_INTENSITY_LOW
 	cooldown_time = 10 MINUTES // once you're out, you're exposed for a good while. note that this cooldown starts once you LEAVE the form, not on possess
 	charge_required = FALSE
@@ -338,7 +338,7 @@
 		to_chat(H, span_warning("I can only possess weapons, armor, rings, and amulets."))
 		return FALSE
 	// it's that easy. all the logic for this is actually in the possessed item component
-	var/datum/component/possessed_item/P = target.AddComponent(/datum/component/possessed_item, H, GLOW_COLOR_VHESLYN, staff ? EXAMINEHIGHLIGHT_HERESYSEVERITY_SUSPICIOUS : EXAMINEHIGHLIGHT_HERESYSEVERITY_ODD, staff ? HERESYDESC_INFERNAL_PASSIVE_OBVIOUS : HERESYDESC_INFERNAL_PASSIVE, EXAMINEHIGHLIGHT_HERESYSEVERITY_SUSPICIOUS, HERESYDESC_INFERNAL_ACTIVE, H.tier >= 2, staff)
+	var/datum/component/possessed_item/P = target.AddComponent(/datum/component/possessed_item, H, PATRON_COLOR_VHESLYN, staff ? EXAMINEHIGHLIGHT_HERESYSEVERITY_SUSPICIOUS : EXAMINEHIGHLIGHT_HERESYSEVERITY_ODD, staff ? HERESYDESC_INFERNAL_PASSIVE_OBVIOUS : HERESYDESC_INFERNAL_PASSIVE, EXAMINEHIGHLIGHT_HERESYSEVERITY_SUSPICIOUS, HERESYDESC_INFERNAL_ACTIVE, H.tier >= 2, staff)
 	if(P)
 		RegisterSignal(P, COMSIG_QDELETING, PROC_REF(handle_cooldown))
 	return FALSE // we don't want the CD to start until we get in the item
