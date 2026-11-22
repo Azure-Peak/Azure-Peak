@@ -6,7 +6,6 @@
 	description = "A vicious gale has battered the Bleakisles. The fishing fleets are grounded."
 	exclusive = list(ECON_EVENT_EXCLUSIVE_WEATHER)
 	shortage_goods = ECON_GOODS_SEA_FISH
-	glut_goods = ECON_GOODS_FRESH_WATER_FISH
 
 /datum/economic_event/fish/herring_swarm
 	name = "Herring Swarm"

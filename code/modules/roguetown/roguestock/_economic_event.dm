@@ -14,10 +14,12 @@ GLOBAL_LIST_EMPTY(active_economic_events)
 	var/saturation_target = 0
 	var/saturation_progress = 0
 	var/relief_triggered = FALSE
+	var/mixed = FALSE
 
 /datum/economic_event/New()
 	. = ..()
 	affected_goods = shortage_goods | glut_goods
+	mixed = length(shortage_goods) && length(glut_goods)
 
 /datum/economic_event/proc/on_apply()
 	shock_market_stock()
@@ -44,25 +46,41 @@ GLOBAL_LIST_EMPTY(active_economic_events)
 			D.market_stock = min(D.market_stock, 0)
 	SStreasury.dirty_market_view()
 
-/datum/economic_event/proc/end_with_relief()
-	if(relief_triggered)
+/datum/economic_event/proc/relieve_shortage()
+	if(relief_triggered || !length(shortage_goods))
+		return
+	record_round_statistic(STATS_SHORTAGES_ENDED, 1)
+	shortage_goods = list()
+	relieve_side("shortage")
+
+/datum/economic_event/proc/relieve_glut()
+	if(relief_triggered || !length(glut_goods))
+		return
+	glut_goods = list()
+	relieve_side("glut")
+
+/datum/economic_event/proc/relieve_side(side)
+	affected_goods = shortage_goods | glut_goods
+	announce_relief(mixed ? "[name] [side]" : name)
+	if(length(affected_goods))
+		SStreasury.dirty_market_view()
 		return
 	relief_triggered = TRUE
 	on_expire()
 	GLOB.active_economic_events -= src
 	if(SSeconomy)
 		SSeconomy.event_path_cooldowns[type] = ECONOMY_DAY + ECON_EVENT_REROLL_COOLDOWN_DAYS
-	if(length(shortage_goods))
-		record_round_statistic(STATS_SHORTAGES_ENDED, 1)
+
+/datum/economic_event/proc/announce_relief(label)
 	var/list/diff = SSeconomy?.dawn_digest
 	if(diff)
 		var/list/relieved = diff["events_relieved"]
 		if(!relieved)
 			relieved = list()
 			diff["events_relieved"] = relieved
-		relieved += name
+		relieved += label
 	else
-		scom_announce("<font color='[ECON_EVENT_GLUT_COLOR]'>RELIEF: [name] is over. Prices return to normal.</font>")
+		scom_announce("<font color='[ECON_EVENT_GLUT_COLOR]'>RELIEF: [label] is over. Prices return to normal.</font>")
 
 /proc/credit_economic_event_saturation(good_id, units)
 	if(!good_id || units <= 0)
@@ -75,7 +93,7 @@ GLOBAL_LIST_EMPTY(active_economic_events)
 		if(E.saturation_progress >= E.saturation_target)
 			relieved += E
 	for(var/datum/economic_event/E as anything in relieved)
-		E.end_with_relief()
+		E.relieve_shortage()
 
 /proc/trade_good_names(list/good_ids)
 	var/list/names = list()

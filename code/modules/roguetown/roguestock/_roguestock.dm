@@ -113,7 +113,7 @@
 				still_glutted = TRUE
 				break
 		if(!still_glutted)
-			E.end_with_relief()
+			E.relieve_glut()
 
 /proc/market_step_multiplier(step)
 	switch(step)
