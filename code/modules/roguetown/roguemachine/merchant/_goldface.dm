@@ -184,19 +184,21 @@
 		return round(PA.cost * PA.silverface_markup)
 	return PA.cost
 
-/obj/structure/roguemachine/goldface/proc/compute_pack_price(datum/supply_pack/PA, mob/living/carbon/human/H)
+/obj/structure/roguemachine/goldface/proc/compute_pack_base(datum/supply_pack/PA)
 	var/pack_cost = get_pack_cost(PA)
-	var/cost = pack_cost + pack_cost * get_effective_fee()
+	return whole_mammon(pack_cost + pack_cost * get_effective_fee())
+
+/obj/structure/roguemachine/goldface/proc/compute_pack_price(datum/supply_pack/PA, mob/living/carbon/human/H)
+	var/cost = compute_pack_base(PA)
 	if(!is_tax_exempt(H))
 		cost += compute_pack_tax(PA)
-	return round(cost)
+	return cost
 
 /obj/structure/roguemachine/goldface/proc/compute_pack_tax(datum/supply_pack/PA)
-	return mammon_round(SStreasury.get_tax_rate(TAX_CATEGORY_IMPORT_TARIFF) * get_pack_cost(PA))
+	return whole_mammon(SStreasury.get_tax_rate(TAX_CATEGORY_IMPORT_TARIFF) * get_pack_cost(PA))
 
 /obj/structure/roguemachine/goldface/proc/serialize_pack(datum/supply_pack/PA, tariff_active)
-	var/pack_cost = get_pack_cost(PA)
-	var/base = round(pack_cost + pack_cost * get_effective_fee())
+	var/base = compute_pack_base(PA)
 	var/tariff = tariff_active ? compute_pack_tax(PA) : 0
 	return list(
 		"ref" = "[PA.type]",

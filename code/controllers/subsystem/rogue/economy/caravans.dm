@@ -38,7 +38,7 @@
 	return region_raided(offer.region_id) ? raided_size(offer.units) : offer.units
 
 /datum/controller/subsystem/economy/proc/offer_price_now(datum/region_offer/offer)
-	return mammon_round(offer.unit_price * offer_units_now(offer))
+	return whole_mammon(offer.unit_price * offer_units_now(offer))
 
 /datum/controller/subsystem/economy/proc/subroute_escorted(subroute, day = ECONOMY_DAY)
 	return escorted_subroutes[subroute] == day

@@ -226,7 +226,7 @@ SUBSYSTEM_DEF(economy)
 	var/total = 0
 	for(var/good_id in order.required_items)
 		total += compute_good_unit_payout(order, good_id) * order.required_items[good_id]
-	return mammon_round(total)
+	return whole_mammon(total)
 
 /// Payouts used to lock in at roll time and never catch up to later pop/price shifts while an
 /// order sat unfulfilled. Recompute daily so active orders stay current.
@@ -335,8 +335,8 @@ SUBSYSTEM_DEF(economy)
 		"potion" = potion_avail,
 		"stock" = stock_avail,
 		"units" = units,
-		"payout" = max(0, mammon_round(payout)),
-		"quality_delta" = mammon_round(quality_delta),
+		"payout" = max(0, whole_mammon(payout)),
+		"quality_delta" = whole_mammon(quality_delta),
 	)
 
 /datum/controller/subsystem/economy/proc/load_order(datum/standing_order/order, list/scan)

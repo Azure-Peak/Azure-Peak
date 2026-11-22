@@ -75,16 +75,16 @@
 /// both route through here so a mid-session edict rate change can never desync the
 /// quoted price from the charged price.
 /obj/structure/roguemachine/bathvend/proc/compute_pack_price(datum/supply_pack/PA)
-	var/cost = PA.cost + PA.cost * extra_fee
+	var/cost = whole_mammon(PA.cost + PA.cost * extra_fee)
 	if(!(upgrade_flags & UPGRADE_NOTAX))
 		cost += compute_pack_tax(PA)
-	return round(cost)
+	return cost
 
 /obj/structure/roguemachine/bathvend/proc/compute_pack_tax(datum/supply_pack/PA)
-	return mammon_round(SStreasury.get_tax_rate(TAX_CATEGORY_IMPORT_TARIFF) * PA.cost)
+	return whole_mammon(SStreasury.get_tax_rate(TAX_CATEGORY_IMPORT_TARIFF) * PA.cost)
 
 /obj/structure/roguemachine/bathvend/proc/serialize_pack(datum/supply_pack/PA, tariff_active)
-	var/base = round(PA.cost + PA.cost * extra_fee)
+	var/base = whole_mammon(PA.cost + PA.cost * extra_fee)
 	var/tariff = tariff_active ? compute_pack_tax(PA) : 0
 	return list(
 		"ref" = "[PA.type]",

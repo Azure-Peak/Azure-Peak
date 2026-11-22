@@ -1,6 +1,9 @@
 /proc/mammon_round(amount)
 	return round(amount, MAMMON_PRECISION)
 
+/proc/whole_mammon(amount)
+	return round(amount, 1)
+
 /proc/format_mammon(amount)
 	amount = mammon_round(amount)
 	var/negative = amount < 0
