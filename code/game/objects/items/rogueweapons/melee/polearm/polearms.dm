@@ -159,7 +159,7 @@
 	special = null
 	materia = list(/datum/materia_aspect/weapon, /datum/materia_aspect/death)
 
-/obj/item/rogueweapon/spear/aalloy
+/obj/item/rogueweapon/spear/ancient/decrepit
 	name = "decrepit spear"
 	desc = "A rotting staff, tipped with rotted metal. After the stone, but before the sword; an interlude for the violence that would soon \
 	engulf His world."
@@ -172,7 +172,7 @@
 	smeltresult = /obj/item/ingot/aaslag
 	anvilrepair = null
 
-/obj/item/rogueweapon/spear/paalloy
+/obj/item/rogueweapon/spear/ancient
 	name = "ancient spear"
 	desc = "A gnarled staff, tipped with polished gilbranze. Your breathing hilts, and your knuckles tighten around the staff; you \
 	see what is yet to come, yet your mind refuses to retain it. To know what fate this dying world has - it would drive any man inzane."
@@ -879,7 +879,7 @@
 	smeltresult = /obj/item/ingot/iron
 	max_integrity = 200
 
-/obj/item/rogueweapon/halberd/bardiche/aalloy
+/obj/item/rogueweapon/halberd/bardiche/ancient/decrepit
 	name = "decrepit bardiche"
 	desc = "An imposing poleaxe, wrought from rotted metal. Whatever noble purpose this weapon held has long since decayed; for \
 	it now persists to sunder the chaff that clings to this dying world."
@@ -892,7 +892,7 @@
 	smeltresult = /obj/item/ingot/aaslag
 	anvilrepair = null
 
-/obj/item/rogueweapon/halberd/bardiche/paalloy
+/obj/item/rogueweapon/halberd/bardiche/ancient
 	name = "ancient bardiche"
 	desc = "A terrifying poleaxe, forged from polished gilbranze. When Her ascension came, these weapons - bereft of their \
 	wielders - sunk deep into the earth. Shadowed hands cradled the blades over the centuries, and would eventually create \

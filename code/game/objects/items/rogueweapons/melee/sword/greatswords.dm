@@ -57,7 +57,13 @@
 	smelt_bar_num = 3
 	smeltresult = /obj/item/ingot/iron
 
-/obj/item/rogueweapon/greatsword/aalloy
+/obj/item/rogueweapon/greatsword/ancient
+	name = "ancient greatsword"
+	desc = "A massive blade, forged from polished gilbranze. Your kind will discover your true nature, in wrath and ruin. You will take to the stars and burn them out, one by one. Only when the last star turns to dust, will you finally realize that She was trying to save you from Man's greatest foe; oblivion."
+	icon_state = "ancient_gsw"
+	smeltresult = /obj/item/ingot/aaslag
+
+/obj/item/rogueweapon/greatsword/ancient/decrepit
 	name = "decrepit greatsword"
 	desc = "A massive blade, wrought in rotted metal. It is too big to be called a sword; massive, thick, heavy, and far too rough. Indeed, this blade was more like a heap of raw metal."
 	force = 10
@@ -68,12 +74,6 @@
 	color = "#bb9696"
 	smeltresult = /obj/item/ingot/aaslag
 	anvilrepair = null
-
-/obj/item/rogueweapon/greatsword/paalloy
-	name = "ancient greatsword"
-	desc = "A massive blade, forged from polished gilbranze. Your kind will discover your true nature, in wrath and ruin. You will take to the stars and burn them out, one by one. Only when the last star turns to dust, will you finally realize that She was trying to save you from Man's greatest foe; oblivion."
-	icon_state = "ancient_gsw"
-	smeltresult = /obj/item/ingot/aaslag
 
 /obj/item/rogueweapon/greatsword/silver
 	name = "silver greatsword"

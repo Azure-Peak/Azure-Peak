@@ -58,7 +58,7 @@
 	smeltresult = /obj/item/ingot/bronze
 	max_integrity = 250
 
-/obj/item/rogueweapon/mace/alloy
+/obj/item/rogueweapon/mace/ancient/decrepit
 	name = "decrepit mace"
 	desc = "Rotted metal, perched atop a rotwooden shaft. His sacrifice had drowned Old Syon, and - in its wake - left Man bereft of all it had accomplished. With all other prayers falling upon deaf ears, Man had crafted this idol in tribute to its new God; violence."
 	icon_state = "amace"
@@ -69,6 +69,16 @@
 	color = "#bb9696"
 	smeltresult = /obj/item/ingot/aaslag
 	anvilrepair = null
+
+/obj/item/rogueweapon/mace/ancient
+	name = "ancient mace"
+	desc = "Polished gilbranze, perched atop a reinforced shaft. Break the unenlightened into naught-but-giblets; like a potter's vessels, dashed against the rocks."
+	icon_state = "amace"
+	smeltresult = /obj/item/ingot/aaslag
+	force = 25
+	force_wielded = 32
+	wdefense = 3
+	smelt_bar_num = 2
 
 /obj/item/rogueweapon/mace/church
 	name = "bell ringer"
@@ -100,7 +110,7 @@
 	desc = "An uncommon derivative of the mace, studded with spikes and seated upon a serpentine shaft. When raised aloft, the macehead mimics a stylized imitation of Astrata's glare; ergo, 'morning star'."
 	wdefense = 5
 
-/obj/item/rogueweapon/mace/steel/holyseemace
+/obj/item/rogueweapon/mace/steel/holysee
 	name = "holy see mace"
 	desc = "A blessed mace, wielded by the Holy See's templars to drive the fiends in the dark back. \
 			Many within the See find the shedding of blood regrettable, thus did an ancient artificer be struck by divine inspiration. \
@@ -110,7 +120,7 @@
 	icon_state = "churchmace"
 	wdefense = 5
 
-/obj/item/rogueweapon/mace/steel/holyseemace/sunburst
+/obj/item/rogueweapon/mace/steel/holysee/sunburst
 	name = "sunburst"
 	desc = "A luminous steeled mace with a lengthened handle, adorned with vibrant golden trimmings along a faintly silvered polished metal edge, \
 			the spikes that protrude from its heavy edge radiate with Astrata's glow upon the points. Often issued as a heavy-reminder of divine \
@@ -120,12 +130,6 @@
 	force_wielded = 35
 	max_integrity = 250
 	wdefense = 5
-
-/obj/item/rogueweapon/mace/steel/palloy
-	name = "ancient alloy mace"
-	desc = "Polished gilbranze, perched atop a reinforced shaft. Break the unenlightened into naught-but-giblets; like a potter's vessels, dashed against the rocks."
-	icon_state = "amace"
-	smeltresult = /obj/item/ingot/aaslag
 
 /obj/item/rogueweapon/mace/steel/silver
 	name = "silver mace"
@@ -214,7 +218,7 @@
 				return list("shrink" = 0.4,"sx" = -2,"sy" = -5,"nx" = 4,"ny" = -5,"wx" = 0,"wy" = -5,"ex" = 2,"ey" = -5,"nturn" = 0,"sturn" = 0,"wturn" = 0,"eturn" = 0,"nflip" = 0,"sflip" = 0,"wflip" = 0,"eflip" = 0,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0)
 	return ..()
 
-/obj/item/rogueweapon/mace/warhammer/bronze
+/obj/item/rogueweapon/mace/warclub
 	name = "bronze warclub"
 	desc = "The warhammer's ancestral link, carved from a weightsome log and studded with bronze. Elven natureguards carry it to both honor their forefathers, and as a way to sunder those who'd ravage Dendor's bounties without thought-or-restraint; a toss from afar turns into a sundering hurlbat."
 	icon_state = "bronzeclub"
@@ -229,7 +233,7 @@
 	max_integrity = 180
 	sharpness = IS_SHARP
 
-/obj/item/rogueweapon/mace/warhammer/bronze/iron
+/obj/item/rogueweapon/mace/warclub/iron
 	name = "iron warclub"
 	desc = "The warhammer's ancestral link, carved from a weightsome log and studded with iron. Elven natureguards carry it to both honor their forefathers, and as a way to sunder those who'd ravage Dendor's bounties without thought-or-restraint; a toss from afar turns into a sundering hurlbat."
 	icon_state = "iclub"
@@ -240,7 +244,7 @@
 	wdefense = 2
 	max_integrity = 120
 
-/obj/item/rogueweapon/mace/warhammer/bronze/steel
+/obj/item/rogueweapon/mace/warclub/steel
 	name = "steel warclub"
 	desc = "The warhammer's ancestral link, carved from a weightsome log and studded with steel. Elven natureguards carry it to both honor their forefathers, and as a way to sunder those who'd ravage Dendor's bounties without thought-or-restraint; a toss from afar turns into a sundering hurlbat."
 	icon_state = "steelclub"
@@ -251,7 +255,7 @@
 	wdefense = 3
 	max_integrity = 200
 
-/obj/item/rogueweapon/mace/warhammer/bronze/silver
+/obj/item/rogueweapon/mace/warclub/silver
 	name = "silver warclub"
 	desc = "The warhammer's ancestral link, carved from a weightsome log and studded with silver. Elven natureguards carry it to both honor their forefathers, and as a way to sunder those who'd ravage Dendor's bounties without thought-or-restraint; a toss from afar turns into a sundering hurlbat."
 	icon_state = "clubsilver"
@@ -263,7 +267,7 @@
 	max_integrity = 200
 	max_blade_int = 175
 
-/obj/item/rogueweapon/mace/warhammer/bronze/decorated
+/obj/item/rogueweapon/mace/warclub/decorated
 	name = "decorated bronze warclub"
 	desc = "Beads, silk, and gold caress this carved-and-spiked log; a honored totem whose roots trace back to the daes before Syon's impact. Myths speak of ancient elve-and-humen alike, wielding such bronzen bludgeons against the Archdevil's rampaging hordes."
 	icon_state = "bronzeclubdec"
@@ -274,7 +278,7 @@
 	max_blade_int = 200
 	no_loot_taint = TRUE
 
-/obj/item/rogueweapon/mace/warhammer/alloy
+/obj/item/rogueweapon/mace/warhammer/ancient/decrepit
 	name = "decrepit warhammer"
 	desc = "A macehead of rotted metal, spiked and perched atop a thin shaft. To see such a knightly implement abandoned to decay and neglect; that wounds the heart greater than any well-poised strike."
 	icon_state = "awarhammer"
@@ -294,11 +298,14 @@
 	smeltresult = /obj/item/ingot/steel
 	wdefense = 4
 
-/obj/item/rogueweapon/mace/warhammer/steel/paalloy
-	name = "ancient alloy warhammer"
+/obj/item/rogueweapon/mace/warhammer/ancient
+	name = "ancient warhammer"
 	desc = "A macehead of polished gilbranze, spiked and perched atop a reinforced shaft. An elegant weapon from a more civilized age; when Man lived in harmony with one-another, and when 'the undying' was nothing more than a nitemare's thought."
 	icon_state = "awarhammer"
 	smeltresult = /obj/item/ingot/aaslag
+	force = 25
+	possible_item_intents = list(/datum/intent/mace/strike, /datum/intent/mace/smash/lesser, /datum/intent/mace/warhammer/pick, /datum/intent/mace/warhammer/stab)
+	wdefense = 4
 
 /obj/item/rogueweapon/mace/warhammer/blacksteel
 	name = "blacksteel warhammer"
@@ -604,17 +611,6 @@
 	smeltresult = /obj/item/ingot/steelholy
 	smelt_bar_num = 2
 
-/obj/item/rogueweapon/mace/goden/aalloy
-	name = "decrepit grand mace"
-	desc = "Good nite, sire."
-	force = 12
-	force_wielded = 22
-	icon_state = "ancient_supermace"
-	blade_dulling = DULLING_SHAFT_CONJURED
-	color = "#bb9696"
-	smeltresult = /obj/item/ingot/aaslag
-	anvilrepair = null
-
 /obj/item/rogueweapon/mace/goden/steel
 	name = "grand mace"
 	desc = "Good morning, sire."
@@ -626,11 +622,27 @@
 	wdefense_wbonus = 5
 	max_integrity = 300
 
-/obj/item/rogueweapon/mace/goden/steel/paalloy
+/obj/item/rogueweapon/mace/goden/ancient
 	name = "ancient grand mace"
 	desc = "A twisting polehammer, forged in polished gilbranze. What did you think this was all about? This destruction, this war, this sacrifice; it was all to prepare Man for its true ascension."
 	icon_state = "ancient_supermace"
 	smeltresult = /obj/item/ingot/aaslag
+	force = 15
+	force_wielded = 35
+	smelt_bar_num = 2
+	wdefense_wbonus = 5
+	max_integrity = 300
+
+/obj/item/rogueweapon/mace/goden/ancient/decrepit
+	name = "decrepit grand mace"
+	desc = "Good nite, sire."
+	force = 12
+	force_wielded = 22
+	icon_state = "ancient_supermace"
+	blade_dulling = DULLING_SHAFT_CONJURED
+	color = "#bb9696"
+	smeltresult = /obj/item/ingot/aaslag
+	anvilrepair = null
 
 /obj/item/rogueweapon/mace/goden/steel/kanabo
 	name = "kanabo"

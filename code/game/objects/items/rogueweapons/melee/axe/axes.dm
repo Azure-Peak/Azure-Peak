@@ -83,7 +83,7 @@
 	desc = "A short-handled axe with a carved grip, made of high quality wood. Perfect for the discerning carpenter."
 	max_integrity = 275
 
-/obj/item/rogueweapon/stoneaxe/woodcut/aaxe
+/obj/item/rogueweapon/stoneaxe/woodcut/ancient/decrepit
 	name = "decrepit axe"
 	desc = "A hatchet of rotted metal. It reigns from a tyme before the Comet Syon's impact; when Man wrought metal not to spill blood, but to better shape the world in His image."
 	icon_state = "ahandaxe"
@@ -94,6 +94,17 @@
 	color = "#bb9696"
 	smeltresult = /obj/item/ingot/aaslag
 	anvilrepair = null
+
+/obj/item/rogueweapon/stoneaxe/woodcut/ancient
+	name = "ancient axe"
+	desc = "A hatchet of polished gilbranze. Vheslyn molested the hearts of Man with sin - of greed towards the better offerings, and of lust for His divinity. With \
+	a single blow, blood gouted from bone and seeped into the soil; the first murder."
+	icon_state = "ahandaxe"
+	smeltresult = /obj/item/ingot/aaslag
+	force = 26
+	force_wielded = 28
+	possible_item_intents = list(/datum/intent/axe/cut, /datum/intent/axe/chop, /datum/intent/axe/bash)
+	gripped_intents = list(/datum/intent/axe/cut, /datum/intent/axe/chop, /datum/intent/axe/bash)
 
 /obj/item/rogueweapon/stoneaxe/woodcut/bronze
 	name = "bronze axe"
@@ -167,13 +178,6 @@
 	smeltresult = /obj/item/ingot/gold
 	wdefense = 5
 	no_loot_taint = TRUE
-
-/obj/item/rogueweapon/stoneaxe/woodcut/steel/paaxe
-	name = "ancient alloy axe"
-	desc = "A hatchet of polished gilbranze. Vheslyn molested the hearts of Man with sin - of greed towards the better offerings, and of lust for His divinity. With \
-	a single blow, blood gouted from bone and seeped into the soil; the first murder."
-	icon_state = "ahandaxe"
-	smeltresult = /obj/item/ingot/aaslag
 
 /obj/item/rogueweapon/stoneaxe/woodcut/steel/woodcutter
 	name = "woodcutter's axe"

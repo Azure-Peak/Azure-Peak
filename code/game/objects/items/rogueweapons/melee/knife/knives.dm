@@ -179,18 +179,6 @@
 	smeltresult = /obj/item/ingot/iron
 	is_even_lesser_silver = TRUE // adv paladin exclusive weapon, works like unblessed silver but only in pve
 
-/obj/item/rogueweapon/huntingknife/idagger/adagger
-	name = "decrepit dagger"
-	desc = "A short blade, wrought from rotted metal and tanged within a rotwooden grip. Pieces of a former legionnaire's scabbard cling to the glimmerless alloy."
-	force = 12
-	max_integrity = 75
-	icon_state = "adagger"
-	sheathe_icon = "adagger"
-	blade_dulling = DULLING_SHAFT_CONJURED
-	color = "#bb9696"
-	smeltresult = /obj/item/ingot/aaslag
-	anvilrepair = null
-
 /obj/item/rogueweapon/huntingknife/idagger/warden_machete
 	name = "warden's seax"
 	desc = "A well-worn seax utilised by the Fraternity of Wardens both as a tool and weapon. Nearly as effective for hacking \
@@ -236,12 +224,26 @@
 	max_integrity = 150
 	smeltresult = /obj/item/ingot/steel
 
-/obj/item/rogueweapon/huntingknife/idagger/steel/padagger
+/obj/item/rogueweapon/huntingknife/idagger/ancient
 	name = "ancient dagger"
 	desc = "A short blade, forged from polished gilbranze. It is violence that shepherds progress, and it is progress that will free this world from mortality's chains. Zizo, Zizo, Zizo - I call upon thee; bring forth the undying, so that your works may yet be done!"
 	icon_state = "adagger"
 	sheathe_icon = "adagger"
+	force = 20
+	max_integrity = 150
 	smeltresult = /obj/item/ingot/aaslag
+
+/obj/item/rogueweapon/huntingknife/idagger/ancient/decrepit
+	name = "decrepit dagger"
+	desc = "A short blade, wrought from rotted metal and tanged within a rotwooden grip. Pieces of a former legionnaire's scabbard cling to the glimmerless alloy."
+	force = 12
+	max_integrity = 75
+	icon_state = "adagger"
+	sheathe_icon = "adagger"
+	blade_dulling = DULLING_SHAFT_CONJURED
+	color = "#bb9696"
+	smeltresult = /obj/item/ingot/aaslag
+	anvilrepair = null
 
 /obj/item/rogueweapon/huntingknife/idagger/steel/trainer
 	name = "dagger trainer"
@@ -782,7 +784,7 @@
 			if("onbelt")
 				return list("shrink" = 0.3,"sx" = -2,"sy" = -5,"nx" = 4,"ny" = -5,"wx" = 0,"wy" = -5,"ex" = 2,"ey" = -5,"nturn" = 0,"sturn" = 0,"wturn" = 0,"eturn" = 0,"nflip" = 0,"sflip" = 0,"wflip" = 0,"eflip" = 0,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0)
 
-/obj/item/rogueweapon/huntingknife/throwingknife/aalloy
+/obj/item/rogueweapon/huntingknife/throwingknife/ancient/decrepit
 	name = "decrepit tossblade"
 	desc = "Chunks of rotted metal, crudely sharpened into throwing daggers. You might be better off chucking the silverware at them, at this rate. </br>This dagger can be stowed away inside a pair of boots, permitting it to be quickly drawn when needed."
 	icon_state = "throw_knifea"
@@ -800,10 +802,15 @@
 	icon_state = "throw_knifes"
 	embedding = list("embedded_pain_multiplier" = 4, "embed_chance" = 30, "embedded_fall_chance" = 5)
 
-/obj/item/rogueweapon/huntingknife/throwingknife/steel/palloy
-	name = "ancient alloy tossblade"
+/obj/item/rogueweapon/huntingknife/throwingknife/ancient
+	name = "ancient tossblade"
 	desc = "A sliver of polished gilbranze, delicately carved into a throwing dagger. A favorite amongst Zizo's undying cabal, and especially amongst Her assassins; what better-a-tool to slip through another's neck? </br>This dagger can be stowed away inside a pair of boots, permitting it to be quickly drawn when needed."
 	icon_state = "throw_knifea"
+	throwforce = 28
+	max_integrity = 100
+	armor_penetration = PEN_MEDIUM
+	icon_state = "throw_knifes"
+	embedding = list("embedded_pain_multiplier" = 4, "embed_chance" = 30, "embedded_fall_chance" = 5)
 
 /obj/item/rogueweapon/huntingknife/throwingknife/steel/silver
 	name = "silver tossblade"

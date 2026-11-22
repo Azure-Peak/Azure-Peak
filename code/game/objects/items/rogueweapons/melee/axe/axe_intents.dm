@@ -56,6 +56,8 @@
 	desc = "A committed thrust with the poleaxe's spike. It only bites through armor at full extension, exactly two paces away."
 	effective_range = 2
 	effective_range_type = EFF_RANGE_EXACT
+	swingdelay = 8
+	swingdelay_type = SWINGDELAY_PENALTY
 
 /datum/intent/axe/chop/heavy
 	name = "hack"
@@ -67,7 +69,6 @@
 	candodge = FALSE
 	canparry = FALSE
 	swingdelay_type = SWINGDELAY_CANCEL
-
 
 /datum/intent/axe/chop/scythe
 	reach = 2

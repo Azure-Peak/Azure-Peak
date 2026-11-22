@@ -49,7 +49,7 @@
 	minstr = 12
 	is_even_lesser_silver = TRUE // adv paladin exclusive weapon, works like unblessed silver but only in pve
 
-/obj/item/rogueweapon/flail/aflail
+/obj/item/rogueweapon/flail/ancient/decrepit
 	name = "decrepit flail"
 	desc = "A spiked ball of rotted metal, chained to a rotwooden handle. The chains groan with every twirl, strained by forces it hadn't felt in millennia; swing it a bit too hard, and there's a chance that the flailhead might completely fly off."
 	icon_state = "aflail"
@@ -59,7 +59,7 @@
 	smeltresult = /obj/item/ingot/aaslag
 	anvilrepair = null
 
-/obj/item/rogueweapon/flail/sflail/paflail
+/obj/item/rogueweapon/flail/ancient
 	name = "ancient flail"
 	desc = "A spiked ball of polished gilbranze, chained to a reinforced handle. They say that His children worshipped the flail above all else, for its twirls replicated the Comet Syon's blazing flights."
 	icon_state = "aflail"
@@ -75,14 +75,14 @@
 	smeltresult = /obj/item/ingot/bronze
 	minstr = 7
 
-/obj/item/rogueweapon/flail/sflail
+/obj/item/rogueweapon/flail/steel
 	desc = "A flanged macehead and a carved handle, linked together with a length of steel chain. It can be spun around to smash armored opponents with tremendous force, cracking plate and bone alike with unflinching impunity."
 	icon_state = "flail"
 	smeltresult = /obj/item/ingot/steel
 	minstr = 5
 	force = 30
 
-/obj/item/rogueweapon/flail/sflail/holysee
+/obj/item/rogueweapon/flail/steel/holysee
 	name = "holy see flail"
 	desc = "A blessed flail, oft conflicts arise betwixt the Otavian Orthodoxy and Holy See on the origins \
 			being betwixt Psydon and Noc being the origin of such weapon, regardless against the forces of evil, \
@@ -91,56 +91,58 @@
 	icon_state = "churchflail"
 	wlength = WLENGTH_LONG
 
-/obj/item/rogueweapon/flail/sflail/silver
+/obj/item/rogueweapon/flail/silver
 	name = "silver morningstar"
 	desc = "A heavy, silver flail. It follows the Grenzelhoftian design of a 'morning star', utilizing a longer chain to extend its reach."
 	icon_state = "silverflail"
 	possible_item_intents = list(/datum/intent/flail/strike, /datum/intent/flail/smash/ranged, /datum/intent/flail/bash)
 	smeltresult = /obj/item/ingot/silver
+	minstr = 5
+	force = 30
 	is_silver = TRUE
 
-/obj/item/rogueweapon/flail/sflail/silver/ComponentInitialize()
+/obj/item/rogueweapon/flail/silver/ComponentInitialize()
 	AddComponent(\
 		/datum/component/silverbless,\
 		pre_blessed = BLESSING_NONE,\
 		silver_type = SILVER_TENNITE\
 	)
 
-/obj/item/rogueweapon/flail/sflail/necraflail
+/obj/item/rogueweapon/flail/silver/necra
 	name = "swift journey"
 	desc = "The striking head is full of teeth, rattling viciously with every strike, with every rotation. Each set coming from one the wielder has laid to rest. Carried alongside them as a great show of respect."
 	icon_state = "necraflail"
 	force = 35
 	is_silver = TRUE
 
-/obj/item/rogueweapon/flail/sflail/necraflail/ComponentInitialize()
+/obj/item/rogueweapon/flail/silver/necra/ComponentInitialize()
 	AddComponent(\
 		/datum/component/silverbless,\
 		pre_blessed = BLESSING_NONE,\
 		silver_type = SILVER_TENNITE\
 	)
 
-/obj/item/rogueweapon/flail/sflail/silver/psy
+/obj/item/rogueweapon/flail/silver/psy
 	name = "psydonic flail"
 	desc = "An ornate flail, plated in a ceremonial veneer of silver. Its flanged head can crumple even the toughest of darksteel-maille."
 	icon_state = "psyflail"
 	smeltresult = /obj/item/ingot/silverblessed
 
-/obj/item/rogueweapon/flail/sflail/silver/psy/ComponentInitialize()
+/obj/item/rogueweapon/flail/silver/psy/ComponentInitialize()
 	AddComponent(\
 		/datum/component/silverbless,\
 		pre_blessed = BLESSING_NONE,\
 		silver_type = SILVER_PSYDONIAN\
 	)
 
-/obj/item/rogueweapon/flail/sflail/silver/psy/preblessed/ComponentInitialize()
+/obj/item/rogueweapon/flail/silver/psy/preblessed/ComponentInitialize()
 	AddComponent(\
 		/datum/component/silverbless,\
 		pre_blessed = BLESSING_PSYDONIAN,\
 		silver_type = SILVER_PSYDONIAN\
 	)
 
-/obj/item/rogueweapon/flail/sflail/silver/psy/relic
+/obj/item/rogueweapon/flail/silver/psy/relic
 	name = "\"Consecratia\""
 	desc = "The weight of His anguish, His pain, His hope and His love for humenkind - all hanging on the ornamental silver-steel head chained to this arm. <br><br>A declaration of love for all that Psydon lives for, and a crushing reminder to the arch-nemesis that they will not triumph as long as He endures."
 	icon_state = "psymorningstar"
@@ -149,7 +151,7 @@
 	minstr = 11
 	max_integrity = 250
 
-/obj/item/rogueweapon/flail/sflail/silver/psy/relic/ComponentInitialize()
+/obj/item/rogueweapon/flail/silver/psy/relic/ComponentInitialize()
 	AddComponent(\
 		/datum/component/silverbless,\
 		pre_blessed = BLESSING_PSYDONIAN,\
@@ -168,7 +170,7 @@
 	force = 35
 
 //Greatflails. Two-handed flails. You get the jist.
-/obj/item/rogueweapon/flail/peasantwarflail
+/obj/item/rogueweapon/flail/grand
 	name = "militia thresher"
 	desc = "Just like how a sling's bullet can fell a giant, so too does this great flail follow the principle of converting 'momentum' into 'plate-rupturing force'."
 	icon_state = "peasantwarflail"
@@ -195,7 +197,7 @@
 	wdefense = 4
 	resistance_flags = FLAMMABLE
 
-/obj/item/rogueweapon/flail/peasantwarflail/getonmobprop(tag)
+/obj/item/rogueweapon/flail/grand/getonmobprop(tag)
 	. = ..()
 	if(tag)
 		switch(tag)
@@ -204,7 +206,7 @@
 			if("wielded")
 				return list("shrink" = 0.6,"sx" = 5,"sy" = -3,"nx" = -5,"ny" = -2,"wx" = -5,"wy" = -1,"ex" = 3,"ey" = -2,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = 7,"sturn" = -7,"wturn" = 16,"eturn" = -22,"nflip" = 8,"sflip" = 0,"wflip" = 8,"eflip" = 0)
 
-/obj/item/rogueweapon/flail/peasantwarflail/iron
+/obj/item/rogueweapon/flail/grand/iron
 	name = "greatflail"
 	desc = "The lucerne's ungainly cousin, favoring a 'ball-and-chain' design that - once spun - can devastate anything caught in its way; a trait that makes it dearly beloved by both peasantry and knights alike."
 	icon_state = "greatflail"
@@ -212,16 +214,18 @@
 	minstr = 12
 	anvilrepair = /datum/skill/craft/weaponsmithing
 
-/obj/item/rogueweapon/flail/peasantwarflail/iron/steel
+/obj/item/rogueweapon/flail/grand/steel
 	name = "steel greatflail"
 	desc = "The greatflail's noblehearted brother, rebuking unruly assailants with a sextuple-spiked countermeasure."
 	force = 15
+	wdefense = 6
+	minstr = 12
 	icon_state = "sgreatflail"
 	smeltresult = /obj/item/ingot/steel
 	max_integrity = 200
 	//gripped_intents = list(/datum/intent/flail/strike/ranged, /datum/intent/flail/smash/ranged, /datum/intent/flail/sweep, /datum/intent/flail/smash/heavy)
 
-/obj/item/rogueweapon/flail/peasantwarflail/matthios
+/obj/item/rogueweapon/flail/grand/matthios
 	name = "gilded flail"
 	desc = "Weight of wealth in a deadly striking end."
 	icon_state = "matthiosflail"
@@ -236,11 +240,11 @@
 	anvilrepair = /datum/skill/craft/weaponsmithing
 	smeltresult = /obj/item/ingot/component/matthios
 
-/obj/item/rogueweapon/flail/peasantwarflail/matthios/Initialize(mapload)
+/obj/item/rogueweapon/flail/grand/matthios/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/cursed_item, TRAIT_FREEMAN, "FLAIL")
 
-/obj/item/rogueweapon/flail/peasantwarflail/matthios/get_examine_highlight_status()
+/obj/item/rogueweapon/flail/grand/matthios/get_examine_highlight_status()
 	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_MATTHIOS_WEAPON)
 
 // Unique Flails.

@@ -320,7 +320,7 @@
 	smeltresult = /obj/item/ingot/iron
 	max_integrity = 100
 
-/obj/item/rogueweapon/sword/short/ashort
+/obj/item/rogueweapon/sword/short/ancient/decrepit
 	name = "decrepit short sword"
 	desc = "A chipped sidearm-sword, wrought from rotted metal. It's hard to gauge whether it was naturally forged to be so short, or if it's \
 	all that remained of a longer blade."
@@ -333,7 +333,7 @@
 	smeltresult = /obj/item/ingot/aaslag
 	anvilrepair = null
 
-/obj/item/rogueweapon/sword/short/pashortsword
+/obj/item/rogueweapon/sword/short/ancient
 	name = "ancient shortsword"
 	desc = "A polished sidearm-sword, forged from gilbranze. From after His sacrifice, but before Her ascension; the tithe of a war without reason, \
 	waged between squabbling children who hadn't known that the world was about to end."
@@ -415,7 +415,7 @@
 	wdefense = 5
 	no_loot_taint = TRUE
 
-/obj/item/rogueweapon/sword/short/gladius/agladius
+/obj/item/rogueweapon/sword/short/gladius/ancient/decrepit
 	name = "decrepit gladius"
 	desc = "A hefty shortsword, wrought from rotted metal. Once, the sidearm of a proud legionnaire; now, a consequence of progress and sacrifice."
 	force = 18
@@ -426,7 +426,7 @@
 	smeltresult = /obj/item/ingot/aaslag
 	anvilrepair = null
 
-/obj/item/rogueweapon/sword/short/gladius/pagladius
+/obj/item/rogueweapon/sword/short/gladius/ancient
 	name = "ancient gladius"
 	desc = "A polished shortsword, forged from gilbranze. Favored by Zizo's undying legionnaires, this antiquated tool serves a simple purpose; \
 	to spill the innards of unenlightened fools."
@@ -679,7 +679,7 @@
 	possible_item_intents = list(/datum/intent/sword/cut/sabre, /datum/intent/sword/thrust, /datum/intent/sword/chop/falx)
 	max_integrity = 200
 
-/obj/item/rogueweapon/sword/sabre/alloy
+/obj/item/rogueweapon/sword/sabre/ancient/decrepit
 	name = "decrepit khopesh"
 	desc = "A hooked sword, wrought from rotted metal. The design is not only baffling, but seems to predate history itself."
 	force = 18
@@ -690,7 +690,7 @@
 	smeltresult = /obj/item/ingot/aaslag
 	anvilrepair = null
 
-/obj/item/rogueweapon/sword/sabre/palloy
+/obj/item/rogueweapon/sword/sabre/ancient
 	name = "ancient khopesh"
 	desc = "A polished hook-sword, forged from gilbranze. The Comet Syon's glare once graced this blade; now, it's wielded by those who can't even \
 	remember what came before His sacrifice."
@@ -1435,7 +1435,7 @@
 			if("onbelt") return list("shrink" = 0.4, "sx" = -4, "sy" = -6, "nx" = 5, "ny" = -6, "wx" = 0, "wy" = -6, "ex" = -1, "ey" = -6, "nturn" = 100, "sturn" = 156, "wturn" = 90, "eturn" = 180, "nflip" = 0, "sflip" = 0, "wflip" = 0, "eflip" = 0, "northabove" = 0, "southabove" = 1, "eastabove" = 1, "westabove" = 0)
 			if("altgrip") return list("shrink" = 0.6,"sx" = 2,"sy" = 3,"nx" = -7,"ny" = 1,"wx" = -8,"wy" = 0,"ex" = 8,"ey" = -1,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = -135,"sturn" = -35,"wturn" = 45,"eturn" = 145,"nflip" = 8,"sflip" = 8,"wflip" = 1,"eflip" = 0)
 
-/obj/item/rogueweapon/sword/long/palloy //no decrepit version, this is a recent artifice found only on unbounds/lich spellblades.
+/obj/item/rogueweapon/sword/long/ancient //no decrepit version, this is a recent artifice found only on unbounds/lich spellblades.
 	name = "ancient longsword"
 	desc = "A lethal and perfectly balanced weapon. An artificed recreation of the traditional blades of this era created with \
 	reborn purpose; this blade of polished Gilbranze stands as a reborn testament of Progress against the rot that would claim the old, \
