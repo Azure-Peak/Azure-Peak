@@ -1,7 +1,7 @@
 /mob/living/carbon/human/proc/on_examine_face(mob/living/carbon/human/user)
 	if(!istype(user))
 		return
-	if(user.mind)
+	if(user.mind && src.client)
 		user.mind.i_know_person(src)
 	if(user.has_flaw(/datum/charflaw/paranoid))	//The weak should fear the strong..
 		if((STASTR - user.STASTR) > 1 && !has_flaw(/datum/charflaw/paranoid))
