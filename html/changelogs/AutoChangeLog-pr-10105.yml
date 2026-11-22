@@ -1,6 +1,0 @@
-author: "borneblood"
-delete-after: True
-changes:
-  - bugfix: "Fixed an oversight with Dual Wielder where Unarmed people were ignoring the -5% penalty."
-  - bugfix: "Fixed an oversight where Flurry of Blows could keep firing even though we were no longer adjacent to the target."
-  - code_imp: "Shaved and re-blocked the procs for Dual Wielder's validation."
