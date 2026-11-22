@@ -51,8 +51,13 @@
 		E = new()
 		E.region_id = estate_region_pref(H, C)
 		estates[H] = E
+	var/was_ranked = E.rank > NOBLE_RANK_NONE
 	E.rank = max(E.rank, rank)
 	E.pay_rank = max(E.pay_rank, pay_rank)
+	if(!was_ranked && E.rank > NOBLE_RANK_NONE)
+		var/datum/economic_region/region = E.get_region()
+		if(region)
+			record_featured_object_stat(FEATURED_STATS_ESTATES, region.name)
 	if(ishuman(H))
 		var/mob/living/carbon/human/human = H
 		human.noble_rank = E.rank
