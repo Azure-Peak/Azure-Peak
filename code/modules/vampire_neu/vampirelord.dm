@@ -277,7 +277,7 @@
 	add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = GLOW_COLOR_VAMPIRIC, "alpha" = 180, "size" = 1)) //AURAFARMING BUFF
 
 /obj/item/clothing/head/roguetown/vampire/get_examine_highlight_status()
-	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_VERYODD, HERESYDESC_VAMPIRE_CROWN)
+	return (..() || list(EXAMINEHIGHLIGHT_HERESYSEVERITY_VERYODD, HERESYDESC_VAMPIRE_CROWN))
 
 /obj/item/clothing/under/roguetown/tights/puritan/vampire
 	//intentionally no name, meant to be un-meta-able
@@ -307,7 +307,7 @@
 	add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = GLOW_COLOR_VAMPIRIC, "alpha" = 180, "size" = 1)) //Enchanted look.
 
 /obj/item/clothing/suit/roguetown/armor/chainmail/iron/vampire/get_examine_highlight_status() //best armor in the game, it shouldn't be worn lightly
-	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_VERYODD, HERESYDESC_VAMPIRE)
+	return (..() || list(EXAMINEHIGHLIGHT_HERESYSEVERITY_VERYODD, HERESYDESC_VAMPIRE))
 
 ////////VAMPYRELORD-EXCLUSIVE ARMORSET////////
 /obj/item/clothing/suit/roguetown/armor/plate/vampire
@@ -334,7 +334,7 @@
 	add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = GLOW_COLOR_VAMPIRIC, "alpha" = 180, "size" = 1)) //Enchanted look.
 
 /obj/item/clothing/suit/roguetown/armor/plate/vampire/get_examine_highlight_status() //best armor in the game, it shouldn't be worn lightly
-	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_VERYODD, HERESYDESC_VAMPIRE)
+	return (..() || list(EXAMINEHIGHLIGHT_HERESYSEVERITY_VERYODD, HERESYDESC_VAMPIRE))
 
 /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/paalloy/vampire
 	name = "ancient ceremonial vestments"
@@ -353,7 +353,7 @@
 	add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = GLOW_COLOR_VAMPIRIC, "alpha" = 180, "size" = 1)) //Enchanted look.
 
 /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/paalloy/vampire/get_examine_highlight_status() //best armor in the game, it shouldn't be worn lightly
-	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_VERYODD, HERESYDESC_VAMPIRE)
+	return (..() || list(EXAMINEHIGHLIGHT_HERESYSEVERITY_VERYODD, HERESYDESC_VAMPIRE))
 
 /obj/item/clothing/under/roguetown/platelegs/vampire
 	name = "ancient ceremonial plate greaves"
@@ -376,7 +376,7 @@
 	add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = GLOW_COLOR_VAMPIRIC, "alpha" = 180, "size" = 1)) //Enchanted look.
 
 /obj/item/clothing/under/roguetown/platelegs/vampire/get_examine_highlight_status() //best armor in the game, it shouldn't be worn lightly
-	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_VERYODD, HERESYDESC_VAMPIRE)
+	return (..() || list(EXAMINEHIGHLIGHT_HERESYSEVERITY_VERYODD, HERESYDESC_VAMPIRE))
 
 /obj/item/clothing/shoes/roguetown/boots/armor/vampire
 	name = "ancient ceremonial sabatons"
@@ -398,7 +398,7 @@
 	add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = GLOW_COLOR_VAMPIRIC, "alpha" = 180, "size" = 1)) //Enchanted look.
 
 /obj/item/clothing/shoes/roguetown/boots/armor/vampire/get_examine_highlight_status() //best armor in the game, it shouldn't be worn lightly
-	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_VERYODD, HERESYDESC_VAMPIRE)
+	return (..() || list(EXAMINEHIGHLIGHT_HERESYSEVERITY_VERYODD, HERESYDESC_VAMPIRE))
 
 /obj/item/clothing/gloves/roguetown/chain/vampire
 	name = "ancient ceremonial gauntlets"
@@ -418,7 +418,7 @@
 	add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = GLOW_COLOR_VAMPIRIC, "alpha" = 180, "size" = 1)) //Enchanted look.
 
 /obj/item/clothing/gloves/roguetown/chain/vampire/get_examine_highlight_status() //best armor in the game, it shouldn't be worn lightly
-	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_VERYODD, HERESYDESC_VAMPIRE)
+	return (..() || list(EXAMINEHIGHLIGHT_HERESYSEVERITY_VERYODD, HERESYDESC_VAMPIRE))
 
 /obj/item/clothing/wrists/roguetown/bracers/paalloy/vampire
 	name = "ancient ceremonial bracers"
@@ -435,7 +435,7 @@
 	add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = GLOW_COLOR_VAMPIRIC, "alpha" = 180, "size" = 1)) //Enchanted look.
 
 /obj/item/clothing/wrists/roguetown/bracers/paalloy/vampire/get_examine_highlight_status() //best armor in the game, it shouldn't be worn lightly
-	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_VERYODD, HERESYDESC_VAMPIRE)
+	return (..() || list(EXAMINEHIGHLIGHT_HERESYSEVERITY_VERYODD, HERESYDESC_VAMPIRE))
 
 /obj/item/clothing/neck/roguetown/gorget/paalloy/vampire
 	name = "ancient ceremonial gorget"
@@ -452,7 +452,7 @@
 	add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = GLOW_COLOR_VAMPIRIC, "alpha" = 180, "size" = 1)) //Enchanted look.
 
 /obj/item/clothing/neck/roguetown/gorget/paalloy/vampire/get_examine_highlight_status() //best armor in the game, it shouldn't be worn lightly
-	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_VERYODD, HERESYDESC_VAMPIRE)
+	return (..() || list(EXAMINEHIGHLIGHT_HERESYSEVERITY_VERYODD, HERESYDESC_VAMPIRE))
 
 /obj/item/clothing/head/roguetown/helmet/heavy/vampire
 	name = "ancient ceremonial sayovard"
@@ -474,7 +474,7 @@
 	add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = GLOW_COLOR_VAMPIRIC, "alpha" = 180, "size" = 1)) //Enchanted look.
 
 /obj/item/clothing/head/roguetown/helmet/heavy/vampire/get_examine_highlight_status() //best armor in the game, it shouldn't be worn lightly
-	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_VERYODD, HERESYDESC_VAMPIRE)
+	return (..() || list(EXAMINEHIGHLIGHT_HERESYSEVERITY_VERYODD, HERESYDESC_VAMPIRE))
 
 /obj/item/clothing/head/roguetown/helmet/heavy/vampire/equipped(mob/living/user, slot)
 	. = ..()

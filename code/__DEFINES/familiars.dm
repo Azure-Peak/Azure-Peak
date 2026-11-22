@@ -109,3 +109,5 @@ GLOBAL_LIST_INIT(planar_lists, list(
 ))
 
 GLOBAL_LIST_INIT(familiar_advertised, list())
+
+#define NONCON_POSSESS_TIMELIMIT 15 // in minutes. doesn't apply if the person allows the possession, for longer arrangements

@@ -63,12 +63,12 @@
 
 /obj/item/rogueweapon/scabbard/get_examine_highlight_status()
 	if(hides_weapon)
-		return null
+		return ..()
 	// If we have a weapon holstered, return the status of the weapon instead
 	var/obj/item/sheathed_weapon = hol_comp?.sheathed
 	var/list/highlight_status = sheathed_weapon?.get_examine_highlight_status()
 	if(!sheathed_weapon || !highlight_status)
-		return null
+		return ..()
 	// Change the wording of the status a bit to specify that it's the sheathed weapon being highlighted!
 	var/sheathed_desc = highlight_status[2]
 	sheathed_desc = "It holds \a [sheathed_weapon.name]: [sheathed_desc]"

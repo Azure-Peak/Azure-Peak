@@ -428,6 +428,7 @@ GLOBAL_LIST_INIT(t4rune_types, generate_t4rune_types())
 	if(isarcyne(user))
 		. += span_info("Use the rune to select a rite. Some rites require the circle to be near a leyline.")
 		. += span_info("For rites that summon a familiar, left-click the circle with an empty hand afterwards to attempt to draw in a player to control it.")
+		. += span_info("The player that clicks the circle will be considered the familiar's owner. They do not have to be a mage, and it does not have to be you.")
 		. += span_info("If you need to cancel a binding attempt, right-click the circle to delete the mob and refund the costs.")
 
 /obj/effect/decal/cleanable/roguerune/arcyne/binding/attack_hand(mob/living/user)
@@ -517,7 +518,7 @@ GLOBAL_LIST_INIT(t4rune_types, generate_t4rune_types())
 			fam.voice_color = prefs.familiar_voice_colors[plane]
 			fam.gender = FEMALE // allows them to wear clothing, needed because of legacy code. i hate - whatever
 			src.visible_message(span_notice("[fam.summoning_emote]"))
-
+			prefs.prefs.apply_descriptors(fam) // stopgap
 			if(isnewplayer(chosen))
 				var/mob/dead/new_player/new_chosen = chosen
 				new_chosen.close_spawn_windows()
@@ -547,14 +548,14 @@ GLOBAL_LIST_INIT(t4rune_types, generate_t4rune_types())
 			fam.cmode = FALSE
 			fam.mind.i_know_person(user)
 			user.mind.i_know_person(fam)
-			fam.STASPD = min(user.STASPD + (fam.planar_origin=="fae" ? 3 : 0), 20) // so they can always keep up with their summoner
+			fam.STASPD = min(user.STASPD, 20) // so they can always keep up with their summoner
 			var/faction_to_add = "[user.mind.current.real_name]_faction"
 			fam.faction |= faction_to_add
 			var/tutorial = null
 			if(istype(fam,/mob/living/carbon/human/species/familiar/fae))
 				tutorial = "You are a familiar: a lesser being drawn from the outer planes. The faewyld is a primal place, and those that grow beyond their station are often pruned... for those of little power like yourself, the mortal realm is a safer place to grow. Serve your summoner, learn from this realm, and return stronger."
 			else if(istype(fam,/mob/living/carbon/human/species/familiar/infernal))
-				tutorial = "You are a familiar: a lesser being drawn from the outer planes. The hells are a brutal place, and those with ambition beyond their ability are often culled... for those of little power like yourself, the mortal realm is a safer place to refuel. Serve your summoner, learn from this realm, and return stronger."
+				tutorial = "You are a familiar: a lesser being drawn from the outer planes. The hells are a brutal place, and those with ambition beyond their ability are often culled... for those of little power like yourself, the mortal realm is a safer place to refuel. Serve your summoner, learn from this realm, and return stronger... or at least, let them think that is your intent. In truth, you are a being of malevolence, and once you gain sufficient power to control them, you are under no obligation to refrain from acting on your malice." // t2 infernals can possess and act against their summoner. daemonbinding is, as it turns out, a bad idea!
 			else if(istype(fam,/mob/living/carbon/human/species/familiar/elemental))
 				tutorial = "You are a familiar: a lesser being drawn from the outer planes. The depths are an unchanging place, and pebbles that stick up are eroded down... for those of little power like yourself, the mortal realm is a safer place to accumulate. Serve your summoner, learn from this realm, and return stronger."
 			else

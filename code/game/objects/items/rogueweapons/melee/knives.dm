@@ -589,7 +589,7 @@
 	AddComponent(/datum/component/cursed_item, TRAIT_CABAL, "DAGGER")
 
 /obj/item/rogueweapon/huntingknife/idagger/steel/zizo/get_examine_highlight_status()
-	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_ZIZO_WEAPON)
+	return (..() || list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_ZIZO_WEAPON))
 
 /obj/item/rogueweapon/huntingknife/combat/graggar
 	name = "vicious seax"
@@ -607,7 +607,7 @@
 	AddComponent(/datum/component/cursed_item, TRAIT_HORDE, "DAGGER")
 
 /obj/item/rogueweapon/huntingknife/combat/graggar/get_examine_highlight_status()
-	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_GRAGGAR_WEAPON)
+	return (..() || list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_GRAGGAR_WEAPON))
 
 /obj/item/rogueweapon/huntingknife/idagger/steel/matthios
 	name = "gilded knife"
@@ -625,7 +625,7 @@
 	AddComponent(/datum/component/cursed_item, TRAIT_FREEMAN, "DAGGER")
 
 /obj/item/rogueweapon/huntingknife/idagger/steel/matthios/get_examine_highlight_status()
-	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_MATTHIOS_WEAPON)
+	return (..() || list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_MATTHIOS_WEAPON))
 
 /obj/item/rogueweapon/huntingknife/idagger/steel/baotha
 	name = "saccharine misericorde"
@@ -643,7 +643,7 @@
 	AddComponent(/datum/component/cursed_item, TRAIT_DEPRAVED, "DAGGER")
 
 /obj/item/rogueweapon/huntingknife/idagger/steel/baotha/get_examine_highlight_status()
-	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_BAOTHA_WEAPON)
+	return (..() || list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_BAOTHA_WEAPON))
 
 //
 
@@ -660,7 +660,7 @@
 	smeltresult = /obj/item/ingot/avantyne
 
 /obj/item/rogueweapon/huntingknife/idagger/avantyne/get_examine_highlight_status()
-	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_ZIZO_WEAPON)
+	return (..() || list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_ZIZO_WEAPON))
 
 /obj/item/rogueweapon/huntingknife/idagger/steel/holysee
 	name = "eclipsum dagger"

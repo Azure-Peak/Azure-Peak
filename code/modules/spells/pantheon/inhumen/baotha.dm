@@ -173,7 +173,7 @@
 
 /obj/item/clothing/ring/griefflower/get_examine_highlight_status()
 	// The rosa ring is supposed to be 'discrete', so it doesn't look heretical to a casual observer.
-	return null
+	return ..()
 
 // T1 - polls the caster's mood and vice satiety before giving a buff. as you can tell by the typepath i had an entiurely different idea for this ubt whatever
 /obj/effect/proc_holder/spell/invoked/heart_on_sleeve

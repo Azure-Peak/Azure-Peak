@@ -1179,7 +1179,7 @@
 	bloody_icon = 'icons/effects/blood64.dmi'
 
 /obj/item/clothing/head/roguetown/helmet/heavy/barbute/avantyne/get_examine_highlight_status()
-	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_ZIZO_ARMOR)
+	return (..() || list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_ZIZO_ARMOR))
 
 /obj/item/clothing/head/roguetown/roguehood/shadedhat
 	name = "shaded hat"
@@ -2340,13 +2340,13 @@ As Excaliber."
 	bloody_icon = 'icons/effects/blood64.dmi'
 
 /obj/item/clothing/head/roguetown/helmet/bascinet/pigface/hounskull/dakken/get_examine_highlight_status()
-	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_ZIZO_AVANTYNE)
+	return (..() || list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_ZIZO_AVANTYNE))
 
 /obj/item/clothing/head/roguetown/helmet/heavy/knight/armet/dakken/get_examine_highlight_status()
-	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_ZIZO_AVANTYNE)
+	return (..() || list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_ZIZO_AVANTYNE))
 
 /obj/item/clothing/head/roguetown/helmet/heavy/barbute/visor/dakken/get_examine_highlight_status()
-	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_ZIZO_AVANTYNE)
+	return (..() || list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_ZIZO_AVANTYNE))
 
 /obj/item/rogueweapon/sword/dakken_sword
 	name = "avantyne-threaded sword"
@@ -2356,7 +2356,7 @@ As Excaliber."
 	sheathe_icon = "alloybsword"
 
 /obj/item/rogueweapon/sword/dakken_sword/get_examine_highlight_status()
-	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_ZIZO_AVANTYNE)
+	return (..() || list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_ZIZO_AVANTYNE))
 
 /obj/item/rogueweapon/sword/long/dakken_longsword
 	name = "avantyne-threaded longsword"
@@ -2366,7 +2366,7 @@ As Excaliber."
 	sheathe_icon = "alloybsword"
 
 /obj/item/rogueweapon/sword/long/dakken_longsword/get_examine_highlight_status()
-	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_ZIZO_AVANTYNE)
+	return (..() || list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_ZIZO_AVANTYNE))
 
 /obj/item/rogueweapon/spear/boar/frei/pike/stinketh
 	name = "Kindness of Ravens Standard"
@@ -3085,7 +3085,7 @@ As Excaliber."
 	swingsound = BLADEWOOSH_HUGE
 
 /obj/item/rogueweapon/sword/long/aticius/get_examine_highlight_status()
-	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ODD, HERESYDESC_GILBRANZE_ARTIFICE)
+	return (..() || list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ODD, HERESYDESC_GILBRANZE_ARTIFICE))
 
 // OCTUS
 /obj/item/rogueweapon/greatsword/falling_star

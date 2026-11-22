@@ -50,7 +50,7 @@
 		if(is_gronn_amulet(mimic_type))
 			return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ODD, HERESYDESC_GRONN)
 		// If it isn't disguised as anything heretical, present it as the "totally innocent" amulet it pretends to be
-		return null
+		return ..()
 
 
 /obj/item/clothing/neck/roguetown/psicross/hag/attack_self(mob/user)

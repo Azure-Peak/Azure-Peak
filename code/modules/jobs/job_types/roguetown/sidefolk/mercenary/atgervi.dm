@@ -279,7 +279,7 @@
 	icon_state = "gronnzizo"
 
 /obj/item/clothing/neck/roguetown/psicross/inhumen/gronn/get_examine_highlight_status()
-	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ODD, HERESYDESC_GRONN)
+	return (..() || list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ODD, HERESYDESC_GRONN))
 
 /obj/item/clothing/neck/roguetown/psicross/inhumen/baothagronn
 	name = "relishing talisman" //relishing talisma
@@ -287,7 +287,7 @@
 	icon_state = "gronnbaotha"
 
 /obj/item/clothing/neck/roguetown/psicross/inhumen/baothagronn/get_examine_highlight_status()
-	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ODD, HERESYDESC_GRONN)
+	return (..() || list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ODD, HERESYDESC_GRONN))
 
 /obj/item/clothing/neck/roguetown/psicross/inhumen/matthios/gronn
 	name = "starving talisman" //starving talisman
@@ -295,7 +295,7 @@
 	icon_state = "gronnmatthios"
 
 /obj/item/clothing/neck/roguetown/psicross/inhumen/matthios/gronn/get_examine_highlight_status()
-	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ODD, HERESYDESC_GRONN)
+	return (..() || list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ODD, HERESYDESC_GRONN))
 
 /obj/item/clothing/neck/roguetown/psicross/inhumen/graggar/gronn
 	name = "grinning talisman" //grinning talisman
@@ -303,7 +303,7 @@
 	icon_state = "gronngraggar"
 
 /obj/item/clothing/neck/roguetown/psicross/inhumen/graggar/gronn/get_examine_highlight_status()
-	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ODD, HERESYDESC_GRONN)
+	return (..() || list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ODD, HERESYDESC_GRONN))
 
 /obj/item/clothing/neck/roguetown/psicross/dendor/gronn
 	name = "volfskinned talisman" //volfskinned talisman
@@ -311,7 +311,7 @@
 	icon_state = "gronndendor"
 
 /obj/item/clothing/neck/roguetown/psicross/dendor/gronn/get_examine_highlight_status()
-	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ODD, HERESYDESC_GRONN)
+	return (..() || list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ODD, HERESYDESC_GRONN))
 
 /obj/item/clothing/neck/roguetown/psicross/abyssor/gronn
 	name = "hadal talisman" //hadal talisman
@@ -319,14 +319,14 @@
 	icon_state = "gronnabyssor"
 
 /obj/item/clothing/neck/roguetown/psicross/abyssor/gronn/get_examine_highlight_status()
-	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ODD, HERESYDESC_GRONN)
+	return (..() || list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ODD, HERESYDESC_GRONN))
 
 /obj/item/clothing/neck/roguetown/psicross/inhumen/gronn/special
 	name = "familial talisman" //familial talisman
 	desc = "'The memories of the past, and the dreams of the future. A fetish of a beaste, and the carvings of a force that no one beyond your homeland could understand. Sail gracefully, countryman.'"
 
 /obj/item/clothing/neck/roguetown/psicross/abyssor/gronn/get_examine_highlight_status()
-	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ODD, HERESYDESC_GRONN)
+	return (..() || list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ODD, HERESYDESC_GRONN))
 
 /// Generic version of the matthios gronn necklace that has no examine highlights. Purely for loadout drip
 /obj/item/clothing/neck/roguetown/psicross/inhumen/matthios/gronn/generic
@@ -334,6 +334,6 @@
 	desc = "A necklace with a large fanged tooth. Or is that a particularly large claw?"
 
 /obj/item/clothing/neck/roguetown/psicross/inhumen/matthios/gronn/generic/get_examine_highlight_status()
-	return null
+	return (..() || null)
 
 //

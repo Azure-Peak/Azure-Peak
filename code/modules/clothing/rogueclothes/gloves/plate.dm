@@ -68,7 +68,7 @@
 	AddComponent(/datum/component/cursed_item, TRAIT_HORDE, "ARMOR", "RENDERED ASUNDER")
 
 /obj/item/clothing/gloves/roguetown/plate/graggar/get_examine_highlight_status()
-	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_GRAGGAR_ARMOR)
+	return (..() || list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_GRAGGAR_ARMOR))
 
 /obj/item/clothing/gloves/roguetown/plate/graggar/heavy
 	name = "vicious plated gauntlets"
@@ -99,7 +99,7 @@
 	ADD_TRAIT(src, TRAIT_NODROP, CURSED_ITEM_TRAIT)
 
 /obj/item/clothing/gloves/roguetown/plate/matthios/get_examine_highlight_status()
-	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_MATTHIOS_ARMOR)
+	return (..() || list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_MATTHIOS_ARMOR))
 
 /obj/item/clothing/gloves/roguetown/plate/matthios/dropped(mob/living/carbon/human/user)
 	. = ..()
@@ -129,7 +129,7 @@
 	qdel(src)
 
 /obj/item/clothing/gloves/roguetown/plate/baotha/get_examine_highlight_status()
-	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_BAOTHA_ARMOR)
+	return (..() || list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_BAOTHA_ARMOR))
 
 /obj/item/clothing/gloves/roguetown/plate/zizo
 	name = "avantyne gauntlets"
@@ -148,7 +148,7 @@
 	AddComponent(/datum/component/cursed_item, TRAIT_CABAL, "ARMOR")
 
 /obj/item/clothing/gloves/roguetown/plate/zizo/get_examine_highlight_status()
-	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_ZIZO_ARMOR)
+	return (..() || list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_ZIZO_ARMOR))
 
 /obj/item/clothing/gloves/roguetown/plate/zizo/dropped(mob/living/carbon/human/user)
 	return ..()
@@ -179,7 +179,7 @@
 	body_parts_covered = HANDS|ARMS
 
 /obj/item/clothing/gloves/roguetown/plate/avantyne/get_examine_highlight_status()
-	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_ZIZO_ARMOR)
+	return (..() || list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_ZIZO_ARMOR))
 
 /obj/item/clothing/gloves/roguetown/plate/shadowgauntlets
 	name = "darkplate gauntlets"

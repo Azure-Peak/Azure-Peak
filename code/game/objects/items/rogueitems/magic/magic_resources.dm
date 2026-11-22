@@ -182,5 +182,41 @@
 	desc = "A mystical essence imbued with the power of Dendor. Merely holding it transports one's mind to ancient times."
 	tier = 4
 
+// now this might look like a lot. however, these items all come at a cost, namely an antagonistic force is possessing them and will possess YOU if you use them
+// so it's really not all that insane considering; more of an enabler for cursed object stories than a meta thing
+/obj/item/cursed_item_spawner
+	name = "shimmering relic"
+	desc = "A strange item whose form cannot quite be discerned. It pulses with an ominous power, as if inviting you to pick it up and claim its power for your own."
+	icon = 'icons/roguetown/items/magic_resources.dmi'
+	icon_state = "abberant"
+	resistance_flags = FIRE_PROOF
+	w_class = WEIGHT_CLASS_TINY
+	grid_width = 32
+	grid_height = 32
+	var/static/list/transformation_options = list( // a few notably good/popular weapons, a staff, non-secret stat ring, or chest armor for each of the 3 armor classes
+		/obj/item/rogueweapon/sword/long,
+		/obj/item/rogueweapon/sword/rapier,
+		/obj/item/rogueweapon/sword/sabre,
+		/obj/item/rogueweapon/halberd,
+		/obj/item/rogueweapon/woodstaff/implement/grand,
+		/obj/item/clothing/ring/statamythortz,
+		/obj/item/clothing/ring/statgemerald,
+		/obj/item/clothing/ring/statonyx,
+		/obj/item/clothing/ring/statrontz,
+		/obj/item/clothing/suit/roguetown/armor/plate/full/fluted,
+		/obj/item/clothing/suit/roguetown/armor/plate/cuirass/fluted,
+		/obj/item/clothing/suit/roguetown/armor/plate/cuirass/fencer,
+	)
+	examine_highlight_severity = EXAMINEHIGHLIGHT_HERESYSEVERITY_ODD
+	examine_highlight_desc = "It beckons with a strange malice, inspiring a palpable feeling of unease."
+
+/obj/item/cursed_item_spawner/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Use this item in your hand to select what form the relic will take. From stat rings to weapons and armor, it can be quite a boon.")
+	. += span_info("However, such power comes at a price. Something malevolent dwells within that may threaten to overtake you.")
+
+/obj/item/cursed_item_spawner/attack_self(mob/user)
+	. = ..() // todo
+
 #undef LEYLINE_SELLPRICE
 #undef VOIDSTONE_SELLPRICE

@@ -23,7 +23,7 @@
 	)
 	valid_healing_items = list(/obj/item/magic/fae)
 	planar_origin = "fae"
-	STASPD = 12
+	STACON = 1 // annoying flying fucks
 	voiceclips = list("plantcross")
 
 /datum/species/familiar/fae
@@ -50,12 +50,41 @@
 		TRAIT_UNLYCKERABLE,
 		TRAIT_ZOMBIE_IMMUNE,
 		TRAIT_UNCONVERTIBLE,
-		TRAIT_NONAMESTEAL
+		TRAIT_NONAMESTEAL,
+		TRAIT_IRON_WEAK, // iron makes them uncomfy and iron weapons hurt more
+		TRAIT_LESSER_FAE // iron can shackle them, plus some more specific restrictions (leeches/rocks/sack shenanigan prevention)
 	)
 	origin = "The Faewyld"
 	origin_default = /datum/virtue/origin/unselectable/fae
 	species_traits = list(NO_UNDERWEAR, NO_ORGAN_FEATURES, NO_BODYPART_FEATURES, NOSTOMACH)
 	blood_color = "#a3ffba" // it's not blood it's plant juice or w/e
+
+/datum/species/familiar/fae/on_species_gain(mob/living/carbon/C, datum/species/old_species, datum/preferences/pref_load)
+	RegisterSignal(C, COMSIG_ITEM_ATTACKED_SUCCESS, PROC_REF(handle_iron_weakness))
+
+/datum/species/familiar/fae/on_species_loss(mob/living/carbon/human/C, datum/species/new_species, pref_load)
+	UnregisterSignal(C, COMSIG_ITEM_ATTACKED_SUCCESS)
+
+/datum/species/familiar/fae/proc/handle_iron_weakness(mob/living/carbon/human/hit, obj/item/with, mob/by)
+	if(!ishuman(hit) || !with.is_iron())
+		return
+	hit.apply_status_effect(/datum/status_effect/debuff/iron_weakness)
+
+/datum/species/familiar/fae/bullet_act(obj/projectile/P, mob/living/carbon/human/H, def_zone)
+	var/static/list/iron_ammo_types = list(
+		/obj/item/ammo_casing/caseless/rogue/arrow/iron,
+		/obj/item/ammo_casing/caseless/rogue/bolt,
+		/obj/item/ammo_casing/caseless/rogue/bolt/light,
+		/obj/item/ammo_casing/caseless/rogue/bolt/blunt,
+		/obj/item/ammo_casing/caseless/rogue/heavy_bolt/blunt
+	)
+	if(..())
+		return 1
+	if(!istype(P, /obj/projectile/bullet/reusable))
+		return
+	var/obj/projectile/bullet/reusable/B = P
+	if(B.ammo_type in iron_ammo_types)
+		H.apply_status_effect(/datum/status_effect/debuff/iron_weakness)
 
 /mob/living/carbon/human/species/familiar/fae/Initialize(mapload)
 	. = ..()
@@ -268,3 +297,30 @@
 	icon_state = "whisper"
 	speak_emote = list("mutters", "speaks softly")
 	voiceclips = list() // i have no ideas
+
+/datum/status_effect/debuff/iron_weakness
+	id = "iron_weakness"
+	alert_type = /atom/movable/screen/alert/status_effect/debuff/iron_weakness
+	effectedstats = list(STATKEY_SPD = -5) // oof
+	duration = 30 SECONDS
+
+/datum/status_effect/debuff/iron_weakness/on_apply()
+	. = ..()
+	owner.movement_type = GROUND // no flight for youuu
+	ADD_TRAIT(owner, TRAIT_SPELLCOCKBLOCK, TRAIT_GENERIC)
+
+/datum/status_effect/debuff/iron_weakness/on_remove()
+	. = ..()
+	var/still_has_iron = FALSE
+	for(var/obj/item/I in owner.contents)
+		if(I.is_iron())
+			still_has_iron = TRUE
+			break
+	owner.movement_type = initial(owner.movement_type)
+	REMOVE_TRAIT(owner, TRAIT_SPELLCOCKBLOCK, TRAIT_GENERIC)
+	if(still_has_iron)
+		owner.apply_status_effect(/datum/status_effect/debuff/iron_weakness) // it shouldn't go away if you're still ironclad
+
+/atom/movable/screen/alert/status_effect/debuff/iron_weakness
+	name = "Iron Weakness"
+	desc = "Curse this damnable metal! It weighs upon me heavily, and renders my magic useless to boot!"

@@ -847,6 +847,7 @@
 #include "code\datums\components\obsession.dm"
 #include "code\datums\components\orbiter.dm"
 #include "code\datums\components\pollutant.dm"
+#include "code\datums\components\possessed_item.dm"
 #include "code\datums\components\psyblessed.dm"
 #include "code\datums\components\punchcooldown.dm"
 #include "code\datums\components\riding.dm"

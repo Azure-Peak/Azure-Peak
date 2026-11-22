@@ -75,7 +75,7 @@
 	qdel(src)
 
 /obj/item/clothing/under/roguetown/skirt/baotha/get_examine_highlight_status()
-	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_BAOTHA_ARMOR)
+	return (..() || list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_BAOTHA_ARMOR))
 
 /obj/item/clothing/under/roguetown/skirt/courtphysician
 	name = "sanguine skirt"

@@ -1,4 +1,3 @@
-
 // this makes you kinda valid because it's, you know a demon, so it gets to be a bit stronger. cuddle the campfire dog
 /mob/living/carbon/human/species/familiar/infernal
 	name = "Hellhound"
@@ -9,12 +8,11 @@
 	speak_emote = list("growls","crackles")
 	tutorial_message = span_notice("As a weaker denizen of the hells, your fire is tame enough to act as a campfire: you can be cooked on, or rested near to aid in recuperation. You also shine with a small amount of light, and flames will not harm you.")
 	tierup_messages = list(
-		span_info("You can now breathe flame, conjuring a line of hellfire in front of you."),
-		span_info("As your flame grows, you can manifest it more violently, surging around you to burn anything unfortunate enough to be nearby.")
+		span_info("You can now possess weapons and clothing (including armor), granting cosmetic reskins to swords and chest-armor. Being worn as armor confers fire resistance to your bearer; being wielded as a weapon confers a minor lyfe-drain effect. While possessing equipment, you can silently whisper into your wielder's/wearer's mind. You can also possess the one who holds/wears you, if they allow it."),
+		span_info("You are now strong enough to wrest control from those who would harness you, so long as they give in to the power you offer. While you possess a blade, a single strike using you is enough to grant you a foothold; while possessing armor, any strike you block will be sufficient. Once you meet the conditions, you can possess your wielder involuntarily, though there is a time limit if they resist you. While possessing someone, you now distance yourself from them enough to feel no pain. If you are removed from your wielder physically, your possession will falter.")
 	)
-	inherent_spell = list(/obj/effect/proc_holder/spell/invoked/incendiary_bite, /datum/action/cooldown/spell/earthen_forge/infernal)
-	t1_spell = list(/datum/action/cooldown/spell/matthios/raze/infernal)
-	t2_spell = list(/obj/effect/proc_holder/spell/self/infernal_surge)
+	inherent_spell = list(/obj/effect/proc_holder/spell/invoked/incendiary_bite)
+	t1_spell = list(/datum/action/cooldown/spell/infernal_possession) // their t2 ability is actually just an upgrade to their verb
 	var/healing_range = 1
 	var/static/list/acceptable_beds = list(/obj/structure/bed, /obj/structure/flora/roguetree/stump, /obj/item/bedsheet)
 	valid_healing_items = list(/obj/item/magic/infernal)

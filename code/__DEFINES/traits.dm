@@ -449,6 +449,8 @@
 #define TRAIT_WHITE_STAG "Stag Protection"
 #define TRAIT_EDIT_DESCRIPTORS "Edit Descriptors"
 #define TRAIT_NIGHT_OWL_LESSER "Nocturnal" // inverted sleepcycle but no moodbuff
+#define TRAIT_IRON_WEAK "Iron Weakness" // iron items are uncomfy, and deal increased force to you
+#define TRAIT_LESSER_FAE "Lesser Fae" // for fae familiars. harsher ironweakness, some cheese prevention
 
 //Ecom Related traits
 #define TRAIT_DEBTOR "Default Debtor"
@@ -799,6 +801,8 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_FEYBOUND = span_info("I've been influenced or created by fey, after offering lux to a heartroot, I can use it to travel. I can gain the bog's blessing if I use pure lux instead."),
 	TRAIT_ROOT_WALKER = span_info("After offering lux, I can now travel along heartroot trees."),
 	TRAIT_FEYTOUCHED = span_info("I've been influenced or created by fey, I can recognize others of my kind and the ancients will know who I am."),
+	TRAIT_IRON_WEAK = span_info("Iron is my bane. Weapons forged of it will harm me more, and just holding it is rather uncomfortable."),
+	TRAIT_LESSER_FAE = span_info("I am a particularly weak faerie. Iron's effects on me are cruel and harsh; an iron shackle would be the end of my freedom."),
 	TRAIT_WHITE_STAG = span_info("The power of the white stag lives on inside of me!"),
 	TRAIT_EDIT_DESCRIPTORS = span_info("I can change my appearance at a magic mirror in a thorough manner."),
 	TRAIT_DUSTRUNNER = span_info("I run dust for the Thieves' Guild. Those in the trade know how to spot one of their own."),
@@ -1011,6 +1015,7 @@ Remember to update _globalvars/traits.dm if you're adding/removing/renaming trai
 #define TRAIT_GAZE "gaze"
 #define TRAIT_NECRACON "necracon"
 #define TRAIT_HAG_BOON ""
+#define TRAIT_POSSESSED_ITEM "possessed_item"
 #define TRAIT_ADMIN "admin"
 #define MERCILESS_ROUND "merciless_round"
 #define UNCONSCIOUS_BLIND "unconscious_blind"

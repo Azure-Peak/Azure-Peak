@@ -237,13 +237,21 @@
 	if(tier==1 && length(t1_spell))
 		for(var/path in t1_spell)
 			var/spell_instance = new path
-			if(spell_instance && src.mind)
-				src.mind.AddSpell(spell_instance)
-	if(tier==2 && length(t2_spell))
-		for(var/path in t2_spell)
-			var/spell_instance = new path
-			if(spell_instance && src.mind)
-				src.mind.AddSpell(spell_instance)
+			if(spell_instance && mind)
+				mind.AddSpell(spell_instance)
+	if(tier==2)
+		if(length(t2_spell))
+			for(var/path in t2_spell)
+				var/spell_instance = new path
+				if(spell_instance && mind)
+					mind.AddSpell(spell_instance)
+		if(mind && length(mind.spell_list))
+			for(var/datum/action/cooldown/spell/infernal_possession/possession_spell in mind.spell_list)
+				possession_spell.desc = possession_spell.t2_desc
+		if(istype(loc, /obj/item))
+			var/datum/component/possessed_item/curse = loc.GetComponent(/datum/component/possessed_item)
+			if(curse)
+				curse.powerful = TRUE
 	return
 
 /mob/living/carbon/human/species/familiar/proc/debug_force_tierup()

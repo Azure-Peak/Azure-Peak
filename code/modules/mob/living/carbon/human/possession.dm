@@ -4,14 +4,18 @@
 	set category = "RoleUnique.Displaced Soul"
 	release_vessel(FALSE)
 
+/// finds a displaced_soul corresponding to this vessel's initial inhabitant. if there is none (like if you call this on someone that's not possessed) it won't return anything
+/mob/living/carbon/human/proc/get_displaced_soul()
+	for(var/mob/dead/observer/eye/screye/displaced_soul/one_among_many in GLOB.displaced_souls)
+		if(one_among_many.vessel == src)
+			return one_among_many
+
 ///src is the vessel, currently-possessed, that we want to restore. given as a verb as a fallback for if spells or other options don't make sense
 /mob/living/carbon/human/proc/release_vessel(dying = FALSE)
 	if(!HAS_TRAIT(src, TRAIT_POSSESSED))
 		return // just to be safe against spamclicks and thelike
 	var/mob/dead/observer/eye/screye/displaced_soul/estranged_lux
-	for(var/mob/dead/observer/eye/screye/displaced_soul/one_among_many in GLOB.displaced_souls)
-		if(one_among_many.vessel == src)
-			estranged_lux = one_among_many
+	estranged_lux = get_displaced_soul()
 	if(!estranged_lux) // where's your soul, sire
 		return FALSE
 	var/mob/living/carbon/human/original = estranged_lux.possessor

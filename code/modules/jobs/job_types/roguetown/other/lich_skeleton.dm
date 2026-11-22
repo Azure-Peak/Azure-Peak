@@ -869,7 +869,7 @@ LICH SKELETONS
 	resistance_flags = FIRE_PROOF //All you get in exchange for herecy-marked gear
 
 /obj/item/clothing/suit/roguetown/armor/vestments_padded/lich/get_examine_highlight_status() //Literally worn by oath-sworn enemies to the Ten and Psydon, there's no subtle-part about this.
-	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_ZIZO_CLOTHING)
+	return (..() || list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_ZIZO_CLOTHING))
 
 //Do not make this craftable, please. Role Specific. ^
 
@@ -897,7 +897,7 @@ LICH SKELETONS
 	resistance_flags = FIRE_PROOF //All you get in exchange for herecy-marked gear
 
 /obj/item/clothing/head/roguetown/roguehood/lich_sectarian/get_examine_highlight_status() //Literally worn by oath-sworn enemies to the Ten and Psydon, there's no subtle-part about this.
-	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_ZIZO_CLOTHING)
+	return (..() || list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_ZIZO_CLOTHING))
 
 //Do not make this craftable, please. Role Specific. ^
 

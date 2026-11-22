@@ -1,3 +1,7 @@
+#define HERESYDESC_INFERNAL_PASSIVE "It radiates a strange malice."
+#define HERESYDESC_INFERNAL_PASSIVE_OBVIOUS "It shimmers with infernal flame!"
+#define HERESYDESC_INFERNAL_ACTIVE "Its hellish flames wreath its bearer... parting them will break the link!"
+
 /datum/action/cooldown/spell/message_familiar
 	name = "Message Familiar"
 	desc = "Whisper a message in your Familiar's head, or track their vestige if they lie slain."
@@ -306,29 +310,41 @@
 		return FALSE
 	target.fire_act(1,10) // shouldn't be oppressive by any means it's 1 stack every 10 seconds
 
-/datum/action/cooldown/spell/matthios/raze/infernal
-	name = "Hellfyre Wave"
-	desc = "Exhale a cone of hellfyre before you, scorching enemies and igniting the ground. These flames are also strong enough to turn unworthy corpses into ashes and dust."
-	fluff_desc = "The hellfyre is always within your lungs, for you have breathed it, lived in it. Exhaling that to profane this realm is no difficult task."
-	primary_resource_cost = 0
-	cooldown_time = 1 MINUTES
-	familiar = TRUE
-	required_items = null
+/datum/action/cooldown/spell/infernal_possession
+	name = "Infernal Possession"
+	desc = "Possess armor, a ring, an amulet, or a weapon; cast on yourself to turn into a potent—but obviously suspicious—staff and possess that instead. Resist to cancel the possession. Items you possess will be visibly odd. While possessing a wielded weapon or worn clothing/armor, whisper to speak directly into the mind of your bearer. Should they allow it, you can possess your bearer outright; you'll be able to use their skills, spells, and traits while you do, and the item housing you will become obviously suspicious. You're not required to listen to them while you're in control, but remember that outright crossing them will make it unlikely they'll allow you in again."
+	var/t2_desc = "Possess armor, a ring, an amulet, or a weapon; cast on yourself to turn into a potent—but obviously suspicious—staff and possess that instead. Resist to cancel the possession. Items you possess will be visibly odd. While possessing a wielded weapon or worn clothing/armor, whisper to speak directly into the mind of your bearer. Should they allow it, you can possess your bearer outright; you'll be able to use their skills, spells, and traits while you do, and the item housing you will become obviously suspicious. If they've used your power (hitting someone with you as a weapon, or blocking a hit with you as armor/clothing), you don't need their consent to possess them; however, if they resist, you will be on a time limit, after which you will be unable to possess them again for some time. Your malice grows strong, now; while listening to them may be wise, it is by no means mandatory."
+	button_icon = 'icons/mob/actions/actions_cult.dmi'
+	button_icon_state = "hand"
+	spell_color = GLOW_COLOR_VHESLYN
+	glow_intensity = GLOW_INTENSITY_LOW
+	cooldown_time = 10 MINUTES // once you're out, you're exposed for a good while. note that this cooldown starts once you LEAVE the form, not on possess
+	charge_required = FALSE
 
-/obj/effect/proc_holder/spell/self/infernal_surge
-	name = "Infernal Surge"
-	desc = "Let loose the flame of the hells in a small radius around you."
-	recharge_time = 15 SECONDS
-	overlay_icon = 'icons/mob/actions/mage_pyromancy.dmi'
-	overlay_icon_state = "fire_curtain"
-	chargetime = 1 SECONDS
-
-/obj/effect/proc_holder/spell/self/infernal_surge/cast(list/targets, mob/user)
+/datum/action/cooldown/spell/infernal_possession/cast(atom/cast_on)
 	. = ..()
-	var/turf/center = user.loc
-	for(var/turf/T in range(2, center))
-		new /obj/effect/hotspot(T, null, null, 10)
-		new /obj/effect/temp_visual/fire(T)
+	var/mob/living/carbon/human/species/familiar/H = owner
+	if(!istype(H))
+		return FALSE
+	var/obj/item/target = cast_on
+	var/staff = FALSE
+	if(cast_on == H && istype(H, /mob/living/carbon/human/species/familiar/infernal)) // cast on ourself: summon an infernal staff to possess
+		target = new /obj/item/rogueweapon/woodstaff/implement/greater/infernal(get_turf(H))
+		staff = TRUE
+	if(!target || !istype(target)) // we cast on nothing, or on something that isn't an item/ourselves. either way we can't move forward
+		return FALSE
+	// not a weapon, not an amulet/ring, and not armor
+	if(!istype(target, /obj/item/rogueweapon) && !istype(target, /obj/item/clothing/ring) && !istype(target, /obj/item/clothing/neck/roguetown/psicross) && !target.has_armor_value())
+		to_chat(H, span_warning("I can only possess weapons, armor, rings, and amulets."))
+		return FALSE
+	// it's that easy. all the logic for this is actually in the possessed item component
+	var/datum/component/possessed_item/P = target.AddComponent(/datum/component/possessed_item, H, GLOW_COLOR_VHESLYN, staff ? EXAMINEHIGHLIGHT_HERESYSEVERITY_SUSPICIOUS : EXAMINEHIGHLIGHT_HERESYSEVERITY_ODD, staff ? HERESYDESC_INFERNAL_PASSIVE_OBVIOUS : HERESYDESC_INFERNAL_PASSIVE, EXAMINEHIGHLIGHT_HERESYSEVERITY_SUSPICIOUS, HERESYDESC_INFERNAL_ACTIVE, H.tier >= 2, staff)
+	if(P)
+		RegisterSignal(P, COMSIG_QDELETING, PROC_REF(handle_cooldown))
+	return FALSE // we don't want the CD to start until we get in the item
+
+/datum/action/cooldown/spell/infernal_possession/proc/handle_cooldown()
+	StartCooldown(get_adjusted_cooldown())
 
 /datum/action/cooldown/spell/magicians_stone/elemental
 	name = "Create Stone"
@@ -342,7 +358,7 @@
 	gem_socketable = FALSE
 	implement_upgradable = FALSE
 
-/obj/item/rogueweapon/woodstaff/implement/greater/infernal
+/obj/item/rogueweapon/woodstaff/implement/greater/infernal // note that this is not marked as heretical here: it can only be summoned via the infernal possession spell, which adds a possessed item component to it - which marks it heretical. fancy that
 	name = "\improper Staff of the Daemonbinder"
 	base_implement_name = "\improper Infernal Staff" // "Infernal Staff of Flame" etc
 	desc = "A mage's staff that shimmers with eternal malice. It is perpetually warm to the touch; holding it inspires an urge to unleash one's most powerful magic. Merely a touch from it is enough to spark flame. It captures excess energy dissipated into the air when a spell is cast, giving a generous share of it back to the wielder."
@@ -366,9 +382,6 @@
 		A.fire_act(3,3)
 	user.flash_fullscreen("whiteflash")
 	to_chat(user, span_notice("\The [src] produces an igniting spark!"))
-
-/obj/item/rogueweapon/woodstaff/implement/greater/infernal/get_examine_highlight_status()
-	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_SUSPICIOUS, "It shimmers with abyssal flame!")
 
 /datum/action/cooldown/spell/earthen_forge
 	name = "Earthen Forge"
@@ -482,15 +495,6 @@
 		owner.status_flags &= ~GODMODE
 		owner.update_cone_show()
 		QDEL_NULL(conjured_item)
-
-/datum/action/cooldown/spell/earthen_forge/infernal
-	name = "Arcyne Attunement"
-	desc = "Lend your summoner the means to burn the world down, taking the form of a powerful staff that channels flame exquisitely."
-
-	conjure_options = list(
-		// Staff
-		"Infernal Staff" = /obj/item/rogueweapon/woodstaff/implement/greater/infernal,
-	)
 
 /obj/structure/arcyne_wall/greater/elemental
 	desc = "The mason did an excellent job etching details into this wall."
@@ -630,7 +634,8 @@
 		user.essences_consumed += essence_to_grant
 		user.grant_essence(essence_to_grant)
 		if(LAZYLEN(user.essences_consumed) == 3)
-			to_chat(user, span_notice("I have consumed the essences of the three planes. One dae, I will grow strong enough to consume yet greater beings, but for now, this appears to be my limit. My hunger is mostly sated, for the week."))
+			to_chat(user, span_notice("I have consumed the essences of the three planes. One dae, I will grow strong enough to consume yet greater beings, but for now, this appears to be my limit. My hunger is mostly sated, for the week; and I gain a new power, to inhabit objects and possess their bearers."))
+			user.mind.AddSpell(new /datum/action/cooldown/spell/infernal_possession/void)
 		for(var/obj/effect/decal/cleanable/roguerune/arcyne/binding/rune in range(target.loc))
 			rune.summoned_mob = null
 		QDEL_NULL(target)
@@ -649,9 +654,8 @@
 	name = "Aberrant Beam"
 	desc = "Show these fools the power of the void!"
 	recharge_time = 30 SECONDS
-	overlay_state = "regression"
-	overlay_icon = 'icons/mob/actions/mage_shared.dmi'
-	overlay_icon_state = "soulshot"
+	overlay_icon = 'icons/mob/actions/mage_telomancy.dmi'
+	overlay_icon_state = "void_beam"
 	chargetime = 0
 	range = 4
 	antimagic_allowed = TRUE
@@ -715,3 +719,13 @@
 
 /datum/action/cooldown/spell/magicians_stone/elemental/void
 	name = "Harvest Stone"
+
+/datum/action/cooldown/spell/infernal_possession/void
+	name = "Void Possession"
+	desc = "Possess armor, a ring, an amulet, or a weapon; resist to cancel the possession. Items you possess will be visibly odd. While possessing a wielded weapon or worn clothing/armor, whisper to speak directly into the mind of your bearer. Should they allow it, you can possess your bearer outright; you'll be able to use their skills, spells, and traits while you do, and the item housing you will become obviously suspicious. If they've used your power (hitting someone with you as a weapon, wearing you as a ring/amulet, or blocking a hit with you as armor), you don't need their consent to possess them; however, if they resist, you will be on a time limit, after which you will be unable to possess them again for some time. Your creator remains your creator, however, and you are still bound to obey them - though, of course, nobody said it had to be your creator you possess..."
+	t2_desc = "Possess armor, a ring, an amulet, or a weapon; resist to cancel the possession. Items you possess will be visibly odd. While possessing a wielded weapon or worn clothing/armor, whisper to speak directly into the mind of your bearer. Should they allow it, you can possess your bearer outright; you'll be able to use their skills, spells, and traits while you do, and the item housing you will become obviously suspicious. If they've used your power (hitting someone with you as a weapon, wearing you as a ring/amulet, or blocking a hit with you as armor), you don't need their consent to possess them; however, if they resist, you will be on a time limit, after which you will be unable to possess them again for some time. Your creator remains your creator, however, and you are still bound to obey them - though, of course, nobody said it had to be your creator you possess..." // this one doesn't need to change
+	spell_color = GLOW_COLOR_ARCANE // todo: maybe add a void glow later? black or green to match the obelisks?
+
+#undef HERESYDESC_INFERNAL_PASSIVE
+#undef HERESYDESC_INFERNAL_PASSIVE_OBVIOUS
+#undef HERESYDESC_INFERNAL_ACTIVE
