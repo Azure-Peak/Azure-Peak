@@ -55,6 +55,8 @@
 /obj/item/examine(mob/user)
 	. = ..()
 	. += integrity_check()
+	if(mailedto && !istype(src, /obj/item/paper) && !istype(src, /obj/item/smallDelivery))
+		. += "It's addressed to [mailedto]."
 
 	var/derived_cat = get_derived_category(type)
 	var/display_cat = derived_cat

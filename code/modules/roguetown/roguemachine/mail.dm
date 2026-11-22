@@ -69,13 +69,16 @@
 		var/obj/item/roguemachine/mastermail/M = SSroguemachine.hermailermaster
 		var/mob/living/carbon/human/H = user
 		var/list/held = M.mail_for(H.real_name)
+		var/list/missing = M.collect_missing(H.real_name)
 		for(var/obj/item/I as anything in held)
 			I.forceMove(get_turf(H))
 			H.put_in_hands(I)
+		for(var/label in missing)
+			to_chat(user, span_warning("[capitalize(label)] is missing."))
 		if(length(held))
 			SStgui.update_uis(M)
-		else if(H.has_status_effect(/datum/status_effect/ugotmail)) // we apparently got mail, but never got mail (hint: it was stolen by someone with access to the master mailer)
-			to_chat(user, span_notice("I look inside the machine and find no letter, how strange."))
+		else if(!length(missing) && H.has_status_effect(/datum/status_effect/ugotmail)) // we apparently got mail, but never got mail (hint: it was stolen by someone with access to the master mailer)
+			to_chat(user, span_notice("I look inside the machine and find nothing, how strange."))
 		H.remove_status_effect(/datum/status_effect/ugotmail)
 	if(!ishuman(user))
 		return
@@ -414,7 +417,8 @@
 		return FALSE
 	stamp_mail(I, destination, sender)
 	master.receive_mail(I)
-	send_ooc_note(sender == MAILER_ANONYMOUS ? "A new letter has arrived for you." : "New letter from <b>[sender]</b>.", name = destination)
+	var/noun = istype(I, /obj/item/paper) ? "letter" : "parcel"
+	send_ooc_note(sender == MAILER_ANONYMOUS ? "A new [noun] has arrived for you." : "New [noun] from <b>[sender]</b>.", name = destination)
 	if(H)
 		H.apply_status_effect(/datum/status_effect/ugotmail)
 		H.playsound_local(H, 'sound/misc/mail.ogg', 100, FALSE, -1)
@@ -943,6 +947,7 @@
 	anchored = TRUE
 	w_class = WEIGHT_CLASS_GIGANTIC
 	var/new_mail
+	var/list/arrivals = list()
 
 /obj/item/roguemachine/mastermail/get_mechanics_examine(mob/user)
 	. = ..()
@@ -968,15 +973,42 @@
 /obj/item/roguemachine/mastermail/proc/receive_mail(obj/item/I, notify = TRUE)
 	I.forceMove(src)
 	if(notify)
+		record_arrival(I)
 		new_mail = TRUE
 		update_icon()
 	SStgui.update_uis(src)
+
+/obj/item/roguemachine/mastermail/proc/record_arrival(obj/item/I)
+	if(!I.mailedto)
+		return
+	var/list/recorded = arrivals[I.mailedto]
+	if(!recorded)
+		recorded = list()
+		arrivals[I.mailedto] = recorded
+	recorded[WEAKREF(I)] = mail_label(I)
+
+/obj/item/roguemachine/mastermail/proc/collect_missing(name)
+	. = list()
+	var/list/recorded = arrivals[name]
+	if(!recorded)
+		return
+	arrivals -= name
+	for(var/datum/weakref/ref as anything in recorded)
+		var/obj/item/I = ref.resolve()
+		if(!I || I.loc != src)
+			. += recorded[ref]
 
 /obj/item/roguemachine/mastermail/proc/mail_for(name)
 	. = list()
 	for(var/obj/item/I in contents)
 		if(I.mailedto == name)
 			. += I
+
+/proc/mail_label(obj/item/I)
+	var/label = istype(I, /obj/item/paper) ? "a letter" : "\a [I.name]"
+	if(I.mailer && I.mailer != MAILER_ANONYMOUS)
+		label += " from [I.mailer]"
+	return label
 
 /obj/item/roguemachine/mastermail/attack_ghost(mob/dead/observer/user)
 	if(..())
@@ -1017,6 +1049,7 @@
 	var/mob/living/user = usr
 	if(!I || !istype(user))
 		return
+	user.log_message("took [I.name] addressed to [I.mailedto || "no one"] from [I.mailer || "no sender"] out of [src]", LOG_GAME)
 	I.forceMove(get_turf(user))
 	user.put_in_hands(I)
 	return TRUE
