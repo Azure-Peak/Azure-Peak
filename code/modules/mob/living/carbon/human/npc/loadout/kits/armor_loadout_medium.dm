@@ -159,7 +159,7 @@
 
 //** PSYVAULT **//
 
-/datum/npc_loadout/armor/medium/psy_vault_guard
+/datum/npc_loadout/armor/medium/psy_vault_guard //Otavan themed
 	wrists = list(
 		/obj/item/clothing/wrists/roguetown/bracers/psythorns = 25,
 		/obj/item/clothing/wrists/roguetown/bracers/chain = 30,
@@ -183,7 +183,7 @@
 	shoes = /obj/item/clothing/shoes/roguetown/boots/psydonboots
 	gloves = /obj/item/clothing/gloves/roguetown/chain/psydon
 
-/datum/npc_loadout/armor/medium/psy_vault_lighter
+/datum/npc_loadout/armor/medium/psy_vault_lighter //Otavan themed
 	wrists = list(
 		/obj/item/clothing/neck/roguetown/psicross = 65,
 		/obj/item/clothing/neck/roguetown/psicross/silver = 35,
@@ -196,12 +196,12 @@
 	shoes = /obj/item/clothing/shoes/roguetown/sandals
 	gloves = /obj/item/clothing/gloves/roguetown/otavan/psygloves
 
-/datum/npc_loadout/armor/medium/psy_vault_mage
+/datum/npc_loadout/armor/medium/psy_vault_mage //Naledi themed
 	wrists = list(
 		/obj/item/clothing/wrists/roguetown/bracers/cloth/naledi = 75,
 		/obj/item/clothing/neck/roguetown/psicross/g = 25,
 	)
-	mask = /obj/item/clothing/mask/rogue/lordmask/naledi/lesser //weaker ver
+	mask = /obj/item/clothing/mask/rogue/lordmask/naledi/lesser //no merc exclusive one please, intended to be the weaker varient
 	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail
 	armor = /obj/item/clothing/suit/roguetown/armor/vestments_padded
 	head = /obj/item/clothing/head/roguetown/headband/monk/psy_vault_guard
