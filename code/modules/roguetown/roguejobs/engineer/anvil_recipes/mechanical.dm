@@ -215,15 +215,6 @@
 	craftdiff = 5
 	display_category = ITEM_CAT_TOOLS_FIELD
 
-/datum/anvil_recipe/engineering/bronze/climbing_gear
-	name = "Climbing Gear (+1 Iron Pick, +1 Rope, +1 Gear, +1 Satchel)"
-	category = "Engineering"
-	req_bar = /obj/item/ingot/bronze
-	created_item = /obj/item/clothing/climbing_gear
-	additional_items = list(/obj/item/rogueweapon/pick, /obj/item/roguegear, /obj/item/storage/backpack/rogue/satchel, /obj/item/rope)
-	craftdiff = 5
-	display_category = ITEM_CAT_TOOLS_FIELD
-
 /datum/anvil_recipe/engineering/bronze/headhook
 	name = "Headhook, Bronze (+2 Fibers)"
 	category = "Engineering"
