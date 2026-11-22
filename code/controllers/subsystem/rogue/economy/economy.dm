@@ -106,6 +106,8 @@ SUBSYSTEM_DEF(economy)
 	if(SSmerchant_trade)
 		SSmerchant_trade.daily_tick()
 
+	SStreasury.steward_machine?.push_open_windows()
+
 /datum/controller/subsystem/economy/proc/roundstart_events()
 	if(roundstart_events_fired)
 		return

@@ -45,6 +45,8 @@
 
 /datum/controller/subsystem/economy/proc/deliver_commission(datum/commission_order/order)
 	commission_orders -= order
+	if(SStreasury.steward_machine)
+		SStgui.update_uis(SStreasury.steward_machine)
 	var/turf/drop = warehouse_drop_turf()
 	if(!drop)
 		return

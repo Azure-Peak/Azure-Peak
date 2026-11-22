@@ -14,7 +14,13 @@ import {
   sectionHeaderStyle,
   SERIF,
 } from '../common/parchment';
-import type { CommissionRow, Data } from './types';
+import { minutesLeft, useCountdown } from '../common/useCountdown';
+import type {
+  CommissionCatalogEntry,
+  CommissionOrder,
+  CommissionRow,
+  Data,
+} from './types';
 
 const ROW = 'minmax(0, 1fr) 80px 110px 120px';
 
@@ -23,13 +29,14 @@ const capitalize = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
 
 const CommissionLine = (props: {
   row: CommissionRow;
+  entry?: CommissionCatalogEntry;
   first: boolean;
-  contents?: { name: string; count: number }[];
   open: boolean;
   onToggle: () => void;
   onCommission: () => void;
 }) => {
-  const { row, contents, open } = props;
+  const { row, entry, open } = props;
+  const contents = entry?.contents;
   const expandable = !!contents?.length;
   return (
     <div
@@ -57,14 +64,14 @@ const CommissionLine = (props: {
           color: INK,
         }}
       >
-        <b>{row.name}</b>
+        <b>{entry?.name}</b>
         {expandable && (
           <span style={{ fontSize: FONT_SMALL, color: INK_SOFT }}>
             {' '}
             {open ? '▴' : '▾'}
           </span>
         )}
-        <div style={{ fontSize: FONT_SMALL, color: INK_SOFT }}>{row.desc}</div>
+        <div style={{ fontSize: FONT_SMALL, color: INK_SOFT }}>{entry?.desc}</div>
       </button>
       <span style={{ textAlign: 'right', color: INK }}>
         {formatMammon(row.price)}m
@@ -75,7 +82,7 @@ const CommissionLine = (props: {
           color: row.stock > 0 ? INK_SOFT : INK_FAINT,
         }}
       >
-        {row.stock} of {row.daily_stock} left today
+        {row.stock} of {entry?.daily_stock} left today
       </span>
       <button
         type="button"
@@ -113,9 +120,23 @@ const CommissionLine = (props: {
   );
 };
 
+const OrderLine = (props: { order: CommissionOrder }) => {
+  const left = minutesLeft(useCountdown(props.order.seconds_left));
+  return (
+    <div style={{ display: 'flex', gap: '8px', padding: '2px 0' }}>
+      <span style={{ color: INK }}>{props.order.name}</span>
+      <span style={{ marginLeft: 'auto', fontSize: FONT_SMALL, color: INK_SOFT }}>
+        arrives in {minutes(left)}
+      </span>
+    </div>
+  );
+};
+
 export const CommissionsView = (props: { data: Data }) => {
   const { act } = useBackend<Data>();
-  const { kits, local, orders, lead_minutes } = props.data.commissions;
+  const { kits, local, orders } = props.data.commissions;
+  const catalog = props.data.commission_catalog;
+  const lead_minutes = props.data.commission_lead_minutes;
   const [open, setOpen] = useState<Record<string, boolean>>({});
   const toggle = (ref: string) => setOpen({ ...open, [ref]: !open[ref] });
 
@@ -130,8 +151,8 @@ export const CommissionsView = (props: { data: Data }) => {
         <CommissionLine
           key={kit.ref}
           row={kit}
+          entry={catalog[kit.ref]}
           first={i === 0}
-          contents={kit.contents}
           open={!!open[kit.ref]}
           onToggle={() => toggle(kit.ref)}
           onCommission={() => act('place_commission', { ref: kit.ref })}
@@ -148,6 +169,7 @@ export const CommissionsView = (props: { data: Data }) => {
         <CommissionLine
           key={row.ref}
           row={row}
+          entry={catalog[row.ref]}
           first={i === 0}
           open={false}
           onToggle={() => undefined}
@@ -157,19 +179,7 @@ export const CommissionsView = (props: { data: Data }) => {
 
       <div style={{ ...sectionHeaderStyle, marginTop: '16px' }}>On Order</div>
       {orders.length ? (
-        orders.map((order, i) => (
-          <div
-            key={i}
-            style={{ display: 'flex', gap: '8px', padding: '2px 0' }}
-          >
-            <span style={{ color: INK }}>{order.name}</span>
-            <span
-              style={{ marginLeft: 'auto', fontSize: FONT_SMALL, color: INK_SOFT }}
-            >
-              arrives in {minutes(order.minutes_left)}
-            </span>
-          </div>
-        ))
+        orders.map((order, i) => <OrderLine key={i} order={order} />)
       ) : (
         <div style={{ color: INK_FAINT, fontStyle: 'italic' }}>
           Nothing on order.

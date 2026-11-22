@@ -133,6 +133,12 @@
 		if("ledger")
 			open_ledger_tgui(user)
 
+/obj/structure/roguemachine/steward/proc/push_open_windows()
+	SStgui.update_uis(src)
+	for(var/datum/panel as anything in list(front_panel, treasury_panel, ledger_panel))
+		if(panel)
+			SStgui.update_uis(panel)
+
 /obj/structure/roguemachine/steward/proc/print_residency_letter(mob/user)
 	if(world.time < residency_print_cooldown)
 		say("You just printed a letter. Wait [DisplayTimeText(residency_print_cooldown - world.time)] and try again.")

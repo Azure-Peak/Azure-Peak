@@ -30,6 +30,9 @@ export type StaticData = {
   quality_payouts: { label: string; pct: number }[];
   good_catalog: Record<string, GoodCatalogEntry>;
   region_catalog: Record<string, RegionCatalogEntry>;
+  is_steward_role: BooleanLike;
+  commission_catalog: Record<string, CommissionCatalogEntry>;
+  commission_lead_minutes: number;
 };
 
 // --- Dynamic state (re-shipped on each ui_data) ----------------------------
@@ -86,30 +89,29 @@ export type RegionCaravanState = {
   escorted: BooleanLike;
 };
 
-export type CommissionRow = {
-  ref: string;
+export type CommissionCatalogEntry = {
   name: string;
   desc: string;
-  stock: number;
   daily_stock: number;
+  contents?: { name: string; count: number }[];
+};
+
+export type CommissionRow = {
+  ref: string;
+  stock: number;
   price: number;
   blocker: string;
 };
 
-export type CommissionKit = CommissionRow & {
-  contents: { name: string; count: number }[];
-};
-
 export type CommissionOrder = {
   name: string;
-  minutes_left: number;
+  seconds_left: number;
 };
 
 export type CommissionState = {
-  kits: CommissionKit[];
+  kits: CommissionRow[];
   local: CommissionRow[];
   orders: CommissionOrder[];
-  lead_minutes: number;
 };
 
 export type CaravanTrip = {
@@ -122,7 +124,7 @@ export type CaravanTrip = {
 export type CaravanState = {
   fleet: number;
   home: number;
-  return_minutes: number;
+  return_seconds: number;
   trips: CaravanTrip[];
 };
 
@@ -214,7 +216,6 @@ export type PetitionOffer = {
 export type PetitionState = {
   pledge_balance: number;
   petitions_remaining: number;
-  is_steward_role: BooleanLike;
   selected_template: string | null;
   offers: PetitionOffer[];
 };

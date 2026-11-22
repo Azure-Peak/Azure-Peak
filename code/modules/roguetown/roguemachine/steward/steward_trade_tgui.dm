@@ -1,6 +1,11 @@
 /obj/structure/roguemachine/steward/ui_state(mob/user)
 	return GLOB.human_adjacent_state
 
+/obj/structure/roguemachine/steward/ui_status(mob/user, datum/ui_state/state)
+	if(locked)
+		return UI_CLOSE
+	return ..()
+
 /obj/structure/roguemachine/steward/ui_interact(mob/user, datum/tgui/ui)
 	SStgui.try_update_ui(user, src, ui)
 
@@ -12,6 +17,7 @@
 	if(!ui)
 		ui = new(user, src, "StewardTrade")
 		ui.open()
+		ui.set_autoupdate(FALSE)
 
 /obj/structure/roguemachine/steward/proc/user_can_act(mob/user)
 	return user.canUseTopic(src, BE_CLOSE)
@@ -100,6 +106,24 @@
 	data["petition_categories"] = petition_categories
 	data["petition_tax_pct"] = round((1 - PETITION_TAX_MULT) * 100)
 	data["petitions_per_day"] = PETITIONS_PER_DAY
+	data["is_steward_role"] = (user.job in GLOB.crown_authority_roles) ? TRUE : FALSE
+
+	var/list/commission_catalog = list()
+	for(var/datum/royal_commission/C as anything in GLOB.royal_commissions)
+		commission_catalog[REF(C)] = list(
+			"name" = C.name,
+			"desc" = C.desc,
+			"daily_stock" = C.daily_stock,
+			"contents" = C.content_rows(),
+		)
+	for(var/datum/crown_import/D as anything in GLOB.crown_imports)
+		commission_catalog[REF(D)] = list(
+			"name" = D.name,
+			"desc" = D.desc,
+			"daily_stock" = D.daily_stock,
+		)
+	data["commission_catalog"] = commission_catalog
+	data["commission_lead_minutes"] = round(COMMISSION_LEAD_TIME / (1 MINUTES))
 
 	return data
 
@@ -197,28 +221,21 @@
 	for(var/datum/royal_commission/C as anything in GLOB.royal_commissions)
 		commission_rows += list(list(
 			"ref" = REF(C),
-			"name" = C.name,
-			"desc" = C.desc,
 			"stock" = C.stock,
-			"daily_stock" = C.daily_stock,
 			"price" = C.get_price(),
 			"blocker" = SSeconomy.commission_blocker(C) || "",
-			"contents" = C.content_rows(),
 		))
 	var/list/commission_order_rows = list()
 	for(var/datum/commission_order/order as anything in SSeconomy.commission_orders)
 		commission_order_rows += list(list(
 			"name" = order.commission.name,
-			"minutes_left" = max(1, CEILING((order.arrive_at - world.time) / (1 MINUTES), 1)),
+			"seconds_left" = max(0, round((order.arrive_at - world.time) / (1 SECONDS))),
 		))
 	var/list/local_rows = list()
 	for(var/datum/crown_import/D as anything in GLOB.crown_imports)
 		local_rows += list(list(
 			"ref" = REF(D),
-			"name" = D.name,
-			"desc" = D.desc,
 			"stock" = D.stock,
-			"daily_stock" = D.daily_stock,
 			"price" = D.get_import_price(),
 			"blocker" = SSeconomy.local_commission_blocker(D) || "",
 		))
@@ -226,7 +243,6 @@
 		"kits" = commission_rows,
 		"local" = local_rows,
 		"orders" = commission_order_rows,
-		"lead_minutes" = round(COMMISSION_LEAD_TIME / (1 MINUTES)),
 	)
 
 	var/list/trips = list()
@@ -242,7 +258,7 @@
 	data["caravans"] = list(
 		"fleet" = SSeconomy.caravan_fleet,
 		"home" = SSeconomy.caravans_home(),
-		"return_minutes" = max(1, CEILING(seconds_until_dawn() / 60, 1)),
+		"return_seconds" = max(0, round(seconds_until_dawn())),
 		"trips" = trips,
 	)
 	data["caravan_quote"] = build_caravan_quote(user.ckey)
@@ -257,7 +273,6 @@
 	var/petitions_remaining = SSeconomy.petitions_remaining_today()
 	petition_state["pledge_balance"] = SStreasury.burgher_pledge_fund?.balance || 0
 	petition_state["petitions_remaining"] = petitions_remaining
-	petition_state["is_steward_role"] = (user.job in GLOB.crown_authority_roles) ? TRUE : FALSE
 	var/selected_template = petition_view[user.ckey]
 	var/list/offers = list()
 	if(selected_template && SSeconomy.petition_category_of(selected_template))
@@ -436,34 +451,31 @@ GLOBAL_LIST_INIT(steward_trade_sequestration_locked_actions, list(
 	"buy_from_market",
 ))
 
-/obj/structure/roguemachine/steward/ui_act(action, list/params)
+/obj/structure/roguemachine/steward/ui_act(action, list/params, datum/tgui/ui, datum/ui_state/state)
 	. = ..()
 	if(.)
 		return
-	if(!user_can_act(usr))
-		return TRUE
-	if(locked)
-		return TRUE
+	if(locked || !user_can_act(usr))
+		return
 	if(SStreasury.is_in_receivership() && (action in GLOB.steward_trade_sequestration_locked_actions))
 		to_chat(usr, span_warning("Trade controls are locked under sequestration. Petitions, taxes and fines still work."))
-		return TRUE
+		ui.send_update()
+		return
 	if(action in GLOB.steward_trade_sequestration_locked_actions)
 		SStreasury.dirty_market_view()
 	switch(action)
 		if("open_window")
 			open_steward_window(usr, params["window"])
-			return TRUE
+			return
 		if("sell_to_market")
 			var/quantity = text2num("[params["quantity"]]")
 			if(quantity)
 				SSeconomy.sell_to_market(usr, params["good_id"], quantity)
-			SStgui.update_uis(src)
 			return TRUE
 		if("buy_from_market")
 			var/quantity = text2num("[params["quantity"]]")
 			if(quantity)
 				SSeconomy.buy_from_market(usr, params["good_id"], quantity)
-			SStgui.update_uis(src)
 			return TRUE
 		if("petition_select")
 			var/template = text2path(params["template"])
@@ -471,16 +483,16 @@ GLOBAL_LIST_INIT(steward_trade_sequestration_locked_actions, list(
 				petition_view[usr.ckey] = template
 			else
 				petition_view -= usr.ckey
-			SStgui.update_uis(src)
-			return TRUE
+			ui.send_update()
+			return
 		if("caravan_select")
 			caravan_view[usr.ckey] = list("request" = "[params["request"]]", "offer" = "[params["offer"]]", "tribute" = "[params["tribute"]]")
-			return TRUE
+			ui.send_update()
+			return
 		if("buy_escort")
 			var/subroute = text2path(params["subroute"])
 			if(ispath(subroute, /datum/trade_subroute) && SSeconomy.buy_escort(usr, subroute))
 				playsound(src, 'sound/misc/coindispense.ogg', 60, FALSE, -1)
-			SStgui.update_uis(src)
 			return TRUE
 		if("send_caravan")
 			var/route = text2path(params["route"])
@@ -491,33 +503,28 @@ GLOBAL_LIST_INIT(steward_trade_sequestration_locked_actions, list(
 				request = locate(params["request"]) in GLOB.standing_order_pool
 				if(!request)
 					to_chat(usr, span_warning("That order is gone."))
-					SStgui.update_uis(src)
 					return TRUE
 			var/datum/region_offer/offer
 			if(params["offer"])
 				offer = locate(params["offer"]) in GLOB.region_offer_pool
 				if(!offer)
 					to_chat(usr, span_warning("That offer is gone."))
-					SStgui.update_uis(src)
 					return TRUE
 			var/datum/economic_region/tribute_region
 			if(params["tribute"])
 				tribute_region = GLOB.economic_regions[params["tribute"]]
 			if(SSeconomy.send_caravan(usr, route, request, offer, tribute_region, params["fill"] ? TRUE : FALSE))
 				playsound(src, 'sound/misc/coindispense.ogg', 60, FALSE, -1)
-			SStgui.update_uis(src)
 			return TRUE
 		if("place_commission")
 			var/datum/royal_commission/C = locate(params["ref"]) in GLOB.royal_commissions
 			if(C && SSeconomy.place_commission(usr, C))
 				playsound(src, 'sound/misc/coindispense.ogg', 60, FALSE, -1)
-			SStgui.update_uis(src)
 			return TRUE
 		if("place_local_commission")
 			var/datum/crown_import/D = locate(params["ref"]) in GLOB.crown_imports
 			if(D && SSeconomy.place_local_commission(usr, D))
 				playsound(src, 'sound/misc/coindispense.ogg', 60, FALSE, -1)
-			SStgui.update_uis(src)
 			return TRUE
 		if("extend_order")
 			if(!(usr.job in GLOB.crown_authority_roles))
@@ -526,7 +533,6 @@ GLOBAL_LIST_INIT(steward_trade_sequestration_locked_actions, list(
 			var/datum/standing_order/O = locate(params["ref"]) in GLOB.standing_order_pool
 			if(O)
 				SSeconomy.extend_order(usr, O)
-			SStgui.update_uis(src)
 			return TRUE
 		if("petition_for_order")
 			if(!(usr.job in GLOB.crown_authority_roles))
@@ -538,5 +544,4 @@ GLOBAL_LIST_INIT(steward_trade_sequestration_locked_actions, list(
 				var/datum/economic_region/region = GLOB.economic_regions[region_id]
 				playsound(src, 'sound/items/inqslip_sealed.ogg', 70, FALSE, -1)
 				visible_message(span_notice("[src] stamps the petition and seals it for [region?.name]."))
-			SStgui.update_uis(src)
 			return TRUE

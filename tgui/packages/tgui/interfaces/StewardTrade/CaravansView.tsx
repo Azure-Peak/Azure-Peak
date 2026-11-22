@@ -20,6 +20,7 @@ import {
   SERIF,
   TITLE,
 } from '../common/parchment';
+import { minutesLeft, useCountdown } from '../common/useCountdown';
 import type {
   ActiveOffer,
   CaravanRoute,
@@ -130,6 +131,15 @@ const tagStyle = (color: string): CSSProperties => ({
   color,
 });
 
+const ReturnIn = (props: { seconds: number }) => {
+  const left = minutesLeft(useCountdown(props.seconds));
+  return (
+    <>
+      {left} {left === 1 ? 'minute' : 'minutes'}
+    </>
+  );
+};
+
 export const CaravansView = (props: { data: Data }) => {
   const { act } = useBackend<Data>();
   const { data } = props;
@@ -147,7 +157,7 @@ export const CaravansView = (props: { data: Data }) => {
     });
   }, [requestRef, offerRef, tributeId]);
 
-  const { fleet, home, trips, return_minutes } = data.caravans;
+  const { fleet, home, trips, return_seconds } = data.caravans;
   const goodName: Namer = (id) => data.good_catalog[id]?.name ?? id;
   const regionName: Namer = (id) => data.region_catalog[id]?.name ?? id;
   const sequestered = !!data.sequestration?.active;
@@ -262,7 +272,7 @@ export const CaravansView = (props: { data: Data }) => {
         </span>
         <span>
           {home} of {fleet} home &middot; {trips.length} en route, return in{' '}
-          {return_minutes} {return_minutes === 1 ? 'minute' : 'minutes'}
+          <ReturnIn seconds={return_seconds} />
         </span>
         {trips.map((trip, i) => (
           <span key={i} style={{ fontSize: FONT_SMALL }}>
@@ -811,7 +821,7 @@ const RequestPanel = (props: {
   const terms = single
     ? `${formatMammon(single.unit_pay)}m each · ${order.days_left}d left`
     : `${formatMammon(order.payout)}m · ${order.days_left}d left`;
-  const zadBlocker = !data.petition?.is_steward_role
+  const zadBlocker = !data.is_steward_role
     ? 'Only Crown officials can send a zad.'
     : order.extend_blocker;
   const zad = (

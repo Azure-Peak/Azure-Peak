@@ -32,9 +32,9 @@ export const PetitionView = (props: { data: Data }) => {
     c.templates.some((t) => t.id === selectedId),
   );
 
-  const cannotAct = !petition.is_steward_role;
+  const cannotAct = !props.data.is_steward_role;
 
-  const cannotActReason = !petition.is_steward_role
+  const cannotActReason = cannotAct
     ? "Only Crown officials can petition regions."
     : '';
 
