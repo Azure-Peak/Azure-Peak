@@ -320,6 +320,7 @@
 			else
 				armor = /obj/item/clothing/suit/roguetown/armor/leather/hide
 		if("Muscles")
+			head = /obj/item/clothing/head/roguetown/helmet/leather/volfhelm
 			armor = /obj/item/clothing/suit/roguetown/armor/manual/resting/chest/barbarian //a leather armor.
 			if(weapon_choice != "Greatsword - Bodybuilder")
 				shirt = /obj/item/clothing/suit/roguetown/armor/manual/resting/body/barbarian //a gambeson. The skin armor options start better protected, but cannot upgrade. A basic gamby + leather armor will match them, and heavy gamby + light brig will eclipse them significantly.
