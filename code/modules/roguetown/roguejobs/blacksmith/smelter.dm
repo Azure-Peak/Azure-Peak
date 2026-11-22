@@ -266,7 +266,9 @@
 		record_material_flow(MATERIAL_FLOW_IN, MATERIAL_SOURCE_DOMESTIC, path, 1)
 		if(source)
 			record_material_flow(MATERIAL_FLOW_OUT, MATERIAL_SOURCE_SMELTING, source.type, 1)
-	return new path(src, quality)
+	if(ispath(path, /obj/item/ingot))
+		return new path(src, quality)
+	return new path(src)
 
 /obj/machinery/light/rogue/smelter/proc/handle_smelting()
 	for(var/obj/item/item as anything in contained_items)
@@ -453,7 +455,7 @@
 /obj/machinery/light/rogue/smelter/hiron
 	icon = 'icons/roguetown/misc/forge.dmi'
 	name = "iron bloomery"
-	desc = "An object of humen make, this furnace is capable of making high quanities of iron."
+	desc = "An object of humen make, this furnace is capable of making high quantities of iron."
 	icon_state = "hironsmelter0"
 	base_state = "hironsmelter"
 	anchored = TRUE

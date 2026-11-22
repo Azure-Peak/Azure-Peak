@@ -2,7 +2,7 @@
 	id = REALM_RANESHEN
 	name = "Raneshen"
 	roll_weight = TRADE_REALM_WEIGHT_DEFAULT
-	demanded_categories = list(NAVIGATOR_BUCKET_WEAPONS, NAVIGATOR_BUCKET_GARMENT_FINELUX, NAVIGATOR_BUCKET_VALUABLES_CRAFTED, NAVIGATOR_BUCKET_ARMOR_LIGHT, NAVIGATOR_BUCKET_ENCHANTMENTS, NAVIGATOR_BUCKET_INSTRUMENTS, NAVIGATOR_BUCKET_SEAFOOD, NAVIGATOR_BUCKET_MISCELLANEOUS)
+	demanded_categories = list(NAVIGATOR_BUCKET_WEAPONS, NAVIGATOR_BUCKET_GARMENT_FINELUX, NAVIGATOR_BUCKET_VALUABLES_CRAFTED, NAVIGATOR_BUCKET_ARMOR_FABRIC, NAVIGATOR_BUCKET_ENCHANTMENTS, NAVIGATOR_BUCKET_INSTRUMENTS, NAVIGATOR_BUCKET_SEAFOOD, NAVIGATOR_BUCKET_MISCELLANEOUS)
 	single_word_base = TRUE
 	ship_name_words = list(
 		"Thalassa", "Abyssoros", "Khimaira", "Eos", "Aetos",
@@ -95,7 +95,6 @@
 		/datum/supply_pack/rogue/raneshen/javelins,
 		/datum/supply_pack/rogue/raneshen/headscarf,
 		/datum/supply_pack/rogue/raneshen/shalal_hood,
-		/datum/supply_pack/rogue/raneshen/shalal_scarf,
 		/datum/supply_pack/rogue/raneshen/copper_gorget,
 		/datum/supply_pack/rogue/raneshen/copper_facemask,
 		/datum/supply_pack/rogue/raneshen/copper_bracers,

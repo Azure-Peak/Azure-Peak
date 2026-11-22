@@ -2,11 +2,25 @@
 #define MAX_ADMINBANS_PER_ADMIN 1
 #define MAX_ADMINBANS_PER_HEADMIN 3
 
+/proc/expand_antagonist_ban(list/roles)
+	var/static/list/covered_roles
+	if(!covered_roles)
+		covered_roles = list(ROLE_ANTAGONIST = TRUE, ROLE_SYNDICATE = TRUE)
+		for(var/group in GLOB.antagonist_ban_groups)
+			for(var/role in GLOB.antagonist_ban_groups[group])
+				covered_roles[role] = TRUE
+	var/list/checked = islist(roles) ? roles : list(roles)
+	for(var/role in checked)
+		if(istext(role) && covered_roles[role])
+			return checked | list(ROLE_ANTAGONIST, ROLE_SYNDICATE)
+	return roles
+
 //checks client ban cache or DB ban table if ckey is banned from one or more roles
 //doesn't return any details, use only for if statements
 /proc/is_banned_from(player_ckey, list/roles)
 	if(!player_ckey)
 		return
+	roles = expand_antagonist_ban(roles)
 	var/client/C = GLOB.directory[player_ckey]
 	if(C)
 		if(!C.ban_cache)
@@ -55,6 +69,12 @@
 /proc/is_banned_from_with_details(player_ckey, player_ip, player_cid, role)
 	if(!player_ckey && !player_ip && !player_cid)
 		return
+	var/list/roles = expand_antagonist_ban(list(role))
+	var/list/values = list("ckey" = player_ckey, "ip" = player_ip, "computerid" = player_cid)
+	var/list/sql_roles = list()
+	for(var/i in 1 to roles.len)
+		values["role[i]"] = roles[i]
+		sql_roles += ":role[i]"
 	var/datum/DBQuery/query_check_ban = SSdbcore.NewQuery({"
 		SELECT
 			id,
@@ -69,12 +89,12 @@
 			computerid,
 			IFNULL((SELECT byond_key FROM [format_table_name("player")] WHERE [format_table_name("player")].ckey = [format_table_name("ban")].a_ckey), a_ckey)
 		FROM [format_table_name("ban")]
-		WHERE role = :role
+		WHERE role IN ([sql_roles.Join(", ")])
 			AND (ckey = :ckey OR ip = INET_ATON(:ip) OR computerid = :computerid)
 			AND unbanned_datetime IS NULL
 			AND (expiration_time IS NULL OR expiration_time > NOW())
 		ORDER BY bantime DESC
-	"}, list("role" = role, "ckey" = player_ckey, "ip" = player_ip, "computerid" = player_cid))
+	"}, values)
 	if(!query_check_ban.warn_execute())
 		qdel(query_check_ban)
 		return
@@ -103,6 +123,25 @@
 				continue
 			C.ban_cache[query_build_ban_cache.item[1]] = TRUE
 		qdel(query_build_ban_cache)
+
+/proc/ban_panel_role_groups()
+	var/list/groups = list(
+		"Abstract" = list("Emote", "Deadchat", "OOC", "LOOC"),
+		"Ducal Family" = GLOB.noble_positions,
+		"Ducal Court" = GLOB.courtier_positions,
+		"Ducal Retinue" = GLOB.retinue_positions,
+		"Town Garrison" = GLOB.garrison_positions,
+		"Azurean Church" = GLOB.church_positions,
+		"Azurean Trading Company" = GLOB.atc_positions,
+		"Burghers" = GLOB.burgher_positions,
+		"Peasants" = GLOB.peasant_positions,
+		"Otavan Inquisition" = GLOB.inquisition_positions,
+		"Sidefolk" = GLOB.sidefolk_positions,
+		"Wanderers" = GLOB.wanderer_positions,
+	)
+	for(var/group in GLOB.antagonist_ban_groups)
+		groups[group] = GLOB.antagonist_ban_groups[group]
+	return groups
 
 /datum/admins/proc/ban_panel(player_key, player_ip, player_cid, role, duration = 1440, applies_to_admins, reason, edit_id, page, admin_key)
 	var/panel_height = 620
@@ -248,24 +287,7 @@
 				"}
 				break_counter++
 			output += "</div></div>"*/
-		var/list/long_job_lists = list(
-			"Abstract" = list("Emote", "Deadchat", "OOC", "LOOC"),
-			"Ducal Family" = GLOB.noble_positions,
-			"Ducal Court" = GLOB.courtier_positions,
-			"Ducal Retinue" = GLOB.retinue_positions,
-			"Town Garrison" = GLOB.garrison_positions,
-			"Azurean Church" = GLOB.church_positions,
-			"Azurean Trading Company" = GLOB.atc_positions,
-			"Burghers" = GLOB.burgher_positions,
-			"Peasants" = GLOB.peasant_positions,
-			"Otavan Inquisition" = GLOB.inquisition_positions,
-			"Sidefolk" = GLOB.sidefolk_positions,
-			"Wanderers" = GLOB.wanderer_positions,
-			"Antagonist Positions" = list(ROLE_ASCENDANT, ROLE_ASPIRANT, ROLE_BANDIT, ROLE_NBEAST, ROLE_WEREWOLF, ROLE_LICH, ROLE_PREBEL, ROLE_REBEL_LEADER),
-			"Lesser Antagonst Positions" = list(ROLE_WRETCH, ROLE_DREAMWALKER, ROLE_GNOLL, ROLE_VAMPIRE),
-			"Ghost and Other Roles" = list(ROLE_NECRO_SKELETON, ROLE_LICH_SKELETON, ROLE_UNBOUND_DEATHKNIGHT, ROLE_DARK_ITINERANT)
-			)
-			//ADD BACK DARK ELF AND MANIAC TO THE LIST IF THEY ARE EVER REENABLED
+		var/list/long_job_lists = ban_panel_role_groups()
 		for(var/department in long_job_lists)
 			output += "<div class='column'><label class='rolegroup long [ckey(department)]'><input type='checkbox' name='[department]' class='hidden' onClick='toggle_checkboxes(this, \"_com\")'>[department]</label><div class='content'>"
 			break_counter = 0
@@ -382,7 +404,8 @@
 			if("server")
 				roles_to_ban += "Server"
 			if("role")
-				href_list.Remove("Command", "Security", "Engineering", "Medical", "Science", "Supply", "Silicon", "Abstract", "Service", "Ghost and Other Roles", "Antagonist Positions", "Lesser Antagonst Positions") //remove the role banner hidden input values
+				for(var/group in ban_panel_role_groups())
+					href_list -= group
 				if(href_list[href_list.len] == "roleban_delimiter")
 					error_state += "Role ban was selected but no roles to ban were selected."
 				else
@@ -505,6 +528,7 @@
 	var/target = ban_target_string(player_key, player_ip, player_cid)
 	var/msg = "has created a [isnull(duration) ? "permanent" : "temporary [time_message]"] [applies_to_admins ? "admin " : ""][roles_to_ban[1] == "Server" ? "server ban" : "role ban from [roles_to_ban.len] roles"] for [target]."
 	log_admin_private("[kn] [msg][roles_to_ban[1] == "Server" ? "" : " Roles: [roles_to_ban.Join(", ")]"] Reason: [reason]")
+	announce_note_change("BANS: [kn] [msg][roles_to_ban[1] == "Server" ? "" : " Roles: [roles_to_ban.Join(", ")]"] Reason: [reason]")
 	message_admins("[kna] [msg][roles_to_ban[1] == "Server" ? "" : " Roles: [roles_to_ban.Join("\n")]"]\nReason: [reason]")
 	if(applies_to_admins)
 		send2irc("BAN ALERT","[kn] [msg]")

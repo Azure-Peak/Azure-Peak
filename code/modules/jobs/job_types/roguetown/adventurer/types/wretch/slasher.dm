@@ -1,6 +1,6 @@
 /datum/advclass/wretch/slasher
 	name = "Disturbed"
-	tutorial = "There is nothing more beautiful or soothing to you than the feeling of blood on your bare form. As a child, you may have harmed animals. Perhaps you were squire who was a bit too happy to break the other squire's noses. Maybe you just snapped one day. You are the only person who can tell yourself why you do what you do. The question is - do you even like hurting other people?"
+	tutorial = "There is nothing more beautiful or soothing to you than the feeling of blood on your bare form. As a child, you may have harmed animals. Perhaps you were a squire who was a bit too happy to break the other squires' noses. Maybe you just snapped one day. You are the only person who can tell yourself why you do what you do. The question is - do you even like hurting other people?"
 	allowed_sexes = list(MALE, FEMALE)
 	forbidden_races = list(RACES_CONSTRUCT RACES_DESPISED) //at the bequest of eiren
 	outfit = /datum/outfit/job/roguetown/wretch/slasher

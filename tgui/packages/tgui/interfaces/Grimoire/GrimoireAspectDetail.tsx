@@ -148,6 +148,7 @@ export const GrimoireAspectDetail = ({
             getPointbuyUsed={getPointbuyUsed}
             act={act}
             readOnly={readOnly}
+            isPendingUnbind={isPendingUnbind}
           />
         )}
       </div>

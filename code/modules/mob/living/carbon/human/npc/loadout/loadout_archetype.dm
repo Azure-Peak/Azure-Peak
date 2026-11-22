@@ -14,6 +14,11 @@ GLOBAL_LIST_INIT(npc_brawl_skills, list(
 	/datum/skill/combat/wrestling,
 ))
 
+GLOBAL_LIST_INIT(npc_magic_skills, list(
+	/datum/skill/magic/arcane,
+	/datum/skill/combat/arcyne,
+))
+
 GLOBAL_LIST_INIT(npc_survival_skills, list(
 	/datum/skill/misc/swimming,
 	/datum/skill/misc/climbing,
@@ -41,9 +46,11 @@ GLOBAL_LIST_INIT(npc_crafting_skills, list(
 	var/body
 	var/statpack
 	var/patron
+	var/joins_cabal = TRUE
 	var/armor_training = ARMOR_CLASS_NONE
 	var/melee
 	var/brawl
+	var/magic
 	var/survival
 	var/athletics
 	var/crafting
@@ -52,9 +59,14 @@ GLOBAL_LIST_INIT(npc_crafting_skills, list(
 	var/list/loadouts
 	var/list/variants
 	var/ai_controller
+	var/default_ward = /datum/action/cooldown/spell/conjure_arcyne_ward
 	var/list/traits
+	var/taur_type
+	var/list/taur_colors
 	// Factional stat modifiers. These are applied on top of statpacks. They do not need to be even trade
 	var/list/stat_modifiers
+	// We want to make the PVE a bit fairer between High PER and low PER build without having to make everyone modify archetypes. So, most NPCs that are NOT supposed to be very hard will now have damaged armor. General rule of thumb: TP 40 or above NPCS should have full integrity.
+	var/chest_armor_integrity_mult = NPC_CHEST_ARMOR_INTEGRITY_MULT
 
 /datum/npc_archetype/proc/apply_early(mob/living/carbon/human/H)
 	var/datum/npc_body/npc_body = get_npc_part(body)
@@ -74,19 +86,62 @@ GLOBAL_LIST_INIT(npc_crafting_skills, list(
 		var/trait_source = traits[trait] || INNATE_TRAIT
 		ADD_TRAIT(H, trait, trait_source)
 	if(patron)
-		H.set_patron(patron)
+		H.set_patron(resolve_npc_pick(patron))
+		if(!joins_cabal)
+			H.faction -= FACTION_CABAL
 	if(npc_statpack)
 		npc_statpack.apply(H)
 	apply_skills(H)
 	apply_armor_training(H)
 	if(ai_controller)
 		H.upgrade_ai_controller(ai_controller)
-	H.equipOutfit(build_outfit())
+	// Before the outfit, as Taurize drops worn shoes
+	if(taur_type)
+		H.Taurize(taur_type, length(taur_colors) ? pick(taur_colors) : "#ffffff")
+	var/datum/outfit/npc/outfit = build_outfit()
+	H.equipOutfit(outfit)
+	weaken_chest_armor(H)
+	if(loadouts_grant_magic(outfit.loadouts))
+		apply_skill_group(H, GLOB.npc_magic_skills, magic)
+		apply_caster_staves(H, outfit.loadouts)
+	grant_spellblade_chant(H, outfit.loadouts)
+	grant_loadout_spells(H, outfit.loadouts)
+	grant_magic_aspect(H, outfit.loadouts)
+	grant_npc_miracles(H, outfit.loadouts)
 	apply_stat_modifiers(H)
 	if(npc_body)
 		npc_body.apply_appearance(H)
 		npc_body.apply_name(H)
 		npc_body.finish(H)
+
+/datum/npc_archetype/proc/weaken_chest_armor(mob/living/carbon/human/H)
+	if(chest_armor_integrity_mult >= 1 || threat_point >= THREAT_DEADLY)
+		return
+	var/obj/item/clothing/strongest
+	var/best_rating = -1
+	for(var/obj/item/clothing/layer as anything in H.get_worn_chest_armor_layers())
+		var/rating = max(layer.armor.getRating("slash"), layer.armor.getRating("stab"))
+		if(rating > best_rating || (rating == best_rating && layer.obj_integrity > strongest.obj_integrity))
+			best_rating = rating
+			strongest = layer
+	strongest?.weaken_as_npc_chest_layer(chest_armor_integrity_mult)
+
+/mob/living/carbon/human/proc/get_worn_chest_armor_layers()
+	. = list()
+	for(var/obj/item/clothing/worn in list(head, wear_mask, wear_wrists, gloves, wear_neck, cloak, wear_armor, wear_shirt, shoes, wear_pants, backr, backl, belt, s_store, glasses, ears, wear_ring))
+		if(worn.is_chest_armor_layer())
+			. += worn
+
+/obj/item/clothing/proc/is_chest_armor_layer()
+	return zone2covered(BODY_ZONE_CHEST, body_parts_covered_dynamic) && has_armor_value()
+
+/obj/item/clothing/proc/weaken_as_npc_chest_layer(mult)
+	if(!max_integrity || obj_broken || (resistance_flags & INDESTRUCTIBLE))
+		return
+	var/usable = obj_integrity - max_integrity * integrity_failure
+	if(usable <= 1)
+		return
+	obj_integrity -= usable - max(usable * mult, 1)
 
 /datum/npc_archetype/proc/apply_stat_modifiers(mob/living/carbon/human/H)
 	if(!H || !length(stat_modifiers))
@@ -98,6 +153,119 @@ GLOBAL_LIST_INIT(npc_crafting_skills, list(
 	H.STAPER += stat_modifiers["perception"]
 	H.STAINT += stat_modifiers["intelligence"]
 	H.recalculate_pain_threshold()
+
+/datum/npc_archetype/proc/loadouts_grant_magic(list/loadout_types)
+	for(var/path in loadout_types)
+		var/datum/npc_loadout/loadout = get_npc_part(path)
+		if(!loadout)
+			continue
+		if(length(loadout.magic_aspects) || length(loadout.spells) || loadout.spellblade_chant)
+			return TRUE
+	return FALSE
+
+/datum/npc_archetype/proc/apply_caster_staves(mob/living/carbon/human/H, list/loadout_types)
+	if(isnull(magic))
+		return
+	for(var/path in loadout_types)
+		var/datum/npc_loadout/loadout = get_npc_part(path)
+		if(loadout?.spellblade_chant)
+			return
+	var/rank = max(magic - NPC_CASTER_STAVES_PENALTY, SKILL_LEVEL_NONE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/staves, rank, TRUE)
+	H.adjust_skillrank_down_to(/datum/skill/combat/staves, rank, TRUE)
+
+/datum/npc_archetype/proc/grant_spellblade_chant(mob/living/carbon/human/H, list/loadout_types)
+	if(!H)
+		return
+	var/chant_name
+	for(var/path in loadout_types)
+		var/datum/npc_loadout/loadout = get_npc_part(path)
+		if(loadout?.spellblade_chant)
+			chant_name = loadout.spellblade_chant
+	if(!chant_name)
+		return
+	var/datum/spellblade_chant/chant = GLOB.npc_spellblade_chants[chant_name]
+	if(!chant)
+		stack_trace("npc archetype [type] names unknown spellblade chant [chant_name]")
+		return
+	chant.apply_npc_chant(H)
+
+/datum/npc_archetype/proc/grant_loadout_spells(mob/living/carbon/human/H, list/loadout_types)
+	if(!H)
+		return
+	for(var/path in loadout_types)
+		var/datum/npc_loadout/loadout = get_npc_part(path)
+		for(var/spell_type in loadout?.spells)
+			var/copies = loadout.spells[spell_type]
+			if(!isnum(copies))
+				copies = 1
+			for(var/i in 1 to copies)
+				var/datum/action/cooldown/spell/spell = new spell_type(H)
+				spell.Grant(H)
+
+/datum/npc_archetype/proc/grant_magic_aspect(mob/living/carbon/human/H, list/loadout_types)
+	if(!H)
+		return
+	var/list/aspects = list()
+	for(var/path in loadout_types)
+		var/datum/npc_loadout/loadout = get_npc_part(path)
+		for(var/aspect_type in loadout?.magic_aspects)
+			aspects[aspect_type] = loadout.magic_aspects[aspect_type]
+	if(!length(aspects))
+		return
+	for(var/aspect_type in aspects)
+		var/datum/magic_aspect/aspect = GLOB.magic_aspect_singletons[aspect_type]
+		if(!aspect)
+			stack_trace("npc archetype [type] names unknown magic aspect [aspect_type]")
+			continue
+		aspect.grant_npc_spells(H, aspects[aspect_type])
+	if(default_ward)
+		for(var/datum/action/cooldown/spell/conjure_arcyne_ward/upgraded in H.actions)
+			if(upgraded.type == default_ward)
+				continue
+			upgraded.Remove(H)
+			qdel(upgraded)
+	var/datum/action/cooldown/spell/conjure_arcyne_ward/ward = locate() in H.actions
+	if(!ward && default_ward)
+		ward = new default_ward(H)
+		ward.Grant(H)
+	for(var/datum/action/cooldown/spell/spell in H.actions)
+		spell.npc_on_spawn(H)
+
+/datum/npc_archetype/proc/grant_npc_miracles(mob/living/carbon/human/H, list/loadout_types)
+	if(!H)
+		return
+	var/tier
+	for(var/path in loadout_types)
+		var/datum/npc_loadout/loadout = get_npc_part(path)
+		if(isnull(loadout?.miracle_tier))
+			continue
+		tier = isnull(tier) ? loadout.miracle_tier : max(tier, loadout.miracle_tier)
+	if(isnull(tier))
+		return
+	if(!H.grant_npc_miracle_tier(tier))
+		stack_trace("npc archetype [type] grants miracles but its patron has none")
+
+/mob/living/carbon/human/proc/grant_npc_miracle_tier(tier)
+	var/datum/patron/god = patron
+	if(!length(god?.miracles))
+		return FALSE
+	var/datum/devotion/holder = devotion || new /datum/devotion(src, god)
+	holder.level = tier
+	holder.max_devotion = tier >= CLERIC_T3 ? CLERIC_REQ_2 : CLERIC_REQ_1
+	holder.devotion = holder.max_devotion
+	holder.passive_devotion_gain = CLERIC_REGEN_WEAK
+	START_PROCESSING(SSobj, holder)
+	for(var/spell_type in god.miracles)
+		if(god.miracles[spell_type] > tier || !ispath(spell_type, /datum/action/cooldown/spell))
+			continue
+		if((spell_type in GLOB.utility_spells) || (spell_type in GLOB.npc_skipped_spells))
+			continue
+		if(locate(spell_type) in actions)
+			continue
+		var/datum/action/cooldown/spell/miracle = new spell_type(src)
+		miracle.Grant(src)
+	return TRUE
 
 /datum/npc_archetype/proc/apply_skills(mob/living/carbon/human/H)
 	apply_skill_group(H, GLOB.npc_melee_skills, melee)

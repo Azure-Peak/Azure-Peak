@@ -405,14 +405,14 @@
 
 /obj/item/rogueweapon/hammer/wood	// wood hammer (mallet)
 	name = "wooden mallet"
-	desc = "A wooden mallet is an Artificer's second best friend! But it may also come in handy to a Blacksmith or Tailor.."
+	desc = "A wooden mallet is an Artificer's second-best friend! But it may also come in handy to a Blacksmith or Tailor.."
 	icon_state = "hammer_w"
 	force = 16
 	anvilrepair = /datum/skill/craft/crafting
 
 /obj/item/rogueweapon/hammer/stone	// stone hammer
 	name = "stone hammer"
-	desc = "A makeshift hammer, made with a crudly chisled-down rock."
+	desc = "A makeshift hammer, made with a crudely chiseled-down rock."
 	icon_state = "hammer_r"
 	force = 18
 	max_integrity = 15
@@ -420,7 +420,7 @@
 
 /obj/item/rogueweapon/hammer/paalloy
 	name = "ancient hammer"
-	desc = "A hammer of polished gilbranze. Remade masterfully upon a smooth handle, it shall make forth the armaments of Her legionnaries and great works.."
+	desc = "A hammer of polished gilbranze. Remade masterfully upon a smooth handle, it shall make forth the armaments of Her legionnaires and great works.."
 	icon_state = "ahammer"
 	force = 21
 	smeltresult = /obj/item/ingot/aaslag
@@ -611,7 +611,7 @@
 
 /obj/item/rogueweapon/tongs/aalloy
 	name = "decrepit tongs"
-	desc = "Rotted metal pincers the molten alloy, putting it before the anvil and hammer. Soon, it will fashion a new legacy; one unmarred by this dogmatic millenia."
+	desc = "Rotted metal pincers the molten alloy, putting it before the anvil and hammer. Soon, it will fashion a new legacy; one unmarred by this dogmatic millennia."
 	icon_state = "atongs"
 	force = 5
 	smeltresult = null
@@ -631,7 +631,7 @@
 
 /obj/item/rogueweapon/tongs/paalloy
 	name = "ancient tongs"
-	desc = "Polished gilbranze pincers the molten alloy, putting it before the anvil and hammer. Soon, it will fashion a new legacy; one unmarred by this dogmatic millenia."
+	desc = "Polished gilbranze pincers the molten alloy, putting it before the anvil and hammer. Soon, it will fashion a new legacy; one unmarred by this dogmatic millennia."
 	icon_state = "atongs"
 	smeltresult = null
 	auto_collect = TRUE

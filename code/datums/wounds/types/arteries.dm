@@ -30,7 +30,7 @@
 /datum/wound/artery/on_mob_gain(mob/living/affected)
 	. = ..()
 	affected.emote("paincrit", TRUE)
-	affected.Slowdown(20)
+	affected.apply_slowdown(39 SECONDS)
 	shake_camera(affected, 2, 2)
 	if(iscarbon(owner) && owner.mind)
 		affected.apply_status_effect(/datum/status_effect/debuff/critwounded) //apply critically wounded - more energy in cmode cost. Until fixed.
@@ -141,7 +141,7 @@
 /datum/wound/integrity/on_mob_gain(mob/living/carbon/affected)
 	. = ..()
 	affected.emote("superagony", TRUE)
-	affected.Slowdown(20)
+	affected.apply_slowdown(39 SECONDS)
 	affected.electrocute_act(10, affected)
 	shake_camera(affected, 2, 2)
 	if(iscarbon(owner) && owner.mind)
@@ -250,7 +250,7 @@
 	if(!source)
 		return
 	// look what you FUCKING did!!! D:
-	explosion(source, devastation_range = 0, heavy_impact_range = 0, light_impact_range = 0, flash_range = 3, adminlog = FALSE, ignorecap = TRUE)
+	explosion(source, extreme_impact_range = 0, heavy_impact_range = 0, light_impact_range = 0, flash_range = 3, adminlog = FALSE, ignorecap = TRUE)
 
 	var/list/thrownatoms = list()
 	for(var/turf/T in get_hear(2, source))

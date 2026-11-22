@@ -236,7 +236,7 @@
 	attacker.remove_status_effect(/datum/status_effect/debuff/exposed)
 	attacker.apply_status_effect(/datum/status_effect/debuff/exposed, 5 SECONDS)
 	attacker.apply_status_effect(/datum/status_effect/debuff/clickcd, 3 SECONDS)
-	attacker.Slowdown(3)
+	attacker.apply_slowdown(5 SECONDS)
 	var/datum/status_effect/buff/arcyne_momentum/momentum = attacker.has_status_effect(/datum/status_effect/buff/arcyne_momentum)
 	if(momentum && momentum.stacks > 0)
 		momentum.consume_all_stacks()
@@ -259,7 +259,7 @@
 	if(istype(src, /mob/living/simple_animal))
 		var/mob/living/simple_animal/weakpoint_target = src
 		actual_damage *= weakpoint_target.weakpoint_damage_mod(def_zone)
-		actual_damage *= P.npc_simple_damage_mult
+		actual_damage *= P.antibeast_factor
 		if(P.spell_damage_scaled)
 			actual_damage /= SPELL_DAMAGE_GENERAL_MODIFIER
 	var/nodmg = FALSE
@@ -313,7 +313,9 @@
 	return 0
 
 /mob/living/proc/check_projectile_wounding(obj/projectile/P, def_zone)
-	return simple_woundcritroll(P.woundclass, P.damage, null, def_zone, crit_message = TRUE, ranged = TRUE, penfactor = P.armor_penetration)
+	var/mob/living/shooter = P.firer
+	var/part_mult = (istype(shooter) && shooter.is_monster_hunting(src)) ? MONSTER_HUNTER_RANGED_PART_MULT : 1
+	return simple_woundcritroll(P.woundclass, P.damage * P.antibeast_factor, null, def_zone, crit_message = TRUE, ranged = TRUE, penfactor = P.armor_penetration, part_mult = part_mult)
 
 /mob/living/proc/check_projectile_embed(obj/projectile/P, def_zone)
 	// Disable embeds on simples, allowing it to override on complex.
@@ -334,12 +336,15 @@
 		var/zone = throwingdatum?.target_zone || ran_zone(BODY_ZONE_CHEST, 65)
 		SEND_SIGNAL(I, COMSIG_MOVABLE_IMPACT_ZONE, src, zone)
 		if(SEND_SIGNAL(src, COMSIG_LIVING_IMPACT_ZONE, I, zone) & COMPONENT_CANCEL_THROW)
-			return FALSE
+			return TRUE
 		if(!blocked)
 			var/armor = run_armor_check(zone, damage_flag, "", "", armor_penetration = I.armor_penetration, damage = I.throwforce, used_weapon = I)
 			next_attack_msg.Cut()
 			var/nodmg = FALSE
-			if(!apply_damage(I.throwforce, I.damtype, zone, armor))
+			var/throw_damage = I.throwforce
+			if(isanimal(src))
+				throw_damage *= I.antibeast_factor
+			if(!apply_damage(throw_damage, I.damtype, zone, armor))
 				nodmg = TRUE
 				next_attack_msg += VISMSG_ARMOR_BLOCKED
 			if(!nodmg)
@@ -411,14 +416,13 @@
 //proc to upgrade a simple pull into a more aggressive grab.
 /mob/living/proc/grippedby(mob/living/carbon/user, instant = FALSE)
 	var/clickcd = CLICK_CD_MELEE
-	if(mind && src != user)
+	if(src != user && !isanimal(src))
 		clickcd = CLICK_CD_WRESTLING
 	user.changeNext_move(clickcd)
 	var/skill_diff = 0
 	var/combat_modifier = 1
-	if(user.mind)
-		skill_diff += (user.get_skill_level(/datum/skill/combat/wrestling)) //NPCs don't use this
-	if(mind)
+	skill_diff += (user.get_skill_level(/datum/skill/combat/wrestling))
+	if(!isanimal(src))
 		skill_diff -= (get_skill_level(/datum/skill/combat/wrestling))
 
 	if(user == src)
@@ -462,7 +466,7 @@
 			to_chat(user, span_warning("I struggle with [src]!"))
 		playsound(src.loc, 'sound/foley/struggle.ogg', 100, FALSE, -1)
 		user.Immobilize(2 SECONDS)
-		user.changeNext_move((mind ? CLICK_CD_WRESTLING : CLICK_CD_MELEE))
+		user.changeNext_move(isanimal(src) ? CLICK_CD_MELEE : CLICK_CD_WRESTLING)
 		src.Immobilize(1 SECONDS)
 		src.changeNext_move(CLICK_CD_GRAB_RESIST)
 		if(user.badluck(5))
@@ -579,11 +583,6 @@
 			return FALSE
 		if(M.incapacitated())
 			return FALSE
-
-		if(ishuman(src))
-			var/mob/living/carbon/human/H = src
-			if(H.has_active_golgatha())
-				H.process_golgatha_rebuke(M)
 
 		if(checkguard(M))
 			return FALSE

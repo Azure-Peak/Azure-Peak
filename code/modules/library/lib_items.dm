@@ -30,15 +30,16 @@
 	state = 2
 	anchored = TRUE
 	for(var/obj/item/I in loc)
-		for(var/allowedtype in allowed_books)
-			if(istype(I, allowedtype))
-				I.forceMove(src)
+		if(contents.len >= 15)
+			break
+		if(is_type_in_list(I, allowed_books))
+			I.forceMove(src)
 	update_icon()
 
 /obj/structure/bookcase/attackby(obj/item/I, mob/user, params)
 	var/datum/component/storage/STR = I.GetComponent(/datum/component/storage)
 	if(is_type_in_list(I, allowed_books))
-		if(!(contents.len <= 15))
+		if(contents.len >= 15)
 			to_chat(user, span_notice("There are too many books on this shelf!"))
 			return
 		if(!user.transferItemToLoc(I, src))
@@ -46,7 +47,9 @@
 		update_icon()
 	else if(STR)
 		for(var/obj/item/T in I.held_contents())
-			if(istype(T, /obj/item/book))
+			if(contents.len >= 15)
+				break
+			if(is_type_in_list(T, allowed_books))
 				I.release_held(T, src)
 		to_chat(user, span_notice("I empty \the [I] into \the [src]."))
 		update_icon()
@@ -105,7 +108,7 @@
 		unhide(user)
 
 /obj/structure/bookcase/deconstruct(disassembled = TRUE)
-	for(var/obj/item/book/B in contents)
+	for(var/obj/item/B in contents)
 		B.forceMove(get_turf(src))
 	new /obj/item/grown/log/tree/small(get_turf(src.loc))
 	qdel(src)
@@ -115,3 +118,15 @@
 		icon_state = "[based][contents.len]"
 	else
 		icon_state = "bookcase"
+
+/obj/structure/bookcase/fancy
+	name = "fancy bookcase"
+	desc = "An ornate wooden bookcase with room for a small collection."
+	icon = 'icons/roguetown/misc/fancybookshelf.dmi'
+	icon_state = "fancybookcase"
+	opacity = TRUE
+
+/obj/structure/bookcase/fancy/update_icon()
+	..()
+	if(icon_state == "bookcase")
+		icon_state = "fancybookcase"

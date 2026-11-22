@@ -645,13 +645,16 @@
 		QDEL_NULL(target)
 		return TRUE
 
-/obj/effect/proc_holder/spell/invoked/fire_obelisk_beam/drakeling
-	name = "Abberant Beam"
+/obj/effect/proc_holder/spell/invoked/drakeling_beam
+	name = "Aberrant Beam"
 	desc = "Show these fools the power of the void!"
 	recharge_time = 30 SECONDS
+	overlay_state = "regression"
 	overlay_icon = 'icons/mob/actions/mage_shared.dmi'
 	overlay_icon_state = "soulshot"
+	chargetime = 0
 	range = 4
+	antimagic_allowed = TRUE
 
 /obj/effect/obeliskbeam/drakeling
 	name = "drakeling beam"
@@ -664,7 +667,7 @@
 		hit_mob.apply_damage(damage = SPELL_DMG_VS(hit_mob, SPELL_DMG(3)), damagetype = BURN)
 	to_chat(hit_mob, span_danger("You're damaged by [src]!"))
 
-/obj/effect/proc_holder/spell/invoked/fire_obelisk_beam/drakeling/cast(list/targets, mob/living/carbon/human/species/familiar/void/user)
+/obj/effect/proc_holder/spell/invoked/drakeling_beam/cast(list/targets, mob/living/carbon/human/species/familiar/void/user)
 	user.face_atom(targets[1])
 	user.move_resist = MOVE_FORCE_VERY_STRONG
 	if(do_after(user,1 SECONDS, target=user))
@@ -691,7 +694,7 @@
 				if(issimple(hit_mob))
 					hit_mob.apply_damage(damage = SPELL_DMG_VS(hit_mob, SPELL_DMG(15)), damagetype = BURN)
 				else
-					hit_mob.apply_damage(damage = SPELL_DMG_VS(hit_mob, SPELL_DMG(5)), damagetype = BURN) // this is literally one-fifth of the normal abberant beam you will not be fragging with this
+					hit_mob.apply_damage(damage = SPELL_DMG_VS(hit_mob, SPELL_DMG(5)), damagetype = BURN) // this is literally one-fifth of the normal aberrant beam you will not be fragging with this
 				to_chat(hit_mob, span_userdanger("You're blasted by [user]'s aberrant beam!"))
 		if(!length(user.beam_parts))
 			return FALSE

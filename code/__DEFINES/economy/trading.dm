@@ -65,7 +65,7 @@
 #define TRADE_MERCHANT_MIDDLEMAN_CUT_PERCENT 25
 #define TRADE_MERCHANT_LEVY_DEFAULT_PERCENT 15
 #define TRADE_MERCHANT_LEVY_CAP_PERCENT 50
-#define TRADE_CULTURAL_SHIP_DISCOUNT_PERCENT 50
+#define TRADE_CULTURAL_SHIP_DISCOUNT_PERCENT 70
 
 // For any upgrades you can buy
 #define ADDITIONAL_PIER_FAVOR 1250
@@ -166,6 +166,22 @@
 #define NAVIGATOR_SMUGGLER_FEE 0.5
 #define NAVIGATOR_SMUGGLER_FACILITATOR_RANGE 7
 #define GOLDFACE_PUBLIC_FEE 0.5
+#define VHESLIE_CATEGORIES list(\
+	"Apparel (Ascendant Amulets)",\
+	"Illicit Medical Supplies",\
+	"Illicit Utility Supplies",\
+	"Apparel",\
+	"Adventuring Supplies",\
+	"Instruments",\
+	"Wardrobe",\
+	"Alcohols",\
+	"Consumable",\
+	"Armor (Light)",\
+	"Armor (Iron)",\
+	"Weapons (Ranged)",\
+	"Weapons (Iron and Shields)",\
+	"Weapons (Bronze)",\
+)
 #define ESCROW_DEFAULT_PERCENT_MARGIN 70
 #define ESCROW_DEFAULT_FLAT_MARGIN 5
 #define SCRAPPER_SEED_BUDGET 50

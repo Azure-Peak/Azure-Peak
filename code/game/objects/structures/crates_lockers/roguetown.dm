@@ -42,7 +42,7 @@
 
 /obj/structure/closet/crate/chest/lootbox/PopulateContents()
 	var/list/loot = list(/obj/item/cooking/pan=33,
-		/obj/item/bomb=6,
+		/obj/item/explosive/fused/bottle=6,
 		/obj/item/rogueweapon/huntingknife/idagger=33,
 		/obj/item/clothing/suit/roguetown/armor/gambeson=33,
 		/obj/item/clothing/suit/roguetown/armor/leather=33,
@@ -167,7 +167,6 @@
 	close_sound = 'sound/misc/chestclose.ogg'
 	keylock = FALSE
 	locked = FALSE
-	sellprice = 1
 	max_integrity = 50
 	blade_dulling = DULLING_BASHCHOP
 	mob_storage_capacity = 1
@@ -404,3 +403,41 @@
 		)
 	var/I = pickweight(loot)
 	new I(src)
+
+/obj/structure/closet/crate/chest/wickertrunk
+	name = "wicker trunk"
+	desc = "Fibers interwoven to make a somewhat sturdy trunk."
+	base_icon_state = "wickertrunk"
+	icon_state = "wickertrunk"
+	open_sound = 'sound/items/book_open.ogg'
+	close_sound = 'sound/items/book_close.ogg'
+	sellprice = 0
+
+/obj/structure/closet/crate/chest/wickertrunk/blue
+	name = "decorated wicker trunk"
+	desc = "A somewhat sturdy wicker trunk covered in a linen throw rug, \
+		quaint."
+	base_icon_state = "bluewickertrunk"
+	icon_state = "bluewickertrunk"
+	open_sound = 'sound/items/book_open.ogg'
+	close_sound = 'sound/items/book_close.ogg'
+	sellprice = 0
+
+/obj/structure/closet/crate/chest/wickertrunk/red
+	name = "decorated wicker trunk"
+	desc = "A somewhat sturdy wicker trunk covered in a linen throw rug, \
+		quaint."
+	base_icon_state = "redwickertrunk"
+	icon_state = "redwickertrunk"
+	open_sound = 'sound/items/book_open.ogg'
+	close_sound = 'sound/items/book_close.ogg'
+	sellprice = 0
+
+/obj/structure/closet/crate/chest/shippingcrate
+	name = "shipping crate"
+	desc = "A sturdy wooden crate held together with bronze nails."
+	base_icon_state = "shippingcrate"
+	icon_state = "shippingcrate"
+	open_sound = 'sound/foley/doors/windowup.ogg'
+	close_sound = 'sound/foley/doors/shittyclose.ogg'
+	sellprice = 0

@@ -221,6 +221,10 @@
 	name = "cooked fish"
 	scent = "cooked fish"
 
+/datum/pollutant/food/baked_swordfish
+	name = "cooked swordfish"
+	scent = "cooked swordfish"
+
 // Fried crab, especially soft shell crab, has a very distinct smell
 /datum/pollutant/food/fried_crab
 	name = "fried crab"

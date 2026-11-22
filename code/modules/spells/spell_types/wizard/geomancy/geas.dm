@@ -32,7 +32,7 @@
 
 	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN
 
-	var/area_of_effect = 1
+	impact_radius = 1
 	var/hold_duration = 3 SECONDS
 	var/delay = 0.8 SECONDS
 
@@ -46,7 +46,7 @@
 	if(!T)
 		return FALSE
 
-	for(var/turf/affected_turf in get_hear(area_of_effect, T))
+	for(var/turf/affected_turf as anything in get_impact_turfs(T))
 		if(affected_turf.density)
 			continue
 		new /obj/effect/temp_visual/geas(affected_turf)
@@ -56,20 +56,23 @@
 	return TRUE
 
 /datum/action/cooldown/spell/geas/proc/apply_geas(turf/T, mob/living/caster)
-	for(var/mob/living/simple_animal/hostile/animal in range(area_of_effect, T))
-		animal.Paralyze(hold_duration, updating = TRUE, ignore_canstun = TRUE)
-	for(var/mob/living/L in range(area_of_effect, T))
-		if(L.anti_magic_check())
-			L.visible_message(span_warning("The binding can't seem to latch onto [L]!"))
-			playsound(get_turf(L), 'sound/magic/magic_nulled.ogg', 100)
-			continue
-		if(spell_guard_check(L, TRUE, caster))
-			L.visible_message(span_warning("[L] breaks free of the binding!"))
-			continue
-		L.Immobilize(hold_duration)
-		L.OffBalance(hold_duration)
-		L.visible_message(span_warning("[L] is bound fast to the earth!"))
-		new /obj/effect/temp_visual/geas/long(get_turf(L))
+	var/list/impact = get_impact_turfs(T)
+	for(var/turf/affected as anything in impact)
+		for(var/mob/living/simple_animal/hostile/animal in affected)
+			animal.Paralyze(hold_duration, updating = TRUE, ignore_canstun = TRUE)
+	for(var/turf/affected as anything in impact)
+		for(var/mob/living/L in affected)
+			if(L.anti_magic_check())
+				L.visible_message(span_warning("The binding can't seem to latch onto [L]!"))
+				playsound(get_turf(L), 'sound/magic/magic_nulled.ogg', 100)
+				continue
+			if(spell_guard_check(L, TRUE, caster))
+				L.visible_message(span_warning("[L] breaks free of the binding!"))
+				continue
+			L.Immobilize(hold_duration)
+			L.OffBalance(hold_duration)
+			L.visible_message(span_warning("[L] is bound fast to the earth!"))
+			new /obj/effect/temp_visual/geas/long(get_turf(L))
 
 /obj/effect/temp_visual/geas
 	icon = 'icons/effects/effects.dmi'

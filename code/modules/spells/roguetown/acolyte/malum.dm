@@ -1,7 +1,7 @@
 /datum/action/cooldown/spell/malum
 	background_icon = 'icons/mob/actions/malummiracles.dmi'
 	button_icon = 'icons/mob/actions/malummiracles.dmi'
-	spell_color = GLOW_COLOR_MALUM
+	spell_color = PATRON_COLOR_MALUM
 	sparks_amt = 3 //God of fire
 
 	attunement_school = null
@@ -29,7 +29,7 @@
 /datum/action/cooldown/spell/miracle/ignition/malum
 	background_icon = 'icons/mob/actions/malummiracles.dmi'
 	button_icon = 'icons/mob/actions/malummiracles.dmi'
-	spell_color = GLOW_COLOR_MALUM
+	spell_color = PATRON_COLOR_MALUM
 	required_items = list(/obj/item/clothing/neck/roguetown/psicross/malum, /obj/item/clothing/neck/roguetown/psicross/undivided, /obj/item/clothing/neck/roguetown/psicross/silver/undivided)
 
 /////////////////////////
@@ -147,7 +147,7 @@
 /datum/action/cooldown/spell/malum/vigorousexchange
 	name = "Vigorous Exchange"
 	desc = "Restores the target's Energy, twice as effective on someone else."
-	fluff_desc = "Behind every great work is a hard-working master, dilligent and patient yet not immune from intricacies of lyfe. Even Malum has once fallen to such after losing His hammer, exhausted and weak he was nursed back to health by Pestra so that even he may continue on. Now Their shared gift fuels the forges of Psydonia for no great work shall go unfinished so long as They maintain vigil."
+	fluff_desc = "Behind every great work is a hard-working master, diligent and patient yet not immune from intricacies of lyfe. Even Malum has once fallen to such after losing His hammer, exhausted and weak he was nursed back to health by Pestra so that even he may continue on. Now Their shared gift fuels the forges of Psydonia for no great work shall go unfinished so long as They maintain vigil."
 	button_icon_state = "vigorousexchange"
 	sound = 'sound/magic/undivided_recuperation.ogg'
 	glow_intensity = GLOW_INTENSITY_LOW
@@ -295,7 +295,7 @@
 	animate(alpha = 0, time = 3)
 
 /obj/effect/temp_visual/telegraph/hammerfall
-	light_color = GLOW_COLOR_MALUM
+	light_color = PATRON_COLOR_MALUM
 	duration = 3 SECONDS
 
 /obj/effect/temp_visual/ferramancy_hammer/malum

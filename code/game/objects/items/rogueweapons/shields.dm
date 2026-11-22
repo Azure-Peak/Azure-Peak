@@ -32,7 +32,7 @@
 
 /obj/item/rogueweapon/shield/equipped(mob/user, slot, initial)
 	. = ..()
-	if(HAS_TRAIT(user, TRAIT_TINYPAWS))
+	if(HAS_TRAIT(user, TRAIT_WEAPONLESS))
 		to_chat(user, span_danger("The shield is too bulky for me to wield effectively!"))
 		forceMove(user.loc)
 
@@ -460,7 +460,7 @@
 
 /obj/item/rogueweapon/shield/tower/metal/gold
 	name = "golden shield"
-	desc = "A resplendant kite shield, assembled from six golden plates that've been hooked together by a glimmering holy sigil. Nobility may be fragile, \
+	desc = "A resplendent kite shield, assembled from six golden plates that've been hooked together by a glimmering holy sigil. Nobility may be fragile, \
 	but - so long as its grip remains steadfast - none could ever hope to sever its weakest link."
 	icon_state = "goldshield"
 	force = 25

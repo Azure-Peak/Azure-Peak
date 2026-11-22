@@ -254,8 +254,6 @@
 			if (user && winexists(user, window_id))
 				if (focusedwindow)
 					winset(user, focusedwindow, "focus=true")
-				else
-					winset(user, "mapwindow", "focus=true")
 				break
 	if (timeout)
 		addtimer(CALLBACK(src, PROC_REF(close)), timeout)

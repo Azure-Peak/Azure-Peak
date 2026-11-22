@@ -9,4 +9,5 @@
 		/mob/living/simple_animal/hostile/retaliate/rogue/troll = 50,
 		/mob/living/simple_animal/hostile/retaliate/rogue/troll/axe = 35,
 		/mob/living/simple_animal/hostile/retaliate/rogue/troll/cave = 15,
+		/mob/living/simple_animal/hostile/retaliate/rogue/troll/undead = 5,
 	)

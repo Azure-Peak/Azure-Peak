@@ -41,14 +41,17 @@
 	. = ..()
 	if(!. || !npc_controlled() || !isliving(owner))
 		return .
-	var/mob/living/shooter = owner
-	for(var/turf/T in getline(shooter, target))
-		for(var/mob/living/blocker in T)
-			if(blocker == shooter || blocker == target)
-				continue
-			if(shooter.faction_check_mob(blocker))
-				return FALSE
-	return TRUE
+	if(npc_line_obstructed(target))
+		return FALSE
+	return !npc_line_blocked(target) || npc_can_fire_past_allies()
+
+/datum/action/cooldown/spell/projectile/proc/npc_can_fire_past_allies()
+	return !!projectile_type_arc
+
+/datum/action/cooldown/spell/projectile/npc_cast_target(atom/target)
+	if(projectile_type_arc)
+		arc_mode = npc_line_blocked(target)
+	return target
 
 /datum/action/cooldown/spell/projectile/ai_commit_time()
 	return charge_required ? charge_time : 0
@@ -66,7 +69,7 @@
 	else if(aim_locked_turf && isliving(owner))
 		var/mob/living/caster = owner
 		var/obj/projectile/active_type = (arc_mode && projectile_type_arc) ? projectile_type_arc : projectile_type
-		target = caster.get_ranged_lead_turf(target, aim_locked_turf, initial(active_type.speed), caster.STAINT) || target
+		target = caster.get_ranged_lead_turf(target, aim_locked_turf, initial(active_type.speed), caster.STAINT, CASTER_NPC_LEAD_ERROR_BONUS) || target
 
 	fire_projectile(target)
 	aim_locked_turf = null

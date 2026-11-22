@@ -23,7 +23,7 @@
 
 /obj/item/roguekey/get_mechanics_examine(mob/user)
 	. = ..()
-	. += span_info("Left-click an locked door to unlock it.")
+	. += span_info("Left-click a locked door to unlock it.")
 	. += span_info("Right-click an unlocked door to lock it.")
 	. += span_info("Most keys can only open a specific type of door.")
 
@@ -38,6 +38,10 @@
 				lockhash = rand(100,999)
 			GLOB.lockhashes += lockhash
 			GLOB.lockids[lockid] = lockhash
+
+/// Base proc should we want our key to do something (like count down limited uses on use. Called by door interactions.)
+/obj/item/roguekey/proc/on_use()
+	return TRUE // We return FALSE elsewhere if something changes.
 
 /obj/item/lockpick
 	name = "lockpick"
@@ -1144,6 +1148,33 @@
 	desc = "A key to the peddler within the shop, in the Hamlet."
 	icon_state = "brownkey"
 	lockid = "hamvendor"
+
+/obj/item/roguekey/waxkey
+	name = "wax key"
+	desc = "A makeshift key made by uncouth hands. It's made to imitate another. It doesn't look like it'll hold up for many uses."
+	icon_state = "waxkey"
+	experimental_inhand = FALSE
+	item_flags = INHANDS_INVISIBLE
+	resistance_flags = FLAMMABLE
+	var/uses = 3 // Meant to be overridden on init, base value just for safety.
+
+/obj/item/roguekey/waxkey/Initialize(mapload, custom_hash, new_uses)
+	. = ..()
+	if(custom_hash)
+		lockhash = custom_hash
+	if(new_uses)
+		uses = new_uses
+
+/obj/item/roguekey/waxkey/on_use()
+	if(uses > 1)
+		uses--
+		return TRUE
+	else
+		visible_message(span_warning("\The [src] snaps, leaving parts of it in the keyhole!"), vision_distance = 3)
+		playsound(src, 'sound/effects/waxkey_snap.ogg', 100, TRUE)
+		qdel(src)
+		return FALSE
+
 
 ///////////////////////////////////////
 // ABSOLUTELY ZERO CLUE WHAT THIS IS //

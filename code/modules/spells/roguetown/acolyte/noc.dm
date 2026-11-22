@@ -1,7 +1,7 @@
 /datum/action/cooldown/spell/noc
 	background_icon = 'icons/mob/actions/nocmiracles.dmi'
 	button_icon = 'icons/mob/actions/nocmiracles.dmi'
-	spell_color = GLOW_COLOR_NOC
+	spell_color = PATRON_COLOR_NOC
 
 	ignore_armor_penalty = TRUE
 
@@ -208,7 +208,7 @@
 	background_icon = 'icons/mob/actions/nocmiracles.dmi'
 	button_icon = 'icons/mob/actions/nocmiracles.dmi'
 	button_icon_state = "blindness"
-	spell_color = GLOW_COLOR_NOC
+	spell_color = PATRON_COLOR_NOC
 	glow_intensity = GLOW_INTENSITY_LOW
 
 	projectile_type = /obj/projectile/magic/noc_owl
@@ -218,7 +218,7 @@
 	primary_resource_cost = SPELLCOST_MIRACLE
 
 	secondary_resource_type = SPELL_COST_STAMINA
-	primary_resource_cost = SPELLCOST_MINOR_PROJECTILE
+	secondary_resource_cost = SPELLCOST_MINOR_PROJECTILE
 
 	invocation_type = INVOCATION_SHOUT
 	invocations = list("Blackest nite, blind!")

@@ -16,7 +16,7 @@
 /obj/machinery/light/rogue/forge/get_mechanics_examine(mob/user)
 	. = ..()
 	. += span_info("When held with a pair of tongs, left-clicking the forge with an ingot will temporarily heat it up. Heated-up ingots can then be placed on an anvil and pounded into a variety of recipes.")
-	. += span_info("Left-clicking the forge with a torch, lamptern, flint, or other type of ignitioneer will light it back up. Fuel - like wood and books - can be added by left-clicking the forge with it.")
+	. += span_info("Left-clicking the forge with a torch, lamptern, flint, or other ignition source will light it back up. Fuel - like wood and books - can be added by left-clicking the forge with it.")
 
 /obj/machinery/light/rogue/forge/attackby(obj/item/W, mob/living/user, params)
 	if(istype(W, /obj/item/rogueweapon/tongs) && on)

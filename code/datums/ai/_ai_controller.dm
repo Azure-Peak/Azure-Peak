@@ -76,6 +76,10 @@ have ways of interacting with a specific atom and control it. They posses a blac
 	var/next_climb_time = 0
 	///Delay between climb attempts so AI doesn't rapidly hop back and forth across fences.
 	var/climb_interval = 10 SECONDS
+	var/climb_windup = 0
+	var/turf/climb_windup_turf
+	var/climb_ready_time = 0
+	var/turf/climb_failed_turf
 	///
 	var/movement_displacement_time = 0
 
@@ -238,6 +242,15 @@ have ways of interacting with a specific atom and control it. They posses a blac
 	SHOULD_CALL_PARENT(TRUE)
 	return !QDELETED(pawn)
 
+/datum/ai_controller/proc/climb_windup_done(turf/climb_turf)
+	if(!climb_windup)
+		return TRUE
+	if(climb_windup_turf != climb_turf)
+		climb_windup_turf = climb_turf
+		climb_ready_time = world.time + climb_windup
+		return FALSE
+	return world.time >= climb_ready_time
+
 ///Interact with objects
 /datum/ai_controller/proc/ai_interact(target, combat_mode, nextmove = FALSE, list/modifiers)
 	if(!ai_can_interact())
@@ -281,12 +294,76 @@ have ways of interacting with a specific atom and control it. They posses a blac
 /datum/ai_controller/proc/check_target_max_distance()
 	if(get_dist_3d(pawn, current_movement_target) <= max_target_distance)
 		return
-	var/last_hit = blackboard["bb_last_ranged_hit_time"] || 0
-	var/mob/last_shooter = blackboard["bb_last_ranged_attacker"]
-	var/commanded_travel = (current_movement_target == blackboard[BB_TRAVEL_DESTINATION])
-	if(commanded_travel || (last_shooter == current_movement_target && (world.time - last_hit < 15 SECONDS)))
+	if(current_movement_target == blackboard[BB_TRAVEL_DESTINATION] || in_hot_pursuit(current_movement_target))
 		return
 	CancelActions()
+
+/datum/ai_controller/proc/in_hot_pursuit(atom/target)
+	if(!target || blackboard["bb_last_ranged_attacker"] != target)
+		return FALSE
+	return world.time - (blackboard["bb_last_ranged_hit_time"] || 0) < AI_HOT_PURSUIT_GRACE
+
+/datum/ai_controller/proc/remember_target_at(atom/target)
+	if(blackboard[BB_TARGET_LAST_SEEN] != target)
+		set_blackboard_key(BB_TARGET_LAST_SEEN, target)
+	var/turf/seen_at = get_turf(target)
+	if(blackboard[BB_TARGET_LAST_SEEN_TURF] != seen_at)
+		set_blackboard_key(BB_TARGET_LAST_SEEN_TURF, seen_at)
+	set_blackboard_key(BB_TARGET_LAST_SEEN_TIME, world.time)
+
+/// Something gave away where target is, such as it attacking us or an ally calling it out.
+/datum/ai_controller/proc/reveal_target(atom/target)
+	if(blackboard[BB_TARGET_LAST_SEEN] == target)
+		remember_target_at(target)
+
+/// TRUE while target is in sight. A target we hold no memory of yet is remembered where it stands now.
+/datum/ai_controller/proc/track_target_sight(atom/target)
+	var/in_sight = can_see(pawn, target, max_target_distance)
+	if(in_sight || blackboard[BB_TARGET_LAST_SEEN] != target)
+		remember_target_at(target)
+	return in_sight
+
+/datum/ai_controller/proc/refresh_target_sight(atom/target)
+	if(blackboard[BB_TARGET_LAST_SEEN] == target && can_see(pawn, target, max_target_distance))
+		remember_target_at(target)
+
+/datum/ai_controller/proc/target_sight_lapsed(atom/target)
+	if(blackboard[BB_TARGET_LAST_SEEN] != target)
+		return TRUE
+	return world.time - blackboard[BB_TARGET_LAST_SEEN_TIME] > AI_TARGET_SIGHT_MEMORY
+
+/datum/ai_controller/proc/last_seen_position(atom/target)
+	if(blackboard[BB_TARGET_LAST_SEEN] == target && blackboard[BB_TARGET_LAST_SEEN_TURF])
+		return blackboard[BB_TARGET_LAST_SEEN_TURF]
+	return get_turf(target)
+
+/datum/ai_controller/proc/search_quarry()
+	if(!blackboard[BB_TARGET_SEARCH_TURF])
+		return null
+	return blackboard[BB_TARGET_LAST_SEEN]
+
+/datum/ai_controller/proc/search_for_target(atom/target)
+	var/turf/last_seen = blackboard[BB_TARGET_LAST_SEEN_TURF]
+	if(blackboard[BB_TARGET_SEARCH_TURF] != last_seen)
+		set_blackboard_key(BB_TARGET_SEARCH_TURF, last_seen)
+	if(blackboard[BB_BASIC_MOB_CURRENT_TARGET] != target)
+		return
+	AI_THINK(pawn, "SIGHT: lost sight of [target], searching [last_seen]")
+	clear_blackboard_key(BB_BASIC_MOB_CURRENT_TARGET)
+	clear_blackboard_key(BB_BASIC_MOB_CURRENT_TARGET_HIDING_LOCATION)
+
+/datum/ai_controller/proc/forget_target(atom/target)
+	clear_blackboard_key(BB_TARGET_SEARCH_TURF)
+	if(blackboard[BB_TARGET_LAST_SEEN] == target)
+		clear_blackboard_key(BB_TARGET_LAST_SEEN)
+		clear_blackboard_key(BB_TARGET_LAST_SEEN_TURF)
+	if(blackboard[BB_BASIC_MOB_CURRENT_TARGET] == target)
+		clear_blackboard_key(BB_BASIC_MOB_CURRENT_TARGET)
+		clear_blackboard_key(BB_BASIC_MOB_CURRENT_TARGET_HIDING_LOCATION)
+	if(blackboard[BB_HIGHEST_THREAT_MOB] == target)
+		clear_blackboard_key(BB_HIGHEST_THREAT_MOB)
+	var/datum/component/ai_aggro_system/aggro = pawn.GetComponent(/datum/component/ai_aggro_system)
+	aggro?.forget_threat(target)
 
 /datum/ai_controller/proc/on_movement_target_delete(atom/source)
 	SIGNAL_HANDLER
@@ -437,6 +514,38 @@ have ways of interacting with a specific atom and control it. They posses a blac
 	blackboard[BB_AI_ALERT_MODE_UNTIL] = world.time + 30 SECONDS
 	set_ai_status(AI_STATUS_ON)
 
+/datum/ai_controller/proc/force_aggro(mob/living/target, threat = AGGRO_THREAT_TAUNT)
+	if(QDELETED(target) || target == pawn)
+		return FALSE
+	insert_blackboard_key_lazylist(BB_BASIC_MOB_RETALIATE_LIST, target)
+	var/datum/component/ai_aggro_system/aggro = pawn.GetComponent(/datum/component/ai_aggro_system)
+	if(aggro)
+		aggro.add_threat_to_mob(target, threat)
+		return TRUE
+	if(blackboard[BB_BASIC_MOB_CURRENT_TARGET] == target)
+		return TRUE
+	set_blackboard_key(BB_HIGHEST_THREAT_MOB, target)
+	set_blackboard_key(BB_BASIC_MOB_CURRENT_TARGET, target)
+	wake_for_combat()
+	CancelActions()
+	return TRUE
+
+/datum/ai_controller/proc/has_aggro(atom/towards)
+	var/list/retaliate_list = blackboard[BB_BASIC_MOB_RETALIATE_LIST]
+	var/list/aggro_table = blackboard[BB_MOB_AGGRO_TABLE]
+	if(towards)
+		return (towards in retaliate_list) || aggro_table?[towards]
+	return length(retaliate_list) || length(aggro_table)
+
+/datum/ai_controller/proc/clear_aggro()
+	clear_blackboard_key(BB_BASIC_MOB_RETALIATE_LIST)
+	clear_blackboard_key(BB_BASIC_MOB_CURRENT_TARGET)
+	clear_blackboard_key(BB_BASIC_MOB_FLEE_TARGET)
+	clear_blackboard_key(BB_HIGHEST_THREAT_MOB)
+	if(blackboard[BB_MOB_AGGRO_TABLE])
+		blackboard[BB_MOB_AGGRO_TABLE] = list()
+	CancelActions()
+
 /// Sets the AI on or off based on current conditions, call to reset after you've manually disabled it somewhere
 /datum/ai_controller/proc/reset_ai_status()
 	set_ai_status(get_expected_ai_status())
@@ -500,6 +609,10 @@ have ways of interacting with a specific atom and control it. They posses a blac
 		var/mob/living/living_pawn = pawn
 		if(living_pawn.stat >= UNCONSCIOUS)
 			return FALSE
+	if(isanimal(pawn))
+		var/mob/living/simple_animal/animal_pawn = pawn
+		if(animal_pawn.tame && animal_pawn.has_buckled_mobs())
+			return FALSE
 	return TRUE
 
 /// Generates a plan and see if our existing one is still valid.
@@ -560,7 +673,7 @@ have ways of interacting with a specific atom and control it. They posses a blac
 			if(iscarbon(moving_pawn) && isliving(current_movement_target))
 				var/mob/living/carbon/carbon_pawn = moving_pawn
 				var/intent_reach = carbon_pawn.used_intent?.reach || 1
-				if(intent_reach > effective_required_distance)
+				if(intent_reach > effective_required_distance && world.time >= blackboard[BB_MELEE_CLOSE_IN_UNTIL])
 					effective_required_distance = intent_reach
 			if(((can_reach && effective_required_distance >= get_dist(moving_pawn, current_movement_target))) || failed_sneak_check > 4) ///Are we close
 				if(ai_movement.moving_controllers[src] == current_movement_target) //We are close enough, if we're moving stop.

@@ -41,6 +41,14 @@
 	var/mob/living/hiddenguy = null // So we can find them with fixed eye search
 	var/stakeable = TRUE
 
+/proc/has_table_surface(location)
+	return !!get_table_surface(location)
+
+/proc/get_table_surface(location)
+	if(!location)
+		return null
+	return (locate(/obj/structure/table) in location) || (locate(/obj/structure/flora/roguetree/stump) in location)
+
 /obj/structure/table/get_mechanics_examine(mob/user)
 	. = ..()
 	. += span_info("Some structures can be used as hiding places. Toggle the 'SNEAK' button on your HUD, then click the structure to hide in it. You can stop hiding by clicking the structure again, or by moving out of it.")
@@ -106,7 +114,7 @@
 	return ..()
 
 /obj/structure/table/proc/hideinside(mob/living/user)
-	if(user.in_combat_until > world.time)
+	if(user.is_in_combat())
 		return
 	var/sneak_level = user.get_skill_level(/datum/skill/misc/sneaking) || 0
 	var/sneaktime = max(10, 45 - (sneak_level * 5))	// 1.5 seconds at Legendary.
@@ -145,7 +153,7 @@
 		return 1
 	if(mover.throwing)
 		return 1
-	if(locate(/obj/structure/table) in get_turf(mover))
+	if(has_table_surface(get_turf(mover)))
 		return 1
 	else
 		return !density
@@ -500,7 +508,8 @@
 		/obj/structure/table/wood/fancy/purple,
 		/obj/structure/table/wood/fancy/red,
 		/obj/structure/table/wood/fancy/royalblack,
-		/obj/structure/table/wood/fancy/royalblue)
+		/obj/structure/table/wood/fancy/royalblue,
+		/obj/structure/table/wood/fancy/navy)
 	var/smooth_icon = 'icons/obj/smooth_structures/fancy_table.dmi' // see Initialize()
 
 /obj/structure/table/wood/fancy/Initialize(mapload)
@@ -673,6 +682,30 @@
 	// These aren't dense, so they shouldn't have an offset!
 	climb_offset = 0
 	pixel_y = 32
+	
+/obj/structure/rack/rogue/shelf/wall
+	icon = 'icons/roguetown/misc/structure.dmi'
+	icon_state = "shelf"
+	density = FALSE
+	climbable = FALSE
+	dir = SOUTH
+	// These aren't dense, so they shouldn't have an offset!
+	climb_offset = 0
+	pixel_y = 32
+	
+/obj/structure/rack/rogue/shelf/wall/OnCrafted(dirin)
+	pixel_x = 0
+	pixel_y = 0
+	switch(dirin)
+		if(NORTH)
+			pixel_y = 32
+		if(SOUTH)
+			pixel_y = -32
+		if(EAST)
+			pixel_x = 32
+		if(WEST)
+			pixel_x = -32
+	. = ..()
 
 /obj/structure/rack/rogue/shelf/big
 	icon = 'icons/roguetown/misc/structure.dmi'
@@ -748,3 +781,36 @@
 	else
 		patient = null
 		return FALSE
+
+/obj/structure/table/wood/smooth
+	icon = 'icons/obj/smooth_structures/tablewood_smooth.dmi'
+	icon_state = "tablewood_smooth"
+	smooth = SMOOTH_TRUE
+	canSmoothWith = list(/obj/structure/table/wood/smooth)
+
+/obj/structure/table/wood/cloth
+	name = "cloth-draped wooden table"
+	desc = "A sturdy wooden table covered with a linen cloth."
+	icon_state = "tablewood_brown"
+
+/obj/structure/table/wood/cloth/beige
+	icon_state = "tablewood_beige"
+
+/obj/structure/table/wood/cloth/red
+	icon_state = "tablewood_red"
+
+/obj/structure/table/wood/cloth/blue
+	icon_state = "tablewood_blue"
+
+/obj/structure/table/wood/cloth/green
+	icon_state = "tablewood_green"
+
+/obj/structure/table/wood/cloth/purple
+	icon_state = "tablewood_purple"
+
+/obj/structure/table/wood/round
+	icon_state = "tablewood_round"
+
+/obj/structure/table/wood/fancy/navy
+	icon_state = "fancy_table_navy"
+	smooth_icon = 'icons/obj/smooth_structures/fancy_table_navy.dmi'

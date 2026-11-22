@@ -12,7 +12,7 @@
 	if(quality > ITEM_QUALITY_STANDARD)
 		return pick(
 			"Fine work, my liege!",
-			"Tis the finest goods I have seen in this land!",
+			"'Tis the finest goods I have seen in this land!",
 			"Ah! Fineries suitable for a King!",
 			"We scratched the goods! Of the FINEST quality, my liege!",
 			"MORE!",
@@ -41,7 +41,7 @@
 			"Mermaids are leaping out of the water for this cargo!",
 			"These items might just make Psydon return!",
 			"The Captain is most pleased.",
-			"Tis was worth the trip to Azuria.",
+			"'Twas worth the trip to Azuria.",
 			"The Company appreciates your efforts.",
 			"FACTOR! MORE OF THIS!",
 			"FACTOR! DOUBLE THIS ONE'S PAY!",

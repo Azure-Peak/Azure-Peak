@@ -311,5 +311,5 @@
 
 /atom/movable/screen/alert/status_effect/debuff/conjure_backlash
 	name = "Conjurer's Backlash"
-	desc = "The unbinding of my conjured servant recoils upon me - the more grievously it was hurt, the deeper the toll. My body and focus are sapped until it passes."
+	desc = "The unbinding of my conjured servant recoils upon me. My body and focus are sapped until it passes."
 	icon_state = "debuff"

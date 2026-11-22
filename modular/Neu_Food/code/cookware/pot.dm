@@ -74,7 +74,7 @@
 
 /obj/item/reagent_containers/glass/bucket/pot/aalloy
 	name = "decrepit pot"
-	desc = "A kettle of rotted metal. One could only imagine what the stews of millenia prior must've tasted like; do you suppose they knew of seasonings-and-spices, too?"
+	desc = "A kettle of rotted metal. One could only imagine what the stews of millennia prior must've tasted like; do you suppose they knew of seasonings-and-spices, too?"
 	icon_state = "apote"
 	volume = 120
 	color = "#bb9696"
@@ -217,7 +217,7 @@
 /obj/item/reagent_containers/glass/bucket/pot/kettle/tankard
 	name = "tankard"
 	desc = "A heftsome, iron-bottomed mug. It can be set upon a hearth to brew traditional drinks, or - for the more \
-	alcoholically-inclined - used as a pitcher of liqour."
+	alcoholically-inclined - used as a pitcher of liquor."
 	icon = 'modular/Neu_Food/icons/cookware/unused.dmi'
 	icon_state = "stein"
 	volume = 60

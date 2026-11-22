@@ -67,6 +67,9 @@
 /proc/log_paper(text)
 	logger.Log(LOG_CATEGORY_GAME_PAPER, text)
 
+/proc/log_ghost_poll(text, list/data)
+	logger.Log(LOG_CATEGORY_GAME_GHOST_POLLS, text, data)
+
 /proc/log_asset(text)
 	logger.Log(LOG_CATEGORY_DEBUG_ASSET, text)
 

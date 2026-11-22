@@ -60,8 +60,8 @@
 				if(!stemmed)
 					bleeding = TRUE
 			wound.heal_wound(0.4) // 40% of the heal happens naturally.
-			if(HAS_TRAIT(src, TRAIT_DEATHLESS))
-				wound.heal_wound(0.6) // The other bulk of the effects, only if you are not Deathless.
+			if(!HAS_TRAIT(src, TRAIT_DEATHLESS) && !HAS_TRAIT(src, TRAIT_BLOODLOSS_IMMUNE) && !HAS_TRAIT(src, TRAIT_BLOOD_RESISTANCE))
+				wound.heal_wound(0.6) // The other bulk of the effects, only if you are not Deathless nor have any form of thing that can stall your death.
 				heal_psydonite(0.1, 0.1)
 		if(!(in_combat_until > world.time) && !cmode && !bleeding)
 			heal_psydonite(0.2, 0.2) // Heals damage over time, but you must be completely out of trouble to proc.
@@ -99,8 +99,6 @@
 
 	if(QDELETED(src)) // diseases can qdel the mob via transformations
 		return
-
-	handle_environment()
 
 	//Random events (vomiting etc)
 	handle_random_events()
@@ -189,9 +187,6 @@
 /mob/living/proc/handle_random_events()
 	return
 
-/mob/living/proc/handle_environment()
-	return
-
 /mob/living/proc/handle_wounds()
 	for(var/datum/wound/wound as anything in get_wounds())
 		if(!wound)
@@ -224,10 +219,6 @@
 /mob/living/proc/handle_status_effects()
 	if(confused)
 		confused = max(confused - 1, 0)
-	if(slowdown)
-		slowdown = max(slowdown - 1, 0)
-	if(slowdown <= 0)
-		remove_movespeed_modifier(MOVESPEED_ID_LIVING_SLOWDOWN_STATUS)
 
 /mob/living/proc/handle_traits()
 	//Eyes

@@ -179,6 +179,9 @@
 
 	///
 	var/quest_claim_barred = FALSE
+	var/quest_claim_towner_allowed = FALSE
+	var/quest_claim_lowpop_allowed = FALSE
+	var/quest_claim_solo_allowed = FALSE
 
 	///Whether this class has additional preferences specific to it, like bounties for wretch. Make sure to also put handling for it in the job's /Topic! See wretch.dm for an example. Note that this is true-by-default because the default handler handles advclass selection
 	var/has_subprefs = TRUE
@@ -220,11 +223,60 @@
 	if(winexists(usr, "[JOB_SUBPREFS_WINDOW_ID]"))
 		winset(usr, "[JOB_SUBPREFS_WINDOW_ID]", "focus=true")
 
-/proc/is_quest_claim_barred(mob/user)
+/proc/is_quest_claim_barred(mob/user, towner_posting = FALSE)
 	if(!user?.mind)
 		return FALSE
 	var/datum/job/J = user.job ? SSjob.GetJob(user.job) : null
-	return J?.quest_claim_barred ? TRUE : FALSE
+	if(!J?.quest_claim_barred)
+		return FALSE
+	if(J.quest_claim_solo_allowed)
+		return FALSE
+	if(J.quest_claim_lowpop_allowed && quest_claim_lowpop_active())
+		return FALSE
+	if(J.quest_claim_towner_allowed && towner_posting)
+		return FALSE
+	return TRUE
+
+/proc/has_quest_claim_solo_allowance(mob/user)
+	if(!user?.mind)
+		return FALSE
+	var/datum/job/J = user.job ? SSjob.GetJob(user.job) : null
+	return J?.quest_claim_barred && J.quest_claim_solo_allowed
+
+/proc/quest_claim_uses_solo_allowance(mob/user, towner_posting = FALSE)
+	if(!user?.mind)
+		return FALSE
+	var/datum/job/J = user.job ? SSjob.GetJob(user.job) : null
+	if(!J?.quest_claim_barred || !J.quest_claim_solo_allowed)
+		return FALSE
+	if(quest_claim_lowpop_active())
+		return FALSE
+	return !(J.quest_claim_towner_allowed && towner_posting)
+
+/proc/is_quest_solo_limited(mob/user, towner_posting = FALSE)
+	return quest_claim_uses_solo_allowance(user, towner_posting) && !SSquestpool.is_solo_sign_ready(user)
+
+/proc/quest_solo_limit_reason(mob/user)
+	var/still_open = "Towner postings are still open to you, or you can hire yourself out."
+	var/remaining = SSquestpool.solo_sign_cooldown_remaining(user)
+	if(remaining > 0)
+		return "You can sign one contract on your own every [QUEST_SOLO_SIGN_COOLDOWN / (1 MINUTES)] minutes. You can sign another in [CEILING(remaining / (1 MINUTES), 1)]m. [still_open]"
+	return "You already hold a contract you signed on your own. Finish it before signing another. [still_open]"
+
+/proc/quest_claim_lowpop_active()
+	return SSeconomy.get_effective_player_count() < QUEST_MERC_LEDGER_POP_THRESHOLD
+
+/proc/is_quest_claim_lowpop_lifted(mob/user)
+	if(!user?.mind)
+		return FALSE
+	var/datum/job/J = user.job ? SSjob.GetJob(user.job) : null
+	return J?.quest_claim_barred && J.quest_claim_lowpop_allowed && quest_claim_lowpop_active()
+
+/proc/quest_claim_barred_reason(mob/user)
+	var/datum/job/J = user?.job ? SSjob.GetJob(user.job) : null
+	if(J?.quest_claim_towner_allowed)
+		return "By statute, the Guild's mercenaries may not take any contracts on their own save for towner postings when there are plenty of people seeking employment. Hire yourself out instead."
+	return "Your job prevents you from signing contracts."
 
 /proc/is_townie_contract_gate_exempt(mob/user)
 	if(!user?.mind)
@@ -245,6 +297,17 @@
 
 /datum/job/proc/special_job_check(mob/dead/new_player/player)
 	return TRUE
+
+/// Names of the virtues in prefs that bar the character from this job
+/datum/job/proc/get_restricted_virtue_names(datum/preferences/prefs)
+	. = list()
+	for(var/datum/virtue/V in list(prefs.virtue, prefs.virtuetwo, prefs.virtue_origin))
+		if(V.type in virtue_restrictions)
+			. += V.name
+			continue
+		var/reason = V.restricts_job(src, prefs)
+		if(reason)
+			. += "[V.name] ([reason])"
 
 /datum/job/proc/uses_storyteller_slot_caps()
 	return title in list("Wretch", "Gnoll", "Assassin")
@@ -848,6 +911,23 @@
 		if(!length(subclass.get_prefs_restriction_names(player)))
 			return FALSE
 	return checked_subclass
+
+/// Whether a quirk's allowed_jobs excludes this job. Separate from the job's own quirk_restrictions.
+/datum/job/proc/is_quirk_job_locked(datum/quirk/quirk)
+	if(!quirk || !LAZYLEN(quirk.allowed_jobs))
+		return FALSE
+	return !(title in quirk.allowed_jobs)
+
+/// Names of the quirks in these prefs whose allowed_jobs exclude this job. Only quirks that would actually be applied (have a slot) count.
+/datum/job/proc/get_quirk_job_lock_names(datum/preferences/prefs)
+	. = list()
+	if(!prefs)
+		return
+	var/slots = get_quirk_slots(prefs)
+	if(slots >= 1 && is_quirk_job_locked(prefs.quirklesser))
+		. += prefs.quirklesser.name
+	if(slots >= 2 && is_quirk_job_locked(prefs.quirkgreater))
+		. += prefs.quirkgreater.name
 
 /// Dynamic UI data for TGUI to display these in the prefs menu
 /datum/job/ui_data(mob/user)

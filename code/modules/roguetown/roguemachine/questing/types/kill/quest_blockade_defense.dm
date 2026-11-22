@@ -2,6 +2,7 @@
 	quest_type = QUEST_BLOCKADE_DEFENSE
 	chronicle_order = QUEST_CHRONICLE_ORDER_BLOCKADE_DEFENSE
 	defense_cost = BLOCKADE_SCROLL_PLEDGE_COST
+	veteran_allowed = FALSE
 	guild_cut_rate = 0
 	charges_deposit = FALSE
 	shows_commission_seal = TRUE
@@ -11,7 +12,7 @@
 	threat_bands_cleared = QUEST_BANDS_BLOCKADE
 	required_fellowship_size = 0
 	fellowship_threat_rate = QUEST_FELLOWSHIP_THREAT_PER_EXTRA_BLOCKADE
-	fellowship_reward_rate = QUEST_FELLOWSHIP_REWARD_PER_EXTRA_BLOCKADE
+	fellowship_reward_rate = QUEST_FELLOWSHIP_REWARD_PER_EXTRA
 
 	var/current_wave = 0
 	var/wave_timer_id
@@ -23,7 +24,6 @@
 	var/intermission_bell_id
 	var/datum/weakref/wave_landmark_ref
 	var/datum/weakref/blockade_ref
-	var/armed = FALSE
 	var/current_archetype = BLOCKADE_ARCHETYPE_WARBAND
 	var/wave_boss_name
 
@@ -94,13 +94,6 @@
 			data["blockade_timer_label"] = "Wave [current_wave] ends in"
 			data["blockade_timer_seconds"] = round(left / 10)
 
-/datum/quest/kill/blockade_defense/get_target_location()
-	var/turf/from_mobs = ..()
-	if(from_mobs)
-		return from_mobs
-	var/obj/effect/landmark/quest_spawner/landmark = wave_landmark_ref?.resolve()
-	return landmark ? get_turf(landmark) : null
-
 /datum/quest/kill/blockade_defense/calculate_reward(turf/origin_turf, turf/target_turf)
 	return reward_amount
 
@@ -116,26 +109,9 @@
 	if(!landmark)
 		return FALSE
 	wave_landmark_ref = WEAKREF(landmark)
-	armed = TRUE
-	return TRUE
+	return ..()
 
-/datum/quest/kill/blockade_defense/proc/check_arrival(mob/bearer)
-	if(!armed || failed || complete)
-		return
-	if(!bearer)
-		return
-	var/obj/effect/landmark/quest_spawner/landmark = wave_landmark_ref?.resolve()
-	if(!landmark)
-		return
-	var/turf/bearer_turf = get_turf(bearer)
-	var/turf/landmark_turf = get_turf(landmark)
-	if(!bearer_turf || !landmark_turf)
-		return
-	if(bearer_turf.z != landmark_turf.z)
-		return
-	if(get_dist(bearer_turf, landmark_turf) > 7)
-		return
-	armed = FALSE
+/datum/quest/kill/blockade_defense/on_arrival(obj/effect/landmark/quest_spawner/landmark)
 	announce_to_bearer("<b>You have reached the blockade.</b> Ready yourselves.")
 	spawn_wave(1)
 
@@ -146,23 +122,20 @@
 	var/list/present = list()
 	var/mob/living/bearer = quest_receiver_reference?.resolve()
 	if(bearer)
-		present |= bearer
-		if(bearer.current_fellowship)
-			present |= bearer.current_fellowship.get_members()
-	var/turf/center = get_turf(landmark)
-	if(center)
-		for(var/mob/living/L in range(BLOCKADE_DEFENDER_SCAN_RANGE, center))
-			if(L.client && L.stat != DEAD)
-				present |= L
+		present |= present_fellowship_members(bearer, landmark)
 	for(var/mob/living/M as anything in present)
 		if(length(fellowship_roster) >= QUEST_FELLOWSHIP_SCALE_MAX)
 			break
 		fellowship_roster += WEAKREF(M)
+	roster_fellowship_ref = WEAKREF(bearer?.current_fellowship)
 	fellowship_split_payout = bearer?.current_fellowship?.payout_mode == FELLOWSHIP_PAYOUT_SPLIT
 	fellowship_extras = max(0, length(fellowship_roster) - BLOCKADE_FELLOWSHIP_REQUIREMENT)
-	fellowship_threat_mult = 1 + fellowship_threat_rate * fellowship_extras
-	fellowship_reward_mult = 1 + fellowship_reward_rate * fellowship_extras
+	fellowship_missing = signed_at_ledger ? max(0, required_fellowship_size - length(fellowship_roster)) : 0
+	fellowship_threat_mult = group_threat_mult(fellowship_extras - fellowship_missing)
+	fellowship_reward_mult = group_reward_mult(fellowship_extras)
 	reward_amount = round(reward_amount * fellowship_reward_mult)
+	if(fellowship_missing)
+		scale_for_missing_crew(length(fellowship_roster))
 
 /datum/quest/kill/blockade_defense/proc/award_defender_triumphs(region_name)
 	for(var/datum/weakref/W as anything in fellowship_roster)
@@ -206,18 +179,11 @@
 	var/mob/living/boss = spawn_hidden_mob(landmark, boss_type)
 	if(!boss)
 		return
-	total_spawned_tp += initial(boss.threat_point) || 0
+	total_spawned_tp += initial_threat_point(boss.type)
 	progress_required += 1
 	if(faction.boss_name_file)
-		wave_boss_name = faction.generate_boss_name()
-		addtimer(CALLBACK(src, PROC_REF(apply_wave_boss_name), WEAKREF(boss), wave_boss_name), QUEST_BOSS_RENAME_DELAY)
-
-/datum/quest/kill/blockade_defense/proc/apply_wave_boss_name(datum/weakref/boss_ref, boss_name)
-	var/mob/living/boss = boss_ref?.resolve()
-	if(QDELETED(boss) || !boss_name)
-		return
-	boss.real_name = boss_name
-	boss.name = boss_name
+		wave_boss_name = faction.generate_boss_name(boss_type)
+		addtimer(CALLBACK(src, PROC_REF(rename_quest_boss), WEAKREF(boss), wave_boss_name), QUEST_BOSS_RENAME_DELAY)
 
 /datum/quest/kill/blockade_defense/proc/spawn_wave(wave_num)
 	if(failed || complete)
@@ -263,12 +229,6 @@
 			for(var/mob/living/M as anything in bearer.current_fellowship.get_members())
 				if(!QDELETED(M))
 					defenders |= M
-	var/obj/effect/landmark/quest_spawner/landmark = wave_landmark_ref?.resolve()
-	var/turf/center = landmark ? get_turf(landmark) : null
-	if(center)
-		for(var/mob/living/L in range(BLOCKADE_DEFENDER_SCAN_RANGE, center))
-			if(L.client && L.stat != DEAD)
-				defenders |= L
 	return defenders
 
 /datum/quest/kill/blockade_defense/proc/announce_to_defenders(msg)
@@ -426,6 +386,7 @@
 				to_chat(payee, span_notice("The final wave breaks. Your share of the reward has been paid to your account. Gross: [share]m. Tax: [share_tax]m. Net: [share - share_tax]m."))
 			else
 				announce_to_bearer("The final wave breaks. Your reward has been paid to your account. Gross: [share]m. Tax: [share_tax]m. Net: [share - share_tax]m.")
+		pay_merc_contract_bonuses(src, shares)
 		var/leftover = payout - paid_out
 		var/mob/living/sink = fellowship_leftover_sink(shares, lead)
 		if(leftover > 0)

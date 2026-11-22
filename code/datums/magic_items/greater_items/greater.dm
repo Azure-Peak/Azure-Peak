@@ -60,7 +60,7 @@
 				continue
 			if(prob(30))
 				nearby.lightning_shock(src)
-				new /obj/effect/temp_visual/lightning(get_turf(target), get_turf(nearby))
+				new /obj/effect/temp_visual/thunderstrike_actual(get_turf(nearby))
 	last_used[source] = world.time
 
 /datum/magic_item/greater/frostveil
@@ -201,7 +201,7 @@
 			else
 				user.adjust_skillrank(/datum/skill/combat/slings, 2, TRUE)
 
-		to_chat(user, span_notice("I feel more dexterious!"))
+		to_chat(user, span_notice("I feel more dextrous!"))
 		active_item = TRUE
 
 /datum/magic_item/greater/archery/on_drop(obj/item/i, mob/living/user)

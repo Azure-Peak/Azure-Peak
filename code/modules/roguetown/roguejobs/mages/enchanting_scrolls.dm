@@ -248,21 +248,21 @@ T1 Enchantments below here*/
 	else
 		to_chat(user, span_notice("You don't think [O] will take to the enchantment. Best not to waste the ink."))
 
-/obj/item/enchantmentscroll/superior/thievery
-	name = "runic tincture of nimble fingers"
-	desc = "A vial of quicksilver ink, imbued with an enchantment of thievery."
-	component = /datum/magic_item/superior/thievery
+/obj/item/enchantmentscroll/superior/lockpicking
+	name = "runic tincture of lockpicking"
+	desc = "A vial of quicksilver ink, imbued with an enchantment of lockpicking."
+	component = /datum/magic_item/superior/lockpicking
 	apply_to_pretty = "Can be applied to gloves or a ring."
-	effects_pretty = "Increases the bearer's skill in pickpocketing and lockpicking."
+	effects_pretty = "Increases the bearer's skill in lockpicking."
 
-/obj/item/enchantmentscroll/superior/thievery/attack_obj(obj/item/O, mob/living/user)
+/obj/item/enchantmentscroll/superior/lockpicking/attack_obj(obj/item/O, mob/living/user)
 	if(!..())
 		return
 	if(istype(O,/obj/item/clothing/gloves)||istype(O,/obj/item/clothing/ring))
 		to_chat(user, span_notice("You scribe intricate runes onto [O] with [src], imbuing it with an enchantment!"))
 		var/magiceffect= new component
 		O.AddComponent(/datum/component/magic_item, magiceffect)
-		O.name += " of nimble fingers"
+		O.name += " of lockpicking"
 		qdel(src)
 	else
 		to_chat(user, span_notice("You don't think [O] will take to the enchantment. Best not to waste the ink."))

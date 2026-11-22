@@ -13,7 +13,7 @@
 /obj/item/reagent_containers/food/snacks/rogue/meat/saiga_ribs
 	cuisine = CUISINE_SOUTH_IMPERIAL
 	name = "venison ribs"
-	desc = "The ribs of some cervine. It is a meaty, filling cut often cherised by commonfolk as a true feast, albeit the vert of the woods isn't meant to be touched by peasants."
+	desc = "The ribs of some cervine. It is a meaty, filling cut often cherished by commonfolk as a true feast, albeit the vert of the woods isn't meant to be touched by peasants."
 	icon = 'modular/Neu_Food/icons/raw/raw_meat_saiga.dmi'
 	icon_state = "ribs"
 	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/meat/saiga_ribs/cooked
@@ -51,7 +51,7 @@
 /obj/item/reagent_containers/food/snacks/rogue/meat/saiga_z
 	cuisine = CUISINE_SOUTH_IMPERIAL
 	name = "deadite venison"
-	desc = "The undead still carry flesh, tough, chewy. It is an aquired taste."
+	desc = "The undead still carry flesh, though tough and chewy. It is an acquired taste."
 	icon = 'modular/Neu_Food/icons/raw/raw_meat_saiga.dmi'
 	icon_state = "steak_z"
 	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/meat/saiga_z/cooked

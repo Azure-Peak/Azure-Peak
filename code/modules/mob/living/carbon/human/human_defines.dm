@@ -125,12 +125,16 @@
 	var/headshot_artist_link = null
 	var/standard_headshot_link = null //used to store headshots when swapping for antag ones
 	var/flavortext = null
+	/// Hermes signature. We keep it static per round to minimize meta potential or "HERETICS AT FORT" pen name situation
+	var/pen_name = null
 	/// For setpose
 	var/pose_text = ""
 	var/ooc_notes = null
 	var/ooc_extra
 	var/rumour = null
 	var/noble_gossip = null
+	var/list/secrets = list()
+	var/list/remembered_secret_targets = list()
 	var/song_title
 	var/song_artist
 	var/received_resident_key = FALSE
@@ -237,3 +241,9 @@
 
 	/// Guarded Virtue (TRAIT_DECEIVING_MEEKNESS) exclusive variable for filtering out our descriptors from examine.
 	var/show_descriptors = TRUE
+
+	/// Our last used key. Updates whenever we lock / unlock doors.
+	var/last_used_keyhash
+
+	/// world.time snapshot until when our last_used_keyhash can be imprinted in wax putty without any alarm.
+	var/key_imprint_valid_until

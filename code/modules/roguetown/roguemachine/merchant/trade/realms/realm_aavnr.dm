@@ -2,7 +2,7 @@
 	id = REALM_AAVNR
 	name = "Aavnr"
 	roll_weight = TRADE_REALM_WEIGHT_NEIGHBOR
-	demanded_categories = list(NAVIGATOR_BUCKET_WEAPONS, NAVIGATOR_BUCKET_ARMOR_LIGHT, NAVIGATOR_BUCKET_SEAFOOD, NAVIGATOR_BUCKET_POTTERY, NAVIGATOR_BUCKET_VALUABLES_LOOTED, NAVIGATOR_BUCKET_TOOLS, NAVIGATOR_BUCKET_MISCELLANEOUS)
+	demanded_categories = list(NAVIGATOR_BUCKET_WEAPONS, NAVIGATOR_BUCKET_ARMOR_FABRIC, NAVIGATOR_BUCKET_SEAFOOD, NAVIGATOR_BUCKET_POTTERY, NAVIGATOR_BUCKET_VALUABLES_LOOTED, NAVIGATOR_BUCKET_TOOLS, NAVIGATOR_BUCKET_MISCELLANEOUS)
 	ship_name_words = list(
 		"Yarlsnik", "Koprivka", "Diethelm", "Tomorzh", "Khairin",
 		"Wardenpact", "Hetman", "Saiga", "Bloodaxe", "Ironmask",
@@ -114,4 +114,8 @@
 		of them had any fermented saiga milk, eh?",
 
 		"Bring us SILKS, GEMERALDS, and your LEMONS! Tangerines, too! Half the crew are bleeding from the gums!",
+
+		"Saltwirk's factor sends her greetings!",
+
+		"Have any zarum for our menne at home?",
 	)

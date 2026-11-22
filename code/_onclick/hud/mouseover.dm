@@ -196,7 +196,14 @@
 		if(isliving(p))
 			var/mob/living/L = p
 			if(!L.can_see_cone(src))
-				return FALSE
+				var/override = FALSE
+				if(ishuman(user))
+					var/mob/living/carbon/human/H = user
+					for(var/datum/charflaw/noeyeall/cf in H.charflaws)
+						override = TRUE
+						break
+				if(!override)
+					return FALSE
 		if(alpha == 0)
 			return FALSE
 		if(!p.x || !p.y)
@@ -208,7 +215,7 @@
 		if(ishuman(src))
 			var/mob/living/carbon/human/H = src
 			if(H.voice_color && H.show_descriptors)
-				if(H.name == H.real_name)
+				if(H.name == H.get_unmasked_name())
 					mousecolor = "[H.voice_color]"
 		p.client.mouseovertext.maptext = {"<span style='font-size:8pt;font-family:"Pterra";color:[mousecolor];text-shadow:0 0 10px #fff, 0 0 20px #fff, 0 0 30px #e60073, 0 0 40px #e60073, 0 0 50px #e60073, 0 0 60px #e60073, 0 0 70px #e60073;' class='center maptext '>[name]"}
 		p.client.mouseovertext.movethis(PM)

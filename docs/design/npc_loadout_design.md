@@ -6,15 +6,17 @@ NPC statpacks are sorted by Archetypes and then separated into tiers. 10 is set 
 
 Then, based on their faction they get differing loadouts and then a faction modifier is applied on top.
 
-| Tier | Archetype                           | Con / Wil | STR | SPD | PER | INT | TP                        |
-| ---- | ----------------------------------- | --------- | --- | --- | --- | --- | ------------------------- |
-| 0    | Goblins. Trash Mobs. Novice Skills. | 4         | 8   | 10  | 9   | 7   | TRASH / LOW (8-10)        |
-| 1    | Highwayman. Typical Filler.         | 6         | 10  | 10  | 10  | 8   | MODERATE / HIGH (14-20)   |
-| 2    | Mount Reaver. Trained Infantry.     | 8         | 12  | 10  | 11  | 9   | TOUGH / DANGEROUS (25-30) |
-| 3    | Road Knight. Champion.              | 10        | 14  | 10  | 12  | 10  | DEADLY (40)               |
-| 4    | Sackman. God-Tier.                  | 12        | 14  | 10  | 13  | 11  | ELITE and up (50+)        |
+| Tier | Archetype                           | Con | Wil | STR | SPD | PER | INT | TP                        |
+| ---- | ----------------------------------- | --- | --- | --- | --- | --- | --- | ------------------------- |
+| 0    | Goblins. Trash Mobs. Novice Skills. | 4   | 4   | 8   | 10  | 9   | 7   | TRASH / LOW (8-10)        |
+| 1    | Highwayman. Typical Filler.         | 6   | 5   | 10  | 10  | 10  | 8   | MODERATE / HIGH (14-20)   |
+| 2    | Mount Reaver. Trained Infantry.     | 8   | 7   | 12  | 10  | 11  | 9   | TOUGH / DANGEROUS (25-30) |
+| 3    | Road Knight. Champion.              | 10  | 9   | 14  | 10  | 12  | 10  | DEADLY (40)               |
+| 4    | Sackman. God-Tier.                  | 12  | 11  | 14  | 10  | 13  | 11  | ELITE and up (50+)        |
 
 SPD does not scale with Tier. STR, PER and INT do.
+
+WIL is 1 below CON from T1 up. Every NPC statpack at 6 WIL or more was lowered by 1 WIL.
 
 STR is capped at 14 within the tier and role grid. Faction modifiers may push past it.
 
@@ -28,6 +30,8 @@ Each roles trade stats for specialization, using the conventional statweight of 
 | light    | 2 STR -> 2 SPD, and 2 Con -> 2 INT  |
 | marksman | 1 STR -> 2 PER                      |
 | heavy    | 2 SPD, 2 PER -> 1 STR, 2 Con, 2 Wil |
+| caster   | 2 STR, 2 Con -> 4 INT, 1 Per, 1 Wil |
+| spellblade | 1 STR, 1 Con -> 2 INT, 1 Wil      |
 
 Archetype:
 
@@ -36,6 +40,18 @@ Archetype:
 - Heavy trades 2 SPD, 2 PER for 1 STR, 2 Con, 2 Wil.
 
 PER is capped at 15. INT 8 is the minimum for NPC specials and tactics, INT 10 or above gives feint resistance only and should be present on Light usually.
+
+Caster trades for Int, Per and Wil, caster stats. Spells will not be rebalanced for NPC, and instead they have "smarter" AI.
+
+Casters and spellblades start at T2. Magic is strong enough on its own, so there is no T1 caster, and only the harder factions field them, T3 adds medium armor / better staff and arcyne armament expert.
+
+All NPCs mages should gain a ward. Burn schools (Pyromancy, Fulgurmancy) take Dragonhide, every other school takes Crystalhide.
+
+Spellblades come in the player chants: Blade, Phalangite and Macebearer fight with a bound weapon, and Spellfist fights with a katar or knuckles. Like the player class, they take no ward, except the Spellfist, who takes the base Arcyne Ward like the player Spellfist. Unlike the player outfit, they wear at least one armour layer on every zone, face included, so the AI isn't trivial to beat. They are worth 5 more threat than a mage of the same tier. Finally, the spellblade vs spellblade duel I have been looking for
+
+Clerics start at T2 and uses their patron's real miracles. (I might implement Paladin equivalence later). Gronn raiders will follow one of the 4 gods with a bias toward Graggar. They will not gain the Cabal trait so undead can fight them. Shaman will ALWAYS belong to Graggar.
+
+Clerics also start at T2 and use their patron's real miracles. Gronn raiders follow one of the four inhumen gods, mostly Graggar, without joining Zizo's cabal. Their Shaman is always Graggar's, fights with claws in light leathers and uses Graggar's miracles up to T2.
 
 ## Faction Modifier
 

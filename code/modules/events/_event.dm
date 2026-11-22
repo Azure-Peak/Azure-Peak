@@ -67,6 +67,8 @@
 	var/storyteller_rumour_name
 	/// Lets events under the same antag datum be handled differently.
 	var/storyteller_slot_key
+	/// To disable a particular antag
+	var/storyteller_blacklisted = FALSE
 
 
 /datum/round_event_control/proc/valid_for_map()
@@ -114,11 +116,11 @@
 // Checks if the event can be spawned. Used by event controller and "false alarm" event.
 // Admin-created events override this.
 /datum/round_event_control/proc/canSpawnEvent(players_amt, gamemode, fake_check = FALSE)
-	if(SSgamemode.current_storyteller?.disable_distribution || SSgamemode.halted_storyteller)
+	if(SSgamemode.halted_storyteller)
 		return FALSE
 	if(event_group && !GLOB.event_groups[event_group].can_run())
 		return FALSE
-	if(roundstart && (!SSgamemode.can_run_roundstart || (SSgamemode.ran_roundstart && !fake_check && !SSgamemode.current_storyteller?.ignores_roundstart)))
+	if(roundstart && (!SSgamemode.can_run_roundstart || (SSgamemode.ran_roundstart && !fake_check)))
 		return FALSE
 	if(occurrences >= max_occurrences)
 		return FALSE
@@ -172,7 +174,7 @@
 	..()
 	if(href_list["cancel"])
 		if(!triggering)
-			to_chat(usr, span_admin("I are too late to cancel that event"))
+			to_chat(usr, span_admin("I am too late to cancel that event"))
 			return
 		triggering = FALSE
 		message_admins("[key_name_admin(usr)] cancelled event [name].")
@@ -312,7 +314,7 @@
 	SSevents.running -= src
 
 
-//Sets up the event then adds the event to the the list of running events
+//Sets up the event then adds the event to thet of running events
 /datum/round_event/New(my_processing = TRUE, datum/round_event_control/source)
 	control = source
 	processing = my_processing

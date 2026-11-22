@@ -9,11 +9,16 @@
 	category_tags = list(CTAG_WRETCH)
 	subclass_languages = list(/datum/language/thievescant)
 	traits_applied = list(TRAIT_DODGEEXPERT, TRAIT_MEDIUMARMOR, TRAIT_GRAVEROBBER) //Doubt you have much to say about robbing graves
-	extra_context = "Fleet-Footed grants Light Steps and +1 to Sneaking, Marksmanship grants +1 PERCEPTION and +1 to Crossbows, Athleticism grants +1 CONSTITUTION and +1 to Athletics, Night-Burglar grants Night Vision and +1 to Lockpicking, Master-Tracker grants Perfect Tracker + Sleuth and +1 to Tracking, Dualist grants Dual-Wielder and Guarded (Decieving Meekness)."
+	extra_context = "Fleet-Footed grants Light Steps and +1 to Sneaking, Marksmanship grants +1 PERCEPTION and +1 to Crossbows, Athleticism grants +1 CONSTITUTION and +1 to Athletics, Night-Burglar grants Night Vision and +1 to Lockpicking, Master-Tracker grants Perfect Tracker + Sleuth and +1 to Tracking, Dualist grants Dual-Wielder and Guarded (Deceiving Meekness)."
 	subclass_stats = list(
 		STATKEY_SPD = 3,
 		STATKEY_WIL = 2,
 		STATKEY_PER = 1
+	)
+	subclass_stashed_items = list(
+		"Wax Putty I" = /obj/item/waxputty,
+		"Wax Putty II" = /obj/item/waxputty,
+		"Wax Putty III" = /obj/item/waxputty,
 	)
 	subclass_skills = list(
 		/datum/skill/misc/tracking = SKILL_LEVEL_MASTER,
@@ -28,7 +33,6 @@
 		/datum/skill/misc/climbing = SKILL_LEVEL_LEGENDARY,
 		/datum/skill/misc/reading = SKILL_LEVEL_NOVICE,
 		/datum/skill/misc/sneaking = SKILL_LEVEL_MASTER,
-		/datum/skill/misc/stealing = SKILL_LEVEL_MASTER,
 		/datum/skill/misc/lockpicking = SKILL_LEVEL_MASTER,
 		/datum/skill/craft/traps = SKILL_LEVEL_MASTER,
 	)
@@ -45,7 +49,7 @@
 	cloak = /obj/item/clothing/cloak/tabard/stabard/dungeon
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson
 	backl = /obj/item/storage/backpack/rogue/satchel/short
-	belt = /obj/item/storage/belt/rogue/leather/knifebelt/black/steel
+	belt = /obj/item/storage/belt/rogue/leather/tossbelt/blade/black/steel
 	gloves = /obj/item/clothing/gloves/roguetown/fingerless_leather
 	shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced
 	neck = /obj/item/clothing/neck/roguetown/coif/heavypadding

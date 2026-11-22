@@ -63,9 +63,6 @@
 	R.sellprice = 0
 	return TRUE
 
-/datum/action/cooldown/spell/conjure_spectacles/miracle
-	associated_skill = /datum/skill/magic/holy
-
 //Sorry, it has to be done. No engineering/night vision for no spellcost. You could probably add crafted varients and axe this codenote though if such is done. Considering mages can make worse things than Nocshades.
 
 // Nocshades summonable lesser varient - with no mechanical effects

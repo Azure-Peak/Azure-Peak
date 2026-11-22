@@ -6,6 +6,7 @@
 	w_class = WEIGHT_CLASS_TINY
 	resistance_flags = FLAMMABLE
 	possible_item_intents = list(/datum/intent/use)
+	juice_results = list(/datum/reagent/consumable/oil/seed = 1)
 	var/plant_def_type
 	var/seed_identity = "some seed"
 
@@ -89,6 +90,7 @@
 /obj/item/seeds/maize
 	seed_identity = "maize kernels"
 	plant_def_type = /datum/plant_def/maize
+	juice_results = list(/datum/reagent/consumable/oil/seed = 5)
 	icon = 'modular/Neu_Food/icons/raw/raw_corn.dmi'
 	icon_state = "corn_seed"
 
@@ -155,6 +157,7 @@
 /obj/item/seeds/berryrogue/poison
 	seed_identity = "berry seeds"
 	plant_def_type = /datum/plant_def/bush/berry_poison //Turns into unpoisoned pepper-seeds once cooked. Simple explanation? Poison jackberries are actually whole peppercorns with fruity exteriors.
+	juice_results = list(/datum/reagent/berrypoison = 1)
 	cooked_type = /obj/item/reagent_containers/food/snacks/grown/pepperseed //The rancid effects? Have you imagined eating a handful of grape-sized peppercorns before? That'd probably do a number on anyone.
 
 /obj/item/seeds/turnip
@@ -164,6 +167,7 @@
 /obj/item/seeds/sunflower
 	seed_identity = "sunflower seeds"
 	plant_def_type = /datum/plant_def/sunflower
+	juice_results = list(/datum/reagent/consumable/oil/seed = 5)
 	cooked_type = /obj/item/reagent_containers/food/snacks/roastseeds/sunflower
 
 /obj/item/seeds/onion
@@ -217,8 +221,10 @@
 
 /obj/item/seeds/beans
 	seed_identity = "bean seeds"
+	juice_results = list(/datum/reagent/consumable/oil/seed = 5)
 	plant_def_type = /datum/plant_def/bush/beans
 
 /obj/item/seeds/lentils
 	seed_identity = "lentil seeds"
+	juice_results = list(/datum/reagent/consumable/oil/seed = 5)
 	plant_def_type = /datum/plant_def/bush/lentils

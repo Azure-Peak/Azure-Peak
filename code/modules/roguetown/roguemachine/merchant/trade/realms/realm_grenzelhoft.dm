@@ -2,7 +2,7 @@
 	id = REALM_GRENZELHOFT
 	name = "Grenzelhoft"
 	roll_weight = TRADE_REALM_WEIGHT_NEIGHBOR
-	demanded_categories = list(NAVIGATOR_BUCKET_ARMOR_MEDIUM, NAVIGATOR_BUCKET_POTIONS_REAGENTS, NAVIGATOR_BUCKET_SEAFOOD, NAVIGATOR_BUCKET_CARVED, NAVIGATOR_BUCKET_POTTERY, NAVIGATOR_BUCKET_MISCELLANEOUS)
+	demanded_categories = list(NAVIGATOR_BUCKET_ARMOR_METAL, NAVIGATOR_BUCKET_POTIONS_REAGENTS, NAVIGATOR_BUCKET_SEAFOOD, NAVIGATOR_BUCKET_CARVED, NAVIGATOR_BUCKET_POTTERY, NAVIGATOR_BUCKET_MISCELLANEOUS)
 	ship_name_words = list(
 		"Eisernen", "Sturm", "Adler", "Wolf", "Drache",
 		"Schwert", "Bruder", "Krone", "Burg", "Wappen",
@@ -123,5 +123,7 @@
 
 		"Greetings from the Lampternshores! We've an abundance of weaponry for you!",
 
-		"STORIES FROM THE EMPIRE! Come drink with us, FACTOR!"
+		"STORIES FROM THE EMPIRE! Come drink with us, FACTOR!",
+
+		"Vinberg's factor said to give his greetings!",
 	)

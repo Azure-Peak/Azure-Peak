@@ -3,7 +3,7 @@
 	cuisine = CUISINE_OTAVAIS
 	dish_type = DISH_SWEET | DISH_DAIRY
 	name = "chocolate ingot"
-	desc = "An unbelievably decadant slab of fudge, made with Etrusca's cocoa beans and Aavnr's saiga milk. A \
+	desc = "An unbelievably decadent slab of fudge, made with Etrusca's cocoa beans and Aavnr's saiga milk. A \
 	recent trade agreement between the two realms has turned this once-expensive delicacy into a slightly-less-expensive \
 	treat for many. </br>Following a rather unfortunate diplomatic incident involving a Lupian nobleman and a box of chocolates, \
 	chocolate is also now-known to double as a potent 'humor rebalancer' for some of Dendor's children. </br>It looks like it can be \
@@ -43,7 +43,7 @@
 
 /obj/item/reagent_containers/food/snacks/chocolate/slice
 	name = "quarter chocolate ingot"
-	desc = "An unbelievably decadant quarter of fudge, made with Etrusca's cocoa beans and Aavnr's saiga milk. A \
+	desc = "An unbelievably decadent quarter of fudge, made with Etrusca's cocoa beans and Aavnr's saiga milk. A \
 	recent trade agreement between the two realms has turned this once-expensive delicacy into a slightly-less-expensive \
 	treat for many. </br>Following a rather unfortunate diplomatic incident involving a Lupian nobleman and a box of chocolates, \
 	chocolate is also now-known to double as a potent 'humor rebalancer' for some of Dendor's children. </br>When combined with \
@@ -92,7 +92,7 @@
 /obj/item/reagent_containers/food/snacks/jamtallowslice
 	dish_type = DISH_SWEET|DISH_MEAT
 	name = "slice of jamtallow"
-	desc = "A portion of jammy paradise, bearing the same hues as Azuria's morning skies. It yearns to be savored not by its lonesome, but upon a slice of bread - ideally, butterdoughed or toasted."
+	desc = "A portion of jammy paradise, bearing the same hues as Azuria's morning skies. It yearns to be savored not by its lonesome, but upon a slice of bread - ideally, bookbread or toasted."
 	icon = 'modular/Neu_Food/icons/others/sweet.dmi'
 	icon_state = "jamtallow_slice"
 	faretype = FARE_POOR
@@ -139,7 +139,7 @@
 /obj/item/reagent_containers/food/snacks/marmaladeslice
 	dish_type = DISH_SWEET|DISH_MEAT
 	name = "slice of marmalade"
-	desc = "A portion of jammy paradise, bearing the same hues as Azuria's evening seas. It yearns to be savored not by its lonesome, but upon a slice of bread - ideally, butterdoughed or toasted."
+	desc = "A portion of jammy paradise, bearing the same hues as Azuria's evening seas. It yearns to be savored not by its lonesome, but upon a slice of bread - ideally, bookbread or toasted."
 	icon = 'modular/Neu_Food/icons/others/sweet.dmi'
 	icon_state = "marmalade_slice"
 	faretype = FARE_POOR
@@ -153,7 +153,7 @@
 	name = "caramel"
 	icon = 'modular/Neu_Food/icons/others/sweet.dmi'
 	icon_state = "caramel3"
-	desc = "Glassy droppings of tallow-fried sugar, oft-divvied out amongst the youth by Psydonia's wisest and kindliest elders."
+	desc = "Glassy droppings of deep-fried sugar, oft-divvied out amongst the youth by Psydonia's wisest and kindliest elders."
 	faretype = FARE_FINE
 	fried_type = null
 	bitesize = 3
@@ -178,7 +178,7 @@
 	name = "dragée"
 	icon = 'modular/Neu_Food/icons/others/sweet.dmi'
 	icon_state = "dragee3"
-	desc = "Glassy droppings of tallow-fried rocknuts, coated in sugary shells and laced with herbal medicine. Such candies are popular \
+	desc = "Glassy droppings of deep-fried rocknuts, coated in sugary shells and laced with herbal medicine. Such candies are popular \
 	amongst Psydonia's youth - both as a reward to Otavan children for remembering their scripture, and as a remedy to childhood ailments."
 	faretype = FARE_LAVISH
 	fried_type = null
@@ -432,3 +432,17 @@
 	desc = "A decorative piece of sugarglass, meticulously fashioned to mimic a thriving tree. Deliciously natural!"
 	icon_state = "sugarstatuetree"
 	bitesize = 3
+
+/* .............	Murkling Jelly	................ */
+/obj/item/reagent_containers/food/snacks/rogue/murkling_jelly
+	name = "primordial jelly"
+	desc = "A translucent, sweet jelly said to return Murklings to their first hue. Just don't ask how it's made."
+	icon = 'modular/Neu_Food/icons/others/sweet.dmi'
+	icon_state = "oozejelly" //Placeholder coder sprite.
+	dish_type = DISH_SWEET|DISH_MEAT
+	bitesize = 1
+	tastes = list("goop" = 1)
+	list_reagents = list(
+		/datum/reagent/consumable/nutriment = 2,
+		/datum/reagent/consumable/murkling_color_restore = 1,
+	)

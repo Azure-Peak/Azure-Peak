@@ -150,22 +150,19 @@
 					var/spdmod = ((user.STASPD - src.STASPD) * 10)
 					var/permod = ((src.STAPER - user.STAPER) * 5)
 					var/intmod = ((src.STAINT - user.STAINT) * 3)
-					var/finalmod = spdmod
-					if(mind)
-						var/ceilclamp = SWIFTCAP_CHEST
-						if(user.zone_selected == BODY_ZONE_CHEST)	// Attacker is targeting chest. Worst boons! INT and PER are subtracted.
-							if(permod > 0)
-								spdmod -= permod
-							if(intmod > 0)
-								spdmod -= intmod
-						else if(user.zone_selected != check_zone(user.zone_selected))	// They are targeting a precise zone. Best boons! No INT/ PER influence.
-							ceilclamp = SWIFTCAP_PRECISE
-						else if((check_zone(user.zone_selected) == user.zone_selected) && user.zone_selected != BODY_ZONE_CHEST)
-							ceilclamp = SWIFTCAP_LIMBS
-							if(permod > 0)
-								spdmod -= permod
-						finalmod = clamp(spdmod, 0, ceilclamp)
-					prob2defend -= finalmod
+					var/ceilclamp = SWIFTCAP_CHEST
+					if(user.zone_selected == BODY_ZONE_CHEST)	// Attacker is targeting chest. Worst boons! INT and PER are subtracted.
+						if(permod > 0)
+							spdmod -= permod
+						if(intmod > 0)
+							spdmod -= intmod
+					else if(user.zone_selected != check_zone(user.zone_selected))	// They are targeting a precise zone. Best boons! No INT/ PER influence.
+						ceilclamp = SWIFTCAP_PRECISE
+					else if((check_zone(user.zone_selected) == user.zone_selected) && user.zone_selected != BODY_ZONE_CHEST)
+						ceilclamp = SWIFTCAP_LIMBS
+						if(permod > 0)
+							spdmod -= permod
+					prob2defend -= clamp(spdmod, 0, ceilclamp)
 	else
 		attacker_skill = attacker.get_skill_level(/datum/skill/combat/unarmed)
 		prob2defend -= (attacker_skill * PARRY_PER_SKILL_LEVEL)
@@ -173,15 +170,11 @@
 			var/spdmod = ((user.STASPD - src.STASPD) * 10)
 			var/permod = ((src.STAPER - user.STAPER) * 10)
 			var/intmod = ((src.STAINT - user.STAINT) * 3)
-			if(mind)
-				if(permod > 0)
-					spdmod -= permod
-				if(intmod > 0)
-					spdmod -= intmod
-			var/finalmod = spdmod
-			if(mind)
-				finalmod = clamp(spdmod, 0, 30)
-			prob2defend -= finalmod
+			if(permod > 0)
+				spdmod -= permod
+			if(intmod > 0)
+				spdmod -= intmod
+			prob2defend -= clamp(spdmod, 0, 30)
 
 	// --- Weapon binding! ---
 
@@ -198,12 +191,6 @@
 
 	if(HAS_TRAIT(user, TRAIT_CURSE_RAVOX))
 		prob2defend -= 40
-
-	if(!defender.mind && defender.has_status_effect(/datum/status_effect/debuff/staggered))
-		prob2defend *= 0.5
-
-	if(!defender.mind && defender.has_status_effect(/datum/status_effect/debuff/hamstring))
-		prob2defend -= 20
 
 	// parrying while knocked down sucks ass
 	if(!(mobility_flags & MOBILITY_STAND) && !has_status_effect(/datum/status_effect/buff/weapon_binded))
@@ -232,7 +219,8 @@
 	var/text
 
 	// Dual wield drawback (-5%)
-	var/dualwield_penalty = HAS_TRAIT(src, TRAIT_DUALWIELDER) && src.can_dualwield(mainhand, offhand)
+	var/dualwield_penalty = HAS_TRAIT(src, TRAIT_DUALWIELDER) && (can_dualwield(mainhand, offhand) || can_unarmed_dualwield())
+
 	if(dualwield_penalty)
 		prob2defend = clamp(prob2defend - 5, 5, 90)
 
@@ -289,9 +277,9 @@
 			if(ispath(attacker_skilltype, /datum/skill/combat) && ispath(defender_skilltype, /datum/skill/combat))
 				if ((mobility_flags & MOBILITY_STAND) && !isanimal(attacker))
 					var/skill_target = attacker_skill
-					if(!HAS_TRAIT(attacker, TRAIT_GOODTRAINER))
+					if(!HAS_TRAIT(attacker, TRAIT_GOODTRAINER) || HAS_TRAIT_FROM(attacker, TRAIT_BADTRAINER, PROTEGE_TRAIT))
 						skill_target -= SKILL_LEVEL_NOVICE
-					if(HAS_TRAIT(attacker, TRAIT_BADTRAINER))
+					if(HAS_TRAIT(attacker, TRAIT_BADTRAINER) && !HAS_TRAIT_FROM(src, TRAIT_BADTRAINER, REF(attacker)))
 						skill_target -= SKILL_LEVEL_NOVICE
 					if (can_train_combat_skill(src, defender_skilltype, skill_target))
 						mind.add_sleep_experience(defender_skilltype, max(round(STAINT*exp_multi*defender_factor), 0), FALSE)
@@ -300,9 +288,9 @@
 				if(attacker.mind && !isanimal(attacker))
 					if ((mobility_flags & MOBILITY_STAND))
 						var/skill_target = defender_skill
-						if(!HAS_TRAIT(src, TRAIT_GOODTRAINER))
+						if(!HAS_TRAIT(src, TRAIT_GOODTRAINER) || HAS_TRAIT_FROM(src, TRAIT_BADTRAINER, PROTEGE_TRAIT))
 							skill_target -= SKILL_LEVEL_NOVICE
-						if(HAS_TRAIT(src, TRAIT_BADTRAINER))
+						if(HAS_TRAIT(src, TRAIT_BADTRAINER) && !HAS_TRAIT_FROM(attacker, TRAIT_BADTRAINER, REF(src)))
 							skill_target -= SKILL_LEVEL_NOVICE
 						if (can_train_combat_skill(attacker, attacker_skilltype, skill_target))
 							attacker.mind.add_sleep_experience(attacker_skilltype, max(round(STAINT*exp_multi*attacker_factor), 0), FALSE)
@@ -370,9 +358,9 @@
 			if(ispath(attacker_skilltype, /datum/skill/combat))
 				if((mobility_flags & MOBILITY_STAND) && !isanimal(attacker))
 					var/skill_target = attacker_skill
-					if(!HAS_TRAIT(attacker, TRAIT_GOODTRAINER))
+					if(!HAS_TRAIT(attacker, TRAIT_GOODTRAINER) || HAS_TRAIT_FROM(attacker, TRAIT_BADTRAINER, PROTEGE_TRAIT))
 						skill_target -= SKILL_LEVEL_NOVICE
-					if(HAS_TRAIT(attacker, TRAIT_BADTRAINER))
+					if(HAS_TRAIT(attacker, TRAIT_BADTRAINER) && !HAS_TRAIT_FROM(defender, TRAIT_BADTRAINER, REF(attacker)))
 						skill_target -= SKILL_LEVEL_NOVICE
 					if(can_train_combat_skill(defender, /datum/skill/combat/unarmed, skill_target))
 						defender.mind?.add_sleep_experience(/datum/skill/combat/unarmed, max(round(STAINT*exp_multi), 0), FALSE)

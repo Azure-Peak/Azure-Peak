@@ -123,7 +123,7 @@
 
 	gender_swapping = TRUE
 	stress_examine = TRUE
-	stress_desc = span_red("A loathesome dark elf.")
+	stress_desc = span_red("A loathsome dark elf.")
 
 /datum/species/elf/dark/raider
 	name = "Dark Elf Raider"

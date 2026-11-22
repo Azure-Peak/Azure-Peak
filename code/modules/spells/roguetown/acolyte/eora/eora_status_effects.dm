@@ -203,6 +203,7 @@
 	alert_type = /atom/movable/screen/alert/status_effect/pomegranate_aura
 	var/outline_colour ="#42001f"
 	var/datum/weakref/source_ref
+	COOLDOWN_DECLARE(flavour_message_cd)
 
 /datum/status_effect/debuff/pomegranate_aura/on_creation(mob/living/owner, tree)
 	source_ref = WEAKREF(tree)
@@ -256,8 +257,8 @@
 		var/mob/living/carbon/human/H = owner
 		//Beautiful people have a chance to be healed.
 		if(HAS_TRAIT(H, TRAIT_BEAUTIFUL) && prob(10))
-			to_chat(H, span_rose("The tree's beauty revitalizes you!"))
-			H.apply_status_effect(/datum/status_effect/buff/healing, 1)
+			if(H.apply_status_effect(/datum/status_effect/buff/healing, 1) && claim_flavour_message())
+				to_chat(H, span_rose("The tree's beauty revitalizes you!"))
 
 		//People cursed by Eora will suffer visual disorientation and damage over time.
 		else if(HAS_TRAIT(H, TRAIT_CURSE_EORA) && prob(2))
@@ -268,19 +269,25 @@
 
 		//Unsightly people have a lower chance to have their beauty temporarily returned.
 		else if(HAS_TRAIT(H, TRAIT_UNSEEMLY) && prob(1))
-			to_chat(H, span_rose("The tree's beauty leeches into you, momentarily lightening your features.."))
-			H.apply_status_effect(/datum/status_effect/buff/healing, 1)
+			if(H.apply_status_effect(/datum/status_effect/buff/healing, 1) && claim_flavour_message())
+				to_chat(H, span_rose("The tree's beauty leeches into you, momentarily lightening your features.."))
 
 		//People marred by trama have a very, very low chance to be healed - and to proc a unique sight.
 		else if(HAS_TRAIT(H, TRAIT_LEPROSY) && prob(1))
-			to_chat(H, span_love("Her divine love graces you, gently drawing the pain away from your marred flesh.."))
-			to_chat(span_rose("The tree's branches sway in the breeze, and the howling gusts swill into an angelic tune.."))
-			playsound('sound/misc/otavanlament.ogg', 50, FALSE, -1)
-			H.apply_status_effect(/datum/status_effect/buff/healing, 1)
+			if(H.apply_status_effect(/datum/status_effect/buff/healing, 1) && claim_flavour_message())
+				to_chat(H, span_love("Her divine love graces you, gently drawing the pain away from your marred flesh.."))
+				to_chat(H, span_rose("The tree's branches sway in the breeze, and the howling gusts swill into an angelic tune.."))
+				playsound(H, 'sound/misc/otavanlament.ogg', 50, FALSE, -1)
 
 	// There is no beauty in death. Feed my tree.
 	if(owner.stat == DEAD)
 		owner.blood_volume = max(10, owner.blood_volume - 10)
+
+/datum/status_effect/debuff/pomegranate_aura/proc/claim_flavour_message()
+	if(!COOLDOWN_FINISHED(src, flavour_message_cd))
+		return FALSE
+	COOLDOWN_START(src, flavour_message_cd, 2 MINUTES)
+	return TRUE
 
 /atom/movable/screen/alert/status_effect/pomegranate_aura
 	name = "Eora's Blessing"

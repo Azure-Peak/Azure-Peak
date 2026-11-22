@@ -59,7 +59,7 @@
 					wrotesign = inputty
 					name = "[inputty]"
 		else
-			to_chat(user, span_warning("Alas, this will not work. I could carve words, if I stabbed at this with something posessing a short, sharp point. A knife comes to mind."))
+			to_chat(user, span_warning("Alas, this will not work. I could carve words, if I stabbed at this with something possessing a short, sharp point. A knife comes to mind."))
 			return
 
 /obj/structure/gravemarker/Destroy()

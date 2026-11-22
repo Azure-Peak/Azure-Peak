@@ -1,3 +1,5 @@
+GLOBAL_LIST_EMPTY(fey_vessels)
+
 /datum/virtue/utility/noble
 	name = "Nobility"
 	desc = "By birth, blade or brain, I am noble known to the royalty of these lands, and have all the benefits associated with it. I've cleverly stashed away a healthy amount of coinage, alongside a familial heirloom."
@@ -233,7 +235,7 @@
 
 /datum/virtue/utility/intellectual
 	name = "Intellectual"
-	desc = "I've spent my life surrounded by various books or sophisticated foreigners, be it through travel or other fortunes beset on my life. I've picked up several tongues and wits, and keep a journal closeby. I can tell people's exact prowess."
+	desc = "I've spent my life surrounded by various books or sophisticated foreigners, be it through travel or other fortunes beset on my life. I've picked up several tongues and wits, and keep a journal close-by. I can tell people's exact prowess."
 	ui_fa_icon = "book"
 	custom_text = "Maximizes Assess benefits with a bonus of the target's Stats. Allows the choice of up to 6 languages to learn."
 	added_traits = list(TRAIT_INTELLECTUAL)
@@ -298,17 +300,16 @@
 
 /datum/virtue/utility/prowler
 	name = "Prowler"
-	desc = "I've learned to stalk the shadows, in step and in sight. My hands had also been honed to be deft."
+	desc = "I've learned to stalk the shadows, light of step. My hands had also been honed to be deft."
 	ui_fa_icon = "moon"
 	max_choices = 3	//Tentative, feels more fun to limit yourself to a set out of these rather than all of them. (Used to be 6)
 	choice_costs = list(0, 0, 0)
 	stackable = TRUE	//It's OK to take Virtuous and get everything here.
 	choice_tooltips = list(
-		"Light Steps" = "My steps are light and swift. I make less noise while sneaking and wearing armor, and can sneak much quicker.",
+		"Light Steps" = "My steps are light and swift. I make less noise while sneaking and wearing armor, and can sneak much quicker. I can toggle this in the Virtue tab.",
 		"Alter Ego" = "I am me, yet I crave to be someone else. I can adjust my voice and physical posture at will - though the latter will need me to cover myself. (RoleUnique tab)."
 	)
 	extra_choices = list(
-		"Darksight" = TRAIT_DARKVISION,
 		"Light Steps" = TRAIT_LIGHT_STEP,
 		"Stashed Lockpick Ring" = /obj/item/lockpickring/mundane,
 		"Sneak Skill (+2, Up to Legendary)" = /datum/skill/misc/sneaking,
@@ -322,11 +323,8 @@
 		for(var/choice in picked_choices)
 			if(extra_choices[choice] in GLOB.roguetraits)
 				ADD_TRAIT(recipient, extra_choices[choice], TRAIT_VIRTUE)
-				if(choice == TRAIT_DARKVISION)
-					if(recipient.has_flaw(/datum/charflaw/colorblind))
-						to_chat(recipient, "Your eyes have become permanently colorblind.")
-					else if(recipient.charflaws.len)
-						add_verb(recipient, /mob/living/carbon/human/proc/toggleblindness)
+				if(extra_choices[choice] == TRAIT_LIGHT_STEP)
+					add_verb(recipient, /mob/living/carbon/human/proc/toggle_light_steps)
 			else if(ispath(extra_choices[choice], /datum/skill))
 				if(extra_choices[choice] == /datum/skill/misc/sneaking)
 					recipient.adjust_skillrank(extra_choices[choice], SKILL_LEVEL_APPRENTICE, silent = TRUE)
@@ -341,6 +339,20 @@
 				add_verb(recipient, /mob/living/carbon/human/proc/alterego_looks)
 				add_verb(recipient, /mob/living/carbon/human/proc/alterego_swap)
 				recipient.AddComponent(/datum/component/alter_ego)
+
+/datum/virtue/utility/nighteye
+	name = "Night Eye"
+	desc = "My eyes are able to see through cloying darkness."
+	custom_text = "Grants a verb to enhance your darksight at the cost of seeing colors, but if you have Colorblindness as a vice, you cannot toggle this off."
+	ui_fa_icon = "eye"
+	added_traits = list(TRAIT_DARKVISION)
+
+/datum/virtue/utility/nighteye/apply_to_human(mob/living/carbon/human/recipient)
+	if(recipient.has_flaw(/datum/charflaw/colorblind))
+		to_chat(recipient, "Your eyes have become permanently colorblind.")
+		ADD_TRAIT(recipient, TRAIT_NITEVISION, "monochrome_sight")
+	else if(recipient.charflaws.len)
+		add_verb(recipient, /mob/living/carbon/human/proc/toggle_nitesight)
 
 // Grim fandango
 /datum/virtue/utility/granary
@@ -398,7 +410,7 @@
 	name = "Bronze Limbs"
 	desc = "Through connections or wealth, my limb had been replaced by one of bronze and gears, that can grip and hold onto things. I've learned just a bit of Engineering as a result."
 	ui_fa_icon = "robot"
-	custom_text = "Replaces your chosen limbs with a prosthetic Bronze ones."
+	custom_text = "Replaces your chosen limbs with prosthetic bronze ones."
 	added_skills = list(list(/datum/skill/craft/engineering, 1, 6))
 	max_choices = 4
 	stackable = TRUE //We're OK with this, it's fairly innocuous
@@ -446,11 +458,23 @@
 	ui_fa_icon = "tree"
 	added_traits = list(TRAIT_WOODWALKER, TRAIT_OUTDOORSMAN)
 
-/datum/virtue/heretic/zchurch_keyholder
+/datum/virtue/utility/zchurch_keyholder
 	name = "Defiled Keyholder"
-	desc = "The 'Holy' See has their blood-stained grounds, and so do we. Underneath their noses, we pray to the true gods - I know the location of the local heretic conclave. Secrecy is paramount. If found out, I will surely be killed."
+	desc = "The 'Holy' See has their blood-stained grounds, and so does the conclave. Underneath their noses, prayers and ritual are afoot. I have been initiated; secrecy is paramount. I won't risk entering their grounds observed, if I don't swear allegiance to the Four. The local safe-houses are open to me."
 	ui_fa_icon = "mask"
 	added_traits = list(TRAIT_ZURCH)
+
+/datum/virtue/utility/zchurch_keyholder/apply_to_human(mob/living/carbon/human/recipient)
+	..()
+	// Non-Ascendant followers can only walk the secret paths unobserved.
+	if(!istype(recipient.patron, /datum/patron/inhumen))
+		ADD_TRAIT(recipient, TRAIT_CAREFULTRIP, TRAIT_VIRTUE)
+
+/datum/virtue/utility/zchurch_keyholder/restricts_job(datum/job/job, datum/preferences/prefs)
+	if(istype(prefs.selected_patron, /datum/patron/inhumen))
+		return null
+	if(length(job.allowed_patrons) || (job.department_flag & (COURTIERS | RETINUE | GARRISON | CHURCHMEN | INQUISITION)))
+		return "non-Ascendant"
 
 // AUTHOR NOTE - Probably remove this from court, leader and inquisition roles later since the barrier to roleplaying this correctly as those roles is extremely high.
 // Mostly meant as a virtue for strange fey creatures, or people roleplaying as if they have been influenced by hags positively in the past, following an active pact to avoid vengeance.
@@ -458,7 +482,7 @@
 // DEVOTION NOTE - it'll be touching this later to add a bit more to it to justify the statnuke n its presence as a virtue over the quirk form. do not remove
 /datum/virtue/utility/feytouched
 	name = "Feybound"
-	desc = "A vessel for the Mossmother, or perhaps a puppet of the past. You are sympathetic to the hag's cause. Your connection to the fey allows you to offer lux or bloated leechticks and traverse the roots, or pure lux to gain the bog's blessing, though your mortal form is frail (-1 INT, -2 STR). The hag is aware of you; your lux is corrupted. You may know of old events, but as the decades lengthen, so does your recollection of them fade. Hag-boons cannot take hold."
+	desc = "A vessel or creation of the Mossmother, or perhaps a puppet of the past. You are sympathetic to the hag's cause. Your connection to the fey allows you to offer lux or bloated leechticks and traverse the roots, or pure lux to gain the bog's blessing, though your mortal form is frail (-1 INT, -2 STR). The hag is aware of you; your lux is corrupted. You may know of old events, but as the decades lengthen, so does your recollection of them fade. Choice between Pactbound (can receive 30 points of boons; not choosable by certain antags like lyckers) or Vessel (the hag can possess you; use the verb in the RoleUnique tab to toggle)."
 	ui_fa_icon = "ghost"
 	added_stats = list(STATKEY_INT = -1, STATKEY_STR = -2)
 	added_traits = list(TRAIT_FEYBOUND)
@@ -471,6 +495,42 @@
 	..() // Apply traits, stats, and languages first
 	if(!recipient.mind)
 		return
+	var/list/choices = list(
+		"Pactbound" = "In exchange for your service, you've received some of the hag's power. You gain a 30 point budget and can be given boons - but not cursed.",
+		"Vessel" = "Shirking personal power, you are bound much more tightly to service. The hag can possess you at will, allowing them to speak and act through you."
+		)
+	var/force_vessel = FALSE
+	var/cannot_apply = FALSE
+	if(recipient.mind)
+		if(recipient.mind.has_antag_datum(/datum/antagonist/vampire))
+			force_vessel = TRUE
+			cannot_apply = TRUE
+		if(recipient.mind.has_antag_datum(/datum/antagonist/werewolf))
+			force_vessel = TRUE
+			cannot_apply = TRUE
+		if(recipient.mind.has_antag_datum(/datum/antagonist/dreamwalker))
+			force_vessel = TRUE
+			cannot_apply = TRUE
+		if(recipient.mind.has_antag_datum(/datum/antagonist/gnoll))
+			force_vessel = TRUE
+		if(recipient.mind.has_antag_datum(/datum/antagonist/hag))
+			force_vessel = TRUE
+		if(recipient.mind.has_antag_datum(/datum/antagonist/skeleton))
+			force_vessel = TRUE
+			cannot_apply = TRUE
+	var/choice = (force_vessel ? "Vessel" : tgui_input_list(recipient, "What nature do you bear?", "FEY NATURE", choices, descriptions = choices))
+	var/hag_message
+	if(!cannot_apply)
+		if(choice == "Vessel")
+			GLOB.fey_vessels[recipient] = TRUE
+			hag_message = "A familiar rhythm pulses in the roots... [recipient.real_name], a vessel, is walking the lands this week."
+			add_verb(recipient, /mob/living/carbon/human/proc/toggle_vessel)
+		else
+			recipient.extra_boon_budget = 30
+			hag_message = "A familiar rhythm pulses in the roots... [recipient.real_name], a pactbound, is walking the lands this week."
+	else
+		hag_message = "A familiar rhythm pulses in the roots... [recipient.real_name] is walking the lands this week."
+
 	for(var/mob/living/hag_mob in GLOB.active_hags)
 		var/datum/mind/hag_mind = hag_mob.mind
 		if(!hag_mind)
@@ -478,8 +538,25 @@
 		hag_mind.i_know_person(recipient)
 		recipient.mind.i_know_person(hag_mind)
 		if(hag_mind.current)
-			to_chat(hag_mind.current, span_boldnotice("A familiar rhythm pulses in the roots... [recipient.real_name], a feybound, is walking the lands this week."))
+			to_chat(hag_mind.current, span_boldnotice(hag_message))
 	to_chat(recipient, span_boldnotice("The Mossmother's gaze lingers upon you. You are recognized by her daughters."))
+
+/mob/living/carbon/human/proc/toggle_vessel()
+	set name = "Toggle Vessel Status"
+	set category = "RoleUnique.Virtue"
+	set desc = "Changes whether the hag is able to possess you; by default, they can." // so the hag doesn't possess someone mid scene
+
+	if(!(src in GLOB.fey_vessels)) // you shouldn't have this verb
+		remove_verb(src, /mob/living/carbon/human/proc/toggle_vessel)
+
+	GLOB.fey_vessels[src] = !(GLOB.fey_vessels[src])
+	to_chat(src, span_warning("You are now [GLOB.fey_vessels[src]?"":"un"]able to be possessed."))
+
+// used for antag datum gains
+/proc/disable_vessel(mob/living/carbon/human/H)
+	if(H in GLOB.fey_vessels)
+		GLOB.fey_vessels[H] = FALSE
+		remove_verb(H, /mob/living/carbon/human/proc/toggle_vessel)
 
 //Virtue to skip roundstart grind, but gives nothing unique on its own. Should never raise any skill caps, and should always have minimal monetary value.
 //Could add lumberjacking, fishing, engineering, ceramics down the line if a boost is desired.

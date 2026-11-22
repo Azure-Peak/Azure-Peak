@@ -6,7 +6,7 @@
 	cant_hold = list(
 		/obj/item/storage,
 		/obj/item/rogueweapon,
-		/obj/item/bomb,
+		/obj/item/explosive/fused/bottle,
 		/obj/item/flashlight,
 		/obj/item/recipe_book,
 	)
@@ -165,7 +165,7 @@
 			return
 		else
 			R.visible_message(span_notice("[src] lands neatly on top of [R]!"), span_notice("[src] lands perfectly on top of you."))
-			R.place_on_head(src) //hats aren't designed to snugly fit borg heads or w/e so they'll always manage to knock eachother off
+			R.place_on_head(src) //hats aren't designed to snugly fit borg heads or w/e so they'll always manage to knock each other off
 */
 
 

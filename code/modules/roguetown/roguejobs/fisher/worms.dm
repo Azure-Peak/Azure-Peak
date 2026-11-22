@@ -1,27 +1,25 @@
 /obj/item
-	var/baitpenalty = 100 // Using this as bait will incurr a penalty to fishing chance. 100 makes it useless as bait. Lower values are better, but Never make it past 10.
-	var/baitresilience = 0 // How resilient bait is. Decreases by 2 for every catch, decreases by 1 when used by a master or better. Bait cannot be consumed whilst it has resilience left.
+	// Quality of the bait, used to determien the fishing pool distribution
+	var/bait_quality
+	/// Catches this bait survives, on the rod or in the cage, before it is used up. Zero and one both mean a single catch.
+	var/baitresilience = 0
 	var/isbait = FALSE	// Is the item in question bait to be used?
-	var/list/fishingMods = null
+	var/bait_flag = NONE
+
+/obj/item/proc/expected_bait_catches(mob/user)
+	var/spend_chance = FISHING_BAIT_SPEND_CHANCE_BASE - user.get_skill_level(/datum/skill/labor/fishing) * FISHING_BAIT_SPEND_CHANCE_PER_SKILL
+	return round(max(1, baitresilience) * 100 / spend_chance, 0.1)
 
 /obj/item/natural/worms
 	name = "worm"
 	desc = "The favorite bait of the courageous fishermen who venture these dark waters."
 	icon_state = "worm1"
 	throwforce = 10
-	baitpenalty = 10
+	bait_quality = TRAIT_BASIC_QUALITY_BAIT
+	bait_flag = DISH_MEAT
 	isbait = TRUE
 	color = "#985544"
 	w_class = WEIGHT_CLASS_TINY
-	fishingMods=list(
-		"commonFishingMod" = 1,
-		"rareFishingMod" = 1,
-		"treasureFishingMod" = 1,
-		"trashFishingMod" = 1,
-		"dangerFishingMod" = 1,
-		"ceruleanFishingMod" = 0, // 1 on cerulean aril, 0 on everything else
-		"cheeseFishingMod" = 0 // Just for the funny gimmick of a chance for rats and rouses.
-	)
 	baitresilience = 1
 
 	drop_sound = 'sound/foley/dropsound/food_drop.ogg'
@@ -34,18 +32,9 @@
 /obj/item/natural/worms/grubs
 	name = "grub"
 	desc = "Bait for the desperate, or the daring."
-	baitpenalty = 5
+	bait_quality = TRAIT_GOOD_QUALITY_BAIT
 	isbait = TRUE
 	color = null
-	fishingMods=list(
-		"commonFishingMod" = 0.85,
-		"rareFishingMod" = 1.15,
-		"treasureFishingMod" = 1,
-		"trashFishingMod" = 1,
-		"dangerFishingMod" = 1,
-		"ceruleanFishingMod" = 0, // 1 on cerulean aril, 0 on everything else
-		"cheeseFishingMod" = 0 // Just for the funny gimmick of a chance for rats and rouses.
-	)
 	baitresilience = 2
 
 /obj/item/natural/worms/grubs/attack_right(mob/user)

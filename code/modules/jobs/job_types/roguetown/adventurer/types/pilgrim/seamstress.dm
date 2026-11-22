@@ -8,6 +8,7 @@
 	traits_applied = list(TRAIT_SEWING_EXPERT)
 
 	category_tags = list(CTAG_PILGRIM, CTAG_TOWNER)
+	subclass_spells = list(/obj/effect/proc_holder/spell/invoked/takeapprentice)
 	subclass_stats = list(
 		STATKEY_SPD = 2,
 		STATKEY_INT = 2,

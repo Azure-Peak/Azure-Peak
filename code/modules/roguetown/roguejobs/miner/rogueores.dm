@@ -7,9 +7,10 @@
 	experimental_inhand = TRUE
 	grid_width = 64
 	grid_height = 32
+	possible_item_intents = list(/datum/intent/use, /datum/intent/food)
 
 /obj/item/rogueore/attack(mob/living/M, mob/user)
-	if(!user.cmode)
+	if(!user.cmode && istype(user.used_intent, /datum/intent/food))
 		if(try_construct_consume(src, M, user))
 			return
 	else
@@ -142,6 +143,7 @@
 	var/datum/anvil_recipe/currecipe
 	grid_width = 64
 	grid_height = 32
+	possible_item_intents = list(/datum/intent/use, /datum/intent/food)
 
 /obj/item/ingot/examine()
 	. += ..()
@@ -207,7 +209,7 @@
 		A.update_icon()
 
 /obj/item/ingot/attack(mob/living/M, mob/user)
-	if(!user.cmode)
+	if(!user.cmode && istype(user.used_intent, /datum/intent/food))
 		if(try_construct_consume(src, M, user))
 			return
 	return ..()
@@ -300,7 +302,7 @@
 
 /obj/item/ingot/blacksteel
 	name = "blacksteel bar"
-	desc = "This ingot is both mythical and mysterious; stronger - and more expensive - than any alloy currently known to Psydonia's masses. It thrumbs with an eerie blue glow, catchable for only a blink's tyme. </br>'Sacrificing the holy elements of silver for raw strength, this strange and powerful ingot's origin carries dark rumors.'"
+	desc = "This ingot is both mythical and mysterious; stronger - and more expensive - than any alloy currently known to Psydonia's masses. It thrums with an eerie blue glow, catchable for only a blink's tyme. </br>'Sacrificing the holy elements of silver for raw strength, this strange and powerful ingot's origin carries dark rumors.'"
 	icon_state = "ingotblacksteel"
 	smeltresult = /obj/item/ingot/blacksteel
 	sellprice = 100
@@ -403,7 +405,7 @@
 //Anomalous Smeltings
 /obj/item/ingot/weeping
 	name = "enduring ingot"
-	desc = "A slab of metal, aged and bare. You finally know what it is, yet no word can be sired to describe it. </br>'..none will ever know the greatest truths; of Aeon's grasp, of Adonai's presence, of Psydon's fate..' </br>'..but, perhaps, that's for the better. The malaise is gone, but the evils of this world are still very real..' </br>'..find a way to give the remains a new lyfe; a new vessel that may yet make the Archdevil weep..'"
+	desc = "A slab of metal, aged and bare. You finally know what it is, yet no word can be sired to describe it. </br>'..none will ever know the greatest truths; of Aeon's grasp, of Syon's presence, of Psydon's fate..' </br>'..but, perhaps, that's for the better. The malaise is gone, but the evils of this world are still very real..' </br>'..find a way to give the remains a new lyfe; a new vessel that may yet make the Archdevil weep..'"
 	icon_state = "ingotenduring"
 	smeltresult = /obj/item/ingot/weeping
 	sellprice = 222

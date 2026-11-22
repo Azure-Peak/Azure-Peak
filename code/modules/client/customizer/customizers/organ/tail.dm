@@ -162,6 +162,8 @@
 		/datum/sprite_accessory/tail/leopard,
 		/datum/sprite_accessory/tail/deer,
 		/datum/sprite_accessory/tail/raccoon,
+		/datum/sprite_accessory/tail/raccoon_new,
+		/datum/sprite_accessory/tail/raccoon_newer,
 		/datum/sprite_accessory/tail/sabresune,
 		/datum/sprite_accessory/tail/lizard/smooth,
 		/datum/sprite_accessory/tail/lizard/dtiger,
@@ -175,7 +177,8 @@
 		/datum/sprite_accessory/tail/swallow,
 		/datum/sprite_accessory/tail/zorzor,
 		/datum/sprite_accessory/tail/large_snake,
-		/datum/sprite_accessory/tail/large_snake_plain
+		/datum/sprite_accessory/tail/large_snake_plain,
+		/datum/sprite_accessory/tail/large_tails/flagtail
 		)
 
 /datum/customizer/organ/tail/anthro
@@ -239,6 +242,8 @@
 		/datum/sprite_accessory/tail/leopard,
 		/datum/sprite_accessory/tail/deer,
 		/datum/sprite_accessory/tail/raccoon,
+		/datum/sprite_accessory/tail/raccoon_new,
+		/datum/sprite_accessory/tail/raccoon_newer,
 		/datum/sprite_accessory/tail/sabresune,
 		/datum/sprite_accessory/tail/lizard/smooth,
 		/datum/sprite_accessory/tail/lizard/dtiger,
@@ -252,7 +257,8 @@
 		/datum/sprite_accessory/tail/swallow,
 		/datum/sprite_accessory/tail/zorzor,
 		/datum/sprite_accessory/tail/large_snake,
-		/datum/sprite_accessory/tail/large_snake_plain
+		/datum/sprite_accessory/tail/large_snake_plain,
+		/datum/sprite_accessory/tail/large_tails/flagtail
 		)
 
 /datum/customizer/organ/tail/dullahan
@@ -319,6 +325,8 @@
 		/datum/sprite_accessory/tail/leopard,
 		/datum/sprite_accessory/tail/deer,
 		/datum/sprite_accessory/tail/raccoon,
+		/datum/sprite_accessory/tail/raccoon_new,
+		/datum/sprite_accessory/tail/raccoon_newer,
 		/datum/sprite_accessory/tail/sabresune,
 		/datum/sprite_accessory/tail/lizard/smooth,
 		/datum/sprite_accessory/tail/lizard/dtiger,
@@ -391,6 +399,8 @@
 		/datum/sprite_accessory/tail/leopard,
 		/datum/sprite_accessory/tail/deer,
 		/datum/sprite_accessory/tail/raccoon,
+		/datum/sprite_accessory/tail/raccoon_new,
+		/datum/sprite_accessory/tail/raccoon_newer,
 		/datum/sprite_accessory/tail/sabresune,
 		/datum/sprite_accessory/tail/lizard/smooth,
 		/datum/sprite_accessory/tail/lizard/dtiger,

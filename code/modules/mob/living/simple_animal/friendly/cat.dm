@@ -13,7 +13,6 @@
 	emote_hear = list("meows.", "mews.")
 	emote_see = list("shakes its head.", "shivers.")
 	speak_chance = 1
-	turns_per_move = 5
 	see_in_dark = 6
 	ventcrawler = VENTCRAWLER_ALWAYS
 	pass_flags = PASSTABLE
@@ -47,9 +46,7 @@
 	footstep_type = FOOTSTEP_MOB_CLAW
 
 	//new ai, old ai off
-	AIStatus = AI_OFF
-	can_have_ai = FALSE
-	ai_controller = /datum/ai_controller/generic
+	ai_controller = /datum/ai_controller/generic/cat
 	move_base_delay = MOVEMENT_DELAY_SLOW
 
 /mob/living/simple_animal/pet/cat/Initialize(mapload)
@@ -216,11 +213,11 @@
 
 /mob/living/simple_animal/pet/cat/Life()
 	if(!stat && !buckled && !client)
-		if(prob(1))
+		if(!ai_controller?.blackboard[BB_FOLLOW_TARGET] && prob(1))
 			emote("me", 1, pick("stretches out for a belly rub.", "wags its tail.", "lies down."))
 			icon_state = "[icon_living]_rest"
 			set_resting(TRUE)
-		else if (prob(1))
+		else if (!ai_controller?.blackboard[BB_FOLLOW_TARGET] && prob(1))
 			emote("me", 1, pick("sits down.", "crouches on its hind legs.", "looks alert."))
 			icon_state = "[icon_living]_sit"
 			set_resting(TRUE)
@@ -260,7 +257,6 @@
 						sleep(3)
 						visible_message("<span class='notice'>\The [src] kills the rat!</span>")
 						M.obj_destruction()
-						stop_automated_movement = 0
 						break
 
 

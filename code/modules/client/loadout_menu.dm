@@ -10,7 +10,6 @@
 /datum/loadout_menu
 	var/client/owner
 	var/list/gear_list = list()
-	var/preview = FALSE
 
 /datum/loadout_menu/New(client/C)
 	owner = C
@@ -49,11 +48,13 @@
 		// Detect color channels dynamically from the item's compiled defaults
 		var/obj/item/target = LI.path
 		var/list/color_channels = list("primary")
+		var/list/preview_layers
 		if(ispath(LI.path, /obj/item))
 			if(initial(target.detail_tag))
 				color_channels += "detail"
 			if(initial(target.altdetail_tag))
 				color_channels += "altdetail"
+			preview_layers = preview_layers_for(target)
 
 		if(LI.name == "Parent loadout datum")
 			continue
@@ -64,7 +65,8 @@
 			"category" = cat,
 			"cost" = LI.cost,
 			"triumph_cost" = LI.triumph_cost,
-			"color_channels" = color_channels
+			"color_channels" = color_channels,
+			"preview_layers" = preview_layers
 		))
 
 	var/donator = (is_donator(user.ckey) || user.client?.holder)
@@ -75,6 +77,27 @@
 	data["triumph_discount"] = donator ? LOADOUT_TRIUMPH_DISCOUNT : 0
 	data["donator_bonus"] = donator ? LOADOUT_DONATOR_BONUS : 0
 	return data
+
+/datum/loadout_menu/proc/preview_layers_for(obj/item/target)
+	var/icon_file = initial(target.icon)
+	var/icon_state = initial(target.icon_state)
+	if(!icon_exists(icon_file, icon_state))
+		return null
+	var/list/layers = list(preview_layer(icon_file, icon_state, initial(target.color)))
+	var/detail_tag = initial(target.detail_tag)
+	if(detail_tag && icon_exists(icon_file, "[icon_state][detail_tag]"))
+		layers += list(preview_layer(icon_file, "[icon_state][detail_tag]", initial(target.detail_color)))
+	var/altdetail_tag = initial(target.altdetail_tag)
+	if(altdetail_tag && icon_exists(icon_file, "[icon_state][altdetail_tag]"))
+		layers += list(preview_layer(icon_file, "[icon_state][altdetail_tag]", initial(target.altdetail_color)))
+	return layers
+
+/datum/loadout_menu/proc/preview_layer(icon_file, icon_state, layer_color)
+	return list(
+		"icon" = "[icon_file]",
+		"icon_state" = icon_state,
+		"color" = istext(layer_color) ? layer_color : null
+	)
 
 /datum/loadout_menu/ui_data(mob/user)
 	var/list/data = list()
@@ -116,7 +139,6 @@
 	data["total_triumph_cost"] = total_triumph_cost
 	data["effective_triumph_cost"] = max(0, total_triumph_cost - triumph_discount)
 	data["player_triumphs"] = user.get_triumphs() || 0
-	data["preview"] = preview
 	return data
 
 /datum/loadout_menu/ui_act(action, list/params, datum/tgui/ui, datum/ui_state/state)
@@ -224,9 +246,6 @@
 				owner.prefs.update_pref_data_for_all_viewers()
 			ui.close()
 			return TRUE
-
-		if("preview")
-			preview = !preview
 
 #undef LOADOUT_MAX_POINTS
 #undef LOADOUT_MAX_NAME_LEN

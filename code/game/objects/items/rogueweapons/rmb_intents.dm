@@ -13,7 +13,7 @@
 	if(!cmode)	//We just toggled it off.
 		addtimer(CALLBACK(src, PROC_REF(purge_bait)), 30 SECONDS, TIMER_UNIQUE | TIMER_OVERRIDE)
 		addtimer(CALLBACK(src, PROC_REF(clear_tempo_all)), 30 SECONDS, TIMER_UNIQUE | TIMER_OVERRIDE)
-		addtimer(CALLBACK(src, PROC_REF(reset_dodgetime), 20 SECONDS, TIMER_UNIQUE | TIMER_OVERRIDE))
+		addtimer(CALLBACK(src, PROC_REF(reset_dodgetime)), 20 SECONDS, TIMER_UNIQUE | TIMER_OVERRIDE)
 	if(!HAS_TRAIT(src, TRAIT_DECEIVING_MEEKNESS))
 		filtered_balloon_alert(TRAIT_COMBAT_AWARE, (cmode ? ("<i><font color = '#831414'>Tense</font></i>") : ("<i><font color = '#c7c6c6'>Relaxed</font></i>")), y_offset = 32)
 
@@ -106,7 +106,7 @@
 	if(HT.bait_stacks <= 1)
 		HT.Immobilize(0.5 SECONDS)
 		HT.stamina_add(HT.max_stamina / fatiguemod)
-		HT.Slowdown(3)
+		HT.apply_slowdown(5 SECONDS)
 		HT.emote("huh")
 		HU.changeNext_move(0.1 SECONDS, override = TRUE)
 		to_chat(HU, span_notice("[HT.p_they(TRUE)] fell for my bait <b>perfectly</b>! One more!"))
@@ -242,7 +242,7 @@
 	L.apply_status_effect(/datum/status_effect/debuff/clickcd, max(1.5 SECONDS + skill_factor, 2.5 SECONDS))
 	L.Immobilize(0.5 SECONDS)
 	L.stamina_add(L.stamina * 0.1)
-	L.Slowdown(2)
+	L.apply_slowdown(3 SECONDS)
 	if(L.d_intent == INTENT_DODGE)
 		L.changeNext_def(clamp(L.dodgetime + 3, 0, CLICK_CD_DODGE))
 		L.changeMaxDodge(-3)
@@ -278,14 +278,5 @@
 
 /datum/rmb_intent/weak
 	name = "weak"
-	desc = "Your attacks deal 20% damage and will never critically-hit. Useful for longer punishments, play-fighting, and bloodletting.\nRight click will attempt to steal from the target."
+	desc = "Your attacks deal 20% damage and will never critically-hit. Useful for longer punishments, play-fighting, and bloodletting."
 	icon_state = "rmbweak"
-
-/datum/rmb_intent/weak/special_attack(mob/living/carbon/human/user, mob/living/carbon/human/target)
-	if(!istype(target) || !istype(user) || !target.Adjacent(user))
-		return
-	if(user.incapacitated())
-		return
-
-	user.attempt_steal(user, target)
-	return ..()

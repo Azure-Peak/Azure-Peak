@@ -59,12 +59,16 @@
 		return wound
 
 /// Loops through our list of wounds healing them until we run out of healing or all wounds are healed
-/mob/living/proc/heal_wounds(heal_amount, list/specific_types, psydonite = FALSE)
+/mob/living/proc/heal_wounds(heal_amount, list/specific_types, psydonite = FALSE, maxsev, list/excluded_types)
 	var/healed_any = FALSE
 	if(has_status_effect(/datum/status_effect/buff/fortify))
 		heal_amount *= 1.3
 	for(var/datum/wound/wound as anything in get_wounds())
 		if(isnull(wound))
+			continue
+		if(is_type_in_list(wound, excluded_types))
+			continue
+		if(!isnull(maxsev) && wound.severity > maxsev)
 			continue
 		if(psydonite) //Checks if the proc was invoked by TRAIT_PSYDONITE to avoid healing incisions.
 			if(istype(wound, /datum/wound/slash/incision))

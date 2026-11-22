@@ -29,11 +29,11 @@
 /turf/closed/wall/mineral/rogue/get_mechanics_examine(mob/user)
 	. = ..()
 	. += span_info("Click-drag yourself onto a wall to lean against it. This allows other people to move past you, while also gradually restoring energy and stamina.")
-	. += span_info("Left-clicking a wall while you're next to it will allow you to climb it. The higher your Climbing skill is, the quicker you can finish climbing up a level. Buckling yourself to an uprighted chair can help, too.")
+	. += span_info("Left-clicking a wall while you're next to it will allow you to climb it. The higher your Climbing skill is, the quicker you can finish climbing up a level. Buckling yourself to an upright chair can help, too.")
 	. += span_info("Your Climbing skill determines the tier of wall you can scale, as well. Most people can climb rock walls and trees without trouble, but mossy walls and fortifications can only be surmounted by a few.")
 	. += span_info("Press the 'Shift' button and the 'F' key at the same time to look up a level. If there's nothing to stand on - like a branch or unoccupied tile - adjacent to your direction, climbing up might cause you to fall back down.")
 	. += span_info("Note that this behavior mostly applies to walls and trees that're only one level tall. Those with higher Climbing skills can 'cling' to higher walls, allowing them to scale multiple levels without falling.")
-	. += span_info("Certain walls can be destroyed through different means. Rock walls succumb to tools that pick, wood walls crumble to tools that chop, and all walls vanish when introduced to blastpowder and siegeweapons.")
+	. += span_info("Certain walls can be destroyed through different means. Rock walls succumb to tools that pick, wood walls crumble to tools that chop, and all walls vanish when introduced to blastpowder and siege weapons.")
 
 
 //////////////////
@@ -268,7 +268,7 @@
 
 /turf/closed/wall/mineral/rogue/stone/unbreakable
 	name = "heavy stone wall"
-	desc = "Seems nigh-indestructable"
+	desc = "Seems nigh-indestructible"
 	max_integrity = 10000000
 	damage_deflection = 99999999
 
@@ -295,7 +295,7 @@
 
 /turf/closed/wall/mineral/rogue/stone/window/unbreakable
 	name = "heavy stone window"
-	desc = "Seems nigh-indestructable"
+	desc = "Seems nigh-indestructible"
 	max_integrity = 10000000
 	damage_deflection = 99999999
 
@@ -308,7 +308,7 @@
 	climbdiff = 4
 
 /turf/closed/wall/mineral/rogue/stone/moss/unbreakable
-	desc = "Seems nigh-indestructable"
+	desc = "Seems nigh-indestructible"
 	max_integrity = 10000000
 	damage_deflection = 99999999
 
@@ -321,7 +321,7 @@
 	climbdiff = 4
 
 /turf/closed/wall/mineral/rogue/stone/window/moss/unbreakable
-	desc = "Seems nigh-indestructable"
+	desc = "Seems nigh-indestructible"
 	max_integrity = 10000000
 	damage_deflection = 99999999
 
@@ -623,3 +623,69 @@
 	var/turf/open/transparent/openspace/target = get_step_multiz(src, UP)
 	if(istype(target))
 		target.ChangeTurf(/turf/open/floor/rogue/dirt/road)
+
+/turf/closed/wall/mineral/rogue/tent/blue
+	icon_state = "tent_blue"
+	name = "blue tent wall"
+	desc = "A colourful tent wall."
+
+/turf/closed/wall/mineral/rogue/tent/cyan
+	icon_state = "tent_cyan"
+	name = "cyan tent wall"
+	desc = "A colourful tent wall."
+
+/turf/closed/wall/mineral/rogue/tent/brown
+	icon_state = "tent_brown"
+	name = "brown tent wall"
+	desc = "A colourful tent wall."
+
+/turf/closed/wall/mineral/rogue/tent/green
+	icon_state = "tent_green"
+	name = "green tent wall"
+	desc = "A colourful tent wall."
+
+/turf/closed/wall/mineral/rogue/tent/purple
+	icon_state = "tent_purple"
+	name = "purple tent wall"
+	desc = "A colourful tent wall."
+
+/turf/closed/wall/mineral/rogue/tent/red
+	icon_state = "tent_red"
+	name = "red tent wall"
+	desc = "A colourful tent wall."
+
+/turf/closed/wall/mineral/rogue/tent/reddeco
+	icon_state = "tent_red_deco"
+	name = "decorated red tent wall"
+	desc = "A colourful tent wall embossed with gold."
+
+/turf/closed/wall/mineral/rogue/tent/purpledeco
+	icon_state = "tent_purple_deco"
+	name = "decorated purple tent wall"
+	desc = "A colourful tent wall embossed with gold."
+
+/turf/closed/wall/mineral/rogue/tent/greendeco
+	icon_state = "tent_green_deco"
+	name = "decorated green tent wall"
+	desc = "A colourful tent wall embossed with gold."
+
+/turf/closed/wall/mineral/rogue/tent/browndeco
+	icon_state = "tent_brown_deco"
+	name = "decorated brown tent wall"
+	desc = "A colourful tent wall embossed with gold."
+
+/turf/closed/wall/mineral/rogue/tent/cyandeco
+	icon_state = "tent_cyan_deco"
+	name = "decorated cyan tent wall"
+	desc = "A colourful tent wall embossed with gold."
+
+/turf/closed/wall/mineral/rogue/tent/bluedeco
+	icon_state = "tent_blue_deco"
+	name = "decorated blue tent wall"
+	desc = "A colourful tent wall embossed with gold."
+
+/turf/closed/wall/mineral/rogue/tent/noc
+	icon_state = "tent_noc"
+	name = "decorated navy tent wall"
+	desc = "A colourful tent wall embossed with silver, popular amongst \
+		Noccites."

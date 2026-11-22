@@ -43,7 +43,7 @@
 	reqs =	list(/obj/item/flint = 1,
 				/obj/item/scrap = 2,
 				/obj/item/alch/irondust = 1,
-				/obj/item/bomb = 1,
+				/obj/item/explosive/fused/bottle = 1,
 	)
 	craftdiff = 4
 
@@ -53,7 +53,7 @@
 	reqs =	list(/obj/item/flint = 1,
 				/obj/item/scrap = 2,
 				/obj/item/alch/irondust = 1,
-				/obj/item/impact_grenade/explosion = 1,
+				/obj/item/explosive/impact/shrapnel = 1,
 	)
 	craftdiff = 4
 

@@ -36,7 +36,7 @@
 	description = "A fermented sauce of fish innards, vinegar and honey, which gradually regenerates all types of damage while remaining surprisingly pleasant to the tastebuds."
 	color = "#dd9700"
 	taste_description = "sweet-sour fish-glazed honey"
-	scent_description = "sweet fermented pungence"
+	scent_description = "sweet fermented pungency"
 	conflicting_reagent_types = list(/datum/reagent/medicine/stronghealth, /datum/reagent/medicine/restoration, /datum/reagent/medicine/healthpot/zarum)
 
 /datum/reagent/medicine/healthpot/zarum
@@ -47,7 +47,7 @@
 	var/nutriment_factor = 16
 	metabolization_rate = 0.4
 	taste_description = "lip-puckeringly rich fishiness"
-	scent_description = "fermented pungence"
+	scent_description = "fermented pungency"
 	taste_mult = 8
 	var/hydration = 4
 	conflicting_reagent_types = list(/datum/reagent/medicine/stronghealth, /datum/reagent/medicine/restoration, /datum/reagent/medicine/healthpot/zarum/bog)
@@ -135,8 +135,8 @@
 	name = "restoration potion"
 	description = "Simultaneously regenerates health and energy. Inherits a higher potency than common lifeblood and manna, but remains inferior to stronger brews."
 	color = "#ff8da1"
-	taste_description = "reinvigorative creaminess"
-	scent_description = "strawberries in liqour"
+	taste_description = "reinvigorating creaminess"
+	scent_description = "strawberries in liquor"
 	metabolization_rate = REAGENTS_METABOLISM * 2
 	// Restoration is a hybrid of the health and mana families, so it conflicts with both.
 	conflicting_reagent_types = list(/datum/reagent/medicine/healthpot, /datum/reagent/medicine/stronghealth, /datum/reagent/medicine/manapot, /datum/reagent/medicine/strongmana)
@@ -302,7 +302,7 @@
 /datum/reagent/buff/endurance
 	name = STATKEY_WIL
 	color = "#ffff00"
-	taste_description = "oversweetened milk"
+	taste_description = "over-sweetened milk"
 	scent_description = "sugar"
 	buff_type = /datum/status_effect/buff/alch/statbuff/endurancepot
 
@@ -536,14 +536,11 @@ If you want to expand on poisons theres tons of fun effects TG chemistry has tha
 	var/fever_multiplier = 1
 
 /datum/reagent/infection/on_mob_life(mob/living/carbon/M)
-	var/heat = (BODYTEMP_AUTORECOVERY_MINIMUM + clamp(volume, 3, 15)) * fever_multiplier
 	M.adjustToxLoss(damage_tick, 0)
 	if (lethal_fever)
-		M.adjust_bodytemperature(heat, 0)
 		if (prob(5))
 			to_chat(M, span_warning("A wicked heat settles within me... I feel ill. Very ill."))
 	else
-		M.adjust_bodytemperature(heat, 0, BODYTEMP_HEAT_DAMAGE_LIMIT - 1)
 		if (prob(5))
 			to_chat(M, span_warning("I feel a horrible chill despite the sweat rolling from my brow..."))
 	return ..()
@@ -692,13 +689,17 @@ If you want to expand on poisons theres tons of fun effects TG chemistry has tha
 
 /datum/reagent/medicine/trait/sleepdraught
 	name = "Restful Draught"
-	description = "Calms yet invigorates the mind, maximizing the benefits of the next rest."
+	description = "Calms yet invigorates the mind, maximizing the benefits of the next rest. May grant rest to the sleepless."
 	taste_description = "chamomilesque herbs"
 	scent_description = "calming florescence"
 	trait = TRAIT_GOODSLEEP
 	color = "#8300ee"
 	addmsg = "I feel calm, yet my mind races. I will surely dream furiously."
 	delmsg = "The surge of nocturnal inspiration fades."
+
+/datum/reagent/medicine/trait/sleepdraught/on_mob_metabolize(mob/living/L)
+	. = ..()
+	sleepless_drug_up(L) // if ozium can do it so can we; eepy time
 
 /datum/reagent/medicine/trait/waterbreathing
 	name = "Elixir of Hadal Grace"
@@ -751,7 +752,7 @@ If you want to expand on poisons theres tons of fun effects TG chemistry has tha
 	scent_description = "earthiness"
 	trait = TRAIT_WYRD_LABOURER
 	color = "#ad4f10"
-	addmsg = "I feel a strange strength growing. The world seems like parchment, or clay - as easily sculped as it is cleaved."
+	addmsg = "I feel a strange strength growing. The world seems like parchment, or clay - as easily sculpted as it is cleaved."
 	delmsg = "The surge of strength fades."
 
 /datum/reagent/medicine/trait/negative
@@ -780,7 +781,7 @@ If you want to expand on poisons theres tons of fun effects TG chemistry has tha
 
 /datum/reagent/medicine/trait/negative/funnyvoice
 	name = "Xylix's Bane"
-	description = "Alters the vocal chords, inflicting a silly voice on the imbiber."
+	description = "Alters the vocal cords, inflicting a silly voice on the imbiber."
 	taste_description = "a slight sweetness"
 	scent_description = "sweetness"
 	trait = TRAIT_ANNOYINGVOICE
@@ -801,7 +802,7 @@ If you want to expand on poisons theres tons of fun effects TG chemistry has tha
 
 /datum/reagent/medicine/trait/negative/singing
 	name = "Xylix's Boon"
-	description = "Alters the vocal chords, inflicting a compulsion to sing on the imbiber."
+	description = "Alters the vocal cords, inflicting a compulsion to sing on the imbiber."
 	taste_description = "a slight sweetness"
 	scent_description = "sweetness"
 	trait = TRAIT_MUSES_GRACE
