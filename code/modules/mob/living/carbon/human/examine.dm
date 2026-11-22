@@ -867,13 +867,13 @@
 				else if(!fellow)
 					standing += "A noble!"
 				if(faction && (!fellow || neutral))
-					standing += faction.examine_line()
+					standing += faction.examine_line(TRUE)
 				if(observer_privilege)
 					var/ghost_estate = estate_region_name()
 					if(ghost_estate)
 						standing += "Holds an estate in [ghost_estate]."
 			else if(faction)
-				standing += faction.examine_line()
+				standing += faction.examine_line(is_political_noble(src))
 
 		if(length(standing))
 			. += span_notice(jointext(standing, " "))
