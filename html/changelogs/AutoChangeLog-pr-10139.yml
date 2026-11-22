@@ -1,0 +1,4 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - bugfix: "Made the hot spring tiles edge smooth again, at cost of them not slowing you don't. This does not matter."
