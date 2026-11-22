@@ -35,39 +35,7 @@
 	adjustable = CAN_CADJUST
 	toggle_icon_state = TRUE
 	sewrepair = TRUE
-	var/attachment_component = /datum/component/storage/concrete/roguetown/neck
 
-/obj/item/clothing/neck/roguetown/coif/get_examine_name(mob/user)
-	var/default_examine_name = ..()
-	if(attachment_component)
-		var/datum/component/storage/concrete/roguetown/our_component = GetComponent(attachment_component)
-		if(length(our_component.item_to_grid_coordinates))
-			var/list/examine_strings = list()
-			for(var/obj/item/thing as anything in our_component.item_to_grid_coordinates)
-				examine_strings += thing.get_examine_name(user)
-			default_examine_name += " ([examine_strings.Join(", ")])"
-	return default_examine_name
-
-/obj/item/clothing/neck/roguetown/coif/Initialize(mapload)
-	. = ..()
-	if(attachment_component)
-		AddComponent(attachment_component)
-	if(ishuman(loc) && dynamic_hair_suffix)
-		var/mob/living/carbon/human/H = loc
-		H.update_hair()
-
-/obj/item/clothing/neck/roguetown/coif/get_mechanics_examine(mob/user)
-	. = ..()
-	. += span_info("Right click to adjust the coif's coverage. Certain coifs with multiple adjustments - like the heavy padded coif - might need to be right-clicked multiple times, in order to cycle back to its default state.")
-	. += span_info("Shift + RMB will open aesthetic storage, allowing the user to layer extra decorations over \the [src].")
-
-/obj/item/clothing/neck/roguetown/coif/ShiftRightClick(mob/user)
-	if(attachment_component)
-		var/datum/component/storage/storage_component = GetComponent(attachment_component)
-		if(storage_component)
-			storage_component.rmb_show(user)
-			return TRUE
-	return ..()
 
 /obj/item/clothing/neck/roguetown/coif/build_worn_icon(default_layer = 0, default_icon_file = null, isinhands = FALSE, femaleuniform = NO_FEMALE_UNIFORM, override_state = null, female = FALSE, customi = null, sleeveindex, boobed_overlay = FALSE, icon/clip_mask = null)
 	var/mutable_appearance/standing = ..()
@@ -191,44 +159,10 @@
 	smeltresult = /obj/item/ingot/steel
 	dynamic_hair_suffix = "+generic"
 
-	var/attachment_component = /datum/component/storage/concrete/roguetown/neck
-
-/obj/item/clothing/neck/roguetown/chaincoif/get_examine_name(mob/user)
-	var/default_examine_name = ..()
-	if(attachment_component)
-		var/datum/component/storage/concrete/roguetown/our_component = GetComponent(attachment_component)
-		if(length(our_component.item_to_grid_coordinates))
-			var/list/examine_strings = list()
-			for(var/obj/item/thing as anything in our_component.item_to_grid_coordinates)
-				examine_strings += thing.get_examine_name(user)
-			default_examine_name += " ([examine_strings.Join(", ")])"
-	return default_examine_name
-
-/obj/item/clothing/neck/roguetown/chaincoif/Initialize(mapload)
-	. = ..()
-	if(attachment_component)
-		AddComponent(attachment_component)
-	if(ishuman(loc) && dynamic_hair_suffix)
-		var/mob/living/carbon/human/H = loc
-		H.update_hair()
-
 /obj/item/clothing/neck/roguetown/chaincoif/ComponentInitialize()
 	AddComponent(/datum/component/adjustable_clothing, NECK, null, null, "sound/foley/equip/chain_equip.ogg", null, (UPD_HEAD|UPD_MASK|UPD_NECK))	//Chain coif.
 	AddComponent(/datum/component/armour_filtering/negative, TRAIT_FENCERDEXTERITY)
 	AddComponent(/datum/component/armour_filtering/negative, TRAIT_HONORBOUND)
-
-/obj/item/clothing/neck/roguetown/chaincoif/get_mechanics_examine(mob/user)
-	. = ..()
-	. += span_info("Right click to adjust the coif's coverage. Certain coifs with multiple adjustments - like the full chain coif - might need to be right-clicked multiple times, in order to cycle back to its default state.")
-	. += span_info("Shift + RMB will open aesthetic storage, allowing the user to layer extra decorations over \the [src].")
-
-/obj/item/clothing/neck/roguetown/chaincoif/ShiftRightClick(mob/user)
-	if(attachment_component)
-		var/datum/component/storage/storage_component = GetComponent(attachment_component)
-		if(storage_component)
-			storage_component.rmb_show(user)
-			return TRUE
-	return ..()
 
 /obj/item/clothing/neck/roguetown/chaincoif/build_worn_icon(default_layer = 0, default_icon_file = null, isinhands = FALSE, femaleuniform = NO_FEMALE_UNIFORM, override_state = null, female = FALSE, customi = null, sleeveindex, boobed_overlay = FALSE, icon/clip_mask = null)
 	var/mutable_appearance/standing = ..()

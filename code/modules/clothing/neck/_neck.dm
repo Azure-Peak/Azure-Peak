@@ -57,6 +57,8 @@
 	grid_height = 32
 	throw_on_break = TRUE
 
+	var/attachment_component = /datum/component/storage/concrete/roguetown/neck
+
 /obj/item/clothing/neck/worn_overlays(isinhands = FALSE)
 	. = list()
 //	if(!isinhands)
@@ -65,6 +67,37 @@
 //				. += mutable_appearance('icons/effects/item_damage.dmi', "damagedmask")
 //			if(HAS_BLOOD_DNA(src))
 //				. += mutable_appearance('icons/effects/blood.dmi', "maskblood")
+/obj/item/clothing/neck/roguetown/coif/get_examine_name(mob/user)
+	var/default_examine_name = ..()
+	if(attachment_component)
+		var/datum/component/storage/concrete/roguetown/our_component = GetComponent(attachment_component)
+		if(length(our_component.item_to_grid_coordinates))
+			var/list/examine_strings = list()
+			for(var/obj/item/thing as anything in our_component.item_to_grid_coordinates)
+				examine_strings += thing.get_examine_name(user)
+			default_examine_name += " ([examine_strings.Join(", ")])"
+	return default_examine_name
+
+/obj/item/clothing/neck/Initialize(mapload)
+	. = ..()
+	if(attachment_component)
+		AddComponent(attachment_component)
+	if(ishuman(loc) && dynamic_hair_suffix)
+		var/mob/living/carbon/human/H = loc
+		H.update_hair()
+
+/obj/item/clothing/neck/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Right click to adjust the coif's coverage. Certain coifs with multiple adjustments - like the heavy padded coif - might need to be right-clicked multiple times, in order to cycle back to its default state.")
+	. += span_info("Shift + RMB will open aesthetic storage, allowing the user to layer extra decorations over \the [src].")
+
+/obj/item/clothing/neck/ShiftRightClick(mob/user)
+	if(attachment_component)
+		var/datum/component/storage/storage_component = GetComponent(attachment_component)
+		if(storage_component)
+			storage_component.rmb_show(user)
+			return TRUE
+	return ..()
 
 /obj/item/clothing/neck/tie
 	name = "tie"
