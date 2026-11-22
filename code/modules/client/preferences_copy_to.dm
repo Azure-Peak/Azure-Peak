@@ -53,6 +53,8 @@
 	character.vampire_hair = vampire_hair
 	character.vampire_ears = vampire_ears
 	character.set_patron(selected_patron)
+	var/datum/political_faction/faction = GLOB.political_factions[political_faction]
+	character.political_faction = faction?.allows_patron(selected_patron) ? faction.id : POLITICAL_FACTION_NEUTRAL
 
 	// done in two loops just in case it matters
 	character.charflaws.Cut()

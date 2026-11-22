@@ -1,5 +1,6 @@
 /datum/job/roguetown/inquisitor
 	title = "Inquisitor"
+	political_faction = POLITICAL_FACTION_BENEDICTUS
 	flag = INQUISITOR
 	department_flag = INQUISITION
 	faction = "Station"

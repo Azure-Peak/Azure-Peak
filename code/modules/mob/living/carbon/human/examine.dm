@@ -836,11 +836,16 @@
 			. += span_notice("[m3] been granted the title of \"[GLOB.lord_titles[name]]\".")
 
 		if(show_descriptors)
-			if(HAS_TRAIT(src, TRAIT_NOBLE) || HAS_TRAIT(src, TRAIT_DEFILED_NOBLE))
-				if(HAS_TRAIT(user, TRAIT_NOBLE) || HAS_TRAIT(user, TRAIT_DEFILED_NOBLE))
-					. += span_notice("A fellow noble.")
+			var/datum/political_faction/faction = political_faction_seen_by(user)
+			if(is_political_noble(src))
+				if(is_political_noble(user))
+					. += span_notice(faction ? "A fellow noble of the [faction.name] faction." : "A fellow noble.")
 				else
 					. += span_notice("A noble!")
+					if(faction)
+						. += span_notice("Of the [faction.name] faction.")
+			else if(faction)
+				. += span_notice("Of the [faction.name] faction.")
 
 		if(HAS_TRAIT(src, TRAIT_RESIDENT))
 			. += span_notice("A chartered resident of Azuria.")

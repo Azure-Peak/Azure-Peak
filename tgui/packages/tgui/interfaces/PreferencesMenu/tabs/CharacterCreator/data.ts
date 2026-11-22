@@ -256,7 +256,6 @@ export type IdentityData = {
 
   virtue_origin: string;
   free_language: string;
-  estate_region_name: string;
 
   selected_faith: string;
   selected_patron: string;
@@ -327,6 +326,13 @@ export type CharFlaw = {
   warning: BooleanLike;
   max_choices: number;
   picked_choices: { index: number; choice: string }[];
+};
+
+// --------------- PoliticsData ---------------
+export type PoliticsData = {
+  political_faction: string;
+  estate_region: string;
+  psydonite: BooleanLike;
 };
 
 // --------------- VillainData ---------------

@@ -102,6 +102,7 @@
 	var/give_bank_account = FALSE
 	var/noble_income = FALSE //Passive income every day from noble estate
 	var/estate_tier = ESTATE_TIER_NONE
+	var/political_faction
 
 	var/can_random = TRUE
 
@@ -343,6 +344,10 @@
 
 		if(estate_tier || noble_income)
 			SSeconomy.register_estate(H, estate_tier, noble_income, TRUE, M?.client)
+
+	if(political_faction && ishuman(H))
+		var/mob/living/carbon/human/human = H
+		human.political_faction = political_faction
 
 	if(show_in_credits && H.ckey && isnull(SScrediticons.processing[H.ckey]))
 		SScrediticons.processing[H.ckey] = FALSE
