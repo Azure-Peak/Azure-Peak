@@ -124,6 +124,7 @@
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/blacksteel/modern
 	gloves = /obj/item/clothing/gloves/roguetown/plate/blacksteel/modern
 	armor = /obj/item/clothing/suit/roguetown/armor/plate/blacksteel/modern
+	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail
 	shoes = /obj/item/clothing/shoes/roguetown/boots/armor/blacksteel/modern
 	pants = /obj/item/clothing/under/roguetown/platelegs/blacksteel/modern
 	neck = /obj/item/clothing/neck/roguetown/bevor/blacksteel/modern
