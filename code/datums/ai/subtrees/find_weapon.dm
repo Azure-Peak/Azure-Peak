@@ -1,6 +1,9 @@
 /datum/ai_planning_subtree/find_weapon
 	var/vision_range = 9
 
+/proc/ai_is_melee_weapon(obj/item/I)
+	return istype(I, /obj/item/rogueweapon) && !(I.flags_ai_inventory & AI_ITEM_THROWING)
+
 /proc/ai_npc_has_weapon(mob/living/carbon/human/pawn)
 	if(!istype(pawn))
 		return FALSE
@@ -9,7 +12,7 @@
 	for(var/obj/item/held in pawn.held_items)
 		if(istype(held, /obj/item/rogueweapon/shield))
 			continue
-		if(istype(held, /obj/item/rogueweapon) || istype(held, /obj/item/gun))
+		if(ai_is_melee_weapon(held) || istype(held, /obj/item/gun))
 			return TRUE
 	if(_find_archer_bow(pawn)) // a bow in hand or worn - this is an archer, leave the loot
 		return TRUE

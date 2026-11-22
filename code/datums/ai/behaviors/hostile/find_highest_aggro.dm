@@ -202,9 +202,3 @@
 		pawn.emote("rage")
 		// TODO: Port species_hostile aggro lines for corrupted/feral human NPCs
 		// pawn.say(pick(GLOB.species_hostile))
-
-/datum/ai_behavior/find_aggro_targets/species_hostile/failed_to_find_anyone(datum/ai_controller/controller, target_key, targeting_strategy_key, hiding_location_key)
-	. = ..()
-	var/mob/living/pawn = controller.pawn
-	if(pawn)
-		pawn.cmode = FALSE
