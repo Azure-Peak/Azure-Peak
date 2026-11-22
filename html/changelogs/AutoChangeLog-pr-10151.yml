@@ -1,0 +1,4 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - bugfix: "Eoran Pomegranate Tree heals for beautiful people no longer spam you as often (every 2 minutes)"
