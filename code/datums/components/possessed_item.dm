@@ -38,7 +38,7 @@
 	var/curse_timer_id
 	var/item_filter
 
-/datum/component/possessed_item/Initialize(mob/living/carbon/human/possessor, outline_color, h_severity_passive, h_desc_passive, h_severity_active, h_desc_active, start_powerful = FALSE, temp = FALSE)
+/datum/component/possessed_item/Initialize(mob/living/carbon/human/possessor, outline_color, h_severity_passive, h_desc_passive, h_severity_active, h_desc_active, start_powerful = FALSE, temp = FALSE, change_sprites = TRUE)
 	if(!isitem(parent) || !possessor)
 		return COMPONENT_INCOMPATIBLE
 	spirit = possessor
@@ -71,14 +71,18 @@
 		magic_effect.flat_heal = 5 // halved effectiveness from the enchantment
 		magic_effect.glow_color = null // we already have our own glow
 		magic_effect.on_apply(parent)
-		if(istype(parent, /obj/item/rogueweapon/sword) && I.inhand_x_dimension == 64) // swords with a compatible spritesize get temp swapped to the infernal sword sprite
+		if(change_sprites && istype(parent, /obj/item/rogueweapon/sword) && I.inhand_x_dimension == 64) // swords with a compatible spritesize get temp swapped to the infernal sword sprite
 			I.icon = 'icons/roguetown/weapons/swords64.dmi'
 			I.icon_state = "blksword"
-	else if(istype(I, /obj/item/clothing/neck) && I.has_armor_value()) // neck items get a special spooky sprite
-		I.icon = 'icons/roguetown/clothing/neck.dmi'
-		I.mob_overlay_icon = 'icons/roguetown/clothing/onmob/neck.dmi'
-		I.icon_state = "cursed_collar"
-		I.item_state = "cursed_collar"
+	else if(istype(I, /obj/item/clothing) && !istype(I, /obj/item/clothing/ring/statamythortz) && !istype(I, /obj/item/clothing/ring/statgemerald) && !istype(I, /obj/item/clothing/ring/statonyx) && !istype(I, /obj/item/clothing/ring/statrontz) && !istype(I, /obj/item/clothing/ring/statdorpel))
+		magic_effect = new /datum/magic_item/greater/phoenixguard 	// with how nothingburger firestacks are now this is probably fine. will change it if it becomes
+		magic_effect.glow_color = null								// a problem but like this is the one that makes you valid and all
+		magic_effect.on_apply(parent)								// you don't get this if you pick a statring, though, so as to not double dip
+		if(change_sprites && istype(I, /obj/item/clothing/neck) && I.has_armor_value()) // neck items get a special spooky sprite
+			I.icon = 'icons/roguetown/clothing/neck.dmi'
+			I.mob_overlay_icon = 'icons/roguetown/clothing/onmob/neck.dmi'
+			I.icon_state = "cursed_collar"
+			I.item_state = "cursed_collar"
 
 	spirit.reset_perspective(parent)
 	I.become_hearing_sensitive()
@@ -116,6 +120,7 @@
 	var/obj/item/I = parent
 	if(ishuman(equipper) && !equipper.icon_state && equipper.mind && equipper != bearer) // i know this looks insane. but icon_state being null is actually the best way to tell if someone's a normal human, or if they're some manner of wildshape/special-cased human like familiars, hag trueform, wws, etc - none of which we want to count for this!
 		bearer = equipper
+		add_verb(bearer, /mob/living/carbon/human/proc/toggle_infernal_armor) // they get this as a freebie to aurafarm
 		RegisterSignal(bearer, COMSIG_MOB_DROPITEM, PROC_REF(handle_drop))
 		RegisterSignal(bearer, COMSIG_MOB_ITEM_ATTACK_POST_SWINGDELAY, PROC_REF(handle_attack)) // if you whack someone with it, you're cooked
 		if((istype(parent, /obj/item/clothing/ring) || istype(parent, /obj/item/clothing/neck/roguetown/psicross)) && slot != ITEM_SLOT_HANDS) // rings grant passive effects, so simply wearing them is enough; amulets are quintessential cursed item and get an easy pass too
@@ -150,7 +155,6 @@
 	resist_timer_id = addtimer(CALLBACK(bearer, TYPE_PROC_REF(/mob/living/carbon/human, release_vessel)), NONCON_POSSESS_TIMELIMIT MINUTES)
 
 /datum/component/possessed_item/proc/handle_release(mob/living/carbon/human/vessel, mob/dead/observer/eye/screye/displaced_soul/dsoul, mob/living/carbon/human/original, dying)
-	remove_verb(vessel, /mob/living/carbon/human/proc/toggle_infernal_armor)
 	heresy_severity = heresy_severity_passive
 	heresy_desc = heresy_desc_passive
 	UnregisterSignal(vessel, COMSIG_MOB_POSSESS_RELEASE)
@@ -166,6 +170,7 @@
 	UnregisterSignal(bearer, COMSIG_MOB_DROPITEM)
 	UnregisterSignal(bearer, COMSIG_MOB_ARMOR_INTEGRITY_DAMAGED)
 	UnregisterSignal(bearer, COMSIG_MOB_ITEM_ATTACK_POST_SWINGDELAY)
+	remove_verb(bearer, /mob/living/carbon/human/proc/toggle_infernal_armor) // no aurafarming if you aren't actually using the thing
 	bearer = null
 	if(curse_timer_id)
 		to_chat(bearer, span_warning("The energies flowing from [dropped] suddenly cease, our connection broken.")) // let them know it worked
