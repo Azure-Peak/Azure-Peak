@@ -43097,6 +43097,15 @@
 /obj/structure/flora/ausbushes/brflowers,
 /turf/open/floor/rogue/grasscold,
 /area/rogue/druidsgrove)
+"hrv" = (
+/obj/structure/closet/crate/chest/wicker,
+/obj/item/seeds/wheat,
+/obj/item/seeds/wheat,
+/obj/item/seeds/onion,
+/obj/item/seeds/potato,
+/obj/item/rogueweapon/hoe/aalloy,
+/turf/open/floor/rogue/naturalstone,
+/area/rogue/indoors/cave)
 "hrw" = (
 /obj/effect/landmark/chimeric_calyx_spawner/fifteen,
 /turf/open/floor/rogue/dirt,
@@ -76410,7 +76419,7 @@
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/outdoors/mountains)
 "mUl" = (
-/obj/structure/fluff/railing/corner,
+/obj/structure/well,
 /turf/open/floor/rogue/dirt,
 /area/rogue/indoors/cave)
 "mUo" = (
@@ -340082,9 +340091,9 @@ dbQ
 ogk
 acF
 acF
+acF
 qPv
 qPv
-fnC
 fnC
 qPv
 qPv
@@ -340533,9 +340542,9 @@ aNF
 dcn
 ogk
 acF
-qPv
-qPv
-qPv
+mUl
+acF
+acF
 qPv
 fnC
 fnC
@@ -340984,9 +340993,9 @@ bwv
 pUp
 pUp
 oaN
-qPv
-qPv
-qPv
+acF
+acF
+acF
 qPv
 qPv
 qPv
@@ -341436,8 +341445,8 @@ jLU
 qPv
 qPv
 qPv
-qPv
-qPv
+acF
+acF
 qPv
 qPv
 qPv
@@ -341871,7 +341880,7 @@ qPv
 qPv
 qPv
 qPv
-bxR
+hrv
 fnC
 fnC
 fnC
@@ -341893,7 +341902,7 @@ qPv
 qPv
 qPv
 qPv
-qPv
+acF
 acF
 acF
 fnC
@@ -342323,9 +342332,9 @@ ujm
 ujm
 qPv
 qPv
+bxR
 fnC
-fnC
-fnC
+acF
 acF
 acF
 uYV
@@ -342345,7 +342354,7 @@ qPv
 qPv
 qPv
 qPv
-qPv
+acF
 acF
 acF
 fnC
@@ -342777,7 +342786,7 @@ qPv
 qPv
 gAt
 acF
-mUl
+acF
 acF
 acF
 uYV
@@ -344134,7 +344143,7 @@ ujm
 gAt
 gAt
 gAt
-gAt
+acF
 acF
 acF
 jLU
