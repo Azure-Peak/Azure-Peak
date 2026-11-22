@@ -23403,7 +23403,6 @@
 /obj/item/seeds/onion,
 /obj/item/seeds/potato,
 /obj/item/rogueweapon/hoe/aalloy,
-/obj/item/reagent_containers/glass/bucket,
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/indoors/cave)
 "ead" = (
