@@ -1890,6 +1890,10 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 	has_item_quality = TRUE
 	item_quality = ITEM_QUALITY_WORN
 
+/obj/item/proc/mark_as_gift()
+	has_item_quality = TRUE
+	item_quality = ITEM_QUALITY_GIFT
+
 /obj/item/proc/unmark_as_worn()
 	if(!worn_out)
 		return

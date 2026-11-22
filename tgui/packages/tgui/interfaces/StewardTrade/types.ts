@@ -25,6 +25,7 @@ export type RegionCatalogEntry = {
   description: string;
   subroute: string;
   tribute: string[];
+  gifts: string[];
   supply: RegionSupplyRow[];
   demand: RegionDemandRow[];
 };

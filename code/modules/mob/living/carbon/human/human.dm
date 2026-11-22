@@ -1189,7 +1189,7 @@
 		var/any_bad = FALSE
 		var/any_bloody = FALSE
 		for(var/obj/item/I in get_equipped_items())
-			if((I.item_quality != ITEM_QUALITY_WORN) && (I.item_quality < ITEM_QUALITY_STANDARD))
+			if((I.item_quality != ITEM_QUALITY_WORN) && (I.item_quality != ITEM_QUALITY_GIFT) && (I.item_quality < ITEM_QUALITY_STANDARD))
 				any_bad = TRUE
 			if(!cmode && (HAS_BLOOD_DNA(I) || I.GetComponent(/datum/component/decal/blood)))
 				any_bloody = TRUE

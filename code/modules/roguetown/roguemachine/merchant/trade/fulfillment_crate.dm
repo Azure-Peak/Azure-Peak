@@ -230,9 +230,13 @@
 		if(message)
 			to_chat(user, span_warning("[I] bears an ATC seal. Foreign captains won't buy ATC stock back."))
 		return
-	var/datum/component/unsellable/unsellable = GetComponent(/datum/component/unsellable)
+	var/datum/component/unsellable/unsellable = I.GetComponent(/datum/component/unsellable)
 	if(unsellable)
 		to_chat(user, span_warning("[I] [unsellable.reason]. No captain will buy it."))
+		return
+	if(I.item_quality == ITEM_QUALITY_GIFT)
+		if(message)
+			to_chat(user, span_warning("[I] is a gift. No captain will buy it."))
 		return
 	if(istype(I, /obj/item/reagent_containers/food/snacks))
 		var/obj/item/reagent_containers/food/snacks/F = I

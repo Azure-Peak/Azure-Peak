@@ -353,6 +353,8 @@
 						continue
 					if(IT.GetComponent(/datum/component/unsellable))
 						continue
+					if(IT.item_quality == ITEM_QUALITY_GIFT)
+						continue
 				var/base_price = I.get_real_price()
 				var/category = get_derived_category(I.type) || ITEM_CAT_MISCELLANEOUS
 				var/bucket = get_navigator_bucket_for_item(I, category)

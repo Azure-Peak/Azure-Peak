@@ -152,17 +152,20 @@ GLOBAL_LIST_INIT(economic_regions, init_economic_regions())
 /datum/economic_region/proc/deliver_gifts()
 	if(!length(gifts))
 		return
-	var/area/warehouse = GLOB.areas_by_type[/area/rogue/indoors/town/warehouse]
-	if(!warehouse)
+	var/turf/drop = SSeconomy.warehouse_drop_turf()
+	if(!drop)
 		return
-	var/list/turfs = list()
-	for(var/turf/T in warehouse)
-		turfs += T
-	if(!length(turfs))
-		return
-	for(var/gift_type in gifts)
-		var/obj/item/gift = new gift_type(pick(turfs))
-		gift.AddComponent(/datum/component/unsellable)
+	var/obj/item/smallDelivery/parcel = new(drop)
+	parcel.name = "gift from [name]"
+	var/gift_type = pick(gifts)
+	var/obj/item/gift = new gift_type(parcel)
+	gift.mark_as_gift()
+
+/datum/economic_region/proc/gift_names()
+	var/list/names = list()
+	for(var/obj/item/gift_type as anything in gifts)
+		names += initial(gift_type.name)
+	return names
 
 /// Builds the AZURIA'S REGIONS section of the Lore Primer from the economic_region datums,
 /// so steward UI prose and primer prose stay in sync from a single source.

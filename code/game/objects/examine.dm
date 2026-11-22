@@ -19,6 +19,8 @@
 	var/word
 	var/style = "info"
 	switch(item_quality)
+		if(ITEM_QUALITY_GIFT)
+			word = "gift"
 		if(ITEM_QUALITY_WORN)
 			word = "worn"
 			style = "warning"

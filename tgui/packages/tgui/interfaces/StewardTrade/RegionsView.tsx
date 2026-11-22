@@ -577,6 +577,11 @@ const RegionDetail = (props: {
           ))}
         </div>
       )}
+      {r.gifts.length > 0 && (
+        <div style={{ marginTop: '2px', color: INK_SOFT }}>
+          Gifts: <span style={{ color: INK }}>{r.gifts.join(', ')}</span>
+        </div>
+      )}
 
       <div style={subheadStyle}>Supply</div>
       <TypeTable

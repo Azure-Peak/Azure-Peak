@@ -38,7 +38,8 @@
 		return null
 	var/list/turfs = list()
 	for(var/turf/T in warehouse)
-		turfs += T
+		if(isopenturf(T) && !is_blocked_turf(T))
+			turfs += T
 	if(!length(turfs))
 		return null
 	return pick(turfs)

@@ -101,7 +101,7 @@
 		for(var/i in 1 to gifts)
 			var/gift_type = pick(region.gifts)
 			var/obj/item/gift = new gift_type(parcel)
-			gift.AddComponent(/datum/component/unsellable)
+			gift.mark_as_gift()
 	if(!length(parcel.contents))
 		qdel(parcel)
 		return
