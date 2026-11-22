@@ -1,0 +1,4 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - rscadd: "Increased cultural goods discount from 50% to 70% to see if it induce Merchant to do more reselling gameplay"
