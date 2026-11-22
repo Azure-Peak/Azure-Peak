@@ -549,8 +549,6 @@ GLOBAL_LIST_INIT(steward_trade_sequestration_locked_actions, list(
 				to_chat(usr, span_warning("Only Crown officials can petition regions."))
 				return TRUE
 			var/template = text2path(params["template"])
-			var/datum/economic_region/region = SSeconomy.petition_for_order(usr, template)
-			if(region)
+			if(SSeconomy.petition_for_order(usr, template))
 				playsound(src, 'sound/items/inqslip_sealed.ogg', 70, FALSE, -1)
-				visible_message(span_notice("[src] stamps the petition and seals it for [region.name]."))
 			return TRUE
