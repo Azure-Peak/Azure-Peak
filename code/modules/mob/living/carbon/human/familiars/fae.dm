@@ -1,3 +1,5 @@
+#define FAMILIAR_FLIGHT_RANGE 20 // distance from the summoner at which the familiar loses flight. this uses manhattan distance, and z-level diff counts for 5. so this works out to "about 1 screen away + a zlevel up or down", but feel free to jak it
+
 // mobility/utility focused. innocuous. can fly, and brew potions, but not much else
 /mob/living/carbon/human/species/familiar/fae
 	name = "Sprite"
@@ -25,6 +27,7 @@
 	planar_origin = "fae"
 	STACON = 1 // annoying flying fucks
 	voiceclips = list("plantcross")
+	var/warned = FALSE // 2 second grace period to get back in range of their summoner or they lose flight
 
 /datum/species/familiar/fae
 	name = "Faerie"
@@ -158,6 +161,20 @@
 
 /mob/living/carbon/human/species/familiar/fae/Life()
 	. = ..()
+	// only check this once every few seconds, to avoid lag. also obviously only if we HAVE a summoner, and would be capable of flight normally
+	if(familiar_summoner && !src.has_status_effect(/datum/status_effect/debuff/iron_weakness) && world.time % 20 == 0)
+		var/is_near_owner = (get_dist_3d(src, familiar_summoner) > FAMILIAR_FLIGHT_RANGE)
+		if(!is_near_owner && movement_type == FLYING)
+			if(warned)
+				movement_type = GROUND
+				warned = FALSE
+			else
+				to_chat(src, span_warning("My connection to my summoner wanes, I cannot maintain flight for long at this range!"))
+				warned = TRUE
+		else if(is_near_owner && movement_type == GROUND)
+			to_chat(src, span_smallgreen("My connection with my summoner bolsters, my flight is restored!"))
+			movement_type = FLYING
+
 	if(brewing && !ingredients.len)
 		brewing = 0
 	if(brewing && !should_brew)
@@ -325,3 +342,5 @@
 /atom/movable/screen/alert/status_effect/debuff/iron_weakness
 	name = "Iron Weakness"
 	desc = "Curse this damnable metal! It weighs upon me heavily, and renders my magic useless to boot!"
+
+#undef FAMILIAR_FLIGHT_RANGE
