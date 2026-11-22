@@ -96,3 +96,11 @@ GLOBAL_LIST_INIT(political_factions, init_political_factions())
 
 /proc/is_political_noble(mob/M)
 	return HAS_TRAIT(M, TRAIT_NOBLE) || HAS_TRAIT(M, TRAIT_DEFILED_NOBLE)
+
+/proc/announce_ruling_faction(mob/living/carbon/human/ruler)
+	if(!istype(ruler) || HAS_TRAIT(ruler, TRAIT_OUTLAW))
+		return
+	var/datum/political_faction/faction = GLOB.political_factions[ruler.political_faction]
+	if(!faction || faction.id == POLITICAL_FACTION_NEUTRAL)
+		return
+	to_world("<b><span class='notice'>The [faction.name] faction is ascendant.</span></b>")
