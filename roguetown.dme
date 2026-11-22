@@ -676,6 +676,7 @@
 #include "code\datums\ai\controllers\boar.dm"
 #include "code\datums\ai\controllers\boar_undead.dm"
 #include "code\datums\ai\controllers\border_reiver.dm"
+#include "code\datums\ai\controllers\cat.dm"
 #include "code\datums\ai\controllers\deepone.dm"
 #include "code\datums\ai\controllers\direbear.dm"
 #include "code\datums\ai\controllers\dragger.dm"

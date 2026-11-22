@@ -900,3 +900,55 @@
   radarseas:
   - code_imp: Hunted vice now correctly informs you of what to expect + what escalation
       you'll receive upon taking it.
+2026-11-22:
+  BobProductive:
+  - bugfix: Fixed NPCs being added to the known list
+  - bugfix: properly fixes the known list
+  Clem-The-Duck:
+  - bugfix: wrong fov on donator mask
+  - rscadd: New donator item for clemtheduck and persephone
+  KatTheFox:
+  - balance: Feytouched can now choose between 30 points of boon capacity, or the
+      ability for the hag to possess them. There's a toggle for the latter in the
+      RoleUnique tab, in case you need to... not be interrupted for a while.
+  - rscadd: Added a bunch of stuff to hags. Best to find this kind of stuff out IC.
+  - bugfix: Fixed a lot of hag bugs idw to list here.
+  Ryan180602:
+  - balance: Renegades are now restricted to one crystal.
+  WeNeedMorePhoron:
+  - balance: Made blockade slightly cheaper to issue, same for Incursion
+  - balance: Blockade handle 8 instead of 6 bands of threats
+  - balance: Increased definition of highpop from 30 to 60
+  - balance: Implemented scaling, such that with a Steward or Innkeeper, at roundstart
+      the amount of contracts available would be similar to before I buffed it by
+      2x, trending toward more quests at 1:30
+  - balance: Contracts is now distributed to the regions with the most proportional
+      threat
+  - rscadd: Optimized the contract ledger by caching things like threat points, size
+      table, rewards, text and moving some into static data. The amount of cpu it
+      was using crept up steadily as I added feature so this should bring it back
+      down
+  - rscadd: Added subfactions for various factions
+  - rscadd: Notorious Bounties can now be taken solo, designed as a 1v1, scaled as
+      a 1v1, and you are recommended to bring two regardless
+  - bugfix: Made the hot spring tiles edge smooth again, at cost of them not slowing
+      you don't. This does not matter.
+  - bugfix: Eoran Pomegranate Tree heals for beautiful people no longer spam you as
+      often (every 2 minutes)
+  borneblood:
+  - bugfix: Fixed an oversight with Dual Wielder where Unarmed people were ignoring
+      the -5% penalty.
+  - bugfix: Fixed an oversight where Flurry of Blows could keep firing even though
+      we were no longer adjacent to the target.
+  - code_imp: Shaved and re-blocked the procs for Dual Wielder's validation.
+  changelingonberry:
+  - bugfix: Fix missing headshot placeholder for humans
+  - qol: The black mirror now has a TGUI interface that populates with your known
+      people list.
+  fffelinid:
+  - rscadd: Cat NPCs now follow you if you pspsps at them.
+  jinxynii:
+  - rscadd: Added a Triumph morphing elixir (3 TRI) that turns an arcyne tome into
+      The Enduring Codex
+  - rscadd: Added a donator loadout entry for the same elixir for Lucine
+  - image: Added the Enduring Codex tome sprite
