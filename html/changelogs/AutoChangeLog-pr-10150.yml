@@ -1,0 +1,4 @@
+author: "fffelinid"
+delete-after: True
+changes:
+  - rscadd: "Cat NPCs now follow you if you pspsps at them."
