@@ -2937,6 +2937,7 @@
 #include "code\modules\politics\factions.dm"
 #include "code\modules\politics\noble_ranks.dm"
 #include "code\modules\politics\patronage.dm"
+#include "code\modules\politics\ruler_title.dm"
 #include "code\modules\politics\decrees\covenant_of_noc_and_pestra.dm"
 #include "code\modules\politics\decrees\golden_bull_of_kingsfield.dm"
 #include "code\modules\politics\decrees\great_writ_of_azuria.dm"

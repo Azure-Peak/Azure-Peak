@@ -578,6 +578,7 @@
 	traits_applied = list(TRAIT_HEAVYARMOR)
 
 	subclass_stashed_items = list("Ducal Caparison" = /obj/item/caparison/azure)
+	subclass_languages = list(/datum/language/oldazurian)
 	extra_context = "This class gains Master skill in their weapon of choice. Receives Azurean Caparison in its stash."
 
 	subclass_stats = list(
@@ -635,6 +636,7 @@
 	H.dna.species.soundpack_m = GLOB.voice_packs[/datum/voicepack/male/knight]
 
 	add_verb(H, /mob/proc/haltyell)
+	add_verb(H, /mob/living/carbon/human/proc/remember_ruler_title)
 
 	SStreasury.grant_savings(ECONOMIC_RICH, H)
 
