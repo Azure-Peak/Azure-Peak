@@ -4,7 +4,6 @@ import {
   badgeStyle,
   cardStyle,
   FONT_BODY,
-  FONT_TITLE,
   INK,
   INK_FAINT,
   INK_SOFT,
@@ -21,8 +20,8 @@ const PETITION_PURPLE = '#7a3aa6';
 
 const orderGridStyle: React.CSSProperties = {
   display: 'grid',
-  gridTemplateColumns: '1fr 1fr',
-  gap: 10,
+  gridTemplateColumns: 'repeat(auto-fill, minmax(230px, 1fr))',
+  gap: 8,
   alignItems: 'start',
 };
 
@@ -79,7 +78,7 @@ export const TradeOrdersSection = ({ data }: { data: NoticeboardData }) => {
 
 const OrderCard = ({ order }: { order: TradeOrder }) => {
   return (
-    <div style={{ ...cardStyle, marginBottom: 0, minHeight: 280 }}>
+    <div style={{ ...cardStyle, marginBottom: 0, padding: '6px 10px' }}>
       <div
         style={{ display: 'flex', alignItems: 'baseline', flexWrap: 'wrap' }}
       >
@@ -101,23 +100,16 @@ const OrderCard = ({ order }: { order: TradeOrder }) => {
 
       <div
         style={{
-          fontSize: FONT_TITLE,
           fontWeight: 'bold',
           color: INK,
           fontFamily: SERIF,
-          marginTop: 6,
+          marginTop: 4,
         }}
       >
         {order.name}
       </div>
-      <div
-        style={{
-          color: INK_SOFT,
-          fontSize: FONT_BODY,
-          marginTop: 2,
-        }}
-      >
-        {order.region_label} &middot; {order.days_left}d remaining
+      <div style={{ color: INK_SOFT, fontSize: FONT_BODY }}>
+        {order.days_left}d remaining
       </div>
 
       {!!order.description && (
@@ -125,7 +117,7 @@ const OrderCard = ({ order }: { order: TradeOrder }) => {
           style={{
             color: INK,
             fontSize: FONT_BODY,
-            marginTop: 6,
+            marginTop: 4,
             whiteSpace: 'pre-wrap',
           }}
         >
@@ -133,9 +125,16 @@ const OrderCard = ({ order }: { order: TradeOrder }) => {
         </div>
       )}
 
-      <div style={{ marginTop: 8 }}>
-        <div style={fieldLabelStyle}>Required</div>
-        <div style={{ marginTop: 2, color: INK }}>
+      <div
+        style={{
+          marginTop: 4,
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'baseline',
+          gap: 8,
+        }}
+      >
+        <span style={{ color: INK }}>
           {order.requirements.length === 0 ? (
             <span style={{ color: INK_FAINT, fontStyle: 'italic' }}>
               - nothing on record -
@@ -143,25 +142,8 @@ const OrderCard = ({ order }: { order: TradeOrder }) => {
           ) : (
             order.requirements.map((r) => `${r.quantity} ${r.label}`).join(', ')
           )}
-        </div>
-      </div>
-
-      <div
-        style={{
-          marginTop: 8,
-          display: 'flex',
-          alignItems: 'baseline',
-          gap: 8,
-        }}
-      >
-        <span style={fieldLabelStyle}>Payout</span>
-        <span
-          style={{
-            color: SEAL_AMBER,
-            fontWeight: 'bold',
-            fontSize: FONT_BODY,
-          }}
-        >
+        </span>
+        <span style={{ color: SEAL_AMBER, fontWeight: 'bold' }}>
           {order.total_payout}m
         </span>
       </div>
@@ -169,10 +151,6 @@ const OrderCard = ({ order }: { order: TradeOrder }) => {
   );
 };
 
-const fieldLabelStyle: React.CSSProperties = {
-  color: SEAL_AMBER,
-  fontSize: FONT_BODY,
-};
 
 const EmptyMessage = ({ text }: { text: string }) => (
   <div
