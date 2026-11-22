@@ -568,7 +568,7 @@
 	update_icon()
 	if(ismob(loc))
 		var/mob/L = loc
-		L.update_inv_armor()
+		L.update_inv_head()
 
 /obj/item/clothing/head/roguetown/roguehood/studded/retinue/Destroy()
 	GLOB.lordcolor -= src
