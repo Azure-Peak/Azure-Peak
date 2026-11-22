@@ -13,7 +13,7 @@
 	emote_see = null
 	speak_chance = 1
 	see_in_dark = 9
-	move_to_delay = 2
+	move_base_delay = MOVEMENT_DELAY_SPD_23
 	base_intents = list(/datum/intent/simple/bite, /datum/intent/simple/claw)
 	botched_butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/meat/steak = 1)
 	butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/meat/steak = 1,
@@ -31,24 +31,17 @@
 	maxHealth = LAMIA_HEALTH
 	melee_damage_lower = 35
 	melee_damage_upper = 50
-	vision_range = 9
-	aggro_vision_range = 9
 	environment_smash = ENVIRONMENT_SMASH_NONE
-	retreat_distance = 0
-	minimum_distance = 0
 	food_type = list(/obj/item/reagent_containers/food/snacks/rogue/meat/steak, /obj/item/bodypart, /obj/item/organ)
 	footstep_type = null
 	pooptype = null
 	STACON = 6
 	STASTR = 11
 	STASPD = 12
-	deaggroprob = 0
-	del_on_deaggro = 999 SECONDS
-	retreat_health = 0.1
 	food = 0
 	dodgetime = 15
-	aggressive = 1
 	remains_type = null
+	ai_controller = /datum/ai_controller/lamia
 	var/sneaking = FALSE
 	var/light_check = 0
 	var/light_check_delay = 3 SECONDS
@@ -57,6 +50,8 @@
 
 /mob/living/simple_animal/hostile/retaliate/rogue/lamia/Initialize(mapload)
 	. = ..()
+	AddComponent(/datum/component/ai_aggro_system)
+	ai_controller.set_blackboard_key(BB_BASIC_FOODS, food_typecache)
 	if(prob(20))
 		gender = MALE
 		icon_state = "lamia"
@@ -68,14 +63,14 @@
 		break_sneak()
 	return ..()
 
-/mob/living/simple_animal/hostile/retaliate/rogue/lamia/handle_automated_action()
-	if(!sneaking && world.time >= sneak_cooldown && isturf(loc) && light_check < world.time)
-		var/turf/ourlocation = get_turf(src)
-		var/light_amount = ourlocation.get_lumcount()
-		light_check = world.time + light_check_delay
-		if(light_amount < SHADOW_SPECIES_LIGHT_THRESHOLD)
-			sneak_now()
-	return ..()
+/mob/living/simple_animal/hostile/retaliate/rogue/lamia/proc/try_sneak()
+	if(sneaking || world.time < sneak_cooldown || !isturf(loc) || light_check >= world.time)
+		return
+	var/turf/ourlocation = get_turf(src)
+	var/light_amount = ourlocation.get_lumcount()
+	light_check = world.time + light_check_delay
+	if(light_amount < SHADOW_SPECIES_LIGHT_THRESHOLD)
+		sneak_now()
 
 /mob/living/simple_animal/hostile/retaliate/rogue/lamia/proc/sneak_now()
 	if(!sneaking && world.time >= sneak_cooldown)

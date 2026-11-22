@@ -383,10 +383,10 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 	transfer_antag_huds(hud_to_transfer)				//inherit the antag HUD
 	transfer_actions(new_character)
 	transfer_martial_arts(new_character)
-	if(old_current.skills)
+	if(old_current?.skills)
 		old_current.skills.set_current(new_character)
 
-	RegisterSignal(new_character, COMSIG_MOB_DEATH, PROC_REF(set_death_time))
+	RegisterSignal(new_character, COMSIG_MOB_DEATH, PROC_REF(set_death_time), TRUE)
 	if(active || force_key_move)
 
 		new_character.key = key		//now transfer the key to link the client to our new body
@@ -521,6 +521,7 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 			RemoveSpell(existing)
 	aspect.chosen_spell = new_choice
 	if(has_spell(new_path, specific = TRUE))
+		aspect.claim_utility_spell(src, new_path)
 		rebuild_action_order()
 		return TRUE
 	var/datum/action/cooldown/spell/new_spell = new new_path

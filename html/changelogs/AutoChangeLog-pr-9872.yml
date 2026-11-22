@@ -1,4 +1,0 @@
-author: "changelingonberry"
-delete-after: True
-changes:
-  - bugfix: "Jacksberries no longer have errant in-hand pixels."

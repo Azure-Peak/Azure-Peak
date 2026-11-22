@@ -147,3 +147,14 @@
 		var/obj/item/recipe_book/book = pick_n_take(books)
 		new book(src)
 	update_icon()
+
+/obj/structure/bookcase/random/fancy
+	name = "fancy bookcase"
+	icon = 'icons/roguetown/misc/fancybookshelf.dmi'
+	icon_state = "fancybookcase"
+	opacity = TRUE
+
+/obj/structure/bookcase/random/fancy/update_icon()
+	..()
+	if(icon_state == "bookcase")
+		icon_state = "fancybookcase"

@@ -340,12 +340,12 @@
 
 /obj/item/clothing/head/roguetown/headband/bloodied
 	name = "bloodied headband"
-	desc = "A headband that's been soaked in the blood of a terrible nitebeast. The coagulating properties of cursed blood has stiffened the cloth, gifting it a texture not unlike spongy leather. Wearing it emboldens you with determination."
+	desc = "A headband that's been soaked in the blood of a terrible nitebeast. The coagulating properties of cursed blood has stiffened the cloth, gifting it a texture not unlike spongy leather. Often worn around a sallet by Chasseur, as a quaint recollection of their presence."
 	icon_state = "headband"
 	item_state = "headband"
 	color = "#851a16"
-	armor = ARMOR_LEATHER
-	max_integrity = ARMOR_INT_HELMET_LEATHER
+	mob_overlay_icon = 'icons/roguetown/clothing/onmob/head.dmi'
+	slot_flags = ITEM_SLOT_HEAD|ITEM_SLOT_MASK|ITEM_SLOT_HIP
 	body_parts_covered = HEAD|HAIR|EARS
 	sewrepair = TRUE
 	//dropshrink = 0.75
@@ -353,18 +353,61 @@
 
 	///Reen's work. Should make it so that you obtain special traits when taking it on-and-off, without outright removing inherent traits.
 	var/traited = FALSE
+	///The mob currently holding this headband's traits.
+	var/datum/weakref/blessed
 
 /obj/item/clothing/head/roguetown/headband/bloodied/equipped(mob/living/user, slot)
 	. = ..()
-	if(slot == SLOT_HEAD)
-		ADD_TRAIT(user, TRAIT_SILVER_BLESSED, TRAIT_GENERIC)
-		ADD_TRAIT(user, TRAIT_ZOMBIE_IMMUNE, TRAIT_GENERIC)
+	if(slot == SLOT_HEAD || slot == SLOT_WEAR_MASK)
+		bless(user)
 
-/obj/item/clothing/head/roguetown/headband/bloodied/dropped(mob/living/carbon/human/user)
+/obj/item/clothing/head/roguetown/headband/bloodied/dropped(mob/living/user)
 	. = ..()
-	if(istype(user) && user?.head == src)
-		REMOVE_TRAIT(user, TRAIT_SILVER_BLESSED, TRAIT_GENERIC)
-		REMOVE_TRAIT(user, TRAIT_ZOMBIE_IMMUNE, TRAIT_GENERIC)
+	unbless(user)
+
+/obj/item/clothing/head/roguetown/headband/bloodied/on_enter_storage(datum/component/storage/concrete/S, mob/M)
+	. = ..()
+	var/obj/item/clothing/head/hat = S.parent
+	if(!istype(hat))
+		return
+	RegisterSignal(hat, COMSIG_ITEM_EQUIPPED, PROC_REF(hat_worn), TRUE)
+	RegisterSignal(hat, COMSIG_ITEM_DROPPED, PROC_REF(hat_off), TRUE)
+	var/mob/living/carbon/wearer = hat.loc
+	if(istype(wearer) && (wearer.head == hat || wearer.wear_mask == hat))
+		bless(wearer)
+
+/obj/item/clothing/head/roguetown/headband/bloodied/on_exit_storage(datum/component/storage/concrete/S)
+	. = ..()
+	if(istype(S.parent, /obj/item/clothing/head))
+		UnregisterSignal(S.parent, list(COMSIG_ITEM_EQUIPPED, COMSIG_ITEM_DROPPED))
+	unbless()
+
+/obj/item/clothing/head/roguetown/headband/bloodied/Destroy()
+	unbless()
+	return ..()
+
+/obj/item/clothing/head/roguetown/headband/bloodied/proc/hat_worn(datum/source, mob/living/equipper, slot)
+	SIGNAL_HANDLER
+	if(slot == SLOT_HEAD || slot == SLOT_WEAR_MASK)
+		bless(equipper)
+
+/obj/item/clothing/head/roguetown/headband/bloodied/proc/hat_off(datum/source, mob/living/user)
+	SIGNAL_HANDLER
+	unbless(user)
+
+/obj/item/clothing/head/roguetown/headband/bloodied/proc/bless(mob/living/user)
+	ADD_TRAIT(user, TRAIT_SILVER_BLESSED, REF(src))
+	ADD_TRAIT(user, TRAIT_ZOMBIE_IMMUNE, REF(src))
+	blessed = WEAKREF(user)
+
+/obj/item/clothing/head/roguetown/headband/bloodied/proc/unbless(mob/living/user)
+	if(!user)
+		user = blessed?.resolve()
+	blessed = null
+	if(!user)
+		return
+	REMOVE_TRAIT(user, TRAIT_SILVER_BLESSED, REF(src))
+	REMOVE_TRAIT(user, TRAIT_ZOMBIE_IMMUNE, REF(src))
 
 /obj/item/clothing/head/roguetown/headband/naledi
 	name = "sojourner's headband"

@@ -15,6 +15,11 @@
 		STATKEY_WIL = 1,
 		STATKEY_CON = 1
 	)
+	subclass_stashed_items = list(
+		"Wax Putty I" = /obj/item/waxputty,
+		"Wax Putty II" = /obj/item/waxputty,
+		"Wax Putty III" = /obj/item/waxputty,
+	)
 	subclass_skills = list(
 		/datum/skill/combat/polearms = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/axes = SKILL_LEVEL_JOURNEYMAN,
@@ -45,7 +50,7 @@
 	if (!(istype(H.patron, /datum/patron/inhumen/matthios)))	//This is the only class that forces Matthios. Needed for miracles + limited slot.
 		to_chat(H, span_warning("Matthios embraces me.. I must uphold his creed. I am his light in the darkness."))
 		H.set_patron(/datum/patron/inhumen/matthios)
-	belt = /obj/item/storage/belt/rogue/leather/knifebelt/black/steel
+	belt = /obj/item/storage/belt/rogue/leather/tossbelt/blade/black/steel
 	pants = /obj/item/clothing/under/roguetown/trou/leather
 	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/random
 	shoes = /obj/item/clothing/shoes/roguetown/boots

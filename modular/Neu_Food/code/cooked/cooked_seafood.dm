@@ -25,15 +25,15 @@
 	. = ..()
 	slice.faretype = faretype
 	slice.cuisine = cuisine
-	if(fish_name)
+	if(fish_name && istype(slice, /obj/item/reagent_containers/food/snacks/rogue/meat/fish))
 		slice.desc = "A filet of [fish_name], fried golden."
-	var/obj/item/reagent_containers/food/snacks/rogue/meat/fish/filet = slice
-	if(istype(filet))
-		filet.fish_name = fish_name
-		filet.set_tastes(filet_tastes)
-		filet.fish_quality_mult = fish_quality_mult
-		filet.rarity_rank = rarity_rank
-		filet.rarity_label = rarity_label
+	var/obj/item/reagent_containers/food/snacks/rogue/meat/cut = slice
+	if(istype(cut))
+		cut.fish_name = fish_name
+		cut.set_tastes(filet_tastes)
+		cut.fish_quality_mult = fish_quality_mult
+		cut.rarity_rank = rarity_rank
+		cut.rarity_label = rarity_label
 
 /obj/item/reagent_containers/food/snacks/rogue/smokefish
 	name = "smoked fish"

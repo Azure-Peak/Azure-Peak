@@ -163,6 +163,8 @@
 
 	/// What job does this mob have
 	var/job = null//Living
+	/// Job title shown on examine in place of the real one.
+	var/fake_title
 	var/migrant_type = null
 	var/advjob = null
 	var/datum/advclass/licker_subclass = null

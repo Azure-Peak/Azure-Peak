@@ -1,5 +1,5 @@
 /mob/living/simple_animal/hostile/retaliate/rogue/saiga/undead
-	threat_point = THREAT_DEADLY
+	threat_point = THREAT_ELITE
 	anatomy_type = /datum/anatomy/quadruped/undead
 	name = "deadite saiga"
 	desc = "A deadite saiga, its eyes glow with an eerie light."
@@ -16,9 +16,6 @@
 	melee_damage_lower = 60
 	melee_damage_upper = 90
 	aggressive = 1
-	retreat_health = 0
-	retreat_distance = 0
-	minimum_distance = 0
 	tame_chance = 0
 	bonus_tame_chance = 0
 	can_buckle = TRUE
@@ -56,8 +53,6 @@
 	)
 	ai_controller = /datum/ai_controller/undead
 	move_base_delay = MOVEMENT_DELAY_LUMBERING
-	AIStatus = AI_OFF
-	can_have_ai = FALSE
 
 /mob/living/simple_animal/hostile/retaliate/rogue/saiga/undead/Initialize(mapload)
 	. = ..()

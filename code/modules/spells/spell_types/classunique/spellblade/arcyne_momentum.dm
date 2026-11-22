@@ -195,7 +195,7 @@
 	update_visuals()
 	update_alert()
 	update_spell_buttons()
-	owner.Slowdown(2)
+	owner.apply_slowdown(3 SECONDS)
 	owner.apply_status_effect(/datum/status_effect/debuff/vulnerable, 5 SECONDS)
 	owner.balloon_alert_to_viewers("<font color='#bb2b2b'>Strained!</font>")
 	to_chat(owner, span_boldwarning("The unspent power lashes back through my body!"))

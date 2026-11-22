@@ -684,8 +684,7 @@
 /datum/status_effect/buff/campfire_stamina/tick()
 	if(HAS_TRAIT(owner, TRAIT_NOREGEN) || HAS_TRAIT(owner, TRAIT_IRONMAN))
 		return
-	owner.adjust_bodytemperature(8)
-	if(owner.in_combat_until > world.time)
+	if(owner.is_in_combat())
 		return
 	owner.energy_add(healing_on_tick * 2)
 
@@ -700,7 +699,7 @@
 	duration = 6 SECONDS
 
 /datum/status_effect/buff/campfire/tick()
-	if(owner.in_combat_until > world.time)
+	if(owner.is_in_combat())
 		return
 	if(HAS_TRAIT(owner, TRAIT_NOHEAL) || HAS_TRAIT(owner, TRAIT_IRONMAN))
 		return
@@ -714,7 +713,7 @@
 		owner.blood_volume = min(owner.blood_volume+healing_on_tick, BLOOD_VOLUME_OKAY)
 	var/list/wCount = owner.get_wounds()
 	if(length(wCount))
-		owner.heal_wounds(wound_heal, list(/datum/wound/slash, /datum/wound/puncture, /datum/wound/bite, /datum/wound/bruise, /datum/wound/dynamic, /datum/wound/dislocation))
+		owner.heal_wounds(wound_heal, list(/datum/wound/slash, /datum/wound/puncture, /datum/wound/bite, /datum/wound/bruise, /datum/wound/dynamic, /datum/wound/dislocation), excluded_types = list(/datum/wound/slash/incision))
 		owner.update_damage_overlays()
 	owner.adjustBruteLoss(-healing_on_tick, 0)
 	owner.adjustFireLoss(-healing_on_tick, 0)

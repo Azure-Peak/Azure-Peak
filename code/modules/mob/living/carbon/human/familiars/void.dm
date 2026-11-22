@@ -50,7 +50,7 @@
 			src.mind.AddSpell(new /datum/action/cooldown/spell/invisibility/fae)
 		if("infernal") // nerfed aberrant beam, fire res
 			to_chat(src, span_notice("As you absorb the essence of the hells, you take on some of their nature. Flames will harm you no more, and you can now manifest an aberrant beam to blast your foes."))
-			src.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/fire_obelisk_beam/drakeling)
+			src.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/drakeling_beam)
 		if("elemental") // stat buff, inherits spell
 			to_chat(src, span_notice("As you absorb the essence of the depths, you take on some of its nature. Your body grows sturdier, and you can now tear stones from the earth itself, or reshape your form."))
 			src.STACON += 2

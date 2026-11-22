@@ -16,6 +16,9 @@
 	var/alert_jobs = list("Grand Duke", "Steward", "Clerk")
 	var/alert_location = "The Vault"
 	var/supports_loans = TRUE
+	/// ALLOWANCE_GROUP_* this jawbank grants a capped daily draw to, each mapped to its display label.
+	var/list/allowance_groups
+	var/allowance_header
 	var/bash_floor = 1500
 	var/hits_since_lump = 0
 	var/lump_hit_threshold = 10
@@ -430,13 +433,62 @@
 	return list(10, 15, 20, 25, 50)
 
 /obj/structure/roguemachine/vaultbank/proc/can_withdraw(mob/user, amount)
-	return can_issue_loan(user)
+	return can_issue_loan(user) || can_draw_allowance(user, amount)
 
 /obj/structure/roguemachine/vaultbank/proc/can_accept_indenture(mob/user)
 	return can_issue_loan(user)
 
 /obj/structure/roguemachine/vaultbank/proc/can_view(mob/user)
-	return can_withdraw(user) || can_issue_loan(user)
+	return can_withdraw(user) || can_issue_loan(user) || draws_on_allowance(user)
+
+/obj/structure/roguemachine/vaultbank/proc/get_allowance_group(mob/user)
+	return null
+
+/obj/structure/roguemachine/vaultbank/proc/draws_on_allowance(mob/user)
+	return !can_issue_loan(user) && !isnull(get_allowance_group(user))
+
+/obj/structure/roguemachine/vaultbank/proc/get_daily_withdrawal_limit(mob/user)
+	var/datum/fund/F = get_linked_fund()
+	if(!F)
+		return 0
+	return LAZYACCESS(F.allowance_limits, get_allowance_group(user)) || 0
+
+/obj/structure/roguemachine/vaultbank/proc/are_withdrawals_suspended(mob/user)
+	var/datum/fund/F = get_linked_fund()
+	if(!F)
+		return TRUE
+	return LAZYACCESS(F.allowance_suspended, get_allowance_group(user)) ? TRUE : FALSE
+
+/obj/structure/roguemachine/vaultbank/proc/get_withdrawal_remaining(mob/user)
+	var/datum/fund/F = get_linked_fund()
+	if(!F || !user)
+		return 0
+	return max(0, get_daily_withdrawal_limit(user) - F.get_allowance_withdrawn(user.real_name))
+
+/obj/structure/roguemachine/vaultbank/proc/get_withdrawable_balance()
+	var/datum/fund/F = get_linked_fund()
+	return F ? F.balance : 0
+
+/obj/structure/roguemachine/vaultbank/proc/can_draw_allowance(mob/user, amount)
+	if(!draws_on_allowance(user) || are_withdrawals_suspended(user))
+		return FALSE
+	var/remaining = get_withdrawal_remaining(user)
+	if(isnull(amount))
+		return remaining > 0
+	return amount <= min(remaining, get_withdrawable_balance())
+
+/obj/structure/roguemachine/vaultbank/proc/get_allowance_denial_text(mob/user, datum/fund/F, amount)
+	if(are_withdrawals_suspended(user))
+		return "[capitalize(get_authority_label())] has suspended withdrawals for my group."
+	var/remaining = get_withdrawal_remaining(user)
+	if(remaining <= 0)
+		return "I have reached my daily withdrawal maximum of [get_daily_withdrawal_limit(user)]m."
+	if(amount > remaining)
+		return "[F.name] withholds that sum - I may draw only [remaining]m more this dae."
+	return "[F.name] cannot honor a withdrawal of [amount]m."
+
+/obj/structure/roguemachine/vaultbank/proc/log_allowance_policy(policy_text, mob/user)
+	return
 
 /obj/structure/roguemachine/vaultbank/proc/get_faction_label()
 	return "the Crown"
@@ -517,7 +569,14 @@
 	log_admin("PATRONAGE REVOKED: [key_name(user)] revoked [key_name(target)] from [get_patron_label()].")
 
 /obj/structure/roguemachine/vaultbank/church/get_withdraw_rule_text()
-	return "The Church mandates that loans go to the poor, the downtrodden, and malumites. Money out on loan counts toward the [CHURCH_RESERVE_FLOOR]m that must stay in reserve for charity."
+	var/rule_text = "The Church mandates that loans go to the poor, the downtrodden, and malumites. Money out on loan counts toward the [CHURCH_RESERVE_FLOOR]m that must stay in reserve for charity."
+	var/datum/fund/F = get_linked_fund()
+	if(!F)
+		return rule_text
+	rule_text += " Clergy may draw up to [LAZYACCESS(F.allowance_limits, ALLOWANCE_GROUP_WORKER) || 0]m per dae above the mandated reserve. The Bishop and Martyr are not subject to this limit."
+	if(LAZYACCESS(F.allowance_suspended, ALLOWANCE_GROUP_WORKER))
+		rule_text += " Clergy withdrawals are suspended."
+	return rule_text
 
 
 /obj/structure/roguemachine/vaultbank/proc/disburse(mob/living/carbon/human/user, list/params)
@@ -532,13 +591,18 @@
 		to_chat(user, span_warning("Name a positive sum."))
 		return
 	if(!can_withdraw(user, amount))
-		to_chat(user, span_warning("You can't withdraw that much from [F.name]."))
+		if(draws_on_allowance(user))
+			to_chat(user, span_warning(get_allowance_denial_text(user, F, amount)))
+		else
+			to_chat(user, span_warning("You can't withdraw that much from [F.name]."))
 		return
 	if(F.balance < amount)
 		to_chat(user, span_warning("[F.name] doesn't hold [amount]m."))
 		return
 	if(!SStreasury.burn(F, amount, "MEISTER withdrawal by [user.real_name]", ledger_acct(F.ledger_book, LEDGER_KEY_EXPENSE)))
 		return
+	if(draws_on_allowance(user))
+		F.record_allowance_withdrawal(user.real_name, amount)
 	budget2change(amount, user)
 	playsound(src, 'sound/misc/coindispense.ogg', 60, FALSE, -1)
 	say("[amount]m withdrawn by [user.real_name].")
@@ -657,6 +721,8 @@
 	alert_location = "the Church"
 	bash_floor = 500
 	lump_payout = 100
+	allowance_groups = list(ALLOWANCE_GROUP_WORKER = "Clergy")
+	allowance_header = "Clergy Allowance"
 
 /obj/structure/roguemachine/vaultbank/church/get_fund_id()
 	return "church"
@@ -690,14 +756,22 @@
 /obj/structure/roguemachine/vaultbank/church/get_patron_explanation()
 	return "Granting a person the status of Benefactor of the Church places them under the Clergy's roll for the Crown's taxmen. In most circumstances that means complete immunity. They are likewise permitted to read the names of those who owe debt to the Church. - Ser Yohan d'Azur"
 
-/obj/structure/roguemachine/vaultbank/church/can_withdraw(mob/user, amount)
-	if(!can_issue_loan(user))
-		return FALSE
+/obj/structure/roguemachine/vaultbank/church/get_allowance_group(mob/user)
+	if(user && (user.job in GLOB.church_positions))
+		return ALLOWANCE_GROUP_WORKER
+	return null
+
+/obj/structure/roguemachine/vaultbank/church/get_withdrawable_balance()
 	var/datum/fund/F = get_linked_fund()
 	if(!F)
-		return FALSE
+		return 0
 	var/outstanding = SStreasury.get_outstanding_principal_from_fund(F)
-	var/withdrawable = max(0, F.balance - max(0, CHURCH_RESERVE_FLOOR - outstanding))
+	return max(0, F.balance - max(0, CHURCH_RESERVE_FLOOR - outstanding))
+
+/obj/structure/roguemachine/vaultbank/church/can_withdraw(mob/user, amount)
+	if(!can_issue_loan(user))
+		return can_draw_allowance(user, amount)
+	var/withdrawable = get_withdrawable_balance()
 	if(isnull(amount))
 		return withdrawable > 0
 	return amount <= withdrawable
@@ -752,6 +826,8 @@
 	alert_location = "the Bathhouse"
 	bash_floor = 500
 	lump_payout = 100
+	allowance_groups = list(ALLOWANCE_GROUP_WORKER = "Workers", ALLOWANCE_GROUP_AGENT = "Agents")
+	allowance_header = "Employee Allowance"
 
 /obj/structure/roguemachine/vaultbank/bathhouse/get_fund_id()
 	return "bathhouse"
@@ -764,48 +840,26 @@
 		return FALSE
 	return user.job == "Bathmaster"
 
-/obj/structure/roguemachine/vaultbank/bathhouse/proc/is_bathhouse_worker(mob/user)
-	return user && (user.job in GLOB.bathhouse_positions)
+/obj/structure/roguemachine/vaultbank/bathhouse/get_allowance_group(mob/user)
+	if(!user)
+		return null
+	if(user.job in GLOB.bathhouse_positions)
+		return ALLOWANCE_GROUP_WORKER
+	if(HAS_TRAIT(user, TRAIT_AGENT_BATHHOUSE))
+		return ALLOWANCE_GROUP_AGENT
+	return null
 
-/obj/structure/roguemachine/vaultbank/bathhouse/proc/is_bathhouse_agent(mob/user)
-	return user && HAS_TRAIT(user, TRAIT_AGENT_BATHHOUSE)
-
-/obj/structure/roguemachine/vaultbank/bathhouse/proc/has_capped_access(mob/user)
-	return is_bathhouse_worker(user) || is_bathhouse_agent(user)
-
-/obj/structure/roguemachine/vaultbank/bathhouse/proc/get_daily_withdrawal_limit(mob/user)
-	if(is_bathhouse_worker(user))
-		return SStreasury.bathhouse_worker_daily_withdraw_limit
-	return SStreasury.bathhouse_agent_daily_withdraw_limit
-
-/obj/structure/roguemachine/vaultbank/bathhouse/proc/are_withdrawals_suspended(mob/user)
-	if(is_bathhouse_worker(user))
-		return SStreasury.bathhouse_worker_withdrawals_suspended
-	return SStreasury.bathhouse_agent_withdrawals_suspended
-
-/obj/structure/roguemachine/vaultbank/bathhouse/proc/get_withdrawal_remaining(mob/user)
-	if(!istype(user))
-		return 0
-	var/mob/living/carbon/human/H = user
-	return SStreasury.get_bathhouse_withdraw_remaining(H, get_daily_withdrawal_limit(user))
-
-/obj/structure/roguemachine/vaultbank/bathhouse/can_view(mob/user)
-	return can_issue_loan(user) || has_capped_access(user)
-
-/obj/structure/roguemachine/vaultbank/bathhouse/can_withdraw(mob/user, amount)
-	if(can_issue_loan(user))
-		return TRUE
-	if(!has_capped_access(user) || are_withdrawals_suspended(user))
-		return FALSE
-	if(isnull(amount))
-		return get_withdrawal_remaining(user) > 0
-	return amount <= get_withdrawal_remaining(user)
+/obj/structure/roguemachine/vaultbank/bathhouse/log_allowance_policy(policy_text, mob/user)
+	SSBMtreasury.add_hoard_log("policy", policy_text, 0, user.real_name)
 
 /obj/structure/roguemachine/vaultbank/bathhouse/get_withdraw_rule_text()
-	var/rule_text = "Bathhouse employees may draw up to [SStreasury.bathhouse_worker_daily_withdraw_limit]m per dae; agents may draw up to [SStreasury.bathhouse_agent_daily_withdraw_limit]m per dae. The Bathmaster is not subject to these limits."
-	if(SStreasury.bathhouse_worker_withdrawals_suspended)
+	var/datum/fund/F = get_linked_fund()
+	if(!F)
+		return ""
+	var/rule_text = "Bathhouse employees may draw up to [LAZYACCESS(F.allowance_limits, ALLOWANCE_GROUP_WORKER) || 0]m per dae; agents may draw up to [LAZYACCESS(F.allowance_limits, ALLOWANCE_GROUP_AGENT) || 0]m per dae. The Bathmaster is not subject to these limits."
+	if(LAZYACCESS(F.allowance_suspended, ALLOWANCE_GROUP_WORKER))
 		rule_text += " Employee withdrawals are suspended."
-	if(SStreasury.bathhouse_agent_withdrawals_suspended)
+	if(LAZYACCESS(F.allowance_suspended, ALLOWANCE_GROUP_AGENT))
 		rule_text += " Agent withdrawals are suspended."
 	return rule_text
 
@@ -821,20 +875,18 @@
 		to_chat(user, span_warning("Name a positive sum."))
 		return
 	if(!can_withdraw(user, amount))
-		if(has_capped_access(user) && are_withdrawals_suspended(user))
-			to_chat(user, span_warning("The Bathmaster has suspended withdrawals for my group."))
-		else if(has_capped_access(user) && get_withdrawal_remaining(user) <= 0)
-			to_chat(user, span_warning("I have reached my daily withdrawal maximum of [get_daily_withdrawal_limit(user)]m."))
+		if(draws_on_allowance(user))
+			to_chat(user, span_warning(get_allowance_denial_text(user, F, amount)))
 		else
-			to_chat(user, span_warning("[F.name] withholds that sum - I may draw only [get_withdrawal_remaining(user)]m more this dae."))
+			to_chat(user, span_warning("You can't withdraw that much from [F.name]."))
 		return
 	if(F.balance < amount)
 		to_chat(user, span_warning("[F.name] cannot honor a withdrawal of [amount]m."))
 		return
 	if(!SStreasury.burn(F, amount, "MEISTER withdrawal by [user.real_name]"))
 		return
-	if(!can_issue_loan(user))
-		SStreasury.record_bathhouse_withdrawal(user, amount)
+	if(draws_on_allowance(user))
+		F.record_allowance_withdrawal(user.real_name, amount)
 	SSBMtreasury.add_hoard_log("payout", "Withdrawal", amount, user.real_name)
 	budget2change(amount, user)
 	playsound(src, 'sound/misc/coindispense.ogg', 60, FALSE, -1)

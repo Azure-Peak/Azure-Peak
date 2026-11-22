@@ -1,5 +1,0 @@
-author: "changelingonberry"
-delete-after: True
-changes:
-  - image: "Bundles noto color emoji as a fallback font."
-  - bugfix: "Automatic capitalization no longer breaks multi-byte characters."

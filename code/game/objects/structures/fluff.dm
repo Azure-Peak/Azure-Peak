@@ -1524,6 +1524,9 @@
 /obj/structure/fluff/statue/tdummy/proc/practice(mob/living/living_mob, associated_skill, attack_animation, obj/item/attacking_weapon = null)
 	if(living_mob.doing || !can_practice(living_mob))
 		return
+	if(!can_train_combat_skill(living_mob, associated_skill, SKILL_LEVEL_APPRENTICE))
+		to_chat(living_mob, span_warning("I cannot practice this skill."))
+		return
 	living_mob.visible_message(span_notice("[living_mob] begins training on [src]..."))
 	while(do_after(living_mob, 1 SECONDS, target = src, extra_checks = CALLBACK(src, PROC_REF(can_practice), living_mob)))
 		if(!can_train_combat_skill(living_mob, associated_skill, SKILL_LEVEL_APPRENTICE))
@@ -2196,3 +2199,116 @@
 	icon_state = "valmora"
 	icon = 'icons/roguetown/structure/statues/statue_drow.dmi'
 	pixel_x = -16
+
+/obj/structure/bars/wood
+	icon_state = "wooden_barrier"
+	name = "wooden barrier"
+	desc = "Decorative wooden barrier made to keep things in or out."
+	icon = 'icons/roguetown/misc/structure.dmi'
+	integrity_failure = 0
+	attacked_sound = list(
+		'sound/combat/hits/onwood/woodimpact (1).ogg',
+		'sound/combat/hits/onwood/woodimpact (2).ogg',
+	)
+
+/obj/structure/fluff/statue/noc
+	name = "statue of Noc"
+	desc = "Noc, the Moon Prince, reigns over magic. Scholars bow to their \
+		command of the weave."
+	icon = 'icons/roguetown/misc/tallandwide.dmi'
+	icon_state = "noc"
+	max_integrity = 100
+	deconstructible = FALSE
+	density = TRUE
+	blade_dulling = DULLING_BASH
+	pixel_x = -16
+	pixel_y = 0
+
+/obj/structure/fluff/statue/noc/tall
+	name = "standing statue of Noc"
+	icon = 'icons/roguetown/misc/64x128.dmi'
+
+/obj/structure/fluff/clutter/shrub/red
+	name = "potted shrub"
+	desc = "A stone pot with a red autumnal shrub there-in."
+	icon = 'icons/roguetown/misc/structure.dmi'
+	icon_state = "pottedshrub_red"
+	density = TRUE
+	anchored = FALSE
+
+/obj/structure/fluff/clutter/shrub/tundra
+	name = "potted shrub"
+	desc = "A stone pot with a cold tundra shrub there-in."
+	icon = 'icons/roguetown/misc/structure.dmi'
+	icon_state = "pottedshrub_tundra"
+	density = TRUE
+	anchored = FALSE
+
+/obj/structure/fluff/clutter/books
+	name = "stack of books & inkpot"
+	desc = "A few stacks of books with a pot of ink & quill waiting for \
+		inspiration."
+	icon = 'icons/roguetown/misc/structure.dmi'
+	icon_state = "clutter_books"
+	density = FALSE
+	anchored = FALSE
+
+/obj/structure/fluff/clutter/teapot
+	name = "teapot & cups"
+	desc = "A teapot & accompanying cups on a mat."
+	icon = 'icons/roguetown/misc/structure.dmi'
+	icon_state = "clutter_teapot"
+	density = FALSE
+	anchored = FALSE
+
+/obj/structure/fluff/moonrug
+	name = "moon rug"
+	desc = "A decorative rug depicting the phases of the moon."
+	icon = 'icons/roguetown/misc/96x96.dmi'
+	icon_state = "moonrug"
+	density = FALSE
+	anchored = FALSE
+
+/obj/structure/fluff/fibermat/square
+	name = "square fiber mat"
+	desc = "A rustic mat woven from fiber."
+	icon = 'icons/roguetown/misc/64x64.dmi'
+	icon_state = "fibermat"
+	density = FALSE
+	anchored = FALSE
+
+/obj/structure/fluff/fibermat/round
+	icon = 'icons/roguetown/misc/structure.dmi'
+	name = "round fiber mat"
+	desc = "A rustic mat woven from fiber."
+	icon_state = "fibermat_round"
+	density = FALSE
+	anchored = FALSE
+
+/obj/structure/fluff/clutter/sewing
+	name = "roll of cloth & needle"
+	desc = "A roll of cloth and fiber waiting to be sewn."
+	icon = 'icons/roguetown/misc/structure.dmi'
+	icon_state = "clutter_sewing"
+	density = FALSE
+	anchored = FALSE
+
+/obj/structure/fluff/clutter/tablecloth
+	name = "tablecloth"
+	desc = "A decorative tablecloth depicting the moon."
+	icon = 'icons/roguetown/misc/structure.dmi'
+	icon_state = "tablecloth_moon"
+	density = FALSE
+	anchored = FALSE
+
+/obj/structure/fluff/clutter/tablecloth/sun
+	desc = "A decorative tablecloth depicting the sun."
+	icon_state = "tablecloth_sun"
+
+/obj/structure/fluff/sunrug
+	name = "sun rug"
+	desc = "A decorative rug depicting the sun."
+	icon = 'icons/roguetown/misc/64x64.dmi'
+	icon_state = "sunrug"
+	density = FALSE
+	anchored = FALSE

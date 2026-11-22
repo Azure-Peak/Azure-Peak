@@ -1787,113 +1787,29 @@ GLOBAL_LIST_INIT(da_bubbles, list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_MATTHIOS_ARMOR) //These were always meant to be valid I don't get why this was forgotten about
 
 //THROWABLES
-/obj/item/impact_grenade/truthsnuke/lesser
-	name = "Incomplete TRUTHSNUKE"
-	desc = "A fragile canister, filled with an explosive surprise. Shards of flint line its thin sleeve, aching to ignite at the slightest disturbance. The fire of Astrata does not seem to be imbuing it, but..."
-
-/obj/item/impact_grenade/truthsnuke/lesser/explodes()
-	STOP_PROCESSING(SSfastprocess, src)
-
-	var/turf/T = get_turf(src)
-	if(!T)
-		qdel(src)
-		return
-
-	// Affect mobs
-	for(var/mob/living/target in range(3, T))
-
-		if(QDELETED(target))
-			continue
-
-		if(HAS_TRAIT(target, TRAIT_NOBLE) || HAS_TRAIT(target, TRAIT_CLERGY))
-			target.visible_message(
-				span_danger("[target]'s skin begins to SLOUGH AND BURN HORRIFICALLY, glowing like molten metal!"),
-				span_userdanger("MY LIMBS BURN IN AGONY...")
-			)
-
-			target.Stun(8 SECONDS)
-			target.emote("agony")
-			target.adjustFireLoss(50)
-			target.adjust_fire_stacks(9, /datum/status_effect/fire_handler/fire_stacks/divine)
-			target.ignite_mob()
-
-			playsound(target, 'sound/magic/churn.ogg', 100, TRUE)
-			explosion(get_turf(target), light_impact_range = 1, flame_range = 1, smoke = FALSE)
-
-			addtimer(CALLBACK(src, PROC_REF(truthsnuke_transmute_target), target), 8 SECONDS)
-			continue
-
-		var/is_heretic = HAS_TRAIT(target, TRAIT_FREEMAN) || HAS_TRAIT(target, TRAIT_CABAL) || HAS_TRAIT(target, TRAIT_HORDE) || HAS_TRAIT(target, TRAIT_DEPRAVED)
-
-		target.apply_status_effect(/datum/status_effect/buff/alch/fire_resist)
-
-		if(is_heretic)
-			to_chat(target, span_artery("They called us Inhumen. They called this Heresy. Yet here we stand—unbroken, unburned. Let the world choke on truth."))
-			target.visible_message(span_notice("[target] stands untouched amidst the inferno."))
-			target.emote("laugh")
-		else
-			target.emote("agony")
-			target.Stun(2 SECONDS)
-			target.Knockdown(2 SECONDS)
-			target.adjustFireLoss(40)
-			to_chat(target, span_artery("IT BURNS! THE TRUTH! IT BURNS!!!"))
-
-	// Affect structures / turfs
-	for(var/turf/affected in range(3, T))
-
-		for(var/obj/structure/mineral_door/D in affected)
-			if(!(D.resistance_flags & INDESTRUCTIBLE))
-				qdel(D)
-
-		for(var/obj/structure/roguewindow/W in affected)
-			if(!(W.resistance_flags & INDESTRUCTIBLE))
-				qdel(W)
-
-		for(var/obj/O in affected)
-			if(QDELETED(O))
-				continue
-			if(O == src)
-				continue
-			if(!(O.resistance_flags & INDESTRUCTIBLE))
-				O.visible_message(span_danger("[O] is torn apart by the blast!"))
-				qdel(O)
-
-		if(istype(affected, /turf/closed) && !istype(affected, /turf/closed/indestructible))
-			var/turf/closed/C = affected
-			C.ChangeTurf(/turf/open/floor/rogue/dirt)
-			continue
-
-		if(istype(affected, /turf/open) && !istype(affected, /turf/open/floor/rogue/dirt))
-			var/turf/open/O = affected
-			O.ChangeTurf(/turf/open/floor/rogue/dirt)
-
-	// Throw mobs outward
-	for(var/mob/living/M in range(3, T))
-		if(QDELETED(M))
-			continue
-		var/dir = get_dir(T, M)
-		M.throw_at(get_edge_target_turf(M, dir), 6, 3)
-
-	explosion(T,extreme_impact_range = 0,heavy_impact_range = 0,light_impact_range = 4,flame_range = 8,flash_range = 8,smoke = TRUE,soundin = pick('sound/misc/explode/bottlebomb (1).ogg','sound/misc/explode/bottlebomb (2).ogg'))
-
-	qdel(src)
-
 //I'll leave it as an admin spawnable cause why not, but as is right now there's no way anything can get access to this.
-/obj/item/impact_grenade/truthsnuke
+/obj/item/explosive/impact/truthsnuke
 	name = "TRUTHSNUKE"
 	desc = "A fragile canister, filled with an explosive surprise. Shards of flint line its thin sleeve, aching to ignite at the slightest disturbance. It glows with a divine might, and once again stolen fire."
 	aura_color = "#fbff00"
+	/// Radius in which mobs are judged and the land is razed
+	var/nukerange = 15
+	/// Radius in which mobs are flung outwards
+	var/fling = 12
+	var/lightrange = 10
+	var/flamerange = 15
 
-/obj/item/impact_grenade/truthsnuke/explodes()
-	STOP_PROCESSING(SSfastprocess, src)
+/obj/item/explosive/impact/truthsnuke/lesser
+	name = "Incomplete TRUTHSNUKE"
+	desc = "A fragile canister, filled with an explosive surprise. Shards of flint line its thin sleeve, aching to ignite at the slightest disturbance. The fire of Astrata does not seem to be imbuing it, but..."
+	nukerange = 3
+	fling = 3
+	lightrange = 4
+	flamerange = 8
 
-	var/turf/T = get_turf(src)
-	if(!T)
-		qdel(src)
-		return
-
+/obj/item/explosive/impact/truthsnuke/blast(turf/T, forced)
 	// Affect mobs
-	for(var/mob/living/target in range(15, T))
+	for(var/mob/living/target in range(nukerange, T))
 
 		if(QDELETED(target))
 			continue
@@ -1914,7 +1830,7 @@ GLOBAL_LIST_INIT(da_bubbles, list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 			playsound(target, 'sound/magic/churn.ogg', 100, TRUE)
 			explosion(get_turf(target), light_impact_range = 1, flame_range = 1, smoke = FALSE)
 
-			addtimer(CALLBACK(src, PROC_REF(truthsnuke_transmute_target), target), 8 SECONDS)
+			addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(truthsnuke_transmute), target), 8 SECONDS)
 			continue
 
 		var/is_heretic = HAS_TRAIT(target, TRAIT_FREEMAN) || HAS_TRAIT(target, TRAIT_CABAL) || HAS_TRAIT(target, TRAIT_HORDE) || HAS_TRAIT(target, TRAIT_DEPRAVED)
@@ -1922,7 +1838,7 @@ GLOBAL_LIST_INIT(da_bubbles, list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 		target.apply_status_effect(/datum/status_effect/buff/alch/fire_resist)
 
 		if(is_heretic)
-			to_chat(target, span_artery("They called us Inhumen. They called this Heresy. Yet here we stand—unbroken, unburned. Let the world choke on truth."))
+			to_chat(target, span_artery("They called us Inhumen. They called this Heresy. Yet here we stand, unbroken, unburned. Let the world choke on truth."))
 			target.visible_message(span_notice("[target] stands untouched amidst the inferno."))
 			target.emote("laugh")
 		else
@@ -1933,7 +1849,7 @@ GLOBAL_LIST_INIT(da_bubbles, list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 			to_chat(target, span_artery("IT BURNS! THE TRUTH! IT BURNS!!!"))
 
 	// Affect structures / turfs
-	for(var/turf/affected in range(15, T))
+	for(var/turf/affected in range(nukerange, T))
 
 		for(var/obj/structure/mineral_door/D in affected)
 			if(!(D.resistance_flags & INDESTRUCTIBLE))
@@ -1962,17 +1878,15 @@ GLOBAL_LIST_INIT(da_bubbles, list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 			O.ChangeTurf(/turf/open/floor/rogue/dirt)
 
 	// Throw mobs outward
-	for(var/mob/living/M in range(12, T))
+	for(var/mob/living/M in range(fling, T))
 		if(QDELETED(M))
 			continue
 		var/dir = get_dir(T, M)
 		M.throw_at(get_edge_target_turf(M, dir), 6, 3)
 
-	explosion(T,extreme_impact_range = 0,heavy_impact_range = 0,light_impact_range = 10,flame_range = 15,flash_range = 15,smoke = TRUE,soundin = pick('sound/misc/explode/bottlebomb (1).ogg','sound/misc/explode/bottlebomb (2).ogg'))
+	explosion(T, light_impact_range = lightrange, flame_range = flamerange, flash_range = flamerange, smoke = TRUE, soundin = pick('sound/misc/explode/bottlebomb (1).ogg','sound/misc/explode/bottlebomb (2).ogg'))
 
-	qdel(src)
-
-/obj/item/impact_grenade/truthsnuke/proc/truthsnuke_transmute_target(mob/living/target)
+/proc/truthsnuke_transmute(mob/living/target)
 	if(!target || QDELETED(target))
 		return
 
@@ -2010,30 +1924,26 @@ GLOBAL_LIST_INIT(da_bubbles, list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 
 	target.death()
 
-/obj/item/impact_grenade/pocketsand
+/obj/item/explosive/impact/pocketsand
 	name = "pocket sand"
 	desc = "A fistful of fine, irritating sand. Guaranteed to be clawing at the eyes of the unwise."
 	icon_state = "clod1"
 	icon = 'icons/roguetown/items/natural.dmi'
 
-/obj/item/impact_grenade/pocketsand/explodes()
-	STOP_PROCESSING(SSfastprocess, src)
-	var/turf/T = get_turf(src)
-	if(T)
-		for(var/mob/living/target in range(0, T))
-			if(!target.mind || istype(target, /mob/living/simple_animal))
-				target.adjustBruteLoss(5)
-			if(iscarbon(target))
-				target.blur_eyes(5)
-				target.adjust_blurriness(10)
-				target.blind_eyes(1.5)
-			target.visible_message(
-				span_warning("[target] is blasted with a cloud of sand!"),
-				span_warning("Sand gets into my eyes! I can't see!")
-			)
-			target.emote("pain")
-			target.apply_status_effect(/datum/status_effect/debuff/clickcd, 3 SECONDS)
-		qdel(src)
+/obj/item/explosive/impact/pocketsand/blast(turf/T, forced)
+	for(var/mob/living/target in T)
+		if(!target.mind || istype(target, /mob/living/simple_animal))
+			target.adjustBruteLoss(5)
+		if(iscarbon(target))
+			target.blur_eyes(5)
+			target.adjust_blurriness(10)
+			target.blind_eyes(1.5)
+		target.visible_message(
+			span_warning("[target] is blasted with a cloud of sand!"),
+			span_warning("Sand gets into my eyes! I can't see!")
+		)
+		target.emote("pain")
+		target.apply_status_effect(/datum/status_effect/debuff/clickcd, 3 SECONDS)
 
 //MISC
 

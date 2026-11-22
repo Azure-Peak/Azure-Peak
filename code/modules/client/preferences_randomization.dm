@@ -88,6 +88,7 @@
 // Only run this for "new character" style randomization
 // new characters get all texts merked and a random species assigned
 /datum/preferences/proc/randomize_new_character()
+	ooze_color_shifting = initial(ooze_color_shifting)
 	// assign new species
 	var/random_species_type = GLOB.species_list[pick(get_selectable_species())]
 	set_new_race(new random_species_type, skip_random = TRUE)
@@ -95,6 +96,7 @@
 	// merk custom texts
 	flavortext = null
 	flavortext_cached = null
+	pen_name = null
 	ooc_notes = null
 	ooc_notes_cached = null
 	nsfwflavortext = null
@@ -105,6 +107,7 @@
 	rumour_cached = null
 	noble_gossip = null
 	noble_gossip_cached = null
+	secrets = list()
 
 	headshot_link = null
 	headshot_artist_credit = null

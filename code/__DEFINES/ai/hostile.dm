@@ -9,6 +9,9 @@
 ///Travel BB key
 #define BB_TRAVEL_DESTINATION "BB_travel_destination"
 
+#define BB_TIMED_TRAVEL_TARGET "BB_timed_travel_target"
+#define BB_TIMED_TRAVEL_UNTIL "BB_timed_travel_until"
+
 /// Basically, what is our vision/hearing range.
 #define BB_HOSTILE_VISION_RANGE 10
 

@@ -348,7 +348,6 @@
 	owner.adjustToxLoss(-healing_on_tick_pyre, 0)
 	owner.adjustOrganLoss(ORGAN_SLOT_BRAIN, -healing_on_tick_pyre)
 	owner.adjustCloneLoss(-healing_on_tick_pyre, 0)
-	owner.adjust_bodytemperature(8)
 
 ///////////////////////////////////////////////////////////////////////////
 // T3 - Asbestine Cloak - Grant fire resistance to people around caster. //

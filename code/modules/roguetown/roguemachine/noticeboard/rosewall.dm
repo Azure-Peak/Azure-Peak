@@ -62,9 +62,22 @@ passerby may peruse the board, examine a worker's headshot, or send them an offe
 /obj/structure/roguemachine/rosewall/proc/update_all_boards()
 	for(var/obj/structure/roguemachine/rosewall/board in SSroguemachine.rosewalls)
 		board.update_icon()
+		SStgui.update_uis(board)
 
 /obj/structure/roguemachine/rosewall/proc/is_bathhouse_worker(mob/living/carbon/human/H)
 	return istype(H) && (H.job in GLOB.bathhouse_positions) || HAS_TRAIT(H, TRAIT_AGENT_BATHHOUSE)
+
+/obj/structure/roguemachine/rosewall/proc/set_worker_status(mob/living/carbon/human/H, new_status)
+	if(!is_bathhouse_worker(H) || !(new_status in list(ROSEWALL_STATUS_AVAILABLE, ROSEWALL_STATUS_HIRED, ROSEWALL_STATUS_DND)))
+		return FALSE
+	var/list/advert_data = rosewall_adverts[H.real_name]
+	if(!advert_data)
+		advert_data = list("status" = ROSEWALL_STATUS_AVAILABLE, "mob" = H, "message" = "")
+		rosewall_adverts[H.real_name] = advert_data
+	advert_data["status"] = new_status
+	advert_data["mob"] = H
+	update_all_boards()
+	return TRUE
 
 /obj/structure/roguemachine/rosewall/attack_hand(mob/living/carbon/human/user)
 	. = ..()
@@ -147,18 +160,11 @@ passerby may peruse the board, examine a worker's headshot, or send them an offe
 			if(!is_bathhouse_worker(H))
 				return
 			var/new_status = params["status"]
-			if(!(new_status in list(ROSEWALL_STATUS_AVAILABLE, ROSEWALL_STATUS_HIRED, ROSEWALL_STATUS_DND)))
+			if(!set_worker_status(H, new_status))
 				return
-			var/list/advert_data = rosewall_adverts[H.real_name]
-			if(!advert_data)
-				advert_data = list("status" = ROSEWALL_STATUS_AVAILABLE, "mob" = H, "message" = "")
-				rosewall_adverts[H.real_name] = advert_data
-			advert_data["status"] = new_status
-			advert_data["mob"] = H
 			to_chat(H, span_notice("I set my Rosewall status to: <b>[new_status]</b>"))
 			playsound(loc, 'sound/misc/beep.ogg', 100, FALSE, -1)
 			log_admin_private("[key_name(H)] set Rosewall status to [new_status]")
-			update_all_boards()
 			return TRUE
 		if("edit_advert")
 			if(!is_bathhouse_worker(H))
@@ -168,7 +174,7 @@ passerby may peruse the board, examine a worker's headshot, or send them an offe
 				advert_data = list("status" = ROSEWALL_STATUS_AVAILABLE, "mob" = H, "message" = "")
 				rosewall_adverts[H.real_name] = advert_data
 			var/current_msg = advert_data["message"] || ""
-			var/new_msg = stripped_input(H, "Compose my advert for the Rosewall (max [message_char_limit] characters):", "Rosewall Advert", current_msg, message_char_limit)
+			var/new_msg = tgui_input_text(H, "Compose my advert for the Rosewall (max [message_char_limit] characters):", "Rosewall Advert", current_msg, message_char_limit, encode = FALSE)
 			if(new_msg == null)
 				return
 			if(!Adjacent(H))
@@ -248,7 +254,7 @@ passerby may peruse the board, examine a worker's headshot, or send them an offe
 	if(!Adjacent(sender))
 		to_chat(sender, span_warning("I need to stay close to the board."))
 		return
-	var/message = stripped_input(sender, "What offer do I wish to send? (Max [message_char_limit] characters)", "Rosewall Offer", "", message_char_limit)
+	var/message = tgui_input_text(sender, "What offer do I wish to send? (Max [message_char_limit] characters)", "Rosewall Offer", "", message_char_limit, encode = FALSE)
 	if(!message)
 		return
 	if(!Adjacent(sender))
@@ -261,7 +267,7 @@ passerby may peruse the board, examine a worker's headshot, or send them an offe
 		// Tracked by expiry time rather than an addtimer bound to this board, so the
 		// entry cannot leak (holding refs to both mobs) if this board is destroyed.
 		pending_offer_responses[response_id] = list("responder" = worker, "sender" = sender, "expires" = world.time + response_timeout)
-	to_chat(worker, span_boldnotice("A perfumed slip finds its way to me from the Rosewall: <i>[message]</i> - [sender.real_name]<br><a href='?src=[REF(src)];offer_response=yae;response_id=[response_id]'>\[YAE\]</a> | <a href='?src=[REF(src)];offer_response=nae;response_id=[response_id]'>\[NAE\]</a>"))
+	to_chat(worker, span_boldnotice("A perfumed slip finds its way to me from the Rosewall: <i>[html_encode(message)]</i> - [sender.real_name]<br><a href='?src=[REF(src)];offer_response=yae;response_id=[response_id]'>\[YAE\]</a> | <a href='?src=[REF(src)];offer_response=nae;response_id=[response_id]'>\[NAE\]</a>"))
 	to_chat(sender, span_notice("My offer has been sent to [worker.real_name]."))
 	playsound(worker.loc, 'sound/misc/notice (2).ogg', 100, FALSE, -1)
 	sender.log_talk(message, LOG_SAY, tag="rosewall offer (to [key_name(worker)])")
@@ -305,6 +311,14 @@ passerby may peruse the board, examine a worker's headshot, or send them an offe
 		else
 			to_chat(sender, span_notice("[responder.real_name] responded negatively to my offer."))
 			to_chat(responder, span_notice("I responded negatively to [sender.real_name]."))
+			if(is_bathhouse_worker(responder))
+				var/status_choice = alert(responder, "Would you like to change your Rosewall status?", "Rosewall Status", ROSEWALL_STATUS_HIRED, ROSEWALL_STATUS_DND, "Keep Current")
+				if(status_choice == ROSEWALL_STATUS_HIRED || status_choice == ROSEWALL_STATUS_DND)
+					if(set_worker_status(responder, status_choice))
+						to_chat(responder, span_notice("After declining the offer, I set my Rosewall status to: <b>[status_choice]</b>."))
+						log_admin_private("[key_name(responder)] set Rosewall status to [status_choice] after declining an offer")
+					else
+						to_chat(responder, span_warning("I could not change my Rosewall status."))
 
 		playsound(sender.loc, 'sound/misc/notice (2).ogg', 100, FALSE, -1)
 		playsound(responder.loc, 'sound/misc/beep.ogg', 100, FALSE, -1)

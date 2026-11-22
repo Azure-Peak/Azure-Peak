@@ -88,23 +88,23 @@
 		var/mob/living/carbon/human/H = user
 		H.mind?.has_bomb = FALSE
 		var/bomb_type
-		var/static/list/bomb_type_list = list(/obj/item/tntstick,
-		/obj/item/impact_grenade/explosion,
-		/obj/item/impact_grenade/smoke/poison_gas,
-		/obj/item/impact_grenade/smoke/fire_gas,
-		/obj/item/impact_grenade/smoke/healing_gas,
+		var/static/list/bomb_type_list = list(/obj/item/explosive/fused/powder/stick,
+		/obj/item/explosive/impact/shrapnel,
+		/obj/item/explosive/impact/smoke/poison_gas,
+		/obj/item/explosive/impact/smoke/fire_gas,
+		/obj/item/explosive/impact/smoke/healing_gas,
 		)
 		var/bonus = 0
 		if(H.STALUC > 10)
 			bonus = 10 * (H.STALUC - 10)
 		if(prob(90 - bonus))
-			bomb_type = /obj/item/bomb
+			bomb_type = /obj/item/explosive/fused/bottle
 		else
 			bomb_type = pick(bomb_type_list)
 		var/obj/item/S = new bomb_type(get_turf(H))
 		H.put_in_hands(S)
 		if(HAS_TRAIT(H, TRAIT_BOMBER_EXPERT))	//additional random second bomb.
-			bomb_type_list |= /obj/item/bomb
+			bomb_type_list |= /obj/item/explosive/fused/bottle
 			bomb_type = pick(bomb_type_list)
 			var/obj/item/B = new bomb_type(get_turf(H))
 			H.put_in_hands(B)
@@ -180,6 +180,8 @@
 	data["balance"] = coin_loaded
 	data["free_send_ready"] = free_send_ready(user) ? TRUE : FALSE
 	data["free_send_remaining_ds"] = free_send_remaining(user)
+	data["real_name"] = user.real_name
+	data["pen_name"] = mail_pen_name(user)
 	return data
 
 /// Describes what is being mailed. Call before delivery, as delivering a letter to a ghost deletes it.
@@ -226,7 +228,7 @@
 	return "<ul style='margin:2px 0;padding-left:18px'>[rows.Join()]</ul>"
 
 /// Logs a sent letter or package to the game log, the admins and the letter archive. machine is where it was posted from, if any.
-/proc/log_mail_send(mob/user, recipient_name, list/record, ghost_send = FALSE, obj/machine, recipient_desc)
+/proc/log_mail_send(mob/user, recipient_name, list/record, ghost_send = FALSE, obj/machine, recipient_desc, signed_as)
 	if(!user)
 		return
 	var/is_package = record?["package"]
@@ -235,11 +237,49 @@
 		recipient_desc = mail_recipient_desc(recipient_name)
 	var/via = machine ? " via [machine.name]" : ""
 	var/contents_note = is_package ? " containing: [record["summary"]]" : ""
+	var/signed = signed_as ? ", signed [mail_signature_desc(user, signed_as)]" : ""
 	var/sender_desc = key_name(user)
-	user.log_message("[what][via] to [recipient_desc][contents_note]", LOG_GAME)
-	var/link = archive_letter(recipient_desc, record?["content"], sender_desc, is_package)
-	message_admins("[sender_desc] [what][via] to [recipient_desc][contents_note][link]")
+	user.log_message("[what][via] to [recipient_desc][signed][contents_note]", LOG_GAME)
+	var/link = archive_letter(recipient_desc, record?["content"], "[sender_desc][signed]", is_package)
+	message_admins("[sender_desc] [what][via] to [recipient_desc][signed][contents_note][link]")
 	return link
+
+/proc/mail_pen_name(mob/user)
+	if(ishuman(user))
+		var/mob/living/carbon/human/H = user
+		return H.pen_name
+	if(isobserver(user))
+		var/mob/dead/observer/G = user
+		return G.pen_name
+	return null
+
+/proc/mail_signature(mob/user, choice)
+	switch(choice)
+		if(MAIL_SIGN_REAL)
+			return user.real_name
+		if(MAIL_SIGN_PEN)
+			return mail_pen_name(user)
+		if(MAIL_SIGN_ANON)
+			return MAILER_ANONYMOUS
+	return null
+
+/proc/mail_signature_desc(mob/user, signed_as)
+	if(!signed_as || signed_as == MAILER_ANONYMOUS)
+		return "anonymously"
+	if(signed_as == user.real_name)
+		return "with their real name"
+	return "under the pen name '[signed_as]'"
+
+/proc/mail_signature_prompt(mob/user)
+	var/list/choices = list("Real name: [user.real_name]" = MAIL_SIGN_REAL)
+	var/pen = mail_pen_name(user)
+	if(pen)
+		choices["Pen name: [pen]"] = MAIL_SIGN_PEN
+	choices["Anonymous"] = MAIL_SIGN_ANON
+	var/picked = input(user, "Who is this from?", "ROGUETOWN") as null|anything in choices
+	if(!picked)
+		return null
+	return mail_signature(user, choices[picked])
 
 /proc/show_parchment(mob/user, body, window = "parchment")
 	if(!user?.client)
@@ -383,7 +423,7 @@
 	STR.handle_item_insertion(I, prevent_warning = TRUE)
 	master.new_mail = TRUE
 	master.update_icon()
-	send_ooc_note("A new letter has arrived for you.", name = destination)
+	send_ooc_note(sender == MAILER_ANONYMOUS ? "A new letter has arrived for you." : "New letter from <b>[sender]</b>.", name = destination)
 	if(H)
 		H.apply_status_effect(/datum/status_effect/ugotmail)
 		H.playsound_local(H, 'sound/misc/mail.ogg', 100, FALSE, -1)
@@ -439,7 +479,11 @@
 			if(length(content) > 2000)
 				to_chat(user, span_warning("Letter too long."))
 				return TRUE
-			var/obj/item/paper/P = build_sanitized_letter(user, params["recipient"], content, params["sender"])
+			var/signed_as = mail_signature(user, params["signature"])
+			if(!signed_as)
+				to_chat(user, span_warning("I have no such name to sign with."))
+				return TRUE
+			var/obj/item/paper/P = build_sanitized_letter(user, params["recipient"], content, signed_as)
 			var/send2place = P.mailedto
 			if(!mail_exists(send2place))
 				to_chat(user, span_warning(mail_fail_msg(send2place)))
@@ -451,7 +495,7 @@
 				to_chat(user, span_warning("The master of mails has perished?"))
 				qdel(P)
 				return TRUE
-			log_mail_send(user, send2place, record, machine = src)
+			log_mail_send(user, send2place, record, machine = src, signed_as = signed_as)
 			visible_message(span_warning("[user] sends something."))
 			playsound(loc, 'sound/misc/disposalflush.ogg', 100, FALSE, -1)
 			if(is_free)
@@ -480,63 +524,6 @@
 		var/obj/item/parcel/towner_caravan/box = P
 		box.post_to_owner(src, user)
 		return
-	if(istype(P, /obj/item/merctoken))
-		if(ishuman(user))
-			var/mob/living/carbon/human/H = user
-			if(H.mind.assigned_role != "Mercenary")
-				to_chat(H, "<span class='warning'>This is of no use to me - I may give this to a mercenary so they may send it themselves.</span>")
-				return
-			if(H.mind.assigned_role == "Mercenary")
-				if(H.tokenclaimed == TRUE)
-					to_chat(H, "<span class='warning'>I have already received my commendation. There's always next week to look forward to!</span>")
-					return
-			var/obj/item/merctoken/C = P
-			if(C.signed == 1)
-				qdel(C)
-				visible_message("<span class='warning'>[H] sends something.</span>")
-				playsound(loc, 'sound/misc/disposalflush.ogg', 100, FALSE, -1)
-				sleep(20)
-				playsound(loc, 'sound/misc/triumph.ogg', 100, FALSE, -1)
-				playsound(src.loc, 'sound/misc/hiss.ogg', 100, FALSE, -1)
-				H.visible_message("<span class='warning'>A trinket comes tumbling down from the machine. Proof of your distinction.</span>")
-				H.adjust_triumphs(3)
-				H.tokenclaimed = TRUE
-				switch(H.merctype)
-					if(0)
-						new /obj/item/clothing/neck/roguetown/luckcharm/mercmedal(src.loc)
-					if(1)
-						new /obj/item/clothing/neck/roguetown/luckcharm/mercmedal/atgervi(src.loc)
-					if(2)
-						new /obj/item/clothing/neck/roguetown/luckcharm/mercmedal/blackoak(src.loc)
-					if(3)
-						new /obj/item/clothing/neck/roguetown/luckcharm/mercmedal/condottiero(src.loc)
-					if(4)
-						new /obj/item/clothing/neck/roguetown/luckcharm/mercmedal/desertrider(src.loc)
-					if(5)
-						new /obj/item/clothing/neck/roguetown/luckcharm/mercmedal/forlorn(src.loc)
-					if(6)
-						new /obj/item/clothing/neck/roguetown/luckcharm/mercmedal/freifechter(src.loc)
-					if(7)
-						new /obj/item/clothing/neck/roguetown/luckcharm/mercmedal/grenzelhoft(src.loc)
-					if(8)
-						new /obj/item/clothing/neck/roguetown/luckcharm/mercmedal/grudgebearer(src.loc)
-					if(9)
-						new /obj/item/clothing/neck/roguetown/luckcharm/mercmedal(src.loc) // NOT CURRENTLY IMPLEMENTED
-					if(10)
-						new /obj/item/clothing/neck/roguetown/luckcharm/mercmedal/routier(src.loc)
-					if(11)
-						new /obj/item/clothing/neck/roguetown/luckcharm/mercmedal/steppesman(src.loc)
-					if(12)
-						new /obj/item/clothing/neck/roguetown/luckcharm/mercmedal/underdweller(src.loc)
-					if(13)
-						new /obj/item/clothing/neck/roguetown/luckcharm/mercmedal/vaquero(src.loc)
-					if(14)
-						new /obj/item/clothing/neck/roguetown/luckcharm/mercmedal(src.loc) // NOT CURRENTLY IMPLEMENTED
-					if(15)
-						new /obj/item/clothing/neck/roguetown/luckcharm/mercmedal/anthrax(src.loc)
-			if(C.signed == 0)
-				to_chat(H, "<span class='warning'>I cannot send an unsigned token.</span>")
-				return
 	if(HAS_TRAIT(user, TRAIT_INQUISITION))
 		if(istype(P, /obj/item/roguekey))
 			var/obj/item/roguekey/K = P
@@ -866,7 +853,9 @@
 			if(!mail_exists(send2place))
 				to_chat(user, span_warning(mail_fail_msg(send2place)))
 				return
-			var/sentfrom = sanitize_mail_sender(input(user, "Who is this from? (Leave blank to send anonymously)", "ROGUETOWN", null))
+			var/sentfrom = mail_signature_prompt(user)
+			if(!sentfrom)
+				return
 			sign_mail(P, sentfrom)
 			var/list/record = mail_item_record(P)
 			if(!deliver_mail(P, send2place, sentfrom, key_name(user)))
@@ -874,7 +863,7 @@
 				return
 			if(!findtext(send2place, "#"))
 				playsound(src.loc, 'sound/misc/hiss.ogg', 100, FALSE, -1)
-			log_mail_send(user, send2place, record, machine = src)
+			log_mail_send(user, send2place, record, machine = src, signed_as = sentfrom)
 			visible_message(span_warning("[user] sends something."))
 			playsound(loc, 'sound/misc/disposalflush.ogg', 100, FALSE, -1)
 			return

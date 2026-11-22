@@ -15,6 +15,11 @@
 		STATKEY_WIL = 2,
 		STATKEY_PER = 1
 	)
+	subclass_stashed_items = list(
+		"Wax Putty I" = /obj/item/waxputty,
+		"Wax Putty II" = /obj/item/waxputty,
+		"Wax Putty III" = /obj/item/waxputty,
+	)
 	subclass_skills = list(
 		/datum/skill/misc/tracking = SKILL_LEVEL_MASTER,
 		/datum/skill/combat/crossbows = SKILL_LEVEL_EXPERT,
@@ -44,7 +49,7 @@
 	cloak = /obj/item/clothing/cloak/tabard/stabard/dungeon
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson
 	backl = /obj/item/storage/backpack/rogue/satchel/short
-	belt = /obj/item/storage/belt/rogue/leather/knifebelt/black/steel
+	belt = /obj/item/storage/belt/rogue/leather/tossbelt/blade/black/steel
 	gloves = /obj/item/clothing/gloves/roguetown/fingerless_leather
 	shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced
 	neck = /obj/item/clothing/neck/roguetown/coif/heavypadding

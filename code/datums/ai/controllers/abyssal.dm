@@ -167,7 +167,7 @@
 		target.Move(target_shove_turf, shove_dir)
 		if(get_turf(target) == target_oldturf)
 			if(stander)
-				target_table = locate(/obj/structure/table) in target_shove_turf.contents
+				target_table = has_table_surface(target_shove_turf.contents)
 				shove_blocked = TRUE
 		else
 			if((stander && target.stamina >= target.max_stamina) || target.IsOffBalanced()) //if you are kicked while fatigued, you are knocked down no matter what

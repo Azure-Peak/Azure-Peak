@@ -27,14 +27,14 @@
 				if(HAS_TRAIT(M, private) || (private == TRAIT_EMPATH && M.has_empath_for(src)))
 					if(M != src)
 						can_see += M
-			
+
 			for(var/mob/M in can_see)
 				vis_contents += new /obj/effect/temp_visual/stress_event/invisible(null, M, icon_path, overlay_name, offset_list)
 				if(soundin)
 					var/turf/T = get_turf(src)
 					M.playsound_local(T, soundin, 100, FALSE)
 
-		if(ispath(private, /datum/patron))	//Patron signs. 
+		if(ispath(private, /datum/patron))	//Patron signs.
 			var/icon_plane = WEATHER_EFFECT_PLANE	//Will show up through the cone.
 			if(!ispath(private, /datum/patron/old_god))
 				for(var/mob/living/carbon/human/H in viewers(world.view, src))
@@ -50,17 +50,17 @@
 						pass = TRUE
 					if(soundin && pass)
 						var/turf/T = get_turf(src)
-						H.playsound_local(T, soundin, 100, FALSE) 
+						H.playsound_local(T, soundin, 100, FALSE)
 			else
 				for(var/mob/living/carbon/human/H in viewers(world.view, src))
 					if(H.patron?.type == private)
 						if(HAS_TRAIT(H, TRAIT_INQUISITION) && HAS_TRAIT(src, TRAIT_INQUISITION))	//Inquisition members will show a fancier symbol to one another.
 							vis_contents += new /obj/effect/temp_visual/stress_event/invisible(null, H, icon_path, "sign_[H.patron.name]inq", offset_list, y_offset, icon_plane)
-						else 
+						else
 							vis_contents += new /obj/effect/temp_visual/stress_event/invisible(null, H, icon_path, "sign_[H.patron.name]", offset_list, y_offset, icon_plane)
 						if(soundin)
 							var/turf/T = get_turf(src)
-							H.playsound_local(T, soundin, 100, FALSE) 
+							H.playsound_local(T, soundin, 100, FALSE)
 
 ///A simplified version of the proc that adds an overlay to the src and returns a reference to the appearance.
 ///Has no offset adjustment for bodies / sprite size. Make sure to account for that if using it on carbons!
@@ -106,7 +106,24 @@
 		vis_contents += new /obj/effect/temp_visual/stress_event/invisible(null, M, 'icons/mob/overhead_effects.dmi', iconstate, offset_list, offset, icon_plane)
 	// Seeing it on ourselves gives better feedback that it worked / was seen.
 	vis_contents += new /obj/effect/temp_visual/stress_event/invisible(null, src, 'icons/mob/overhead_effects.dmi', iconstate, offset_list, offset, icon_plane)
-	
+
+/mob/living/proc/play_overhead_private(list/targets, iconstate, custom_offset, custom_dur)
+	if(!length(targets))
+		return
+	var/list/offset_list
+	var/offset = 20
+	if(custom_offset)
+		offset = custom_offset
+	var/icon_plane = WEATHER_EFFECT_PLANE	//Will show up through the cone.
+	if(ishuman(src))
+		var/mob/living/carbon/human/H = src
+		if(H.is_bulky_offset())
+			offset_list = H.get_offset_features()[OFFSET_HEAD]
+		else
+			offset_list = H.get_offset_features()[OFFSET_HEAD_F]
+	for(var/mob/M in targets)
+		vis_contents += new /obj/effect/temp_visual/stress_event/invisible(null, M, 'icons/mob/overhead_effects.dmi', iconstate, offset_list, offset, icon_plane, custom_dur)
+
 /obj/effect/temp_visual/stress_event
 	icon = 'icons/mob/overhead_effects.dmi'
 	duration = 20
@@ -114,7 +131,9 @@
 /obj/effect/temp_visual/stress_event/invisible
 	icon_state = null
 
-/obj/effect/temp_visual/stress_event/invisible/Initialize(mapload, mob/seer, path, iname, list/offsets, y_offset = 12, plane)
+/obj/effect/temp_visual/stress_event/invisible/Initialize(mapload, mob/seer, path, iname, list/offsets, y_offset = 12, plane, custom_dur)
+	if(custom_dur)
+		duration = custom_dur
 	. = ..()
 	var/image/I = image(icon = path, icon_state = iname, layer = ABOVE_MOB_LAYER, loc = src)
 	I.alpha = 255

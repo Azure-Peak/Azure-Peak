@@ -8,6 +8,20 @@
 	body_parts_covered = CHEST|GROIN|ARMS|LEGS|VITALS
 	sellprice = 0
 
+/obj/item/clothing/suit/roguetown/armor/skin_armor/goblin_skin
+	slot_flags = null
+	name = "goblin skin"
+	desc = ""
+	icon_state = null
+	body_parts_covered = HANDS|FEET
+	body_parts_inherent = HANDS|FEET
+	armor = ARMOR_PLATE
+	blocksound = SOFTHIT
+	blade_dulling = DULLING_BASHCHOP
+	sewrepair = FALSE
+	max_integrity = ARMOR_INT_CHEST_PLATE_BRIGANDINE - ARMOR_INT_CHEST_PLATE_BRIGANDINE_WEIGHT_MODIFIER
+	item_flags = DROPDEL
+
 /obj/item/clothing/suit/roguetown/armor/leather/goblin
 	name = "goblin armor"
 	icon_state = "leather_armor_item"

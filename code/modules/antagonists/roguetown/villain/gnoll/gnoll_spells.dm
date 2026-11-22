@@ -29,7 +29,7 @@
 		"Absolver" = TRUE,
 		"Templar" = TRUE,
 		"Sergeant" = TRUE,
-		"Men-at-arms" = TRUE,
+		"Man at Arms" = TRUE,
 		"Knight" = TRUE,
 		"Squire" = TRUE,
 		"Mercenary" = TRUE,
@@ -43,7 +43,8 @@
 
 /obj/effect/proc_holder/spell/invoked/gnoll_sniff/cast(list/targets, mob/user)
 	var/mob/living/target = targets[1]
-
+	if(user.m_intent != MOVE_INTENT_SNEAK)
+		user.emote("sniff")
 	if(!tracked_target || QDELETED(tracked_target) || tracked_target.stat == DEAD || target == user)
 		select_new_target(user)
 	else
@@ -87,11 +88,11 @@
 
 	if(!shown_hunt_disclaimer)
 		to_chat(user, span_boldnotice("You have chosen your first prey. Remember to judge whether or not your target is a worthy foe. Graggar does not reward spilling the blood of the meek when you have this much to prove."))
-		to_chat(user, span_boldwarning("(Escalation is still required. You can always still do other gnoll things if targets are too difficult.)"))
+		to_chat(user, span_boldwarning("Hunted targets still may have ERP protections. Escalation is NOT required with the Hunted. If you don't find a compelling reason to pursue them, you do not have to."))
 		shown_hunt_disclaimer = TRUE
 
 	tracked_target = possible_targets[selection]
-	to_chat(user, span_notice("You focus your senses on [tracked_target.real_name]."))
+	to_chat(user, span_notice("You focus your senses on [tracked_target.real_name]. (<a href='?src=[REF(user)];task=gnoll_recall_secret;secret_target=[REF(tracked_target)]'>Recall Secrets</a>)"))
 	give_tracking_directions(user)
 
 /obj/effect/proc_holder/spell/invoked/gnoll_sniff/proc/give_tracking_directions(mob/user)
@@ -129,6 +130,34 @@
 	if(!L || QDELETED(L) || L.stat == DEAD)
 		return FALSE
 	return TRUE
+
+/mob/living/carbon/human/proc/gnoll_recall_tracked_secret(mob/living/secret_target)
+	var/obj/effect/proc_holder/spell/invoked/gnoll_sniff/sniff_spell = \
+		src.HasSpell(/obj/effect/proc_holder/spell/invoked/gnoll_sniff)
+	if(!sniff_spell)
+		to_chat(src, span_warning("I cannot remember my prey."))
+		return
+	if(!secret_target || QDELETED(secret_target) || secret_target.stat == DEAD)
+		to_chat(src, span_warning("My prey is gone..."))
+		return
+
+	var/mob/living/tracked_target = sniff_spell.tracked_target
+	if(secret_target != tracked_target)
+		to_chat(src, span_warning("I must track [secret_target.real_name] again if I wish to recall their secret(s)."))
+		return
+	if(!ishuman(secret_target))
+		to_chat(src, span_warning("I recall nothing secret about my mark."))
+		return
+
+	var/mob/living/carbon/human/H = secret_target
+	var/secret = H.get_secret_for(src, "gnoll")
+	if(!secret)
+		to_chat(src, span_warning("I recall nothing secret about my mark."))
+		return
+	to_chat(src, span_warning("I recall my mark's secret(s) with blessed foreknowledge..."))
+
+	var/parsed_secret = parsemarkdown_basic(html_encode(secret), hyperlink = TRUE)
+	to_chat(src, "<span class='info'>[parsed_secret]</span>")
 
 /obj/effect/proc_holder/spell/invoked/abduct
 	name = "Abduct"

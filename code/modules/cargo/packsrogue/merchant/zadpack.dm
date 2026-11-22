@@ -20,11 +20,11 @@
 	name = "Bottle Bomb (Bulk)"
 	cost = 35
 	contains = list(
-		/obj/item/bomb,
-		/obj/item/bomb,
-		/obj/item/bomb,
-		/obj/item/bomb,
-		/obj/item/bomb,
+		/obj/item/explosive/fused/bottle,
+		/obj/item/explosive/fused/bottle,
+		/obj/item/explosive/fused/bottle,
+		/obj/item/explosive/fused/bottle,
+		/obj/item/explosive/fused/bottle,
 	)
 	not_in_public = TRUE
 

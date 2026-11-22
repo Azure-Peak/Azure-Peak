@@ -63,6 +63,9 @@
 /obj/item/reagent_containers/glass/bottle/rogue/strongstampoison
 	list_reagents = list(/datum/reagent/strongstampoison = 15)
 
+/obj/item/reagent_containers/glass/bottle/rogue/sleeppoison
+	list_reagents = list(/datum/reagent/sleep_powder = 15)
+
 /obj/item/reagent_containers/glass/bottle/alchemical/strpot
 	list_reagents = list(/datum/reagent/buff/strength = 30)
 

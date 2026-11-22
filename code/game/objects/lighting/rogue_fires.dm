@@ -31,7 +31,7 @@
 		return 1
 	if(mover.throwing)
 		return 1
-	if(locate(/obj/structure/table) in get_turf(mover))
+	if(has_table_surface(get_turf(mover)))
 		return 1
 	return !density
 
@@ -147,6 +147,20 @@
 		burn_out()
 		return TRUE
 	return ..()
+
+/obj/machinery/light/rogue/campfire/fireplace/OnCrafted(dirin)
+	pixel_x = 0
+	pixel_y = 0
+	switch(dirin)
+		if(NORTH)
+			pixel_y = 32
+		if(SOUTH)
+			pixel_y = -32
+		if(EAST)
+			pixel_x = 32
+		if(WEST)
+			pixel_x = -32
+	. = ..()
 
 /obj/machinery/light/rogue/candle
 	name = "candles"
@@ -467,7 +481,7 @@
 		return 1
 	if(mover.throwing)
 		return 1
-	if(locate(/obj/structure/table) in get_turf(mover))
+	if(has_table_surface(get_turf(mover)))
 		return 1
 	else
 		return !density
@@ -945,7 +959,7 @@
 		return 1
 	if(mover.throwing)
 		return 1
-	if(locate(/obj/structure/table) in get_turf(mover))
+	if(has_table_surface(get_turf(mover)))
 		return 1
 	if(locate(/obj/machinery/light/rogue/firebowl) in get_turf(mover))
 		return 1
@@ -982,3 +996,21 @@
 
 
 #undef FAN_PROGRESS_BONUS
+
+/obj/machinery/light/rogue/candle/incense
+	name = "incense"
+	icon_state = "incense1"
+	base_state = "incense"
+	bulb_colour = "#ffa35c"
+
+/obj/machinery/light/rogue/candle/silver
+	name = "silver candle"
+	icon_state = "silvercandle1"
+	base_state = "silvercandle"
+	bulb_colour = "#ffa35c"
+
+/obj/machinery/light/rogue/candle/goldcandle
+	name = "gold candle"
+	icon_state = "goldcandle1"
+	base_state = "goldcandle"
+	bulb_colour = "#ffa35c"

@@ -31,6 +31,24 @@
 /datum/ai_behavior/travel_towards/stop_on_arrival
 	clear_target = TRUE
 
+/datum/ai_behavior/travel_towards/hold
+
+/datum/ai_behavior/travel_towards/hold/perform(seconds_per_tick, datum/ai_controller/controller, target_key)
+	return AI_BEHAVIOR_DELAY
+
+/datum/ai_behavior/travel_towards/hold/adjacent
+	required_distance = 1
+
+/datum/ai_behavior/travel_towards/hold/search
+	behavior_flags = AI_BEHAVIOR_REQUIRE_MOVEMENT | AI_BEHAVIOR_CAN_PLAN_DURING_EXECUTION | AI_BEHAVIOR_MOVE_AND_PERFORM
+	action_cooldown = 0.5 SECONDS
+
+/datum/ai_behavior/travel_towards/hold/search/perform(seconds_per_tick, datum/ai_controller/controller, target_key)
+	var/turf/search_turf = controller.blackboard[target_key]
+	if(search_turf && controller.current_movement_target != search_turf)
+		set_movement_target(controller, search_turf)
+	return AI_BEHAVIOR_DELAY
+
 /**
  * # Travel Towards Atom
  * Travel towards an atom you pass directly from the controller rather than a blackboard key.

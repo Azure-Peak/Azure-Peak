@@ -8,7 +8,7 @@
 
 /obj/effect/proc_holder/spell/invoked/aquatic_compulsion
 	name = "Aquatic Compulsion"
-	desc = "Compel a random fish to leap out from targeted water tile and towards you. Standing still may yield you continuously, as long as your Devotion and stamina holds. Costs will increase over time."
+	desc = "Compel a random fish to leap out from targeted water tile and towards you. Standing still may yield you more fish continuously, as long as your Devotion and stamina holds. Costs will increase over time. Can only yield the most common kinds of fish present in the waters."
 	action_icon = 'icons/mob/actions/abyssormiracles.dmi'
 	overlay_icon = 'icons/mob/actions/abyssormiracles.dmi'
 	overlay_state = "aqua"

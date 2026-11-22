@@ -494,6 +494,43 @@
 	. = ..()
 	REMOVE_TRAIT(owner, TRAIT_HIGHER_CMODE_DRAIN, id)
 
+/// CASTIFICO DEBUFFS
+
+/// Pacification is reserved for the highest possible bounties, at 500 mammon or more.
+/// All lesser bounties apply a stat debuff scaled to the bounty amount.
+/// The severity of the debuff is entirely determined by the bounty itself,
+/// meaning players have direct control over the consequences of their capture.
+/// At this point, I genuinely cannot make this system any more forgiving without removing any consequences for capture entirely.
+
+// TIER 1 (100-250 mammon bounty)
+/datum/status_effect/debuff/castificot1
+	id = "castificot1"
+	alert_type = /atom/movable/screen/alert/status_effect/debuff/castifico
+	effectedstats = list(STATKEY_STR = -3, STATKEY_WIL = -3, STATKEY_CON = -3, STATKEY_SPD = -3, STATKEY_LCK = -3)
+	duration = -1
+	needs_processing = FALSE
+
+// TIER 2 (250-400 mammon bounty)
+/datum/status_effect/debuff/castificot2
+	id = "castificot2"
+	alert_type = /atom/movable/screen/alert/status_effect/debuff/castifico
+	effectedstats = list(STATKEY_STR = -4, STATKEY_WIL = -4, STATKEY_CON = -4, STATKEY_SPD = -4, STATKEY_LCK = -4)
+	duration = -1
+	needs_processing = FALSE
+
+// TIER 3 (400-500 mammon bounty)
+/datum/status_effect/debuff/castificot3
+	id = "castificot3"
+	alert_type = /atom/movable/screen/alert/status_effect/debuff/castifico
+	effectedstats = list(STATKEY_STR = -5, STATKEY_WIL = -5, STATKEY_CON = -5, STATKEY_SPD = -5, STATKEY_LCK = -5)
+	duration = -1
+	needs_processing = FALSE
+
+/atom/movable/screen/alert/status_effect/debuff/castifico
+	name = "Weakened"
+	desc = "This accursed collar saps my energy, weakening my body..."
+	icon_state = "collar"
+
 /// RESURRECTION DEBUFFS
 /datum/status_effect/debuff/revived
 	id = "revived" //For revive - your body DIDN'T rot, but it did suffer damage. Unlike being rotted, this one is only timed. Not forever.
@@ -778,6 +815,46 @@
 		var/mob/living/carbon/C = owner
 		C.remove_movespeed_modifier(MOVESPEED_ID_DAMAGE_SLOWDOWN)
 
+/atom/movable/screen/alert/status_effect/debuff/slowed
+	name = "Slowed"
+	desc = "I am slowed."
+	icon_state = "slowdown"
+
+/datum/status_effect/debuff/slowed
+	id = "slowed"
+	alert_type = /atom/movable/screen/alert/status_effect/debuff/slowed
+	var/severity = SLOWDOWN_SEVERITY_MODERATE
+
+/datum/status_effect/debuff/slowed/on_creation(mob/living/new_owner, new_duration, new_severity)
+	duration = new_duration
+	if(new_severity)
+		severity = new_severity
+	return ..()
+
+/datum/status_effect/debuff/slowed/on_apply()
+	if(!(owner.status_flags & CANSTUN) || HAS_TRAIT(owner, TRAIT_STUNIMMUNE))
+		return FALSE
+	. = ..()
+	update_modifier()
+
+/datum/status_effect/debuff/slowed/on_remove()
+	owner.remove_movespeed_modifier(MOVESPEED_ID_SLOWED)
+	return ..()
+
+/datum/status_effect/debuff/slowed/refresh(mob/living/new_owner, new_duration, new_severity = SLOWDOWN_SEVERITY_MODERATE)
+	if(new_severity < severity)
+		return
+	var/new_end = world.time + new_duration
+	if(new_severity > severity)
+		severity = new_severity
+		duration = new_end
+		update_modifier()
+		return
+	duration = max(duration, new_end)
+
+/datum/status_effect/debuff/slowed/proc/update_modifier()
+	owner.add_movespeed_modifier(MOVESPEED_ID_SLOWED, update = TRUE, priority = 100, override = TRUE, multiplicative_slowdown = severity, movetypes = GROUND)
+
 /datum/status_effect/debuff/excomm
 	id = "Excommunicated!"
 	alert_type = /atom/movable/screen/alert/status_effect/debuff/excomm
@@ -918,10 +995,7 @@
 	if(!istype(tile_under_climber, /turf/open/transparent/openspace) || random_shit_under_climber.len)
 		climber.remove_status_effect(/datum/status_effect/debuff/climbing_lfwb)
 		return
-	if((istype(climber.backr, /obj/item/clothing/climbing_gear)) || (istype(climber.backl, /obj/item/clothing/climbing_gear)))
-		stamcost_final = stamcost / 2
-	else
-		stamcost_final = stamcost
+	stamcost_final = stamcost
 	climber.stamina_add(stamcost_final) // every tick interval this much stamina is deducted
 	if(climber.stamina >= climber.max_stamina) // if we run out of green bar stamina, we fall
 		to_chat(climber, span_dead("I can't hold onto the ledge for any longer!"))
@@ -1297,9 +1371,9 @@
 
 		if(5)
 			if(prob(50))
-				owner.Slowdown(20)
+				owner.apply_slowdown(39 SECONDS)
 			else
-				owner.Slowdown(10)
+				owner.apply_slowdown(19 SECONDS)
 		if(8)
 			if(iscarbon(owner))
 				var/mob/living/carbon/C = owner

@@ -108,6 +108,17 @@
 
 	return TRUE
 
+/datum/action/cooldown/spell/caedo/get_impact_turfs(atom/center)
+	var/turf/start = get_turf(owner)
+	var/turf/dest = isliving(center) ? find_landing_turf(owner, center) : get_turf(center)
+	if(!start || !dest || dest.z != start.z)
+		return list()
+	dest = arcyne_find_max_blink_dest(owner, dest, max_range)
+	if(!dest)
+		return list()
+	. = getline(start, dest)
+	. -= start
+
 /datum/action/cooldown/spell/caedo/proc/find_landing_turf(mob/living/user, mob/living/target_mob)
 	var/approach_dir = get_dir(user, target_mob)
 	var/turf/far_side = get_step(target_mob, approach_dir)
@@ -126,7 +137,7 @@
 		if(spell_guard_check(victim, FALSE, user, punish_caster = deflected ? FALSE : null))
 			if(!deflected)
 				deflected = TRUE
-				user.Slowdown(2)
+				user.apply_slowdown(3 SECONDS)
 			continue
 		var/total_damage = strike_damage
 		arcyne_strike(user, victim, weapon, total_damage, def_zone, spell_name = "Caedo", skip_animation = TRUE)

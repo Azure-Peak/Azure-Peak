@@ -10,11 +10,16 @@
 #define RITE_ANNOUNCEMENT_INTERVAL	30 SECONDS
 #define RITE_COUNTER_CLAIM_DURATION 1 MINUTES
 
+#define RITE_BAR_OUTLAW				(1<<0)
+#define RITE_BAR_UNDEAD				(1<<1)
+
+#define RITE_VOTE_HALF				0.5
+#define RITE_VOTE_FULL				1
+#define RITE_VOTE_DOUBLE			2
+
 /// Solar Succession
 #define SOLAR_REQUIRED_ASSENTS_INSIDER	3
 #define SOLAR_REQUIRED_ASSENTS_OUTSIDER 5
-#define SOLAR_VOTE_RESIDENT				1
-#define SOLAR_VOTE_FOREIGNER			0.5
 
 /// Lunar Ascension
 #define LUNAR_REQUIRED_MAGES			5
@@ -28,16 +33,12 @@
 
 /// Solar Bishopric
 #define BISHOPRIC_REQUIRED_ASSENTS		5
-#define BISHOPRIC_VOTE_RESIDENT			1
-#define BISHOPRIC_VOTE_FOREIGNER		0.5
 
 /// Progressive Dominion (Zizite)
 #define DOMINION_REQUIRED_ASSENTS		5
 
 /// Popular Acclaim
 #define ACCLAIM_REQUIRED_ASSENTS		10
-#define ACCLAIM_VOTE_OUTLAW				2
-#define ACCLAIM_VOTE_CITIZEN			1
 
 /// Psydonian Tribunal
 #define TRIBUNAL_REQUIRED_ASSENTS		4

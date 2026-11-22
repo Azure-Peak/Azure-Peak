@@ -623,3 +623,69 @@
 	var/turf/open/transparent/openspace/target = get_step_multiz(src, UP)
 	if(istype(target))
 		target.ChangeTurf(/turf/open/floor/rogue/dirt/road)
+
+/turf/closed/wall/mineral/rogue/tent/blue
+	icon_state = "tent_blue"
+	name = "blue tent wall"
+	desc = "A colourful tent wall."
+
+/turf/closed/wall/mineral/rogue/tent/cyan
+	icon_state = "tent_cyan"
+	name = "cyan tent wall"
+	desc = "A colourful tent wall."
+
+/turf/closed/wall/mineral/rogue/tent/brown
+	icon_state = "tent_brown"
+	name = "brown tent wall"
+	desc = "A colourful tent wall."
+
+/turf/closed/wall/mineral/rogue/tent/green
+	icon_state = "tent_green"
+	name = "green tent wall"
+	desc = "A colourful tent wall."
+
+/turf/closed/wall/mineral/rogue/tent/purple
+	icon_state = "tent_purple"
+	name = "purple tent wall"
+	desc = "A colourful tent wall."
+
+/turf/closed/wall/mineral/rogue/tent/red
+	icon_state = "tent_red"
+	name = "red tent wall"
+	desc = "A colourful tent wall."
+
+/turf/closed/wall/mineral/rogue/tent/reddeco
+	icon_state = "tent_red_deco"
+	name = "decorated red tent wall"
+	desc = "A colourful tent wall embossed with gold."
+
+/turf/closed/wall/mineral/rogue/tent/purpledeco
+	icon_state = "tent_purple_deco"
+	name = "decorated purple tent wall"
+	desc = "A colourful tent wall embossed with gold."
+
+/turf/closed/wall/mineral/rogue/tent/greendeco
+	icon_state = "tent_green_deco"
+	name = "decorated green tent wall"
+	desc = "A colourful tent wall embossed with gold."
+
+/turf/closed/wall/mineral/rogue/tent/browndeco
+	icon_state = "tent_brown_deco"
+	name = "decorated brown tent wall"
+	desc = "A colourful tent wall embossed with gold."
+
+/turf/closed/wall/mineral/rogue/tent/cyandeco
+	icon_state = "tent_cyan_deco"
+	name = "decorated cyan tent wall"
+	desc = "A colourful tent wall embossed with gold."
+
+/turf/closed/wall/mineral/rogue/tent/bluedeco
+	icon_state = "tent_blue_deco"
+	name = "decorated blue tent wall"
+	desc = "A colourful tent wall embossed with gold."
+
+/turf/closed/wall/mineral/rogue/tent/noc
+	icon_state = "tent_noc"
+	name = "decorated navy tent wall"
+	desc = "A colourful tent wall embossed with silver, popular amongst \
+		Noccites."

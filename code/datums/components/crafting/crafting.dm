@@ -56,7 +56,7 @@
 			var/needed_amount = R.reqs[A]
 			for(var/B in contents)
 				if(ispath(B, A))
-					if(!R.subtype_reqs && (B in subtypesof(A)))
+					if(!R.subtype_reqs && B != A)
 						continue
 					if (R.blacklist.Find(B))
 
@@ -260,11 +260,13 @@
 				to_chat(user, span_warning("Something is in the way."))
 				return
 		for(var/obj/machinery/M in T)
+			if(R.structurecraft && istype(M, R.structurecraft))
+				continue
 			if(M.density && !(R.ignoredensity))
 				to_chat(user, span_warning("Something is in the way."))
 				return
 	if(R.req_table)
-		if(!(locate(/obj/structure/table) in T))
+		if(!(has_table_surface(T)))
 			to_chat(user, span_warning("I need to make this on a table."))
 			return
 	if(R.structurecraft)
@@ -501,7 +503,7 @@
 				if(!I.can_craft_with())
 					surroundings -= I
 			for(var/atom/movable/IS in surroundings)
-				if(!R.subtype_reqs && (IS.type in subtypesof(A)))
+				if(!R.subtype_reqs && IS.type != A && ispath(IS.type, A))
 					surroundings.Remove(IS)
 			surroundings -= Deletion
 			if(ispath(A, /datum/reagent))
@@ -544,7 +546,7 @@
 					for(var/obj/item/natural/bundle/B in surroundings)
 						if(!B.stacktype || !ispath(B.stacktype, A))
 							continue
-						if(!R.subtype_reqs && (B.stacktype in subtypesof(A)))
+						if(!R.subtype_reqs && B.stacktype != A)
 							continue
 						if(R.blacklist.Find(B.stacktype))
 							continue

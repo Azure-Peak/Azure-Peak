@@ -80,7 +80,9 @@
 			if(M != user && !M.rogue_sneaking && (M.name != "Unknown"))
 				mobsadjacent += M
 		if(mobsadjacent.len)
-			chosenmob = input(user, "[key] who?") in mobsadjacent
+			chosenmob = input(user, "[key] who?") as null|anything in mobsadjacent
+			if(!chosenmob)
+				return FALSE
 		if(chosenmob)
 			if(user.Adjacent(chosenmob) || targetrange > 2)
 				params = chosenmob.name

@@ -17,7 +17,7 @@
 	threat_bands_cleared = QUEST_BANDS_INCURSION
 	required_fellowship_size = QUEST_INCURSION_FELLOWSHIP_REQUIREMENT
 	fellowship_threat_rate = QUEST_FELLOWSHIP_THREAT_PER_EXTRA_INCURSION
-	fellowship_reward_rate = QUEST_FELLOWSHIP_REWARD_PER_EXTRA_INCURSION
+	fellowship_reward_rate = QUEST_FELLOWSHIP_REWARD_PER_EXTRA
 	objective_verb = "Rout"
 	var/second_wave_sent = FALSE
 	var/intermission_timer_id
@@ -56,7 +56,7 @@
 	. = ..()
 	if(second_wave_sent)
 		return
-	. += round(second_wave_budget() * fellowship_threat_mult) * QUEST_KILL_THREAT_MULT
+	. += kill_tp_reward(scaled_threat_budget(second_wave_budget()))
 
 /datum/quest/kill/incursion/check_completion()
 	return second_wave_sent && ..()
@@ -93,7 +93,7 @@
 		var/mob/living/new_mob = spawn_hidden_mob(landmark, mob_path)
 		if(!new_mob)
 			continue
-		total_spawned_tp += initial(new_mob.threat_point) || 0
+		total_spawned_tp += initial_threat_point(new_mob.type)
 		spawned++
 		sleep(1)
 	progress_current = 0

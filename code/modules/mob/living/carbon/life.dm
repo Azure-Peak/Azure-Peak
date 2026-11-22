@@ -406,20 +406,6 @@ GLOBAL_LIST_INIT(ballmer_windows_me_msg, list("Yo man, what if, we like, uh, put
 				Knockdown(5) //can't stand at all hardly, mortality almost forced upon a form that cannot sustain it.
 			Dizzy(25)//You are completely fucked up at this point, any more stacks of SUNDER and you're DEAD.
 
-
-//used in human and monkey handle_environment()
-/mob/living/carbon/proc/natural_bodytemperature_stabilization()
-	var/body_temperature_difference = BODYTEMP_NORMAL - bodytemperature
-	switch(bodytemperature)
-		if(-INFINITY to BODYTEMP_COLD_DAMAGE_LIMIT) //Cold damage limit is 50 below the default, the temperature where you start to feel effects.
-			return max((body_temperature_difference * metabolism_efficiency / BODYTEMP_AUTORECOVERY_DIVISOR), BODYTEMP_AUTORECOVERY_MINIMUM)
-		if(BODYTEMP_COLD_DAMAGE_LIMIT to BODYTEMP_NORMAL)
-			return max(body_temperature_difference * metabolism_efficiency / BODYTEMP_AUTORECOVERY_DIVISOR, min(body_temperature_difference, BODYTEMP_AUTORECOVERY_MINIMUM/4))
-		if(BODYTEMP_NORMAL to BODYTEMP_HEAT_DAMAGE_LIMIT) // Heat damage limit is 50 above the default, the temperature where you start to feel effects.
-			return min(body_temperature_difference * metabolism_efficiency / BODYTEMP_AUTORECOVERY_DIVISOR, max(body_temperature_difference, -BODYTEMP_AUTORECOVERY_MINIMUM/4))
-		if(BODYTEMP_HEAT_DAMAGE_LIMIT to INFINITY)
-			return min((body_temperature_difference / BODYTEMP_AUTORECOVERY_DIVISOR), -BODYTEMP_AUTORECOVERY_MINIMUM)	//We're dealing with negative numbers
-
 /////////
 //LIVER//
 /////////
@@ -575,9 +561,7 @@ GLOBAL_LIST_INIT(ballmer_windows_me_msg, list("Yo man, what if, we like, uh, put
 	if (!client) // not really relevant to NPCs at the moment
 		return
 
-	var/datum/charflaw/sleepless/sleepless_flaw = get_flaw()
-	if(!istype(sleepless_flaw, /datum/charflaw/sleepless))
-		sleepless_flaw = null
+	var/datum/charflaw/sleepless/sleepless_flaw = get_flaw(/datum/charflaw/sleepless)
 	if(HAS_TRAIT(src, TRAIT_NOSLEEP))
 		if(!(mobility_flags & MOBILITY_STAND))
 			energy_add(5)
@@ -601,9 +585,9 @@ GLOBAL_LIST_INIT(ballmer_windows_me_msg, list("Yo man, what if, we like, uh, put
 			var/list/limb_list = list(BODY_ZONE_R_ARM, BODY_ZONE_L_ARM, BODY_ZONE_R_LEG, BODY_ZONE_L_LEG)
 			for(var/zone in limb_list)
 				var/obj/item/bodypart/limb = get_bodypart(zone)
-				if(!limb && nutrition > 250)
+				if(!limb && nutrition > 100)
 					regenerate_limb(zone)
-					nutrition -= 250
+					nutrition -= 100
 		else if(isturf(loc)) //No illegal tech.
 			var/obj/structure/bed/rogue/bed = locate() in loc
 			if(bed)

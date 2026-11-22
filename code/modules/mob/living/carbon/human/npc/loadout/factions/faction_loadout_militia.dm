@@ -42,7 +42,7 @@
 	)
 	belt = list(
 		/obj/item/storage/belt/rogue/leather = 90,
-		/obj/item/storage/belt/rogue/leather/knifebelt/iron = 10,
+		/obj/item/storage/belt/rogue/leather/tossbelt/blade/iron = 10,
 	)
 	neck = list(
 		/obj/item/clothing/neck/roguetown/leather = 19,
@@ -53,6 +53,7 @@
 		/obj/item/clothing/gloves/roguetown/fingerless_leather = 65,
 		/obj/item/clothing/gloves/roguetown/angle = 35,
 	)
+	mask = /obj/item/clothing/mask/rogue/facemask/steel/visor/flimsy
 
 //** WEAPONS **//
 

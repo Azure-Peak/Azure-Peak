@@ -380,7 +380,7 @@
 	will_hawk = FALSE
 
 /obj/structure/roguemachine/vendor/bathhouse
-	keycontrol = "nightman"
+	keycontrol = "nightmaiden"
 
 /obj/structure/roguemachine/vendor/inn/Initialize(mapload)
 	. = ..()

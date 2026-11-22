@@ -698,6 +698,13 @@
 	display_category = ITEM_CAT_TOOLS_COOKWARE
 	createditem_num = 3
 
+/datum/anvil_recipe/tools/silver/bowl
+	name = "Bowl, Silver"
+	category = "Silver"
+	req_bar = /obj/item/ingot/silver
+	created_item = /obj/item/reagent_containers/glass/bowl/silver
+	display_category = ITEM_CAT_TOOLS_COOKWARE
+
 // --------- GOLD RECIPES-----------
 
 /datum/anvil_recipe/tools/gold/cups

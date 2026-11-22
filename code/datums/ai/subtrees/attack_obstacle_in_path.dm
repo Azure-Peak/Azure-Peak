@@ -12,7 +12,7 @@
 		return
 
 	var/turf/next_step = get_step_towards(controller.pawn, target)
-	if (!next_step.is_blocked_turf(exclude_mobs = TRUE, source_atom = controller.pawn))
+	if (!next_step || next_step == get_turf(controller.pawn) || !next_step.is_blocked_turf(exclude_mobs = TRUE, source_atom = controller.pawn))
 		return
 
 	controller.queue_behavior(attack_behaviour, target_key)
@@ -32,13 +32,10 @@
 	// an attacking intent. Pick one (excluding help/shove/grab) before we click.
 	if(ishuman(basic_mob))
 		var/mob/living/carbon/human/human_pawn = basic_mob
-		var/list/possible_intents = list()
-		for(var/datum/intent/intent as anything in human_pawn.possible_a_intents)
-			if(istype(intent, /datum/intent/unarmed/help) || istype(intent, /datum/intent/unarmed/shove) || istype(intent, /datum/intent/unarmed/grab))
-				continue
-			possible_intents |= intent
+		var/list/possible_intents = npc_attack_intents(human_pawn)
 		if(length(possible_intents))
-			human_pawn.a_intent = pick(possible_intents)
+			if(!(human_pawn.a_intent in possible_intents))
+				npc_select_intent(human_pawn, possible_intents[1])
 			human_pawn.used_intent = human_pawn.a_intent
 	var/atom/target = controller.blackboard[target_key]
 
@@ -62,23 +59,36 @@
 	return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_SUCCEEDED
 
 /datum/ai_behavior/attack_obstructions/proc/attack_in_direction(datum/ai_controller/controller, mob/living/basic_mob, direction)
+	if (!direction)
+		return FALSE
 	var/turf/next_step = get_step(basic_mob, direction)
-	if (!next_step.is_blocked_turf(exclude_mobs = TRUE, source_atom = controller.pawn))
+	if (!next_step || !next_step.is_blocked_turf(exclude_mobs = TRUE, source_atom = controller.pawn))
 		return FALSE
 
-	for (var/obj/object as anything in next_step.contents)
+	for (var/obj/object in next_step)
 		if (!can_smash_object(basic_mob, object))
 			continue
-		basic_mob.ClickOn(object, list())
+		controller.ai_interact(object, TRUE)
 		return TRUE
 
 	if (can_attack_turfs)
-		basic_mob.ClickOn(next_step)
+		controller.ai_interact(next_step, TRUE)
 		return TRUE
+	return FALSE
+
+/datum/ai_behavior/attack_obstructions/proc/is_climbable(obj/object)
+	if(isstructure(object))
+		var/obj/structure/structure = object
+		return structure.climbable
+	if(ismachinery(object))
+		var/obj/machinery/machine = object
+		return machine.climbable
 	return FALSE
 
 /datum/ai_behavior/attack_obstructions/proc/can_smash_object(mob/living/basic_mob, obj/object)
 	if (!object.density && !can_attack_dense_objects)
+		return FALSE
+	if (ishuman(basic_mob) && basic_mob.ai_controller.can_climb_structures && is_climbable(object) && get_turf(object) != basic_mob.ai_controller.climb_failed_turf)
 		return FALSE
 	if (object.IsObscured())
 		return FALSE
@@ -89,3 +99,9 @@
 		return FALSE
 
 	return TRUE // It's in our way, let's get it out of our way
+
+/datum/ai_planning_subtree/attack_obstacle_in_path/walls
+	attack_behaviour = /datum/ai_behavior/attack_obstructions/walls
+
+/datum/ai_behavior/attack_obstructions/walls
+	can_attack_turfs = TRUE

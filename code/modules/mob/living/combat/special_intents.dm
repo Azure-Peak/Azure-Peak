@@ -511,7 +511,7 @@ SPECIALS START HERE
 	delay = 0.5 SECONDS
 	cooldown = 20 SECONDS
 	stamcost = 15
-	var/eff_dur = 5	//We do NOT want to use SECONDS macro here.
+	var/eff_dur = 5 SECONDS
 	var/dam
 
 /datum/special_intent/shin_swipe/process_attack()
@@ -523,7 +523,7 @@ SPECIALS START HERE
 	for(var/mob/living/L in T)
 		if(L != howner)
 
-			L.Slowdown(eff_dur)
+			L.apply_slowdown(eff_dur)
 			L.apply_status_effect(/datum/status_effect/debuff/hobbled)	//-2 SPD for 8 seconds
 			if(L.mobility_flags & MOBILITY_STAND)
 				apply_generic_weapon_damage(L, dam, "stab", pick(BODY_ZONE_L_LEG, BODY_ZONE_R_LEG), bclass = BCLASS_CUT)
@@ -568,7 +568,7 @@ SPECIALS START HERE
 	delay = 0.7 SECONDS
 	cooldown = 25 SECONDS
 	stamcost = 25
-	var/slow_dur = 5	//We do NOT want to use SECONDS macro here. Slowdown() takes in an int and turns it into seconds already.
+	var/slow_dur = 5 SECONDS
 	var/KD_dur = 2 SECONDS
 	var/Offb_dur = 5 SECONDS
 	var/self_immob_dur = 1.1 SECONDS
@@ -595,7 +595,7 @@ SPECIALS START HERE
 			var/turf/target_turf = get_ranged_target_turf(current_turf, throwdir, dist)
 			L.safe_throw_at(target_turf, dist, 1, howner, force = MOVE_FORCE_EXTREMELY_STRONG)
 			//We slow them down
-			L.Slowdown(slow_dur)
+			L.apply_slowdown(slow_dur)
 			//We offbalance them OR knock them down if they're already offbalanced
 			if(L.IsOffBalanced())
 				L.Knockdown(KD_dur)
@@ -619,7 +619,7 @@ SPECIALS START HERE
 	delay = 0.7 SECONDS
 	cooldown = 25 SECONDS
 	var/list/victims
-	var/slow_init = 2
+	var/slow_init = 2 SECONDS
 	var/exposed_init = 3 SECONDS
 	var/offbalanced_init = 1.5 SECONDS
 	var/knockdown = 2 SECONDS
@@ -658,7 +658,7 @@ SPECIALS START HERE
 ///This will apply the actual effect, as we need some way to count all the mobs in the zone first.
 /datum/special_intent/flail_sweep/proc/apply_effect(mob/living/victim)
 	var/count = length(victims)
-	var/newslow = slow_init + count	//Slows take an int and applies its own logic in the Slowdown proc itself. Do NOT use SECONDS for slows.
+	var/newslow = slow_init + (count SECONDS)
 	var/newexposed = exposed_init + (count SECONDS)
 	var/newoffb = offbalanced_init + (count SECONDS)
 	var/newimmob = immobilize_init + (count SECONDS)
@@ -666,7 +666,7 @@ SPECIALS START HERE
 	var/throwtarget = get_edge_target_turf(howner, get_dir(howner, get_step_away(victim, howner)))
 
 	apply_generic_weapon_damage(victim, dam * count, "blunt", BODY_ZONE_CHEST, bclass = BCLASS_BLUNT, no_pen = TRUE)
-	victim.Slowdown(newslow)
+	victim.apply_slowdown(newslow)
 	if(count >= 2)
 		victim.Immobilize(newimmob)
 		victim.apply_status_effect(/datum/status_effect/debuff/exposed, newexposed)
@@ -814,7 +814,7 @@ SPECIALS START HERE
 	delay = 0.5 SECONDS
 	cooldown = 25 SECONDS
 	stamcost = 15
-	var/lesserslow_dur = 3
+	var/lesserslow_dur = 3 SECONDS
 	var/lesserdaze_dur = 5 SECONDS
 	var/dam
 
@@ -839,7 +839,7 @@ SPECIALS START HERE
 			if(L.mobility_flags & MOBILITY_STAND)
 				apply_generic_weapon_damage(L, dam, "blunt", BODY_ZONE_HEAD, BCLASS_BLUNT, no_pen = TRUE)
 			L.apply_status_effect(/datum/status_effect/debuff/dazed, lesserdaze_dur)
-			L.Slowdown(lesserslow_dur)
+			L.apply_slowdown(lesserslow_dur)
 	var/sfx = pick('sound/combat/flail_sweep_hit_minor.ogg')
 	playsound(T, sfx, 100, TRUE)
 	..()
@@ -880,7 +880,7 @@ SPECIALS START HERE
 	delay = 0.7 SECONDS
 	requires_wielding = TRUE
 	var/dam = 60
-	var/slow_dur = 2
+	var/slow_dur = 2 SECONDS
 	var/hitcount = 0
 	var/self_immob = 2.5 SECONDS
 	var/self_clickcd = 3 SECONDS
@@ -911,7 +911,7 @@ SPECIALS START HERE
 	for(var/mob/living/L in T)
 		if(L != howner)
 
-			L.Slowdown(slow_dur)
+			L.apply_slowdown(slow_dur)
 			if(L.mobility_flags & MOBILITY_STAND)
 				if(hitcount == expose_wave)
 					L.apply_status_effect(/datum/status_effect/debuff/exposed, 3 SECONDS)
@@ -1014,7 +1014,7 @@ SPECIALS START HERE
 	cooldown = 25 SECONDS
 	stamcost = 15	//Stamina cost
 	var/dam = 30
-	var/slow_dur = 5
+	var/slow_dur = 5 SECONDS
 	var/min_dist = 3
 	var/backstep_dist = 1
 	var/push_dist = 1
@@ -1039,7 +1039,7 @@ SPECIALS START HERE
 		for(var/mob/living/L in T)
 			if(L != howner)
 
-				L.Slowdown(slow_dur)
+				L.apply_slowdown(slow_dur)
 				var/throwtarget = get_edge_target_turf(howner, pushdir)
 				apply_generic_weapon_damage(L, dam, "blunt", BODY_ZONE_CHEST, bclass = BCLASS_BLUNT, no_pen = TRUE)
 				L.apply_status_effect(/datum/status_effect/debuff/exposed, 3 SECONDS)
@@ -1074,7 +1074,7 @@ SPECIALS START HERE
 	for(var/mob/living/L in T)
 		if(L == howner)
 			continue
-		L.Slowdown(3)
+		L.apply_slowdown(3 SECONDS)
 		L.adjust_fire_stacks(fire_stacks)
 		L.ignite_mob()
 		var/turf/pull_turf = get_step_towards(L, howner)
@@ -1127,7 +1127,7 @@ SPECIALS START HERE
 			continue
 		var/throwtarget = get_edge_target_turf(howner, get_dir(howner, get_step_away(L, howner)))
 		L.safe_throw_at(throwtarget, 1, 1, howner, force = MOVE_FORCE_EXTREMELY_STRONG)
-		L.Slowdown(2 SECONDS)
+		L.apply_slowdown(2 SECONDS)
 		L.adjust_fire_stacks(2)
 		L.ignite_mob()
 		apply_generic_weapon_damage(L, dam, "blunt", BODY_ZONE_CHEST, bclass = BCLASS_BLUNT, no_pen = TRUE)
@@ -1184,7 +1184,7 @@ tile_coordinates = list(list(1,1), list(-1,1), list(-1,-1), list(1,-1),list(0,0)
 	sfx_post_delay = list('sound/combat/ground_smash1.ogg', 'sound/combat/ground_smash2.ogg', 'sound/combat/ground_smash3.ogg')
 	cooldown = 60 SECONDS
 	stamcost = 25
-	var/slow_dur = 4
+	var/slow_dur = 4 SECONDS
 	var/fire_stacks = 5
 	var/self_immob_dur = 1 SECONDS
 	var/dam = 0
@@ -1209,7 +1209,7 @@ tile_coordinates = list(list(1,1), list(-1,1), list(-1,-1), list(1,-1),list(0,0)
 	for(var/mob/living/L in T)
 		if(L != howner)
 
-			L.Slowdown(slow_dur)
+			L.apply_slowdown(slow_dur)
 			L.adjust_fire_stacks(fire_stacks)
 			L.ignite_mob()
 			if(L.mobility_flags & MOBILITY_STAND)

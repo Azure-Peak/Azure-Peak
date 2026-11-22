@@ -17,14 +17,15 @@
 		/mob/living/simple_animal/hostile/retaliate/rogue/infernal/hellhound = 12,
 		/mob/living/simple_animal/hostile/retaliate/rogue/minotaur = 10,
 		/mob/living/simple_animal/hostile/retaliate/rogue/infernal/watcher = 8,
+		/mob/living/carbon/human/species/goblin/npc/magos/hell = 4,
+		/mob/living/carbon/human/species/goblin/npc/brickomancer/hell = 3,
+		/mob/living/carbon/human/species/goblin/npc/knifomancer/hell = 3,
 	)
 	boss_mob_types = list(
 		/mob/living/simple_animal/hostile/retaliate/rogue/infernal/watcher = 60,
 		/mob/living/carbon/human/species/goblin/npc/large/hell = 40,
 	)
-	boss_title_templates = list(
-		"%N the Watchful",
-		"%N of the Ember",
-		"%N the Cinder Eye",
+	variant_chances = list(
+		/datum/quest_faction_variant/goblin_magi/hell = 10,
 	)
 	boss_name_file = "strings/rt/names/other/devilm.txt"

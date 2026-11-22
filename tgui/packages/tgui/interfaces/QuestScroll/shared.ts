@@ -34,9 +34,12 @@ export type QuestScrollData = {
   reward?: number;
   fellowship_size?: number;
   fellowship_extras?: number;
+  fellowship_missing?: number;
   fellowship_split?: BooleanLike;
   fellowship_threat_pct?: number;
   fellowship_reward_pct?: number;
+  veteran?: BooleanLike;
+  veteran_threat_pct?: number;
   levy_rate?: number;
   guild_cut_rate?: number;
   progress_required?: number;
@@ -52,6 +55,8 @@ export type QuestScrollData = {
   blockade_timer_label?: string;
   blockade_timer_seconds?: number;
   blockade_armed?: BooleanLike;
+  armed?: BooleanLike;
+  arrival_scan_range?: number;
   blockade_failed?: BooleanLike;
   hunt_timer_label?: string;
   hunt_timer_seconds?: number;

@@ -19,6 +19,8 @@
 	if(!istype(src, /obj/item/grabbing) && !istype(src, /obj/item/rogueweapon/werewolf_claw) && !istype(src, /obj/item/bodypart)) //Limbs/Claws are fine
 		if(HAS_TRAIT(user, TRAIT_CHUNKYFINGERS))
 			to_chat(user, span_warning("...What?"))
+			if(HAS_TRAIT(user, TRAIT_DEADITE))
+				user.drop_all_held_items() //zombies vs WWs drop stuff
 			return
 		// FAR less aggressive version of chunkyfingers, designed to be used with nudist. Shrimply lets the user still use neat stuff like orison without letting them weaponize.
 		if(HAS_TRAIT(user, TRAIT_GNARLYDIGITS))
@@ -26,18 +28,6 @@
 				to_chat(user, span_warning("My fingers are too misshapen to use this puny implement."))
 				return
 		// even less aggressive; allows use of tools but not weapons
-		if(HAS_TRAIT(user, TRAIT_TINYPAWS))
-			var/obj/item/rogueweapon/weapon = src
-			if(istype(weapon) && (!weapon.is_tool || ismob(target)))
-				var/exception = FALSE
-				if(weapon.is_tool && istype(user, /mob/living/carbon/human/species/familiar/elemental))
-					var/datum/action/cooldown/spell/arcyne_forge/elementalt2/spell = user.mind?.get_spell(/datum/action/cooldown/spell/arcyne_forge/elementalt2, TRUE)
-					if(spell && (spell.conjured_item == src))
-						exception = TRUE // elemental familiars can swing, but ONLY their conjured shittyiron weapons.
-				if(!exception)
-					to_chat(user, span_warning("I am too small to properly wield a weapon."))
-					return
-		// Uniquely reskinned variant, for those who don't happen to be familiars.Add a comment on	line R34Add diff commentMarkdown input:	edit mode selected.WritePreviewAdd a suggestionHeadingBoldItalicQuoteCodeLinkUnordered listNumbered listTask listMentionReferenceMore Formatting tools items 0Saved repliesAdd FilesPaste, drop, or click to add filesCancelCommentStart a review
 		if(HAS_TRAIT(user, TRAIT_WEAPONLESS))
 			var/obj/item/rogueweapon/weapon = src
 			if(istype(weapon) && (!weapon.is_tool || ismob(target)))
@@ -753,6 +743,8 @@
 /obj/item/proc/afterattack(atom/target, mob/user, proximity_flag, click_parameters)
 	SEND_SIGNAL(src, COMSIG_ITEM_AFTERATTACK, target, user, proximity_flag, click_parameters)
 	SEND_SIGNAL(user, COMSIG_MOB_ITEM_AFTERATTACK, target, src, proximity_flag, click_parameters)
+	if(user.used_intent?.masteritem == src)
+		user.used_intent.on_afterattack(target, user, proximity_flag, click_parameters)
 	if(force_dynamic && !user.used_intent.tranged && !user.used_intent.tshield)
 		if(proximity_flag && isopenturf(target) && !user.used_intent?.noaa)
 			var/adf = user.used_intent.clickcd

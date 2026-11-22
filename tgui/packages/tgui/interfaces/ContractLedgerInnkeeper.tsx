@@ -25,8 +25,9 @@ type InnkeeperData = {
   rumor_destinations: string[];
   rumor_log: RumorLogEntry[];
   rumor_lucrative_mult: number;
-  region_tp_multipliers: Record<string, number>;
-  region_delivery_multipliers: Record<string, number>;
+  region_scales_by_type: Record<string, Record<string, number>>;
+  veteran_types: string[];
+  veteran_threat_pct: number;
 };
 
 type DispatchMode = 'board' | 'hands';
@@ -135,8 +136,11 @@ const ComposeView = () => {
   const [destination, setDestination] = useState<string>('');
   const [mode, setMode] = useState<DispatchMode>('board');
   const [lucrative, setLucrative] = useState<boolean>(false);
+  const [veteran, setVeteran] = useState<boolean>(false);
   const [inflight, setInflight] = useState<boolean>(false);
 
+  const canVeteran = (data.veteran_types || []).includes(type);
+  const useVeteran = canVeteran && veteran;
   const regionsForType = data.rumor_regions_by_type?.[type] || [];
   const baseCost = data.rumor_costs?.[type] ?? 0;
   const lucrativeMult = data.rumor_lucrative_mult ?? 1.5;
@@ -171,6 +175,7 @@ const ComposeView = () => {
       destination: needsDestination ? destination : null,
       in_hands: mode === 'hands' ? 1 : 0,
       lucrative: lucrative ? 1 : 0,
+      veteran: useVeteran ? 1 : 0,
     });
     setTimeout(() => setInflight(false), DISPATCH_DEBOUNCE_MS);
   };
@@ -209,10 +214,7 @@ const ComposeView = () => {
               : '- pick a region -'}
           </option>
           {regionsForType.map((r) => {
-            const mult =
-              type === RECOVERY_TYPE
-                ? data.region_delivery_multipliers?.[r]
-                : data.region_tp_multipliers?.[r];
+            const mult = data.region_scales_by_type?.[type]?.[r];
             const suffix =
               typeof mult === 'number' && mult !== 1
                 ? ` (×${mult} reward)`
@@ -229,10 +231,7 @@ const ComposeView = () => {
 
       {region &&
         (() => {
-          const mult =
-            type === RECOVERY_TYPE
-              ? data.region_delivery_multipliers?.[region]
-              : data.region_tp_multipliers?.[region];
+          const mult = data.region_scales_by_type?.[type]?.[region];
           const flavor = regionRewardFlavor(region, mult);
           if (!flavor) return null;
           return (
@@ -291,6 +290,20 @@ const ComposeView = () => {
         </label>
       </FormRow>
 
+      {canVeteran && (
+        <FormRow label="Veteran">
+          <label>
+            <input
+              type="checkbox"
+              checked={veteran}
+              onChange={(e) => setVeteran(e.target.checked)}
+            />
+            &nbsp;Increases threat by {data.veteran_threat_pct}% and rewards by
+            that proportionally.
+          </label>
+        </FormRow>
+      )}
+
       <div className="ContractLedger__InnkeeperFormFooter">
         <button
           type="button"
@@ -300,6 +313,7 @@ const ComposeView = () => {
           onClick={dispatch}
         >
           Whisper Rumor ({pts(cost)}){lucrative ? ' - lucrative' : ''}
+          {useVeteran ? ' - veteran' : ''}
         </button>
       </div>
     </>

@@ -6,6 +6,10 @@
 	
 	outfit = /datum/outfit/job/roguetown/adventurer/doctor
 	category_tags = list(CTAG_PILGRIM, CTAG_TOWNER)
+	subclass_spells = list(
+		/obj/effect/proc_holder/spell/invoked/diagnose/secular,
+		/obj/effect/proc_holder/spell/invoked/takeapprentice,
+	)
 	traits_applied = list(TRAIT_EMPATH, TRAIT_NOSTINK, TRAIT_MEDICINE_EXPERT, TRAIT_ALCHEMY_EXPERT)
 	cmode_music = 'sound/music/combat_physician.ogg'
 	subclass_stats = list(
@@ -66,8 +70,6 @@
 						/obj/item/hair_dye_cream = 2,
 						/obj/item/clothing/suit/roguetown/shirt/robe/physician = 1,
 						)
-	if(H.mind)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/diagnose/secular)
 	if(H.mind)
 		SStreasury.grant_savings(ECONOMIC_UPPER_MIDDLE_CLASS, H)
 

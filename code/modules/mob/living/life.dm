@@ -100,8 +100,6 @@
 	if(QDELETED(src)) // diseases can qdel the mob via transformations
 		return
 
-	handle_environment()
-
 	//Random events (vomiting etc)
 	handle_random_events()
 
@@ -189,9 +187,6 @@
 /mob/living/proc/handle_random_events()
 	return
 
-/mob/living/proc/handle_environment()
-	return
-
 /mob/living/proc/handle_wounds()
 	for(var/datum/wound/wound as anything in get_wounds())
 		if(!wound)
@@ -224,10 +219,6 @@
 /mob/living/proc/handle_status_effects()
 	if(confused)
 		confused = max(confused - 1, 0)
-	if(slowdown)
-		slowdown = max(slowdown - 1, 0)
-	if(slowdown <= 0)
-		remove_movespeed_modifier(MOVESPEED_ID_LIVING_SLOWDOWN_STATUS)
 
 /mob/living/proc/handle_traits()
 	//Eyes

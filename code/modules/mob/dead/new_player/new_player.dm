@@ -321,15 +321,16 @@ GLOBAL_LIST_INIT(roleplay_readme, world.file2list("strings/rt/rp_prompt.txt"))
 					return JOB_UNAVAILABLE_SLOTFULL
 		else
 			return JOB_UNAVAILABLE_SLOTFULL
-	if(length(job.vice_restrictions) || length(job.quirk_restrictions) || length(job.virtue_restrictions))
-		var/has_restricted_virtue = (client.prefs.virtue?.type in job.virtue_restrictions) || (client.prefs.virtuetwo?.type in job.virtue_restrictions)
+	if(length(job.get_restricted_virtue_names(client.prefs)))
+		return JOB_UNAVAILABLE_VIRTUESVICE
+	if(length(job.vice_restrictions) || length(job.quirk_restrictions))
 		var/has_restricted_quirk = (client.prefs.quirklesser?.type in job.quirk_restrictions) || (client.prefs.quirkgreater?.type in job.quirk_restrictions)
 		var/has_restricted_vice = FALSE
 		for(var/cf_type in client.prefs.charflaws)
 			if(cf_type in job.vice_restrictions)
 				has_restricted_vice = TRUE
 				break
-		if(has_restricted_virtue || has_restricted_quirk || has_restricted_vice)
+		if(has_restricted_quirk || has_restricted_vice)
 			return JOB_UNAVAILABLE_VIRTUESVICE
 	if(length(job.get_quirk_job_lock_names(client.prefs)))
 		return JOB_UNAVAILABLE_VIRTUESVICE
@@ -358,17 +359,9 @@ GLOBAL_LIST_INIT(roleplay_readme, world.file2list("strings/rt/rp_prompt.txt"))
 	var/mob/living/character = create_character(TRUE)	//creates the human and transfers vars and mind
 
 	character.islatejoin = TRUE
-	var/equip = SSjob.EquipRank(character, rank, TRUE)
 
-
-	if(isliving(equip))	//Borgs get borged in the equip, so we need to make sure we handle the new mob.
-		character = equip
-
-	SStreasury.waive_past_poll_levies(character)
-
+	// Place them before equipping, like roundstart, so relocations during equip (e.g. Forlorne) aren't undone
 	var/datum/job/job = SSjob.GetJob(rank)
-
-
 	if(job && !job.override_latejoin_spawn(character))
 
 		SSjob.SendToLateJoin(character)
@@ -376,6 +369,13 @@ GLOBAL_LIST_INIT(roleplay_readme, world.file2list("strings/rt/rp_prompt.txt"))
 		var/atom/movable/screen/splash/Spl = new(character.client, TRUE)
 		Spl.Fade(TRUE)
 
+	var/equip = SSjob.EquipRank(character, rank, TRUE)
+
+
+	if(isliving(equip))	//Borgs get borged in the equip, so we need to make sure we handle the new mob.
+		character = equip
+
+	SStreasury.waive_past_poll_levies(character)
 
 	SSticker.minds += character.mind
 

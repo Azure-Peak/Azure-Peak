@@ -163,6 +163,7 @@
 	var/list/listedturf_appearances
 	/// Whether the living-only Stats tab is currently shown in the statbrowser.
 	var/statbrowser_stats_shown = FALSE
+	var/statbrowser_admin_tabs_shown = FALSE
 
 	var/list/open_popups = list()
 	///A lazy list of atoms we've examined in the last RECENT_EXAMINE_MAX_WINDOW (default 2) seconds, so that we will call [/atom/proc/examine_more] instead of [/atom/proc/examine] on them when examining

@@ -2,7 +2,7 @@
 	source_aspect = /datum/magic_aspect/pseudo/spellblade
 	name = "Azurean Pilum"
 	desc = "A borrowed art - spellblades of the Azurean tradition learned to imbue their throw with ice essence, \
-		flash-chilling the target on impact. Applies 2 frost stacks on hit. \
+		flash-chilling the target on impact. Applies 1 frost stack on hit. \
 		At 3+ momentum: consumes 3 for a heavier throw that applies 3 stacks, guaranteeing a freeze on any frosted target. \
 		Toggle arc mode (Shift+G) to arc over allies."
 	button_icon = 'icons/mob/actions/classuniquespells/spellblade.dmi'

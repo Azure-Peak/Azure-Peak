@@ -1,10 +1,17 @@
 #define THROW_WINDUP_TIME (0.7 SECONDS)
+#define BB_THROW_NOTICED_AT "bb_throw_noticed_at"
+#define BB_THROW_AIM_TURF "bb_throw_aim_turf"
+
+/proc/ai_min_throw_dist(obj/item/throwable)
+	return istype(throwable, /obj/item/explosive) ? 3 : 2
 
 /datum/ai_planning_subtree/use_throwable
 	var/max_throw_dist = 7 // Only throw if within this distance
-	var/min_throw_dist = 2 // Don't bother throwing at point blank
 
 /datum/ai_planning_subtree/use_throwable/SelectBehaviors(datum/ai_controller/controller, delta_time)
+	if(LAZYACCESS(controller.current_behaviors, GET_AI_BEHAVIOR(/datum/ai_behavior/use_throwable)))
+		controller.queue_behavior(/datum/ai_behavior/use_throwable)
+		return
 	var/mob/living/target = controller.blackboard[BB_BASIC_MOB_CURRENT_TARGET]
 	if(!target)
 		return
@@ -23,14 +30,43 @@
 	var/dist = get_dist(pawn, target)
 
 	// Only throw within our sweet spot range
-	if(dist > max_throw_dist || dist < min_throw_dist)
+	if(dist > max_throw_dist || dist < ai_min_throw_dist(throwingknife))
 		return
 
 	// Need line of sight to throw
 	if(!can_see(pawn, target, max_throw_dist))
 		return
 
+	if(controller.behavior_cooldowns[GET_AI_BEHAVIOR(/datum/ai_behavior/use_throwable)] > world.time)
+		return
+
+	var/noticed_at = controller.blackboard[BB_THROW_NOTICED_AT]
+	if(!noticed_at)
+		controller.set_blackboard_key(BB_THROW_NOTICED_AT, world.time + rand(THROW_NPC_REACTION_MIN, THROW_NPC_REACTION_MAX))
+		return
+	if(world.time < noticed_at)
+		return
+	var/stale = world.time > noticed_at + THROW_NPC_REACTION_STALE
+	if(!stale && pawn.next_move > world.time)
+		return
+	controller.clear_blackboard_key(BB_THROW_NOTICED_AT)
+	if(stale)
+		return
+
 	controller.queue_behavior(/datum/ai_behavior/use_throwable, BB_HELD_CONSUMABLE, BB_BASIC_MOB_CURRENT_TARGET, throwingknife)
+
+/datum/ai_planning_subtree/spacing/ranged/thrower
+	finish_planning = TRUE
+	honor_commit = FALSE
+
+/datum/ai_planning_subtree/spacing/ranged/thrower/SelectBehaviors(datum/ai_controller/controller, seconds_per_tick)
+	var/datum/component/ai_inventory_manager/inv = controller.get_inventory()
+	if(!inv?.get_item(AI_ITEM_THROWING))
+		return
+	return ..()
+
+/datum/ai_planning_subtree/spacing/ranged/thrower/is_ready_to_attack(datum/ai_controller/controller, mob/living/living_pawn)
+	return controller.behavior_cooldowns[GET_AI_BEHAVIOR(/datum/ai_behavior/use_throwable)] <= world.time
 
 /datum/ai_behavior/use_throwable
 	action_cooldown = 4 SECONDS
@@ -48,43 +84,61 @@
 	var/mob/living/pawn = controller.pawn
 	if(pawn.incapacitated())
 		return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_FAILED
-	var/dist = get_dist(pawn, target)
 
-	if(dist > throwingknife.throw_range || dist < 2)
+	pawn.face_atom(target)
+	var/min_dist = ai_min_throw_dist(throwingknife)
+	var/windup_until = controller.blackboard[BB_THROW_WINDUP_UNTIL]
+
+	if(windup_until && world.time < windup_until)
+		if(!controller.blackboard[BB_THROW_AIM_TURF] && world.time >= windup_until - pawn.npc_reaction_time())
+			controller.set_blackboard_key(BB_THROW_AIM_TURF, get_turf(target))
+		windup_move(controller, target, min_dist)
+		return AI_BEHAVIOR_INSTANT
+
+	var/dist = get_dist(pawn, target)
+	if(dist > throwingknife.throw_range || dist < min_dist)
 		return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_FAILED
 
 	if(!can_see(pawn, target, throwingknife.throw_range))
 		return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_FAILED
 
-	pawn.face_atom(target)
-	var/datum/component/ai_inventory_manager/inv = controller.get_inventory()
-	var/windup_until = controller.blackboard[BB_THROW_WINDUP_UNTIL]
-
 	if(!windup_until)
+		var/datum/component/ai_inventory_manager/inv = controller.get_inventory()
 		var/obj/item/usable = inv?.draw_usable_item(throwingknife, AI_ITEM_THROWING)
 		if(!usable)
 			return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_FAILED
 		controller.set_blackboard_key(BB_HELD_CONSUMABLE, usable)
 		controller.set_blackboard_key(BB_THROW_WINDUP_UNTIL, world.time + THROW_WINDUP_TIME)
-		controller.behavior_cooldowns[src] = world.time + THROW_WINDUP_TIME // re-perform to loose once wound up
-		return AI_BEHAVIOR_INSTANT
-
-	if(world.time < windup_until)
-		controller.behavior_cooldowns[src] = windup_until
 		return AI_BEHAVIOR_INSTANT
 
 	var/obj/item/in_hand = pawn.get_active_held_item()
 	if(!in_hand || !(in_hand.flags_ai_inventory & AI_ITEM_THROWING))
 		return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_FAILED // lost the throwable mid-windup, bail and restore
-	pawn.throw_item(get_turf(target))
+	var/turf/target_turf = get_turf(target)
+	var/turf/aim = controller.blackboard[BB_THROW_AIM_TURF] || target_turf
+	if(aim != target_turf && AI_INT_SCALE_PROB(pawn, THROW_NPC_TRACK_CHANCE))
+		aim = target_turf
+	pawn.throw_item(aim)
 	return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_SUCCEEDED
+
+/datum/ai_behavior/use_throwable/proc/windup_move(datum/ai_controller/controller, atom/target, min_dist)
+	if(LAZYACCESS(controller.current_behaviors, GET_AI_BEHAVIOR(/datum/ai_behavior/strafe_target)))
+		return
+	if(controller.ai_movement.moving_controllers[controller])
+		return
+	if(!COOLDOWN_FINISHED(controller, movement_cooldown))
+		return
+	ai_strafe_step(controller, target, min_dist, TRUE)
 
 /datum/ai_behavior/use_throwable/finish_action(datum/ai_controller/controller, succeeded, consumable_key, target_key)
 	. = ..()
-	controller.clear_blackboard_key(consumable_key)
+	controller.clear_blackboard_key(BB_HELD_CONSUMABLE)
 	controller.clear_blackboard_key(BB_THROW_WINDUP_UNTIL)
+	controller.clear_blackboard_key(BB_THROW_AIM_TURF)
 	// Restore hands to whatever they were holding before
 	var/datum/component/ai_inventory_manager/inv = controller.get_inventory()
 	inv?.restore_hands()
 
 #undef THROW_WINDUP_TIME
+#undef BB_THROW_NOTICED_AT
+#undef BB_THROW_AIM_TURF

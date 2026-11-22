@@ -366,7 +366,7 @@
 	cuisine = CUISINE_OTAVAIS
 	dish_type = DISH_BREAD|DISH_MEAT|DISH_FRUIT
 	name = "jamtallowed psycrossbun"
-	desc = "A particularly favorite treat amonst the papacies of Otava and Rockhill, especially during the \
+	desc = "A particularly favorite treat amongst the Otavan, especially during the \
 	holidaes that pay reverance to Psydon's sacrifice. The jamtallow is said to represent the Weeping God's \
 	tears, though the spiritual implication tends to be lost on more eager-minded children."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_baked.dmi'
@@ -1098,7 +1098,7 @@
 
 /obj/item/reagent_containers/food/snacks/rogue/griddle/attackby(obj/item/I, mob/living/user, params)
 	update_cooktime(user)
-	if(!isturf(loc) || !locate(/obj/structure/table) in loc)
+	if(!isturf(loc) || !has_table_surface(loc))
 		return ..()
 	if(istype(I, /obj/item/reagent_containers/food/snacks/chocolate/slice))
 		if(syrup_kind == "honey")
