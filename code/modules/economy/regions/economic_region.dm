@@ -66,7 +66,7 @@ GLOBAL_LIST_INIT(economic_regions, init_economic_regions())
 /datum/economic_region/proc/scaled_volume(volume, multiplier)
 	return max(1, round(volume * multiplier, 1))
 
-/datum/economic_region/proc/trade_type_rows(list/volumes, list/sources, with_share)
+/datum/economic_region/proc/trade_type_rows(list/volumes, list/sources, demand = FALSE)
 	var/list/by_type = list()
 	for(var/good_id in volumes)
 		if(!GLOB.trade_goods[good_id])
@@ -79,10 +79,8 @@ GLOBAL_LIST_INIT(economic_regions, init_economic_regions())
 			row = list("type" = source.name, "size" = region_size_label(region_types[source.type]), "goods" = list())
 			by_type[source.type] = row
 		var/list/goods = row["goods"]
-		if(with_share)
-			goods += list(list("good_id" = good_id, "share" = SSeconomy.good_supply_share(good_id, region_id), "volume" = volumes[good_id]))
-		else
-			goods += good_id
+		var/share = demand ? SSeconomy.good_demand_share(good_id, region_id) : SSeconomy.good_supply_share(good_id, region_id)
+		goods += list(list("good_id" = good_id, "share" = share, "volume" = volumes[good_id]))
 	var/list/rows = list()
 	for(var/type_path in region_types)
 		if(by_type[type_path])

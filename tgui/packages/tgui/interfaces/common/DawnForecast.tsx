@@ -1,25 +1,44 @@
 import { FONT_BODY, INK_SOFT, SEAL_RED } from './parchment';
 
+export type DawnForecastRow = {
+  dawn_change: number;
+  raided_supply: number;
+  raided_demand: number;
+  raided_suppliers: string[];
+  raided_demanders: string[];
+};
+
+export const reachLabel = (raidedSupply = 0, raidedDemand = 0) =>
+  [
+    raidedSupply > 0 ? `S: ${100 - raidedSupply}%` : '',
+    raidedDemand > 0 ? `D: ${100 - raidedDemand}%` : '',
+  ]
+    .filter(Boolean)
+    .join(' ');
+
+export const forecastVisible = (row: DawnForecastRow) =>
+  !!row.dawn_change || row.raided_supply > 0 || row.raided_demand > 0;
+
 export const DawnForecast = (props: {
-  change: number;
-  openPct: number;
-  raidedBy: string[];
-  raidedDemand: boolean;
+  row: DawnForecastRow;
+  flush?: boolean;
 }) => {
-  const { change, openPct, raidedBy, raidedDemand } = props;
-  const raided = raidedBy.length > 0;
+  const { row, flush } = props;
+  const change = row.dawn_change;
+  const raided = row.raided_supply > 0 || row.raided_demand > 0;
   if (!change && !raided) {
     return null;
   }
-  let arrives: string;
-  if (raidedDemand) {
-    arrives =
-      openPct > 0
-        ? `${openPct}% of the surplus can be traded away.`
-        : 'None of the surplus can be traded away.';
-  } else {
-    arrives =
-      openPct > 0 ? `${openPct}% of supply arrives.` : 'No supply will arrive.';
+  const hover: string[] = [];
+  if (row.raided_supply > 0) {
+    hover.push(
+      `Supply raided in ${(row.raided_suppliers || []).join(', ')}: ${row.raided_supply}% of supply won't arrive.`,
+    );
+  }
+  if (row.raided_demand > 0) {
+    hover.push(
+      `Demand raided in ${(row.raided_demanders || []).join(', ')}: ${row.raided_demand}% of a surplus can't be traded away.`,
+    );
   }
   return (
     <span
@@ -27,7 +46,7 @@ export const DawnForecast = (props: {
         display: 'inline-flex',
         alignItems: 'baseline',
         gap: '4px',
-        marginLeft: '6px',
+        marginLeft: flush ? 0 : '6px',
         fontSize: FONT_BODY,
         color: INK_SOFT,
       }}
@@ -36,7 +55,7 @@ export const DawnForecast = (props: {
       {change}
       {raided && (
         <span
-          title={`Raided: ${raidedBy.join(', ')}. ${arrives}`}
+          title={hover.join(' ')}
           style={{
             color: SEAL_RED,
             fontWeight: 'bold',
@@ -46,7 +65,7 @@ export const DawnForecast = (props: {
             cursor: 'help',
           }}
         >
-          RAIDED {100 - openPct}%
+          {reachLabel(row.raided_supply, row.raided_demand)}
         </span>
       )}
     </span>

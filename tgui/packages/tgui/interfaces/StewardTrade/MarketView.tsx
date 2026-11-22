@@ -2,9 +2,9 @@ import { useState } from 'react';
 
 import { useBackend } from '../../backend';
 import { DawnForecast } from '../common/DawnForecast';
+import { MarketBand } from '../common/MarketBand';
 import { MinutesLeft } from '../common/MinutesLeft';
 import {
-  badgeStyle,
   cardStyle,
   compactButtonStyle,
   FONT_BODY,
@@ -14,7 +14,6 @@ import {
   inkButtonStyle,
   SEAL_BLUE,
   SEAL_GREEN,
-  SEAL_RED,
   sectionHeaderStyle,
   subTabBarStyle,
   subTabStyle,
@@ -60,21 +59,10 @@ export const MarketView = (props: { data: Data }) => {
               {activeGroup.rows.map((row) => {
                 const good = good_catalog[row.good_id];
                 const name = good?.name ?? row.good_id;
-                const eventColor =
-                  row.event_tag === 'SHORTAGE'
-                    ? SEAL_RED
-                    : row.event_tag === 'GLUT'
-                      ? SEAL_GREEN
-                      : null;
                 return (
                   <div key={row.good_id} style={cardStyle}>
                     <div style={{ marginBottom: '4px' }}>
                       <span style={{ fontWeight: 'bold' }}>{name}</span>
-                      {eventColor && (
-                        <span style={badgeStyle(eventColor)}>
-                          {row.event_tag}
-                        </span>
-                      )}
                       <span
                         style={{
                           color: INK_SOFT,
@@ -233,9 +221,9 @@ const StockpileStrip = (props: { row: MarketRow }) => {
   return (
     <div style={stripStyle}>
       <span style={stripCellStyle}>
-        Market:{' '}
+        Market: <MarketBand label={row.market_label} />
         <span style={stripValueStyle}>
-          {row.market_label} {row.market_stock}/{row.market_target}
+          {row.market_stock}/{row.market_target}
         </span>
       </span>
       <span style={stripCellStyle}>
@@ -246,12 +234,7 @@ const StockpileStrip = (props: { row: MarketRow }) => {
         Sell:{' '}
         <span style={stripValueStyle}>{formatMammon(row.market_sell)}m</span>
       </span>
-      <DawnForecast
-        change={row.dawn_change}
-        openPct={row.open_pct}
-        raidedBy={row.raided_by || []}
-        raidedDemand={!!row.raided_demand}
-      />
+      <DawnForecast row={row} />
       <button
         type="button"
         style={inkButtonStyle({ color: SEAL_GREEN, disabled: cannotSell })}

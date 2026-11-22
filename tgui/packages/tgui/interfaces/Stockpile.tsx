@@ -22,7 +22,8 @@ import {
   subtitleStyle,
   titleStyle,
 } from './common/parchment';
-import { DawnForecast } from './common/DawnForecast';
+import { DawnForecast, forecastVisible } from './common/DawnForecast';
+import { MarketBand } from './common/MarketBand';
 import { formatMammon } from './common/format';
 
 type StockRow = {
@@ -46,9 +47,10 @@ type StockRow = {
   shortage_target: number;
   shortage_affected: string;
   dawn_change: number;
-  open_pct: number;
-  raided_by: string[];
-  raided_demand: BooleanLike;
+  raided_supply: number;
+  raided_demand: number;
+  raided_suppliers: string[];
+  raided_demanders: string[];
 };
 
 type PriceChange = {
@@ -93,6 +95,10 @@ type Data = {
 
 type ActFn = (action: string, params?: Record<string, unknown>) => void;
 
+const RowSeparator = () => (
+  <span style={{ color: INK_FAINT, margin: '0 6px' }}>|</span>
+);
+
 const StockRowView = (props: {
   row: StockRow;
   data: Data;
@@ -131,40 +137,28 @@ const StockRowView = (props: {
     >
       <div style={{ flex: '1 1 200px', minWidth: 0 }}>
         <span style={{ color: INK, fontWeight: 'bold' }}>{row.name}</span>
-        <span style={{ color: INK_SOFT, marginLeft: '6px' }}>
-          {`${row.market_label} `}
+        <RowSeparator />
+        <MarketBand label={row.market_label} />
+        <span style={{ color: INK_SOFT, marginLeft: '4px' }}>
           {row.amount}/{row.limit}
         </span>
-        <DawnForecast
-          change={row.dawn_change}
-          openPct={row.open_pct}
-          raidedBy={row.raided_by || []}
-          raidedDemand={!!row.raided_demand}
-        />
-        {!!row.event_tag && (
+        {forecastVisible(row) && <RowSeparator />}
+        <DawnForecast row={row} flush />
+        {row.event_tag === 'SHORTAGE' && row.shortage_target > 0 && (
           <span
             style={{
-              color: row.event_tag === 'GLUT' ? SEAL_GREEN : SEAL_RED,
+              color: SEAL_RED,
               fontWeight: 'bold',
               fontSize: FONT_BODY,
               marginLeft: '6px',
               padding: '0 4px',
-              border: `1px solid ${row.event_tag === 'GLUT' ? SEAL_GREEN : SEAL_RED}`,
+              border: `1px solid ${SEAL_RED}`,
               borderRadius: '2px',
             }}
-            title={
-              row.event_tag === 'SHORTAGE' && row.shortage_target > 0
-                ? 'Ends once enough is sold to the market.'
-                : undefined
-            }
+            title="Ends once enough is sold to the market."
           >
-            {row.event_tag}
-            {row.event_tag === 'SHORTAGE' && row.shortage_target > 0 && (
-              <span style={{ marginLeft: '4px', fontWeight: 'normal' }}>
-                ({formatMammon(Math.round(row.shortage_progress))}m /{' '}
-                {formatMammon(Math.round(row.shortage_target))}m)
-              </span>
-            )}
+            RELIEF: {formatMammon(Math.round(row.shortage_progress))} /{' '}
+            {formatMammon(Math.round(row.shortage_target))}m
           </span>
         )}
         {!compact && row.desc && (

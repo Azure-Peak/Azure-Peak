@@ -16,7 +16,7 @@ export type RegionSupplyRow = {
 export type RegionDemandRow = {
   type: string;
   size: string;
-  goods: string[];
+  goods: { good_id: string; share: number; volume: number }[];
 };
 
 export type RegionCatalogEntry = {
@@ -204,9 +204,10 @@ export type MarketRow = {
   sold_out: BooleanLike;
   event_tag: string;
   dawn_change: number;
-  open_pct: number;
-  raided_by: string[];
-  raided_demand: BooleanLike;
+  raided_supply: number;
+  raided_demand: number;
+  raided_suppliers: string[];
+  raided_demanders: string[];
 };
 
 export type MarketDaeState = {

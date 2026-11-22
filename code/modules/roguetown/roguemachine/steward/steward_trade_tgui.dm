@@ -60,8 +60,8 @@
 			"subroute" = "[region.subroute]",
 			"tribute" = region.tribute_goods.Copy(),
 			"gifts" = region.gift_names(),
-			"supply" = region.trade_type_rows(region.produces, region.supply_sources, TRUE),
-			"demand" = region.trade_type_rows(region.demands, region.demand_sources, FALSE),
+			"supply" = region.trade_type_rows(region.produces, region.supply_sources),
+			"demand" = region.trade_type_rows(region.demands, region.demand_sources, TRUE),
 		)
 	data["region_catalog"] = region_catalog
 
@@ -434,9 +434,10 @@
 			"sold_out" = entry.market_available() <= 0 ? TRUE : FALSE,
 			"event_tag" = event_tag,
 			"dawn_change" = dawn["dawn_change"],
-			"open_pct" = dawn["open_pct"],
+			"raided_supply" = dawn["raided_supply"],
 			"raided_demand" = dawn["raided_demand"],
-			"raided_by" = dawn["raided_by"],
+			"raided_suppliers" = dawn["raided_suppliers"],
+			"raided_demanders" = dawn["raided_demanders"],
 		))
 
 	SStreasury.cached_market_rows = market_rows

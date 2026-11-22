@@ -72,13 +72,18 @@
 	return names
 
 /datum/controller/subsystem/economy/proc/good_supply_share(good_id, region_id)
-	var/list/producers = good_producer_volumes(good_id)
+	return volume_share_pct(good_producer_volumes(good_id), region_id)
+
+/datum/controller/subsystem/economy/proc/good_demand_share(good_id, region_id)
+	return volume_share_pct(good_demand_volumes(good_id), region_id)
+
+/proc/volume_share_pct(list/volumes, region_id)
 	var/total = 0
-	for(var/rid in producers)
-		total += producers[rid]
+	for(var/rid in volumes)
+		total += volumes[rid]
 	if(!total)
 		return 0
-	return round(producers[region_id] / total * 100)
+	return round(volumes[region_id] / total * 100)
 
 /datum/controller/subsystem/economy/proc/rental_blocker()
 	if(caravans_home() <= 0)
@@ -160,16 +165,14 @@
 	return open_volume_share(SSeconomy.good_demand_volumes(trade_good_id), escort_day)
 
 /datum/roguestock/proc/dawn_forecast()
-	var/list/raided = list()
-	var/share = null
-	var/draining = market_stock > market_target
-	if(market_stock != market_target && !get_event_label())
-		share = draining ? market_open_demand_share() : market_open_supply_share()
-		if(!isnull(share) && share < 1)
-			raided = raided_region_names(draining ? SSeconomy.good_demand_volumes(trade_good_id) : SSeconomy.good_producer_volumes(trade_good_id))
+	var/supply_share = market_open_supply_share()
+	var/demand_share = market_open_demand_share()
+	var/supply_raided = !isnull(supply_share) && supply_share < 1
+	var/demand_raided = !isnull(demand_share) && demand_share < 1
 	return list(
 		"dawn_change" = market_day_change(SSeconomy.market_day_rate(), ECONOMY_DAY),
-		"open_pct" = isnull(share) ? 100 : round(share * 100),
-		"raided_by" = raided,
-		"raided_demand" = draining,
+		"raided_supply" = supply_raided ? 100 - round(supply_share * 100) : 0,
+		"raided_demand" = demand_raided ? 100 - round(demand_share * 100) : 0,
+		"raided_suppliers" = supply_raided ? raided_region_names(SSeconomy.good_producer_volumes(trade_good_id)) : list(),
+		"raided_demanders" = demand_raided ? raided_region_names(SSeconomy.good_demand_volumes(trade_good_id)) : list(),
 	)

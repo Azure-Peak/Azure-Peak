@@ -93,9 +93,10 @@
 			"shortage_target" = shortage ? shortage["target"] : 0,
 			"shortage_affected" = shortage ? shortage["affected"] : "",
 			"dawn_change" = dawn["dawn_change"],
-			"open_pct" = dawn["open_pct"],
+			"raided_supply" = dawn["raided_supply"],
 			"raided_demand" = dawn["raided_demand"],
-			"raided_by" = dawn["raided_by"],
+			"raided_suppliers" = dawn["raided_suppliers"],
+			"raided_demanders" = dawn["raided_demanders"],
 		))
 	data["stocks"] = rows
 	data["bounties"] = list()

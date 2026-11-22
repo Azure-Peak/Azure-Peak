@@ -856,7 +856,11 @@
 			if(is_political_noble(src) && !is_ruler)
 				var/rank_line = noble_rank_examine_line(noble_rank)
 				if(fellow)
-					standing += faction ? "A fellow noble of the [faction.name] faction." : "A fellow noble."
+					var/fellow_line = faction ? "A fellow noble of the [faction.name] faction" : "A fellow noble"
+					var/estate_name = estate_region_name()
+					if(estate_name)
+						fellow_line += ", with an estate in [estate_name]"
+					standing += "[fellow_line]."
 				if(rank_line)
 					standing += rank_line
 				else if(!fellow)

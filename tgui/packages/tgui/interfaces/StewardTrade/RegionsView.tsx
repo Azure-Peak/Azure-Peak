@@ -1,6 +1,7 @@
 import { type CSSProperties, Fragment, type ReactNode, useState } from 'react';
 
-import { DawnForecast } from '../common/DawnForecast';
+import { DawnForecast, reachLabel } from '../common/DawnForecast';
+import { MarketBand } from '../common/MarketBand';
 import { formatMammon } from '../common/format';
 import {
   badgeStyle,
@@ -39,7 +40,7 @@ type TradeIndex = {
   tribute: Record<string, string[]>;
 };
 
-type GoodNote = { id: string; note?: string };
+type GoodNote = { id: string; note?: string; noteTitle?: string };
 
 type TypeRow = { type: string; size: string; goods: GoodNote[] };
 
@@ -114,9 +115,11 @@ const buildIndex = (data: Data): TradeIndex => {
     }
     for (const row of r.demand) {
       for (const g of row.goods) {
-        links(index.demand, g)[rid] = {
+        links(index.demand, g.good_id)[rid] = {
           type: row.type,
           size: row.size,
+          share: g.share,
+          volume: g.volume,
         };
       }
     }
@@ -323,8 +326,9 @@ const GroupHead = (props: {
 
 const TradeMarks = (props: {
   share?: number;
-  demand: boolean;
-  raided?: number;
+  demand?: number;
+  raidedSupply?: number;
+  raidedDemand?: number;
 }) => (
   <>
     {props.share !== undefined && (
@@ -332,12 +336,17 @@ const TradeMarks = (props: {
         {props.share}%
       </span>
     )}
-    {props.demand && (
-      <span style={{ color: INK_SOFT, fontSize: FONT_SMALL }}>demand</span>
+    {props.demand !== undefined && (
+      <span style={{ color: INK_SOFT, fontSize: FONT_SMALL }}>
+        demand {props.demand}%
+      </span>
     )}
-    {!!props.raided && (
-      <span style={{ color: SEAL_RED, fontSize: FONT_SMALL }}>
-        {props.raided}% raided
+    {!!(props.raidedSupply || props.raidedDemand) && (
+      <span
+        title="Share of the realm's supply (S) and demand (D) still reachable. The rest is cut off by raids."
+        style={{ color: SEAL_RED, fontSize: FONT_SMALL, cursor: 'help' }}
+      >
+        {reachLabel(props.raidedSupply, props.raidedDemand)}
       </span>
     )}
   </>
@@ -378,12 +387,13 @@ const RegionList = (props: {
   const row = (id: string) => {
     const share =
       sel.kind === 'good' ? index.supply[sel.id]?.[id]?.share : undefined;
-    const demand = sel.kind === 'good' && !!index.demand[sel.id]?.[id];
+    const demand =
+      sel.kind === 'good' ? index.demand[sel.id]?.[id]?.share : undefined;
     return (
       <ListRow
         key={id}
         active={sel.kind === 'region' && sel.id === id}
-        dim={sel.kind === 'good' && share === undefined && !demand}
+        dim={sel.kind === 'good' && share === undefined && demand === undefined}
         label={regionName(id)}
         marks={<TradeMarks share={share} demand={demand} />}
         onClick={() => onPick(id)}
@@ -466,18 +476,26 @@ const GoodList = (props: {
                   sel.kind === 'region'
                     ? index.supply[id]?.[sel.id]?.share
                     : undefined;
-                const demand = sel.kind === 'region' && !!index.demand[id]?.[sel.id];
+                const demand =
+                  sel.kind === 'region'
+                    ? index.demand[id]?.[sel.id]?.share
+                    : undefined;
                 return (
                   <ListRow
                     key={id}
                     active={sel.kind === 'good' && sel.id === id}
-                    dim={sel.kind === 'region' && share === undefined && !demand}
+                    dim={
+                      sel.kind === 'region' &&
+                      share === undefined &&
+                      demand === undefined
+                    }
                     label={goodName(id)}
                     marks={
                       <TradeMarks
                         share={share}
                         demand={demand}
-                        raided={raidedPct(data, index.supply[id] ?? {})}
+                        raidedSupply={raidedPct(data, index.supply[id] ?? {})}
+                        raidedDemand={raidedPct(data, index.demand[id] ?? {})}
                       />
                     }
                     onClick={() => onPick(id)}
@@ -521,7 +539,14 @@ const TypeTable = (props: {
                   {goodName(g.id)}
                 </button>
                 {g.note && (
-                  <span style={{ color: SEAL_AMBER, fontSize: FONT_SMALL }}>
+                  <span
+                    title={g.noteTitle}
+                    style={{
+                      color: SEAL_AMBER,
+                      fontSize: FONT_SMALL,
+                      cursor: g.noteTitle ? 'help' : undefined,
+                    }}
+                  >
                     {' '}
                     {g.note}
                   </span>
@@ -585,7 +610,11 @@ const RegionDetail = (props: {
         rows={r.supply.map((row) => ({
           type: row.type,
           size: row.size,
-          goods: row.goods.map((g) => ({ id: g.good_id, note: `${g.share}%` })),
+          goods: row.goods.map((g) => ({
+            id: g.good_id,
+            note: `${g.share}%`,
+            noteTitle: `Supplies ${g.share}% of the realm's ${goodName(g.good_id)}.`,
+          })),
         }))}
         goodName={goodName}
         onGood={onGood}
@@ -596,7 +625,11 @@ const RegionDetail = (props: {
         rows={r.demand.map((row) => ({
           type: row.type,
           size: row.size,
-          goods: row.goods.map((g) => ({ id: g })),
+          goods: row.goods.map((g) => ({
+            id: g.good_id,
+            note: `${g.share}%`,
+            noteTitle: `Takes ${g.share}% of the realm's demand for ${goodName(g.good_id)}.`,
+          })),
         }))}
         goodName={goodName}
         onGood={onGood}
@@ -633,9 +666,9 @@ const MarketLine = (props: { row: MarketRow }) => {
       }}
     >
       <span>
-        Market:{' '}
+        Market: <MarketBand label={row.market_label} />{' '}
         <span style={value}>
-          {row.market_label} {row.market_stock}/{row.market_target}
+          {row.market_stock}/{row.market_target}
         </span>
       </span>
       <span>
@@ -647,12 +680,7 @@ const MarketLine = (props: { row: MarketRow }) => {
       <span>
         Royal stock: <span style={value}>{row.stock}</span>
       </span>
-      <DawnForecast
-        change={row.dawn_change}
-        openPct={row.open_pct}
-        raidedBy={row.raided_by || []}
-        raidedDemand={!!row.raided_demand}
-      />
+      <DawnForecast row={row} />
     </div>
   );
 };
@@ -713,11 +741,10 @@ const GoodDetail = (props: {
   };
   const byName = (a: string, b: string) =>
     regionName(a).localeCompare(regionName(b));
-  const supplyIds = Object.keys(suppliers).sort(
-    (a, b) => (suppliers[b].share ?? 0) - (suppliers[a].share ?? 0),
-  );
-  const demandIds = Object.keys(demanders).sort(byName);
-  const raided = raidedPct(data, suppliers);
+  const byShare = (links: Record<string, TradeLink>) => (a: string, b: string) =>
+    (links[b].share ?? 0) - (links[a].share ?? 0);
+  const supplyIds = Object.keys(suppliers).sort(byShare(suppliers));
+  const demandIds = Object.keys(demanders).sort(byShare(demanders));
 
   const regionLink = (rid: string) => (
     <button type="button" style={linkStyle} onClick={() => onRegion(rid)}>
@@ -751,41 +778,21 @@ const GoodDetail = (props: {
       </div>
       {market && <MarketLine row={market} />}
 
-      <div
-        style={{
-          ...subheadStyle,
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'baseline',
-        }}
-      >
-        <span>Supply</span>
-        {raided > 0 && (
-          <span style={{ color: SEAL_RED, fontSize: FONT_BODY, fontWeight: 'normal' }}>
-            {raided}% raided
-          </span>
-        )}
-      </div>
-      {supplyIds.length ? (
-        <div style={tradeGridStyle('auto auto auto minmax(0, 1fr)')}>
-          {supplyIds.map((rid) => {
-            const state = data.region_caravan[rid];
-            return (
-              <Fragment key={rid}>
-                {regionLink(rid)}
-                <ShareBar
-                  share={suppliers[rid].share ?? 0}
-                  raided={!!state?.blockaded && !state?.escorted}
-                />
-                {typeCell(suppliers[rid])}
-                {routeCell(rid)}
-              </Fragment>
-            );
-          })}
-        </div>
-      ) : (
-        <div style={{ color: INK_FAINT }}>No region supplies it.</div>
-      )}
+      <TradeSection
+        title="Supply"
+        help="Each region's share of the realm's supply. A raided region sends nothing at the Market dae."
+        raidedHelp="of supply is raided and won't reach the Market."
+        links={suppliers}
+        ids={supplyIds}
+        shareTitle={(rid, share) =>
+          `${regionName(rid)} supplies ${share}% of the realm's ${good?.name ?? id}.`
+        }
+        empty="No region supplies it."
+        data={data}
+        regionLink={regionLink}
+        typeCell={typeCell}
+        routeCell={routeCell}
+      />
       {tribute.length > 0 && (
         <div style={{ marginTop: '6px', color: INK_SOFT }}>
           Tribute from:{' '}
@@ -798,20 +805,91 @@ const GoodDetail = (props: {
         </div>
       )}
 
-      <div style={subheadStyle}>Demand</div>
-      {demandIds.length ? (
-        <div style={tradeGridStyle('auto auto minmax(0, 1fr)')}>
-          {demandIds.map((rid) => (
-            <Fragment key={rid}>
-              {regionLink(rid)}
-              {typeCell(demanders[rid])}
-              {routeCell(rid)}
-            </Fragment>
-          ))}
+      <TradeSection
+        title="Demand"
+        help="Each region's share of the realm's demand. A raided region takes none of the Market's surplus at the Market dae."
+        raidedHelp="of demand is raided, so that much of a surplus can't be traded away."
+        links={demanders}
+        ids={demandIds}
+        shareTitle={(rid, share) =>
+          `${regionName(rid)} takes ${share}% of the realm's demand for ${good?.name ?? id}.`
+        }
+        empty="No region demands it."
+        data={data}
+        regionLink={regionLink}
+        typeCell={typeCell}
+        routeCell={routeCell}
+      />
+    </div>
+  );
+};
+
+const TradeSection = (props: {
+  title: string;
+  help: string;
+  raidedHelp: string;
+  links: Record<string, TradeLink>;
+  ids: string[];
+  shareTitle: (rid: string, share: number) => string;
+  empty: string;
+  data: Data;
+  regionLink: (rid: string) => ReactNode;
+  typeCell: (link: TradeLink) => ReactNode;
+  routeCell: (rid: string) => ReactNode;
+}) => {
+  const { title, help, raidedHelp, links, ids, shareTitle, empty, data } = props;
+  const raided = raidedPct(data, links);
+  return (
+    <>
+      <div
+        style={{
+          ...subheadStyle,
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'baseline',
+        }}
+      >
+        <span title={help} style={{ cursor: 'help' }}>
+          {title}{' '}
+          <span style={{ color: INK_SOFT, fontSize: FONT_SMALL }}>(?)</span>
+        </span>
+        {raided > 0 && (
+          <span
+            title={`${raided}% ${raidedHelp}`}
+            style={{
+              color: SEAL_RED,
+              fontSize: FONT_BODY,
+              fontWeight: 'normal',
+              cursor: 'help',
+            }}
+          >
+            {raided}% raided
+          </span>
+        )}
+      </div>
+      {ids.length ? (
+        <div style={tradeGridStyle('auto auto auto minmax(0, 1fr)')}>
+          {ids.map((rid) => {
+            const state = data.region_caravan[rid];
+            const share = links[rid].share ?? 0;
+            return (
+              <Fragment key={rid}>
+                {props.regionLink(rid)}
+                <span title={shareTitle(rid, share)} style={{ cursor: 'help' }}>
+                  <ShareBar
+                    share={share}
+                    raided={!!state?.blockaded && !state?.escorted}
+                  />
+                </span>
+                {props.typeCell(links[rid])}
+                {props.routeCell(rid)}
+              </Fragment>
+            );
+          })}
         </div>
       ) : (
-        <div style={{ color: INK_FAINT }}>No region demands it.</div>
+        <div style={{ color: INK_FAINT }}>{empty}</div>
       )}
-    </div>
+    </>
   );
 };
