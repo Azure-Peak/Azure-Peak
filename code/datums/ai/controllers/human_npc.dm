@@ -50,7 +50,6 @@
 /datum/ai_controller/human_npc/TryPossessPawn(atom/new_pawn)
 	. = ..()
 	new_pawn.AddComponent(/datum/component/ai_inventory_manager)
-	new_pawn.AddElement(/datum/element/interrupt_on_damage)
 	new_pawn.AddComponent(/datum/component/combat_vocalizer)
 	force_cmode(new_pawn)
 
@@ -64,7 +63,6 @@
 
 /datum/ai_controller/human_npc/UnpossessPawn(destroy)
 	var/mob/living/living_pawn = pawn
-	living_pawn.RemoveElement(/datum/element/interrupt_on_damage)
 	qdel(living_pawn.GetComponent(/datum/component/ai_inventory_manager))
 	qdel(living_pawn.GetComponent(/datum/component/combat_vocalizer))
 	return ..()
