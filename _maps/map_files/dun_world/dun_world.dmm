@@ -23396,6 +23396,16 @@
 	},
 /turf/open/floor/rogue/blocks/green,
 /area/rogue/under/cave/menageriedungeon)
+"dZW" = (
+/obj/structure/closet/crate/chest/wicker,
+/obj/item/seeds/wheat,
+/obj/item/seeds/wheat,
+/obj/item/seeds/onion,
+/obj/item/seeds/potato,
+/obj/item/rogueweapon/hoe/aalloy,
+/obj/item/reagent_containers/glass/bucket,
+/turf/open/floor/rogue/naturalstone,
+/area/rogue/indoors/cave)
 "ead" = (
 /turf/open/floor/rogue/churchbrick,
 /area/rogue/under/underdark/north)
@@ -43097,15 +43107,6 @@
 /obj/structure/flora/ausbushes/brflowers,
 /turf/open/floor/rogue/grasscold,
 /area/rogue/druidsgrove)
-"hrv" = (
-/obj/structure/closet/crate/chest/wicker,
-/obj/item/seeds/wheat,
-/obj/item/seeds/wheat,
-/obj/item/seeds/onion,
-/obj/item/seeds/potato,
-/obj/item/rogueweapon/hoe/aalloy,
-/turf/open/floor/rogue/naturalstone,
-/area/rogue/indoors/cave)
 "hrw" = (
 /obj/effect/landmark/chimeric_calyx_spawner/fifteen,
 /turf/open/floor/rogue/dirt,
@@ -341880,7 +341881,7 @@ qPv
 qPv
 qPv
 qPv
-hrv
+dZW
 fnC
 fnC
 fnC
