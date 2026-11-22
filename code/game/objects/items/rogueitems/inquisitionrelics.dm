@@ -336,7 +336,7 @@ Inquisitorial armory down here
 	*/
 
 /obj/item/flashlight/flare/torch/lantern/psycenser
-	name = "Golgatha"
+	name = "\"Golgatha\""
 	desc = "A masterfully-crafted thurible that, when opened, emits a ghastly perfume that reinvigorates the flesh-and-steel of Psydonites. It is said to contain a volatile fragment of the Comet Syon, which - if mishandled - can lead to unforeseen consequences."
 	icon_state = "psycenser"
 	item_state = "psycenser"
@@ -347,16 +347,19 @@ Inquisitorial armory down here
 	force = 30
 	var/next_smoke
 	var/smoke_interval = 2 SECONDS
+	is_silver = TRUE
 
 /obj/item/flashlight/flare/torch/lantern/psycenser/examine(mob/user)
 	. = ..()
-	if(fuel > 0)
-		. += span_info("Activate in your hand to open it.")
-		. += span_info("When opened, the 'BLESS' intent can be used to anoint Psydonic silver weaponry. Blessing a Psydonic silver weapon greatly enhances the power of its critical hits and debuffs against sunderable opponents.")
-		. += span_info("Blessing someone else, who happens to be a worshipper of Psydon, will temporarily buff them with increased Willpower, Constitution, and Fortune.")
-		. += span_warning("If the 'SMASH' intent is used while it's opened, the residing shard will violently explode with unimaginable force.")
 	if(fuel <= 0)
 		. += span_info("It is gone.")
+
+/obj/item/flashlight/flare/torch/lantern/psycenser/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Activate in your hand to open it.")
+	. += span_info("When opened, the 'BLESS' intent can be used to anoint Psydonic silver weaponry. Blessing a Psydonic silver weapon greatly enhances the power of its critical hits and debuffs against sunderable opponents.")
+	. += span_info("Blessing someone else, who happens to be a worshipper of Psydon, will temporarily buff them with increased Willpower, Constitution, and Fortune.")
+	. += span_info("If the 'SMASH' intent is used while it's opened, the residing shard will violently explode with unimaginable force.")
 
 /obj/item/flashlight/flare/torch/lantern/psycenser/get_examine_highlight_status()
 	return list(EXAMINEHIGHLIGHT_VIBE_GOLGATHA, VIBEDESC_GOLGATHA)
