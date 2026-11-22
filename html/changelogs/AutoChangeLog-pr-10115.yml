@@ -1,0 +1,4 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - rscadd: "Added the Bill of Fare, a pre-formatted menu that let you list up to 15 food and 15 drinks, add notes, and sign it with your own name / job / anonymous name and title. All inn roles start with it and anyone else can make one with a piece of paper."

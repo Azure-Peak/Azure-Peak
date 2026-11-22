@@ -14,7 +14,7 @@
 	var/weapon_type = controller.blackboard[BB_WEAPON_TYPE]
 	var/list/weapons = list()
 	for(var/obj/item/local_candidate in oview(search_range, controller.pawn))
-		if(!istype(local_candidate, weapon_type))
+		if(!istype(local_candidate, weapon_type) || (local_candidate.flags_ai_inventory & AI_ITEM_THROWING))
 			continue
 		if(held_item)
 			if(held_item.force >= local_candidate.force)
@@ -36,13 +36,15 @@
 	var/datum/ai_controller/controller = living_pawn.ai_controller
 	if(!istype(checking, controller.blackboard[BB_WEAPON_TYPE]))
 		return FALSE
+	var/obj/item/candidate = checking
+	if(candidate.flags_ai_inventory & AI_ITEM_THROWING)
+		return FALSE
 	var/obj/item/held_item = living_pawn.get_active_held_item()
 	if(istype(held_item, /obj/item/rogueweapon/shield))
 		held_item = living_pawn.get_inactive_held_item()
 	if(held_item)
 		if(istype(held_item, /obj/item/rogueweapon/shield))
 			return FALSE
-		var/obj/item/candidate = checking
 		if(held_item.force >= candidate.force)
 			return FALSE
 	return TRUE
