@@ -5251,6 +5251,6 @@ As Excaliber."
 	resistance_flags = FIRE_PROOF
 	flags_inv = HIDEFACE|HIDESNOUT
 	body_parts_covered = FACE
-	block2add = FOV_BEHIND
+	block2add = FOV_DEFAULT
 	slot_flags = ITEM_SLOT_MASK|ITEM_SLOT_HEAD|ITEM_SLOT_MOUTH
 	experimental_onhip = TRUE
