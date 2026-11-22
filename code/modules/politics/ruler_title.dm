@@ -25,6 +25,9 @@ GLOBAL_LIST_INIT(default_ruler_old_styles, list(
 #define DEFAULT_RULER_DOMAIN "Azuria"
 
 /proc/ruler_full_title(mob/living/carbon/human/ruler, old_azurian = FALSE)
+	return "[ruler.real_name], [ruler_styling(ruler, old_azurian)]."
+
+/proc/ruler_styling(mob/living/carbon/human/ruler, old_azurian = FALSE)
 	var/datum/map_adjustment/adjustment = SSmapping.map_adjustment
 	var/domain = adjustment?.ruler_domain || DEFAULT_RULER_DOMAIN
 	var/list/styles
@@ -32,10 +35,10 @@ GLOBAL_LIST_INIT(default_ruler_old_styles, list(
 		styles = adjustment?.ruler_old_styles || GLOB.default_ruler_old_styles
 	else
 		styles = adjustment?.ruler_styles || GLOB.default_ruler_styles
-	var/possessive = ruler.p_their()
+	var/possessive = istype(ruler) ? ruler.p_their() : "their"
 	if(possessive == "her" || possessive == "their")
 		possessive += "s"
-	return "[ruler.real_name], by the Grace of the Ten, [SSticker.rulertype] of [domain], [jointext(styles, ", ")], and [old_azurian ? "King" : "Lord"] of all else that is [possessive] by Right."
+	return "by the Grace of the Ten, [SSticker.rulertype] of [domain], [jointext(styles, ", ")], and [old_azurian ? "King" : "Lord"] of all else that is [possessive] by Right"
 
 /mob/living/carbon/human/proc/remember_ruler_title()
 	set name = "Remember Title"

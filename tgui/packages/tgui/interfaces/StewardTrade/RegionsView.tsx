@@ -97,7 +97,12 @@ const raidBadge = (blockaded: unknown, escorted: unknown) =>
 const links = (
   map: Record<string, Record<string, TradeLink>>,
   key: string,
-) => (map[key] = map[key] ?? {});
+) => {
+  if (!map[key]) {
+    map[key] = {};
+  }
+  return map[key];
+};
 
 const buildIndex = (data: Data): TradeIndex => {
   const index: TradeIndex = { supply: {}, demand: {}, tribute: {} };
@@ -124,7 +129,10 @@ const buildIndex = (data: Data): TradeIndex => {
       }
     }
     for (const g of r.tribute) {
-      (index.tribute[g] = index.tribute[g] ?? []).push(rid);
+      if (!index.tribute[g]) {
+        index.tribute[g] = [];
+      }
+      index.tribute[g].push(rid);
     }
   }
   return index;

@@ -52,7 +52,7 @@
 	if(!drop)
 		return
 	var/obj/structure/closet/crate/chest/steward/crate = new(drop)
-	crate.name = lowertext(order.commission.name)
+	crate.name = LOWER_TEXT(order.commission.name)
 	for(var/path in order.commission.contains)
 		for(var/i in 1 to (order.commission.contains[path] || 1))
 			new path(crate)
