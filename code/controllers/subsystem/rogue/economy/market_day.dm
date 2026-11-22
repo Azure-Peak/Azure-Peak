@@ -40,6 +40,15 @@
 				by_region[region_id] = volume
 	return producer_volumes[good_id] || list()
 
+/datum/controller/subsystem/economy/proc/good_supply_share(good_id, region_id)
+	var/list/producers = good_producer_volumes(good_id)
+	var/total = 0
+	for(var/rid in producers)
+		total += producers[rid]
+	if(!total)
+		return 0
+	return round(producers[region_id] / total * 100)
+
 /datum/controller/subsystem/economy/proc/rental_blocker()
 	if(caravans_home() <= 0)
 		return "No caravans are home."

@@ -56,7 +56,12 @@
 		var/datum/economic_region/region = GLOB.economic_regions[region_id]
 		region_catalog[region_id] = list(
 			"name" = region.name,
+			"subtitle" = region.subtitle,
 			"description" = region.description,
+			"subroute" = "[region.subroute]",
+			"tribute" = region.tribute_goods.Copy(),
+			"supply" = region.trade_type_rows(region.produces, region.supply_sources, TRUE),
+			"demand" = region.trade_type_rows(region.demands, region.demand_sources, FALSE),
 		)
 	data["region_catalog"] = region_catalog
 
@@ -280,7 +285,6 @@
 	if(SStreasury.market_view_dirty || isnull(SStreasury.cached_market_rows))
 		rebuild_market_view()
 	data["market_rows"] = SStreasury.cached_market_rows
-	data["region_rows"] = SStreasury.cached_region_rows
 
 	var/list/petition_state = list()
 	var/petitions_remaining = SSeconomy.petitions_remaining_today()
@@ -388,7 +392,7 @@
 		)
 	return quote
 
-/// Rebuild SStreasury's cached_market_rows + cached_region_rows
+/// Rebuild SStreasury's cached_market_rows
 /// from current world state and clear market_view_dirty. Heavy work (~3ms); called only when
 /// invalidated by a trade action, stockpile mutation, blockade flip, day reset, or economic
 /// event boundary. event_tag_by_good is pre-built by the ui_data caller from the small, hot
@@ -432,32 +436,7 @@
 			"raided_by" = dawn["raided_by"],
 		))
 
-	var/list/region_rows = list()
-	for(var/region_id in GLOB.economic_regions)
-		var/datum/economic_region/region = GLOB.economic_regions[region_id]
-		var/list/produces = list()
-		for(var/good_id in region.produces)
-			if(!GLOB.trade_goods[good_id])
-				continue
-			produces += list(list(
-				"good_id" = good_id,
-			))
-		var/list/demands = list()
-		for(var/good_id in region.demands)
-			if(!GLOB.trade_goods[good_id])
-				continue
-			demands += list(list(
-				"good_id" = good_id,
-			))
-		region_rows += list(list(
-			"region_id" = region_id,
-			"blockaded" = region.is_region_blockaded ? TRUE : FALSE,
-			"produces" = produces,
-			"demands" = demands,
-		))
-
 	SStreasury.cached_market_rows = market_rows
-	SStreasury.cached_region_rows = region_rows
 	SStreasury.market_view_dirty = FALSE
 
 /// Trade-control actions blocked during sequestration. Petitions and order fulfillment

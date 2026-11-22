@@ -106,7 +106,6 @@ SUBSYSTEM_DEF(treasury)
 	var/levy_rates_changed_day = -1
 	var/list/royal_subsidy_spent = list()
 	var/list/cached_market_rows = null
-	var/list/cached_region_rows = null
 	var/market_view_dirty = TRUE
 	var/rumor_points = RUMOR_POINTS_START
 	var/list/rumor_log = list()

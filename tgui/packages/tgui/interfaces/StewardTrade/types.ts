@@ -7,9 +7,26 @@ export type GoodCatalogEntry = {
   category: string;
 };
 
+export type RegionSupplyRow = {
+  type: string;
+  size: string;
+  goods: { good_id: string; share: number; volume: number }[];
+};
+
+export type RegionDemandRow = {
+  type: string;
+  size: string;
+  goods: string[];
+};
+
 export type RegionCatalogEntry = {
   name: string;
+  subtitle: string;
   description: string;
+  subroute: string;
+  tribute: string[];
+  supply: RegionSupplyRow[];
+  demand: RegionDemandRow[];
 };
 
 export type CaravanSubroute = {
@@ -200,17 +217,6 @@ export type MarketDaeState = {
   midday_rate: number;
 };
 
-export type RegionFlow = {
-  good_id: string;
-};
-
-export type RegionRow = {
-  region_id: string;
-  blockaded: BooleanLike;
-  produces: RegionFlow[];
-  demands: RegionFlow[];
-};
-
 export type PetitionTemplate = {
   id: string;
   label: string;
@@ -256,7 +262,6 @@ export type Data = StaticData & {
   caravan_quote: CaravanQuote;
   market_dae: MarketDaeState;
   market_rows: MarketRow[];
-  region_rows: RegionRow[];
   petition_categories: PetitionCategory[];
   petition_tax_pct: number;
   petitions_per_day: number;

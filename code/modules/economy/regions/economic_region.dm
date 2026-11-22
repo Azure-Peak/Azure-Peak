@@ -13,7 +13,7 @@ GLOBAL_LIST_INIT(economic_regions, init_economic_regions())
 	var/region_id
 	var/name
 	/// Italicized one-liner shown beneath the region name in the Lore Primer's
-	/// AZURIA'S REGIONS section. The steward UI ignores it; only `description` shows there.
+	/// AZURIA'S REGIONS section and in the Steward's Regions tab.
 	var/subtitle = ""
 	var/description = ""
 	var/subroute
@@ -68,6 +68,40 @@ GLOBAL_LIST_INIT(economic_regions, init_economic_regions())
 
 /datum/economic_region/proc/scaled_volume(volume, multiplier)
 	return max(1, round(volume * multiplier, 1))
+
+/datum/economic_region/proc/trade_type_rows(list/volumes, list/sources, with_share)
+	var/list/by_type = list()
+	for(var/good_id in volumes)
+		if(!GLOB.trade_goods[good_id])
+			continue
+		var/datum/region_type/source = sources[good_id]
+		if(!source)
+			continue
+		var/list/row = by_type[source.type]
+		if(!row)
+			row = list("type" = source.name, "size" = region_size_label(region_types[source.type]), "goods" = list())
+			by_type[source.type] = row
+		var/list/goods = row["goods"]
+		if(with_share)
+			goods += list(list("good_id" = good_id, "share" = SSeconomy.good_supply_share(good_id, region_id), "volume" = volumes[good_id]))
+		else
+			goods += good_id
+	var/list/rows = list()
+	for(var/type_path in region_types)
+		if(by_type[type_path])
+			rows += list(by_type[type_path])
+	return rows
+
+/proc/region_size_label(multiplier)
+	if(multiplier <= REGION_SIZE_SMALL)
+		return "small"
+	if(multiplier <= REGION_SIZE_MEDIUM)
+		return "medium"
+	if(multiplier <= REGION_SIZE_LARGE)
+		return "large"
+	if(multiplier <= REGION_SIZE_HUGE)
+		return "huge"
+	return "massive"
 
 /datum/economic_region/proc/tribute_units()
 	var/list/units = list()
