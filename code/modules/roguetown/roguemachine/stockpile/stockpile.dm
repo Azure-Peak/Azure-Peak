@@ -69,6 +69,7 @@
 	for(var/datum/roguestock/stockpile/R in SStreasury.stockpile_datums)
 		R.refresh_auto_price()
 		var/list/shortage = R.get_shortage_progress()
+		var/list/dawn = R.dawn_forecast()
 		rows += list(list(
 			"ref" = "\ref[R]",
 			"name" = R.name,
@@ -89,6 +90,9 @@
 			"shortage_progress" = shortage ? shortage["progress"] : 0,
 			"shortage_target" = shortage ? shortage["target"] : 0,
 			"shortage_affected" = shortage ? shortage["affected"] : "",
+			"dawn_change" = dawn["dawn_change"],
+			"supply_pct" = dawn["supply_pct"],
+			"raided_by" = dawn["raided_by"],
 		))
 	data["stocks"] = rows
 

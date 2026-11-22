@@ -14,7 +14,7 @@ import {
   sectionHeaderStyle,
   SERIF,
 } from '../common/parchment';
-import { minutesLeft, useCountdown } from '../common/useCountdown';
+import { MinutesLeft } from '../common/MinutesLeft';
 import type {
   CommissionCatalogEntry,
   CommissionOrder,
@@ -121,12 +121,11 @@ const CommissionLine = (props: {
 };
 
 const OrderLine = (props: { order: CommissionOrder }) => {
-  const left = minutesLeft(useCountdown(props.order.seconds_left));
   return (
     <div style={{ display: 'flex', gap: '8px', padding: '2px 0' }}>
       <span style={{ color: INK }}>{props.order.name}</span>
       <span style={{ marginLeft: 'auto', fontSize: FONT_SMALL, color: INK_SOFT }}>
-        arrives in {minutes(left)}
+        arrives in <MinutesLeft seconds={props.order.seconds_left} />
       </span>
     </div>
   );

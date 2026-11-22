@@ -20,7 +20,7 @@ import {
   SERIF,
   TITLE,
 } from '../common/parchment';
-import { minutesLeft, useCountdown } from '../common/useCountdown';
+import { MinutesLeft } from '../common/MinutesLeft';
 import type {
   ActiveOffer,
   CaravanRoute,
@@ -131,15 +131,6 @@ const tagStyle = (color: string): CSSProperties => ({
   color,
 });
 
-const ReturnIn = (props: { seconds: number }) => {
-  const left = minutesLeft(useCountdown(props.seconds));
-  return (
-    <>
-      {left} {left === 1 ? 'minute' : 'minutes'}
-    </>
-  );
-};
-
 export const CaravansView = (props: { data: Data }) => {
   const { act } = useBackend<Data>();
   const { data } = props;
@@ -157,7 +148,7 @@ export const CaravansView = (props: { data: Data }) => {
     });
   }, [requestRef, offerRef, tributeId]);
 
-  const { fleet, home, trips, return_seconds } = data.caravans;
+  const { fleet, home, rented, trips, return_seconds } = data.caravans;
   const goodName: Namer = (id) => data.good_catalog[id]?.name ?? id;
   const regionName: Namer = (id) => data.region_catalog[id]?.name ?? id;
   const sequestered = !!data.sequestration?.active;
@@ -264,15 +255,22 @@ export const CaravansView = (props: { data: Data }) => {
                 width: '9px',
                 height: '9px',
                 borderRadius: '50%',
-                border: `1px solid ${SEAL_AMBER}`,
-                background: i < home ? SEAL_AMBER : 'transparent',
+                border: `1px solid ${i >= home && i < home + rented ? INK_FAINT : SEAL_AMBER}`,
+                background:
+                  i < home
+                    ? SEAL_AMBER
+                    : i < home + rented
+                      ? INK_FAINT
+                      : 'transparent',
               }}
             />
           ))}
         </span>
         <span>
-          {home} of {fleet} home &middot; {trips.length} en route, return in{' '}
-          <ReturnIn seconds={return_seconds} />
+          {home} of {fleet} home &middot;{' '}
+          {rented > 0 && <>{rented} rented &middot; </>}
+          {trips.length} en route, return in{' '}
+          <MinutesLeft seconds={return_seconds} />
         </span>
         {trips.map((trip, i) => (
           <span key={i} style={{ fontSize: FONT_SMALL }}>

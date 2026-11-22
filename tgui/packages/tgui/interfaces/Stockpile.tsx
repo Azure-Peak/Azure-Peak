@@ -22,6 +22,7 @@ import {
   subtitleStyle,
   titleStyle,
 } from './common/parchment';
+import { DawnForecast } from './common/DawnForecast';
 import { formatMammon } from './common/format';
 
 type StockRow = {
@@ -44,6 +45,9 @@ type StockRow = {
   shortage_progress: number;
   shortage_target: number;
   shortage_affected: string;
+  dawn_change: number;
+  supply_pct: number;
+  raided_by: string[];
 };
 
 type PriceChange = {
@@ -130,6 +134,11 @@ const StockRowView = (props: {
           {`${row.market_label} `}
           {row.amount}/{row.limit}
         </span>
+        <DawnForecast
+          change={row.dawn_change}
+          supplyPct={row.supply_pct}
+          raidedBy={row.raided_by || []}
+        />
         {!!row.event_tag && (
           <span
             style={{

@@ -11,7 +11,7 @@
 	var/list/tribute_units
 
 /datum/controller/subsystem/economy/proc/caravans_home()
-	return max(0, caravan_fleet - length(caravan_trips))
+	return max(0, caravan_fleet - length(caravan_trips) - length(caravan_rentals))
 
 /datum/controller/subsystem/economy/proc/region_raided(region_id)
 	var/datum/economic_region/region = GLOB.economic_regions[region_id]
@@ -74,6 +74,7 @@
 			to_chat(user, span_warning("The Treasury can't afford this. It has [format_mammon(SStreasury.discretionary_fund.balance)]m and needs [format_mammon(fee)]m."))
 		return FALSE
 	escorted_subroutes[subroute] = ECONOMY_DAY
+	SStreasury.dirty_market_view()
 	log_game("CARAVAN ESCORT hired for [get_subroute_name(subroute)] by [user ? key_name(user) : "system"] (-[format_mammon(fee)]m)")
 	if(user)
 		to_chat(user, span_notice("An escort is hired for [get_subroute_name(subroute)] until dawn."))

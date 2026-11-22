@@ -69,6 +69,7 @@
 #define LEDGER_CROWN_REV_BLOCKADE "crown_rev_blockade"
 #define LEDGER_CROWN_REV_MAIL "crown_rev_mail"
 #define LEDGER_CROWN_REV_REFUNDS "crown_rev_refunds"
+#define LEDGER_CROWN_REV_RENTALS "crown_rev_rentals"
 #define LEDGER_CROWN_INTEREST_INC "crown_interest_inc"
 #define LEDGER_CROWN_REV_OTHER "crown_income"
 // --- Crown book: expenses ---

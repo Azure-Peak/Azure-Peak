@@ -152,6 +152,8 @@
 
 #define MARKET_DAY_RATE 50
 #define MARKET_DAY_FLOOR 25
+#define MARKET_DAY_RENTAL_RATE 10
+#define CARAVAN_RENTAL_PAY 50
 #define MARKET_DAY_GRACE_DAYS 1
 
 // Price multiplier based on market condition

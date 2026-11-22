@@ -119,6 +119,7 @@ GLOBAL_LIST_INIT(ledger_class_order, list(
 	add_ledger_account(LEDGER_CROWN_REV_BLOCKADE, "Blockade Defense Rewards", LEDGER_BOOK_CROWN, LEDGER_CLASS_REVENUE)
 	add_ledger_account(LEDGER_CROWN_REV_MAIL, "Mail Income", LEDGER_BOOK_CROWN, LEDGER_CLASS_REVENUE)
 	add_ledger_account(LEDGER_CROWN_REV_REFUNDS, "Refunds Received", LEDGER_BOOK_CROWN, LEDGER_CLASS_REVENUE)
+	add_ledger_account(LEDGER_CROWN_REV_RENTALS, "Caravan Rentals", LEDGER_BOOK_CROWN, LEDGER_CLASS_REVENUE)
 	// Crown expenses
 	add_ledger_account(LEDGER_CROWN_EXP_WAGES, "Wages", LEDGER_BOOK_CROWN, LEDGER_CLASS_EXPENSE)
 	add_ledger_account(LEDGER_CROWN_EXP_IMPORTS, "Imports & Purchases", LEDGER_BOOK_CROWN, LEDGER_CLASS_EXPENSE)

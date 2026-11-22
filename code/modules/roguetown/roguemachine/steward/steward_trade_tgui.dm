@@ -124,6 +124,10 @@
 		)
 	data["commission_catalog"] = commission_catalog
 	data["commission_lead_minutes"] = round(COMMISSION_LEAD_TIME / (1 MINUTES))
+	data["rental_pay"] = CARAVAN_RENTAL_PAY
+	data["rental_rate"] = MARKET_DAY_RENTAL_RATE
+	data["market_day_base_rate"] = MARKET_DAY_RATE
+	data["market_day_floor"] = MARKET_DAY_FLOOR
 
 	return data
 
@@ -258,10 +262,19 @@
 	data["caravans"] = list(
 		"fleet" = SSeconomy.caravan_fleet,
 		"home" = SSeconomy.caravans_home(),
+		"rented" = length(SSeconomy.caravan_rentals),
 		"return_seconds" = max(0, round(seconds_until_dawn())),
 		"trips" = trips,
 	)
 	data["caravan_quote"] = build_caravan_quote(user.ckey)
+	data["market_dae"] = list(
+		"rate" = SSeconomy.market_day_rate(),
+		"rented" = length(SSeconomy.caravan_rentals),
+		"returnable" = SSeconomy.returnable_rentals(),
+		"rent_blocker" = SSeconomy.rental_blocker() || "",
+		"next_seconds" = max(0, round(seconds_until_market_day())),
+		"midday_rate" = SSeconomy.midday_market_rate,
+	)
 
 	// Caching more for performance
 	if(SStreasury.market_view_dirty || isnull(SStreasury.cached_market_rows))
@@ -400,6 +413,7 @@
 			continue
 
 		var/event_tag = event_tag_by_good[good_id] || ""
+		var/list/dawn = entry.dawn_forecast()
 
 		market_rows += list(list(
 			"good_id" = good_id,
@@ -413,6 +427,9 @@
 			"market_left" = entry.market_available(),
 			"sold_out" = entry.market_available() <= 0 ? TRUE : FALSE,
 			"event_tag" = event_tag,
+			"dawn_change" = dawn["dawn_change"],
+			"supply_pct" = dawn["supply_pct"],
+			"raided_by" = dawn["raided_by"],
 		))
 
 	var/list/region_rows = list()
@@ -525,6 +542,18 @@ GLOBAL_LIST_INIT(steward_trade_sequestration_locked_actions, list(
 			var/datum/crown_import/D = locate(params["ref"]) in GLOB.crown_imports
 			if(D && SSeconomy.place_local_commission(usr, D))
 				playsound(src, 'sound/misc/coindispense.ogg', 60, FALSE, -1)
+			return TRUE
+		if("rent_caravan")
+			if(!(usr.job in GLOB.crown_authority_roles))
+				to_chat(usr, span_warning("Only Crown officials can rent out caravans."))
+				return
+			SSeconomy.rent_caravan(usr)
+			return TRUE
+		if("return_rental")
+			if(!(usr.job in GLOB.crown_authority_roles))
+				to_chat(usr, span_warning("Only Crown officials can take back caravans."))
+				return
+			SSeconomy.return_rental(usr)
 			return TRUE
 		if("extend_order")
 			if(!(usr.job in GLOB.crown_authority_roles))

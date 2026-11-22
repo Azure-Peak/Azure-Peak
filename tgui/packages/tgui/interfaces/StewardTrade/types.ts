@@ -33,6 +33,10 @@ export type StaticData = {
   is_steward_role: BooleanLike;
   commission_catalog: Record<string, CommissionCatalogEntry>;
   commission_lead_minutes: number;
+  rental_pay: number;
+  rental_rate: number;
+  market_day_base_rate: number;
+  market_day_floor: number;
 };
 
 // --- Dynamic state (re-shipped on each ui_data) ----------------------------
@@ -124,6 +128,7 @@ export type CaravanTrip = {
 export type CaravanState = {
   fleet: number;
   home: number;
+  rented: number;
   return_seconds: number;
   trips: CaravanTrip[];
 };
@@ -181,6 +186,18 @@ export type MarketRow = {
   market_left: number;
   sold_out: BooleanLike;
   event_tag: string;
+  dawn_change: number;
+  supply_pct: number;
+  raided_by: string[];
+};
+
+export type MarketDaeState = {
+  rate: number;
+  rented: number;
+  returnable: number;
+  rent_blocker: string;
+  next_seconds: number;
+  midday_rate: number;
 };
 
 export type RegionFlow = {
@@ -237,6 +254,7 @@ export type Data = StaticData & {
   commissions: CommissionState;
   caravans: CaravanState;
   caravan_quote: CaravanQuote;
+  market_dae: MarketDaeState;
   market_rows: MarketRow[];
   region_rows: RegionRow[];
   petition_categories: PetitionCategory[];

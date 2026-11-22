@@ -13,6 +13,9 @@ SUBSYSTEM_DEF(economy)
 	var/list/event_path_cooldowns = list()
 	var/caravan_fleet = CARAVAN_FLEET_START
 	var/list/caravan_trips = list()
+	var/list/caravan_rentals = list()
+	var/midday_market_rate = 0
+	var/list/producer_volumes
 	var/list/escorted_subroutes = list()
 	var/list/commission_orders = list()
 	var/list/estates = list()
