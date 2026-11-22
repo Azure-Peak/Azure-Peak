@@ -43,7 +43,7 @@
 		// can run (it's the next subtree). Otherwise we'd just punch the target empty-handed forever.
 		if(!ai_npc_has_weapon(pawn) && !ai_npc_fights_unarmed(pawn) && !controller.blackboard[BB_CASTER_MELEE])
 			for(var/obj/item/rogueweapon/nearby_weapon in view(7, pawn))
-				if(!isturf(nearby_weapon.loc))
+				if(!isturf(nearby_weapon.loc) || !ai_is_melee_weapon(nearby_weapon))
 					continue
 				return
 	return ..()
@@ -71,6 +71,9 @@
 	else if(istype(held_item, /obj/item/gun))
 		if(controller.blackboard[BB_ARCHER_NPC_STASHED_WEAPON])
 			_restore_stashed_weapon(controller, pawn)
+	else if(held_item?.flags_ai_inventory & AI_ITEM_THROWING)
+		if(!controller.blackboard[BB_HELD_CONSUMABLE])
+			_rearm(controller, pawn)
 	else if(!isweapon(held_item))
 		pawn.swap_hand()
 		if(isweapon(pawn.get_active_held_item()))
@@ -99,13 +102,8 @@
 		return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_FAILED
 
 	var/obj/item/held_weapon = pawn.get_active_held_item()
-	if(!HAS_TRAIT(pawn, TRAIT_CHUNKYFINGERS) && !ai_npc_fights_unarmed(pawn) && !istype(held_weapon, /obj/item/rogueweapon) && !istype(held_weapon, /obj/item/gun))
-		for(var/obj/item/rogueweapon/candidate in range(1, pawn))
-			if(!isturf(candidate.loc))
-				continue
-			if(_draw_into_hand(pawn, candidate, active = TRUE))
-				held_weapon = candidate
-				break
+	if(!controller.blackboard[BB_HELD_CONSUMABLE] && !HAS_TRAIT(pawn, TRAIT_CHUNKYFINGERS) && !ai_npc_fights_unarmed(pawn) && !istype(held_weapon, /obj/item/gun) && (!isweapon(held_weapon) || (held_weapon.flags_ai_inventory & AI_ITEM_THROWING)))
+		_rearm(controller, pawn)
 
 	if(!td.can_attack(pawn, target))
 		AI_THINK(pawn, "ATTACK: can't attack [target] - td rejected")
@@ -187,6 +185,25 @@
 /datum/ai_behavior/basic_melee_attack/human_npc/proc/_swing_ready(mob/living/carbon/human/pawn)
 	var/swing_at = world.time + pawn.npc_reaction_time()
 	return swing_at > pawn.next_click && swing_at >= pawn.next_move
+
+/datum/ai_behavior/basic_melee_attack/human_npc/proc/_rearm(datum/ai_controller/controller, mob/living/carbon/human/pawn)
+	var/obj/item/held = pawn.get_active_held_item()
+	if(held?.flags_ai_inventory & AI_ITEM_THROWING)
+		var/datum/component/ai_inventory_manager/inv = controller.get_inventory()
+		if(inv?.stow_item(held))
+			npc_spend_input(pawn)
+		held = pawn.get_active_held_item()
+	if((!held || (held.flags_ai_inventory & AI_ITEM_THROWING)) && ai_is_melee_weapon(pawn.get_inactive_held_item()))
+		pawn.swap_hand()
+		npc_spend_input(pawn)
+		return
+	if(held)
+		return
+	for(var/obj/item/rogueweapon/candidate in range(1, pawn))
+		if(!isturf(candidate.loc) || !ai_is_melee_weapon(candidate))
+			continue
+		if(_draw_into_hand(pawn, candidate, active = TRUE))
+			return
 
 /datum/ai_behavior/basic_melee_attack/human_npc/proc/_update_attack_intent(datum/ai_controller/controller, mob/living/carbon/human/pawn, atom/target)
 	var/swings_left = controller.blackboard[BB_HUMAN_NPC_ATTACK_INTENT_SWINGS_LEFT]

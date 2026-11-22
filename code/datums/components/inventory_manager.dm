@@ -11,6 +11,7 @@
 	/// What was in each hand before we drew a consumable, keyed by hand slot flag
 	var/obj/item/cached_inactive_hand
 	var/obj/item/cached_active_hand
+	var/cached_active_index
 
 /datum/component/ai_inventory_manager/Initialize(mapload)
 	if(!iscarbon(parent))
@@ -211,6 +212,7 @@
 
 	cached_active_hand = H.get_active_held_item()
 	cached_inactive_hand = H.get_inactive_held_item()
+	cached_active_index = H.active_hand_index
 
 	if(cached_active_hand?.wielded)
 		cached_active_hand.ungrip(H)
@@ -240,30 +242,33 @@
 		return
 	var/mob/living/carbon/human/H = parent
 
-	var/obj/item/active	= H.get_active_held_item()
-	var/obj/item/inactive = H.get_inactive_held_item()
-
 	// Snapshot and clear FIRST to prevent reentrant calls from re-running
 	var/obj/item/want_active = cached_active_hand
 	var/obj/item/want_inactive = cached_inactive_hand
+	var/want_index = cached_active_index
 	cached_active_hand = null
 	cached_inactive_hand = null
+	cached_active_index = null
 
-	if(active && active != want_active && active != want_inactive)
-		if(!stow_item(active))
-			H.dropItemToGround(active)
+	for(var/obj/item/held in H.held_items)
+		if(held == want_active || held == want_inactive)
+			continue
+		if(!stow_item(held))
+			H.dropItemToGround(held)
 
-	if(inactive && inactive != want_active && inactive != want_inactive)
-		if(!stow_item(inactive))
-			H.dropItemToGround(inactive)
+	if(want_index && H.active_hand_index != want_index)
+		H.swap_hand(want_index)
 
-	if(want_active && !H.get_active_held_item())
-		H.put_in_active_hand(want_active)
+	_reclaim_hand_item(want_active, TRUE)
+	_reclaim_hand_item(want_inactive, FALSE)
 
-	if(want_inactive && !H.get_inactive_held_item())
-		H.swap_hand()
-		H.put_in_active_hand(want_inactive)
-		H.swap_hand()
+/datum/component/ai_inventory_manager/proc/_reclaim_hand_item(obj/item/it, active)
+	var/mob/living/carbon/human/H = parent
+	if(QDELETED(it) || (it in H.held_items))
+		return
+	if(isturf(it.loc) ? !H.Adjacent(it) : get(it, /mob) != H)
+		return
+	_draw_into_hand(H, it, active)
 
 /datum/component/ai_inventory_manager/proc/_make_hand_free()
 	var/mob/living/carbon/human/H = parent
