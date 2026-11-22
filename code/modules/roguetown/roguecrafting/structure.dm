@@ -9,7 +9,7 @@
 /datum/crafting_recipe/roguetown/structure/TurfCheck(mob/user, turf/T)
 	if(istype(T,/turf/open/transparent/openspace))
 		return FALSE
-	if(istype(T, /turf/open/water) || istype(T, /turf/open/transparent/openspace) || istype(T, /turf/open/lava) || istype(T, /turf/open/acid))
+	if(istype(T, /turf/open/water))
 		return FALSE
 	return ..()
 
@@ -833,7 +833,7 @@
 	verbage = "constructs"
 
 /datum/crafting_recipe/roguetown/structure/ladder/TurfCheck(mob/user, turf/T)
-	if(istype(T, /turf/open/water) || istype(T, /turf/open/transparent/openspace) || istype(T, /turf/open/lava) || istype(T, /turf/open/acid))
+	if(istype(T, /turf/open/water) || istype(T, /turf/open/transparent/openspace) || istype(T, /turf/open/lava))
 		to_chat(user, span_warning("I can't craft this here."))
 		return FALSE
 	if(locate(/obj/structure/ladder) in T)
