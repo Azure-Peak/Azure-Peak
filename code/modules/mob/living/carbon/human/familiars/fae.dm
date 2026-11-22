@@ -55,7 +55,8 @@
 	)
 	origin = "The Faewyld"
 	origin_default = /datum/virtue/origin/unselectable/fae
-	species_traits = list(NO_UNDERWEAR, NO_ORGAN_FEATURES, NO_BODYPART_FEATURES, NOBLOOD, NOSTOMACH)
+	species_traits = list(NO_UNDERWEAR, NO_ORGAN_FEATURES, NO_BODYPART_FEATURES, NOSTOMACH)
+	blood_color = "#a3ffba" // it's not blood it's plant juice or w/e
 
 /mob/living/carbon/human/species/familiar/fae/Initialize(mapload)
 	. = ..()

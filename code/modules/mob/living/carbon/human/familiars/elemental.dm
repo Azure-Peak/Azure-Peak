@@ -23,6 +23,7 @@
 	id = "elemental"
 	origin = "The Depths"
 	origin_default = /datum/virtue/origin/unselectable/elemental
+	blood_color = "#5e1e0a" // rusty, brownish red = earthier
 
 // so they can actually do repairs
 /mob/living/carbon/human/species/familiar/elemental/Initialize(mapload)

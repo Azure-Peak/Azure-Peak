@@ -18,6 +18,7 @@
 	id = "void_drakeling"
 	origin = "The Void"
 	origin_default = /datum/virtue/origin/unselectable/void
+	blood_color = "#0c0c3f" // void blood
 
 /mob/living/carbon/human/species/familiar/void/is_aligned_leyline(obj/structure/leyline/ley)
 	return !istype(ley, /obj/structure/leyline/tamed)

@@ -50,6 +50,7 @@
 	)
 	origin = "The Hells"
 	origin_default = /datum/virtue/origin/unselectable/infernal
+	blood_color = "#ff670e" // bright, fiery orange infernal essence
 
 // they get to glow because they're on fire
 /mob/living/carbon/human/species/familiar/infernal/Initialize(mapload)
