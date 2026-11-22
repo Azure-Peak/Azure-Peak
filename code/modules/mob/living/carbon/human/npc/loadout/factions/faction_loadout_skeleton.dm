@@ -577,6 +577,7 @@
 
 /datum/npc_loadout/weapon/fallen_duke
 	r_hand = /obj/item/rogueweapon/sword/rapier/lord
+	l_hand = /obj/item/rogueweapon/shield/tower/metal/alloy
 
 /datum/npc_loadout/weapon/lich_knight
 	weapons = list(
