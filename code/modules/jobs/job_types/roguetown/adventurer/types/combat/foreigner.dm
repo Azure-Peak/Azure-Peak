@@ -708,8 +708,8 @@
 
 /datum/advclass/foreigner/lesserblackoak
 	name = "Azurian Grovewalker"
-	tutorial = "Autumn's grace trails you as a guardian-errant of the Black Oaks; an irregular militia that \
-	fights for the ancestral elven homelands of Azuria. Nature's call manifests along your blossoming bark, \
+	tutorial = "Autumn's grace trails you as a guardian-errant of the Black Oaks; the warriors that \
+	fight for the Rossans of Azuria. Nature's call manifests along your blossoming bark, \
 	and you shall answer. Whether through blade or bow, you shall ensure that those who dare to disrespect \
 	Azuria's supple forests will learn to regret it."
 	extra_context = "This class is restricted to the Elf, Half-Elf, and Dark Elf species."
@@ -745,7 +745,7 @@
 
 /datum/outfit/job/roguetown/adventurer/lesserblackoak/pre_equip(mob/living/carbon/human/H)
 	..()
-	to_chat(H, span_warning("Whether through merit or heritage, you've earned the right of tutelage under the Black Oaks; an irregular militia that fights for the ancestral elven homelands of Azuria. Jaunt through the underbrush and oppress the oppressors with both blade-and-bow."))
+	to_chat(H, span_warning("Whether through merit or heritage, you've earned the right of tutelage under the Black Oaks; the warriors that fight for the Rossans of Azuria. Jaunt through the underbrush and slay your foes with both blade and bow."))
 	H.set_blindness(0)
 	if(H.mind)
 		var/weapons = list("Autumned Longsword","Autumned Glaive","Autumned Bow")
