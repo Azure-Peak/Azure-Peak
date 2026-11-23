@@ -498,7 +498,7 @@
 	return TRUE
 
 /proc/create_undine(mob/living/carbon/human/user, turf/target_turf)
-	if(!user.mind?.active)
+	if(!user.mind?.active || HAS_TRAIT(user, TRAIT_POSSESSED))
 		return FALSE
 	var/mob/living/simple_animal/undine/projection = new /mob/living/simple_animal/undine(target_turf)
 	var/tmpdir = user.dir
@@ -510,7 +510,7 @@
 	ico.alpha = 190 // watery effect without being TOO hard to see
 	projection.appearance = ico
 	var/datum/language_holder/lang = user.mind.get_language_holder()
-	projection.name = user.real_name // todo change to get_unmasked_name once hag pr is fullmerged
+	projection.name = user.get_unmasked_name()
 	projection.key = user.key
 	projection.desc = "A water spirit shaped by an Abyssorite's will. It looks fragile."
 	projection.original_body = user
