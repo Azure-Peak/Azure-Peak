@@ -20,7 +20,7 @@
 	statpack = /datum/npc_statpack/heavy/t4
 	armor_training = ARMOR_CLASS_HEAVY
 	traits = list(TRAIT_BADTRAINER)
-	melee = SKILL_LEVEL_MASTER //vs the others, trades durability for master skills. A la bandit hedgeknight.
+	melee = SKILL_LEVEL_MASTER //vs the others, trades durability + miracles for master skills. Basically its like fighting a bandit hedgeknight.
 	body = /datum/npc_body/northern_commoner/soldier/deranged_knight
 	ai_controller = /datum/ai_controller/human_npc
 	loadouts = list(
@@ -28,6 +28,9 @@
 		/datum/npc_loadout/kit/hedgeknight_flavor,
 		/datum/npc_loadout/weapon/hedgeknight,
 	)
+
+//**ALL DERANGED LUXPLATE KNIGHTS A R E CAPABLE OF MIRACLES**//
+//**DO KEEP IN MIND THESE ARE MEANT TO BE HIGH-END HERETIC MOBS**//
 
 //** ZIZO. ZIZO. ZIZO. **//
 
@@ -38,10 +41,10 @@
 	patron = /datum/patron/inhumen/zizo
 	armor_training = ARMOR_CLASS_MEDIUM
 	body = /datum/npc_body/northern_commoner/soldier/deranged_knight
-	ai_controller = /datum/ai_controller/human_npc
+	ai_controller = /datum/ai_controller/human_npc/caster/melee
 	loadouts = list(
 		/datum/npc_loadout/armor/luxplate/zizo,
-		/datum/npc_loadout/kit/zizo_flavor,
+		/datum/npc_loadout/kit/zizo_knight_flavor,
 		/datum/npc_loadout/weapon/zizo,
 	)
 
@@ -59,14 +62,13 @@
 /datum/npc_archetype/deranged_knight/zizo/spitfire
 	name = "Zizite Templar Fyrespitter"
 	statpack = /datum/npc_statpack/line/t4
-	stat_modifiers = list("intelligence" = 1)
 	patron = /datum/patron/inhumen/zizo
 	armor_training = ARMOR_CLASS_MEDIUM
 	body = /datum/npc_body/northern_commoner/soldier/deranged_knight
 	ai_controller = /datum/ai_controller/human_npc/caster/melee
 	loadouts = list(
 		/datum/npc_loadout/armor/luxplate/zizo,
-		/datum/npc_loadout/kit/zizo_flavor,
+		/datum/npc_loadout/kit/zizo_knight_flavor,
 		/datum/npc_loadout/weapon/zizo,
 		/datum/npc_loadout/kit/zizo_cantrip_spitfire,
 	)
@@ -74,14 +76,13 @@
 /datum/npc_archetype/deranged_knight/zizo/arcyne_bolt
 	name = "Zizite Templar Arcyne Bolter"
 	statpack = /datum/npc_statpack/line/t4
-	stat_modifiers = list("intelligence" = 1)
 	patron = /datum/patron/inhumen/zizo
 	armor_training = ARMOR_CLASS_MEDIUM
 	body = /datum/npc_body/northern_commoner/soldier/deranged_knight
 	ai_controller = /datum/ai_controller/human_npc/caster/melee
 	loadouts = list(
 		/datum/npc_loadout/armor/luxplate/zizo,
-		/datum/npc_loadout/kit/zizo_flavor,
+		/datum/npc_loadout/kit/zizo_knight_flavor,
 		/datum/npc_loadout/weapon/zizo,
 		/datum/npc_loadout/kit/zizo_cantrip_arcyne_bolt,
 	)
@@ -89,14 +90,13 @@
 /datum/npc_archetype/deranged_knight/zizo/arc_bolt
 	name = "Zizite Templar Arc Bolter"
 	statpack = /datum/npc_statpack/line/t4
-	stat_modifiers = list("intelligence" = 1)
 	patron = /datum/patron/inhumen/zizo
 	armor_training = ARMOR_CLASS_MEDIUM
 	body = /datum/npc_body/northern_commoner/soldier/deranged_knight
 	ai_controller = /datum/ai_controller/human_npc/caster/melee
 	loadouts = list(
 		/datum/npc_loadout/armor/luxplate/zizo,
-		/datum/npc_loadout/kit/zizo_flavor,
+		/datum/npc_loadout/kit/zizo_knight_flavor,
 		/datum/npc_loadout/weapon/zizo,
 		/datum/npc_loadout/kit/zizo_cantrip_arc_bolt,
 	)
@@ -109,10 +109,10 @@
 	stat_modifiers = list("intelligence" = 1, "willpower" = 1)
 	patron = /datum/patron/inhumen/zizo
 	armor_training = ARMOR_CLASS_HEAVY
-	ai_controller = /datum/ai_controller/human_npc
+	ai_controller = /datum/ai_controller/human_npc/caster/melee
 	loadouts = list(
 		/datum/npc_loadout/armor/luxplate/zizo_heavy,
-		/datum/npc_loadout/kit/zizo_flavor,
+		/datum/npc_loadout/kit/zizo_knight_flavor,
 		/datum/npc_loadout/weapon/zizo_heavy,
 	)
 
@@ -130,13 +130,12 @@
 /datum/npc_archetype/deranged_knight/zizo_heavy/spitfire
 	name = "Zizite Champion Fyrespitter"
 	statpack = /datum/npc_statpack/heavy/t4
-	stat_modifiers = list("intelligence" = 1)
 	patron = /datum/patron/inhumen/zizo
 	armor_training = ARMOR_CLASS_HEAVY
 	ai_controller = /datum/ai_controller/human_npc/caster/melee
 	loadouts = list(
 		/datum/npc_loadout/armor/luxplate/zizo_heavy,
-		/datum/npc_loadout/kit/zizo_flavor,
+		/datum/npc_loadout/kit/zizo_knight_flavor,
 		/datum/npc_loadout/weapon/zizo_heavy,
 		/datum/npc_loadout/kit/zizo_cantrip_spitfire,
 	)
@@ -144,13 +143,12 @@
 /datum/npc_archetype/deranged_knight/zizo_heavy/arcyne_bolt
 	name = "Zizite Champion Arcyne Bolter"
 	statpack = /datum/npc_statpack/heavy/t4
-	stat_modifiers = list("intelligence" = 1)
 	patron = /datum/patron/inhumen/zizo
 	armor_training = ARMOR_CLASS_HEAVY
 	ai_controller = /datum/ai_controller/human_npc/caster/melee
 	loadouts = list(
 		/datum/npc_loadout/armor/luxplate/zizo_heavy,
-		/datum/npc_loadout/kit/zizo_flavor,
+		/datum/npc_loadout/kit/zizo_knight_flavor,
 		/datum/npc_loadout/weapon/zizo_heavy,
 		/datum/npc_loadout/kit/zizo_cantrip_arcyne_bolt,
 	)
@@ -158,13 +156,12 @@
 /datum/npc_archetype/deranged_knight/zizo_heavy/arc_bolt
 	name = "Zizite Champion Arc Bolter"
 	statpack = /datum/npc_statpack/heavy/t4
-	stat_modifiers = list("intelligence" = 1)
 	patron = /datum/patron/inhumen/zizo
 	armor_training = ARMOR_CLASS_HEAVY
 	ai_controller = /datum/ai_controller/human_npc/caster/melee
 	loadouts = list(
 		/datum/npc_loadout/armor/luxplate/zizo_heavy,
-		/datum/npc_loadout/kit/zizo_flavor,
+		/datum/npc_loadout/kit/zizo_knight_flavor,
 		/datum/npc_loadout/weapon/zizo_heavy,
 		/datum/npc_loadout/kit/zizo_cantrip_arc_bolt,
 	)
@@ -173,26 +170,28 @@
 /datum/npc_archetype/deranged_knight/graggar
 	name = "Graggarite Templar"
 	statpack = /datum/npc_statpack/line/t4
-	stat_modifiers = list("strength" = 2)
+	//buffs stats via call-to-slaughter + shatter binds - can still heal self
+	ai_controller = /datum/ai_controller/human_npc/caster/melee
 	patron = /datum/patron/inhumen/graggar
 	armor_training = ARMOR_CLASS_MEDIUM
 	traits = list(TRAIT_STRENGTH_UNCAPPED) ///GRAGGAR SHATTER MYNE BINDS
 	loadouts = list(
 		/datum/npc_loadout/armor/luxplate/graggar,
-		/datum/npc_loadout/kit/graggar_flavor,
+		/datum/npc_loadout/kit/graggar_knight_flavor,
 		/datum/npc_loadout/weapon/graggar,
 	)
 
 /datum/npc_archetype/deranged_knight/graggar_heavy
 	name = "Graggarite Champion"
 	statpack = /datum/npc_statpack/heavy/t4
-	stat_modifiers = list("strength" = 2)
+	//buffs stats via call-to-slaughter + shatter binds - can still heal self
+	ai_controller = /datum/ai_controller/human_npc/caster/melee
 	patron = /datum/patron/inhumen/graggar
 	armor_training = ARMOR_CLASS_HEAVY
 	traits = list(TRAIT_STRENGTH_UNCAPPED) ///GRAGGAR SHATTER MYNE BINDS
 	loadouts = list(
 		/datum/npc_loadout/armor/luxplate/graggar_heavy,
-		/datum/npc_loadout/kit/graggar_flavor,
+		/datum/npc_loadout/kit/graggar_knight_flavor,
 		/datum/npc_loadout/weapon/graggar_heavy,
 	)
 
@@ -200,12 +199,14 @@
 /datum/npc_archetype/deranged_knight/matthios_heavy
 	name = "Matthiosian Champion"
 	statpack = /datum/npc_statpack/heavy/t4
+	ai_controller = /datum/ai_controller/human_npc/caster/melee
+	//until matthios miracles get reworked to be actually useful for NPCs to use - can still heal self
 	stat_modifiers = list("willpower" = 2)
 	patron = /datum/patron/inhumen/matthios
 	armor_training = ARMOR_CLASS_HEAVY
 	loadouts = list(
 		/datum/npc_loadout/armor/luxplate/matthios_heavy,
-		/datum/npc_loadout/kit/matthios_flavor,
+		/datum/npc_loadout/kit/matthios_knight_flavor,
 		/datum/npc_loadout/weapon/matthios_heavy,
 	)
 
@@ -213,12 +214,14 @@
 /datum/npc_archetype/deranged_knight/baotha
 	name = "Baothan Champion"
 	statpack = /datum/npc_statpack/light/t4
+	ai_controller = /datum/ai_controller/human_npc/caster/melee
+	//u can't have vices as an NPC, so her miracles are mostly useless - can still heal self
 	stat_modifiers = list("speed" = 2)
 	patron = /datum/patron/inhumen/baotha
 	armor_training = ARMOR_CLASS_LIGHT
 	loadouts = list(
 		/datum/npc_loadout/armor/luxplate/baotha,
-		/datum/npc_loadout/kit/baotha_flavor,
+		/datum/npc_loadout/kit/baotha_knight_flavor,
 		/datum/npc_loadout/weapon/baotha,
 	)
 
@@ -270,14 +273,14 @@
 	)
 	backl = /obj/item/storage/backpack/rogue/satchel/black // literally just flavor
 
-/datum/npc_loadout/kit/zizo_flavor
+/datum/npc_loadout/kit/zizo_knight_flavor
+	miracle_tier = CLERIC_T2 //currently only can do lesser miracle
 	id = list(
 		/obj/item/clothing/neck/roguetown/psicross/inhumen = 25,
 		/obj/item/clothing/neck/roguetown/psicross/inhumen/aalloy = 25,
 		/obj/item/clothing/neck/roguetown/psicross/inhumen/g = 1,
 		/obj/item/clothing/neck/roguetown/psicross/inhumen/paalloy = 10,
 		/obj/item/clothing/neck/roguetown/psicross/inhumen/bronze = 15,
-		NPC_NOTHING = 30,
 	)
 	belt = list(
 		/obj/item/storage/belt/rogue/leather/steel/tasset,
@@ -286,12 +289,12 @@
 	)
 	backl = /obj/item/storage/backpack/rogue/satchel/black // literally just flavor
 
-/datum/npc_loadout/kit/graggar_flavor
+/datum/npc_loadout/kit/graggar_knight_flavor
+	miracle_tier = CLERIC_T2 //able to FULLY use this, fear them
 	id = list(
 		/obj/item/clothing/neck/roguetown/psicross/inhumen/graggar = 25,
 		/obj/item/clothing/neck/roguetown/psicross/inhumen/graggar/g = 1,
 		/obj/item/clothing/neck/roguetown/psicross/inhumen/graggar/bronze = 16,
-		NPC_NOTHING = 20,
 	)
 	belt = list(
 		/obj/item/storage/belt/rogue/leather/steel/tasset,
@@ -300,12 +303,12 @@
 	)
 	backl = /obj/item/storage/backpack/rogue/satchel //literally just flavor
 
-/datum/npc_loadout/kit/matthios_flavor
+/datum/npc_loadout/kit/matthios_knight_flavor
+	miracle_tier = CLERIC_T2 //currently only can do lesser miracle
 	id = list(
 		/obj/item/clothing/neck/roguetown/psicross/inhumen/matthios = 30,
 		/obj/item/clothing/neck/roguetown/psicross/astrata/g/triumph = 15, //is this TRVE?
 		/obj/item/clothing/neck/roguetown/psicross/inhumen/matthios/g = 1,
-		NPC_NOTHING = 20,
 	)
 	belt = list(
 		/obj/item/storage/belt/rogue/leather/plaquegold,
@@ -315,11 +318,11 @@
 	)
 	backl = /obj/item/storage/backpack/rogue/satchel //literally just flavor
 
-/datum/npc_loadout/kit/baotha_flavor
+/datum/npc_loadout/kit/baotha_knight_flavor
+	miracle_tier = CLERIC_T2 //currently only can do lesser miracle
 	id = list(
 		/obj/item/clothing/neck/roguetown/psicross/inhumen/baotha = 30,
 		/obj/item/clothing/neck/roguetown/psicross/inhumen/baotha/g = 1,
-		NPC_NOTHING = 20,
 	)
 	belt = list(
 		/obj/item/storage/belt/rogue/leather/plaquegold,
