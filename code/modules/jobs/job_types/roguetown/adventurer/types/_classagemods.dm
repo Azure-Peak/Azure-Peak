@@ -134,6 +134,7 @@
 	)
 
 /datum/class_age_mod/veteran/spy
+	traits_added = list(TRAIT_PROWLER_EXPERT)
 	// Having Master Knives is extremely negligible for a singular role that isn't even meant to be combative.
 	skill_mods = list(
 		/datum/skill/misc/sneaking = SKILL_LEVEL_LEGENDARY,
@@ -174,6 +175,7 @@
 	utility_mod = 3
 
 /datum/class_age_mod/hand_spymaster
+	traits_added = list(TRAIT_PROWLER_EXPERT)
 	target_age = AGE_OLD
 	skill_mods = list(
 		/datum/skill/misc/sneaking = SKILL_LEVEL_LEGENDARY,

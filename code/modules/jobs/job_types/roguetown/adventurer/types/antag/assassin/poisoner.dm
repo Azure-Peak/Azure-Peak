@@ -7,7 +7,13 @@
 
 	outfit = /datum/outfit/job/roguetown/assassin/poisoner
 	category_tags = list(CTAG_ASSASSIN)
-	traits_applied = list(TRAIT_NOSTINK, TRAIT_ALCHEMY_EXPERT, TRAIT_UNCONVERTIBLE, TRAIT_BADTRAINER)	// Stinky Man - You get tossed a bone around rotting corpses. Plays into the poison and stuff.
+	traits_applied = list(
+		TRAIT_NOSTINK,
+		TRAIT_ALCHEMY_EXPERT,
+		TRAIT_UNCONVERTIBLE,
+		TRAIT_BADTRAINER,
+		TRAIT_PROWLER_EXPERT,
+	)	// Stinky Man - You get tossed a bone around rotting corpses. Plays into the poison and stuff.
 	// Weighted 14
 	// im not really sure what stats these guys *need*, honestly. throwing a bone w/ PER and all. poisons aren't very good anymore, unfortunately.
 	// hopefully the higher int will let them do... some stuff. some interesting stuff. again; IDRFK.

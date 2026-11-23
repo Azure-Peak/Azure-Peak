@@ -196,7 +196,18 @@
 	tutorial = "You are a noble of a long fallen and forgotten kingdom, trained in maile and footwork alike. You can almost remember the days of listening to the quietest whispers in your court, you were once a vault of intrigue in your own right before the previous collapse. Yet your talents will see another era of use and with it, your master's vision shalt become reality."
 	outfit = /datum/outfit/job/roguetown/other/vampnoble
 	subclass_languages = list(/datum/language/thievescant)
-	traits_applied = list(TRAIT_DODGEEXPERT, TRAIT_MEDIUMARMOR, TRAIT_NOBLE, TRAIT_CICERONE, TRAIT_NUTCRACKER, TRAIT_LIGHT_STEP, TRAIT_KEENEARS, TRAIT_PERFECT_TRACKER, TRAIT_UNCONVERTIBLE) //The perfect spy, advisor and assassin, all in one.
+	traits_applied = list(
+		TRAIT_DODGEEXPERT,
+		TRAIT_MEDIUMARMOR,
+		TRAIT_NOBLE,
+		TRAIT_CICERONE,
+		TRAIT_NUTCRACKER,
+		TRAIT_LIGHT_STEP,
+		TRAIT_KEENEARS,
+		TRAIT_PERFECT_TRACKER,
+		TRAIT_UNCONVERTIBLE,
+		TRAIT_PROWLER_EXPERT,
+	) //The perfect spy, advisor and assassin, all in one.
 	category_tags = list(CTAG_VAMPSPAWN)
 	subclass_stats = list(
 		STATKEY_INT = 2,

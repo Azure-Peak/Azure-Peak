@@ -42,6 +42,7 @@
 			owner.special_items["Lockpicks"] = /obj/item/lockpickring/mundane
 			aspirant_mob.adjust_skillrank_up_to(/datum/skill/combat/maces, 5)
 			aspirant_mob.adjust_skillrank_up_to(/datum/skill/misc/lockpicking, 5)
+			ADD_TRAIT(aspirant_mob, TRAIT_PROWLER_EXPERT, TRAIT_GENERIC)
 		if(CHOICE_SWORDSMANSHIP)
 			var/static/list/swordsmanship_flavors = list(
 				"I have become a master of Contemporary Grenzelhoftian Swordsmanship, having studied the original copy of Emich von Apfelweinheim's 1491 Manual - all seven volumes.",

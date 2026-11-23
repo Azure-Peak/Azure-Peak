@@ -80,6 +80,7 @@
 							) //rogue gets lockpicks
 				H.adjust_skillrank_up_to(/datum/skill/combat/crossbows, SKILL_LEVEL_MASTER, TRUE)
 				H.adjust_skillrank_up_to(/datum/skill/misc/sneaking, SKILL_LEVEL_MASTER, TRUE)
+				ADD_TRAIT(H, TRAIT_PROWLER_EXPERT, TRAIT_GENERIC)
 				H.adjust_skillrank_up_to(/datum/skill/misc/lockpicking, SKILL_LEVEL_MASTER, TRUE)
 			if("Poacher") //Poacher
 				backl= /obj/item/gun/ballistic/revolver/grenadelauncher/bow

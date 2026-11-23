@@ -7,7 +7,11 @@
 
 	outfit = /datum/outfit/job/roguetown/assassin/hitman
 	category_tags = list(CTAG_ASSASSIN)
-	traits_applied = list(TRAIT_BLACKBAGGER, TRAIT_UNCONVERTIBLE)	// Agent (15)47 - Lets you use the blackbag and garrote you
+	traits_applied = list(
+		TRAIT_BLACKBAGGER,
+		TRAIT_UNCONVERTIBLE,
+		TRAIT_PROWLER_EXPERT,
+	)	// Agent (15)47 - Lets you use the blackbag and garrote you
 	// Weighted 14
 	// post-redesign, this is basically a Souped Up Confessor. higher WIL, SPD, and PER. a little STR to get you through.
 	// blackbag motherfuckers. if that doesn't work; Knife Dat Bitch!! you still also have stupidly high wrestling but im hoping w/ the

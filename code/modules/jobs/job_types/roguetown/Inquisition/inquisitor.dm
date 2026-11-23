@@ -45,6 +45,7 @@
 	subclass_languages = list(/datum/language/otavan)
 	category_tags = list(CTAG_INQUSITOR)
 	traits_applied = list(
+		TRAIT_PROWLER_EXPERT,
 		TRAIT_STEELHEARTED,
 		TRAIT_DODGEEXPERT,
 		TRAIT_MEDIUMARMOR,
