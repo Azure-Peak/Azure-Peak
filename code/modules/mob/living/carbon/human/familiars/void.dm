@@ -8,7 +8,7 @@
 	tutorial_message = span_notice("You are a new being, weak and without any notable traits. This will not do! Summon and consume weak (first-Circle) planar beings to grow your powers. One from each plane will suffice, for now. Add their natures to your own, and grow strong.")
 	var/list/essences_consumed = list()
 	var/list/beam_parts = list()
-	inherent_spell = list(/obj/effect/proc_holder/spell/invoked/consume)
+	inherent_spell = list(/datum/action/cooldown/spell/consume)
 	valid_healing_items = list(/obj/item/magic/fae, /obj/item/magic/elemental, /obj/item/magic/infernal) // hungy
 	planar_origin = "void"
 	voiceclips = list('sound/vo/mobs/wwolf/idle (1).ogg', 'sound/vo/mobs/vdragon/drgnroar.ogg')
@@ -57,7 +57,7 @@
 			src.mind.AddSpell(new /datum/action/cooldown/spell/invisibility/fae)
 		if("infernal") // nerfed aberrant beam, fire res
 			to_chat(src, span_notice("As you absorb the essence of the hells, you take on some of their nature. Flames will harm you no more, and you can now manifest an aberrant beam to blast your foes."))
-			src.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/drakeling_beam)
+			src.mind.AddSpell(new /datum/action/cooldown/spell/void_beam/familiar)
 		if("elemental") // stat buff, inherits spell
 			to_chat(src, span_notice("As you absorb the essence of the depths, you take on some of its nature. Your body grows sturdier, and you can now tear stones from the earth itself, or reshape your form."))
 			src.STACON += 2

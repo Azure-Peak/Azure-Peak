@@ -7,6 +7,7 @@
 
 	speak_emote = list ("rumbles", "grinds")
 	tutorial_message = "As a denizen of the earthen depths, you are skilled at most forms of construction and repair. You can call forth stones from the earth, or shape yourself into tools and walls, including a staff tipped with a potent earthen gem; you may also shape earth into tools for your own use."
+	inherent_spell = list(/datum/action/cooldown/spell/magicians_stone/elemental, /datum/action/cooldown/spell/earthen_forge, /datum/action/cooldown/spell/earthen_forge/wall, /datum/action/cooldown/spell/arcyne_forge/elementalt2)
 	valid_healing_items = list(/obj/item/magic/elemental)
 	planar_origin = "elemental"
 	STACON = 8 // these guys are tankier

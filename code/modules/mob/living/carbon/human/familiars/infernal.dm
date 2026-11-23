@@ -7,7 +7,7 @@
 	race = /datum/species/familiar/infernal
 	speak_emote = list("growls","crackles")
 	tutorial_message = span_notice("As a weaker denizen of the hells, your fire is tame enough to act as a campfire: you can be cooked on, or rested near to aid in recuperation. You also shine with a small amount of light, and flames will not harm you. You can also possess certain objects (weapons, clothing, armor), increasing their power, but also granting YOU the ability to possess whoever wields them...")
-	inherent_spell = list(/obj/effect/proc_holder/spell/invoked/incendiary_bite, /datum/action/cooldown/spell/infernal_possession)
+	inherent_spell = list(/datum/action/cooldown/spell/incendiary_bite, /datum/action/cooldown/spell/infernal_possession)
 	var/healing_range = 1
 	var/static/list/acceptable_beds = list(/obj/structure/bed, /obj/structure/flora/roguetree/stump, /obj/item/bedsheet)
 	valid_healing_items = list(/obj/item/magic/infernal)

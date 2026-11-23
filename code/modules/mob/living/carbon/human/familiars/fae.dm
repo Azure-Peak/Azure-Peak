@@ -14,7 +14,7 @@
 	var/brewing = 0
 	var/should_brew = FALSE
 	pass_flags = PASSTABLE | PASSMOB
-	inherent_spell = list(/datum/action/cooldown/spell/projectile/fetch/fae, /datum/action/cooldown/spell/rootcheck, /datum/action/cooldown/spell/invisibility/fae, /datum/action/cooldown/spell/fae_brew, /obj/effect/proc_holder/spell/invoked/reagent_bite)
+	inherent_spell = list(/datum/action/cooldown/spell/projectile/fetch/fae, /datum/action/cooldown/spell/rootcheck, /datum/action/cooldown/spell/invisibility/fae, /datum/action/cooldown/spell/fae_brew, /datum/action/cooldown/spell/reagent_bite)
 	movement_type = FLYING
 	tutorial_message = span_notice("As a native of the faewyld, you are able to fly, and kneestingers will not harm you. In addition, you can lash out with a vine to retrieve small objects at a distance, blend into your surroundings at will, and force hidden crops to bloom at your command. You also act as a reagent container, holding up to 90 drams of any solution. You can also deliver 5 drams at a time of your stored solution with an alchemical bite. You may also act as a portable cauldron, able to be fed alchemical reagents and brew them into potions. You do not need water to do so. Any attempts to brew potion beyond your reagent capacity will result in reagents being voided.")
 	valid_healing_items = list(/obj/item/magic/fae)

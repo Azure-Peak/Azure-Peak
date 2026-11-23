@@ -214,60 +214,66 @@
 	desc = "Shoot out a grasping vine that draws in a freestanding item towards the caster. Doesn't work on living targets."
 	invocations = list("Recolligere silva")
 
-/obj/effect/proc_holder/spell/invoked/reagent_bite
+/datum/action/cooldown/spell/reagent_bite
 	name = "Alchemical Bite" // placeholder
 	desc = "Bite a target, delivering a 5-dram dose of whatever is in your stomach. Cast on a reagent container to transfer its contents into your stomach, or fill it if it's empty. You can also drink from containers directly to similar effect."
-	range = 1
-	recharge_time = 10 SECONDS
-	overlay_icon = 'icons/mob/actions/mage_hex.dmi'
-	overlay_icon_state = "wither"
+	cast_range  = 1
+	cooldown_time = 10 SECONDS
+	button_icon = 'icons/mob/actions/mage_hex.dmi'
+	button_icon_state = "wither"
 
-/obj/effect/proc_holder/spell/invoked/reagent_bite/cast(list/targets, mob/living/carbon/human/species/familiar/fae/user)
+	cooldown_time = 1 SECONDS
+
+	primary_resource_type = SPELL_COST_NONE
+	spell_requirements = NONE
+	spell_impact_intensity = SPELL_IMPACT_NONE
+
+/datum/action/cooldown/spell/reagent_bite/cast(atom/target)
 	. = ..()
+	var/mob/living/carbon/human/species/familiar/fae/user = owner
+	if(!istype(user))
+		return
 	if(!user || !user.reagents) // literally how
-		revert_cast()
 		return FALSE
-	var/atom/target = targets.len?targets[1]:null
-	if(!targets.len || !(isliving(target) || target.is_refillable()) || !target.reagents)
+	if(!(isliving(target) || target.is_refillable()) || !target.reagents)
 		to_chat(user, span_notice("I need to select a valid target to bite!"))
-		revert_cast()
 		return FALSE
 	if(!isliving(target))
 		if(user.reagents.total_volume && (!target.reagents.holder_full()))
 			user.visible_message(
-				span_notice("[user.name] gently bites the top of [targets[1]], filling it with an alchemical cocktail..."),
-				span_notice("You gently bite the top of [targets[1]], filling it with your alchemical cocktail...")
+				span_notice("[user.name] gently bites the top of [target], filling it with an alchemical cocktail..."),
+				span_notice("You gently bite the top of [target], filling it with your alchemical cocktail...")
 			)
 			// we're not biting a mob, so we can loop for convenience
-			while(do_after(user, 1 SECONDS, FALSE, target) && user.reagents.trans_to(targets[1], 5, transfered_by = user))
+			while(do_after(user, 1 SECONDS, FALSE, target) && user.reagents.trans_to(target, 5, transfered_by = user))
 				user.visible_message(
-					span_notice("[user.name] fills [targets[1]] with more of [user.p_their()] alchemical cocktail..."),
-					span_notice("You fill [targets[1]] with more of your alchemical cocktail...")
+					span_notice("[user.name] fills [target] with more of [user.p_their()] alchemical cocktail..."),
+					span_notice("You fill [target] with more of your alchemical cocktail...")
 				)
 			user.visible_message(
-				span_notice("[user.name] lets go of [targets[1]]."),
-				span_notice("You let go of [targets[1]].")
+				span_notice("[user.name] lets go of [target]."),
+				span_notice("You let go of [target].")
 			)
 			return TRUE
 		else if(target.reagents.total_volume && (!user.reagents.holder_full())) // suckle it up!
 			user.visible_message(
-				span_notice("[user.name] latches onto [targets[1]], beginning to drink..."),
-				span_notice("You latch onto [targets[1]], and begin to drink...")
+				span_notice("[user.name] latches onto [target], beginning to drink..."),
+				span_notice("You latch onto [target], and begin to drink...")
 			)
 			// we're not biting a mob, so we can loop for convenience
 			while(do_after(user, 1 SECONDS, FALSE, target) && target.reagents.trans_to(user, 5, transfered_by = user))
 				user.visible_message(
-					span_notice("[user.name] drinks from [targets[1]]..."),
-					span_notice("You drink from [targets[1]]...")
+					span_notice("[user.name] drinks from [target]..."),
+					span_notice("You drink from [target]...")
 				)
 			user.visible_message(
-				span_notice("[user.name] lets go of [targets[1]]."),
-				span_notice("You let go of [targets[1]].")
+				span_notice("[user.name] lets go of [target]."),
+				span_notice("You let go of [target].")
 			)
 			return TRUE
 		return FALSE
 
-	var/mob/living/living_target = targets[1]
+	var/mob/living/living_target = target
 	user.visible_message(
 		span_notice("[user.name] attempts to bite [living_target.name]!"),
 		span_notice("You attempt to bite [living_target.name]...")
@@ -283,26 +289,22 @@
 		playsound(living_target, 'sound/combat/hits/bladed/genstab (1).ogg', 100, FALSE, -1)
 		return TRUE
 
-/obj/effect/proc_holder/spell/invoked/incendiary_bite
+/datum/action/cooldown/spell/incendiary_bite
 	name = "Incendiary Bite"
 	desc = "Bite a target, engulfing them in infernal flame."
-	range = 1
-	recharge_time = 10 SECONDS
-	overlay_icon = 'icons/mob/actions/mage_pyromancy.dmi'
-	overlay_icon_state = "spitfire"
+	cast_range = 1
+	cooldown_time = 10 SECONDS
+	button_icon = 'icons/mob/actions/mage_pyromancy.dmi'
+	button_icon_state = "spitfire"
 
-/obj/effect/proc_holder/spell/invoked/incendiary_bite/cast(list/targets, mob/living/carbon/human/species/familiar/infernal/user)
+/datum/action/cooldown/spell/incendiary_bite/cast(atom/target)
 	. = ..()
-	if(!user) // literally how
-		revert_cast()
+	if(!owner) // literally how
 		return FALSE
-	if(!targets.len)
-		to_chat(user, span_notice("I need to select a valid target to bite!"))
-		revert_cast()
+	if(!target)
+		to_chat(owner, span_notice("I need to select a valid target to bite!"))
 		return FALSE
-	var/atom/target = targets[1]
 	if(!istype(target))
-		revert_cast()
 		return FALSE
 	target.fire_act(1,10) // shouldn't be oppressive by any means it's 1 stack every 10 seconds
 
@@ -328,7 +330,7 @@
 		H.mind.AddSpell(new /datum/action/cooldown/spell/infernal_possession)
 		H.mind.RemoveSpell(src)
 	relic.forceMove(H.drop_location()) // it's stored INSIDE us when we unpossess it! so take it out first to avoid recursing
-	var/datum/component/possessed_item/P = relic.AddComponent(/datum/component/possessed_item, H, PATRON_COLOR_VHESLYN, EXAMINEHIGHLIGHT_HERESYSEVERITY_ODD, HERESYDESC_INFERNAL_PASSIVE, EXAMINEHIGHLIGHT_HERESYSEVERITY_SUSPICIOUS, HERESYDESC_INFERNAL_ACTIVE, TRUE, FALSE)
+	var/datum/component/possessed_item/P = relic.AddComponent(/datum/component/possessed_item, H, PATRON_COLOR_VHESLYN, EXAMINEHIGHLIGHT_HERESYSEVERITY_ODD, HERESYDESC_INFERNAL_PASSIVE, EXAMINEHIGHLIGHT_HERESYSEVERITY_SUSPICIOUS, HERESYDESC_INFERNAL_ACTIVE, TRUE, FALSE, /mob/living/carbon/human/proc/toggle_infernal_armor, FALSE)
 	H.RegisterSignal(P, COMSIG_QDELETING, TYPE_PROC_REF(/mob/living/carbon/human/species/familiar/infernal, relic_unpossess))
 	return TRUE
 
@@ -364,7 +366,7 @@
 		to_chat(H, span_warning("I can only possess weapons, armor, rings, and amulets."))
 		return FALSE
 	// it's that easy. all the logic for this is actually in the possessed item component
-	var/datum/component/possessed_item/P = target.AddComponent(/datum/component/possessed_item, H, spell_color, staff ? EXAMINEHIGHLIGHT_HERESYSEVERITY_SUSPICIOUS : EXAMINEHIGHLIGHT_HERESYSEVERITY_ODD, staff ? HERESYDESC_INFERNAL_PASSIVE_OBVIOUS : HERESYDESC_INFERNAL_PASSIVE, EXAMINEHIGHLIGHT_HERESYSEVERITY_SUSPICIOUS, HERESYDESC_INFERNAL_ACTIVE, TRUE, staff, (current_mode == 1), /mob/living/carbon/human/proc/toggle_infernal_armor)
+	var/datum/component/possessed_item/P = target.AddComponent(/datum/component/possessed_item, H, spell_color, staff ? EXAMINEHIGHLIGHT_HERESYSEVERITY_SUSPICIOUS : EXAMINEHIGHLIGHT_HERESYSEVERITY_ODD, staff ? HERESYDESC_INFERNAL_PASSIVE_OBVIOUS : HERESYDESC_INFERNAL_PASSIVE, EXAMINEHIGHLIGHT_HERESYSEVERITY_SUSPICIOUS, HERESYDESC_INFERNAL_ACTIVE, TRUE, staff, /mob/living/carbon/human/proc/toggle_infernal_armor)
 	if(P)
 		RegisterSignal(P, COMSIG_QDELETING, PROC_REF(handle_cooldown))
 	return FALSE // we don't want the CD to start until we get in the item
@@ -580,13 +582,13 @@
 	)
 	cooldown_time = 30 SECONDS
 
-/obj/effect/proc_holder/spell/invoked/consume
+/datum/action/cooldown/spell/consume
 	name = "Consume"
 	desc = "Devour a planar being, feasting on its essences. Eat, and grow strong."
-	range = 1
-	recharge_time = 10 SECONDS
-	overlay_icon = 'icons/mob/actions/hagspells.dmi'
-	overlay_icon_state = "hand_up"
+	cast_range = 1
+	cooldown_time = 1 MINUTES
+	button_icon = 'icons/mob/actions/hagspells.dmi'
+	button_icon_state = "hand_up"
 	var/static/list/consumable = list(
 		/mob/living/simple_animal/hostile/retaliate/rogue/fae/sprite,
 		/mob/living/simple_animal/hostile/retaliate/rogue/elemental/crawler,
@@ -594,21 +596,20 @@
 		/mob/living/carbon/human/species/familiar/void
 	)
 
-/obj/effect/proc_holder/spell/invoked/consume/cast(list/targets, mob/living/carbon/human/species/familiar/void/user)
+/datum/action/cooldown/spell/consume/cast(atom/cast_on)
 	. = ..()
+	var/mob/living/carbon/human/species/familiar/void/user = owner
 	if(!user) // literally how
-		revert_cast()
 		return FALSE
-	if(!targets.len)
+	var/mob/living/target = cast_on
+	if(!target || !(target.type in consumable))
 		to_chat(user, span_notice("I can't eat that... not yet, at least."))
 		return FALSE
-	var/mob/living/target = targets[1]
 	if(!(target.type in consumable))
 		to_chat(user, span_notice("I can't eat that... not yet, at least."))
 		return FALSE
 	if(target.mind) // generally shouldn't be true, but the last thing we want is to delete an admin having a laugh or something
 		to_chat(user, span_notice("This one is fully awakened... it will have too tight a grasp on its essence. I must find a mindless power, perhaps my creator can help?"))
-		revert_cast()
 		return FALSE
 	if(isfamiliar(target)) // can only get here if it's void so
 		user.visible_message(
@@ -685,67 +686,9 @@
 		QDEL_NULL(target)
 		return TRUE
 
-/obj/effect/proc_holder/spell/invoked/drakeling_beam
-	name = "Aberrant Beam"
-	desc = "Show these fools the power of the void!"
-	recharge_time = 30 SECONDS
-	overlay_icon = 'icons/mob/actions/mage_telomancy.dmi'
-	overlay_icon_state = "void_beam"
-	chargetime = 0
-	range = 4
-	antimagic_allowed = TRUE
-
-/obj/effect/obeliskbeam/drakeling
-	name = "drakeling beam"
-
-// nerfed damage down to one-fifth the original value - still fucks up simples though
-/obj/effect/obeliskbeam/drakeling/damage(mob/living/hit_mob)
-	if(issimple(hit_mob))
-		hit_mob.apply_damage(damage = SPELL_DMG_VS(hit_mob, SPELL_DMG(10)), damagetype = BURN)
-	else
-		hit_mob.apply_damage(damage = SPELL_DMG_VS(hit_mob, SPELL_DMG(3)), damagetype = BURN)
-	to_chat(hit_mob, span_danger("You're damaged by [src]!"))
-
-/obj/effect/proc_holder/spell/invoked/drakeling_beam/cast(list/targets, mob/living/carbon/human/species/familiar/void/user)
-	user.face_atom(targets[1])
-	user.move_resist = MOVE_FORCE_VERY_STRONG
-	if(do_after(user,1 SECONDS, target=user))
-		user.visible_message(span_danger("[user] fires an aberrant beam!"))
-		playsound(user, 'sound/magic/obeliskbeam.ogg', 150, FALSE, 0, 3)
-		var/turf/target_turf = get_ranged_target_turf(user, user.dir, 4) // nerfed range by _over_ half
-		var/turf/origin_turf = get_turf(user)
-		var/list/affected_turfs = get_line(origin_turf, target_turf) - origin_turf
-		for(var/turf/affected_turf in affected_turfs)
-			if(affected_turf.opacity)
-				break
-			var/blocked = FALSE
-			for(var/obj/potential_block in affected_turf.contents)
-				if(potential_block.opacity)
-					blocked = TRUE
-					break
-			if(blocked)
-				break
-			var/obj/effect/obeliskbeam/drakeling/new_obeliskbeam = new(affected_turf)
-			new_obeliskbeam.dir = user.dir
-			user.beam_parts += new_obeliskbeam
-			new_obeliskbeam.assign_creator(user)
-			for(var/mob/living/hit_mob in affected_turf.contents)
-				if(issimple(hit_mob))
-					hit_mob.apply_damage(damage = SPELL_DMG_VS(hit_mob, SPELL_DMG(15)), damagetype = BURN)
-				else
-					hit_mob.apply_damage(damage = SPELL_DMG_VS(hit_mob, SPELL_DMG(5)), damagetype = BURN) // this is literally one-fifth of the normal aberrant beam you will not be fragging with this
-				to_chat(hit_mob, span_userdanger("You're blasted by [user]'s aberrant beam!"))
-		if(!length(user.beam_parts))
-			return FALSE
-		var/atom/last_obeliskbeam = user.beam_parts[length(user.beam_parts)]
-		last_obeliskbeam.icon_state = "obeliskbeam_end"
-		var/atom/first_obeliskbeam = user.beam_parts[1]
-		first_obeliskbeam.icon_state = "obeliskbeam_start"
-		do_after(user, delay = 5 SECONDS, target = user)
-		user.move_resist = initial(user.move_resist)
-		for(var/obj/effect/obeliskbeam/drakeling/beam in user.beam_parts)
-			beam.disperse()
-		user.beam_parts = list()
+/datum/action/cooldown/spell/void_beam/familiar
+	name = "Abberant Beam"
+	spell_requirements = SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
 
 /datum/action/cooldown/spell/projectile/fetch/fae/void
 	name = "Grasp of the Void"
@@ -786,7 +729,7 @@
 		to_chat(H, span_warning("I can only possess weapons, armor, rings, and amulets."))
 		return FALSE
 	// it's that easy. all the logic for this is actually in the possessed item component
-	var/datum/component/possessed_item/P = target.AddComponent(/datum/component/possessed_item, H, spell_color, ephemeral = staff, change_sprites = FALSE)
+	var/datum/component/possessed_item/P = target.AddComponent(/datum/component/possessed_item, H, spell_color, ephemeral = staff)
 	if(P)
 		RegisterSignal(P, COMSIG_QDELETING, PROC_REF(handle_cooldown))
 	return FALSE // we don't want the CD to start until we get in the item

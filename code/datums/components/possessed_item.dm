@@ -35,7 +35,7 @@
 	var/item_filter
 	var/bearer_verb // we use this for infernal armor, but if we later add non-vheslynite possession it could be something else
 
-/datum/component/possessed_item/Initialize(mob/living/carbon/human/possessor, outline_color, h_severity_passive, h_desc_passive, h_severity_active, h_desc_active, start_powerful = FALSE, temp = FALSE, change_sprites = TRUE, verb_to_bearer, revert_on_break = TRUE)
+/datum/component/possessed_item/Initialize(mob/living/carbon/human/possessor, outline_color, h_severity_passive, h_desc_passive, h_severity_active, h_desc_active, start_powerful = FALSE, temp = FALSE, verb_to_bearer, revert_on_break = TRUE)
 	if(!isitem(parent) || !possessor)
 		return COMPONENT_INCOMPATIBLE
 	spirit = possessor
