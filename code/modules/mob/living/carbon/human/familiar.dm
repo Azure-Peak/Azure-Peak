@@ -43,7 +43,7 @@
 
 /mob/living/carbon/human/species/familiar/attack_hand(mob/user) // very important port from simplemobs
 	. = ..()
-	if(user.used_intent.type == INTENT_HELP)
+	if(user != src && user.used_intent.type == INTENT_HELP)
 		if (health > 0)
 			visible_message(span_notice("[user] pets [src]."), \
 							span_notice("[user] pets you."), null, null, user)
