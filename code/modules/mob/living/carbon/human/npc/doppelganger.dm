@@ -131,6 +131,7 @@
 	for(var/obj/item/shroud_item in get_equipped_items(TRUE) + held_items)
 		qdel(shroud_item)
 	mirror_body(target)
+	mirror_traits(target)
 	forms_worn += copied_name
 	form_registered = TRUE
 	mirror_gear(target)
@@ -184,7 +185,7 @@
 
 /datum/action/cooldown/doppel_take_form
 	name = "Take Form"
-	desc = "Copy the body, gear and magic of someone nearby. Works once."
+	desc = "Copy the body, gear, traits and magic of someone nearby. Works once."
 	var/choosing = FALSE
 
 /datum/action/cooldown/doppel_take_form/proc/can_copy(mob/living/carbon/human/species/human/northern/doppelganger/doppel, mob/living/carbon/human/victim)
@@ -247,9 +248,11 @@
 	advjob = target.advjob
 	patron = target.patron
 	political_faction = target.political_faction
+	noble_rank = target.noble_rank
 	pronouns = target.pronouns
 	voice_type = target.voice_type
 	mob_descriptors = target.mob_descriptors?.Copy()
+	show_descriptors = target.show_descriptors
 	def_intent_change(target.d_intent)
 
 	for(var/obj/item/bodypart/taur/their_taur in target.bodyparts)
@@ -283,6 +286,15 @@
 	STAINT = target.STAINT
 	STALUC = target.STALUC
 	recalculate_pain_threshold()
+
+/mob/living/carbon/human/species/human/northern/doppelganger/proc/mirror_traits(mob/living/carbon/human/target)
+	var/static/list/copied_sources = list(JOB_TRAIT, TRAIT_VIRTUE, TRAIT_GENERIC)
+	var/static/list/uncopied_traits = list(TRAIT_PACIFISM)
+	for(var/trait in target.status_traits)
+		if(trait in uncopied_traits)
+			continue
+		for(var/source in target.status_traits[trait] & copied_sources)
+			ADD_TRAIT(src, trait, source)
 
 /mob/living/carbon/human/species/human/northern/doppelganger/proc/mirror_gear(mob/living/carbon/human/target)
 	var/static/list/worn_slots = list(
