@@ -9,7 +9,7 @@
 	maximum_possible_slots = 1
 	class_select_category = CLASS_CAT_RACIAL
 	category_tags = list(CTAG_WRETCH)
-	traits_applied = list(TRAIT_AZURENATIVE, TRAIT_OUTDOORSMAN, TRAIT_BLACKOAK, TRAIT_ARCYNE, TRAIT_WOODWALKER, TRAIT_EXPERT_HUNTER)
+	traits_applied = list(TRAIT_AZURENATIVE, TRAIT_OUTDOORSMAN, TRAIT_ARCYNE, TRAIT_WOODWALKER, TRAIT_EXPERT_HUNTER)
 	//lower-than-avg stats for wretch but their traits are insanely good
 	subclass_stats = list(
 		STATKEY_INT = 1,
@@ -44,7 +44,7 @@
 		"Sewing Kit" =	/obj/item/repair_kit,
 		"Stashed Funds" = /obj/item/roguecoin/silver/pile/wretchpile,
 	)
-	extra_context = "This class is restricted to the Elf, Half-Elf, and Dark Elf species."
+	extra_context = "This class is restricted to the Elf and Half-Elf species."
 
 
 /datum/outfit/job/roguetown/wretch/pariah

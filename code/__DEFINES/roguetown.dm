@@ -159,6 +159,7 @@ Balloon Alert / Floating Text defines
 // All but elves & half-elves.
 #define RACES_BLACKOAK \
 	/datum/species/human/northern,\
+	/datum/species/elf/dark,\
 	/datum/species/elf/dark/raider,\
 	/datum/species/dwarf/mountain,\
 	/datum/species/tieberian,\
