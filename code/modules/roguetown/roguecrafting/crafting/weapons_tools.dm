@@ -85,7 +85,7 @@
 
 /datum/crafting_recipe/roguetown/survival/peasantry/peasantwarflail
 	name = "peasant war flail (thresher)"
-	result = /obj/item/rogueweapon/flail/peasantwarflail
+	result = /obj/item/rogueweapon/flail/great
 	reqs = list(
 		/obj/item/grown/log/tree/small = 2,
 		/obj/item/rope = 1,

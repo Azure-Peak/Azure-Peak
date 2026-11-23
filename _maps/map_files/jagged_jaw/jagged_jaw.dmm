@@ -195926,7 +195926,7 @@
 /obj/structure/rack/rogue{
 	density = 0
 	},
-/obj/item/rogueweapon/flail/sflail,
+/obj/item/rogueweapon/flail/steel,
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town/garrison/grim)
 "xwm" = (

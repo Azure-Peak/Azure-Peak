@@ -195,14 +195,14 @@
 	var/tier = champion_tier(H)
 	H.adjust_skillrank_up_to(/datum/skill/combat/whipsflails, skill, TRUE)
 	H.adjust_skillrank_up_to(/datum/skill/combat/shields, skill, TRUE)
-	r_hand = /obj/item/rogueweapon/flail/sflail
+	r_hand = /obj/item/rogueweapon/flail/steel
 	l_hand = (tier >= 2) ? /obj/item/rogueweapon/shield/kite : /obj/item/rogueweapon/shield/wood
 
 /datum/outfit/job/roguetown/conjured_champion/greatflailman/pre_equip(mob/living/carbon/human/H, visualsOnly)
 	. = ..()
 	var/skill = champion_skill(H)
 	H.adjust_skillrank_up_to(/datum/skill/combat/whipsflails, skill, TRUE)
-	r_hand = /obj/item/rogueweapon/flail/peasantwarflail/iron
+	r_hand = /obj/item/rogueweapon/flail/great/iron
 
 /datum/outfit/job/roguetown/conjured_champion/spearman/pre_equip(mob/living/carbon/human/H, visualsOnly)
 	. = ..()

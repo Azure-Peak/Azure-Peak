@@ -65,7 +65,7 @@
 				backl = /obj/item/rogueweapon/shield/kite
 			if("Flailman")
 				H.adjust_skillrank_up_to(/datum/skill/combat/whipsflails, 4, TRUE)
-				beltl = /obj/item/rogueweapon/flail/sflail
+				beltl = /obj/item/rogueweapon/flail/steel
 				backl = /obj/item/rogueweapon/shield/kite
 			if("Foot Lancer")
 				H.adjust_skillrank_up_to(/datum/skill/combat/polearms, 4, TRUE)

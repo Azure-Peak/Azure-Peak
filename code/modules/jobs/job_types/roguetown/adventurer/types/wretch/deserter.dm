@@ -94,7 +94,7 @@
 				beltr = /obj/item/rogueweapon/mace/steel
 				backr = /obj/item/rogueweapon/shield/kite
 			if("Flail + Shield")
-				beltr = /obj/item/rogueweapon/flail/sflail
+				beltr = /obj/item/rogueweapon/flail/steel
 				backr = /obj/item/rogueweapon/shield/kite
 			if("Lucerne")
 				r_hand = /obj/item/rogueweapon/eaglebeak/lucerne

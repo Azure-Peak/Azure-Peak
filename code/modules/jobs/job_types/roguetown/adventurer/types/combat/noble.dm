@@ -524,7 +524,7 @@
 				backr = /obj/item/rogueweapon/shield/kite
 			if("Greatflail")
 				H.adjust_skillrank_up_to(/datum/skill/combat/whipsflails, SKILL_LEVEL_JOURNEYMAN, TRUE)
-				r_hand = /obj/item/rogueweapon/flail/peasantwarflail/iron
+				r_hand = /obj/item/rogueweapon/flail/great/iron
 				backr = /obj/item/rogueweapon/scabbard/gwstrap
 			if("Billhook")
 				H.adjust_skillrank_up_to(/datum/skill/combat/polearms, SKILL_LEVEL_JOURNEYMAN, TRUE)

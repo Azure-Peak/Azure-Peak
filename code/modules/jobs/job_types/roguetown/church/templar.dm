@@ -219,7 +219,7 @@
 			H.put_in_hands(new /obj/item/rogueweapon/scabbard/gwstrap(H))
 			H.adjust_skillrank_up_to(/datum/skill/combat/polearms, SKILL_LEVEL_EXPERT, TRUE)
 		if("Flail")
-			H.put_in_hands(new /obj/item/rogueweapon/shield/kite/holysee(H))
+			H.put_in_hands(new /obj/item/rogueweapon/flail/steel/holysee(H))
 			H.adjust_skillrank(/datum/skill/combat/whipsflails, SKILL_LEVEL_NOVICE, TRUE)
 		if("Mace")
 			H.put_in_hands(new /obj/item/rogueweapon/mace/steel/holysee(H))

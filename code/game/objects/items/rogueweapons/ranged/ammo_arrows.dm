@@ -133,7 +133,6 @@
 	flag = "piercing"
 	embedchance = 30
 
-
 /obj/projectile/bullet/reusable/arrow/ancient/decrepit
 	name = "decrepit broadhead arrow"
 	ammo_type = /obj/item/ammo_casing/caseless/rogue/arrow/ancient/decrepit
@@ -141,6 +140,7 @@
 	damage = 35
 	armor_penetration = PEN_LIGHT
 	flag = "piercing"
+	embedchance = 30
 
 // Bodkins should penetrate essentially any armour in the game with decent perception, as
 // recompense for their very low damage. Better for lower perception characters without

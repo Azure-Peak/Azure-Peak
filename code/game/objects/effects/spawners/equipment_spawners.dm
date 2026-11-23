@@ -190,7 +190,7 @@
 	loot_value = LOOT_VALUE_PEASANT_WEAPON
 	junk_loot = list(/obj/item/natural/bundle/stick = 5, /obj/item/natural/stone = 3)
 	loot = list(
-		/obj/item/rogueweapon/flail/peasantwarflail = 3,
+		/obj/item/rogueweapon/flail/great = 3,
 		/obj/item/rogueweapon/flail/militia = 2,
 		/obj/item/rogueweapon/woodstaff/militia = 2,
 		/obj/item/rogueweapon/greataxe/militia = 2,
@@ -274,7 +274,7 @@
 		/obj/item/rogueweapon/huntingknife/idagger/navaja = 1,
 		/obj/item/rogueweapon/huntingknife/throwingknife/steel = 1,
 		/obj/item/rogueweapon/huntingknife/scissors/steel = 1,
-		/obj/item/rogueweapon/flail/sflail = 3,
+		/obj/item/rogueweapon/flail/steel = 3,
 		/obj/item/rogueweapon/mace/warhammer/steel = 1,
 		/obj/item/rogueweapon/mace/steel = 4,
 		/obj/item/rogueweapon/mace/goden/steel = 1,

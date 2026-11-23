@@ -61316,7 +61316,7 @@
 /area/rogue/indoors/town/zhurch)
 "ktO" = (
 /obj/structure/rack/rogue,
-/obj/item/rogueweapon/flail/sflail,
+/obj/item/rogueweapon/flail/steel,
 /turf/open/floor/rogue/tile,
 /area/rogue/under/town/basement/keep)
 "ktV" = (

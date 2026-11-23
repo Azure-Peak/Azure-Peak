@@ -110,7 +110,7 @@
 				beltr = /obj/item/rogueweapon/mace/steel
 				backl = /obj/item/rogueweapon/shield/kite
 			if("Flail + Shield")
-				beltr = /obj/item/rogueweapon/flail/sflail
+				beltr = /obj/item/rogueweapon/flail/steel
 				backl = /obj/item/rogueweapon/shield/kite
 			if("Billhook + Bow")
 				r_hand = /obj/item/rogueweapon/spear/billhook

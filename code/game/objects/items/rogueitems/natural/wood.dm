@@ -179,7 +179,7 @@
 		/datum/crafting_recipe/roguetown/survival/peasantry/shovel/whetstone,
 		/datum/crafting_recipe/roguetown/survival/peasantry/hoe/whetstone,
 		/datum/crafting_recipe/roguetown/survival/peasantry/pitchfork/whetstone,
-		/datum/crafting_recipe/roguetown/survival/peasantry/peasantwarflail,
+		/datum/crafting_recipe/roguetown/survival/peasantry/great,
 		/datum/crafting_recipe/roguetown/survival/peasantry/waraxe,
 		/datum/crafting_recipe/roguetown/survival/peasantry/warspear_hoe,
 		/datum/crafting_recipe/roguetown/survival/peasantry/warspear_pitchfork,

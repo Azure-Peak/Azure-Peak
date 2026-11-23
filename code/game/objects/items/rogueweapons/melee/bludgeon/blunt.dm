@@ -224,6 +224,7 @@
 	icon_state = "bronzeclub"
 	force = 25
 	possible_item_intents = list(/datum/intent/mace/strike, /datum/intent/sword/cut, /datum/intent/mace/warhammer/pick, /datum/intent/mace/smash/lesser)
+	gripped_intents = null
 	max_blade_int = 150
 	wbalance = WBALANCE_HEAVY
 	throwforce = 25
@@ -232,6 +233,7 @@
 	wdefense = 3
 	max_integrity = 180
 	sharpness = IS_SHARP
+	special = /datum/special_intent/warhammer_swing
 
 /obj/item/rogueweapon/mace/warclub/iron
 	name = "iron warclub"

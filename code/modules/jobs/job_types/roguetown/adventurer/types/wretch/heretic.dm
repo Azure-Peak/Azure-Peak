@@ -89,7 +89,7 @@
 				if(HAS_TRAIT(H, TRAIT_PSYDONIAN_GRIT))
 					beltr = /obj/item/rogueweapon/flail/silver/psy
 				else
-					beltr = /obj/item/rogueweapon/flail/sflail
+					beltr = /obj/item/rogueweapon/flail/steel
 			if("Steel Axe")
 				H.adjust_skillrank_up_to(/datum/skill/combat/axes, SKILL_LEVEL_EXPERT, TRUE)
 				beltr = /obj/item/rogueweapon/stoneaxe/woodcut/steel

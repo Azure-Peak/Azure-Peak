@@ -232,7 +232,7 @@
 				beltl = /obj/item/rogueweapon/scabbard/sword/noble
 				l_hand = /obj/item/rogueweapon/sword/long
 			if("Flail")
-				beltr = /obj/item/rogueweapon/flail/sflail
+				beltr = /obj/item/rogueweapon/flail/steel
 			if ("Warhammer")
 				beltr = /obj/item/rogueweapon/mace/warhammer/steel //This is one-handed and pairs well with shields, there are many better weapons w/ specials/reach now.
 			if("Sabre")
@@ -688,7 +688,7 @@
 			beltr = /obj/item/rogueweapon/scabbard/sword/royal
 		if("Flail")
 			H.adjust_skillrank_up_to(/datum/skill/combat/whipsflails, SKILL_LEVEL_MASTER, TRUE)
-			beltr = /obj/item/rogueweapon/flail/sflail
+			beltr = /obj/item/rogueweapon/flail/steel
 		if("Sabre")
 			H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_MASTER, TRUE)
 			beltr = /obj/item/rogueweapon/scabbard/sword/royal

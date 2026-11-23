@@ -58,7 +58,7 @@
 			if("Flail & Shield")
 				H.adjust_skillrank_up_to(/datum/skill/combat/whipsflails, SKILL_LEVEL_EXPERT, TRUE)
 				H.adjust_skillrank_up_to(/datum/skill/combat/shields, SKILL_LEVEL_EXPERT, TRUE)
-				r_hand = /obj/item/rogueweapon/flail/sflail
+				r_hand = /obj/item/rogueweapon/flail/steel
 				backl = /obj/item/rogueweapon/shield/iron
 			if("Sabre & Shield")
 				H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_EXPERT, TRUE)
@@ -475,7 +475,7 @@
 	shirt = /obj/item/clothing/suit/roguetown/shirt/tunic/white
 	armor = /obj/item/clothing/cloak/tabard/stabard/vamp
 	pants = /obj/item/clothing/under/roguetown/skirt/vamp
-	neck = /obj/item/clothing/neck/roguetown/gorget/paalloy //No head armor but good anti-decap armor, intended.
+	neck = /obj/item/clothing/neck/roguetown/gorget/ancient //No head armor but good anti-decap armor, intended.
 	shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced
 	belt = /obj/item/storage/belt/rogue/leather/battleskirt
 	beltl = /obj/item/rogueweapon/spellbook/greater

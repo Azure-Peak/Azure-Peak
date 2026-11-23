@@ -1407,7 +1407,7 @@
 	icon_state = "donator_hammer"
 	icon = 'icons/obj/items/donor_weapons.dmi'
 
-/obj/item/rogueweapon/flail/sflail/donator_elegant
+/obj/item/rogueweapon/flail/steel/donator_elegant
 	name = "elegant flail"
 	desc = "An elegant flail for an elegant wielder."
 	icon_state = "donator_flail"
@@ -1612,7 +1612,7 @@
 	icon = 'icons/obj/items/donor_weapons_64.dmi'
 	bigboy = TRUE
 
-/obj/item/rogueweapon/flail/peasantwarflail/iron/donator_elegant
+/obj/item/rogueweapon/flail/great/iron/donator_elegant
 	name = "elegant greatflail"
 	desc = "An elegant greatflail for an elegant wielder."
 	icon_state = "donatorgreatflail"
@@ -3284,7 +3284,7 @@ As Excaliber."
 			pic.color = get_detail_color()
 		add_overlay(pic)
 
-/obj/item/rogueweapon/flail/peasantwarflail/drow
+/obj/item/rogueweapon/flail/great/drow
 	name = "skikudic greatflail"
 	desc = "Bend the knee."
 	icon_state = "drowgreatflail"
@@ -3294,7 +3294,7 @@ As Excaliber."
 	anvilrepair = /datum/skill/craft/weaponsmithing
 	smeltresult = /obj/item/ingot/drow
 
-/obj/item/rogueweapon/flail/peasantwarflail/drow/alt
+/obj/item/rogueweapon/flail/great/drow/alt
 	icon_state = "drowgreatflailb"
 
 //Truill

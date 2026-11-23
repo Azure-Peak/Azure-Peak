@@ -73,7 +73,7 @@
 //** FLAVOR **//
 
 /datum/npc_loadout/kit/mad_touched
-	mask = /obj/item/clothing/mask/rogue/facemask/steel/paalloy/mad_touched
+	mask = /obj/item/clothing/mask/rogue/facemask/ancient/mad_touched
 	cloak = /obj/item/clothing/cloak/wickercloak
 	belt = /obj/item/storage/belt/rogue/leather
 	head = list(

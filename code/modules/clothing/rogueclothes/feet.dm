@@ -48,6 +48,7 @@
 	armor = ARMOR_BRONZE
 	icon_state = "ancientboots"
 	smeltresult = /obj/item/ingot/aaslag
+	anvilrepair = null
 	color = "#bb9696"
 
 /obj/item/clothing/shoes/roguetown/boots/ancient

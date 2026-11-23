@@ -1907,7 +1907,7 @@
 	createditem_num = ARROW_SMITH_BATCH
 	i_type = "Ammo"
 
-/datum/anvil_recipe/weapons/paalloy/arrows
+/datum/anvil_recipe/weapons/ancient/arrows
 	name = "Bodkin Arrows, Ancient (+2 Stick) (x12)"
 	category = "Ancient Alloy"
 	req_bar = /obj/item/ingot/ancient
@@ -1947,11 +1947,11 @@
 	createditem_num = 20
 	i_type = "Ammo"
 
-/datum/anvil_recipe/weapons/aalloy/slingbullets
+/datum/anvil_recipe/weapons/decrepit/slingbullets
 	name = "Sling Bullets, Decrepit (x10)"
 	category = "Decrepit Alloy"
 	req_bar = /obj/item/ingot/decrepit
-	created_item = /obj/item/ammo_casing/caseless/rogue/sling_bullet/aalloy
+	created_item = /obj/item/ammo_casing/caseless/rogue/sling_bullet/decrepit
 	display_category = ITEM_CAT_WEAPONS_AMMO
 	createditem_num = 10
 	i_type = "Ammo"

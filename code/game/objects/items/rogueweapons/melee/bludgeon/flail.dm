@@ -64,6 +64,7 @@
 	desc = "A spiked ball of polished gilbranze, chained to a reinforced handle. They say that His children worshipped the flail above all else, for its twirls replicated the Comet Syon's blazing flights."
 	icon_state = "aflail"
 	smeltresult = /obj/item/ingot/aaslag
+	force = 30
 
 /obj/item/rogueweapon/flail/bronze
 	name = "bronze flail"
@@ -173,7 +174,7 @@
 /obj/item/rogueweapon/flail/great
 	name = "militia thresher"
 	desc = "Just like how a sling's bullet can fell a giant, so too does this great flail follow the principle of converting 'momentum' into 'plate-rupturing force'."
-	icon_state = "peasantwarflail"
+	icon_state = "great"
 	icon = 'icons/roguetown/weapons/blunt64.dmi'
 	force = 10
 	force_wielded = 35

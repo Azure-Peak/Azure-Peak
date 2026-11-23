@@ -83,11 +83,7 @@
 	. = ..()
 	inscription = pick(sling_inscriptions)
 
-/obj/item/ammo_casing/caseless/rogue/sling_bullet/aalloy/Initialize(mapload)
-	. = ..()
-	inscription = pick(sling_inscriptions)
-
-/obj/item/ammo_casing/caseless/rogue/sling_bullet/paalloy/Initialize(mapload)
+/obj/item/ammo_casing/caseless/rogue/sling_bullet/ancient/Initialize(mapload)
 	. = ..()
 	inscription = pick(sling_inscriptions)
 

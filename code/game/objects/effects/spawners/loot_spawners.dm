@@ -377,7 +377,7 @@
 		/obj/item/rogueweapon/mace/steel = 2,
 		/obj/item/rogueweapon/mace/goden/steel = 2,
 		/obj/item/rogueweapon/mace/warhammer/steel = 2,
-		/obj/item/rogueweapon/flail/sflail = 1,
+		/obj/item/rogueweapon/flail/steel = 1,
 		/obj/item/rogueweapon/huntingknife/idagger/steel = 4,
 		/obj/item/rogueweapon/huntingknife/idagger/steel/parrying = 3,
 		/obj/item/rogueweapon/huntingknife/idagger/steel/parrying/vaquero = 2,

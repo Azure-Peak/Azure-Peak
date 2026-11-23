@@ -73,6 +73,13 @@
 	desc = "A missile of polished gilbranze. Old Syon had drowned beneath His tears, and Her ascension had brought forth this world's end - so that You, with the killing blow, could become God."
 	icon_state = "ajavelin"
 	smeltresult = null // 1 Ingots = 2 Javelins
+	force = 16
+	armor_penetration = PEN_HEAVY
+	max_integrity = 100						//In-line with other stabbing weapons.
+	throwforce = 28							//Equal to steel knife BUT this has peircing damage type so..
+	thrown_bclass = BCLASS_PICK				//Bypasses crit protection better than stabbing. Makes it better against heavy-targets.
+	embedding = list("embedded_pain_multiplier" = 4, "embed_chance" = 45, "embedded_fall_chance" = 10) //Better than steel throwing knife by 10%
+	smeltresult = null // 1 Ingot = 2 Javelins
 
 /obj/item/ammo_casing/caseless/rogue/javelin/silver
 	name = "silver javelin"

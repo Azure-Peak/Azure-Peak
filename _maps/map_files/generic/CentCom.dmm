@@ -782,7 +782,7 @@
 /obj/item/storage/belt/rogue/leather/black,
 /obj/item/storage/belt/rogue/leather/plaquegold,
 /obj/item/storage/belt/rogue/leather,
-/obj/item/clothing/mask/rogue/facemask/steel/paalloy,
+/obj/item/clothing/mask/rogue/facemask/ancient,
 /obj/item/clothing/head/roguetown/roguehood/unholy/lich,
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/indoors/lich_start)
@@ -1042,8 +1042,8 @@
 	dir = 10;
 	icon_state = "tablewood2"
 	},
-/obj/item/rogueweapon/flail/sflail,
-/obj/item/rogueweapon/flail/sflail,
+/obj/item/rogueweapon/flail/steel,
+/obj/item/rogueweapon/flail/steel,
 /turf/open/floor/rogue/cobble,
 /area/rogue)
 "jI" = (
