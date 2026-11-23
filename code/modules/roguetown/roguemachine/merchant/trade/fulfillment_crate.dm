@@ -155,7 +155,7 @@
 	if(!SStreasury.has_account(user))
 		say("No account found for [user]. Submit your fingers to a Meister for inspection.")
 		return
-	var/list/tally = list("total_producer" = 0, "total_gross" = 0, "total_duty" = 0, "total_cut" = 0, "total_kin_bonus" = 0, "total_quality_delta" = 0, "lines" = list())
+	var/list/tally = new_tally()
 	for(var/obj/item/I in get_turf(user))
 		attempt_deposit(I, user, FALSE, FALSE, tally)
 	for(var/obj/structure/fermentation_keg/keg in get_turf(user))
@@ -165,8 +165,27 @@
 	playsound(loc, 'sound/misc/hiss.ogg', 100, FALSE, -1)
 	playsound(loc, 'sound/misc/disposalflush.ogg', 100, FALSE, -1)
 
+/obj/structure/roguemachine/ship_fulfillment/proc/new_tally()
+	return list("total_producer" = 0, "total_gross" = 0, "total_duty" = 0, "total_cut" = 0, "total_kin_bonus" = 0, "total_quality_delta" = 0, "lines" = list())
+
+/obj/structure/roguemachine/ship_fulfillment/proc/remit_fulfillment(ship_name, good_name, qty, gross, levy_float, duty, levy_tax, levy)
+	if(duty > 0)
+		SStreasury.mint(SStreasury.discretionary_fund, duty, "[TAX_CATEGORY_EXPORT_DUTY] (ship fulfillment)", null, LEDGER_CROWN_REV_EXPORT_DUTY)
+		SStreasury.apply_concordat_tithe(gross, TAX_CATEGORY_EXPORT_DUTY, "ship fulfillment")
+	if(levy_tax > 0)
+		SStreasury.mint(SStreasury.discretionary_fund, levy_tax, "[TAX_CATEGORY_EXPORT_DUTY] (levy income, ship fulfillment)", null, LEDGER_CROWN_REV_EXPORT_DUTY)
+		SStreasury.apply_concordat_tithe(levy_float, TAX_CATEGORY_EXPORT_DUTY, "levy income (ship fulfillment)")
+	if(levy > 0)
+		SStreasury.mint(SStreasury.merchant_fund, levy, "Merchant's levy: [qty] [good_name] -> [ship_name]", null, LEDGER_MERCHANT_LEVY_IN)
+		SSmerchant_trade?.log_fund_movement("Fulfillment levy ([ship_name])", levy)
+
 /obj/structure/roguemachine/ship_fulfillment/proc/flush_tally(list/tally, mob/user)
-	if(!tally || tally["total_producer"] <= 0)
+	if(!tally)
+		return
+	for(var/key in tally["lines"])
+		var/list/line = tally["lines"][key]
+		remit_fulfillment(line["ship_name"], line["good_name"], line["qty"], line["gross"], line["levy_float"], line["duty"], line["levy_tax"], line["levy"])
+	if(tally["total_producer"] <= 0)
 		return
 	var/list/line_summaries = list()
 	var/list/ship_names = list()
@@ -197,9 +216,12 @@
 		var/obj/structure/handcart/cart = I
 		var/turf/cart_loc = get_turf(cart)
 		var/list/cart_contents = cart.contained_items.Copy()
+		var/list/cart_tally = tally || new_tally()
 		for(var/atom/movable/cart_content in cart_contents)
 			if(isitem(cart_content))
-				attempt_deposit(cart_content, user, message, FALSE, tally)
+				attempt_deposit(cart_content, user, message, FALSE, cart_tally)
+		if(!tally)
+			flush_tally(cart_tally, user)
 		for(var/atom/movable/remaining in cart_contents)
 			if(!QDELETED(remaining))
 				cart.remove_from(remaining)
@@ -214,8 +236,11 @@
 		var/obj/item/roguebin/bin = I
 		var/turf/bin_loc = get_turf(bin)
 		var/list/bin_contents = bin.held_contents()
+		var/list/bin_tally = tally || new_tally()
 		for(var/obj/item/bin_item in bin_contents)
-			attempt_deposit(bin_item, user, message, FALSE, tally)
+			attempt_deposit(bin_item, user, message, FALSE, bin_tally)
+		if(!tally)
+			flush_tally(bin_tally, user)
 		for(var/obj/item/remaining in bin_contents)
 			if(!QDELETED(remaining))
 				bin.release_held(remaining, bin_loc)
@@ -380,12 +405,8 @@
 	else
 		if(duty_on_gross_float > 0)
 			duty_remitted = mammon_round(duty_on_gross_float)
-			SStreasury.mint(SStreasury.discretionary_fund, duty_remitted, "[TAX_CATEGORY_EXPORT_DUTY] (ship fulfillment)", null, LEDGER_CROWN_REV_EXPORT_DUTY)
-			SStreasury.apply_concordat_tithe(gross, TAX_CATEGORY_EXPORT_DUTY, "ship fulfillment")
 		if(duty_on_levy_float > 0)
 			levy_tax_remitted = mammon_round(duty_on_levy_float)
-			SStreasury.mint(SStreasury.discretionary_fund, levy_tax_remitted, "[TAX_CATEGORY_EXPORT_DUTY] (levy income, ship fulfillment)", null, LEDGER_CROWN_REV_EXPORT_DUTY)
-			SStreasury.apply_concordat_tithe(levy_float, TAX_CATEGORY_EXPORT_DUTY, "levy income (ship fulfillment)")
 		total_duty = duty_remitted + levy_tax_remitted
 		if(total_duty > 0)
 			record_round_statistic(STATS_TAXES_COLLECTED, total_duty)
@@ -396,10 +417,8 @@
 	var/merchant_net_float = levy_float - (duty_suspended ? 0 : duty_on_levy_float)
 	if(merchant_net_float > 0)
 		levy_remitted = mammon_round(merchant_net_float)
-		SStreasury.mint(SStreasury.merchant_fund, levy_remitted, "Merchant's levy: [qty] [good_name] -> [ship.ship_name]", null, LEDGER_MERCHANT_LEVY_IN)
 		if(SSmerchant_trade)
 			SSmerchant_trade.merchant_levy_collected += levy_remitted
-			SSmerchant_trade.log_fund_movement("Fulfillment levy ([ship.ship_name])", levy_remitted)
 	var/producer_payout = mammon_round(gross - duty_remitted - mammon_round(levy_float))
 	if(producer_payout < 0)
 		producer_payout = 0
@@ -418,11 +437,17 @@
 		tally["total_quality_delta"] = (tally["total_quality_delta"] || 0) + quality_delta
 		var/key = "[ship.ship_id]|[good_name]"
 		var/list/info = tally["lines"][key]
-		if(info)
-			info["qty"] += qty
-		else
-			tally["lines"][key] = list("qty" = qty, "good_name" = good_name, "ship_name" = ship.ship_name)
+		if(!info)
+			info = list("qty" = 0, "good_name" = good_name, "ship_name" = ship.ship_name, "gross" = 0, "levy_float" = 0, "duty" = 0, "levy_tax" = 0, "levy" = 0)
+			tally["lines"][key] = info
+		info["qty"] += qty
+		info["gross"] += gross
+		info["levy_float"] += levy_float
+		info["duty"] += duty_remitted
+		info["levy_tax"] += levy_tax_remitted
+		info["levy"] += levy_remitted
 		return
+	remit_fulfillment(ship.ship_name, good_name, qty, gross, levy_float, duty_remitted, levy_tax_remitted, levy_remitted)
 	var/quality_str = ""
 	if(quality_delta != 0)
 		var/q_sign = quality_delta > 0 ? "+" : ""
