@@ -1,0 +1,4 @@
+author: "awwlie"
+delete-after: True
+changes:
+  - bugfix: "fixed shift + key, keybinds not taking the key, but the result."
