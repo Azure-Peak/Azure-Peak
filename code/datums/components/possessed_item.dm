@@ -87,9 +87,8 @@
 			I.item_state = "cursed_collar"
 
 	bearer_verb = verb_to_bearer
-	spirit.reset_perspective(parent)
 	I.become_hearing_sensitive()
-	spirit.update_cone_show()
+	spirit.set_resting(TRUE, TRUE)
 	add_verb(spirit, /mob/living/carbon/human/proc/possessed_item_possess)
 
 // undo the possession, clean ourselves up

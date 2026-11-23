@@ -27,59 +27,63 @@
 		for(var/mob/famcand in preferred_candidates)
 			var/fam_species = GLOB.familiar_display_names[famcand.client.prefs.familiar_prefs.familiar_species[plane]]
 			familiar_choices["[famcand.client.prefs.familiar_prefs.familiar_names[plane]] ([fam_species])"] = famcand
-		var/pretty_choice = tgui_input_list(user,"Select a candidate to summon","ACROSS THE VEIL", familiar_choices)
+		var/pretty_choice = (length(familiar_choices) == 1 ? familiar_choices[1] : tgui_input_list(user,"Select a candidate to summon","ACROSS THE VEIL", familiar_choices))
 		if(!pretty_choice)
 			return FALSE // this can only happen iffff the summoner disconnects at a bad time so we handle it gracefully
 		var/mob/chosen = familiar_choices[pretty_choice]
-		if(!chosen)
-			//what the fuck
+		if(!chosen) //what the fuck
 			to_chat(user, span_warning("Chosen target not found; maybe they disconnected?"))
 			return FALSE
-		var/datum/familiar_prefs/prefs = chosen.client?.prefs?.familiar_prefs
-		if(!istype(prefs)) // uh oh
-			to_chat(user, span_warning("Summoning failed: target has no valid familiar prefs, somehow."))
-			return FALSE
-		chosen.stop_sound_channel(CHANNEL_LOBBYMUSIC)
-		var/to_summon = prefs.familiar_species[plane]
-		var/mob/living/carbon/human/species/familiar/fam = new to_summon(where)
-		fam.familiar_summoner = user
-		fam.fully_replace_character_name(null, prefs.familiar_names[plane])
-		fam.pronouns = prefs.familiar_pronouns[plane] ? prefs.familiar_pronouns[plane] : THEY_THEM
-		fam.voice_color = prefs.familiar_voice_colors[plane]
-		fam.gender = FEMALE // allows them to wear clothing, needed because of legacy code. i hate - whatever
-		fam.visible_message(span_notice("[fam.summoning_emote]"))
-		if(isnewplayer(chosen))
-			var/mob/dead/new_player/new_chosen = chosen
-			new_chosen.close_spawn_windows()
-		if(!chosen.ckey)
-			to_chat(user, span_warning("Summoning failed: chosen candidate has no ckey!"))
-			return FALSE
-		fam.key = chosen.key
-		var/datum/mind/mind_datum = fam.mind
-		if(!mind_datum)
-			to_chat(user, span_warning("Summoning failed: mind transfer failed"))
-			return FALSE
-		if(fam.client)
-			remove_verb(fam.client, GLOB.ghost_verbs)
-		fam.client?.init_verbs()
-		mind_datum.RemoveAllSpells()
+		var/mob/living/carbon/human/species/familiar/fam = chosen.summon_as_familiar(plane, user, where)
+		if(fam)
+			log_game("[key_name(user)] has summoned [key_name(chosen)] as '[fam.name]' ([initial(fam.name)]), \a [summontype].")
+			return fam
+	return FALSE // no candidates: sorry, no luck
+
+/// plane: see familiars.dm in defines for valid values. user: technically optional for debugging. where: if it's null they'll be sent to nullspace so make sure you can get them out
+/mob/proc/summon_as_familiar(plane, mob/living/carbon/human/user, where)
+	var/datum/familiar_prefs/prefs = client?.prefs?.familiar_prefs
+	if(!istype(prefs)) // uh oh
+		to_chat(user, span_warning("Summoning failed: target has no valid familiar prefs, somehow."))
+		return FALSE
+	stop_sound_channel(CHANNEL_LOBBYMUSIC)
+	var/to_summon = prefs.familiar_species[plane]
+	var/mob/living/carbon/human/species/familiar/fam = new to_summon(where)
+	fam.familiar_summoner = user
+	fam.fully_replace_character_name(null, prefs.familiar_names[plane])
+	fam.pronouns = (prefs.familiar_pronouns[plane] || THEY_THEM)
+	fam.voice_color = prefs.familiar_voice_colors[plane]
+	fam.gender = FEMALE // allows them to wear clothing, needed because of legacy code. i hate - whatever
+	fam.visible_message(span_notice("[fam.summoning_emote]"))
+	if(isnewplayer(src))
+		var/mob/dead/new_player/new_src = src
+		new_src.close_spawn_windows()
+	if(!key)
+		to_chat(user, span_warning("Summoning failed: src candidate has no key!"))
+		return FALSE
+	fam.key = src.key
+	var/datum/mind/mind_datum = fam.mind
+	if(!mind_datum)
+		to_chat(user, span_warning("Summoning failed: mind transfer failed"))
+		return FALSE
+	if(fam.client)
+		remove_verb(fam.client, GLOB.ghost_verbs)
+	fam.client?.init_verbs()
+	mind_datum.RemoveAllSpells()
+	if(user)
 		mind_datum.AddSpell(new /datum/action/cooldown/spell/message_summoner())
 		user.mind?.AddSpell(new /datum/action/cooldown/spell/message_familiar())
-
-		if(fam.inherent_spell)
-			for(var/spell_path in fam.inherent_spell)
-				if(ispath(spell_path))
-					var/obj/effect/proc_holder/spell/spell_instance = new spell_path
-					if(spell_instance)
-						mind_datum.AddSpell(spell_instance)
-		fam.cmode = FALSE
-		fam.mind.i_know_person(user)
-		user.mind.i_know_person(fam)
-		fam.STASPD = min(user.STASPD, 20) // so they can always keep up with their summoner
-		var/faction_to_add = "[user.mind.current.real_name]_faction"
-		fam.faction |= faction_to_add
-		GLOB.chosen_names += fam.real_name
-		GLOB.character_ckey_list[fam.real_name] = fam.ckey
-		log_game("[key_name(user)] has summoned [key_name(chosen)] as '[fam.name]' ([initial(fam.name)]), \a [summontype].")
-		return fam
-	return FALSE // no candidates: sorry, no luck
+	if(fam.inherent_spell)
+		for(var/spell_path in fam.inherent_spell)
+			if(ispath(spell_path))
+				var/obj/effect/proc_holder/spell/spell_instance = new spell_path
+				if(spell_instance)
+					mind_datum.AddSpell(spell_instance)
+	fam.cmode = FALSE
+	fam.mind.i_know_person(user)
+	user?.mind?.i_know_person(fam)
+	fam.STASPD = min((user?.STASPD || 10), 20) // so they can always keep up with their summoner
+	var/faction_to_add = "[user.mind.current.real_name]_faction"
+	fam.faction |= faction_to_add
+	GLOB.chosen_names += fam.real_name
+	GLOB.character_ckey_list[fam.real_name] = fam.ckey
