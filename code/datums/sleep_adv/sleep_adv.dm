@@ -34,12 +34,9 @@
 	var/current_xp = get_sleep_xp(skill)
 	var/target_xp = current_xp + ((adjust > 0 && HAS_TRAIT(mind?.current, TRAIT_JACKOFALLTRADES)) ? (adjust * 1.5) : adjust)
 	var/datum/skill/skill_ref = GetSkillRef(skill)
-	var/skill_cap = mind.current.ensure_skills().get_effective_skill_cap(
-		skill_ref)
-	var/remaining_levels = max(
-		0, skill_cap - mind.current.get_skill_level(skill))
-	var/cap_exp = get_requried_sleep_xp_for_skill(
-		skill, min(2, remaining_levels))
+	var/skill_cap = mind.current.ensure_skills().get_effective_skill_cap(skill_ref)
+	var/remaining_levels = max(0, skill_cap - mind.current.get_skill_level(skill))
+	var/cap_exp = get_requried_sleep_xp_for_skill(skill, min(2, remaining_levels))
 	target_xp = clamp(target_xp, 0, cap_exp)
 	sleep_exp[skill] = target_xp
 

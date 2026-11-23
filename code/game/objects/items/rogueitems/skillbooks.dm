@@ -117,8 +117,8 @@
 		var/datum/skill/book_skill = GetSkillRef(subject)
 		var/learning_cap = skill_cap
 		if(book_skill)
-			learning_cap = min(learning_cap,
-				user.ensure_skills().get_effective_skill_cap(book_skill))
+			var/reader_cap = user.ensure_skills().get_effective_skill_cap(book_skill)
+			learning_cap = min(learning_cap, reader_cap)
 		if(open)
 			to_chat(user, span_warning("I'm already reading [src]!"))
 			return
