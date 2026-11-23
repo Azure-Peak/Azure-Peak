@@ -671,12 +671,20 @@
 	created_item = /obj/item/rogueweapon/sword/long/broadsword
 	display_category = ITEM_CAT_WEAPONS_SWORDS
 
+/datum/anvil_recipe/weapons/iron/ibardiche
+	name = "Bardiche, Iron (+1 Iron, +1 Small Log)"
+	category = "Iron"
+	req_bar = /obj/item/ingot/iron
+	additional_items = list(/obj/item/ingot/iron, /obj/item/grown/log/tree/small)
+	created_item = /obj/item/rogueweapon/halberd/bardiche/iron
+	display_category = ITEM_CAT_WEAPONS_POLEARMS
+
 /datum/anvil_recipe/weapons/iron/greatflail
 	name = "Greatflail, Iron (+1 Iron, +1 Chain, +1 Small Log)"
 	category = "Iron"
 	req_bar = /obj/item/ingot/iron
 	additional_items = list(/obj/item/ingot/iron, /obj/item/rope/chain, /obj/item/grown/log/tree/small)
-	created_item = /obj/item/rogueweapon/flail/peasantwarflail/iron
+	created_item = /obj/item/rogueweapon/flail/great/iron
 	display_category = ITEM_CAT_WEAPONS_FLAILS
 
 /datum/anvil_recipe/weapons/iron/greatsword
@@ -1107,6 +1115,13 @@
 	additional_items = list(/obj/item/ingot/steel, /obj/item/grown/log/tree/small)
 	created_item = /obj/item/rogueweapon/sword/long/ap
 	display_category = ITEM_CAT_WEAPONS_SWORDS
+
+/datum/anvil_recipe/weapons/steel/sgreatflail
+	name = "Greatflail, Steel (+1 Steel, +1 Chain, +1 Small Log)"
+	req_bar = /obj/item/ingot/steel
+	additional_items = list(/obj/item/ingot/steel, /obj/item/rope/chain, /obj/item/grown/log/tree/small)
+	created_item = /obj/item/rogueweapon/flail/great/steel
+	display_category = ITEM_CAT_WEAPONS_FLAILS
 
 /datum/anvil_recipe/weapons/steel/axe
 	name = "Axe, Steel (+1 Stick)"
