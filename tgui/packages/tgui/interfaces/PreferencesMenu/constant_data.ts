@@ -70,6 +70,7 @@ export type ConstantEstateRegion = {
   description: string;
   tribute: string[];
   gifts: string[];
+  carrier?: string;
 };
 
 /** {@link ConstantData.charflaws} */

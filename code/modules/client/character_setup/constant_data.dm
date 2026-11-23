@@ -102,6 +102,7 @@
 			"description" = realm.description,
 			"tribute" = trade_good_names(realm.tribute_goods),
 			"gifts" = gift_names(realm.gifts),
+			"carrier" = realm.carrier,
 		))
 
 /* INSTRUCTIONS FOR DOWNSTREAM:

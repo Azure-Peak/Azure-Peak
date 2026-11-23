@@ -95,7 +95,8 @@
 			estates -= H
 			continue
 		var/datum/noble_estate/E = estates[H]
-		if(E.get_realm())
+		var/datum/estate_realm/realm = E.get_realm()
+		if(realm)
 			if(HAS_TRAIT(H, TRAIT_OUTLAW))
 				continue
 			E.undelivered_days++
@@ -185,13 +186,15 @@
 		sack = new_estate_sack(deliveries)
 		if(!SEND_SIGNAL(sack, COMSIG_TRY_STORAGE_INSERT, I, null, TRUE, FALSE))
 			deliveries += I
-	var/sender = "[E.estate_name()] Estate"
+	var/sender = realm ? realm.sender : "[E.estate_name()] Estate"
 	for(var/obj/item/delivery as anything in deliveries)
 		if(istype(delivery, /obj/item/storage/roguebag/estate) && !length(delivery.contents))
 			qdel(delivery)
 			continue
 		if(!deliver_mail(delivery, H.real_name, sender))
 			qdel(delivery)
+	if(realm)
+		send_ooc_note("<b>MEISTER:</b> ATC has remitted rent from your [realm.name] estate to the HERMES.", name = H.real_name)
 
 /datum/controller/subsystem/economy/proc/new_estate_sack(list/deliveries)
 	var/obj/item/storage/roguebag/estate/sack = new()

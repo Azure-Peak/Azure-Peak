@@ -317,7 +317,7 @@ const EstateSection = (props: { constantData: ConstantData }) => {
               <Box mt={0.5} color="average">
                 {found.raid
                   ? `A raid on ${found.raid} holds back estate income until it is cleared.`
-                  : 'Foreign estates arrive every other dae and are immune to blockades. Each delivery carries the income, goods and gifts owed since the last.'}
+                  : `Rent from foreign estates are handled by ${found.region.carrier} who remit it every other dae. They are immune to blockades. Each delivery carries the income, goods and gifts owed since the last.`}
               </Box>
               {found.region.description ? (
                 <Box mt={1}>{found.region.description}</Box>

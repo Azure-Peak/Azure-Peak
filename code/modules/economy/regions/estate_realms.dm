@@ -11,6 +11,8 @@ GLOBAL_LIST_INIT(estate_realms, init_estate_realms())
 	var/id
 	var/name
 	var/description = ""
+	var/carrier = "the ATC office"
+	var/sender = "Azurian Trading Company"
 	var/list/tribute_goods = list()
 	var/list/gifts = list()
 
