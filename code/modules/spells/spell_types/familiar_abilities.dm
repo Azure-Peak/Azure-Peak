@@ -633,7 +633,7 @@
 				return FALSE
 			rune.summoned_thing = null
 		user.visible_message(
-			span_warningbig("[src] attempts to consume [target], but as soon as their essences commingle, they annihilate in a violent blast!"),
+			span_warningbig("[user] attempts to consume [target], but as soon as their essences commingle, they annihilate in a violent blast!"),
 			span_warningbig("I attempt to consume [target], but as soon as I touch their essences, I am undone!")
 		)
 		new /obj/effect/temp_visual/dragon_swoop(target.loc)
