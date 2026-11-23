@@ -498,6 +498,8 @@
 	return TRUE
 
 /proc/create_undine(mob/living/carbon/human/user, turf/target_turf)
+	if(!user.mind?.active)
+		return FALSE
 	var/mob/living/simple_animal/undine/projection = new /mob/living/simple_animal/undine(target_turf)
 	var/tmpdir = user.dir
 	user.setDir(SOUTH)
@@ -668,6 +670,9 @@
 	. = ..()
 	if(!creator || !istype(get_turf(src), valid_turf_type))
 		return
-	creator.visible_message(span_warning("[creator] vanishes into the scent of the sea!"))
+	var/turf/origin = get_turf(creator)
 	if(create_undine(creator, get_turf(src)))
+		origin.visible_message(span_warning("[creator] vanishes into the scent of the sea!"))
 		qdel(src)
+	else
+		visible_message(span_info("...but nothing seems to happen?"))
