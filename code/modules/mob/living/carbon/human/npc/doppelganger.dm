@@ -246,6 +246,7 @@
 	job = target.job
 	advjob = target.advjob
 	patron = target.patron
+	political_faction = target.political_faction
 	pronouns = target.pronouns
 	voice_type = target.voice_type
 	mob_descriptors = target.mob_descriptors?.Copy()

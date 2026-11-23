@@ -100,6 +100,8 @@ GLOBAL_LIST_INIT(political_factions, init_political_factions())
 		return null
 	if(viewer == src || isobserver(viewer))
 		return faction
+	if(HAS_TRAIT(src, TRAIT_DECEIVING_MEEKNESS))
+		return null
 	if(is_political_noble(src) && is_political_noble(viewer))
 		return faction
 	var/mob/living/carbon/human/human_viewer = viewer
