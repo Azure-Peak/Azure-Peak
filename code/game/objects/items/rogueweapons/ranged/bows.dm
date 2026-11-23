@@ -503,6 +503,7 @@
 	item_state = "paintbow"
 	item_flags = DROPDEL
 	spill_ammo_on_drop = FALSE
+	ranged_skill = /datum/skill/magic/holy
 	var/dust_timer_id
 	mag_type = /obj/item/ammo_box/magazine/internal/shot/bow/paint
 
