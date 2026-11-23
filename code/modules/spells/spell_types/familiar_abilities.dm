@@ -664,8 +664,8 @@
 		user.essences_consumed += essence_to_grant
 		user.grant_essence(essence_to_grant)
 		if(LAZYLEN(user.essences_consumed) == 3)
-			to_chat(user, span_notice("I have consumed the essences of the three planes. One dae, I will grow strong enough to consume yet greater beings, but for now, this appears to be my limit. My hunger is mostly sated, for the week; and I gain a new power, to inhabit objects and possess their bearers."))
-			user.mind.AddSpell(new /datum/action/cooldown/spell/infernal_possession/void)
+			to_chat(user, span_notice("I have consumed the essences of the three planes, and learned much. One dae, I will grow strong enough to consume yet greater beings, but for now, this appears to be my limit. My hunger is mostly sated, for the week; and I gain a new power, to inhabit objects and possess their bearers."))
+			user.mind.AddSpell(new /datum/action/cooldown/spell/void_possession)
 		for(var/obj/effect/decal/cleanable/roguerune/arcyne/binding/rune in range(target.loc))
 			rune.summoned_thing = null
 		QDEL_NULL(target)
