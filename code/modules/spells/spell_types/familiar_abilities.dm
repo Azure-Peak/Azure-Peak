@@ -570,6 +570,38 @@
 /datum/action/cooldown/spell/earthen_forge/void // lmao
 	name = "Void Forge"
 	desc = "Shape your ever-malleable form into a tool or weapon. When the item breaks, you will revert to your original form. Resist to manually revert."
+	conjure_options = list( // everything BUT the staff, as we do that in the capstone ability
+		// Weapons
+		"Short Sword" = /obj/item/rogueweapon/sword/short/iron,
+		"Hunting Sword" = /obj/item/rogueweapon/sword/short/messer/iron,
+		"Arming Sword" = /obj/item/rogueweapon/sword/iron,
+		"Cudgel" = /obj/item/rogueweapon/mace/cudgel,
+		"Warhammer" = /obj/item/rogueweapon/mace/warhammer,
+		"Dagger" = /obj/item/rogueweapon/huntingknife/idagger,
+		"Flail" = /obj/item/rogueweapon/flail,
+		"Whip" = /obj/item/rogueweapon/whip,
+		"Wooden Shield" = /obj/item/rogueweapon/shield/wood,
+		// Tools
+		"Axe" = /obj/item/rogueweapon/stoneaxe/woodcut,
+		"Pickaxe" = /obj/item/rogueweapon/pick,
+		"Hoe" = /obj/item/rogueweapon/hoe,
+		"Thresher" = /obj/item/rogueweapon/thresher,
+		"Sickle" = /obj/item/rogueweapon/sickle,
+		"Pitchfork" = /obj/item/rogueweapon/pitchfork,
+		"Tongs" = /obj/item/rogueweapon/tongs,
+		"Hammer" = /obj/item/rogueweapon/hammer/iron,
+		"Shovel" = /obj/item/rogueweapon/shovel,
+		"Handsaw" = /obj/item/rogueweapon/handsaw,
+		"Scissors" = /obj/item/rogueweapon/huntingknife/scissors,
+		"Fishing Rod" = /obj/item/fishingrod,
+		"Frying Pan" = /obj/item/cooking/pan,
+		"Pot" = /obj/item/reagent_containers/glass/bucket/pot,
+		"Bowl" = /obj/item/reagent_containers/glass/bowl,
+		"Fork" = /obj/item/kitchen/fork/iron,
+		"Spoon" = /obj/item/kitchen/spoon/iron,
+		"Chisel Set" = /obj/item/rogueweapon/chisel/assembly/arcyne,
+		"Needle" = /obj/item/needle
+	)
 
 /datum/action/cooldown/spell/arcyne_forge/elementalt2
 	name = "Greater Earthen Shaping"
