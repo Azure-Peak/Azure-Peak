@@ -2899,7 +2899,7 @@
 /area/rogue/indoors/shelter/bog_hag)
 "RR" = (
 /obj/structure/table/wood/fancy/black,
-/obj/item/cooking/platter/aalloy,
+/obj/item/cooking/platter/decrepit,
 /turf/open/floor/rogue/churchbrick,
 /area/rogue/indoors/lich_start)
 "RX" = (
