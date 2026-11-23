@@ -81,9 +81,9 @@
 		/obj/item/clothing/head/roguetown/menacing/bandit/mad_touched_treasure_hunter = 50, //IS THIS TRVE?!
 	)
 	id = list(
-		/obj/item/clothing/neck/roguetown/psicross/inhumen/aalloy = 10, //ZIZO. ZIZO. ZIZO.
-		/obj/item/clothing/neck/roguetown/psicross/aalloy = 10,
-		/obj/item/clothing/neck/roguetown/psicross/noc/aalloy = 10,
+		/obj/item/clothing/neck/roguetown/psicross/inhumen/ancient/decrepit = 10, //ZIZO. ZIZO. ZIZO.
+		/obj/item/clothing/neck/roguetown/psicross/ancient/decrepit = 10,
+		/obj/item/clothing/neck/roguetown/psicross/noc/decrepit = 10,
 		/obj/item/clothing/neck/roguetown/psicross/inhumen/matthios = 10,
 		NPC_NOTHING = 60,
 	)

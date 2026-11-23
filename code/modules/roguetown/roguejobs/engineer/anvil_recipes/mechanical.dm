@@ -374,7 +374,7 @@
 	category = "Engineering"
 	req_bar = /obj/item/ingot/purifiedaalloy
 	additional_items = list(/obj/item/ingot/purifiedaalloy, /obj/item/ingot/purifiedaalloy, /obj/item/roguegear, /obj/item/roguegear)
-	created_item = /obj/item/clothing/suit/roguetown/armor/plate/paalloy/artificer
+	created_item = /obj/item/clothing/suit/roguetown/armor/plate/ancient/artificer
 	craftdiff = 4
 	display_category = ITEM_CAT_ARMOR_CHESTPIECES
 

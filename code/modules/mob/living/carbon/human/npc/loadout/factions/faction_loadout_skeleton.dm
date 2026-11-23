@@ -297,9 +297,9 @@
 
 /datum/npc_loadout/kit/skeleton_amulet
 	id = list(
-		/obj/item/clothing/neck/roguetown/psicross/inhumen/aalloy = 1, //ZIZO. ZIZO. ZIZO.
-		/obj/item/clothing/neck/roguetown/psicross/aalloy = 1,
-		/obj/item/clothing/neck/roguetown/psicross/noc/aalloy = 1,
+		/obj/item/clothing/neck/roguetown/psicross/inhumen/ancient/decrepit = 1, //ZIZO. ZIZO. ZIZO.
+		/obj/item/clothing/neck/roguetown/psicross/ancient/decrepit = 1,
+		/obj/item/clothing/neck/roguetown/psicross/noc/ancient/decrepit = 1,
 		NPC_NOTHING = 27,
 	)
 
@@ -316,7 +316,7 @@
 		/obj/item/clothing/shoes/roguetown/simpleshoes = 60,
 		/obj/item/clothing/shoes/roguetown/boots/leather/reinforced/shoddy = 40,
 	)
-	mask = /obj/item/clothing/mask/rogue/facemask/aalloy
+	mask = /obj/item/clothing/mask/rogue/facemask/ancient/decrepit
 	gloves = /obj/item/clothing/gloves/roguetown/fingerless_leather
 	head = list(
 		/obj/item/clothing/head/roguetown/cap = 1,
@@ -357,23 +357,23 @@
 
 /datum/npc_loadout/kit/skeleton_hijab
 	mask = /obj/item/clothing/head/roguetown/roguehood/shalal/hijab/lich
-	wrists = /obj/item/clothing/wrists/roguetown/bracers/aalloy/chain
+	wrists = /obj/item/clothing/wrists/roguetown/bracers/ancient/decrepit/chain
 
 /datum/npc_loadout/kit/skeleton_pirate
 	head = /obj/item/clothing/head/roguetown/helmet/tricorn
 	armor = /obj/item/clothing/suit/roguetown/armor/leather/vest/sailor
-	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/aalloy
+	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/ancient/decrepit
 	pants = /obj/item/clothing/under/roguetown/tights/sailor
-	shoes = /obj/item/clothing/shoes/roguetown/sandals/aalloy
-	gloves = /obj/item/clothing/gloves/roguetown/knuckles/decrepit
+	shoes = /obj/item/clothing/shoes/roguetown/sandals/ancient/decrepit
+	gloves = /obj/item/clothing/gloves/roguetown/knuckles/ancient/decrepit
 	wrists = list(
-		/obj/item/clothing/wrists/roguetown/bracers/aalloy/chain = 20, //DO WHAT YOU WANT BECAUSE A PIRATE IS FREE
-		/obj/item/clothing/wrists/roguetown/bracers/aalloy = 80,
+		/obj/item/clothing/wrists/roguetown/bracers/ancient/decrepit/chain = 20, //DO WHAT YOU WANT BECAUSE A PIRATE IS FREE
+		/obj/item/clothing/wrists/roguetown/bracers/ancient/decrepit = 80,
 	)
 	id = list(
-		/obj/item/clothing/neck/roguetown/psicross/inhumen/aalloy = 5, //ZIZO. ZIZO. ZIZO.
-		/obj/item/clothing/neck/roguetown/psicross/aalloy = 5,
-		/obj/item/clothing/neck/roguetown/psicross/noc/aalloy = 5,
+		/obj/item/clothing/neck/roguetown/psicross/inhumen/ancient/decrepit = 5, //ZIZO. ZIZO. ZIZO.
+		/obj/item/clothing/neck/roguetown/psicross/ancient/decrepit = 5,
+		/obj/item/clothing/neck/roguetown/psicross/noc/ancient/decrepit = 5,
 		/obj/item/clothing/neck/roguetown/psicross/abyssor = 15,
 		NPC_NOTHING = 70,
 	)
@@ -387,7 +387,7 @@
 
 /datum/npc_loadout/kit/skeleton_dreadnought/khopesh
 	cloak = /obj/item/clothing/cloak/tabard/toga/lich
-	mask = /obj/item/clothing/mask/rogue/facemask/aalloy
+	mask = /obj/item/clothing/mask/rogue/facemask/ancient/decrepit
 	head = /obj/item/clothing/head/roguetown/roguehood/shalal/hijab/lich
 	belt = /obj/item/storage/belt/rogue/leather/black
 	beltl = list(
@@ -395,8 +395,8 @@
 		NPC_NOTHING = 80,
 	)
 	id = list( //Cultist look so, no Psydon choice
-		/obj/item/clothing/neck/roguetown/psicross/inhumen/aalloy,
-		/obj/item/clothing/neck/roguetown/psicross/noc/aalloy,
+		/obj/item/clothing/neck/roguetown/psicross/inhumen/ancient/decrepit,
+		/obj/item/clothing/neck/roguetown/psicross/noc/ancient/decrepit,
 	)
 
 /datum/npc_loadout/kit/skeleton_dreadnought/withered
@@ -446,7 +446,7 @@
 		/obj/item/clothing/cloak/tabard/stabard/bog = 1,
 		NPC_NOTHING = 1,
 	)
-	mask = /obj/item/clothing/mask/rogue/facemask/aalloy
+	mask = /obj/item/clothing/mask/rogue/facemask/ancient/decrepit
 	gloves = /obj/item/clothing/gloves/roguetown/fingerless_leather
 	shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced/shoddy
 
@@ -473,7 +473,7 @@
 		/obj/item/roguegem/diamond = 1,
 	)
 	mask = list(
-		/obj/item/clothing/mask/rogue/facemask/aalloy = 25,
+		/obj/item/clothing/mask/rogue/facemask/ancient/decrepit = 25,
 		NPC_NOTHING = 75,
 	)
 	beltl = list(
@@ -489,59 +489,59 @@
 
 /datum/npc_loadout/weapon/skeleton_scavenged
 	weapons = list(
-		list(/obj/item/rogueweapon/stoneaxe/woodcut/aaxe),
-		list(/obj/item/rogueweapon/sword/short/ashort),
-		list(/obj/item/rogueweapon/spear/aalloy),
-		list(/obj/item/rogueweapon/mace/alloy),
+		list(/obj/item/rogueweapon/stoneaxe/woodcut/ancient/decrepit),
+		list(/obj/item/rogueweapon/sword/short/ancient/decrepit),
+		list(/obj/item/rogueweapon/spear/ancient/decrepit),
+		list(/obj/item/rogueweapon/mace/ancient/decrepit),
 		list(/obj/item/rogueweapon/mace/woodclub),
 	)
 
 /datum/npc_loadout/weapon/skeleton_footsoldier
 	weapons = list(
-		list(/obj/item/rogueweapon/stoneaxe/woodcut/aaxe),
-		list(/obj/item/rogueweapon/sword/short/ashort),
-		list(/obj/item/rogueweapon/spear/aalloy),
+		list(/obj/item/rogueweapon/stoneaxe/woodcut/ancient/decrepit),
+		list(/obj/item/rogueweapon/sword/short/ancient/decrepit),
+		list(/obj/item/rogueweapon/spear/ancient/decrepit),
 		list(/obj/item/rogueweapon/mace/alloy),
 	)
 
 /datum/npc_loadout/weapon/skeleton_pirate_knives
-	r_hand = /obj/item/rogueweapon/huntingknife/idagger/adagger
-	l_hand = /obj/item/rogueweapon/huntingknife/idagger/adagger
+	r_hand = /obj/item/rogueweapon/huntingknife/idagger/ancient/decrepit
+	l_hand = /obj/item/rogueweapon/huntingknife/idagger/ancient/decrepit
 	traits = list(TRAIT_DUALWIELDER) //Rapid knives build
 
 /datum/npc_loadout/weapon/skeleton_pirate_sabre
-	r_hand = /obj/item/rogueweapon/sword/sabre/alloy //Its the closet thing to an ancient cutlass, matie
+	r_hand = /obj/item/rogueweapon/sword/sabre/ancient/decrepit //Its the closet thing to an ancient cutlass, matie
 
 /datum/npc_loadout/weapon/skeleton_soldier_sandals
-	shoes = /obj/item/clothing/shoes/roguetown/sandals/aalloy //Legionnarie look
+	shoes = /obj/item/clothing/shoes/roguetown/sandals/ancient/decrepit //Legionnarie look
 	weapons = list(
-		list(/obj/item/rogueweapon/stoneaxe/woodcut/aaxe, /obj/item/rogueweapon/shield/tower/metal/alloy, 20),
-		list(/obj/item/rogueweapon/sword/short/gladius/agladius, /obj/item/rogueweapon/shield/bronze/aalloy, 45), // ave
-		list(/obj/item/rogueweapon/flail/aflail, /obj/item/rogueweapon/shield/bronze/aalloy, 65),
+		list(/obj/item/rogueweapon/stoneaxe/woodcut/ancient/decrepit, /obj/item/rogueweapon/shield/tower/ancient/decrepit, 20),
+		list(/obj/item/rogueweapon/sword/short/gladius/ancient/decrepit, /obj/item/rogueweapon/shield/bronze/ancient/decrepit, 45), // ave
+		list(/obj/item/rogueweapon/flail/ancient/decrepit, /obj/item/rogueweapon/shield/bronze/ancient/decrepit, 65),
 	)
 
 /datum/npc_loadout/weapon/skeleton_soldier_boots
-	shoes = /obj/item/clothing/shoes/roguetown/boots/aalloy //Bulwark look
+	shoes = /obj/item/clothing/shoes/roguetown/boots/ancient/decrepit //Bulwark look
 	weapons = list(
-		list(/obj/item/rogueweapon/mace/warhammer/alloy, /obj/item/rogueweapon/shield/tower/metal/alloy, 40), //Nastier for MAA skele
-		list(/obj/item/rogueweapon/halberd/bardiche/aalloy),
+		list(/obj/item/rogueweapon/mace/warhammer/ancient/decrepit, /obj/item/rogueweapon/shield/tower/ancient/decrepit, 40), //Nastier for MAA skele
+		list(/obj/item/rogueweapon/halberd/bardiche/ancient/decrepit),
 	)
 
 /datum/npc_loadout/weapon/skeleton_khopesh
-	r_hand = /obj/item/rogueweapon/sword/sabre/alloy
-	l_hand = /obj/item/rogueweapon/sword/sabre/alloy
+	r_hand = /obj/item/rogueweapon/sword/sabre/ancient/decrepit
+	l_hand = /obj/item/rogueweapon/sword/sabre/ancient/decrepit
 	traits = list(TRAIT_DUALWIELDER) //Parity slightly with deadlier dreadknight + swift on heavy armor no longer being cracked
 
 /datum/npc_loadout/weapon/skeleton_withered
 	weapons = list(
-		list(/obj/item/rogueweapon/greatsword/aalloy),
-		list(/obj/item/rogueweapon/mace/goden/aalloy),
-		list(/obj/item/rogueweapon/greatsword/grenz/flamberge/aalloy),
-		list(/obj/item/rogueweapon/flail/aflail, /obj/item/rogueweapon/shield/bronze/great/aalloy), //THE WALL, THE WALL, THE WALL
+		list(/obj/item/rogueweapon/greatsword/ancient/decrepit),
+		list(/obj/item/rogueweapon/mace/goden/ancient/decrepit),
+		list(/obj/item/rogueweapon/greatsword/grenz/flamberge/ancient/decrepit),
+		list(/obj/item/rogueweapon/flail/ancient/decrepit, /obj/item/rogueweapon/shield/bronze/great/ancient/decrepit), //THE WALL, THE WALL, THE WALL
 	)
 
 /datum/npc_loadout/weapon/skeleton_archer
-	r_hand = /obj/item/rogueweapon/mace/alloy
+	r_hand = /obj/item/rogueweapon/mace/ancient/decrepit
 	backr = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve
 	backl = /obj/item/quiver/randomfill/skeleton
 
@@ -561,7 +561,7 @@
 
 /datum/npc_loadout/weapon/fallen_duke
 	r_hand = /obj/item/rogueweapon/sword/rapier/lord
-	l_hand = /obj/item/rogueweapon/shield/tower/metal/alloy
+	l_hand = /obj/item/rogueweapon/shield/tower/ancient/decrepit
 
 /datum/npc_loadout/weapon/lich_knight
 	weapons = list(

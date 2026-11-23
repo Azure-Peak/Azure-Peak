@@ -626,7 +626,7 @@
 		/obj/item/clothing/ring/coral,
 		/obj/item/clothing/ring/opal,
 		/obj/item/clothing/ring/jade,
-		/obj/item/clothing/ring/aalloy,
+		/obj/item/clothing/ring/decrepit,
 		/obj/item/clothing/ring/amber,
 		/obj/item/clothing/ring/band,
 		/obj/item/clothing/ring/bronze,

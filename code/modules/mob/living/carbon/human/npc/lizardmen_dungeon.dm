@@ -150,7 +150,7 @@ GLOBAL_LIST_INIT(psyvault_aggro, world.file2list("strings/rt/psyvaultaggrolines.
 	var/add_random_psy_vault_guard_psycross = rand(1,5)
 	switch(add_random_psy_vault_guard_psycross)
 		if(1)
-			wrists = /obj/item/clothing/neck/roguetown/psicross/aalloy
+			wrists = /obj/item/clothing/neck/roguetown/psicross/ancient
 		if(2)
 			wrists = /obj/item/clothing/neck/roguetown/psicross/wood
 		if(3)
@@ -178,7 +178,7 @@ GLOBAL_LIST_INIT(psyvault_aggro, world.file2list("strings/rt/psyvaultaggrolines.
 		if(7)
 			beltl = /obj/item/rope/chain
 		if(8)
-			beltl = /obj/item/clothing/neck/roguetown/psicross/aalloy
+			beltl = /obj/item/clothing/neck/roguetown/psicross/ancient
 		if(9)
 			beltl = /obj/item/clothing/neck/roguetown/psicross/wood
 		if(10)
@@ -206,7 +206,7 @@ GLOBAL_LIST_INIT(psyvault_aggro, world.file2list("strings/rt/psyvaultaggrolines.
 		if(7)
 			beltr = /obj/item/rope/chain
 		if(8)
-			beltr = /obj/item/clothing/neck/roguetown/psicross/aalloy
+			beltr = /obj/item/clothing/neck/roguetown/psicross/ancient
 		if(9)
 			beltr = /obj/item/clothing/neck/roguetown/psicross/wood
 		if(10)

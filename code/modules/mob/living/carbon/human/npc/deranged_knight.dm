@@ -183,7 +183,7 @@ GLOBAL_LIST_INIT(hedgeknight_aggro, world.file2list("strings/rt/hedgeknightaggro
 	gloves = /obj/item/clothing/gloves/roguetown/plate/matthios
 	head = /obj/item/clothing/head/roguetown/helmet/heavy/matthios
 	neck = /obj/item/clothing/neck/roguetown/chaincoif/chainmantle/matthios
-	r_hand = /obj/item/rogueweapon/flail/peasantwarflail/matthios
+	r_hand = /obj/item/rogueweapon/flail/great/matthios
 	id = /obj/item/clothing/neck/roguetown/psicross/inhumen/matthios //IS THIS TRVE?!
 
 /datum/outfit/job/roguetown/quest_miniboss/zizo/pre_equip(mob/living/carbon/human/H)
