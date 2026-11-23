@@ -211,6 +211,10 @@
 	examine_highlight_severity = EXAMINEHIGHLIGHT_HERESYSEVERITY_ODD
 	examine_highlight_desc = "It beckons with a strange malice, inspiring a palpable feeling of unease."
 
+/obj/item/cursed_item_spawner/Initialize(mapload)
+	. = ..()
+	filters += filter(type = "drop_shadow", x=0, y=0, size=1, offset = 2, color = PATRON_COLOR_VHESLYN)
+
 /obj/item/cursed_item_spawner/ComponentInitialize()
 	. = ..()
 	AddComponent(/datum/component/unsellable, "radiates foreboding power") // just in case. this is a very-limited avenue for ghostmobs we don't want people rushing it and RRing it
@@ -220,7 +224,7 @@
 	. += span_info("Right-click this item in your hand to select what form the relic will take, then left-click to awaken its power. From stat rings to weapons and armor, it can be quite a boon.")
 	. += span_info("However, such power comes at a price. Something malevolent dwells within that may threaten to overtake you.")
 
-/obj/item/cursed_item_spawner/attack_hand(mob/user)
+/obj/item/cursed_item_spawner/attack_self(mob/user)
 	if(!ishuman(user) || isfamiliar(user)) // nuh uh
 		to_chat(user, "The relic rejects me!")
 		return FALSE
@@ -235,7 +239,7 @@
 		return ..()
 	to_chat(inhabitant, span_notice("I am an infernal, bound within this relic by a longago magos. Long have I rested within these rotting halls, before being found by [H.get_unmasked_name()], who has foolishly unleashed my power... "))
 	var/obj/item/relic = new form(user.drop_location())
-	var/datum/component/possessed_item/P = relic.AddComponent(/datum/component/possessed_item, user, PATRON_COLOR_VHESLYN, EXAMINEHIGHLIGHT_HERESYSEVERITY_ODD, HERESYDESC_INFERNAL_PASSIVE, EXAMINEHIGHLIGHT_HERESYSEVERITY_SUSPICIOUS, HERESYDESC_INFERNAL_ACTIVE, TRUE, FALSE, TRUE)
+	var/datum/component/possessed_item/P = relic.AddComponent(/datum/component/possessed_item, inhabitant, PATRON_COLOR_VHESLYN, EXAMINEHIGHLIGHT_HERESYSEVERITY_ODD, HERESYDESC_INFERNAL_PASSIVE, EXAMINEHIGHLIGHT_HERESYSEVERITY_SUSPICIOUS, HERESYDESC_INFERNAL_ACTIVE, TRUE, FALSE, TRUE, /mob/living/carbon/human/proc/toggle_infernal_armor, FALSE)
 	user.dropItemToGround(src, TRUE, TRUE)
 	user.put_in_hands(relic)
 	var/datum/action/cooldown/spell/cursed_item_possession/spell = new
@@ -247,18 +251,17 @@
 	qdel(src)
 	return TRUE
 
-/obj/item/cursed_item_spawner/attack_right(mob/user)
-	if(..())
-		return TRUE
+/obj/item/cursed_item_spawner/rmb_self(mob/user)
 	if(!ishuman(user) || isfamiliar(user)) // nuh uh
 		to_chat(user, "The relic rejects me!")
-		return FALSE
+		return ..()
 	var/mob/living/carbon/human/H = user
+	var/had_form = form
 	var/choice = tgui_input_list(H, "What manner of relic is this?", "WHISPERS OF POWER", transformation_options)
 	if(!choice) // again should only happen if they DC while doing this
-		return FALSE
+		return ..()
 	form = transformation_options[choice]
-	to_chat(H, span_notice("[form?"I was wrong, before; it's clearly":"Ah, of course! It's"] \a [form::name]!"))
+	to_chat(H, span_notice("[had_form?"I was wrong, before; it's clearly":"Ah, of course! It's"] \a [form::name]!"))
 	desc = "A strange [form::name]. It whispers promises of power, begging to be awakened..." // convey this step is done
 	return TRUE
 

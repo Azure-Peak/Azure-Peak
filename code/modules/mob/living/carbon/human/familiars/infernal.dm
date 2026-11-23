@@ -13,6 +13,12 @@
 	valid_healing_items = list(/obj/item/magic/infernal)
 	planar_origin = "infernal"
 	voiceclips = list('sound/vo/mobs/vw/idle (1).ogg','sound/vo/mobs/vw/idle (2).ogg','sound/vo/mobs/vw/bark (1).ogg','sound/vo/mobs/vw/bark (2).ogg','sound/vo/mobs/vw/idle (3).ogg')
+	voice_desc = "crackling"
+	voice_desc_prefix = CUSTOM_PREFIX_HAS_A
+	trait_desc = "canid"
+	trait_desc_prefix = CUSTOM_PREFIX_HAS_A
+	stature_desc = "hellish"
+	stature_desc_prefix = CUSTOM_PREFIX_HAS_A
 
 /datum/species/familiar/infernal
 	name = "Infernal"
@@ -168,6 +174,12 @@
 	icon_state = "ashcoiler"
 	speak_emote = list("hisses", "rasps")
 	voiceclips = list('sound/vo/mobs/snake/hiss.ogg')
+	voice_desc = "hissing"
+	voice_desc_prefix = CUSTOM_PREFIX_HAS_A
+	trait_desc = "smold'ring"
+	trait_desc_prefix = CUSTOM_PREFIX_HAS_A
+	stature_desc = "serpent"
+	stature_desc_prefix = CUSTOM_PREFIX_HAS_A
 
 /mob/living/carbon/human/species/familiar/infernal/emberdrake
 	name = "Emberdrake"
@@ -175,6 +187,12 @@
 	summoning_emote = "A hush falls as glowing ash collects into a fluttering emberdrake."
 	icon_state = "emberdrake"
 	speak_emote = list("crackles")
+	voice_desc = "crackling"
+	voice_desc_prefix = CUSTOM_PREFIX_HAS_A
+	trait_desc = "infernal"
+	trait_desc_prefix = CUSTOM_PREFIX_HAS_AN
+	stature_desc = "drake"
+	stature_desc_prefix = CUSTOM_PREFIX_HAS_A
 
 /mob/living/carbon/human/species/familiar/infernal/armour
 	name = "Infernal Armour"
@@ -183,6 +201,12 @@
 	icon_state = "infernal_armour"
 	speak_emote = list("crackles")
 	voiceclips = list('sound/effects/hood_ignite.ogg')
+	voice_desc = "crackling"
+	voice_desc_prefix = CUSTOM_PREFIX_HAS_A
+	trait_desc = "hellish"
+	trait_desc_prefix = CUSTOM_PREFIX_HAS_A
+	stature_desc = "armor"
+	stature_desc_prefix = CUSTOM_PREFIX_HAS_A
 
 /mob/living/carbon/human/species/familiar/infernal/sword
 	name = "Infernal Blade"
@@ -191,3 +215,21 @@
 	icon_state = "infernal_blade"
 	speak_emote = list("sings")
 	voiceclips = list('sound/magic/woundheal.ogg', 'sound/magic/chime.ogg') // they're meant to 'sing'.
+	voice_desc = "ariose"
+	voice_desc_prefix = CUSTOM_PREFIX_HAS_AN
+	trait_desc = "infernal"
+	trait_desc_prefix = CUSTOM_PREFIX_HAS_AN
+	stature_desc = "blade"
+	stature_desc_prefix = CUSTOM_PREFIX_HAS_A
+
+/mob/living/carbon/human/proc/toggle_infernal_armor()
+	set name = "Toggle Infernal Armor Visual"
+	set category = "RoleUnique.Possessed Item"
+
+	if(overlays_standing[BODY_FRONT_FRONT_FRONT_LAYER])
+		remove_overlay(BODY_FRONT_FRONT_FRONT_LAYER)
+		visible_message(span_warning("[src]'s infernal armor retracts and vanishes."))
+	else
+		visible_message(span_warning("[src] deploys a carapace of infernal armor!"))
+		overlays_standing[BODY_FRONT_FRONT_FRONT_LAYER] = mutable_appearance('icons/roguetown/mob/familiars.dmi', "infernal_armour", BODY_FRONT_FRONT_FRONT_LAYER)
+		apply_overlay(BODY_FRONT_FRONT_FRONT_LAYER)

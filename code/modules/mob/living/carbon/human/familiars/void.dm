@@ -12,6 +12,12 @@
 	valid_healing_items = list(/obj/item/magic/fae, /obj/item/magic/elemental, /obj/item/magic/infernal) // hungy
 	planar_origin = "void"
 	voiceclips = list('sound/vo/mobs/wwolf/idle (1).ogg', 'sound/vo/mobs/vdragon/drgnroar.ogg')
+	voice_desc = "potent"
+	voice_desc_prefix = CUSTOM_PREFIX_HAS_A
+	trait_desc = "arcyne"
+	trait_desc_prefix = CUSTOM_PREFIX_HAS_AN
+	stature_desc = "drake"
+	stature_desc_prefix = CUSTOM_PREFIX_HAS_A
 
 /datum/species/familiar/void
 	name = "Void Drakeling"

@@ -34,6 +34,12 @@
 
 	// stats: should be squishy, but able to keep up with their summoner
 	STACON = 5 // might be too low? it's more than skeletons...
+	var/voice_desc
+	var/voice_desc_prefix = CUSTOM_PREFIX_HAS_A
+	var/trait_desc
+	var/trait_desc_prefix = CUSTOM_PREFIX_HAS_A
+	var/stature_desc
+	var/stature_desc_prefix = CUSTOM_PREFIX_HAS_A
 
 /mob/living/carbon/human/species/familiar/attack_hand(mob/user) // very important port from simplemobs
 	. = ..()
@@ -92,6 +98,27 @@
 	icon_state = initial(icon_state) // parent proc nulls this
 	real_name = initial(real_name) // we override these later but we don't want random human names being pulled for this
 	name = initial(name)
+	custom_descriptors = list()
+	for(var/i in 1 to CUSTOM_DESCRIPTOR_AMOUNT)
+		var/datum/custom_descriptor_entry/entry = new
+		if(i == 9) // voice
+			entry.content_text = voice_desc
+			entry.prefix_type = voice_desc_prefix
+		else if(i == 12) // trait
+			entry.content_text = trait_desc
+			entry.prefix_type = trait_desc_prefix
+		else if(i == 10) // stature
+			entry.content_text = stature_desc
+			entry.prefix_type = stature_desc_prefix
+		custom_descriptors += entry
+	add_mob_descriptor(/datum/mob_descriptor/voice/custom/nine)
+	add_mob_descriptor(/datum/mob_descriptor/trait/custom/twelve)
+	add_mob_descriptor(/datum/mob_descriptor/stature/custom/ten)
+
+// there are some edge cases where familiars can be QDEL'd while inside items. rather than manually adding catches for every one it's probably best to just gracefully handle it and let them be resummoned
+/mob/living/carbon/human/species/familiar/Destroy()
+	GLOB.chosen_names -= real_name
+	. = ..()
 
 /mob/living/carbon/human/species/familiar/say_mod(input, message_mode)
 	if(LAZYLEN(speak_emote))

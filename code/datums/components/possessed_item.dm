@@ -1,6 +1,6 @@
 #define POSSESSION_PROMPT_COOLDOWN 1 MINUTES	// so people can't spam it
 #define CURSE_CORRUPTION_THRESHOLD 5 MINUTES	// after using a cursed item's power, you have this long to take it off before bad shit can start happening
-#define POSSESSION_END_COOLDOWN 15 MINUTES		// no matter how a possession ends, they'll have to wait this long before trying again.
+#define POSSESSION_END_COOLDOWN 15 MINUTES		// if a possession ends by force, they'll have to wait this long before trying again.
 
 /// an item with a mob inside. unlike /obj/item/mob_item and shapeshift_holder, this is specifically built to handle the mob in question possessing whoever
 /// has the item equipped. while a bespoke system for counting item 'uses' is possible, it's easier and more streamlined to just have using the item start
@@ -37,8 +37,9 @@
 	var/cached_mob_overlay_icon
 	var/curse_timer_id
 	var/item_filter
+	var/bearer_verb // we use this for infernal armor, but if we later add non-vheslynite possession it could be something else
 
-/datum/component/possessed_item/Initialize(mob/living/carbon/human/possessor, outline_color, h_severity_passive, h_desc_passive, h_severity_active, h_desc_active, start_powerful = FALSE, temp = FALSE, change_sprites = TRUE)
+/datum/component/possessed_item/Initialize(mob/living/carbon/human/possessor, outline_color, h_severity_passive, h_desc_passive, h_severity_active, h_desc_active, start_powerful = FALSE, temp = FALSE, change_sprites = TRUE, verb_to_bearer, revert_on_break = TRUE)
 	if(!isitem(parent) || !possessor)
 		return COMPONENT_INCOMPATIBLE
 	spirit = possessor
@@ -57,7 +58,8 @@
 	powerful = start_powerful
 	ephemeral = temp
 	RegisterSignal(parent, COMSIG_ITEM_EQUIPPED, PROC_REF(update_bearer))
-	RegisterSignal(parent, COMSIG_ITEM_BROKEN, PROC_REF(revert))
+	if(revert_on_break) // for cursed items we want you to have to DESTROY the item (melt it down with a lamptern/break it completely)
+		RegisterSignal(parent, COMSIG_ITEM_BROKEN, PROC_REF(revert))
 	RegisterSignal(spirit, COMSIG_LIVING_RESIST, PROC_REF(revert))
 	RegisterSignal(spirit, COMSIG_MOB_SAY, PROC_REF(handle_speech))
 
@@ -84,6 +86,7 @@
 			I.icon_state = "cursed_collar"
 			I.item_state = "cursed_collar"
 
+	bearer_verb = verb_to_bearer
 	spirit.reset_perspective(parent)
 	I.become_hearing_sensitive()
 	spirit.update_cone_show()
@@ -120,11 +123,12 @@
 	var/obj/item/I = parent
 	if(ishuman(equipper) && !equipper.icon_state && equipper.mind && equipper != bearer) // i know this looks insane. but icon_state being null is actually the best way to tell if someone's a normal human, or if they're some manner of wildshape/special-cased human like familiars, hag trueform, wws, etc - none of which we want to count for this!
 		bearer = equipper
-		add_verb(bearer, /mob/living/carbon/human/proc/toggle_infernal_armor) // they get this as a freebie to aurafarm
+		if(bearer_verb)
+			add_verb(bearer, bearer_verb) // they get this as a freebie to aurafarm
 		RegisterSignal(bearer, COMSIG_MOB_DROPITEM, PROC_REF(handle_drop))
 		RegisterSignal(bearer, COMSIG_MOB_ITEM_ATTACK_POST_SWINGDELAY, PROC_REF(handle_attack)) // if you whack someone with it, you're cooked
 		if((istype(parent, /obj/item/clothing/ring) || istype(parent, /obj/item/clothing/neck/roguetown/psicross)) && slot != ITEM_SLOT_HANDS) // rings grant passive effects, so simply wearing them is enough; amulets are quintessential cursed item and get an easy pass too
-			curse_timer_id = addtimer(CALLBACK(src, PROC_REF(add_user), bearer), CURSE_CORRUPTION_THRESHOLD)
+			curse_timer_id = addtimer(CALLBACK(src, PROC_REF(add_user), bearer), CURSE_CORRUPTION_THRESHOLD, TIMER_STOPPABLE)
 		else if(I.has_armor_value()) // for armor, using it to tank blows is what does you in
 			RegisterSignal(bearer, COMSIG_MOB_ARMOR_INTEGRITY_DAMAGED, PROC_REF(handle_armor_damage))
 
@@ -170,7 +174,8 @@
 	UnregisterSignal(bearer, COMSIG_MOB_DROPITEM)
 	UnregisterSignal(bearer, COMSIG_MOB_ARMOR_INTEGRITY_DAMAGED)
 	UnregisterSignal(bearer, COMSIG_MOB_ITEM_ATTACK_POST_SWINGDELAY)
-	remove_verb(bearer, /mob/living/carbon/human/proc/toggle_infernal_armor) // no aurafarming if you aren't actually using the thing
+	if(bearer_verb)
+		remove_verb(bearer, bearer_verb) // no aurafarming if you aren't actually using the thing
 	bearer = null
 	if(curse_timer_id)
 		to_chat(bearer, span_warning("The energies flowing from [dropped] suddenly cease, our connection broken.")) // let them know it worked
@@ -178,13 +183,13 @@
 
 /datum/component/possessed_item/proc/handle_attack(datum/source, mob/target, mob/user, obj/item/I)
 	if(!curse_timer_id && I == parent)
-		to_chat(bearer, span_warning("I feel [I]'s power grow stronger as I use it...")) // let them know they're being #corrupted so they can drop it if they don't want that
-		curse_timer_id = addtimer(CALLBACK(src, PROC_REF(add_user), bearer), CURSE_CORRUPTION_THRESHOLD)
+		to_chat(bearer, span_warning("I feel [I]'s power over me grow stronger as I use it...")) // let them know they're being #corrupted so they can drop it if they don't want that
+		curse_timer_id = addtimer(CALLBACK(src, PROC_REF(add_user), bearer), CURSE_CORRUPTION_THRESHOLD, TIMER_STOPPABLE)
 
 /datum/component/possessed_item/proc/handle_armor_damage(datum/source, amount, obj/item/clothing/damaged)
 	if(!curse_timer_id && damaged == parent)
-		to_chat(bearer, span_warning("I feel [damaged]'s power grow stronger as I use it...")) // let them know they're being #corrupted so they can drop it if they don't want that
-		curse_timer_id = addtimer(CALLBACK(src, PROC_REF(add_user), bearer), CURSE_CORRUPTION_THRESHOLD)
+		to_chat(bearer, span_warning("I feel [damaged]'s power over me grow stronger as I use it...")) // let them know they're being #corrupted so they can drop it if they don't want that
+		curse_timer_id = addtimer(CALLBACK(src, PROC_REF(add_user), bearer), CURSE_CORRUPTION_THRESHOLD, TIMER_STOPPABLE)
 
 /mob/living/carbon/human/proc/possessed_item_possess()
 	set name = "Possess Bearer"
@@ -221,19 +226,8 @@
 	var/mob/dead/observer/eye/screye/displaced_soul/dsoul = curse.bearer.get_displaced_soul()
 	if(dsoul)
 		curse.RegisterSignal(dsoul, COMSIG_DEAD_RESIST, TYPE_PROC_REF(/datum/component/possessed_item, handle_resist))
-	add_verb(curse.bearer, /mob/living/carbon/human/proc/toggle_infernal_armor) // for armor, we give them the verb to deploy their armor (cosmetic)
-
-/mob/living/carbon/human/proc/toggle_infernal_armor()
-	set name = "Toggle Infernal Armor Visual"
-	set category = "RoleUnique.Possessed Item"
-
-	if(overlays_standing[BODY_FRONT_FRONT_LAYER]) // nothing else uses this so hopefully this is fine
-		remove_overlay(BODY_FRONT_FRONT_LAYER)
-		visible_message(span_warning("[src]'s infernal armor retracts and vanishes."))
-	else
-		visible_message(span_warning("[src] deploys a carapace of infernal armor!"))
-		overlays_standing[BODY_FRONT_FRONT_LAYER] = mutable_appearance('icons/roguetown/mob/familiars.dmi', "infernal_armour", BODY_FRONT_FRONT_LAYER)
-		apply_overlay(BODY_FRONT_FRONT_LAYER)
+	if(curse.bearer_verb)
+		add_verb(curse.bearer, curse.bearer_verb)
 
 #undef POSSESSION_END_COOLDOWN
 #undef CURSE_CORRUPTION_THRESHOLD

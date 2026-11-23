@@ -22,6 +22,12 @@
 	STACON = 1 // annoying flying fucks
 	voiceclips = list("plantcross")
 	var/warned = FALSE // 2 second grace period to get back in range of their summoner or they lose flight
+	voice_desc = "rustling"
+	voice_desc_prefix = CUSTOM_PREFIX_HAS_A
+	trait_desc = "fluttering"
+	trait_desc_prefix = CUSTOM_PREFIX_HAS_A
+	stature_desc = "faerie"
+	stature_desc_prefix = CUSTOM_PREFIX_HAS_A
 
 /datum/species/familiar/fae
 	name = "Faerie"
@@ -250,6 +256,12 @@
 	alpha = 150
 	speak_emote = list("purrs", "whispers")
 	voiceclips = list('sound/vo/mobs/cat/cat_purr1.ogg', 'sound/vo/mobs/cat/cat_purr2.ogg', 'sound/vo/mobs/cat/cat_purr3.ogg', 'sound/vo/mobs/cat/cat_purr4.ogg',)
+	voice_desc = "quiet"
+	voice_desc_prefix = CUSTOM_PREFIX_HAS_A
+	trait_desc = "hazy"
+	trait_desc_prefix = CUSTOM_PREFIX_HAS_AN
+	stature_desc = "felid"
+	stature_desc_prefix = CUSTOM_PREFIX_HAS_A
 
 /mob/living/carbon/human/species/familiar/fae/rune_rat
 	name = "Rune Rat"
@@ -258,6 +270,12 @@
 	icon_state = "runerat"
 	speak_emote = list("squeaks", "chatters")
 	voiceclips = list('sound/vo/mobs/mouse/squeak.ogg')
+	voice_desc = "sagacious"
+	voice_desc_prefix = CUSTOM_PREFIX_HAS_A
+	trait_desc = "arcyne"
+	trait_desc_prefix = CUSTOM_PREFIX_HAS_AN
+	stature_desc = "rat"
+	stature_desc_prefix = CUSTOM_PREFIX_HAS_A
 
 /mob/living/carbon/human/species/familiar/fae/vaporroot_wisp
 	name = "Vaporroot Wisp"
@@ -266,7 +284,13 @@
 	icon_state = "vaporroot"
 	alpha = 150
 	speak_emote = list("whispers", "murmurs")
-	voiceclips = list() // silent on purpose
+	voiceclips = list()
+	voice_desc = "faint"
+	voice_desc_prefix = CUSTOM_PREFIX_HAS_A
+	trait_desc = "shimmering"
+	trait_desc_prefix = CUSTOM_PREFIX_HAS_A
+	stature_desc = "wisp"
+	stature_desc_prefix = CUSTOM_PREFIX_HAS_A
 
 /mob/living/carbon/human/species/familiar/fae/glimmer_hare
 	name = "Glimmer Hare"
@@ -276,6 +300,12 @@
 	icon_state = "glimmer"
 	speak_emote = list("chatters", "chirps")
 	voiceclips = list('sound/vo/mobs/rabbit/rabbit_alert.ogg')
+	voice_desc = "chattering"
+	voice_desc_prefix = CUSTOM_PREFIX_HAS_A
+	trait_desc = "leporine"
+	trait_desc_prefix = CUSTOM_PREFIX_HAS_A
+	stature_desc = "apparition"
+	stature_desc_prefix = CUSTOM_PREFIX_HAS_AN
 
 /mob/living/carbon/human/species/familiar/fae/hollow_antlerling
 	name = "Hollow Antlerling"
@@ -284,6 +314,12 @@
 	icon_state = "antlerling"
 	speak_emote = list("chimes", "calls")
 	voiceclips = list() // i have no ideas
+	voice_desc = "chiming"
+	voice_desc_prefix = CUSTOM_PREFIX_HAS_A
+	trait_desc = "musical"
+	trait_desc_prefix = CUSTOM_PREFIX_HAS_AN
+	stature_desc = "deer"
+	stature_desc_prefix = CUSTOM_PREFIX_HAS_A
 
 /mob/living/carbon/human/species/familiar/fae/starfield_crow
 	name = "Starfield Zad"
@@ -292,6 +328,12 @@
 	icon_state = "crow_flying"
 	speak_emote = list("caws", "croaks")
 	voiceclips = list('sound/vo/mobs/bird/CROW_01.ogg', 'sound/vo/mobs/bird/CROW_02.ogg', 'sound/vo/mobs/bird/CROW_03.ogg')
+	voice_desc = "cawing"
+	voice_desc_prefix = CUSTOM_PREFIX_HAS_A
+	trait_desc = "astral"
+	trait_desc_prefix = CUSTOM_PREFIX_HAS_AN
+	stature_desc = "corvid"
+	stature_desc_prefix = CUSTOM_PREFIX_HAS_A
 
 /mob/living/carbon/human/species/familiar/fae/ripplefox
 	name = "Ripplefox"
@@ -300,6 +342,12 @@
 	icon_state = "ripple"
 	speak_emote = list("rapidly whispers", "hushes") // why the FUCK do we have so many fox noises and 13 of them are whining variants
 	voiceclips = list('sound/vo/mobs/venard/fox1.ogg','sound/vo/mobs/venard/fox2.ogg','sound/vo/mobs/venard/fox3.ogg','sound/vo/mobs/venard/fox4.ogg','sound/vo/mobs/venard/fox5.ogg','sound/vo/mobs/venard/fox6.ogg','sound/vo/mobs/venard/fox7.ogg','sound/vo/mobs/venard/fox8.ogg','sound/vo/mobs/venard/fox9.ogg','sound/vo/mobs/venard/fox10.ogg','sound/vo/mobs/venard/fox11.ogg','sound/vo/mobs/venard/fox12.ogg','sound/vo/mobs/venard/fox13.ogg', 'sound/vo/yip.ogg', 'sound/vo/yip2.ogg', 'sound/vo/yip3.ogg')
+	voice_desc = "vulpine"
+	voice_desc_prefix = CUSTOM_PREFIX_HAS_A
+	trait_desc = "flickering"
+	trait_desc_prefix = CUSTOM_PREFIX_HAS_AN
+	stature_desc = "venard"
+	stature_desc_prefix = CUSTOM_PREFIX_HAS_A
 
 /mob/living/carbon/human/species/familiar/fae/whisper_stoat
 	name = "Whisper Stoat"
@@ -308,6 +356,12 @@
 	icon_state = "whisper"
 	speak_emote = list("mutters", "whispers")
 	voiceclips = list() // they're silent. like a whisper...
+	voice_desc = "hushed"
+	voice_desc_prefix = CUSTOM_PREFIX_HAS_A
+	trait_desc = "sly"
+	trait_desc_prefix = CUSTOM_PREFIX_HAS_AN
+	stature_desc = "mustelid"
+	stature_desc_prefix = CUSTOM_PREFIX_HAS_A
 
 /datum/status_effect/debuff/iron_weakness
 	id = "iron_weakness"

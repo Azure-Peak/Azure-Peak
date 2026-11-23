@@ -1,11 +1,10 @@
 /// proc for pulling a ghost in, creating a mob according to their prefs, then returning the new mob. summontype is used in the verbiage of some to_chats. plane must be a valid plane ("fae" "elemental" "infernal" or "void" currently)
 /proc/awaken_familiar(mob/living/carbon/human/user, plane, summontype, where)
-	var/list/candidates = pollCandidates("Do you want to play as a [summontype] for [user.real_name] ([user.get_role_title()])? You will materialize as [(plane == "infernal" || plane == "elemental")?"an":"a"] [plane] familiar.", null, null, null, 100, POLL_IGNORE_MAGE_SUMMON)
+	var/list/candidates = pollGhostCandidates("Do you want to play as a [summontype] for [user.real_name] ([user.get_role_title()])? You will materialize as [(plane == "infernal" || plane == "elemental")?"an":"a"] [plane] familiar.", ROLE_FAMILIAR, null, null, 10 SECONDS, POLL_IGNORE_MAGE_SUMMON)
 	if(!LAZYLEN(candidates))
 		to_chat(user,span_warning("No candidate players available."))
 		return FALSE
 	var/list/preferred_candidates = list()
-	var/mob/chosen = null
 	for(var/mob/candidate in candidates)
 		var/client/client_ref = candidate.client
 		if(client_ref && client_ref.prefs && client_ref.prefs.familiar_prefs)
@@ -42,7 +41,7 @@
 			return FALSE
 		chosen.stop_sound_channel(CHANNEL_LOBBYMUSIC)
 		var/to_summon = prefs.familiar_species[plane]
-		var/mob/living/carbon/human/species/familiar/fam = new to_summon(loc)
+		var/mob/living/carbon/human/species/familiar/fam = new to_summon(where)
 		fam.familiar_summoner = user
 		fam.fully_replace_character_name(null, prefs.familiar_names[plane])
 		fam.pronouns = prefs.familiar_pronouns[plane] ? prefs.familiar_pronouns[plane] : THEY_THEM
