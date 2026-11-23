@@ -558,6 +558,7 @@ SUBSYSTEM_DEF(economy)
 	D.market_stock -= quantity
 	D.royal_stock += quantity
 	D.check_glut_relief()
+	debit_economic_event_saturation(good_id, quantity)
 	SStreasury.dirty_market_view()
 	log_game("MARKET PURCHASE by [user.ckey]: [quantity] [D.name] (cost [cost]m)")
 	to_chat(user, span_notice("Bought [quantity] [D.name] from the market for [format_mammon(cost)]m."))

@@ -95,6 +95,14 @@ GLOBAL_LIST_EMPTY(active_economic_events)
 	for(var/datum/economic_event/E as anything in relieved)
 		E.relieve_shortage()
 
+/proc/debit_economic_event_saturation(good_id, units)
+	if(!good_id || units <= 0)
+		return
+	for(var/datum/economic_event/E as anything in GLOB.active_economic_events)
+		if(E.relief_triggered || !(good_id in E.shortage_goods))
+			continue
+		E.saturation_progress = max(0, mammon_round(E.saturation_progress - units * SSeconomy.good_steady_price(good_id)))
+
 /proc/trade_good_names(list/good_ids)
 	var/list/names = list()
 	for(var/good_id in good_ids)

@@ -58,6 +58,7 @@
 			record_round_statistic(STATS_STOCKPILE_REVENUE, total_price)
 		D.market_stock--
 		D.check_glut_relief()
+		debit_economic_event_saturation(D.trade_good_id, 1)
 	SStreasury.dirty_market_view()
 	var/obj/item/I = new D.item_type(parent_structure.loc)
 	if(from_royal_stock)
