@@ -14,6 +14,7 @@
 	. = ..()
 	. += span_info("Left-click with an open hand to see the stockpile. Put in mammon to buy goods from it.")
 	. += span_info("Left-click the machine with an item to sell it into the stockpile. You're paid into your MEISTER account. The machine won't take your goods unless you have an account.")
+	. += span_info("Left-click the machine with a sack or other container to sell everything inside it that the stockpile will accept.")
 	. += span_info("Right-clicking the machine will automatically load all adjacent items into the stockpile at once.")
 	. += span_info("Goods sold here go into the market. Roles with royal subsidy sell into the royal stockpile instead.")
 /obj/structure/roguemachine/stockpile/Initialize(mapload)
@@ -171,6 +172,19 @@
 			say("No account found for [H]. Submit your fingers to a Meister for inspection.")
 		return
 
+	var/datum/component/storage/STR = I.GetComponent(/datum/component/storage)
+	if(STR && !STR.locked)
+		for(var/obj/item/stored in STR.contents())
+			if(attemptsell(stored, H, FALSE, FALSE))
+				. = TRUE
+		if(!.)
+			if(message)
+				say("Nothing in [I.name] is accepted here.")
+			return
+		if(sound)
+			playsound(loc, 'sound/misc/hiss.ogg', 100, FALSE, -1)
+		return
+
 	for(var/datum/roguestock/R in SStreasury.stockpile_datums)
 		if(istype(I, /obj/item/natural/bundle))
 			var/obj/item/natural/bundle/B = I
@@ -179,6 +193,7 @@
 			var/bundle_amt = B.amount
 			R.refresh_auto_price()
 			qdel(B)
+			. = TRUE
 			SStreasury.dirty_market_view()
 			if(message == TRUE)
 				stock_announce("[bundle_amt] units of [R.name] have been stockpiled.")
@@ -207,6 +222,7 @@
 					say(flavor)
 					to_chat(H, span_info("[src] says, \"[flavor]\""))
 			qdel(I)
+			. = TRUE
 			SStreasury.dirty_market_view()
 			if(message == TRUE)
 				stock_announce("[R.name] has been stockpiled.")

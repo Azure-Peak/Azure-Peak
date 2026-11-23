@@ -178,7 +178,7 @@
 	if(!length(items))
 		return
 	var/list/deliveries = list()
-	var/obj/item/storage/roguebag/sack = new_estate_sack(deliveries)
+	var/obj/item/storage/roguebag/estate/sack = new_estate_sack(deliveries)
 	for(var/obj/item/I as anything in items)
 		if(SEND_SIGNAL(sack, COMSIG_TRY_STORAGE_INSERT, I, null, TRUE, FALSE))
 			continue
@@ -187,14 +187,13 @@
 			deliveries += I
 	var/sender = "[E.estate_name()] Estate"
 	for(var/obj/item/delivery as anything in deliveries)
-		if(istype(delivery, /obj/item/storage/roguebag) && !length(delivery.contents))
+		if(istype(delivery, /obj/item/storage/roguebag/estate) && !length(delivery.contents))
 			qdel(delivery)
 			continue
 		if(!deliver_mail(delivery, H.real_name, sender))
 			qdel(delivery)
 
 /datum/controller/subsystem/economy/proc/new_estate_sack(list/deliveries)
-	var/obj/item/storage/roguebag/sack = new()
-	sack.name = "estate sack"
+	var/obj/item/storage/roguebag/estate/sack = new()
 	deliveries += sack
 	return sack
