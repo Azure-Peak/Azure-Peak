@@ -275,6 +275,9 @@
 
 /datum/npc_loadout/kit/zizo_knight_flavor
 	miracle_tier = CLERIC_T2 //currently only can do lesser miracle
+	skills = list(
+		/datum/skill/magic/holy = SKILL_LEVEL_EXPERT,
+	)
 	id = list(
 		/obj/item/clothing/neck/roguetown/psicross/inhumen = 25,
 		/obj/item/clothing/neck/roguetown/psicross/inhumen/aalloy = 25,
@@ -291,6 +294,9 @@
 
 /datum/npc_loadout/kit/graggar_knight_flavor
 	miracle_tier = CLERIC_T2 //able to FULLY use this, fear them
+	skills = list(
+		/datum/skill/magic/holy = SKILL_LEVEL_EXPERT,
+	)
 	id = list(
 		/obj/item/clothing/neck/roguetown/psicross/inhumen/graggar = 25,
 		/obj/item/clothing/neck/roguetown/psicross/inhumen/graggar/g = 1,
@@ -305,6 +311,9 @@
 
 /datum/npc_loadout/kit/matthios_knight_flavor
 	miracle_tier = CLERIC_T2 //currently only can do lesser miracle
+	skills = list(
+		/datum/skill/magic/holy = SKILL_LEVEL_EXPERT,
+	)
 	id = list(
 		/obj/item/clothing/neck/roguetown/psicross/inhumen/matthios = 30,
 		/obj/item/clothing/neck/roguetown/psicross/astrata/g/triumph = 15, //is this TRVE?
@@ -320,6 +329,9 @@
 
 /datum/npc_loadout/kit/baotha_knight_flavor
 	miracle_tier = CLERIC_T2 //currently only can do lesser miracle
+	skills = list(
+		/datum/skill/magic/holy = SKILL_LEVEL_EXPERT,
+	)
 	id = list(
 		/obj/item/clothing/neck/roguetown/psicross/inhumen/baotha = 30,
 		/obj/item/clothing/neck/roguetown/psicross/inhumen/baotha/g = 1,
