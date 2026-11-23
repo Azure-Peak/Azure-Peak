@@ -40,10 +40,10 @@
 	desc = "Change, shackled to direction. The driving-force of motion and progress. Used extensively in artifice and alchemy alike."
 	cheapest_known_source = /obj/item/ingot/bronze
 
-/datum/materia_aspect/aalloy // gilbranze, specifically the pure stuff
+/datum/materia_aspect/ancient // gilbranze, specifically the pure stuff
 	name = "Vindexio"
 	desc = "A lost ideal. Once, this was the most important of materia; now, its uses are for the esoteric and heretical. <i>And it was a beautiful world we lost...</i>"
-	cheapest_known_source = /obj/item/roguecoin/aalloy
+	cheapest_known_source = /obj/item/roguecoin/psila
 
 /datum/materia_aspect/malleability // cinnabar
 	name = "Mollis"

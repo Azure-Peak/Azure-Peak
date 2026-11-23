@@ -338,7 +338,7 @@
 		say("[I.name] isn't accepted here.")
 
 /obj/structure/roguemachine/stockpile/attackby(obj/item/P, mob/user, params)
-	if(istype(P, /obj/item/roguecoin/aalloy))
+	if(istype(P, /obj/item/roguecoin/psila))
 		return
 
 	if(istype(P, /obj/item/roguecoin/inqcoin))

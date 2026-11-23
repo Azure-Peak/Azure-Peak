@@ -30,7 +30,7 @@
 /datum/anvil_recipe/valuables/aalloy
 	name = "Statue, Decrepit" // decrepit
 	category = "Decrepit Alloy"
-	req_bar = /obj/item/ingot/aalloy
+	req_bar = /obj/item/ingot/decrepit
 	created_item = /obj/item/roguestatue/decrepit
 	display_category = ITEM_CAT_DECORATION
 
@@ -212,7 +212,7 @@
 /datum/anvil_recipe/valuables/noccrossdecrepit
 	name = "Amulet of Knowledge, Decrepit"
 	category = "Decrepit Alloy"
-	req_bar = /obj/item/ingot/aalloy
+	req_bar = /obj/item/ingot/decrepit
 	created_item = /obj/item/clothing/neck/roguetown/psicross/noc/ancient/decrepit
 	display_category = ITEM_CAT_VALUABLES_HOLY
 	craftdiff = 3
@@ -220,7 +220,7 @@
 /datum/anvil_recipe/valuables/noccrossancient
 	name = "Amulet of Knowledge, Ancient"
 	category = "Ancient Alloy"
-	req_bar = /obj/item/ingot/purifiedaalloy
+	req_bar = /obj/item/ingot/ancient
 	created_item = /obj/item/clothing/neck/roguetown/psicross/noc/ancient
 	display_category = ITEM_CAT_VALUABLES_HOLY
 	craftdiff = 3
@@ -228,7 +228,7 @@
 /datum/anvil_recipe/valuables/psycrossdecrepit
 	name = "Amulet of Psydonia, Decrepit"
 	category = "Decrepit Alloy"
-	req_bar = /obj/item/ingot/aalloy
+	req_bar = /obj/item/ingot/decrepit
 	created_item = /obj/item/clothing/neck/roguetown/psicross/ancient/decrepit
 	display_category = ITEM_CAT_VALUABLES_HOLY
 	craftdiff = 3
@@ -236,7 +236,7 @@
 /datum/anvil_recipe/valuables/psycrossancient
 	name = "Amulet of Psydonia, Ancient"
 	category = "Ancient Alloy"
-	req_bar = /obj/item/ingot/purifiedaalloy
+	req_bar = /obj/item/ingot/ancient
 	created_item = /obj/item/clothing/neck/roguetown/psicross/ancient
 	display_category = ITEM_CAT_VALUABLES_HOLY
 	craftdiff = 3
@@ -244,7 +244,7 @@
 /datum/anvil_recipe/valuables/zcrossdecrepit
 	name = "Amulet of Ascension, Decrepit"
 	category = "Decrepit Alloy"
-	req_bar = /obj/item/ingot/aalloy
+	req_bar = /obj/item/ingot/decrepit
 	created_item = /obj/item/clothing/neck/roguetown/psicross/inhumen/ancient/decrepit
 	display_category = ITEM_CAT_VALUABLES_HOLY
 	craftdiff = 3
@@ -252,7 +252,7 @@
 /datum/anvil_recipe/valuables/zcrossancient
 	name = "Amulet of Ascension, Ancient"
 	category = "Ancient Alloy"
-	req_bar = /obj/item/ingot/purifiedaalloy
+	req_bar = /obj/item/ingot/ancient
 	created_item = /obj/item/clothing/neck/roguetown/psicross/inhumen/ancient
 	display_category = ITEM_CAT_VALUABLES_HOLY
 	craftdiff = 3
@@ -431,7 +431,7 @@
 /datum/anvil_recipe/valuables/ringd
 	name = "Rings, Decrepit (x3)"
 	category = "Decrepit Alloy"
-	req_bar = /obj/item/ingot/aalloy
+	req_bar = /obj/item/ingot/decrepit
 	created_item = /obj/item/clothing/ring/decrepit
 	display_category = ITEM_CAT_VALUABLES_RINGS
 	createditem_num = 3
@@ -480,7 +480,7 @@
 /datum/anvil_recipe/valuables/weddingringa
 	name = "Weddingbands, Ancient (x2)"
 	category = "Ancient Alloy"
-	req_bar = /obj/item/ingot/purifiedaalloy
+	req_bar = /obj/item/ingot/ancient
 	created_item = /obj/item/clothing/ring/band/ancient
 	display_category = ITEM_CAT_VALUABLES_RINGS
 	createditem_num = 2

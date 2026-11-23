@@ -54,7 +54,7 @@
 	name = "decrepit statue"
 	desc = "A statue of rotted metal, forged to venerate an ancient champion."
 	icon_state = "astatue1"
-	smeltresult = /obj/item/ingot/aalloy
+	smeltresult = /obj/item/ingot/decrepit
 	color = "#bb9696"
 
 /obj/item/roguestatue/decrepit/Initialize(mapload)

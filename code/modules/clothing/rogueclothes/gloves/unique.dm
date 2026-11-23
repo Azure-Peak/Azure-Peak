@@ -157,7 +157,7 @@
 	desc = "A set of knuckles made of ancient metals, Aeon's grasp withers their form."
 	icon_state = "aknuckle"
 	max_integrity = 50 //Extra fragile - ancient and degraded.
-	smeltresult = /obj/item/ingot/aalloy
+	smeltresult = /obj/item/ingot/decrepit
 	unarmed_bonus = 4
 
 /obj/item/clothing/gloves/roguetown/knuckles/ancient

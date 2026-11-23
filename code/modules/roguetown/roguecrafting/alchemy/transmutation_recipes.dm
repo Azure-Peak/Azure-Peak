@@ -411,7 +411,7 @@
 /datum/transmutation_recipe/xanthosis/rubedo_precursor
 	name = "Harmonic Materia (Precursor to Rubedo Catalyst)"
 	category = "Magnum Opus"
-	materia_aspects = list(/datum/materia_aspect/aalloy) // the ultimate alchemy, the ultimate heresy. all roads lead to an enigma lost to time.
+	materia_aspects = list(/datum/materia_aspect/ancient) // the ultimate alchemy, the ultimate heresy. all roads lead to an enigma lost to time.
 	input_items = list(/obj/item/alch/precursor/albedo = 1, /obj/item/alch/precursor/xanthosis = 1) // the culmination of your work, yet the result resembles naught before it
 	output_items = list(/obj/item/alch/precursor/rubedo = 1) // and so thy work is done... what? it isn't? such is the nature of a scholar, indeed!
 

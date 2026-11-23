@@ -65,7 +65,7 @@
 	force = 5
 	force_wielded = 7
 	icon_state = "athresh"
-	smeltresult = /obj/item/ingot/aalloy
+	smeltresult = /obj/item/ingot/decrepit
 	color = "#bb9696"
 
 /obj/item/rogueweapon/thresher/bronze
@@ -170,7 +170,7 @@
 	name = "decrepit hoe"
 	desc = "Food is what cultivates lyfe; and without lyfe, there would be nothing left. At least, that is what His children would want you to believe."
 	icon_state = "ahoe"
-	smeltresult = /obj/item/ingot/aalloy
+	smeltresult = /obj/item/ingot/decrepit
 	color = "#bb9696"
 
 /obj/item/rogueweapon/hoe/copper
@@ -370,7 +370,7 @@
 	name = "decrepit pitchfork"
 	desc = "Do not fault the layman for fearing Her disciples, nor for driving them out of the villages with pitchforks-and-torches. They, too, will come to see the blessings of Zizo, all in due tyme."
 	icon_state = "apitchfork"
-	smeltresult = /obj/item/ingot/aalloy
+	smeltresult = /obj/item/ingot/decrepit
 	color = "#bb9696"
 
 /obj/item/rogueweapon/pitchfork/bronze

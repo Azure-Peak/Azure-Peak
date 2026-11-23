@@ -298,7 +298,7 @@
 		/obj/item/clothing/neck/roguetown/psicross/malum/bronze = 10,
 		/obj/item/clothing/neck/roguetown/psicross/astrata/bronze = 10,
 		/obj/item/roguecoin/copper/pile = 5, //Valuables (materials)
-		/obj/item/roguecoin/aalloy/pile = 2,
+		/obj/item/roguecoin/psila/pile = 2,
 		/obj/item/roguegem/yellow = 10,
 		/obj/item/roguestatue/bronze = 10,
 		/obj/item/roguestatue/iron = 5,
@@ -340,7 +340,7 @@
 		/obj/item/clothing/neck/roguetown/psicross/pearl = 10,
 		/obj/item/clothing/neck/roguetown/psicross/g = 15,
 		/obj/item/roguecoin/silver/pile = 5, //Valuables (materials)
-		/obj/item/roguecoin/aalloy/pile = 2,
+		/obj/item/roguecoin/psila/pile = 2,
 		/obj/item/roguegem/violet = 10,
 		/obj/item/roguestatue/gold/loot = 10,
 		/obj/item/roguestatue/decrepit = 5,

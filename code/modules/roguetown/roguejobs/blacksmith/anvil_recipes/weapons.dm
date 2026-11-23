@@ -60,133 +60,133 @@
 /datum/anvil_recipe/weapons/decrepit/flail
 	name = "Flail, Decrepit"
 	category = "Decrepit Alloy"
-	req_bar = /obj/item/ingot/aalloy
+	req_bar = /obj/item/ingot/decrepit
 	created_item = /obj/item/rogueweapon/flail/ancient/decrepit
 	display_category = ITEM_CAT_WEAPONS_FLAILS
 
 /datum/anvil_recipe/weapons/ancient/flail
 	name = "Flail, Ancient"
 	category = "Ancient Alloy"
-	req_bar = /obj/item/ingot/purifiedaalloy
+	req_bar = /obj/item/ingot/ancient
 	created_item = /obj/item/rogueweapon/flail/ancient
 	display_category = ITEM_CAT_WEAPONS_FLAILS
 
 /datum/anvil_recipe/weapons/decrepit/dagger
 	name = "Dagger, Decrepit"
 	category = "Decrepit Alloy"
-	req_bar = /obj/item/ingot/aalloy
+	req_bar = /obj/item/ingot/decrepit
 	created_item = /obj/item/rogueweapon/huntingknife/idagger/ancient/decrepit
 	display_category = ITEM_CAT_WEAPONS_DAGGERS
 
 /datum/anvil_recipe/weapons/ancient/dagger
 	name = "Dagger, Ancient"
 	category = "Ancient Alloy"
-	req_bar = /obj/item/ingot/purifiedaalloy
+	req_bar = /obj/item/ingot/ancient
 	created_item = /obj/item/rogueweapon/huntingknife/idagger/ancient
 	display_category = ITEM_CAT_WEAPONS_DAGGERS
 
 /datum/anvil_recipe/weapons/decrepit/knuckles
 	name = "Knuckles, Decrepit"
 	category = "Decrepit Alloy"
-	req_bar = /obj/item/ingot/aalloy
+	req_bar = /obj/item/ingot/decrepit
 	created_item = /obj/item/clothing/gloves/roguetown/knuckles/ancient/decrepit
 	display_category = ITEM_CAT_WEAPONS_MACES
 
 /datum/anvil_recipe/weapons/ancient/knuckles
 	name = "Knuckles, Ancient"
 	category = "Ancient Alloy"
-	req_bar = /obj/item/ingot/purifiedaalloy
+	req_bar = /obj/item/ingot/ancient
 	created_item = /obj/item/clothing/gloves/roguetown/knuckles/ancient
 	display_category = ITEM_CAT_WEAPONS_MACES
 
 /datum/anvil_recipe/weapons/decrepit/gladius
 	name = "Gladius, Decrepit"
 	category = "Decrepit Alloy"
-	req_bar = /obj/item/ingot/aalloy
+	req_bar = /obj/item/ingot/decrepit
 	created_item = /obj/item/rogueweapon/sword/short/gladius/ancient/decrepit
 	display_category = ITEM_CAT_WEAPONS_SWORDS
 
 /datum/anvil_recipe/weapons/ancient/gladius
 	name = "Gladius, Ancient"
 	category = "Ancient Alloy"
-	req_bar = /obj/item/ingot/purifiedaalloy
+	req_bar = /obj/item/ingot/ancient
 	created_item = /obj/item/rogueweapon/sword/short/gladius/ancient
 	display_category = ITEM_CAT_WEAPONS_SWORDS
 
 /datum/anvil_recipe/weapons/decrepit/shortsword
 	name = "Shortsword, Decrepit"
 	category = "Decrepit Alloy"
-	req_bar = /obj/item/ingot/aalloy
+	req_bar = /obj/item/ingot/decrepit
 	created_item = /obj/item/rogueweapon/sword/short/ancient/decrepit
 	display_category = ITEM_CAT_WEAPONS_SWORDS
 
 /datum/anvil_recipe/weapons/ancient/shortsword
 	name = "Shortsword, Ancient"
 	category = "Ancient Alloy"
-	req_bar = /obj/item/ingot/purifiedaalloy
+	req_bar = /obj/item/ingot/ancient
 	created_item = /obj/item/rogueweapon/sword/short/ancient
 	display_category = ITEM_CAT_WEAPONS_SWORDS
 
 /datum/anvil_recipe/weapons/decrepit/khopesh
 	name = "Khopesh, Decrepit"
 	category = "Decrepit Alloy"
-	req_bar = /obj/item/ingot/aalloy
+	req_bar = /obj/item/ingot/decrepit
 	created_item = /obj/item/rogueweapon/sword/sabre/ancient/decrepit
 	display_category = ITEM_CAT_WEAPONS_SWORDS
 
 /datum/anvil_recipe/weapons/ancient/khopesh
 	name = "Khopesh, Ancient"
 	category = "Ancient Alloy"
-	req_bar = /obj/item/ingot/purifiedaalloy
+	req_bar = /obj/item/ingot/ancient
 	created_item = /obj/item/rogueweapon/sword/sabre/ancient
 	display_category = ITEM_CAT_WEAPONS_SWORDS
 
 /datum/anvil_recipe/weapons/decrepit/handaxe
 	name = "Axe, Decrepit"
 	category = "Decrepit Alloy"
-	req_bar = /obj/item/ingot/aalloy
+	req_bar = /obj/item/ingot/decrepit
 	created_item = /obj/item/rogueweapon/stoneaxe/woodcut/ancient/decrepit
 	display_category = ITEM_CAT_WEAPONS_AXES
 
 /datum/anvil_recipe/weapons/ancient/handaxe
 	name = "Axe, Ancient"
 	category = "Ancient Alloy"
-	req_bar = /obj/item/ingot/purifiedaalloy
+	req_bar = /obj/item/ingot/ancient
 	created_item = /obj/item/rogueweapon/stoneaxe/woodcut/ancient
 	display_category = ITEM_CAT_WEAPONS_AXES
 
 /datum/anvil_recipe/weapons/decrepit/mace
 	name = "Mace, Decrepit"
 	category = "Decrepit Alloy"
-	req_bar = /obj/item/ingot/aalloy
+	req_bar = /obj/item/ingot/decrepit
 	created_item = /obj/item/rogueweapon/mace/ancient/decrepit
 	display_category = ITEM_CAT_WEAPONS_MACES
 
 /datum/anvil_recipe/weapons/ancient/mace
 	name = "Mace, Ancient"
 	category = "Ancient Alloy"
-	req_bar = /obj/item/ingot/purifiedaalloy
+	req_bar = /obj/item/ingot/ancient
 	created_item = /obj/item/rogueweapon/mace/ancient
 	display_category = ITEM_CAT_WEAPONS_MACES
 
 /datum/anvil_recipe/weapons/decrepit/warhammer
 	name = "Warhammer, Decrepit"
 	category = "Decrepit Alloy"
-	req_bar = /obj/item/ingot/aalloy
+	req_bar = /obj/item/ingot/decrepit
 	created_item = /obj/item/rogueweapon/mace/warhammer/ancient/decrepit
 	display_category = ITEM_CAT_WEAPONS_MACES
 
 /datum/anvil_recipe/weapons/ancient/warhammer
 	name = "Warhammer, Ancient"
 	category = "Ancient Alloy"
-	req_bar = /obj/item/ingot/purifiedaalloy
+	req_bar = /obj/item/ingot/ancient
 	created_item = /obj/item/rogueweapon/mace/warhammer/ancient
 	display_category = ITEM_CAT_WEAPONS_MACES
 
 /datum/anvil_recipe/weapons/decrepit/tossblade
 	name = "Tossblades, Decrepit (x4)"
 	category = "Decrepit Alloy"
-	req_bar = /obj/item/ingot/aalloy
+	req_bar = /obj/item/ingot/decrepit
 	created_item = /obj/item/rogueweapon/huntingknife/throwingknife/ancient/decrepit
 	display_category = ITEM_CAT_WEAPONS_DAGGERS
 	createditem_num = 4
@@ -194,7 +194,7 @@
 /datum/anvil_recipe/weapons/ancient/tossblade
 	name = "Tossblades, Ancient (x4)"
 	category = "Ancient Alloy"
-	req_bar = /obj/item/ingot/purifiedaalloy
+	req_bar = /obj/item/ingot/ancient
 	created_item = /obj/item/rogueweapon/huntingknife/throwingknife/ancient
 	display_category = ITEM_CAT_WEAPONS_DAGGERS
 	createditem_num = 4
@@ -202,55 +202,55 @@
 /datum/anvil_recipe/weapons/decrepit/gsw
 	name = "Greatsword, Decrepit (+2 Alloy)"
 	category = "Decrepit Alloy"
-	req_bar = /obj/item/ingot/aalloy
+	req_bar = /obj/item/ingot/decrepit
 	created_item = /obj/item/rogueweapon/greatsword/ancient/decrepit
 	display_category = ITEM_CAT_WEAPONS_SWORDS
-	additional_items = list(/obj/item/ingot/aalloy, /obj/item/ingot/aalloy)
+	additional_items = list(/obj/item/ingot/decrepit, /obj/item/ingot/decrepit)
 
 /datum/anvil_recipe/weapons/ancient/gsw
 	name = "Greatsword, Ancient (+2 Purified Alloy)"
 	category = "Ancient Alloy"
-	req_bar = /obj/item/ingot/purifiedaalloy
+	req_bar = /obj/item/ingot/ancient
 	created_item = /obj/item/rogueweapon/greatsword/ancient
 	display_category = ITEM_CAT_WEAPONS_SWORDS
-	additional_items = list(/obj/item/ingot/purifiedaalloy, /obj/item/ingot/purifiedaalloy)
+	additional_items = list(/obj/item/ingot/ancient, /obj/item/ingot/ancient)
 
 /datum/anvil_recipe/weapons/decrepit/bardiche
 	name = "Bardiche, Decrepit (+1 Alloy, +1 Small Log)"
 	category = "Decrepit Alloy"
-	req_bar = /obj/item/ingot/aalloy
+	req_bar = /obj/item/ingot/decrepit
 	created_item = /obj/item/rogueweapon/halberd/bardiche/ancient/decrepit
 	display_category = ITEM_CAT_WEAPONS_POLEARMS
-	additional_items = list(/obj/item/ingot/aalloy, /obj/item/grown/log/tree/small)
+	additional_items = list(/obj/item/ingot/decrepit, /obj/item/grown/log/tree/small)
 
 /datum/anvil_recipe/weapons/ancient/bardiche
 	name = "Bardiche, Ancient (+1 Purified Alloy, +1 Small Log)"
 	category = "Ancient Alloy"
-	req_bar = /obj/item/ingot/purifiedaalloy
+	req_bar = /obj/item/ingot/ancient
 	created_item = /obj/item/rogueweapon/halberd/bardiche/ancient
 	display_category = ITEM_CAT_WEAPONS_POLEARMS
-	additional_items = list(/obj/item/ingot/purifiedaalloy, /obj/item/grown/log/tree/small)
+	additional_items = list(/obj/item/ingot/ancient, /obj/item/grown/log/tree/small)
 
 /datum/anvil_recipe/weapons/decrepit/grandmace
 	name = "Grand Mace, Decrepit (+1 Alloy, +1 Small Log)"
 	category = "Decrepit Alloy"
-	req_bar = /obj/item/ingot/aalloy
-	additional_items = list(/obj/item/ingot/aalloy, /obj/item/grown/log/tree/small)
+	req_bar = /obj/item/ingot/decrepit
+	additional_items = list(/obj/item/ingot/decrepit, /obj/item/grown/log/tree/small)
 	created_item = /obj/item/rogueweapon/mace/goden/ancient/decrepit
 	display_category = ITEM_CAT_WEAPONS_MACES
 
 /datum/anvil_recipe/weapons/ancient/grandmace
 	name = "Grand Mace, Purified (+1 Purified Alloy, +1 Small Log)"
 	category = "Ancient Alloy"
-	req_bar = /obj/item/ingot/purifiedaalloy
-	additional_items = list(/obj/item/ingot/purifiedaalloy, /obj/item/grown/log/tree/small)
+	req_bar = /obj/item/ingot/ancient
+	additional_items = list(/obj/item/ingot/ancient, /obj/item/grown/log/tree/small)
 	created_item = /obj/item/rogueweapon/mace/goden/ancient
 	display_category = ITEM_CAT_WEAPONS_MACES
 
 /datum/anvil_recipe/weapons/decrepit/spear
 	name = "Spear, Decrepit (+1 Small Log)"
 	category = "Decrepit Alloy"
-	req_bar = /obj/item/ingot/aalloy
+	req_bar = /obj/item/ingot/decrepit
 	additional_items = list(/obj/item/grown/log/tree/small)
 	created_item = /obj/item/rogueweapon/spear/ancient/decrepit
 	display_category = ITEM_CAT_WEAPONS_POLEARMS
@@ -258,7 +258,7 @@
 /datum/anvil_recipe/weapons/ancient/spear
 	name = "Spear, Ancient (+1 Small Log)"
 	category = "Ancient Alloy"
-	req_bar = /obj/item/ingot/purifiedaalloy
+	req_bar = /obj/item/ingot/ancient
 	additional_items = list(/obj/item/grown/log/tree/small)
 	created_item = /obj/item/rogueweapon/spear/ancient
 	display_category = ITEM_CAT_WEAPONS_POLEARMS
@@ -266,7 +266,7 @@
 /datum/anvil_recipe/weapons/decrepit/javelin
 	name = "Javelin, Decrepit (+1 Small Log) (x2)"
 	category = "Decrepit Alloy"
-	req_bar = /obj/item/ingot/aalloy
+	req_bar = /obj/item/ingot/decrepit
 	additional_items = list(/obj/item/grown/log/tree/small)
 	created_item = /obj/item/ammo_casing/caseless/rogue/javelin/ancient/decrepit
 	display_category = ITEM_CAT_WEAPONS_AMMO
@@ -275,7 +275,7 @@
 /datum/anvil_recipe/weapons/ancient/javelin
 	name = "Javelin, Ancient (+1 Small Log) (x2)"
 	category = "Ancient Alloy"
-	req_bar = /obj/item/ingot/purifiedaalloy
+	req_bar = /obj/item/ingot/ancient
 	additional_items = list(/obj/item/grown/log/tree/small)
 	created_item = /obj/item/ammo_casing/caseless/rogue/javelin/ancient
 	display_category = ITEM_CAT_WEAPONS_AMMO
@@ -284,16 +284,16 @@
 /datum/anvil_recipe/weapons/decrepit/flamberge
 	name = "Flamberge, Decrepit (+2 Alloy, +1 Small Log, +1 Cured Leather)"
 	category = "Decrepit Alloy"
-	req_bar = /obj/item/ingot/aalloy
-	additional_items = list(/obj/item/ingot/aalloy, /obj/item/ingot/aalloy, /obj/item/grown/log/tree/small, /obj/item/natural/hide/cured)
+	req_bar = /obj/item/ingot/decrepit
+	additional_items = list(/obj/item/ingot/decrepit, /obj/item/ingot/decrepit, /obj/item/grown/log/tree/small, /obj/item/natural/hide/cured)
 	created_item = /obj/item/rogueweapon/greatsword/grenz/flamberge/ancient/decrepit
 	display_category = ITEM_CAT_WEAPONS_SWORDS
 
 /datum/anvil_recipe/weapons/ancient/flamberge
 	name = "Flamberge, Purified (+2 Purified Alloy, +1 Small Log, +1 Cured Leather)"
 	category = "Ancient Alloy"
-	req_bar = /obj/item/ingot/purifiedaalloy
-	additional_items = list(/obj/item/ingot/purifiedaalloy, /obj/item/ingot/purifiedaalloy, /obj/item/grown/log/tree/small, /obj/item/natural/hide/cured)
+	req_bar = /obj/item/ingot/ancient
+	additional_items = list(/obj/item/ingot/ancient, /obj/item/ingot/ancient, /obj/item/grown/log/tree/small, /obj/item/natural/hide/cured)
 	created_item = /obj/item/rogueweapon/greatsword/grenz/flamberge/ancient
 	display_category = ITEM_CAT_WEAPONS_SWORDS
 
@@ -1651,24 +1651,24 @@
 /datum/anvil_recipe/weapons/decrepit/shield
 	name = "Shield, Decrepit (+1 Alloy, +1 Cured Leather)"
 	category = "Decrepit Alloy"
-	req_bar = /obj/item/ingot/aalloy
-	additional_items = list(/obj/item/ingot/aalloy, /obj/item/natural/hide/cured)
+	req_bar = /obj/item/ingot/decrepit
+	additional_items = list(/obj/item/ingot/decrepit, /obj/item/natural/hide/cured)
 	created_item = /obj/item/rogueweapon/shield/tower/ancient/decrepit
 	display_category = ITEM_CAT_WEAPONS_SHIELDS
 
 /datum/anvil_recipe/weapons/ancient/shield
 	name = "Shield, Ancient (+1 Purified Alloy, +1 Cured Leather)"
 	category = "Ancient Alloy"
-	req_bar = /obj/item/ingot/purifiedaalloy
-	additional_items = list(/obj/item/ingot/purifiedaalloy, /obj/item/natural/hide/cured)
+	req_bar = /obj/item/ingot/ancient
+	additional_items = list(/obj/item/ingot/ancient, /obj/item/natural/hide/cured)
 	created_item = /obj/item/rogueweapon/shield/tower/ancient
 	display_category = ITEM_CAT_WEAPONS_SHIELDS
 
 /datum/anvil_recipe/weapons/ancient/greatshield
 	name = "Greatshield, Ancient (+2 Purified Alloy, +1 Cured Leather)"
 	category = "Ancient Alloy"
-	req_bar = /obj/item/ingot/purifiedaalloy
-	additional_items = list(/obj/item/ingot/purifiedaalloy, /obj/item/natural/hide/cured)
+	req_bar = /obj/item/ingot/ancient
+	additional_items = list(/obj/item/ingot/ancient, /obj/item/natural/hide/cured)
 	created_item = /obj/item/rogueweapon/shield/bronze/great/ancient
 	display_category = ITEM_CAT_WEAPONS_SHIELDS
 	craftdiff = 2
@@ -1676,8 +1676,8 @@
 /datum/anvil_recipe/weapons/decrepit/greatshield
 	name = "Greatshield, Decrepit (+2 Alloy, +1 Cured Leather)"
 	category = "Decrepit Alloy"
-	req_bar = /obj/item/ingot/aalloy
-	additional_items = list(/obj/item/ingot/aalloy, /obj/item/natural/hide/cured)
+	req_bar = /obj/item/ingot/decrepit
+	additional_items = list(/obj/item/ingot/decrepit, /obj/item/natural/hide/cured)
 	created_item = /obj/item/rogueweapon/shield/bronze/great/ancient/decrepit
 	display_category = ITEM_CAT_WEAPONS_SHIELDS
 	craftdiff = 2
@@ -1685,7 +1685,7 @@
 /datum/anvil_recipe/weapons/ancient/hoplonshield
 	name = "Hoplon Shield, Ancient (+1 Purified Alloy, +1 Cured Leather)"
 	category = "Ancient Alloy"
-	req_bar = /obj/item/ingot/purifiedaalloy
+	req_bar = /obj/item/ingot/ancient
 	additional_items = list(/obj/item/natural/hide/cured)
 	created_item = /obj/item/rogueweapon/shield/bronze/ancient
 	display_category = ITEM_CAT_WEAPONS_SHIELDS
@@ -1694,7 +1694,7 @@
 /datum/anvil_recipe/weapons/decrepit/hoplonshield
 	name = "Hoplon Shield, Decrepit (+1 Alloy, +1 Cured Leather)"
 	category = "Decrepit Alloy"
-	req_bar = /obj/item/ingot/aalloy
+	req_bar = /obj/item/ingot/decrepit
 	additional_items = list(/obj/item/natural/hide/cured)
 	created_item = /obj/item/rogueweapon/shield/bronze/ancient/decrepit
 	display_category = ITEM_CAT_WEAPONS_SHIELDS
@@ -1783,7 +1783,7 @@
 /datum/anvil_recipe/weapons/decrepit/bolts
 	name = "Bolts, Decrepit (+2 Stick) (x16)"
 	category = "Decrepit Alloy"
-	req_bar = /obj/item/ingot/aalloy
+	req_bar = /obj/item/ingot/decrepit
 	additional_items = list(/obj/item/grown/log/tree/stick, /obj/item/grown/log/tree/stick)
 	created_item = /obj/item/ammo_casing/caseless/rogue/bolt/ancient/decrepit
 	display_category = ITEM_CAT_WEAPONS_AMMO
@@ -1793,7 +1793,7 @@
 /datum/anvil_recipe/weapons/ancient/bolts
 	name = "Bolts, Ancient (+2 Stick) (x16)"
 	category = "Ancient Alloy"
-	req_bar = /obj/item/ingot/purifiedaalloy
+	req_bar = /obj/item/ingot/ancient
 	additional_items = list(/obj/item/grown/log/tree/stick, /obj/item/grown/log/tree/stick)
 	created_item = /obj/item/ammo_casing/caseless/rogue/bolt/ancient
 	display_category = ITEM_CAT_WEAPONS_AMMO
@@ -1813,8 +1813,8 @@
 /datum/anvil_recipe/weapons/decrepit/heavybolts
 	name = "Siegebolts, Decrepit (+1 Alloy, 2 Small Logs) (x4)"
 	category = "Decrepit Alloy"
-	req_bar = /obj/item/ingot/aalloy
-	additional_items = list(/obj/item/ingot/aalloy, /obj/item/grown/log/tree/small, /obj/item/grown/log/tree/small)
+	req_bar = /obj/item/ingot/decrepit
+	additional_items = list(/obj/item/ingot/decrepit, /obj/item/grown/log/tree/small, /obj/item/grown/log/tree/small)
 	created_item = /obj/item/ammo_casing/caseless/rogue/heavy_bolt/ancient/decrepit
 	display_category = ITEM_CAT_WEAPONS_AMMO
 	createditem_num = 4
@@ -1823,8 +1823,8 @@
 /datum/anvil_recipe/weapons/ancient/heavybolts
 	name = "Siegebolts, Ancient (+1 Purified Alloy, 2 Small Logs) (x4)"
 	category = "Ancient Alloy"
-	req_bar = /obj/item/ingot/purifiedaalloy
-	additional_items = list(/obj/item/ingot/purifiedaalloy, /obj/item/grown/log/tree/small, /obj/item/grown/log/tree/small)
+	req_bar = /obj/item/ingot/ancient
+	additional_items = list(/obj/item/ingot/ancient, /obj/item/grown/log/tree/small, /obj/item/grown/log/tree/small)
 	created_item = /obj/item/ammo_casing/caseless/rogue/heavy_bolt/ancient
 	display_category = ITEM_CAT_WEAPONS_AMMO
 	createditem_num = 4
@@ -1875,7 +1875,7 @@
 /datum/anvil_recipe/weapons/decrepit/arrows
 	name = "Broadhead Arrows, Decrepit (+2 Stick) (x12)"
 	category = "Decrepit Alloy"
-	req_bar = /obj/item/ingot/aalloy
+	req_bar = /obj/item/ingot/decrepit
 	additional_items = list(/obj/item/grown/log/tree/stick, /obj/item/grown/log/tree/stick)
 	created_item = /obj/item/ammo_casing/caseless/rogue/arrow/ancient/decrepit
 	display_category = ITEM_CAT_WEAPONS_AMMO
@@ -1895,7 +1895,7 @@
 /datum/anvil_recipe/weapons/paalloy/arrows
 	name = "Bodkin Arrows, Ancient (+2 Stick) (x12)"
 	category = "Ancient Alloy"
-	req_bar = /obj/item/ingot/purifiedaalloy
+	req_bar = /obj/item/ingot/ancient
 	additional_items = list(/obj/item/grown/log/tree/stick, /obj/item/grown/log/tree/stick)
 	created_item = /obj/item/ammo_casing/caseless/rogue/arrow/ancient
 	display_category = ITEM_CAT_WEAPONS_AMMO
@@ -1935,7 +1935,7 @@
 /datum/anvil_recipe/weapons/aalloy/slingbullets
 	name = "Sling Bullets, Decrepit (x10)"
 	category = "Decrepit Alloy"
-	req_bar = /obj/item/ingot/aalloy
+	req_bar = /obj/item/ingot/decrepit
 	created_item = /obj/item/ammo_casing/caseless/rogue/sling_bullet/aalloy
 	display_category = ITEM_CAT_WEAPONS_AMMO
 	createditem_num = 10
@@ -1944,7 +1944,7 @@
 /datum/anvil_recipe/weapons/ancient/slingbullets
 	name = "Sling Bullets, Ancient (x10)"
 	category = "Ancient Alloy"
-	req_bar = /obj/item/ingot/purifiedaalloy
+	req_bar = /obj/item/ingot/ancient
 	created_item = /obj/item/ammo_casing/caseless/rogue/sling_bullet/ancient
 	display_category = ITEM_CAT_WEAPONS_AMMO
 	createditem_num = 10

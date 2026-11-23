@@ -153,7 +153,7 @@
 	var/static/list/treasure_pool = list(
 		/obj/item/roguecoin/gold/pile = 15,
 		/obj/item/roguecoin/silver/pile = 25,
-		/obj/item/roguecoin/aalloy/pile = 10,
+		/obj/item/roguecoin/psila/pile = 10,
 		/obj/item/clothing/neck/roguetown/psicross = 5,
 		/obj/item/clothing/neck/roguetown/collar = 3,
 		/obj/item/reagent_containers/glass/cup/golden = 2,

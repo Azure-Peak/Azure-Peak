@@ -35,7 +35,7 @@
 
 	if(src.stopgambling == 1)
 		return
-	if(istype(P, /obj/item/roguecoin/aalloy))
+	if(istype(P, /obj/item/roguecoin/psila))
 		return
 	if(istype(P, /obj/item/roguecoin/inqcoin))
 		return

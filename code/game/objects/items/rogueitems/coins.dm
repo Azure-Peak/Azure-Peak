@@ -230,7 +230,6 @@
 	plural_name = "zenarii"
 	materia = list(/datum/materia_aspect/solar)
 
-
 // SILVER
 /obj/item/roguecoin/silver
 	name = "ziliqua"
@@ -252,33 +251,33 @@
 	materia = list(/datum/materia_aspect/change)
 
 // ANCIENT
-/obj/item/roguecoin/aalloy
+/obj/item/roguecoin/psila
 	name = "psilen"
 	desc = "A coin of polished gilbranze, beheld to a fallen kingdom that hadn't endured the passage of tyme. </br>Most sophisticated machines won't recognize its value, but keen-eyed Merchants and Stewards might still pay a fair sum for such a relic."
 	icon_state = "a1"
 	sellprice = 3 //Dungeon-specific coinage - valued by historians, collectors, and smelters.
 	base_type = CTYPE_ANCIENT
 	plural_name = "psila"
-	materia = list(/datum/materia_aspect/aalloy)
+	materia = list(/datum/materia_aspect/ancient)
 
-/obj/item/roguecoin/aalloy/update_icon()
+/obj/item/roguecoin/psila/update_icon()
 	..()
 	slot_flags = ITEM_SLOT_MOUTH
 
-/obj/item/roguecoin/aalloy/examine(mob/user)
+/obj/item/roguecoin/psila/examine(mob/user)
 	. = ..()
 	if(user.mind?.has_antag_datum(/datum/antagonist/renegade))
 		. += span_info("I'm feeling quite hungry. I want to put them in my mouth. Maybe I'll fetch a boon?")
 		. += span_info("In a pickle? Take a chance. Flip the coin.")
 
-/obj/item/roguecoin/aalloy/mob_can_equip(mob/living/M, mob/living/equipper, slot, disable_warning = FALSE, bypass_equip_delay_self = FALSE)
+/obj/item/roguecoin/psila/mob_can_equip(mob/living/M, mob/living/equipper, slot, disable_warning = FALSE, bypass_equip_delay_self = FALSE)
 	if(slot == SLOT_MOUTH && quantity > 1 && !M?.mind?.has_antag_datum(/datum/antagonist/renegade))
 		if(!disable_warning)
 			to_chat(M, span_warning("That's far too many coins to fit in my mouth."))
 		return FALSE
 	return ..()
 
-/obj/item/roguecoin/aalloy/equipped(mob/user, slot, initial = FALSE)
+/obj/item/roguecoin/psila/equipped(mob/user, slot, initial = FALSE)
 	. = ..()
 	var/datum/antagonist/renegade/R = user.mind?.has_antag_datum(/datum/antagonist/renegade)
 	if(slot != SLOT_MOUTH || !R)
@@ -288,7 +287,7 @@
 		return
 	R.boons.ui_interact(user)
 
-/obj/item/roguecoin/aalloy/attack_self(mob/living/carbon/user)
+/obj/item/roguecoin/psila/attack_self(mob/living/carbon/user)
 	var/last_flip = flip_cd
 	. = ..()
 	if(flip_cd == last_flip || !user.mind?.has_antag_datum(/datum/antagonist/renegade))
@@ -318,11 +317,11 @@
 	. = ..()
 	set_quantity(rand(4,19))
 
-/obj/item/roguecoin/aalloy/pile/Initialize(mapload)
+/obj/item/roguecoin/psila/pile/Initialize(mapload)
 	. = ..()
 	set_quantity(rand(4,19))
 
-/obj/item/roguecoin/aalloy/pile/rich/Initialize(mapload)
+/obj/item/roguecoin/psila/pile/rich/Initialize(mapload)
 	. = ..()
 	set_quantity(rand(8,19)) //Hilarious
 

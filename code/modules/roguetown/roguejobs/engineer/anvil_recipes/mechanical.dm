@@ -372,8 +372,8 @@
 /datum/anvil_recipe/engineering/artificerarmor
 	name = "Artificer armor (+2 Ancient Alloy Ingot, +2 Gears)"
 	category = "Engineering"
-	req_bar = /obj/item/ingot/purifiedaalloy
-	additional_items = list(/obj/item/ingot/purifiedaalloy, /obj/item/ingot/purifiedaalloy, /obj/item/roguegear, /obj/item/roguegear)
+	req_bar = /obj/item/ingot/ancient
+	additional_items = list(/obj/item/ingot/ancient, /obj/item/ingot/ancient, /obj/item/roguegear, /obj/item/roguegear)
 	created_item = /obj/item/clothing/suit/roguetown/armor/plate/ancient/artificer
 	craftdiff = 4
 	display_category = ITEM_CAT_ARMOR_CHESTPIECES
