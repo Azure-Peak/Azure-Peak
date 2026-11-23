@@ -9,6 +9,7 @@
 	var/offer_units = 0
 	var/tribute_region_id
 	var/list/tribute_units
+	var/return_at = 0
 
 /datum/controller/subsystem/economy/proc/caravans_home()
 	return max(0, caravan_fleet - length(caravan_trips) - caravan_rentals)
@@ -186,35 +187,53 @@
 		trip.tribute_region_id = tribute_region.region_id
 		trip.tribute_units = tribute_region.take_tribute()
 	caravan_trips += trip
+	var/remembered = remembered_caravans_left > 0
+	if(remembered)
+		remembered_caravans_left--
+		trip.return_at = world.time + CARAVAN_REMEMBERED_TIME
+		addtimer(CALLBACK(src, PROC_REF(return_remembered_caravan), trip), CARAVAN_REMEMBERED_TIME)
 	SStreasury.dirty_market_view()
-	log_game("CARAVAN sent on [get_route_name(route)] by [user ? key_name(user) : "system"]: request [trip.request_name || "none"], offer [trip.offer_good_id || "none"], tribute [trip.tribute_region_id || "none"]")
+	log_game("CARAVAN sent on [get_route_name(route)] by [user ? key_name(user) : "system"][remembered ? " (remembered)" : ""]: request [trip.request_name || "none"], offer [trip.offer_good_id || "none"], tribute [trip.tribute_region_id || "none"]")
 	if(user)
-		to_chat(user, span_notice("A caravan sets out toward [get_route_name(route)]. It returns the next dawn."))
+		if(remembered)
+			to_chat(user, span_notice("You remember sending a caravan to [get_route_name(route)] before the start of the week."))
+		else
+			to_chat(user, span_notice("A caravan sets out toward [get_route_name(route)]. It returns the next dawn."))
 	return TRUE
 
 /datum/controller/subsystem/economy/proc/resolve_caravans()
 	for(var/datum/caravan_trip/trip as anything in caravan_trips)
-		if(trip.request_name)
-			SStreasury.mint(SStreasury.discretionary_fund, trip.request_payout, "Standing Order: [trip.request_name]", null, LEDGER_CROWN_REV_STANDING_ORDERS)
-			record_round_statistic(STATS_STANDING_ORDER_REVENUE, trip.request_payout)
-			var/quality_suffix = ""
-			if(trip.request_quality_delta > 0)
-				quality_suffix = " (quality bonus: +[format_mammon(trip.request_quality_delta)]m)"
-			else if(trip.request_quality_delta < 0)
-				quality_suffix = " (quality penalty: [format_mammon(trip.request_quality_delta)]m)"
-			if(trip.request_finished)
-				record_round_statistic(STATS_STANDING_ORDERS_FULFILLED, 1)
-				scom_announce("Standing Order fulfilled: [trip.request_name] (+[format_mammon(trip.request_payout)]m)[quality_suffix].")
-			else
-				scom_announce("Standing Order part delivered: [trip.request_name] (+[format_mammon(trip.request_payout)]m)[quality_suffix].")
-		if(trip.offer_good_id)
-			deliver_offer(trip.offer_good_id, trip.offer_units)
-		if(trip.tribute_region_id)
-			var/datum/economic_region/tribute_region = GLOB.economic_regions[trip.tribute_region_id]
-			tribute_region?.deliver_tribute(trip.tribute_units)
+		resolve_trip(trip)
 	caravan_trips.Cut()
 	caravan_fleet = min(CARAVAN_FLEET_MAX, caravan_fleet + CARAVAN_FLEET_PER_DAY)
 	SStreasury.dirty_market_view()
+
+/datum/controller/subsystem/economy/proc/return_remembered_caravan(datum/caravan_trip/trip)
+	if(!(trip in caravan_trips))
+		return
+	caravan_trips -= trip
+	resolve_trip(trip)
+	SStreasury.dirty_market_view()
+
+/datum/controller/subsystem/economy/proc/resolve_trip(datum/caravan_trip/trip)
+	if(trip.request_name)
+		SStreasury.mint(SStreasury.discretionary_fund, trip.request_payout, "Standing Order: [trip.request_name]", null, LEDGER_CROWN_REV_STANDING_ORDERS)
+		record_round_statistic(STATS_STANDING_ORDER_REVENUE, trip.request_payout)
+		var/quality_suffix = ""
+		if(trip.request_quality_delta > 0)
+			quality_suffix = " (quality bonus: +[format_mammon(trip.request_quality_delta)]m)"
+		else if(trip.request_quality_delta < 0)
+			quality_suffix = " (quality penalty: [format_mammon(trip.request_quality_delta)]m)"
+		if(trip.request_finished)
+			record_round_statistic(STATS_STANDING_ORDERS_FULFILLED, 1)
+			scom_announce("Standing Order fulfilled: [trip.request_name] (+[format_mammon(trip.request_payout)]m)[quality_suffix].")
+		else
+			scom_announce("Standing Order part delivered: [trip.request_name] (+[format_mammon(trip.request_payout)]m)[quality_suffix].")
+	if(trip.offer_good_id)
+		deliver_offer(trip.offer_good_id, trip.offer_units)
+	if(trip.tribute_region_id)
+		var/datum/economic_region/tribute_region = GLOB.economic_regions[trip.tribute_region_id]
+		tribute_region?.deliver_tribute(trip.tribute_units)
 
 /datum/controller/subsystem/economy/proc/restock_crown_imports()
 	for(var/datum/crown_import/D as anything in GLOB.crown_imports)

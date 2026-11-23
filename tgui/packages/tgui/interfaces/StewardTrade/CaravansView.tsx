@@ -148,7 +148,16 @@ export const CaravansView = (props: { data: Data }) => {
     });
   }, [requestRef, offerRef, tributeId]);
 
-  const { fleet, home, rented, trips, return_seconds } = data.caravans;
+  const {
+    fleet,
+    home,
+    rented,
+    trips,
+    return_seconds,
+    remembered_left,
+    remembered_minutes,
+  } = data.caravans;
+  const dawnTrips = trips.filter((trip) => trip.return_seconds === null);
   const goodName: Namer = (id) => data.good_catalog[id]?.name ?? id;
   const regionName: Namer = (id) => data.region_catalog[id]?.name ?? id;
   const sequestered = !!data.sequestration?.active;
@@ -269,8 +278,12 @@ export const CaravansView = (props: { data: Data }) => {
         <span>
           {home} of {fleet} home &middot;{' '}
           {rented > 0 && <>{rented} rented &middot; </>}
-          {trips.length} en route, return in{' '}
-          <MinutesLeft seconds={return_seconds} />
+          {trips.length} en route
+          {dawnTrips.length > 0 && (
+            <>
+              , return in <MinutesLeft seconds={return_seconds} />
+            </>
+          )}
         </span>
         {trips.map((trip, i) => (
           <span key={i} style={{ fontSize: FONT_SMALL }}>
@@ -282,8 +295,21 @@ export const CaravansView = (props: { data: Data }) => {
             ]
               .filter(Boolean)
               .join(' · ')}
+            {trip.return_seconds !== null && (
+              <>
+                , back in <MinutesLeft seconds={trip.return_seconds} />
+              </>
+            )}
           </span>
         ))}
+        {remembered_left > 0 && (
+          <span style={{ flexBasis: '100%' }}>
+            <b>Remembered Caravans:</b> Your foresight means you have sent
+            caravans out before the start of the week. {remembered_left} of them{' '}
+            {remembered_left === 1 ? 'remains' : 'remain'} (they will return in{' '}
+            {remembered_minutes} minutes).
+          </span>
+        )}
       </div>
 
       <div

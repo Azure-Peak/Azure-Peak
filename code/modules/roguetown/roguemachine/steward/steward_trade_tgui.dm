@@ -263,12 +263,15 @@
 			"request" = trip.request_name,
 			"offer" = trip.offer_good_id ? "[trip.offer_units] [offer_good ? offer_good.name : trip.offer_good_id]" : null,
 			"tribute" = tribute_region?.name,
+			"return_seconds" = trip.return_at ? max(0, round((trip.return_at - world.time) / (1 SECONDS))) : null,
 		))
 	data["caravans"] = list(
 		"fleet" = SSeconomy.caravan_fleet,
 		"home" = SSeconomy.caravans_home(),
 		"rented" = SSeconomy.caravan_rentals,
 		"return_seconds" = max(0, round(seconds_until_dawn())),
+		"remembered_left" = SSeconomy.remembered_caravans_left,
+		"remembered_minutes" = CARAVAN_REMEMBERED_TIME / (1 MINUTES),
 		"trips" = trips,
 	)
 	data["caravan_quote"] = build_caravan_quote(user.ckey)

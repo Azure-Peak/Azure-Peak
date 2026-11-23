@@ -149,7 +149,9 @@
 		<h3>Fulfillment</h3>
 		<p>Orders are delivered by caravan from the Nerve Master. A caravan carries one
 		order, one offer and one region's tribute along a route, and returns the next dawn.
-		Stockpile goods leave from the royal stockpile, and finished goods leave from the
+		At the start of the week, a competent Steward would've sent caravans out earlier
+		already. Therefore, the first few caravans are remembered caravans and will return
+		within minutes of being sent out. Stockpile goods leave from the royal stockpile, and finished goods leave from the
 		warehouse dock. The payout goes into the Treasury.</p>
 
 		<p><b>Partial delivery:</b> an order can be delivered in parts. Each unit

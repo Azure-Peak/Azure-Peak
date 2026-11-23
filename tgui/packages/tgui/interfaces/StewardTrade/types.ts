@@ -140,6 +140,7 @@ export type CaravanTrip = {
   request: string | null;
   offer: string | null;
   tribute: string | null;
+  return_seconds: number | null;
 };
 
 export type CaravanState = {
@@ -147,6 +148,8 @@ export type CaravanState = {
   home: number;
   rented: number;
   return_seconds: number;
+  remembered_left: number;
+  remembered_minutes: number;
   trips: CaravanTrip[];
 };
 
