@@ -719,6 +719,11 @@
 	name = "Abberant Beam"
 	spell_requirements = SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
 
+/datum/action/cooldown/spell/void_beam/familiar/cast(atom/cast_on)
+	if(!isfamiliar(owner))
+		return FALSE
+	. = ..()
+
 /datum/action/cooldown/spell/projectile/fetch/fae/void
 	name = "Grasp of the Void"
 	desc = "Grasp a freestanding item with your arcyne power, drawing it towards you. Doesn't work on living targets."
