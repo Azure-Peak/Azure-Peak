@@ -52,7 +52,7 @@
 	var/current_owed = principal + accrued_interest
 	if(current_owed > total_due)
 		current_owed = total_due
-	return max(current_owed - repaid_so_far, 0)
+	return max(mammon_round(current_owed - repaid_so_far), 0)
 
 /datum/loan/proc/days_until_due()
 	return max(due_on_day - GLOB.dayspassed, 0)

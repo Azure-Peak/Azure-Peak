@@ -23,6 +23,8 @@ const DENOMS = [
   { id: 'BRONZE', label: 'Bronze', value: 1 },
 ];
 
+const toCents = (n: number) => Math.round(n * 100) / 100;
+
 export const PersonalTab = ({ data, act }: TabProps) => {
   const [denom, setDenom] = useState<string>('GOLD');
   const [coinAmount, setCoinAmount] = useState<string>('');
@@ -34,12 +36,12 @@ export const PersonalTab = ({ data, act }: TabProps) => {
   const drawDisabled =
     numericCoins < 1 || numericCoins > 20 || totalDraw > data.account_balance;
 
-  const numericRepay = parseInt(repayAmount, 10) || 0;
+  const numericRepay = toCents(parseFloat(repayAmount) || 0);
   const loan = data.active_loan;
-  const repayDisabled =
-    !loan ||
-    numericRepay < 1 ||
-    numericRepay > Math.min(loan.remaining, data.account_balance);
+  const repayCap = loan
+    ? toCents(Math.min(loan.remaining, data.account_balance))
+    : 0;
+  const repayDisabled = !loan || numericRepay <= 0 || numericRepay > repayCap;
 
   return (
     <div style={cardStyle}>
@@ -123,8 +125,8 @@ export const PersonalTab = ({ data, act }: TabProps) => {
           <div style={fieldRowStyle}>
             <div style={fieldLabelStyle}>Owed</div>
             <div style={fieldValueStyle}>
-              {loan.remaining}m of {loan.principal}m principal at{' '}
-              {loan.interest_pct}%/day
+              {formatMammon(loan.remaining)}m of {loan.principal}m principal
+              at {loan.interest_pct}%/day
             </div>
           </div>
           <div style={fieldRowStyle}>
@@ -147,13 +149,25 @@ export const PersonalTab = ({ data, act }: TabProps) => {
             <div style={fieldValueStyle}>
               <input
                 type="number"
-                min={1}
-                max={Math.min(loan.remaining, data.account_balance)}
+                min={0.01}
+                step={0.01}
+                max={repayCap}
                 value={repayAmount}
                 onChange={(e) => setRepayAmount(e.target.value)}
                 style={{ ...inkInputStyle, width: 110 }}
               />
               <span style={{ marginLeft: 6, color: INK_FAINT }}>mammon</span>
+              <button
+                type="button"
+                style={{
+                  ...inkButtonStyle({ disabled: repayCap <= 0 }),
+                  marginLeft: 6,
+                }}
+                disabled={repayCap <= 0}
+                onClick={() => setRepayAmount(formatMammon(repayCap))}
+              >
+                All
+              </button>
             </div>
           </div>
           <div style={{ marginTop: 6, textAlign: 'right' }}>
