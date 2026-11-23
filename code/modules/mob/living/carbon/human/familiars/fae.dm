@@ -236,7 +236,8 @@
 				src.visible_message("<span class='info'>[src] emits a gurgling noise and a faint [found_recipe.smells_like] smell.</span>")
 				record_featured_stat(FEATURED_STATS_ALCHEMISTS, familiar_summoner)
 				record_round_statistic(STATS_POTIONS_BREWED)
-				//give xp for /datum/skill/craft/alchemy
+				//give xp to both summoner AND yourself
+				add_sleep_experience(src, /datum/skill/craft/alchemy, amt2raise)
 				add_sleep_experience(familiar_summoner, /datum/skill/craft/alchemy, amt2raise)
 				playsound(src, "bubbles", 100, TRUE)
 				playsound(src,'sound/misc/smelter_fin.ogg', 30, FALSE)
