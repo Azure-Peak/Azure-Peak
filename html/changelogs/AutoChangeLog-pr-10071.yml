@@ -1,0 +1,5 @@
+author: "Quinalion"
+delete-after: True
+changes:
+  - bugfix: "Carried or grabbed characters now remain attached to their carrier when using stairs."
+  - bugfix: "Passengers attached to a dragged mob now travel between floors with it."

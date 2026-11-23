@@ -242,6 +242,7 @@
 	name = "elemental arrow"
 	desc = "An iron broadhead arrow coated with an alchemical tincture."
 	caliber = "arrow"
+	antibeast_factor = ANTIBEAST_DEFAULT
 	ammo_weight = 1
 	possible_item_intents = list(/datum/intent/dagger/cut, /datum/intent/dagger/thrust)
 
