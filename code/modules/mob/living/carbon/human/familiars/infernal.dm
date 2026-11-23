@@ -58,6 +58,18 @@
 	if(src.light_system == STATIC_LIGHT)
 		src.update_light()
 	weather_immunities += "lava"
+	RegisterSignal(src, COMSIG_MOB_POSSESS_OTHER, PROC_REF(handle_possess))
+	RegisterSignal(src, COMSIG_MOB_POSSESS_RELEASE_OTHER, PROC_REF(handle_release))
+
+/mob/living/carbon/human/species/familiar/infernal/proc/handle_possess(datum/self, dsoul, mob/living/carbon/human/vessel)
+	ADD_TRAIT(vessel, TRAIT_NOPAIN, TRAIT_POSSESSED_ITEM)
+	ADD_TRAIT(vessel, TRAIT_DEATHLESS, TRAIT_POSSESSED_ITEM) // if this gets obnoxious it can b removed but it's meant to give an incentive to allow it
+	ADD_TRAIT(vessel, TRAIT_SILVER_WEAK, TRAIT_POSSESSED_ITEM) // and here's the big downside (besides you not being in control ofc)
+
+/mob/living/carbon/human/species/familiar/infernal/proc/handle_release(datum/self, dsoul, mob/living/carbon/human/vessel, dying)
+	REMOVE_TRAIT(vessel, TRAIT_NOPAIN, TRAIT_POSSESSED_ITEM)
+	REMOVE_TRAIT(vessel, TRAIT_DEATHLESS, TRAIT_POSSESSED_ITEM)
+	REMOVE_TRAIT(vessel, TRAIT_SILVER_WEAK, TRAIT_POSSESSED_ITEM)
 
 /mob/living/carbon/human/species/familiar/infernal/is_aligned_leyline(obj/structure/leyline/ley)
 	return istype(ley, /obj/structure/leyline/normal/decap)
@@ -76,6 +88,8 @@
 
 /mob/living/carbon/human/species/familiar/infernal/Life()
 	. = ..()
+	if(!isturf(loc))
+		return // no campfire healing people in an orb or whatever
 	var/list/hearers_in_range = get_hearers_in_LOS(healing_range, src, RECURSIVE_CONTENTS_CLIENT_MOBS)
 	for(var/mob/living/carbon/human/human in hearers_in_range)
 		if(human == src)

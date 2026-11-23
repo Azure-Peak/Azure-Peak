@@ -73,10 +73,10 @@
 		magic_effect.flat_heal = 5 // halved effectiveness from the enchantment
 		magic_effect.glow_color = null // we already have our own glow
 		magic_effect.on_apply(parent)
-		if(change_sprites && istype(parent, /obj/item/rogueweapon/sword) && I.inhand_x_dimension == 64) // swords with a compatible spritesize get temp swapped to the infernal sword sprite
-			I.icon = 'icons/roguetown/weapons/swords64.dmi'
-			I.icon_state = "blksword"
-	else if(istype(I, /obj/item/clothing) && !istype(I, /obj/item/clothing/ring/statamythortz) && !istype(I, /obj/item/clothing/ring/statgemerald) && !istype(I, /obj/item/clothing/ring/statonyx) && !istype(I, /obj/item/clothing/ring/statrontz) && !istype(I, /obj/item/clothing/ring/statdorpel))
+		// if(change_sprites && istype(parent, /obj/item/rogueweapon/sword) && I.inhand_x_dimension == 64) // swords with a compatible spritesize get temp swapped to the infernal sword sprite - DOES NOT WORK as altgrips (?) overwrite it. someone can put this back if they figure out a way to make it work, cba rn
+		// 	I.icon = 'icons/roguetown/weapons/swords64.dmi'
+		// 	I.icon_state = "blksword"
+	else if(istype(I, /obj/item/clothing) && !isstatring(I))
 		magic_effect = new /datum/magic_item/greater/phoenixguard 	// with how nothingburger firestacks are now this is probably fine. will change it if it becomes
 		magic_effect.glow_color = null								// a problem but like this is the one that makes you valid and all
 		magic_effect.on_apply(parent)								// you don't get this if you pick a statring, though, so as to not double dip

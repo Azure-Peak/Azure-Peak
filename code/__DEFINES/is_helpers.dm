@@ -193,6 +193,7 @@ GLOBAL_LIST_INIT(pointed_types, typecacheof(list(
 
 #define isgun(A) (istype(A, /obj/item/gun))
 
+#define isstatring(I) (!istype(I, /obj/item/clothing/ring/statamythortz) && !istype(I, /obj/item/clothing/ring/statgemerald) && !istype(I, /obj/item/clothing/ring/statonyx) && !istype(I, /obj/item/clothing/ring/statrontz) && !istype(I, /obj/item/clothing/ring/statdorpel))
 
 #define iseffect(O) (istype(O, /obj/effect))
 

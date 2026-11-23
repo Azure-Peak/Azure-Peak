@@ -334,7 +334,7 @@
 
 /datum/action/cooldown/spell/infernal_possession
 	name = "Infernal Possession"
-	desc = "Possess armor, a ring, an amulet, or a weapon; cast on yourself to turn into a potent—but obviously suspicious—staff and possess that instead. Items you possess will have their power increased in a small way: blades will gain a lyfesteal effect, worn items (except stat-rings) will retaliate with fire when struck; small swords and neck-armor will gain unique sprites (change spell mode to disable this). Resist to cancel the possession. Items you possess will be visibly odd. While possessing a wielded weapon or worn clothing/armor, whisper to speak directly into the mind of your bearer. Should they allow it, you can possess your bearer outright; you'll be able to use their skills, spells, and traits while you do, and the item housing you will become obviously suspicious. If they've used your power (hitting someone with you as a weapon, or blocking a hit with you as armor/clothing), you don't need their consent to possess them; however, if they resist, you will be on a time limit, after which you will be unable to possess them again for some time. Your malice grows strong, now; while listening to them may be wise, it is by no means mandatory."
+	desc = "Possess armor, a ring, an amulet, or a weapon; cast on yourself to turn into a potent—but obviously suspicious—staff and possess that instead. Items you possess will have their power increased in a small way: blades will gain a lyfesteal effect, worn items (except stat-rings) will retaliate with fire when struck; small swords and neck-armor will gain unique sprites (change spell mode to disable this). Resist to cancel the possession. Items you possess will be visibly odd. While possessing a wielded weapon or worn clothing/armor, whisper to speak directly into the mind of your bearer. Should they allow it, you can possess your bearer outright; you'll be able to use their skills, spells, and traits while you do, and the item housing you will become obviously suspicious. While you possess them, their body will feel no pain and fear no exsanguination, but will be harmed by silver. If they've used your power (hitting someone with you as a weapon, or blocking a hit with you as armor/clothing), you don't need their consent to possess them; however, if they resist, you will be on a time limit, after which you will be unable to possess them again for some time. While listening to them may be wise, it is by no means mandatory."
 	button_icon = 'icons/mob/actions/actions_cult.dmi'
 	button_icon_state = "hand"
 	spell_color = PATRON_COLOR_VHESLYN
@@ -359,7 +359,7 @@
 		to_chat(H, span_warning("I can only possess weapons, armor, rings, and amulets."))
 		return FALSE
 	// it's that easy. all the logic for this is actually in the possessed item component
-	var/datum/component/possessed_item/P = target.AddComponent(/datum/component/possessed_item, H, PATRON_COLOR_VHESLYN, staff ? EXAMINEHIGHLIGHT_HERESYSEVERITY_SUSPICIOUS : EXAMINEHIGHLIGHT_HERESYSEVERITY_ODD, staff ? HERESYDESC_INFERNAL_PASSIVE_OBVIOUS : HERESYDESC_INFERNAL_PASSIVE, EXAMINEHIGHLIGHT_HERESYSEVERITY_SUSPICIOUS, HERESYDESC_INFERNAL_ACTIVE, TRUE, staff, TRUE, /mob/living/carbon/human/proc/toggle_infernal_armor)
+	var/datum/component/possessed_item/P = target.AddComponent(/datum/component/possessed_item, H, spell_color, staff ? EXAMINEHIGHLIGHT_HERESYSEVERITY_SUSPICIOUS : EXAMINEHIGHLIGHT_HERESYSEVERITY_ODD, staff ? HERESYDESC_INFERNAL_PASSIVE_OBVIOUS : HERESYDESC_INFERNAL_PASSIVE, EXAMINEHIGHLIGHT_HERESYSEVERITY_SUSPICIOUS, HERESYDESC_INFERNAL_ACTIVE, TRUE, staff, TRUE, /mob/living/carbon/human/proc/toggle_infernal_armor)
 	if(P)
 		RegisterSignal(P, COMSIG_QDELETING, PROC_REF(handle_cooldown))
 	return FALSE // we don't want the CD to start until we get in the item
@@ -750,7 +750,38 @@
 /datum/action/cooldown/spell/magicians_stone/elemental/void
 	name = "Harvest Stone"
 
-/datum/action/cooldown/spell/infernal_possession/void
+// keep in mind this is only accessible to full mages (anyone w/o a major can't summon drakelings) and requires more effort than getting a dorpel normally
+/obj/item/rogueweapon/woodstaff/implement/grand/void
+	base_implement_name = "Voidbinder's Staff" // "Voidbinder's Staff of Frost"
+	name = "Staff of the Voidbinder"
+	desc = "A masterwork staff set with an otherworldly focus-gem, which seems to absorb all light. They say an Azurian magos laid the foundations for such a staff's creation, but tragically died before ever wielding one herself. The gem captures excess energy dissipated into the air when a spell is cast, giving most of it back to the wielder - arcyne economy refined to an art."
+
+/datum/action/cooldown/spell/void_possession // stripped down and more innocuous version of infernal possession
 	name = "Void Possession"
-	desc = "Possess armor, a ring, an amulet, or a weapon; resist to cancel the possession. Items you possess will be visibly odd. While possessing a wielded weapon or worn clothing/armor, whisper to speak directly into the mind of your bearer. Should they allow it, you can possess your bearer outright; you'll be able to use their skills, spells, and traits while you do, and the item housing you will become obviously suspicious. If they've used your power (hitting someone with you as a weapon, wearing you as a ring/amulet, or blocking a hit with you as armor), you don't need their consent to possess them; however, if they resist, you will be on a time limit, after which you will be unable to possess them again for some time. Your creator remains your creator, however, and you are still bound to obey them - though, of course, nobody said it had to be your creator you possess..."
+	desc = "Possess armor, a ring, an amulet, or a weapon, lending it a fragment of your power; resist to cancel the possession. Cast on yourself instead to turn into a particularly effective staff. While possessing a wielded weapon or worn clothing/armor, whisper to speak directly into the mind of your bearer. Should they allow it, you can possess your bearer outright; you'll be able to use their skills, spells, and traits while you do. Your creator remains your creator, however, and you are still bound to obey them - though, of course, nobody said it had to be your creator you possess..."
 	spell_color = GLOW_COLOR_ARCANE // todo: maybe add a void glow later? black or green to match the obelisks?
+
+/datum/action/cooldown/spell/void_possession/cast(atom/cast_on)
+	. = ..()
+	var/mob/living/carbon/human/species/familiar/void/H = owner
+	if(!istype(H))
+		return FALSE
+	var/obj/item/target = cast_on
+	var/staff = FALSE
+	if(cast_on == H) // cast on ourself: summon a staff to possess. unlike an infernal, we're a great product of the arcyne and as such, are a finer staff but with no special effects
+		target = new /obj/item/rogueweapon/woodstaff/implement/grand/void(get_turf(H))
+		staff = TRUE
+	if(!target || !istype(target)) // we cast on nothing, or on something that isn't an item. either way we can't move forward
+		return FALSE
+	// not a weapon, not an amulet/ring, and not armor
+	if(!istype(target, /obj/item/rogueweapon) && !istype(target, /obj/item/clothing/ring) && !istype(target, /obj/item/clothing/neck/roguetown/psicross) && !target.has_armor_value())
+		to_chat(H, span_warning("I can only possess weapons, armor, rings, and amulets."))
+		return FALSE
+	// it's that easy. all the logic for this is actually in the possessed item component
+	var/datum/component/possessed_item/P = target.AddComponent(/datum/component/possessed_item, H, spell_color, ephemeral = staff, change_sprites = FALSE)
+	if(P)
+		RegisterSignal(P, COMSIG_QDELETING, PROC_REF(handle_cooldown))
+	return FALSE // we don't want the CD to start until we get in the item
+
+/datum/action/cooldown/spell/void_possession/proc/handle_cooldown()
+	StartCooldown(get_adjusted_cooldown())

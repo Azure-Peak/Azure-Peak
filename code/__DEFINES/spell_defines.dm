@@ -221,5 +221,7 @@
 #define ASPECT_RESET_COST_CHOICE 2
 
 // Hag stuff
-#define COMSIG_MOB_POSSESS			"mob_possess"			// from /mob/living/carbon/human/proc/possess_vessel
-#define COMSIG_MOB_POSSESS_RELEASE	"mob_possess_release"	// from /mob/living/carbon/human/proc/release_vessel
+#define COMSIG_MOB_POSSESS					"mob_possess"				// from /mob/living/carbon/human/proc/possess_vessel
+#define COMSIG_MOB_POSSESS_OTHER			"mob_possess_other"			// from /mob/living/carbon/human/proc/possess_vessel
+#define COMSIG_MOB_POSSESS_RELEASE			"mob_possess_release"		// from /mob/living/carbon/human/proc/release_vessel
+#define COMSIG_MOB_POSSESS_RELEASE_OTHER	"mob_possess_release_other"	// from /mob/living/carbon/human/proc/release_vessel

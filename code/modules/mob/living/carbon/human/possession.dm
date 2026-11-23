@@ -21,6 +21,7 @@
 	var/mob/living/carbon/human/original = estranged_lux.possessor
 	if(!SEND_SIGNAL(src, COMSIG_MOB_POSSESS_RELEASE, estranged_lux, original, dying))			// handle things like HCT transfer
 		return FALSE
+	SEND_SIGNAL(original, COMSIG_MOB_POSSESS_RELEASE_OTHER, estranged_lux, src, dying)
 	if(devotion)
 		devotion.holder = original
 		original.devotion = devotion
@@ -112,6 +113,7 @@
 	vessel.reset_perspective() // needed for revs and such
 	ADD_TRAIT(vessel, TRAIT_POSSESSED, trait_source)
 	SEND_SIGNAL(vessel, COMSIG_MOB_POSSESS, dsoul, src)
+	SEND_SIGNAL(src, COMSIG_MOB_POSSESS_OTHER, dsoul, vessel)
 	add_verb(vessel, /mob/living/carbon/human/proc/release_vessel_verb) // failsafe: if a possession method doesn't add a revert method, they'll have a verb for it
 	add_verb(dsoul, /mob/dead/observer/eye/screye/displaced_soul/proc/resist_possession) // failsafe: if a possessor is badfaithing/afk, or in certain ic circumstances, you can resist. what that does depends on the possession source
 	return dsoul
