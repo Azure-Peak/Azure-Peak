@@ -399,7 +399,7 @@
 		/obj/item/rogueweapon/huntingknife/idagger/steel/decorated = 5,
 		/obj/item/rogueweapon/shovel/bronze = 5,
 		/obj/item/rogue/instrument/shamisen = 2,
-		/obj/item/rogueweapon/greatsword/grenz/flamberge/paalloy = 2
+		/obj/item/rogueweapon/greatsword/grenz/flamberge/ancient = 2
 		)
 	var/I = pickweight(loot)
 	new I(src)

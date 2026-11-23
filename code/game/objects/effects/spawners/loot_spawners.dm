@@ -421,7 +421,7 @@
 		//tools
 		/obj/item/rogueweapon/shovel/silver = 1,
 		/obj/item/rogueweapon/shovel = 2,
-		/obj/item/rogueweapon/shovel/decrepits = 1,
+		/obj/item/rogueweapon/shovel/decrepit = 1,
 		/obj/item/rogueweapon/stoneaxe/woodcut = 1,
 		/obj/item/rogueweapon/hammer/iron = 3,
 		/obj/item/rogueweapon/tongs = 1,

@@ -86,7 +86,7 @@
 	shoes = /obj/item/clothing/shoes/roguetown/boots/armor/iron
 	id = /obj/item/clothing/ring/silver/cleric
 	backl = /obj/item/storage/backpack/rogue/satchel
-	backr = /obj/item/rogueweapon/kite/holysee
+	backr = /obj/item/rogueweapon/shield/kite/holysee
 	backpack_contents = list(
 		/obj/item/ritechalk = 1,
 		/obj/item/rope/chain = 1,
@@ -219,7 +219,7 @@
 			H.put_in_hands(new /obj/item/rogueweapon/scabbard/gwstrap(H))
 			H.adjust_skillrank_up_to(/datum/skill/combat/polearms, SKILL_LEVEL_EXPERT, TRUE)
 		if("Flail")
-			H.put_in_hands(new /obj/item/rogueweapon/kite/holysee(H))
+			H.put_in_hands(new /obj/item/rogueweapon/shield/kite/holysee(H))
 			H.adjust_skillrank(/datum/skill/combat/whipsflails, SKILL_LEVEL_NOVICE, TRUE)
 		if("Mace")
 			H.put_in_hands(new /obj/item/rogueweapon/mace/steel/holysee(H))

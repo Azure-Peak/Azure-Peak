@@ -57,14 +57,14 @@
 
 /datum/npc_loadout/armor/medium/aalloy_helm
 	head = /obj/item/clothing/head/roguetown/helmet/kettle/ancient/decrepit
-	neck = /obj/item/clothing/neck/roguetown/chaincoif/iron/ancient/decrepit
+	neck = /obj/item/clothing/neck/roguetown/chaincoif/ancient/decrepit
 
 /datum/npc_loadout/armor/medium/aalloy_soldier
 	head = /obj/item/clothing/head/roguetown/helmet/heavy/ancient/decrepit
 	armor = /obj/item/clothing/suit/roguetown/armor/plate/cuirass/ancient/decrepit
 	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/ancient/decrepit
 	pants = /obj/item/clothing/under/roguetown/chainlegs/kilt/ancient/decrepit
-	neck = /obj/item/clothing/neck/roguetown/chaincoif/iron/ancient/decrepit
+	neck = /obj/item/clothing/neck/roguetown/chaincoif/ancient/decrepit
 	gloves = /obj/item/clothing/gloves/roguetown/chain/ancient/decrepit
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/ancient/decrepit
 	mask = /obj/item/clothing/mask/rogue/facemask/ancient/decrepit
@@ -73,7 +73,7 @@
 	head = /obj/item/clothing/head/roguetown/helmet/kettle/ancient/decrepit
 	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/ancient/decrepit
 	pants = /obj/item/clothing/under/roguetown/chainlegs/kilt/ancient/decrepit
-	neck = /obj/item/clothing/neck/roguetown/chaincoif/iron/ancient/decrepit
+	neck = /obj/item/clothing/neck/roguetown/chaincoif/ancient/decrepit
 	gloves = /obj/item/clothing/gloves/roguetown/chain/ancient/decrepit
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/ancient/decrepit
 	shoes = /obj/item/clothing/shoes/roguetown/boots/ancient/decrepit

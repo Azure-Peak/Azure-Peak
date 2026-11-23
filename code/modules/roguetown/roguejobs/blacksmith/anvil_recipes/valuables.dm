@@ -31,7 +31,7 @@
 	name = "Statue, Decrepit" // decrepit
 	category = "Decrepit Alloy"
 	req_bar = /obj/item/ingot/aalloy
-	created_item = /obj/item/roguestatue/aalloy
+	created_item = /obj/item/roguestatue/decrepit
 	display_category = ITEM_CAT_DECORATION
 
 //

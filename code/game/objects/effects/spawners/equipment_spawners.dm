@@ -333,12 +333,12 @@
 		/obj/item/clothing/wrists/roguetown/bracers/ancient/decrepit = 1,
 		/obj/item/clothing/head/roguetown/helmet/heavy/ancient/decrepit = 1,
 		/obj/item/clothing/head/roguetown/helmet/heavy/guard/ancient/decrepit = 1,
-		/obj/item/clothing/neck/roguetown/chaincoif/iron/ancient/decrepit = 1,
+		/obj/item/clothing/neck/roguetown/chaincoif/ancient/decrepit = 1,
 		/obj/item/clothing/neck/roguetown/gorget/ancient/decrepit = 1,
 		/obj/item/rogueweapon/sword/short/ancient/decrepit = 1,
 		/obj/item/rogueweapon/sword/short/gladius/ancient/decrepit = 1,
 		/obj/item/rogueweapon/sword/sabre/ancient/decrepit = 1,
-		/obj/item/clothing/gloves/roguetown/knuckles/decrepit = 1,
+		/obj/item/clothing/gloves/roguetown/knuckles/ancient/decrepit = 1,
 		/obj/item/rogueweapon/spear/ancient/decrepit = 1,
 		/obj/item/rogueweapon/halberd/bardiche/ancient/decrepit = 1,
 		/obj/item/rogueweapon/greatsword/ancient/decrepit = 1,
@@ -380,7 +380,7 @@
 		/obj/item/rogueweapon/huntingknife/throwingknife/ancient = 1,
 		/obj/item/rogueweapon/mace/ancient = 1,
 		/obj/item/rogueweapon/mace/goden/ancient = 1,
-		/obj/item/rogueweapon/mace/warhammer/steel/ancient = 1,
+		/obj/item/rogueweapon/mace/warhammer/ancient = 1,
 		/obj/item/rogueweapon/stoneaxe/woodcut/ancient = 1,
 	)
 

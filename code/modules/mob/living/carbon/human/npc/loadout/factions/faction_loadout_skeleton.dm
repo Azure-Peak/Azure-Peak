@@ -501,7 +501,7 @@
 		list(/obj/item/rogueweapon/stoneaxe/woodcut/ancient/decrepit),
 		list(/obj/item/rogueweapon/sword/short/ancient/decrepit),
 		list(/obj/item/rogueweapon/spear/ancient/decrepit),
-		list(/obj/item/rogueweapon/mace/alloy),
+		list(/obj/item/rogueweapon/mace/ancient/decrepit),
 	)
 
 /datum/npc_loadout/weapon/skeleton_pirate_knives

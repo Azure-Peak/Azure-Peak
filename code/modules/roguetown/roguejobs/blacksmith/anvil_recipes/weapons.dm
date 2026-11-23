@@ -61,7 +61,7 @@
 	name = "Flail, Decrepit"
 	category = "Decrepit Alloy"
 	req_bar = /obj/item/ingot/aalloy
-	created_item = /obj/item/rogueweapon/flail/decrepit
+	created_item = /obj/item/rogueweapon/flail/ancient/decrepit
 	display_category = ITEM_CAT_WEAPONS_FLAILS
 
 /datum/anvil_recipe/weapons/ancient/flail
@@ -75,7 +75,7 @@
 	name = "Dagger, Decrepit"
 	category = "Decrepit Alloy"
 	req_bar = /obj/item/ingot/aalloy
-	created_item = /obj/item/rogueweapon/huntingknife/idagger/decrepit
+	created_item = /obj/item/rogueweapon/huntingknife/idagger/ancient/decrepit
 	display_category = ITEM_CAT_WEAPONS_DAGGERS
 
 /datum/anvil_recipe/weapons/ancient/dagger
@@ -1653,7 +1653,7 @@
 	category = "Decrepit Alloy"
 	req_bar = /obj/item/ingot/aalloy
 	additional_items = list(/obj/item/ingot/aalloy, /obj/item/natural/hide/cured)
-	created_item = /obj/item/rogueweapon/shield/tower/decrepit
+	created_item = /obj/item/rogueweapon/shield/tower/ancient/decrepit
 	display_category = ITEM_CAT_WEAPONS_SHIELDS
 
 /datum/anvil_recipe/weapons/ancient/shield
@@ -1897,7 +1897,7 @@
 	category = "Ancient Alloy"
 	req_bar = /obj/item/ingot/purifiedaalloy
 	additional_items = list(/obj/item/grown/log/tree/stick, /obj/item/grown/log/tree/stick)
-	created_item = /obj/item/ammo_casing/caseless/rogue/arrow/ancsient
+	created_item = /obj/item/ammo_casing/caseless/rogue/arrow/ancient
 	display_category = ITEM_CAT_WEAPONS_AMMO
 	createditem_num = ARROW_SMITH_BATCH
 	i_type = "Ammo"

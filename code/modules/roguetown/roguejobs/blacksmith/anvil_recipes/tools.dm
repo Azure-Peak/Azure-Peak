@@ -161,7 +161,7 @@
 	category = "Decrepit Alloy"
 	req_bar = /obj/item/ingot/aalloy
 	additional_items = list(/obj/item/grown/log/tree/stick)
-	created_item = /obj/item/rogueweapon/pick/decrepit
+	created_item = /obj/item/rogueweapon/pick/ancient/decrepit
 	display_category = ITEM_CAT_TOOLS_FIELD
 	i_type = "Tools"
 
