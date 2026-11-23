@@ -67149,6 +67149,7 @@
 /mob/living/simple_animal/hostile/retaliate/rogue/infernal/watcher,
 /obj/effect/decal/cleanable/roguerune/arcyne/summoning/max,
 /obj/structure/leyline/normal/decap,
+/obj/item/cursed_item_spawner,
 /turf/open/floor/rogue/church,
 /area/rogue/under/cave/goblinfort)
 "lpm" = (
