@@ -348,7 +348,7 @@
 	name = "bottle of Possumtail Swampweed Wine"
 	icon_state = "plum_wine"
 	list_reagents = list(/datum/reagent/consumable/ethanol/murkwine = 50)
-	desc = "A bottle with a Possumtail Brewery mark. A special brew made from murky water and swampweed. A Heartfelt special."
+	desc = "A bottle with a Possumtail Brewery mark. A special brew made from murky water and swampweed. A Blackholt special."
 
 /obj/item/reagent_containers/glass/bottle/rogue/beer/nocshine
 	name = "bottle of Nocshine"
