@@ -31,10 +31,6 @@
 	COOLDOWN_DECLARE(possession_cooldown)
 	/// holder for the lifesteal effect on weapons
 	var/datum/magic_item/greater/lifesteal/magic_effect
-	var/cached_icon
-	var/cached_icon_state
-	var/cached_item_state
-	var/cached_mob_overlay_icon
 	var/curse_timer_id
 	var/item_filter
 	var/bearer_verb // we use this for infernal armor, but if we later add non-vheslynite possession it could be something else
@@ -63,11 +59,6 @@
 	RegisterSignal(spirit, COMSIG_LIVING_RESIST, PROC_REF(revert))
 	RegisterSignal(spirit, COMSIG_MOB_SAY, PROC_REF(handle_speech))
 
-	cached_icon = I.icon
-	cached_icon_state = I.icon_state
-	cached_item_state = I.item_state
-	cached_mob_overlay_icon = I.mob_overlay_icon
-
 	if(istype(parent, /obj/item/rogueweapon))
 		magic_effect = new /datum/magic_item/greater/lifesteal
 		magic_effect.flat_heal = 5 // halved effectiveness from the enchantment
@@ -80,11 +71,6 @@
 		magic_effect = new /datum/magic_item/greater/phoenixguard 	// with how nothingburger firestacks are now this is probably fine. will change it if it becomes
 		magic_effect.glow_color = null								// a problem but like this is the one that makes you valid and all
 		magic_effect.on_apply(parent)								// you don't get this if you pick a statring, though, so as to not double dip
-		if(change_sprites && istype(I, /obj/item/clothing/neck) && I.has_armor_value()) // neck items get a special spooky sprite
-			I.icon = 'icons/roguetown/clothing/neck.dmi'
-			I.mob_overlay_icon = 'icons/roguetown/clothing/onmob/neck.dmi'
-			I.icon_state = "cursed_collar"
-			I.item_state = "cursed_collar"
 
 	bearer_verb = verb_to_bearer
 	I.become_hearing_sensitive()
@@ -98,11 +84,6 @@
 	spirit.forceMove(get_turf(parent))
 	if(magic_effect)
 		QDEL_NULL(magic_effect)
-	var/obj/item/I = parent
-	I.icon = cached_icon
-	I.icon_state = cached_icon_state
-	I.item_state = cached_item_state
-	I.mob_overlay_icon = cached_mob_overlay_icon
 	if(ephemeral)
 		qdel(parent)
 	else
