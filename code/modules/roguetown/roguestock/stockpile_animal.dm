@@ -3,7 +3,6 @@
 	desc = "Edible flesh harvested from most animals."
 	item_type = /obj/item/reagent_containers/food/snacks/rogue/meat/steak
 	trade_good_id = TRADE_GOOD_MEAT
-	market_stock = 5
 	category = "Animal"
 
 /datum/roguestock/stockpile/rat
@@ -68,7 +67,6 @@
 	desc = "Edible flesh harvested from birds and fowl."
 	item_type = /obj/item/reagent_containers/food/snacks/rogue/meat/poultry
 	trade_good_id = TRADE_GOOD_POULTRY
-	market_stock = 2
 	category = "Animal"
 
 /datum/roguestock/stockpile/rabbit
@@ -77,7 +75,6 @@
 	desc = "Edible flesh harvested from cabbits."
 	item_type = /obj/item/reagent_containers/food/snacks/rogue/meat/rabbit
 	trade_good_id = TRADE_GOOD_RABBIT
-	market_stock = 2
 	category = "Animal"
 
 /datum/roguestock/stockpile/pork
@@ -86,7 +83,6 @@
 	desc = "Edible flesh harvested from swine."
 	item_type = /obj/item/reagent_containers/food/snacks/rogue/meat/fatty
 	trade_good_id = TRADE_GOOD_PORK
-	market_stock = 2
 	category = "Animal"
 
 /datum/roguestock/stockpile/ham
@@ -132,7 +128,6 @@
 	desc = "Greasy flesh from an animal."
 	item_type = /obj/item/reagent_containers/food/snacks/fat
 	trade_good_id = TRADE_GOOD_FAT
-	market_stock = 10
 	category = "Animal"
 
 /datum/roguestock/stockpile/tallow
@@ -149,7 +144,6 @@
 	desc = "Sweet delicious from a sweet place."
 	item_type = /obj/item/reagent_containers/food/snacks/rogue/honey
 	trade_good_id = TRADE_GOOD_HONEY
-	market_stock = 1
 	category = "Animal"
 
 /datum/roguestock/stockpile/egg
@@ -158,7 +152,6 @@
 	desc = "Egg laid by a hen."
 	item_type = /obj/item/reagent_containers/food/snacks/rogue/egg
 	trade_good_id = TRADE_GOOD_EGG
-	market_stock = 4
 	category = "Animal"
 
 /datum/roguestock/stockpile/butter
@@ -167,7 +160,6 @@
 	desc = "The product of milk and salt."
 	item_type = /obj/item/reagent_containers/food/snacks/butter
 	trade_good_id = TRADE_GOOD_BUTTER
-	market_stock = 5
 	category = "Animal"
 
 /datum/roguestock/stockpile/cheese
@@ -176,7 +168,6 @@
 	desc = "The product of milk and salt."
 	item_type = /obj/item/reagent_containers/food/snacks/rogue/cheese
 	trade_good_id = TRADE_GOOD_CHEESE
-	market_stock = 5
 	category = "Animal"
 
 /datum/roguestock/stockpile/salumoi

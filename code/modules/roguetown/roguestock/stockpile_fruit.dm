@@ -4,7 +4,6 @@
 	desc = "Harvested produce."
 	item_type = /obj/item/reagent_containers/food/snacks/grown/apple
 	trade_good_id = TRADE_GOOD_APPLE
-	market_stock = 10
 	category = "Fruit"
 
 /datum/roguestock/stockpile/pear
@@ -13,7 +12,6 @@
 	desc = "Too sweet for many. Little ones favor them. Dwarves do love them."
 	item_type = /obj/item/reagent_containers/food/snacks/grown/fruit/pear
 	trade_good_id = TRADE_GOOD_PEAR
-	market_stock = 5
 	category = "Fruit"
 
 /datum/roguestock/stockpile/jacksberry
@@ -22,7 +20,6 @@
 	desc = "Sweet berries prime for winemaking."
 	item_type = /obj/item/reagent_containers/food/snacks/grown/berries/rogue
 	trade_good_id = TRADE_GOOD_JACKSBERRY
-	market_stock = 10
 	category = "Fruit"
 
 /datum/roguestock/stockpile/blackberry
@@ -31,7 +28,6 @@
 	desc = "A small, dark fruit with a sweet and slightly tart taste. It is often used in desserts."
 	item_type = /obj/item/reagent_containers/food/snacks/grown/fruit/blackberry
 	trade_good_id = TRADE_GOOD_BLACKBERRY
-	market_stock = 5
 	category = "Fruit"
 
 /datum/roguestock/stockpile/raspberry
@@ -40,7 +36,6 @@
 	desc = "A small, red fruit with a sweet and slightly tart taste. It is often used in desserts."
 	item_type = /obj/item/reagent_containers/food/snacks/grown/fruit/raspberry
 	trade_good_id = TRADE_GOOD_RASPBERRY
-	market_stock = 5
 	category = "Fruit"
 
 /datum/roguestock/stockpile/strawberry
@@ -49,7 +44,6 @@
 	desc = "A small, red fruit with a sweet taste. It is often used in desserts."
 	item_type = /obj/item/reagent_containers/food/snacks/grown/fruit/strawberry
 	trade_good_id = TRADE_GOOD_STRAWBERRY
-	market_stock = 5
 	category = "Fruit"
 
 /datum/roguestock/stockpile/lemon
@@ -58,7 +52,6 @@
 	desc = "Too sweet for many, a favored treat for little ones. Dwarves do love them."
 	item_type = /obj/item/reagent_containers/food/snacks/grown/fruit/lemon
 	trade_good_id = TRADE_GOOD_LEMON
-	market_stock = 5
 	category = "Fruit"
 
 /datum/roguestock/stockpile/lime
@@ -67,7 +60,6 @@
 	desc = "Too sweet for many, a favored treat for little ones. Dwarves do love them."
 	item_type = /obj/item/reagent_containers/food/snacks/grown/fruit/lime
 	trade_good_id = TRADE_GOOD_LIME
-	market_stock = 5
 	category = "Fruit"
 
 /datum/roguestock/stockpile/tangerine
@@ -76,7 +68,6 @@
 	desc = "A small, sweet orange fruit that peels easily."
 	item_type = /obj/item/reagent_containers/food/snacks/grown/fruit/tangerine
 	trade_good_id = TRADE_GOOD_TANGERINE
-	market_stock = 5
 	category = "Fruit"
 
 /datum/roguestock/stockpile/plum
@@ -85,7 +76,6 @@
 	desc = "Too sweet for many, a favored treat for little ones. Dwarves do love them."
 	item_type = /obj/item/reagent_containers/food/snacks/grown/fruit/plum
 	trade_good_id = TRADE_GOOD_PLUM
-	market_stock = 5
 	category = "Fruit"
 
 /datum/roguestock/stockpile/tomato
@@ -94,7 +84,6 @@
 	desc = "A red fruit that is often mistaken for a vegetable. It is commonly used in salads and sauces."
 	item_type = /obj/item/reagent_containers/food/snacks/grown/fruit/tomato
 	trade_good_id = TRADE_GOOD_TOMATO
-	market_stock = 5
 	category = "Fruit"
 
 /datum/roguestock/stockpile/pumpkin

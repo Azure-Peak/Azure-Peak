@@ -5,7 +5,7 @@
 	// The amount held by the royal stockpile.
 	var/royal_stock = 0
 	// The amount held by the market, used for computing market price
-	var/market_stock = 0
+	var/market_stock
 	var/market_target = MARKET_TARGET_STANDARD
 	// Only the stockpile can ever purchase these goods. The market will never supply them
 	var/market_never_supplies = FALSE
@@ -16,6 +16,8 @@
 
 /datum/roguestock/New()
 	..()
+	if(isnull(market_stock))
+		market_stock = market_target
 	if(trade_good_id)
 		var/datum/trade_good/tg = GLOB.trade_goods[trade_good_id]
 		if(tg)
