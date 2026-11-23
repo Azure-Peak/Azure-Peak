@@ -1,0 +1,6 @@
+author: "radarseas"
+delete-after: True
+changes:
+  - rscadd: "Added Zizo Fog, its exclusive to Zizo's Pet Cemetary omen and Zizo's defilement. Zizites can prayer during it, Zizites get a minor mood buff."
+  - rscadd: "Added omen text to Zizo's defilement."
+  - bugfix: "fixed Zizo's pet cemetary being inconsistant and using the wrong way to announce itself, making it almost seem more like an admin event."

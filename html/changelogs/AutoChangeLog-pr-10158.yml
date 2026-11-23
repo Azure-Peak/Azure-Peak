@@ -1,4 +1,0 @@
-author: "BobProductive"
-delete-after: True
-changes:
-  - bugfix: "Climbing code messages meant for the climber now only show for the climber not everyone around them."
