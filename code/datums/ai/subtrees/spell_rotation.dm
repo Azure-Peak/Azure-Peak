@@ -250,7 +250,7 @@
 		var/lead = CLAMP(round(impact_delay / victim.cached_multiplicative_slowdown, 1), 0, ARCHER_NPC_MAX_LEAD)
 		if(lead)
 			aim = get_ranged_target_turf(current, victim.last_move, lead) || current
-	var/error_chance = caster.get_ranged_lead_error(1, caster.STAINT)
+	var/error_chance = caster.get_ranged_lead_error(1, caster.STAINT, CASTER_NPC_LEAD_ERROR_BONUS)
 	if(!prob(error_chance))
 		return aim
 	return caster.scatter_aim_turf(aim, current, ARCHER_NPC_MISS_OFFSET_TILES + (prob(error_chance) ? 1 : 0))

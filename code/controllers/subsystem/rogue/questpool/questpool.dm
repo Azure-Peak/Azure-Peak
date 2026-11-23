@@ -15,7 +15,10 @@ SUBSYSTEM_DEF(questpool)
 	var/list/evergreen_count_by_region = list()
 	var/list/type_count_by_region = list()
 	var/list/landmarks_by_region = list()
+	var/list/kill_targets_by_region = list()
+	var/list/evergreen_targets_by_region = list()
 	var/list/pool_weights = list()
+	var/kill_supply_mult = QUEST_POOL_SCARCE_MULT
 	var/debug_mode = FALSE
 
 /datum/controller/subsystem/questpool/Initialize(mapload)
@@ -28,8 +31,9 @@ SUBSYSTEM_DEF(questpool)
 	init_quest_factions()
 	count_region_landmarks()
 	// Front-load every region to its full target so roundstart has a healthy mix.
-	regen_kill_targets(total_kill_target(QUEST_POOL_ROUNDSTART_MULT), QUEST_POOL_ROUNDSTART_MULT)
-	regen_fetch_targets(QUEST_POOL_ROUNDSTART_MULT)
+	refresh_pool_targets(QUEST_POOL_ROUNDSTART_MULT)
+	regen_kill_targets(total_kill_target())
+	regen_fetch_targets()
 	stagger_roundstart_lapses()
 	RegisterSignal(SSdcs, COMSIG_GLOB_MOB_DEATH, PROC_REF(on_mob_death))
 	return ..()
@@ -64,8 +68,10 @@ SUBSYSTEM_DEF(questpool)
 	return closest
 
 /datum/controller/subsystem/questpool/fire(resumed)
+	kill_supply_mult = get_kill_supply_mult()
+	refresh_pool_targets()
 	reroll_stale()
-	regen_kill_targets(QUEST_KILL_REGEN_PER_TICK)
+	regen_kill_targets(round(QUEST_KILL_REGEN_PER_TICK * kill_supply_mult))
 	regen_fetch_targets()
 
 /// Bumps the region count for Q's kind by delta. Called whenever a quest enters
@@ -123,15 +129,44 @@ SUBSYSTEM_DEF(questpool)
 			return TRUE
 	return FALSE
 
-/datum/controller/subsystem/questpool/proc/get_pool_target(datum/threat_region/TR, pool_kind, pop, target_mult = 1)
-	var/kill = region_allows_pool(TR, QUEST_POOL_KILL) ? TR.get_kill_target(pop, target_mult) : 0
-	var/evergreen = region_allows_pool(TR, QUEST_POOL_EVERGREEN) ? TR.get_evergreen_target(target_mult) : 0
-	var/capacity = max(0, (landmarks_by_region[TR.region_name] || 0) - QUEST_POOL_LANDMARK_RESERVE)
-	if(kill + evergreen > capacity)
-		var/kill_share = round(capacity * kill / (kill + evergreen))
-		evergreen = capacity - kill_share
-		kill = kill_share
-	return pool_kind == QUEST_POOL_KILL ? kill : evergreen
+/datum/controller/subsystem/questpool/proc/has_contract_issuer()
+	for(var/mob/living/carbon/human/H in GLOB.player_list)
+		if(H.stat != DEAD && (H.job in GLOB.contract_issuer_roles))
+			return TRUE
+	return FALSE
+
+/datum/controller/subsystem/questpool/proc/get_kill_supply_mult()
+	if(!has_contract_issuer())
+		return 1
+	var/past_scarcity = world.time - SSticker.round_start_time - QUEST_POOL_SCARCITY_TIME
+	if(past_scarcity <= 0)
+		return QUEST_POOL_SCARCE_MULT
+	return min(1, QUEST_POOL_SCARCE_MULT + (1 - QUEST_POOL_SCARCE_MULT) * past_scarcity / QUEST_POOL_SUPPLY_RAMP)
+
+/datum/controller/subsystem/questpool/proc/refresh_pool_targets(target_mult = 1)
+	var/pop = GLOB.player_list.len
+	kill_targets_by_region = list()
+	evergreen_targets_by_region = list()
+	var/list/kill_caps = list()
+	var/list/weights = list()
+	var/total_kill = 0
+	var/total_weight = 0
+	for(var/datum/threat_region/TR as anything in SSregionthreat.threat_regions)
+		var/kill = region_allows_pool(TR, QUEST_POOL_KILL) ? TR.get_kill_target(pop, target_mult * kill_supply_mult) : 0
+		var/evergreen = region_allows_pool(TR, QUEST_POOL_EVERGREEN) ? TR.get_evergreen_target(target_mult) : 0
+		var/capacity = max(0, (landmarks_by_region[TR.region_name] || 0) - QUEST_POOL_LANDMARK_RESERVE)
+		if(kill + evergreen > capacity)
+			evergreen = capacity - round(capacity * kill / (kill + evergreen))
+		evergreen_targets_by_region[TR.region_name] = evergreen
+		kill_targets_by_region[TR.region_name] = 0
+		kill_caps[TR.region_name] = capacity - evergreen
+		var/weight = kill * (QUEST_POOL_THREAT_MIN_WEIGHT + TR.get_threat_weight())
+		if(weight > 0 && capacity > evergreen)
+			weights[TR.region_name] = weight
+			total_weight += weight
+			total_kill += kill
+	for(var/region in weights)
+		kill_targets_by_region[region] = min(kill_caps[region], round(total_kill * weights[region] / total_weight, 1))
 
 /datum/controller/subsystem/questpool/proc/stagger_roundstart_lapses()
 	for(var/datum/quest/Q as anything in pool)
@@ -139,11 +174,10 @@ SUBSYSTEM_DEF(questpool)
 		Q.lapse_offset = QUEST_POOL_ROUNDSTART_GRACE + rand(0, QUEST_POOL_ROUNDSTART_JITTER)
 
 /// Sum of per-region kill targets across all regions.
-/datum/controller/subsystem/questpool/proc/total_kill_target(target_mult = 1)
-	var/pop = GLOB.player_list.len
+/datum/controller/subsystem/questpool/proc/total_kill_target()
 	var/total = 0
-	for(var/datum/threat_region/TR as anything in SSregionthreat.threat_regions)
-		total += get_pool_target(TR, QUEST_POOL_KILL, pop, target_mult)
+	for(var/region in kill_targets_by_region)
+		total += kill_targets_by_region[region]
 	return total
 
 /datum/controller/subsystem/questpool/proc/count_kill_quests_in(region_name)
@@ -153,12 +187,11 @@ SUBSYSTEM_DEF(questpool)
 	return evergreen_count_by_region[region_name] || 0
 
 /// Returns the region furthest below its kill target by fill ratio, or null if all are at target.
-/datum/controller/subsystem/questpool/proc/pick_neediest_kill_region(target_mult = 1)
-	var/pop = GLOB.player_list.len
+/datum/controller/subsystem/questpool/proc/pick_neediest_kill_region()
 	var/lowest_ratio = 1
 	var/datum/threat_region/chosen
 	for(var/datum/threat_region/TR as anything in SSregionthreat.threat_regions)
-		var/target = get_pool_target(TR, QUEST_POOL_KILL, pop, target_mult)
+		var/target = kill_targets_by_region[TR.region_name]
 		if(!target)
 			continue
 		var/have = count_kill_quests_in(TR.region_name)
@@ -179,9 +212,9 @@ SUBSYSTEM_DEF(questpool)
 			return TRUE
 	return FALSE
 
-/datum/controller/subsystem/questpool/proc/regen_kill_targets(count, target_mult = 1)
+/datum/controller/subsystem/questpool/proc/regen_kill_targets(count)
 	for(var/i in 1 to count)
-		var/datum/threat_region/TR = pick_neediest_kill_region(target_mult)
+		var/datum/threat_region/TR = pick_neediest_kill_region()
 		if(!TR)
 			return
 		var/type = pick_pool_type_for(TR, QUEST_POOL_KILL)
@@ -189,11 +222,10 @@ SUBSYSTEM_DEF(questpool)
 			continue
 		generate_one(type, TR)
 
-/datum/controller/subsystem/questpool/proc/regen_fetch_targets(target_mult = 1)
-	var/pop = GLOB.player_list.len
+/datum/controller/subsystem/questpool/proc/regen_fetch_targets()
 	for(var/datum/threat_region/TR as anything in SSregionthreat.threat_regions)
 		var/have = count_evergreen_quests_in(TR.region_name)
-		var/needed = get_pool_target(TR, QUEST_POOL_EVERGREEN, pop, target_mult) - have
+		var/needed = (evergreen_targets_by_region[TR.region_name] || 0) - have
 		for(var/i in 1 to needed)
 			if(!region_has_pool_room(TR.region_name))
 				break
@@ -494,7 +526,7 @@ SUBSYSTEM_DEF(questpool)
 		return null
 	return new proto.type()
 
-/datum/controller/subsystem/questpool/proc/claim(datum/quest/Q, mob/user, veteran = FALSE)
+/datum/controller/subsystem/questpool/proc/claim(datum/quest/Q, mob/user, veteran = FALSE, foes = null)
 	if(!Q || !(Q in pool))
 		return FALSE
 	if(!Q.can_claim(user))
@@ -523,10 +555,15 @@ SUBSYSTEM_DEF(questpool)
 		log_event("claim_failed", "materialize failed for [Q.quest_difficulty] [Q.quest_type]")
 		return FALSE
 	Q.materialized = TRUE
+	var/foes_note = ""
+	if(foes && istype(Q, /datum/quest/kill))
+		var/datum/quest/kill/KQ = Q
+		if(KQ.pick_foes(foes))
+			foes_note = " against [KQ.faction.name_plural]"
 	Q.on_claim(user)
 	record_round_statistic(STATS_CONTRACTS_TAKEN)
 	record_source_statistic(Q, CONTRACT_STAT_TAKEN)
-	log_event("claim", "[describe_user(user)] took [Q.quest_difficulty] [Q.quest_type]")
+	log_event("claim", "[describe_user(user)] took [Q.quest_difficulty] [Q.quest_type][foes_note]")
 	return TRUE
 
 /datum/controller/subsystem/questpool/proc/clear_failed_veteran(datum/quest/Q)

@@ -122,11 +122,11 @@
 				if(0 to 50)
 					to_chat(target, "You feel slightly drowsy, as though a curtain is coming over your mind.")
 					to_chat(user, "The mind of [target] gives way slightly.")
-					target.Slowdown(20)
+					target.apply_slowdown(39 SECONDS)
 				if(51 to 90)
 					to_chat(target, "Your eyelids weigh heavy as you feel intense lethargy.")
 					to_chat(user, "[target] will not be able to resist much more.")
-					target.Slowdown(30)
+					target.apply_slowdown(59 SECONDS)
 				if(91 to INFINITY)
 					to_chat(target, span_userdanger("You can't take it anymore. Your legs give out as you collapse into a long slumber."))
 					to_chat(user, "[target] is mine now.")
@@ -135,7 +135,7 @@
 					if(target.hud_used)
 						for(var/atom/movable/screen/eye_intent/eyet in target.hud_used.static_inventory)
 							eyet.update_icon(target)
-					target.Slowdown(50)
+					target.apply_slowdown(99 SECONDS)
 					addtimer(CALLBACK(target, TYPE_PROC_REF(/mob/living, Sleeping), 1 MINUTES), 5 SECONDS)
 			continue
 

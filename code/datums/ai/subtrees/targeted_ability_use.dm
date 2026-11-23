@@ -41,7 +41,7 @@
 
 	var/list/candidates = list()
 	for(var/datum/action/cooldown/special in pawn.actions)
-		if(!special.IsAvailable() || !special.can_use(target))
+		if(world.time < special.npc_retry_at || !special.IsAvailable() || !special.can_use(target))
 			continue
 		if(!prob(special.npc_use_chance(target)))
 			continue

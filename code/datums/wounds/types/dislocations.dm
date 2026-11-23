@@ -60,7 +60,7 @@
 /datum/wound/dislocation/on_mob_gain(mob/living/affected)
 	. = ..()
 	affected.emote("paincrit", TRUE)
-	affected.Slowdown(20)
+	affected.apply_slowdown(39 SECONDS)
 	shake_camera(affected, 2, 2)
 
 /datum/wound/dislocation/proc/relocate_bone()

@@ -661,6 +661,12 @@
 	triumph_cost = 3
 	sort_category = "Triumphs"
 
+/datum/loadout_item/triumph_tomekit_enduring
+	name = "Triumph Kit - The Enduring Codex"
+	path = /obj/item/enchantingkit/triumph_tomekit_enduring
+	triumph_cost = 3
+	sort_category = "Triumphs"
+
 
 //////////////////
 //	PERFUMES !	//

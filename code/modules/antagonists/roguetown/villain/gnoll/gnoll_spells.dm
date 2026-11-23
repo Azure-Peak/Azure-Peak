@@ -88,7 +88,7 @@
 
 	if(!shown_hunt_disclaimer)
 		to_chat(user, span_boldnotice("You have chosen your first prey. Remember to judge whether or not your target is a worthy foe. Graggar does not reward spilling the blood of the meek when you have this much to prove."))
-		to_chat(user, span_boldwarning("(Escalation is still required. You can always still do other gnoll things if targets are too difficult.)"))
+		to_chat(user, span_boldwarning("Hunted targets still may have ERP protections. Escalation is NOT required with the Hunted. If you don't find a compelling reason to pursue them, you do not have to."))
 		shown_hunt_disclaimer = TRUE
 
 	tracked_target = possible_targets[selection]

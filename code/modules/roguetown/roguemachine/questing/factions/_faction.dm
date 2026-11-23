@@ -16,6 +16,8 @@ GLOBAL_LIST_EMPTY(quest_factions)
 	var/progress_noun = "malefactors"
 	var/list/variant_chances
 	var/list/variant_factions
+	var/cached_average_tp
+	var/cached_max_tp
 
 /datum/quest_faction/New()
 	if(!id)
@@ -76,20 +78,23 @@ GLOBAL_LIST_EMPTY(quest_factions)
 	return pickweight(mob_types)
 
 /datum/quest_faction/proc/average_threat_point()
+	if(!isnull(cached_average_tp))
+		return cached_average_tp
 	var/total_weight = 0
 	var/weighted_tp = 0
 	for(var/mob_path in mob_types)
 		var/weight = mob_types[mob_path]
 		total_weight += weight
 		weighted_tp += weight * initial_threat_point(mob_path)
-	if(total_weight <= 0 || weighted_tp <= 0)
-		return 0
-	return weighted_tp / total_weight
+	cached_average_tp = (total_weight > 0 && weighted_tp > 0) ? weighted_tp / total_weight : 0
+	return cached_average_tp
 
 /datum/quest_faction/proc/max_threat_point()
-	. = 0
-	for(var/mob_path in mob_types)
-		. = max(., initial_threat_point(mob_path))
+	if(isnull(cached_max_tp))
+		cached_max_tp = 0
+		for(var/mob_path in mob_types)
+			cached_max_tp = max(cached_max_tp, initial_threat_point(mob_path))
+	return cached_max_tp
 
 /datum/quest_faction/proc/pick_crimes(count = 3)
 	if(!length(crime_weights) || count <= 0)
