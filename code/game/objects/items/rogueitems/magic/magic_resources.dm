@@ -238,7 +238,7 @@
 		to_chat(user, span_warning("...but it remains silent. Perhaps an attempt later would bear more fruit?"))
 		return ..()
 	var/obj/item/relic = new form(user.drop_location())
-	var/datum/component/possessed_item/P = relic.AddComponent(/datum/component/possessed_item, inhabitant, PATRON_COLOR_VHESLYN, EXAMINEHIGHLIGHT_HERESYSEVERITY_ODD, HERESYDESC_INFERNAL_PASSIVE, EXAMINEHIGHLIGHT_HERESYSEVERITY_SUSPICIOUS, HERESYDESC_INFERNAL_ACTIVE, TRUE, FALSE, /mob/living/carbon/human/proc/toggle_infernal_armor, FALSE)
+	var/datum/component/possessed_item/P = relic.AddComponent(/datum/component/possessed_item, inhabitant, PATRON_COLOR_VHESLYN, EXAMINEHIGHLIGHT_HERESYSEVERITY_ODD, HERESYDESC_INFERNAL_PASSIVE, EXAMINEHIGHLIGHT_HERESYSEVERITY_SUSPICIOUS, HERESYDESC_INFERNAL_ACTIVE, TRUE, FALSE, /mob/living/carbon/human/proc/toggle_infernal_armor, FALSE, span_boldwarning("Infernal flames emanate from $src, flowing into $bearer... their eyes flash with new malice!"))
 	user.dropItemToGround(src, TRUE, TRUE)
 	user.put_in_hands(relic)
 	var/datum/action/cooldown/spell/cursed_item_possession/spell = new

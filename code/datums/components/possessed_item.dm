@@ -34,8 +34,9 @@
 	var/curse_timer_id
 	var/item_filter
 	var/bearer_verb // we use this for infernal armor, but if we later add non-vheslynite possession it could be something else
+	var/possession_verbiage // visible message on host possession
 
-/datum/component/possessed_item/Initialize(mob/living/carbon/human/possessor, outline_color, h_severity_passive, h_desc_passive, h_severity_active, h_desc_active, start_powerful = FALSE, temp = FALSE, verb_to_bearer, revert_on_break = TRUE)
+/datum/component/possessed_item/Initialize(mob/living/carbon/human/possessor, outline_color, h_severity_passive, h_desc_passive, h_severity_active, h_desc_active, start_powerful = FALSE, temp = FALSE, verb_to_bearer, revert_on_break = TRUE, verbiage)
 	if(!isitem(parent) || !possessor)
 		return COMPONENT_INCOMPATIBLE
 	spirit = possessor
@@ -59,6 +60,7 @@
 		RegisterSignal(parent, COMSIG_ITEM_BROKEN, PROC_REF(revert))
 	RegisterSignal(spirit, COMSIG_LIVING_RESIST, PROC_REF(revert))
 	RegisterSignal(spirit, COMSIG_MOB_SAY, PROC_REF(handle_speech))
+	possession_verbiage = verbiage
 
 	if(istype(parent, /obj/item/rogueweapon))
 		magic_effect = new /datum/magic_item/greater/lifesteal
@@ -207,6 +209,7 @@
 			COOLDOWN_START(curse, possession_prompt, POSSESSION_PROMPT_COOLDOWN)
 			return
 
+	curse.bearer.visible_message(replacetext(replacetext(curse.possession_verbiage, "$src", "[curse.parent]"), "$bearer", "[curse.bearer]"))
 	curse.heresy_severity = curse.heresy_severity_active
 	curse.heresy_desc = curse.heresy_desc_active
 	H.possess_vessel(curse.bearer, TRAIT_POSSESSED_ITEM, FALSE, TRUE)

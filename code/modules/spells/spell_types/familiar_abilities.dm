@@ -394,7 +394,7 @@
 		to_chat(H, span_warning("I can only possess weapons, armor, rings, and amulets."))
 		return FALSE
 	// it's that easy. all the logic for this is actually in the possessed item component
-	var/datum/component/possessed_item/P = target.AddComponent(/datum/component/possessed_item, H, spell_color, conjure ? EXAMINEHIGHLIGHT_HERESYSEVERITY_SUSPICIOUS : EXAMINEHIGHLIGHT_HERESYSEVERITY_ODD, conjure ? HERESYDESC_INFERNAL_PASSIVE_OBVIOUS : HERESYDESC_INFERNAL_PASSIVE, EXAMINEHIGHLIGHT_HERESYSEVERITY_SUSPICIOUS, HERESYDESC_INFERNAL_ACTIVE, TRUE, conjure, /mob/living/carbon/human/proc/toggle_infernal_armor)
+	var/datum/component/possessed_item/P = target.AddComponent(/datum/component/possessed_item, H, spell_color, conjure ? EXAMINEHIGHLIGHT_HERESYSEVERITY_SUSPICIOUS : EXAMINEHIGHLIGHT_HERESYSEVERITY_ODD, conjure ? HERESYDESC_INFERNAL_PASSIVE_OBVIOUS : HERESYDESC_INFERNAL_PASSIVE, EXAMINEHIGHLIGHT_HERESYSEVERITY_SUSPICIOUS, HERESYDESC_INFERNAL_ACTIVE, TRUE, conjure, /mob/living/carbon/human/proc/toggle_infernal_armor, TRUE, span_boldwarning("Infernal flames emanate from $src, flowing into $bearer... their eyes flash with new malice!"))
 	if(P)
 		RegisterSignal(P, COMSIG_QDELETING, PROC_REF(handle_cooldown))
 	return FALSE // we don't want the CD to start until we get in the item
@@ -775,7 +775,7 @@
 		to_chat(H, span_warning("I can only possess weapons, armor, rings, and amulets."))
 		return FALSE
 	// it's that easy. all the logic for this is actually in the possessed item component
-	var/datum/component/possessed_item/P = target.AddComponent(/datum/component/possessed_item, H, spell_color, temp = (current_mode != 1))
+	var/datum/component/possessed_item/P = target.AddComponent(/datum/component/possessed_item, H, spell_color, temp = (current_mode != 1), verbiage = span_warning("Arcyne energies pour from $src into $bearer, their eyes flare with hunger!"))
 	if(P)
 		RegisterSignal(P, COMSIG_QDELETING, PROC_REF(handle_cooldown))
 	return FALSE // we don't want the CD to start until we get in the item
