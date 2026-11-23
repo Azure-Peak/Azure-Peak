@@ -1711,7 +1711,7 @@
 /obj/effect/decal/cleanable/dirt/cobweb{
 	dir = 8
 	},
-/obj/item/roguecoin/psila/pile,
+/obj/item/roguecoin/ancient/pile,
 /turf/open/water/cleanshallow,
 /area/rogue/indoors/lich_start/lich_lair)
 "wJ" = (
@@ -1736,7 +1736,7 @@
 /obj/effect/decal/cleanable/dirt/cobweb{
 	dir = 1
 	},
-/obj/item/roguecoin/psila/pile,
+/obj/item/roguecoin/ancient/pile,
 /turf/open/water/cleanshallow,
 /area/rogue/indoors/lich_start/lich_lair)
 "xi" = (
@@ -1770,9 +1770,9 @@
 	dir = 4
 	},
 /obj/structure/closet/crate/chest/gold,
-/obj/item/roguecoin/psila/pile,
-/obj/item/roguecoin/psila/pile,
-/obj/item/roguecoin/psila/pile,
+/obj/item/roguecoin/ancient/pile,
+/obj/item/roguecoin/ancient/pile,
+/obj/item/roguecoin/ancient/pile,
 /turf/open/floor/rogue/churchbrick,
 /area/rogue/indoors/lich_start/lich_lair)
 "xO" = (
@@ -1957,9 +1957,9 @@
 /area/rogue/indoors/lich_start/lich_lair)
 "Am" = (
 /obj/structure/closet/crate/chest/gold,
-/obj/item/roguecoin/psila/pile,
-/obj/item/roguecoin/psila/pile,
-/obj/item/roguecoin/psila/pile,
+/obj/item/roguecoin/ancient/pile,
+/obj/item/roguecoin/ancient/pile,
+/obj/item/roguecoin/ancient/pile,
 /turf/open/floor/rogue/churchbrick,
 /area/rogue/indoors/lich_start/lich_lair)
 "An" = (
@@ -2221,7 +2221,7 @@
 /turf/open/floor/rogue/carpet/lord/left,
 /area/rogue/indoors/lich_start/lich_lair)
 "Fo" = (
-/obj/item/roguecoin/psila/pile,
+/obj/item/roguecoin/ancient/pile,
 /turf/open/water/cleanshallow,
 /area/rogue/indoors/lich_start/lich_lair)
 "Fs" = (
@@ -2374,7 +2374,7 @@
 /area/rogue)
 "Iy" = (
 /obj/structure/table/wood/map/three,
-/obj/item/roguecoin/psila/pile,
+/obj/item/roguecoin/ancient/pile,
 /turf/open/floor/rogue/carpet,
 /area/rogue/indoors/lich_start/lich_lair)
 "IB" = (
@@ -2797,7 +2797,7 @@
 	pixel_x = -8;
 	pixel_y = 6
 	},
-/obj/item/roguecoin/psila/pile,
+/obj/item/roguecoin/ancient/pile,
 /turf/open/floor/rogue/carpet/lord/right,
 /area/rogue/indoors/lich_start)
 "PI" = (

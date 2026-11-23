@@ -101,9 +101,9 @@
 				return
 		to_chat(user, span_warning("Wrong key."))
 		return
-	if(istype(P, /obj/item/roguecoin/psila))
+	if(istype(P, /obj/item/roguecoin/ancient))
 		return
-	if(istype(P, /obj/item/roguecoin/inqcoin))
+	if(istype(P, /obj/item/roguecoin/marque))
 		return
 	if(istype(P, /obj/item/roguecoin))
 		record_round_statistic(STATS_MAMMONS_DEPOSITED, P.get_real_price())

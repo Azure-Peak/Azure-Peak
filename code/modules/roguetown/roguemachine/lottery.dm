@@ -35,9 +35,9 @@
 
 	if(src.stopgambling == 1)
 		return
-	if(istype(P, /obj/item/roguecoin/psila))
+	if(istype(P, /obj/item/roguecoin/ancient))
 		return
-	if(istype(P, /obj/item/roguecoin/inqcoin))
+	if(istype(P, /obj/item/roguecoin/marque))
 		return
 	if(istype(P, /obj/item/roguecoin))
 		if(src.gamblingprice + (P.sellprice * P.quantity) > src.maxtithing)

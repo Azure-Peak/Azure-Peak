@@ -691,7 +691,7 @@ GLOBAL_LIST_INIT(ballmer_windows_me_msg, list("Yo man, what if, we like, uh, put
 								span_cultsmall("There is a dark star in the sky. The grassy field turns black. I begin coughing-- I clutch at my chest...")
 							)
 							var/terrible_dreams = TRUE
-							if(istype(src.mouth, /obj/item/roguecoin/psila)) // psila will Show You Things. i talked 2 ambrose about this like 2 months ago.
+							if(istype(src.mouth, /obj/item/roguecoin/ancient)) // psila will Show You Things. i talked 2 ambrose about this like 2 months ago.
 								evil_dreams = list(
 									span_gamedeadsay("My deft hands rattle along a table, odd machinery laid around me. I fetch my scalpel and begin shoving a rat into a box..."),
 									span_gamedeadsay("I stand over sketches of a chair, swiftly inspeckting vial after vial of a queer green fluid. It's still not ready. Not just yet."),
