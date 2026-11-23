@@ -670,7 +670,7 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_GRAVEROBBER = span_info("My experience with 'post-mortem artifact recovery' has allowed me to resist Necra's curse placed upon those who disturb resting places."),
 	TRAIT_PURITAN = span_info("I am an emissary of the Holy Otavan Inquisition, and the one who shepherds the local sect. With a silver psycross, I can force restrained heathens to kneel before a crucifix and proclaim their true allegiance."),
 	TRAIT_PURITAN_ADVENTURER = span_info("With a silver psycross, I can force the restrained to kneel before a crucifix and proclaim their true allegiance."),
-	TRAIT_HEARTFELT = span_info("I serve the interests of the Lord of Heartfelt."),
+	TRAIT_HEARTFELT = span_info("I serve the interests of the Count of Heartfelt."),
 	TRAIT_MIRROR_MAGIC = span_info("Mirror, mirror on the wall, who's the fairest of them all?"),
 	TRAIT_JUSTICARSIGHT = span_info("I am able to remember someone's crimes by looking at them, and how much their bounty is."),
 	TRAIT_CICERONE = span_info("I am well-versed in the differences of brews and spirits, and can tell them apart at a glance."),

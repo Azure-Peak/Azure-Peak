@@ -1,6 +1,6 @@
-/datum/migrant_role/heartfelt/lord
-	name = "Lord of Heartfelt"
-	advclass_cat_rolls = list(CTAG_HFT_LORD = 20)
+/datum/migrant_role/heartfelt/count
+	name = "Count of Heartfelt"
+	advclass_cat_rolls = list(CTAG_HFT_COUNT = 20)
 	forbidden_races = list(RACES_CONSTRUCT RACES_DESPISED)
 	show_wanderer_examine = FALSE
 

@@ -1,8 +1,7 @@
 /datum/advclass/heartfelt/retinue/servant
 	name = "Heartfelt Servant"
-	tutorial = "You are Servant of Heartfelt, a Servant of the prosperous borderlands. \
-	However, with the increase in banditry, necromancy, deadite risings, and increasing sea raider raids, there are rumors abound that Heartfelt is not what it used to be. \
-	Travellers often warn of Heartfelt having fallen already, and words of secretive cultists isn't unheard of."
+	tutorial = "You are a Servant of Heartfelt, a Servant of the prosperous borderlands. \
+	Certain circumstances have compelled your Lord to visit the capital. Whether to request more aid for the borderlands against Aavnic raids, reconstruction, canal funding, or perhaps intrigue or a plot to finally seize the throne of Azuria, you have arrived here as part of their entourage."
 	allowed_sexes = list(MALE, FEMALE)
 	forbidden_races = list(RACES_DESPISED)
 	outfit = /datum/outfit/job/roguetown/heartfelt/retinue/servant

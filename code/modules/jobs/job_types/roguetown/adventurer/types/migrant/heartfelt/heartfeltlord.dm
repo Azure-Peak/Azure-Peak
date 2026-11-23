@@ -1,9 +1,8 @@
 
-/datum/job/roguetown/heartfelt/lord
-	title = "Lord of Heartfelt"
-	tutorial = "You are the Lord of Heartfelt, ruler of a prosperous borderlands now in Azuria. \
-	However, with the increase in banditry, necromancy, deadite risings, and increasing sea raider raids, there are rumors abound that Heartfelt is not what it used to be. \
-	Travellers often warn of Heartfelt having fallen already, and words of secretive cultists isn't unheard of."
+/datum/job/roguetown/heartfelt/count
+	title = "Count of Heartfelt"
+	tutorial = "You are the Count of Heartfelt, the ruler of the County. \
+	Certain circumstances have compelled you to visit the capital. Whether to request more aid for the borderlands against Aavnic raids, reconstruction, canal funding, or perhaps intrigue or a plot to finally seize the throne of Azuria, you have arrived here with part of your entourage."
 	allowed_sexes = list(MALE, FEMALE)
 	forbidden_races = list(RACES_CONSTRUCT RACES_DESPISED)
 	outfit = null
@@ -11,22 +10,21 @@
 	spawn_positions = 0
 	job_traits = list(TRAIT_NOBLE, TRAIT_HEAVYARMOR, TRAIT_HEARTFELT)
 	noble_income = 50
-	advclass_cat_rolls = list(CTAG_HFT_LORD)
+	advclass_cat_rolls = list(CTAG_HFT_COUNT)
 	job_subclasses = list(
-		/datum/advclass/heartfelt/lord/lord,
-		/datum/advclass/heartfelt/lord/archmage,
+		/datum/advclass/heartfelt/count/count,
+		/datum/advclass/heartfelt/count/archmage,
 		)
 
 // DEFAULT - STANDARD OLD CLASS
 
-/datum/advclass/heartfelt/lord/lord
-	name = "Lord of Heartfelt"
-	tutorial = "You are the Lord of Heartfelt, ruler of a prosperous borderlands now in Azuria. \
-	However, with the increase in banditry, necromancy, deadite risings, and increasing sea raider raids, there are rumors abound that Heartfelt is not what it used to be. \
-	Travellers often warn of Heartfelt having fallen already, and words of secretive cultists isn't unheard of."
-	category_tags = list(CTAG_HFT_LORD)
+/datum/advclass/heartfelt/count/count
+	name = "Count of Heartfelt"
+	tutorial = "You are the Count of Heartfelt, the ruler of the County. \
+	Certain circumstances have compelled you to visit the capital. Whether to request more aid for the borderlands against Aavnic raids, reconstruction, canal funding, or perhaps intrigue or a plot to finally seize the throne of Azuria, you have arrived here with part of your entourage."
+	category_tags = list(CTAG_HFT_COUNT)
 	maximum_possible_slots = 1
-	outfit = /datum/outfit/job/heartfelt/lord/lord
+	outfit = /datum/outfit/job/heartfelt/count/count
 	pickprob = 100
 	class_select_category = CLASS_CAT_HFT_COURT
 	traits_applied = list(TRAIT_NOBLE, TRAIT_HEAVYARMOR, TRAIT_HEARTFELT)
@@ -60,7 +58,7 @@
 		/datum/skill/misc/riding = SKILL_LEVEL_JOURNEYMAN,
 	)
 
-/datum/outfit/job/heartfelt/lord/lord/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/heartfelt/count/count/pre_equip(mob/living/carbon/human/H)
 	..()
 	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt
 	belt = /obj/item/storage/belt/rogue/leather/black
@@ -90,14 +88,13 @@
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/order/heartfelt/forheartfelt)
 		add_verb(H, list(/mob/living/carbon/human/mind/proc/setordersheartfelt))
 
-/datum/advclass/heartfelt/lord/archmage
+/datum/advclass/heartfelt/count/archmage
 	name = "Archmagos of Heartfelt"
-	tutorial = "You are the Archmagos of Heartfelt, ruler of a acryne-borderlands in Azuria. \
-	However, with the increase in banditry, necromancy, deadite risings, and increasing sea raider raids, there are rumors abound that Heartfelt is not what it used to be. \
-	Travellers often warn of Heartfelt having fallen already, and words of secretive cultists isn't unheard of."
-	category_tags = list(CTAG_HFT_LORD)
+	tutorial = "You are the Archmagos of Heartfelt, the ruler of the County, elected despite the peers' preference for a ruler who embodies the traditional martial mastery and chivalry of Heartfelt. \
+	Certain circumstances have compelled you to visit the capital. Whether to request more aid for the borderlands against Aavnic raids, reconstruction, canal funding, or perhaps intrigue or a plot to finally seize the throne of Azuria, you have arrived here with part of your entourage."
+	category_tags = list(CTAG_HFT_COUNT)
 	maximum_possible_slots = 1
-	outfit = /datum/outfit/job/heartfelt/lord/archmage
+	outfit = /datum/outfit/job/heartfelt/count/archmage
 	pickprob = 100
 	class_select_category = CLASS_CAT_HFT_COURT
 	traits_applied = list(TRAIT_NOBLE, TRAIT_ARCYNE, TRAIT_INTELLECTUAL, TRAIT_HEARTFELT, TRAIT_ALCHEMY_EXPERT)
@@ -132,7 +129,7 @@
 		/datum/skill/misc/riding = SKILL_LEVEL_JOURNEYMAN,
 	)
 
-/datum/outfit/job/heartfelt/lord/archmage/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/heartfelt/count/archmage/pre_equip(mob/living/carbon/human/H)
 	..()
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy
 	belt = /obj/item/storage/belt/rogue/leather/black
@@ -170,7 +167,7 @@
 			H.mind.check_learnspell()
 
 
-// Spells + Orders (Orders are ONLY For HFT Lord job and the Hand Marshal Subclass)
+// Spells + Orders (Orders are ONLY For HFT Count job and the Hand Marshal Subclass)
 
 /obj/effect/proc_holder/spell/self/convertrole/heartfelt
 	name = "Recruit Retinue"
