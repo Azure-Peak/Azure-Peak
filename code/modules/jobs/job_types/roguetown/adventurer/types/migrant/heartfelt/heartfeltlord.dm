@@ -256,10 +256,10 @@
 			r_hand = /obj/item/rogueweapon/mace/goden/steel
 		if("Battle Axe + Shield")
 			r_hand = /obj/item/rogueweapon/stoneaxe/battle
-			l_hand = /obj/item/rogueweapon/shield/tower/metal
+			l_hand = /obj/item/rogueweapon/shield/kite
 		if("Warhammer + Shield")
 			r_hand = /obj/item/rogueweapon/mace/warhammer
-			l_hand = /obj/item/rogueweapon/shield/tower/metal
+			l_hand = /obj/item/rogueweapon/shield/kite
 		else //In case they DC or don't choose close the panel, etc
 			r_hand = /obj/item/rogueweapon/greataxe/steel/doublehead
 

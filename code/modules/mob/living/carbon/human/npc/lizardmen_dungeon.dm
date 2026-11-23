@@ -118,14 +118,14 @@ GLOBAL_LIST_INIT(psyvault_aggro, world.file2list("strings/rt/psyvaultaggrolines.
 	switch(add_random_psy_vault_guard_weapon)
 		if(1)
 			r_hand = /obj/item/rogueweapon/sword/short/messer
-			l_hand = /obj/item/rogueweapon/shield/tower/metal
+			l_hand = /obj/item/rogueweapon/shield/kite
 		if(2)
 			r_hand = /obj/item/rogueweapon/sword/long/kriegmesser
 		if(3)
 			r_hand = /obj/item/rogueweapon/eaglebeak
 		if(4)
 			r_hand = /obj/item/rogueweapon/mace/warhammer/steel
-			l_hand = /obj/item/rogueweapon/shield/tower/metal
+			l_hand = /obj/item/rogueweapon/shield/kite
 		if(5)
 			r_hand = /obj/item/rogueweapon/greatsword/grenz/flamberge
 		if(6)

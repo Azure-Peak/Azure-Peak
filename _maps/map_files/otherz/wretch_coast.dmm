@@ -368,7 +368,7 @@
 /turf/open/floor/carpet/red,
 /area/rogue/under/cave/inhumen)
 "bu" = (
-/obj/item/roguecoin/ancient/pile,
+/obj/item/roguecoin/psila/pile,
 /obj/structure/ritualcircle/matthios,
 /turf/open/floor/rogue/cobble,
 /area/rogue/under/cave/inhumen)
@@ -389,7 +389,7 @@
 /obj/effect/decal/cobbleedge{
 	icon_state = "cobbleedge-sread"
 	},
-/obj/item/roguecoin/ancient/pile,
+/obj/item/roguecoin/psila/pile,
 /turf/open/floor/rogue/cobble/mossy,
 /area/rogue/under/cave/inhumen)
 "by" = (
@@ -1251,7 +1251,7 @@
 /area/rogue/under/cave/inhumen)
 "fn" = (
 /obj/structure/table/church,
-/obj/item/rogueweapon/huntingknife/idagger/adagger,
+/obj/item/rogueweapon/huntingknife/idagger/ancient/decrepit,
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/under/cave/inhumen)
 "fo" = (
@@ -1487,7 +1487,7 @@
 /area/rogue/outdoors/woods/wretch_lair)
 "gf" = (
 /obj/effect/decal/cleanable/roguerune/god/psydon,
-/obj/item/clothing/neck/roguetown/psicross/decrepit,
+/obj/item/clothing/neck/roguetown/psicross/ancient/decrepit,
 /turf/open/floor/rogue/cobblerock,
 /area/rogue/outdoors/woods/wretch_lair)
 "gg" = (
@@ -1819,7 +1819,7 @@
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/under/cave/inhumen)
 "hF" = (
-/obj/item/fishingrod/decrepit,
+/obj/item/fishingrod/ancient,
 /turf/open/floor/rogue/AzureSand,
 /area/rogue/outdoors/woods/wretch_lair)
 "hG" = (
@@ -2148,7 +2148,7 @@
 /area/rogue/indoors/banditcamp)
 "jj" = (
 /obj/structure/table/vtable,
-/obj/item/roguecoin/ancient/pile,
+/obj/item/roguecoin/psila/pile,
 /obj/structure/mirror/fancy,
 /turf/open/floor/rogue/churchbrick,
 /area/rogue/indoors/vampire_manor)
@@ -3278,7 +3278,7 @@
 /turf/open/water/river/flow,
 /area/rogue/outdoors/woods)
 "nI" = (
-/obj/item/fishingrod/decrepit,
+/obj/item/fishingrod/ancient,
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/outdoors/woods/vampire_lair)
 "nJ" = (
@@ -6108,7 +6108,7 @@
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/indoors/vampire_manor)
 "zm" = (
-/obj/item/rogueweapon/stoneaxe/woodcut/aaxe,
+/obj/item/rogueweapon/stoneaxe/woodcut/ancient/decrepit,
 /turf/open/floor/rogue/grass,
 /area/rogue/outdoors/woods/vampire_lair)
 "zn" = (
@@ -7229,7 +7229,7 @@
 /obj/item/reagent_containers/glass/cup/silver/pewter{
 	pixel_x = -11
 	},
-/obj/item/roguecoin/ancient/pile,
+/obj/item/roguecoin/psila/pile,
 /turf/open/floor/rogue/twig,
 /area/rogue/under/cave/inhumen)
 "DE" = (
@@ -7734,7 +7734,7 @@
 /turf/open/water/ocean,
 /area/rogue/outdoors/woods/wretch_lair)
 "FZ" = (
-/obj/item/roguecoin/ancient/pile,
+/obj/item/roguecoin/psila/pile,
 /obj/structure/closet/crate/chest/neu_iron,
 /obj/item/clothing/neck/roguetown/psicross/noc/ancient/decrepit,
 /obj/item/rogueweapon/thresher/decrepit,
@@ -8615,7 +8615,7 @@
 /turf/closed/wall/mineral/rogue/decostone,
 /area/rogue/under/cave/inhumen)
 "JN" = (
-/obj/item/roguecoin/ancient/pile,
+/obj/item/roguecoin/psila/pile,
 /turf/open/floor/rogue/cobble,
 /area/rogue/under/cave/inhumen)
 "JO" = (
@@ -8751,7 +8751,7 @@
 /area/rogue/under/cave/inhumen)
 "Kg" = (
 /obj/machinery/light/rogue/candle/r,
-/obj/item/roguecoin/ancient/pile,
+/obj/item/roguecoin/psila/pile,
 /obj/structure/ritualcircle/matthios,
 /turf/open/floor/rogue/cobble/mossy,
 /area/rogue/under/cave/inhumen)
@@ -9411,7 +9411,7 @@
 /area/rogue/outdoors/woods/vampire_lair)
 "MG" = (
 /obj/structure/closet/crate/chest/neu_iron,
-/obj/item/roguecoin/ancient/pile,
+/obj/item/roguecoin/psila/pile,
 /obj/item/clothing/neck/roguetown/psicross/ancient/decrepit,
 /obj/item/rogueweapon/sickle/decrepit,
 /turf/open/floor/rogue/AzureSand,
@@ -9770,7 +9770,7 @@
 "Oi" = (
 /obj/machinery/light/rogue/candle/l,
 /obj/structure/ritualcircle/matthios,
-/obj/item/roguecoin/ancient/pile,
+/obj/item/roguecoin/psila/pile,
 /obj/effect/decal/cobbleedge{
 	dir = 9
 	},
@@ -9983,7 +9983,7 @@
 /turf/closed/wall/mineral/rogue/decostone/mossy/cand,
 /area/rogue/under/cave/inhumen)
 "Pb" = (
-/obj/item/roguecoin/ancient/pile,
+/obj/item/roguecoin/psila/pile,
 /obj/structure/closet/crate/chest/neu_iron,
 /obj/item/clothing/neck/roguetown/psicross/noc/ancient/decrepit,
 /obj/item/roguestatue/decrepit,
@@ -11546,7 +11546,7 @@
 /turf/open/floor/rogue/blocks,
 /area/rogue/outdoors/woods/vampire_lair)
 "Wn" = (
-/obj/item/fishingrod/decrepit,
+/obj/item/fishingrod/ancient,
 /turf/open/floor/rogue/grass,
 /area/rogue/outdoors/woods/vampire_lair)
 "Wp" = (
@@ -12047,7 +12047,7 @@
 /area/rogue/under/cave/inhumen)
 "Yf" = (
 /obj/structure/table/vtable/v2,
-/obj/item/roguecoin/ancient/pile,
+/obj/item/roguecoin/psila/pile,
 /obj/effect/decal/cleanable/dirt/cobweb{
 	icon_state = "cobweb2"
 	},

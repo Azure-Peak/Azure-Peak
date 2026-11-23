@@ -60,27 +60,27 @@
 			if("Longsword")
 				H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_EXPERT, TRUE)
 				r_hand = /obj/item/rogueweapon/sword/long
-				l_hand = /obj/item/rogueweapon/shield/tower/metal
+				l_hand = /obj/item/rogueweapon/shield/kite
 				beltr = /obj/item/rogueweapon/scabbard/sword
 			if("Arming Sword")
 				H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_EXPERT, TRUE)
 				r_hand = /obj/item/rogueweapon/sword
-				l_hand = /obj/item/rogueweapon/shield/tower/metal
+				l_hand = /obj/item/rogueweapon/shield/kite
 				beltr = /obj/item/rogueweapon/scabbard/sword
 			if("Axe")
 				H.adjust_skillrank_up_to(/datum/skill/combat/axes, SKILL_LEVEL_EXPERT, TRUE)
 				beltr = /obj/item/rogueweapon/stoneaxe/woodcut/steel
 			if("Battle Axe")
 				H.adjust_skillrank_up_to(/datum/skill/combat/axes, SKILL_LEVEL_EXPERT, TRUE)
-				l_hand = /obj/item/rogueweapon/shield/tower/metal
+				l_hand = /obj/item/rogueweapon/shield/kite
 				beltr = /obj/item/rogueweapon/stoneaxe/battle
 			if("Warhammer")
 				H.adjust_skillrank_up_to(/datum/skill/combat/maces, SKILL_LEVEL_EXPERT, TRUE)
-				l_hand = /obj/item/rogueweapon/shield/tower/metal
+				l_hand = /obj/item/rogueweapon/shield/kite
 				beltr = /obj/item/rogueweapon/mace/warhammer/steel
 			if("Flail")
 				H.adjust_skillrank_up_to(/datum/skill/combat/whipsflails, SKILL_LEVEL_EXPERT, TRUE)
-				l_hand = /obj/item/rogueweapon/shield/tower/metal
+				l_hand = /obj/item/rogueweapon/shield/kite
 				beltr = /obj/item/rogueweapon/flail/sflail
 			if("Avantyne Longsword")
 				H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_EXPERT, TRUE)

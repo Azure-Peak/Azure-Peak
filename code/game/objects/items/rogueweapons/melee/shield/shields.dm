@@ -492,7 +492,7 @@
 	icon_state = "ancientsh"
 	smeltresult = /obj/item/ingot/aaslag
 
-// Kite shields.
+// Kite Shields.
 /obj/item/rogueweapon/shield/kite
 	name = "kite shield"
 	desc = "A kite-shaped steel shield. Reliable and sturdy."

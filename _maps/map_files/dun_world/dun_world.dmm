@@ -4019,7 +4019,7 @@
 /obj/item/natural/bundle/bone/full,
 /obj/item/natural/bundle/bone/full,
 /obj/effect/spawner/lootdrop/general_loot_low,
-/obj/item/roguecoin/ancient/pile,
+/obj/item/roguecoin/psila/pile,
 /turf/open/floor/rogue/cobble/mossy,
 /area/rogue/under/cave/his_vault/four)
 "aKQ" = (
@@ -5786,7 +5786,7 @@
 	pixel_x = -3;
 	pixel_y = 11
 	},
-/obj/item/roguecoin/ancient/pile,
+/obj/item/roguecoin/psila/pile,
 /turf/open/floor/rogue/cobble/mossy,
 /area/rogue/under/cave/his_vault)
 "aZW" = (
@@ -10437,7 +10437,7 @@
 	pixel_x = 8;
 	pixel_y = 7
 	},
-/obj/item/rogueweapon/huntingknife/idagger/adagger{
+/obj/item/rogueweapon/huntingknife/idagger/ancient/decrepit{
 	pixel_x = 8;
 	pixel_y = -3
 	},
@@ -14417,7 +14417,7 @@
 /area/rogue/under/cave)
 "cxy" = (
 /obj/structure/chair/stool/rogue,
-/obj/item/fishingrod/decrepit,
+/obj/item/fishingrod/ancient,
 /turf/open/floor/rogue/cobble,
 /area/rogue/outdoors/mountains/decap/stepbelow)
 "cxz" = (
@@ -18408,7 +18408,7 @@
 /turf/open/floor/rogue/snow,
 /area/rogue/outdoors/beach/forest/south)
 "diw" = (
-/obj/item/rogueweapon/stoneaxe/woodcut/steel/paaxe{
+/obj/item/rogueweapon/stoneaxe/woodcut/ancient{
 	pixel_x = 1;
 	pixel_y = -8
 	},
@@ -21310,7 +21310,7 @@
 "dHc" = (
 /obj/structure/fluff/railing/border,
 /obj/structure/table/finestone,
-/obj/item/roguecoin/ancient/pile,
+/obj/item/roguecoin/psila/pile,
 /turf/open/floor/rogue/hexstone,
 /area/rogue/indoors/town/zhurch)
 "dHd" = (
@@ -29744,7 +29744,7 @@
 /obj/item/natural/bundle/bone/full,
 /obj/item/natural/bundle/bone/full,
 /obj/effect/spawner/lootdrop/general_loot_low,
-/obj/item/roguecoin/ancient/pile,
+/obj/item/roguecoin/psila/pile,
 /turf/open/floor/rogue/cobble/mossy,
 /area/rogue/under/cave/his_vault/four)
 "fbK" = (
@@ -32114,8 +32114,8 @@
 	icon_state = "cobbleedge-w"
 	},
 /obj/structure/table/wood/large_table/south_east,
-/obj/item/roguecoin/ancient/pile,
-/obj/item/roguecoin/ancient,
+/obj/item/roguecoin/psila/pile,
+/obj/item/roguecoin/psila,
 /turf/open/floor/rogue/cobble/mossy,
 /area/rogue/under/cave/his_vault)
 "fuG" = (
@@ -33111,7 +33111,7 @@
 /area/rogue/indoors/shelter)
 "fDP" = (
 /obj/structure/fluff/railing/border/north,
-/obj/item/roguecoin/ancient/pile,
+/obj/item/roguecoin/psila/pile,
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/outdoors/mountains/decap)
 "fDU" = (
@@ -35031,7 +35031,7 @@
 /area/rogue/indoors/town/tavern)
 "fUM" = (
 /obj/structure/table/wood/large_table/north_east,
-/obj/item/roguecoin/ancient/pile,
+/obj/item/roguecoin/psila/pile,
 /turf/open/floor/rogue/cobble,
 /area/rogue/under/cave/his_vault)
 "fUO" = (
@@ -37657,7 +37657,7 @@
 	pixel_y = 32
 	},
 /obj/structure/rack/rogue,
-/obj/item/rogueweapon/shield/tower/metal,
+/obj/item/rogueweapon/shield/kite,
 /turf/open/floor/rogue/tile,
 /area/rogue/under/town/basement/keep)
 "gti" = (
@@ -37987,7 +37987,7 @@
 /turf/closed/wall/mineral/rogue/pipe,
 /area/rogue/outdoors/mountains/decap/stepbelow)
 "gvF" = (
-/obj/item/rogueweapon/shield/tower/metal/gold{
+/obj/item/rogueweapon/shield/kite/gold{
 	pixel_x = 5;
 	pixel_y = 4
 	},
@@ -56912,9 +56912,9 @@
 /area/rogue/under/town/sewer)
 "jGC" = (
 /obj/structure/table/wood/poor/alt,
-/obj/item/roguecoin/ancient/pile,
+/obj/item/roguecoin/psila/pile,
 /obj/item/rogueweapon/sword/long/broadsword/silver/psy/forgotten,
-/obj/item/roguecoin/ancient/pile,
+/obj/item/roguecoin/psila/pile,
 /turf/open/floor/rogue/cobble,
 /area/rogue/under/cave/his_vault)
 "jGF" = (
@@ -62043,7 +62043,7 @@
 /obj/item/natural/bundle/bone/full,
 /obj/item/natural/bundle/bone/full,
 /obj/effect/spawner/lootdrop/general_loot_low,
-/obj/item/roguecoin/ancient/pile,
+/obj/item/roguecoin/psila/pile,
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/under/cave/his_vault/four)
 "kzJ" = (
@@ -73377,8 +73377,8 @@
 	icon_state = "cobbleedge-w"
 	},
 /obj/structure/table/wood/large_table/north_east,
-/obj/item/roguecoin/ancient/pile,
-/obj/item/roguecoin/ancient/pile,
+/obj/item/roguecoin/psila/pile,
+/obj/item/roguecoin/psila/pile,
 /turf/open/floor/rogue/cobble/mossy,
 /area/rogue/under/cave/his_vault)
 "mqo" = (
@@ -80334,7 +80334,7 @@
 /area/rogue/under/underdark/north)
 "nDc" = (
 /obj/structure/table/wood/large_table/south_west,
-/obj/item/roguecoin/ancient/pile/rich,
+/obj/item/roguecoin/psila/pile/rich,
 /turf/open/floor/rogue/blocks,
 /area/rogue/under/cave/menageriedungeon)
 "nDe" = (
@@ -84987,7 +84987,7 @@
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/outdoors/mountains)
 "orD" = (
-/obj/item/roguecoin/ancient,
+/obj/item/roguecoin/psila,
 /turf/open/water/pond,
 /area/rogue/under/cave/his_vault)
 "orF" = (
@@ -85127,7 +85127,7 @@
 	},
 /obj/structure/spider/stickyweb/mirespider,
 /obj/structure/table/church/m,
-/obj/item/roguecoin/ancient/pile,
+/obj/item/roguecoin/psila/pile,
 /turf/open/floor/rogue/cobble/mossy,
 /area/rogue/under/cave/his_vault)
 "osI" = (
@@ -91361,7 +91361,7 @@
 "prW" = (
 /obj/structure/table/church/end,
 /obj/item/roguecoin/gold/pile,
-/obj/item/rogueweapon/shield/tower/metal/gold,
+/obj/item/rogueweapon/shield/kite/gold,
 /obj/item/flashlight/flare/torch/lantern/voidlamptern,
 /turf/open/floor/rogue/underworld/road,
 /area/rogue/under/cave/menageriedeep)
@@ -102905,8 +102905,8 @@
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/outdoors/woods/north)
 "roT" = (
-/obj/item/roguecoin/ancient,
-/obj/item/roguecoin/ancient,
+/obj/item/roguecoin/psila,
+/obj/item/roguecoin/psila,
 /turf/open/water/pond,
 /area/rogue/under/cave/his_vault)
 "roX" = (
@@ -105491,7 +105491,7 @@
 /area/rogue/indoors/town/church/chapel)
 "rKE" = (
 /obj/structure/table/wood/long_table,
-/obj/item/roguecoin/ancient/pile,
+/obj/item/roguecoin/psila/pile,
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town/magician)
 "rKF" = (
@@ -117787,7 +117787,7 @@
 /obj/item/natural/bundle/bone/full,
 /obj/item/natural/bundle/bone/full,
 /obj/effect/spawner/lootdrop/general_loot_low,
-/obj/item/roguecoin/ancient,
+/obj/item/roguecoin/psila,
 /turf/open/floor/rogue/cobble,
 /area/rogue/under/cave/his_vault/four)
 "tKk" = (
@@ -124566,8 +124566,8 @@
 /obj/item/reagent_containers/glass/bowl/silver{
 	pixel_y = 9
 	},
-/obj/item/roguecoin/ancient/pile,
-/obj/item/roguecoin/ancient/pile,
+/obj/item/roguecoin/psila/pile,
+/obj/item/roguecoin/psila/pile,
 /turf/open/floor/rogue/cobble/mossy,
 /area/rogue/under/cave/his_vault)
 "uRQ" = (
@@ -135323,9 +135323,9 @@
 	icon_state = "cobbleedge-n"
 	},
 /obj/structure/table/church/end,
-/obj/item/roguecoin/ancient/pile,
-/obj/item/roguecoin/ancient/pile,
-/obj/item/roguecoin/ancient/pile,
+/obj/item/roguecoin/psila/pile,
+/obj/item/roguecoin/psila/pile,
+/obj/item/roguecoin/psila/pile,
 /turf/open/floor/rogue/cobblerock,
 /area/rogue/under/cave/his_vault)
 "wIx" = (
@@ -136341,7 +136341,7 @@
 /area/rogue/indoors/shelter/mountains/decap)
 "wQM" = (
 /obj/structure/table/wood/large_table/middle_east,
-/obj/item/roguecoin/ancient/pile/rich,
+/obj/item/roguecoin/psila/pile/rich,
 /turf/open/floor/rogue/blocks,
 /area/rogue/under/cave/menageriedungeon)
 "wQN" = (
@@ -138116,7 +138116,7 @@
 	dir = 10;
 	icon_state = "cobbleedge-w"
 	},
-/obj/item/roguecoin/ancient/pile,
+/obj/item/roguecoin/psila/pile,
 /turf/open/floor/rogue/twig,
 /area/rogue/indoors)
 "xgl" = (

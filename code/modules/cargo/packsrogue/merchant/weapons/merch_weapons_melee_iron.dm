@@ -149,4 +149,4 @@
 
 /datum/supply_pack/rogue/iron_weapons/tower
 	name = "Shield, Kite"
-	contains = list(/obj/item/rogueweapon/shield/tower/metal)
+	contains = list(/obj/item/rogueweapon/shield/kite)

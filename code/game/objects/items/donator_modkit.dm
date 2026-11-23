@@ -522,8 +522,8 @@
 /obj/item/enchantingkit/donator_universal_shield
 	name = "'Elegant Kite Shield' morphing elixir"
 	desc = "A small container of special morphing dust, perfect to make a specific item. It can be used to alter the appearance of a Kite Shield."
-	target_items = list(/obj/item/rogueweapon/shield/tower/metal)
-	result_item = /obj/item/rogueweapon/shield/tower/metal/donator_elegant
+	target_items = list(/obj/item/rogueweapon/shield/kite)
+	result_item = /obj/item/rogueweapon/shield/kite/donator_elegant
 
 /obj/item/enchantingkit/weapon/donator_universal_grenzshortsword
 	name = "'Katzbalger Shortsword' morphing elixir"
@@ -853,7 +853,7 @@
 /obj/item/enchantingkit/weapon/drd_shield
 	name = "'House Woerden shield' morphing elixir"
 	target_items = list(
-		/obj/item/rogueweapon/shield/tower/metal
+		/obj/item/rogueweapon/shield/kite
 	)
 	result_item = /obj/item/rogueweapon/drd/shield
 
@@ -886,7 +886,7 @@
 /obj/item/enchantingkit/weapon/maesune_shield
 	name = "'Fy Annwyl' morphing elixir"
 	target_items = list(
-		/obj/item/rogueweapon/shield/tower/metal
+		/obj/item/rogueweapon/shield/kite
 	)
 	result_item = /obj/item/rogueweapon/maesune/shield
 
@@ -1771,7 +1771,7 @@
 	desc = "A small container of special morphing dust, perfect to make a specific item. It can be used to alter the appearance of a Metal Tower Shield, a Wooden Tower Shield, a Heater Shield, \
 	an Iron Shield, a Buckler Shield, a Hoplon Shield, or a Hoplon Greatshield."
 	target_items = list(
-		/obj/item/rogueweapon/shield/tower/metal,
+		/obj/item/rogueweapon/shield/kite,
 		/obj/item/rogueweapon/shield/tower,
 		/obj/item/rogueweapon/shield/heater,
 		/obj/item/rogueweapon/shield/iron,

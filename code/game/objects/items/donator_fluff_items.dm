@@ -1579,7 +1579,7 @@
 	icon = 'icons/obj/items/donor_weapons_64.dmi'
 	bigboy = TRUE
 
-/obj/item/rogueweapon/shield/tower/metal/donator_elegant
+/obj/item/rogueweapon/shield/kite/donator_elegant
 	name = "elegant kite shield"
 	desc = "An elegant kite shield for an elegant wielder."
 	icon_state = "donatorsh"

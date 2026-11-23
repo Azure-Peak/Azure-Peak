@@ -617,8 +617,8 @@
 	dir = 10;
 	icon_state = "tablewood2"
 	},
-/obj/item/rogueweapon/shield/tower/metal,
-/obj/item/rogueweapon/shield/tower/metal,
+/obj/item/rogueweapon/shield/kite,
+/obj/item/rogueweapon/shield/kite,
 /turf/open/floor/rogue/cobble,
 /area/rogue)
 "bs" = (
