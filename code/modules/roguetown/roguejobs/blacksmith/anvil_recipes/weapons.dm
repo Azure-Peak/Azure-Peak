@@ -973,7 +973,7 @@
 	name = "Flail, Steel"
 	category = "Steel"
 	req_bar = /obj/item/ingot/steel
-	created_item = /obj/item/rogueweapon/flail/sflail
+	created_item = /obj/item/rogueweapon/flail/steel
 	display_category = ITEM_CAT_WEAPONS_FLAILS
 
 /datum/anvil_recipe/weapons/steel/longsword

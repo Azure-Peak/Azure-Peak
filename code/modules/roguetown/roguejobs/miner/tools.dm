@@ -112,7 +112,6 @@
 	gripped_intents = list(/datum/intent/pick)
 	max_integrity = 550
 	smeltresult = /obj/item/ingot/aaslag
-	sellprice = 15
 
 /obj/item/rogueweapon/pick/copper
 	name = "copper pick"
