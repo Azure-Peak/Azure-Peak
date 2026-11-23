@@ -4,7 +4,7 @@
 	tutorial = "You are the Priest of Heartfelt, destined for ascension within the Church. \
 	Still guided by the blessings of Astrata, you journey to the Peak, determined to offer what aid and solace you can."
 	allowed_sexes = list(MALE, FEMALE)
-	forbidden_races = list(RACES_CONSTRUCT RACES_DESPISED)
+	forbidden_races = list(RACES_CONSTRUCT RACES_DESPISED RACES_HEARTFELT)
 	outfit = /datum/outfit/job/roguetown/heartfelt/prior
 	maximum_possible_slots = 1
 	pickprob = 100

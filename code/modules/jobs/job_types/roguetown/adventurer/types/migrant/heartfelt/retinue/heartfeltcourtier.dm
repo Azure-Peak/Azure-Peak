@@ -4,7 +4,7 @@
 	tutorial = "You are a Courtier of Heartfelt, a respected noblewoman looking to impress your lover. \
 	Certain circumstances have compelled your Lord to visit the capital. Whether to request more aid for the borderlands against Aavnic raids, reconstruction, canal funding, or perhaps intrigue or a plot to finally seize the throne of Azuria, you have arrived here as part of their entourage."
 	allowed_sexes = list(FEMALE)
-	forbidden_races = list(RACES_CONSTRUCT RACES_DESPISED)
+	forbidden_races = list(RACES_CONSTRUCT RACES_DESPISED RACES_HEARTFELT)
 	outfit = /datum/outfit/job/roguetown/heartfelt/retinue/courtier
 	maximum_possible_slots = 1
 	pickprob = 100

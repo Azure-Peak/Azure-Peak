@@ -182,6 +182,12 @@ Balloon Alert / Floating Text defines
 	/datum/species/construct/metal,\
 	/datum/species/ooze,\
 
+// No goblinoid, orc or kobold
+#define RACES_HEARTFELT \
+	/datum/species/halforc,\
+	/datum/species/goblinp,\
+	/datum/species/kobold,\
+
 // All but dwarves.
 #define RACES_GRUDGE \
 	/datum/species/human/northern,\

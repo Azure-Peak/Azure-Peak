@@ -4,7 +4,7 @@
 	tutorial = "You are the Count of Heartfelt, the ruler of the County. \
 	Certain circumstances have compelled you to visit the capital. Whether to request more aid for the borderlands against Aavnic raids, reconstruction, canal funding, or perhaps intrigue or a plot to finally seize the throne of Azuria, you have arrived here with part of your entourage."
 	allowed_sexes = list(MALE, FEMALE)
-	forbidden_races = list(RACES_CONSTRUCT RACES_DESPISED)
+	forbidden_races = list(RACES_CONSTRUCT RACES_DESPISED RACES_HEARTFELT)
 	outfit = null
 	total_positions = 1
 	spawn_positions = 0
@@ -181,6 +181,9 @@
 /obj/effect/proc_holder/spell/self/convertrole/heartfelt/convert(mob/living/carbon/human/recruit, mob/living/carbon/human/recruiter)
 	if(HAS_TRAIT(recruit, TRAIT_HEARTFELT))
 		to_chat(recruiter, span_warning("They're already part of our cause!"))
+		return FALSE
+	if(recruit.dna?.species?.type in list(RACES_HEARTFELT))
+		to_chat(recruiter, span_warning("Heartfelt won't take their kind into its service!"))
 		return FALSE
 	if(HAS_TRAIT(recruit, TRAIT_GUARDSMAN))
 		to_chat(recruiter, span_warning("They're already part of the Peak's guard! They can't join our cause!"))

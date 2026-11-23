@@ -3,7 +3,7 @@
 	name = "Heartfelt Jester"
 	tutorial = "You are the Jester of Heartfelt."
 	allowed_sexes = list(MALE, FEMALE)
-	forbidden_races = list(RACES_CONSTRUCT RACES_DESPISED)
+	forbidden_races = list(RACES_CONSTRUCT RACES_DESPISED RACES_HEARTFELT)
 	outfit = /datum/outfit/job/roguetown/heartfelt/retinue/jester
 	maximum_possible_slots = 1
 	pickprob = 100
