@@ -474,6 +474,25 @@ obj/item/rogueweapon/shield/heater
 	smeltresult = /obj/item/ingot/drow
 	smelt_bar_num = 1
 
+/obj/item/rogueweapon/shield/tower/decrepit
+	name = "decrepit shield"
+	desc = "A hefty tower shield, wrought from rotted metal. Looped with dried kelp and reeking of saltwater, you'd assume that this had been fished \
+	out from the remains of a long-sunken warship.. alongside its former legionnaire."
+	max_integrity = 120
+	wdefense = 9
+	icon_state = "ancientsh"
+	blade_dulling = DULLING_SHAFT_CONJURED
+	color = "#bb9696"
+	smeltresult = /obj/item/ingot/aaslag
+	anvilrepair = null
+
+/obj/item/rogueweapon/shield/tower/ancient
+	name = "ancient shield"
+	desc = "A venerable scutum, plated with polished gilbranze. An undying legionnaire's closest friend; that which rebukes arrow-and-bolt alike with \
+	unphasing prejudice. It is a reminder - one of many - that Her progress cannot be stopped."
+	icon_state = "ancientsh"
+	smeltresult = /obj/item/ingot/aaslag
+
 // Kite shields.
 /obj/item/rogueweapon/shield/kite
 	name = "kite shield"
@@ -487,6 +506,7 @@ obj/item/rogueweapon/shield/heater
 	wlength = WLENGTH_NORMAL
 	resistance_flags = null
 	flags_1 = CONDUCT_1
+	var/swapped = FALSE
 	wdefense = 12
 	coverage = 55
 	heraldry_x_offset = 1
@@ -634,24 +654,51 @@ obj/item/rogueweapon/shield/heater
 	else
 		icon_state = "gsshield"
 
-/obj/item/rogueweapon/shield/kite/decrepit
-	name = "decrepit shield"
-	desc = "A hefty tower shield, wrought from rotted metal. Looped with dried kelp and reeking of saltwater, you'd assume that this had been fished \
-	out from the remains of a long-sunken warship.. alongside its former legionnaire."
-	max_integrity = 120
-	wdefense = 9
-	icon_state = "ancientsh"
+/obj/item/rogueweapon/shield/bronze/great/ancient
+	name = "ancient greatshield"
+	desc = "A heavy venerable shield, taller and thicker than most of their contemporaries, yet masterfully crafted O' so much more as well, rebuking arrow and bolt alyke \
+	and yet it serves in a twisted change against its old purpose to preserve lyfe, it shall serve as a bulwark to herald the march of Her legionarries to end lyfe."
+	icon_state = "ancientgreatshield"
+	item_state = "ancientgreatshield"
+	max_integrity = 400 //High integrity and passive projectile-blocking as a difficult to obtain usually role exclusive shield.
+	force = 30
+	smeltresult = /obj/item/ingot/aaslag
+
+/obj/item/rogueweapon/shield/bronze/great/ancient/decrepit
+	name = "decrepit greatshield"
+	desc = "A tarnished heavy once-venerable shield of fraying bronze. It has survived unspeakable calamities and eons, once rebuking arrow and bolt alyke; yet now its no better than \
+	a battered hunk of metal with dents threatening to rip open. It failed its former owner and it won't be long until its own frail husk is reduced to nothing."
+	icon_state = "ancientgreatshield"
+	item_state = "ancientgreatshield"
+	max_integrity = 180 //Generous integrity and passive projectile-blocking for a decrepit shield.
+	force = 18
+	coverage = 60
 	blade_dulling = DULLING_SHAFT_CONJURED
 	color = "#bb9696"
+	minstr = 13 //Requires a hefty natural +STR modifier and statpack/potions to double as a melee weapon (not you'd want to use it as one), for most classes. Note that it has a heavier charge time and active stamina drain, too, as.. well, it's quite heavy.
 	smeltresult = /obj/item/ingot/aaslag
-	anvilrepair = null
 
-/obj/item/rogueweapon/shield/kite/ancient
-	name = "ancient shield"
-	desc = "A venerable scutum, plated with polished gilbranze. An undying legionnaire's closest friend; that which rebukes arrow-and-bolt alike with \
-	unphasing prejudice. It is a reminder - one of many - that Her progress cannot be stopped."
-	icon_state = "ancientsh"
-	smeltresult = /obj/item/ingot/aaslag
+/obj/item/rogueweapon/shield/bronze/ancient
+	name = "ancient hoplon shield"
+	desc = "The finest companion to a javelin and gladius, in Her name; a deceptively thin-yet-sturdy shield of gilbranze. This alloy even this thin, used to once surpass steel yet despite aeon's grip being lyfted, it never will regain its former strength."
+	icon_state = "ancientlegionshield"
+	force = 15
+	throwforce = 25 // DO NOT GIVE ANYTHING; BUT TAKE FROM THEM.. EVERYTHING!
+	minstr = 9 //Decently heavy to use as a melee weapon. But lighter due to thinner material.
+	max_integrity = 180 //Intended to be weaker than the bronze shield, for balance reasonings but its cheaper than an iron shield ingot wise
+	//for lore's sake its thinner than steel shields since it used to work as well since gilbranze was once stronger than steel, now its sort of worn its former durability away.
+
+/obj/item/rogueweapon/shield/bronze/ancient/decrepit
+	name = "decrepit hoplon shield"
+	desc = "A near-paradoxically thin-yet-somehow-intact shield of fraying bronze, impossibly remaining barely intact; yet in spite of this, a mere press of the thumb alone will bend a dent into it irreversibly."
+	icon_state = "ancientlegionshield"
+	force = 10
+	throwforce = 8 // Its basically a chunk of crumbling metal
+	blade_dulling = DULLING_SHAFT_CONJURED
+	color = "#bb9696"
+	coverage = 25
+	minstr = 8 //Barely anything left of it sire.
+	max_integrity = 60
 
 // Bucklers. The dinner plate-looking handshields, if you're unaware.
 /obj/item/rogueweapon/shield/buckler

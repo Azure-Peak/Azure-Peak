@@ -73,19 +73,19 @@
 
 /datum/loadout_item/psicross/paalloy
 	name = "Ancient Psycross"
-	path = /obj/item/clothing/neck/roguetown/psicross/paalloy
+	path = /obj/item/clothing/neck/roguetown/psicross/ancient
 	triumph_cost = 1
 	sort_category = "Triumphs"
 
 /datum/loadout_item/psicross/inhumen/paalloy
 	name = "Ancient Inverted Psycross"
-	path = /obj/item/clothing/neck/roguetown/psicross/inhumen/paalloy
+	path = /obj/item/clothing/neck/roguetown/psicross/inhumen/ancient
 	triumph_cost = 1
 	sort_category = "Triumphs"
 
 /datum/loadout_item/psicross/noc/paalloy
 	name = "Ancient Amulet of Noc"
-	path = /obj/item/clothing/neck/roguetown/psicross/noc/paalloy
+	path = /obj/item/clothing/neck/roguetown/psicross/noc/ancient
 	triumph_cost = 1
 	sort_category = "Triumphs"
 

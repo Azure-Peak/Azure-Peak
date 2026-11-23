@@ -114,7 +114,7 @@
 			H.equip_to_slot_or_del(new /obj/item/rogueweapon/shield/tower/metal, SLOT_BACK_L, TRUE)
 			H.adjust_skillrank_up_to(/datum/skill/combat/whipsflails, 4, TRUE)
 		if("Psydonic Flail + Shield")
-			H.put_in_hands(new /obj/item/rogueweapon/flail/sflail/silver/psy(H))
+			H.put_in_hands(new /obj/item/rogueweapon/flail/silver/psy(H))
 			H.equip_to_slot_or_del(new /obj/item/rogueweapon/shield/tower/metal, SLOT_BACK_L, TRUE)
 			H.adjust_skillrank_up_to(/datum/skill/combat/whipsflails, 4, TRUE)
 		if("Psydonic Flanged Mace + Shield")

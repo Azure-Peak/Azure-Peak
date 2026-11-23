@@ -89,7 +89,7 @@
 				switch(weapon_choice)
 					if("Greatsword") //Actually not a meme anymore
 						H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_EXPERT, TRUE)
-						r_hand = /obj/item/rogueweapon/greatsword/paalloy
+						r_hand = /obj/item/rogueweapon/greatsword/ancient
 						backl = /obj/item/rogueweapon/scabbard/gwstrap
 					if("Battle Axe")
 						H.adjust_skillrank_up_to(/datum/skill/combat/axes, SKILL_LEVEL_EXPERT, TRUE)

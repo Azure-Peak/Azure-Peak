@@ -553,7 +553,7 @@
 				r_hand = /obj/item/rogueweapon/mace/warhammer/steel/silver
 			if("Silver Morningstar")
 				H.adjust_skillrank_up_to(/datum/skill/combat/whipsflails, SKILL_LEVEL_JOURNEYMAN, TRUE)
-				r_hand = /obj/item/rogueweapon/flail/sflail/silver
+				r_hand = /obj/item/rogueweapon/flail/silver
 			if("Silver Whip")
 				H.adjust_skillrank_up_to(/datum/skill/combat/whipsflails, SKILL_LEVEL_JOURNEYMAN, TRUE)
 				r_hand = /obj/item/rogueweapon/whip/silver

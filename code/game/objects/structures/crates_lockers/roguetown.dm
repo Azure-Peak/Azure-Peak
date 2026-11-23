@@ -290,7 +290,7 @@
 	new /obj/item/skull(src)
 	new /obj/item/natural/bundle/bone/full(src)
 	var/list/loot = list(
-		/obj/item/clothing/ring/aalloy = 30, //Valuables
+		/obj/item/clothing/ring/decrepit = 30, //Valuables
 		/obj/item/clothing/ring/bronze = 20,
 		/obj/item/clothing/neck/roguetown/psicross/bronze = 10,
 		/obj/item/clothing/neck/roguetown/psicross/inhumen/bronze = 10,
@@ -343,7 +343,7 @@
 		/obj/item/roguecoin/aalloy/pile = 2,
 		/obj/item/roguegem/violet = 10,
 		/obj/item/roguestatue/gold/loot = 10,
-		/obj/item/roguestatue/aalloy = 5,
+		/obj/item/roguestatue/decrepit = 5,
 		/obj/item/storage/belt/rogue/pouch/zigarrete/nicotine = 15, //Misc stuff
 		/obj/item/reagent_containers/food/snacks/butter = 15,
 		/obj/item/reagent_containers/food/snacks/canned = 15,

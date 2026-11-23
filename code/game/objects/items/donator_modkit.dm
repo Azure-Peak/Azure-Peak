@@ -545,8 +545,8 @@
 	name = "'Plate Arm Harness' morphing elixir"
 	desc = "A small container of special morphing dust, perfect to make a specific item. It can be used to alter the appearance of a pair of Decrepit, Ancient, Bronze, Iron, or Steel Bracers."
 	target_items = list(
-		/obj/item/clothing/wrists/roguetown/bracers/paalloy				= /obj/item/clothing/wrists/roguetown/bracers/paalloy/armharness,
-		/obj/item/clothing/wrists/roguetown/bracers/aalloy				= /obj/item/clothing/wrists/roguetown/bracers/aalloy/armharness,
+		/obj/item/clothing/wrists/roguetown/bracers/ancient/decrepit				= /obj/item/clothing/wrists/roguetown/bracers/ancient/decrepit/armharness,
+		/obj/item/clothing/wrists/roguetown/bracers/ancient				= /obj/item/clothing/wrists/roguetown/bracers/ancient/armharness,
 		/obj/item/clothing/wrists/roguetown/bracers/bronze				= /obj/item/clothing/wrists/roguetown/bracers/bronze/armharness,
 		/obj/item/clothing/wrists/roguetown/bracers/iron				= /obj/item/clothing/wrists/roguetown/bracers/iron/armharness,
 		/obj/item/clothing/wrists/roguetown/bracers						= /obj/item/clothing/wrists/roguetown/bracers/armharness
@@ -1224,7 +1224,7 @@
 	name = "'Falling Star' morphing elixer"
 	target_items = list(
 		/obj/item/rogueweapon/greatsword,
-		/obj/item/rogueweapon/greatsword/paalloy
+		/obj/item/rogueweapon/greatsword/ancient
 	)
 	result_item = /obj/item/rogueweapon/greatsword/falling_star
 

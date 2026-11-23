@@ -170,7 +170,7 @@
 	force = 35
 
 //Greatflails. Two-handed flails. You get the jist.
-/obj/item/rogueweapon/flail/grand
+/obj/item/rogueweapon/flail/great
 	name = "militia thresher"
 	desc = "Just like how a sling's bullet can fell a giant, so too does this great flail follow the principle of converting 'momentum' into 'plate-rupturing force'."
 	icon_state = "peasantwarflail"
@@ -197,7 +197,7 @@
 	wdefense = 4
 	resistance_flags = FLAMMABLE
 
-/obj/item/rogueweapon/flail/grand/getonmobprop(tag)
+/obj/item/rogueweapon/flail/great/getonmobprop(tag)
 	. = ..()
 	if(tag)
 		switch(tag)
@@ -206,7 +206,7 @@
 			if("wielded")
 				return list("shrink" = 0.6,"sx" = 5,"sy" = -3,"nx" = -5,"ny" = -2,"wx" = -5,"wy" = -1,"ex" = 3,"ey" = -2,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = 7,"sturn" = -7,"wturn" = 16,"eturn" = -22,"nflip" = 8,"sflip" = 0,"wflip" = 8,"eflip" = 0)
 
-/obj/item/rogueweapon/flail/grand/iron
+/obj/item/rogueweapon/flail/great/iron
 	name = "greatflail"
 	desc = "The lucerne's ungainly cousin, favoring a 'ball-and-chain' design that - once spun - can devastate anything caught in its way; a trait that makes it dearly beloved by both peasantry and knights alike."
 	icon_state = "greatflail"
@@ -214,7 +214,7 @@
 	minstr = 12
 	anvilrepair = /datum/skill/craft/weaponsmithing
 
-/obj/item/rogueweapon/flail/grand/steel
+/obj/item/rogueweapon/flail/great/steel
 	name = "steel greatflail"
 	desc = "The greatflail's noblehearted brother, rebuking unruly assailants with a sextuple-spiked countermeasure."
 	force = 15
@@ -225,7 +225,7 @@
 	max_integrity = 200
 	//gripped_intents = list(/datum/intent/flail/strike/ranged, /datum/intent/flail/smash/ranged, /datum/intent/flail/sweep, /datum/intent/flail/smash/heavy)
 
-/obj/item/rogueweapon/flail/grand/matthios
+/obj/item/rogueweapon/flail/great/matthios
 	name = "gilded flail"
 	desc = "Weight of wealth in a deadly striking end."
 	icon_state = "matthiosflail"
@@ -240,11 +240,11 @@
 	anvilrepair = /datum/skill/craft/weaponsmithing
 	smeltresult = /obj/item/ingot/component/matthios
 
-/obj/item/rogueweapon/flail/grand/matthios/Initialize(mapload)
+/obj/item/rogueweapon/flail/great/matthios/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/cursed_item, TRAIT_FREEMAN, "FLAIL")
 
-/obj/item/rogueweapon/flail/grand/matthios/get_examine_highlight_status()
+/obj/item/rogueweapon/flail/great/matthios/get_examine_highlight_status()
 	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_MATTHIOS_WEAPON)
 
 // Unique Flails.

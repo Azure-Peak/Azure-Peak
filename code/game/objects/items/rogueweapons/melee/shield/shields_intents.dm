@@ -45,21 +45,3 @@
 
 /datum/intent/effect/daze/shield
 	hitsound = list('sound/combat/parry/shield/metalshield (1).ogg')
-
-/obj/item/rogueweapon/shield/wood
-	name = "wooden shield"
-	desc = "A sturdy wooden shield. Will block anything you can imagine."
-	icon_state = "woodsh"
-	dropshrink = 0.8
-	anvilrepair = /datum/skill/craft/carpentry
-	coverage = 30
-	max_integrity = 120
-	heraldry_x_offset = 1
-	heraldry_y_offset = -1 // 1px right and down to make it look centered
-
-/obj/item/rogueweapon/shield/wood/deprived
-	name = "ghastly shield"
-	desc = "A frail looking amalgamation of planks. Yet somehow, the very wood itself seem to be filling you with resolve."
-	icon_state = "deprived"
-	coverage = 40
-	max_integrity = 200

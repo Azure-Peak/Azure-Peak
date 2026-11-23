@@ -6,7 +6,7 @@
 
 /datum/loadout_item/psicross/decrepit
 	name = "Decrepit Psycross"
-	path = /obj/item/clothing/neck/roguetown/psicross/aalloy
+	path = /obj/item/clothing/neck/roguetown/psicross/ancient/decrepit
 
 /datum/loadout_item/psicross/reform
 	name = "Reformist Psydonian Cross"
@@ -73,7 +73,7 @@
 
 /datum/loadout_item/psicross/zizo
 	name = "Decrepit Zcross"
-	path = /obj/item/clothing/neck/roguetown/psicross/inhumen/aalloy
+	path = /obj/item/clothing/neck/roguetown/psicross/inhumen/ancient/decrepit
 	sort_category = "Jewelry"
 
 /datum/loadout_item/zcross_iron
@@ -148,5 +148,5 @@
 
 /datum/loadout_item/wedding_band_ancient
 	name = "Wedding Band, Ancient"
-	path = /obj/item/clothing/ring/band/paalloy
+	path = /obj/item/clothing/ring/band/ancient
 	sort_category = "Jewelry"

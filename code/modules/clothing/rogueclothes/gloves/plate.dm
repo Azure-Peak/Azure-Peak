@@ -38,7 +38,7 @@
 	icon_state = "bandedgloves"
 	item_state = "bandedgloves"
 
-/obj/item/clothing/gloves/roguetown/plate/aalloy
+/obj/item/clothing/gloves/roguetown/plate/ancient/decrepit
 	name = "decrepit plate gauntlets"
 	desc = "Rotted metal mechanisms, connected to form the shells of hands. Too clumsy to properly knock a bow, too rigid to comfortably grip a sword; clench those fists any tighter, and the segments'll cut into flesh."
 	icon_state = "agauntlets"
@@ -49,7 +49,7 @@
 	smeltresult = /obj/item/ingot/aaslag
 	anvilrepair = null
 
-/obj/item/clothing/gloves/roguetown/plate/paalloy
+/obj/item/clothing/gloves/roguetown/plate/ancient
 	name = "ancient plate gauntlets"
 	desc = "Polished gilbranze mechanisms, meticulously interconnected to shroud splayed hands. 'Mercy' and 'innocence' are concepts paraded by the unenlightened; spill their blood without guilt, so that the world may yet be remade in Her image."
 	icon_state = "agauntlets"

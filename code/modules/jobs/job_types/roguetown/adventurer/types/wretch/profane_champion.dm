@@ -87,7 +87,7 @@
 				H.put_in_hands(new /obj/item/rogueweapon/sword/long/zizo(H))
 			if("Gilded Flail")
 				H.adjust_skillrank_up_to(/datum/skill/combat/whipsflails, SKILL_LEVEL_EXPERT, TRUE)
-				H.put_in_hands(new /obj/item/rogueweapon/flail/peasantwarflail/matthios(H))
+				H.put_in_hands(new /obj/item/rogueweapon/flail/great/matthios(H))
 			if("Vicious Axe")
 				H.adjust_skillrank_up_to(/datum/skill/combat/axes, SKILL_LEVEL_EXPERT, TRUE)
 				H.put_in_hands(new /obj/item/rogueweapon/greataxe/steel/doublehead/graggar(H))

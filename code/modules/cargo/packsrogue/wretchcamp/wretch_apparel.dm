@@ -6,10 +6,10 @@
 //All of these should be pricer than tennite amulets due to the difficulty to "acquire"... albeit not by a significant margin
 
 /datum/supply_pack/rogue/apparel_inhumen/crosses/inhumenpantheonzizodecrepit
-	name = "Decrepid Inverted Psicross"
+	name = "Decrepit Inverted Psicross"
 	cost = 10 //ZIZO. ZIZO. ZIZO.
 	contains = list(
-					/obj/item/clothing/neck/roguetown/psicross/inhumen/aalloy,
+					/obj/item/clothing/neck/roguetown/psicross/inhumen/ancient/decrepit,
 				)
 
 /datum/supply_pack/rogue/apparel_inhumen/crosses/inhumenpantheonzizo

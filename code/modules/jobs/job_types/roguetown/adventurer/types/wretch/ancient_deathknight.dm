@@ -64,10 +64,10 @@
 
 	// Equipment — gilbranze loadout loosely matching lich skeleton death knight/bulwark -> helm picks and stuff come later
 	belt = /obj/item/storage/belt/rogue/leather/black
-	pants = /obj/item/clothing/under/roguetown/platelegs/paalloy
-	shoes = /obj/item/clothing/shoes/roguetown/boots/paalloy
-	gloves = /obj/item/clothing/gloves/roguetown/plate/paalloy
-	neck = /obj/item/clothing/neck/roguetown/gorget/paalloy
+	pants = /obj/item/clothing/under/roguetown/platelegs/ancient
+	shoes = /obj/item/clothing/shoes/roguetown/boots/ancient
+	gloves = /obj/item/clothing/gloves/roguetown/plate/ancient
+	neck = /obj/item/clothing/neck/roguetown/gorget/ancient
 	mask = /obj/item/clothing/head/roguetown/armingcap/padded //a little bit extra protection as stage 2 skullcrack is death.
 	backr = /obj/item/storage/backpack/rogue/satchel/black
 
@@ -76,8 +76,8 @@
 	H.adjust_blindness(-3)
 
 	var/helmets = list(
-		"Gilbranze Knight Helmet"	= /obj/item/clothing/head/roguetown/helmet/heavy/knight/paalloy,
-		"Gilbranze Sayovard Helmet"	= /obj/item/clothing/head/roguetown/helmet/heavy/guard/paalloy,
+		"Gilbranze Knight Helmet"	= /obj/item/clothing/head/roguetown/helmet/heavy/knight/ancient,
+		"Gilbranze Sayovard Helmet"	= /obj/item/clothing/head/roguetown/helmet/heavy/guard/ancient,
 	)
 	var/helmchoice = input(H, "Choose your Helm.", "A VISAGE UNBOUND.") as anything in helmets
 	if(helmchoice != "None")
@@ -87,53 +87,53 @@
 	switch(armor_choice)
 		if("Halfplate")
 			shirt = /obj/item/clothing/suit/roguetown/armor/gambeson
-			armor = /obj/item/clothing/suit/roguetown/armor/plate/paalloy
-			wrists = /obj/item/clothing/wrists/roguetown/bracers/paalloy
+			armor = /obj/item/clothing/suit/roguetown/armor/plate/ancient
+			wrists = /obj/item/clothing/wrists/roguetown/bracers/ancient
 		if("Cuirass & Haulberk")
-			shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/paalloy
-			armor = /obj/item/clothing/suit/roguetown/armor/plate/cuirass/paalloy
-			wrists = /obj/item/clothing/wrists/roguetown/bracers/paalloy
+			shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/ancient
+			armor = /obj/item/clothing/suit/roguetown/armor/plate/cuirass/ancient
+			wrists = /obj/item/clothing/wrists/roguetown/bracers/ancient
 		if("Heavy Haulberk")
 			shirt = /obj/item/clothing/suit/roguetown/armor/gambeson
-			armor = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/paalloy/heavy
-			wrists = /obj/item/clothing/wrists/roguetown/bracers/paalloy/chain
+			armor = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/ancient/heavy
+			wrists = /obj/item/clothing/wrists/roguetown/bracers/ancient/chain
 
 	var/weapon_choice = input(H, "Choose your WEAPON.", "RAGE AGAINST THE LYVING.") as anything in list("Ancient Longsword + Shield", "Ancient Greatsword", "Ancient Axe + Shield", "Ancient Mace + Shield", "Ancient Flail + Shield", "Ancient Warhammer + Shield", "Bardiche", "Grand Mace")
 	switch(weapon_choice)
 		if("Ancient Longsword + Shield")
 			beltl = /obj/item/rogueweapon/scabbard/sword
-			l_hand = /obj/item/rogueweapon/sword/long/palloy //role unique
-			backl = /obj/item/rogueweapon/shield/tower/metal/palloy
+			l_hand = /obj/item/rogueweapon/sword/long/ancient //role unique
+			backl = /obj/item/rogueweapon/shield/tower/ancient
 			H.adjust_skillrank_up_to(/datum/skill/combat/swords, 4, TRUE)
 		if("Ancient Greatsword") //No Flameberge, go be a REAL death knight for that.
-			r_hand = /obj/item/rogueweapon/greatsword/paalloy
+			r_hand = /obj/item/rogueweapon/greatsword/ancient
 			H.adjust_skillrank_up_to(/datum/skill/combat/swords, 4, TRUE)
 		if("Ancient Axe + Shield")
-			beltl = /obj/item/rogueweapon/stoneaxe/woodcut/steel/paaxe
-			backl = /obj/item/rogueweapon/shield/tower/metal/palloy
+			beltl = /obj/item/rogueweapon/stoneaxe/woodcut/ancient
+			backl = /obj/item/rogueweapon/shield/tower/ancient
 			H.adjust_skillrank_up_to(/datum/skill/combat/axes, 4, TRUE)
 		if("Ancient Mace + Shield")
-			beltr = /obj/item/rogueweapon/mace/steel/palloy
-			backl = /obj/item/rogueweapon/shield/tower/metal/palloy
+			beltr = /obj/item/rogueweapon/mace/ancient
+			backl = /obj/item/rogueweapon/shield/tower/ancient
 			H.adjust_skillrank_up_to(/datum/skill/combat/maces, 4, TRUE)
 		if("Ancient Flail + Shield")
-			beltr = /obj/item/rogueweapon/flail/sflail/paflail
-			backl = /obj/item/rogueweapon/shield/tower/metal/palloy
+			beltr = /obj/item/rogueweapon/flail/ancient
+			backl = /obj/item/rogueweapon/shield/tower/ancient
 			H.adjust_skillrank_up_to(/datum/skill/combat/whipsflails, 4, TRUE)
 		if("Ancient Warhammer + Shield")
-			beltr = /obj/item/rogueweapon/mace/warhammer/steel/paalloy
-			backl = /obj/item/rogueweapon/shield/tower/metal/palloy
+			beltr = /obj/item/rogueweapon/mace/warhammer/ancient
+			backl = /obj/item/rogueweapon/shield/tower/ancient
 			H.adjust_skillrank_up_to(/datum/skill/combat/maces, 4, TRUE)
 		if("Bardiche")
 			backl = /obj/item/rogueweapon/scabbard/gwstrap
-			r_hand = /obj/item/rogueweapon/halberd/bardiche/paalloy
+			r_hand = /obj/item/rogueweapon/halberd/bardiche/ancient
 			H.adjust_skillrank_up_to(/datum/skill/combat/polearms, 4, TRUE)
 		if("Grand Mace") //Arguably amongst the stronger picks.
-			r_hand = /obj/item/rogueweapon/mace/goden/steel/paalloy
+			r_hand = /obj/item/rogueweapon/mace/goden/steel/ancient
 			H.adjust_skillrank_up_to(/datum/skill/combat/maces, 4, TRUE)
 
 	backpack_contents = list(
-		/obj/item/rogueweapon/huntingknife/idagger/steel/padagger = 1,
+		/obj/item/rogueweapon/huntingknife/idagger/ancient = 1,
 		/obj/item/rogueweapon/scabbard/sheath = 1,
 		/obj/item/natural/feather = 1, //For your helm
 		/obj/item/storage/belt/rogue/pouch/coins/aalloy/rich = 1, //Hilarious

@@ -826,7 +826,7 @@
 	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
 	sleeved = 'icons/clothing/onmob/donor_sleeves_armor.dmi'
 
-/obj/item/clothing/wrists/roguetown/bracers/aalloy/armharness
+/obj/item/clothing/wrists/roguetown/bracers/ancient/decrepit/armharness
 	name = "decrepit plate arm harness"
 	desc = "A frayed pair of interlocked bronze plate arm harnesses, composed of pauldrons, rerebraces, couters, and vambraces - all snugly latched around the limb and secured to one another thanks to a series of leather straps, metal aglets, and sliding rivets. The engineering is so meticulous that flexibility of the limb is hardly impeded."
 	item_state = "aarmharness"
@@ -835,7 +835,7 @@
 	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
 	sleeved = 'icons/clothing/onmob/donor_sleeves_armor.dmi'
 
-/obj/item/clothing/wrists/roguetown/bracers/paalloy/armharness
+/obj/item/clothing/wrists/roguetown/bracers/ancient/armharness
 	name = "ancient plate arm harness"
 	desc = "A polished pair of interlocked gilbranze plate arm harnesses, composed of pauldrons, rerebraces, couters, and vambraces - all snugly latched around the limb and secured to one another thanks to a series of leather straps, metal aglets, and sliding rivets. The engineering is so meticulous that flexibility of the limb is hardly impeded."
 	item_state = "aarmharness"

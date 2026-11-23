@@ -580,7 +580,7 @@
 			if("Warclub + Shield")
 				H.adjust_skillrank_up_to(/datum/skill/combat/maces, SKILL_LEVEL_JOURNEYMAN, TRUE)
 				H.adjust_skillrank_up_to(/datum/skill/combat/shields, SKILL_LEVEL_JOURNEYMAN, TRUE)
-				r_hand = /obj/item/rogueweapon/mace/warhammer/bronze
+				r_hand = /obj/item/rogueweapon/mace/warclub
 				backr = /obj/item/rogueweapon/shield/bronze
 			if("Flail + Shield")
 				H.adjust_skillrank_up_to(/datum/skill/combat/whipsflails, SKILL_LEVEL_JOURNEYMAN, TRUE)
