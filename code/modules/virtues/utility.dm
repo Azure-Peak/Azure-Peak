@@ -300,6 +300,9 @@ GLOBAL_LIST_EMPTY(fey_vessels)
 
 /datum/virtue/utility/prowler
 	name = "Prowler"
+	added_traits = list(TRAIT_PROWLER_EXPERT)
+	custom_text = "Allows training Sneaking and Lockpicking " \
+		+ "to Legendary, regardless of the bonuses chosen."
 	desc = "I've learned to stalk the shadows, light of step. My hands had also been honed to be deft."
 	ui_fa_icon = "moon"
 	max_choices = 3	//Tentative, feels more fun to limit yourself to a set out of these rather than all of them. (Used to be 6)

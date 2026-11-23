@@ -114,13 +114,18 @@
 	var/reading_skill = user.get_skill_level(/datum/skill/misc/reading)
 	var/subject_skill = user.get_skill_level(subject)//our reader's current knowledge on the book's subject
 	if(complete)
+		var/datum/skill/book_skill = GetSkillRef(subject)
+		var/learning_cap = skill_cap
+		if(book_skill)
+			learning_cap = min(learning_cap,
+				user.ensure_skills().get_effective_skill_cap(book_skill))
 		if(open)
 			to_chat(user, span_warning("I'm already reading [src]!"))
 			return
 		if(reading_skill < skill_req || subject_skill < skill_req)//if our literacy skill or our skill in the topic is below the base requirement
 			to_chat(user, span_warning("[src] is too complicated for me!"))
 			return
-		if(subject_skill >= skill_cap)
+		if(subject_skill >= learning_cap)
 			to_chat(user, span_warning("I already know everything [src] can teach me!"))
 			return
 		if(HAS_TRAIT(user, TRAIT_STUDENT))//stops you from blasting your brain with 10000 skills
@@ -147,7 +152,7 @@
 					add_sleep_experience(user, /datum/skill/misc/reading, user.STAINT*0.75)
 				add_sleep_experience(user, subject, user.STAINT * (1.5 * (wellwritten+1)))//if the book is well-written, gain 2x exp on the subject
 				subject_skill = user.get_skill_level(subject)//update after we gain exp to see if we've leveled up
-				var/skill_difference = skill_cap - subject_skill//3 different cases: 1, we've reached !! level. 2, We've outleveled the book normally. 3, we've outleveled the book via sleep exp
+				var/skill_difference = learning_cap - subject_skill
 				if(user?.mind?.sleep_adv.enough_sleep_xp_to_advance(subject, min(skill_difference,2)) || skill_difference <= 0)
 					reading = FALSE
 					ADD_TRAIT(user, TRAIT_STUDENT, TRAIT_GENERIC)

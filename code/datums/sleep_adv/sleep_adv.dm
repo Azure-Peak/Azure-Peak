@@ -33,7 +33,13 @@
 /datum/sleep_adv/proc/adjust_sleep_xp(skill, adjust)
 	var/current_xp = get_sleep_xp(skill)
 	var/target_xp = current_xp + ((adjust > 0 && HAS_TRAIT(mind?.current, TRAIT_JACKOFALLTRADES)) ? (adjust * 1.5) : adjust)
-	var/cap_exp = get_requried_sleep_xp_for_skill(skill, 2)
+	var/datum/skill/skill_ref = GetSkillRef(skill)
+	var/skill_cap = mind.current.ensure_skills().get_effective_skill_cap(
+		skill_ref)
+	var/remaining_levels = max(
+		0, skill_cap - mind.current.get_skill_level(skill))
+	var/cap_exp = get_requried_sleep_xp_for_skill(
+		skill, min(2, remaining_levels))
 	target_xp = clamp(target_xp, 0, cap_exp)
 	sleep_exp[skill] = target_xp
 
@@ -104,7 +110,7 @@
 		var/org_lvl = L.get_skill_level(skill)
 		L.adjust_experience(skill, amt)
 		// Clamp level to cap if XP pushed us past it (e.g. cap at Novice, XP jumped us to Apprentice)
-		if(pre_cap < SKILL_LEVEL_APPRENTICE && L.get_skill_level(skill) > pre_cap)
+		if(L.get_skill_level(skill) > pre_cap)
 			L.adjust_skillrank_down_to(skill, pre_cap, TRUE)
 		var/new_lvl = L.get_skill_level(skill)
 		var/capped_post_check = enough_sleep_xp_to_advance(skill, 2)
@@ -286,6 +292,10 @@
 	return FALSE
 
 /datum/sleep_adv/proc/can_buy_skill(skill_type)
+	var/datum/skill/skill = GetSkillRef(skill_type)
+	var/skill_cap = mind.current.ensure_skills().get_effective_skill_cap(skill)
+	if(mind.current.get_skill_level(skill_type) >= skill_cap)
+		return FALSE
 	return (sleep_adv_points >= get_skill_cost(skill_type))
 
 /datum/sleep_adv/proc/can_buy_special()

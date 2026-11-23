@@ -43,6 +43,8 @@
 
 /datum/skill/misc/sneaking
 	name = "Sneaking"
+	max_untraited_level = SKILL_LEVEL_EXPERT
+	trait_uncap = list(TRAIT_PROWLER_EXPERT = SKILL_LEVEL_LEGENDARY)
 	desc = "Increases your chance of sneaking successfully and not be detected, and reduces your chances of leaving behind tracks."
 	dreams = list(
 		"...the four connected houses, orthogonally aligned, have a small dip at the center of their slanted rooftops. Your crow's nest. Your safe haven. The only light that can reach you here is what Noc takes from Astrata, and this night is particularly veiled. It's concealing and comforting, safe from the town guard, as you curl up to rest...",
@@ -52,6 +54,8 @@
 
 /datum/skill/misc/lockpicking
 	name = "Lockpicking"
+	max_untraited_level = SKILL_LEVEL_EXPERT
+	trait_uncap = list(TRAIT_PROWLER_EXPERT = SKILL_LEVEL_LEGENDARY)
 	desc = "Speeds up lockpicking and increases success chance."
 	dreams = list(
 		"...your pick feels like an extension of your fingers as you nudge the final pin into place. The chest creaks open, revealing a glint of gold that was never meant to see the light of day...",
