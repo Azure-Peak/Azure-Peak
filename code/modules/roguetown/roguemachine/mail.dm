@@ -70,9 +70,13 @@
 		var/mob/living/carbon/human/H = user
 		var/list/held = M.mail_for(H.real_name)
 		var/list/missing = M.collect_missing(H.real_name)
+		var/list/taken = list()
 		for(var/obj/item/I as anything in held)
+			taken += mail_label(I)
 			I.forceMove(get_turf(H))
 			H.put_in_hands(I)
+		if(length(taken))
+			to_chat(user, span_notice("I take [english_list(taken)] out of [src]."))
 		for(var/label in missing)
 			to_chat(user, span_warning("[capitalize(label)] is missing."))
 		if(length(held))
