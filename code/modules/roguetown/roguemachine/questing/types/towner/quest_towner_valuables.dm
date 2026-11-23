@@ -37,7 +37,6 @@
 		/datum/advclass/veteran/calvaryman,
 		/datum/advclass/heartfelt/lord/lord,
 		/datum/advclass/heartfelt/lord/archmage,
-		/datum/advclass/heartfelt/lord/chief,
 		/datum/advclass/heartfelt/hand/steward,
 		/datum/advclass/heartfelt/hand/advisor,
 		/datum/advclass/heartfelt/hand/marshal,
