@@ -1951,7 +1951,7 @@
 	name = "Sling Bullets, Decrepit (x10)"
 	category = "Decrepit Alloy"
 	req_bar = /obj/item/ingot/decrepit
-	created_item = /obj/item/ammo_casing/caseless/rogue/sling_bullet/decrepit
+	created_item = /obj/item/ammo_casing/caseless/rogue/sling_bullet/ancient/decrepit
 	display_category = ITEM_CAT_WEAPONS_AMMO
 	createditem_num = 10
 	i_type = "Ammo"
