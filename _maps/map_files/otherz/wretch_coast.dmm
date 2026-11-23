@@ -4802,7 +4802,7 @@
 /turf/open/floor/carpet/royalblack,
 /area/rogue/indoors/vampire_manor)
 "tu" = (
-/obj/item/rogueweapon/pick/decrepit,
+/obj/item/rogueweapon/pick/ancient/decrepit,
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/under/cave/inhumen)
 "tv" = (

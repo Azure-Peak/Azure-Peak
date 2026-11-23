@@ -160397,7 +160397,7 @@
 /area/rogue/indoors/cave/central)
 "tos" = (
 /obj/effect/decal/remains/human,
-/obj/item/rogueweapon/pick/decrepit,
+/obj/item/rogueweapon/pick/ancient/decrepit,
 /obj/effect/spawner/lootdrop/random_gem,
 /turf/open/floor/rogue/dirt,
 /area/rogue/under/cave/dukecourt/grim)
