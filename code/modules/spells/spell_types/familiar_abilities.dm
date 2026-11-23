@@ -650,7 +650,7 @@
 			span_warning("[user] begins to devour [target]!"),
 			span_warning("I begin to devour [target]!")
 		)
-	if(!do_after(user, (isfamiliar(target) ? 5 : 1) SECONDS, target = target))
+	if(!move_after(user, (isfamiliar(target) ? 5 : 1) SECONDS, target = target))
 		return FALSE
 	// we have a valid mindless target: let's see if it's actually valid for us
 	var/essence_to_grant = null
