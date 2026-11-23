@@ -49,7 +49,7 @@
 /mob/living/carbon/human/species/familiar/void/proc/grant_essence(type)
 	switch(type)
 		if("fae") // faerie movement, inherits spell
-			to_chat(src, span_notice("As you absorb the essence of the faewyld, you take on some of its nature. You can now fly, and you've gained the ability to retrieve objects at a distance."))
+			to_chat(src, span_notice("As you absorb the essence of the faewyld, you take on some of its nature. You can now fly, and you've gained the ability to cloak your form and retrieve objects at a distance."))
 			src.pass_flags = PASSTABLE | PASSMOB
 			src.movement_type = FLYING
 			TryAddFlight()
@@ -60,7 +60,7 @@
 			src.mind.AddSpell(new /datum/action/cooldown/spell/void_beam/familiar)
 		if("elemental") // stat buff, inherits spell
 			to_chat(src, span_notice("As you absorb the essence of the depths, you take on some of its nature. Your body grows sturdier, and you can now tear stones from the earth itself, or reshape your form."))
-			src.STACON += 2
+			src.STACON += 5 // set to 10 con
 			src.mind.AddSpell(new /datum/action/cooldown/spell/magicians_stone/elemental/void)
 			src.mind.AddSpell(new /datum/action/cooldown/spell/earthen_forge/void)
 

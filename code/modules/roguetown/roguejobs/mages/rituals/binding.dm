@@ -3,7 +3,7 @@
  * ========== Binding Rituals ==========
  *
  * Summon a familiar to aid you in your journey. Limit one per player, and not particularly tailored towards combat.
- * Costs planar materials in low quantity, except the drakeling, which is expensive.
+ * Free, except the drakeling, which is expensive as a capstone/pure-arcyne endeavor.
  */
 
 /datum/runeritual/binding
@@ -104,6 +104,10 @@
 	name = "Planar Rift"
 	icon = 'icons/effects/effects.dmi'
 	var/planar_origin
+
+/obj/effect/planar_rift/Initialize(mapload)
+	. = ..()
+	desc = "A small tear in the veil, swirling with [planar_origin] energies."
 
 /obj/effect/planar_rift/elemental
 	planar_origin = "elemental"

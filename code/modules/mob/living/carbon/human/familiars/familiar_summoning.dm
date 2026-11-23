@@ -76,14 +76,15 @@
 	if(fam.inherent_spell)
 		for(var/spell_path in fam.inherent_spell)
 			if(ispath(spell_path))
-				var/obj/effect/proc_holder/spell/spell_instance = new spell_path
+				var/datum/action/cooldown/spell/spell_instance = new spell_path
 				if(spell_instance)
 					mind_datum.AddSpell(spell_instance)
 	fam.cmode = FALSE
 	fam.mind.i_know_person(user)
 	user?.mind?.i_know_person(fam)
 	fam.STASPD = min((user?.STASPD || 10), 20) // so they can always keep up with their summoner
-	var/faction_to_add = "[user.mind.current.real_name]_faction"
+	var/faction_to_add = "[user?.mind?.current.real_name]_faction"
 	fam.faction |= faction_to_add
 	GLOB.chosen_names += fam.real_name
 	GLOB.character_ckey_list[fam.real_name] = fam.ckey
+	return fam

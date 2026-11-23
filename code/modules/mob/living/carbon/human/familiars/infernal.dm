@@ -45,6 +45,7 @@
 		TRAIT_ZOMBIE_IMMUNE,
 		TRAIT_UNCONVERTIBLE,
 		TRAIT_NONAMESTEAL,
+		TRAIT_BLOOD_RESISTANCE // i know, i know, but they genuinely bleed out WAY too fast without it. consider that they have no armor and can't drink water to regen blood
 	)
 	origin = "The Hells"
 	origin_default = /datum/virtue/origin/unselectable/infernal
@@ -247,3 +248,8 @@
 		visible_message(span_warning("[src] deploys a carapace of infernal armor!"))
 		overlays_standing[BODY_FRONT_FRONT_FRONT_LAYER] = mutable_appearance('icons/roguetown/mob/familiars.dmi', "infernal_armour", BODY_FRONT_FRONT_FRONT_LAYER)
 		apply_overlay(BODY_FRONT_FRONT_FRONT_LAYER)
+
+/mob/living/carbon/human/proc/remove_infernal_armor()
+	if(overlays_standing[BODY_FRONT_FRONT_FRONT_LAYER])
+		remove_overlay(BODY_FRONT_FRONT_FRONT_LAYER)
+		visible_message(span_warning("[src]'s infernal armor retracts and vanishes."))

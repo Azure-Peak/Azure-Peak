@@ -54,6 +54,16 @@
 /datum/status_effect/buff/healing/familiar
 	alert_type = /atom/movable/screen/alert/status_effect/buff/healing/familiar
 
+/datum/status_effect/buff/healing/familiar/on_apply()
+	. = ..()
+	for(var/datum/wound/i in owner.get_sewable_wounds())
+		i.set_bleed_rate(0) // doesn't HEAL the wound but you won't bleed out if you're being healed actively
+
+/datum/status_effect/buff/healing/familiar/tick()
+	. = ..()
+	if(owner.blood_volume < BLOOD_VOLUME_NORMAL)
+		owner.blood_volume = min(owner.blood_volume+(BLOOD_VOLUME_NORMAL/30), BLOOD_VOLUME_NORMAL) // this requires special circumstances to apply and should save you from bleeding out reasonably fast; 30 seconds is the guideline
+
 /atom/movable/screen/alert/status_effect/buff/healing/familiar
 	name = "Planar Respite"
 	desc = "Drawing energy from my home plane to restore myself."
@@ -154,6 +164,7 @@
 		TRAIT_ZOMBIE_IMMUNE,
 		TRAIT_UNCONVERTIBLE,
 		TRAIT_NONAMESTEAL,
+		TRAIT_BLOOD_RESISTANCE // i know, i know, but they genuinely bleed out WAY too fast without it. consider that they have no armor and can't drink water to regen blood
 	)
 	inherent_biotypes = MOB_HUMANOID
 	no_equip = list(SLOT_SHIRT, SLOT_HEAD, SLOT_WEAR_MASK, SLOT_ARMOR, SLOT_GLOVES, SLOT_SHOES, SLOT_PANTS, SLOT_CLOAK, SLOT_BELT, SLOT_BACK_R, SLOT_BACK_L, SLOT_S_STORE, SLOT_BELT_L, SLOT_BELT_R, SLOT_WRISTS, SLOT_RING)

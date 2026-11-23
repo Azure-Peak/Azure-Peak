@@ -294,6 +294,7 @@
 	desc = "Bite a target, engulfing them in infernal flame."
 	cast_range = 1
 	cooldown_time = 10 SECONDS
+	charge_required = FALSE
 	button_icon = 'icons/mob/actions/mage_pyromancy.dmi'
 	button_icon_state = "spitfire"
 
@@ -334,9 +335,16 @@
 	H.RegisterSignal(P, COMSIG_QDELETING, TYPE_PROC_REF(/mob/living/carbon/human/species/familiar/infernal, relic_unpossess))
 	return TRUE
 
+// cosmetic resprite
+/obj/item/rogueweapon/sword/long/infernal
+	name = "infernal blade"
+	desc = "A sinister blade of hellish origin, its wicked edge thirsts for blood. It was clearly crafted by no human hands, yet it is well-balanced."
+	icon_state = "blksword"
+	secondary_skills = list(/datum/skill/combat/arcyne = 1) // swords and arc armament at equal scaling
+
 /datum/action/cooldown/spell/infernal_possession
 	name = "Infernal Possession"
-	desc = "Possess armor, a ring, an amulet, or a weapon; cast on yourself to turn into a potent—but obviously suspicious—staff and possess that instead. Items you possess will have their power increased in a small way: blades will gain a lyfesteal effect, worn items (except stat-rings) will retaliate with fire when struck; small swords and neck-armor will gain unique sprites (change spell mode to disable this). Resist to cancel the possession. Items you possess will be visibly odd. While possessing a wielded weapon or worn clothing/armor, whisper to speak directly into the mind of your bearer. Should they allow it, you can possess your bearer outright; you'll be able to use their skills, spells, and traits while you do, and the item housing you will become obviously suspicious. While you possess them, their body will feel no pain and fear no exsanguination, but will be harmed by silver. If they've used your power (hitting someone with you as a weapon, or blocking a hit with you as armor/clothing), you don't need their consent to possess them; however, if they resist, you will be on a time limit, after which you will be unable to possess them again for some time. While listening to them may be wise, it is by no means mandatory."
+	desc = "Possess armor, a ring, an amulet, or a weapon; change modes to instead conjure a potent—but obviously suspicious—staff or sword and possess that instead. Items you possess will have their power increased in a small way: blades will gain a lyfesteal effect, worn items (except stat-rings) will retaliate with fire when struck; small swords and neck-armor will gain unique sprites (change spell mode to disable this). Resist to cancel the possession. Items you possess will be visibly odd. While possessing a wielded weapon or worn clothing/armor, whisper to speak directly into the mind of your bearer. Should they allow it, you can possess your bearer outright; you'll be able to use their skills, spells, and traits while you do, and the item housing you will become obviously suspicious. While you possess them, their body will feel no pain and fear no exsanguination, but will be harmed by silver. If they've used your power (hitting someone with you as a weapon, or blocking a hit with you as armor/clothing), you don't need their consent to possess them; however, if they resist, you will be on a time limit, after which you will be unable to possess them again for some time. While listening to them may be wise, it is by no means mandatory."
 	button_icon = 'icons/mob/actions/actions_cult.dmi'
 	button_icon_state = "hand"
 	spell_color = PATRON_COLOR_VHESLYN
@@ -345,8 +353,9 @@
 	charge_required = TRUE
 	charge_time = 1 SECONDS
 	modes = list(
-		list("tag" = "", "name" = "Visible"),
-		list("tag" = "INV", "name" = "Invisible"),
+		list("tag" = "", "name" = "Possess"),
+		list("tag" = "STAFF", "name" = "Staff"),
+		list("tag" = "BLADE", "name" = "Blade"),
 	)
 
 /datum/action/cooldown/spell/infernal_possession/cast(atom/cast_on)
@@ -355,18 +364,37 @@
 	if(!istype(H))
 		return FALSE
 	var/obj/item/target = cast_on
-	var/staff = FALSE
-	if(cast_on == H && istype(H, /mob/living/carbon/human/species/familiar/infernal)) // cast on ourself: summon an infernal staff to possess
+	var/conjure = (current_mode != 1)
+	if(current_mode == 2)
 		target = new /obj/item/rogueweapon/woodstaff/implement/greater/infernal(get_turf(H))
-		staff = TRUE
+	else if(current_mode == 3)
+		target = new /obj/item/rogueweapon/sword/long/infernal(get_turf(H))
 	if(!target || !istype(target)) // we cast on nothing, or on something that isn't an item/ourselves. either way we can't move forward
+		return FALSE
+	if(target.is_silver || target.is_lesser_silver)
+		to_chat(H, span_warning("\The [target]'s purity rebukes me! I cannot possess it..."))
+		return FALSE
+	if(target.GetComponent(/datum/component/magic_item))
+		to_chat(H, span_warning("The arcyne energies embedded in [target] rebuke me!"))
+		return FALSE
+	if(target.GetComponent(/datum/component/possessed_item))
+		to_chat(H, span_warning("[target] is already possessed!"))
+		return FALSE
+	if(target.GetComponent(/datum/component/cursed_item))
+		to_chat(H, span_warning("Divine energy repulses me... [target] already bears a curse, it cannot contain me as well."))
+		return FALSE
+	if(istype(target, /obj/item/rogueweapon/sword/long/judgement/vlord)) // why the FUCK does this reimplement the cursed item component's functionality without actually having a cursed item component
+		to_chat(H, span_warning("Divine energy repulses me... [target] already bears a curse, it cannot contain me as well."))
+		return FALSE
+	if(target.GetComponent(/datum/component/conjured_item))
+		to_chat(H, span_warning("I should not possess something so ephemeral."))
 		return FALSE
 	// not a weapon, not an amulet/ring, and not armor
 	if(!istype(target, /obj/item/rogueweapon) && !istype(target, /obj/item/clothing/ring) && !istype(target, /obj/item/clothing/neck/roguetown/psicross) && !target.has_armor_value())
 		to_chat(H, span_warning("I can only possess weapons, armor, rings, and amulets."))
 		return FALSE
 	// it's that easy. all the logic for this is actually in the possessed item component
-	var/datum/component/possessed_item/P = target.AddComponent(/datum/component/possessed_item, H, spell_color, staff ? EXAMINEHIGHLIGHT_HERESYSEVERITY_SUSPICIOUS : EXAMINEHIGHLIGHT_HERESYSEVERITY_ODD, staff ? HERESYDESC_INFERNAL_PASSIVE_OBVIOUS : HERESYDESC_INFERNAL_PASSIVE, EXAMINEHIGHLIGHT_HERESYSEVERITY_SUSPICIOUS, HERESYDESC_INFERNAL_ACTIVE, TRUE, staff, /mob/living/carbon/human/proc/toggle_infernal_armor)
+	var/datum/component/possessed_item/P = target.AddComponent(/datum/component/possessed_item, H, spell_color, conjure ? EXAMINEHIGHLIGHT_HERESYSEVERITY_SUSPICIOUS : EXAMINEHIGHLIGHT_HERESYSEVERITY_ODD, conjure ? HERESYDESC_INFERNAL_PASSIVE_OBVIOUS : HERESYDESC_INFERNAL_PASSIVE, EXAMINEHIGHLIGHT_HERESYSEVERITY_SUSPICIOUS, HERESYDESC_INFERNAL_ACTIVE, TRUE, conjure, /mob/living/carbon/human/proc/toggle_infernal_armor)
 	if(P)
 		RegisterSignal(P, COMSIG_QDELETING, PROC_REF(handle_cooldown))
 	return FALSE // we don't want the CD to start until we get in the item
@@ -587,6 +615,7 @@
 	desc = "Devour a planar being, feasting on its essences. Eat, and grow strong."
 	cast_range = 1
 	cooldown_time = 1 MINUTES
+	charge_required = FALSE
 	button_icon = 'icons/mob/actions/hagspells.dmi'
 	button_icon_state = "hand_up"
 	var/static/list/consumable = list(
@@ -621,7 +650,7 @@
 			span_warning("[user] begins to devour [target]!"),
 			span_warning("I begin to devour [target]!")
 		)
-	if(!do_mob(user,target,5 SECONDS))
+	if(!do_after(user, (isfamiliar(target) ? 5 : 1) SECONDS, target = target))
 		return FALSE
 	// we have a valid mindless target: let's see if it's actually valid for us
 	var/essence_to_grant = null
@@ -711,6 +740,10 @@
 	charge_required = TRUE
 	charge_time = 1 SECONDS
 	cooldown_time = 5 MINUTES // this one's less nefarious, and as such can be freer
+	modes = list(
+		list("tag" = "", "name" = "Possess"),
+		list("tag" = "STAFF", "name" = "Staff"),
+	)
 
 /datum/action/cooldown/spell/void_possession/cast(atom/cast_on)
 	. = ..()
@@ -718,18 +751,31 @@
 	if(!istype(H))
 		return FALSE
 	var/obj/item/target = cast_on
-	var/staff = FALSE
-	if(cast_on == H) // cast on ourself: summon a staff to possess. unlike an infernal, we're a great product of the arcyne and as such, are a finer staff but with no special effects
+	if(current_mode != 1) // staff mode: summon a staff to possess. unlike an infernal, we're a great product of the arcyne and as such, are a finer staff but with no special effects
 		target = new /obj/item/rogueweapon/woodstaff/implement/grand/void(get_turf(H))
-		staff = TRUE
 	if(!target || !istype(target)) // we cast on nothing, or on something that isn't an item. either way we can't move forward
+		return FALSE
+	if(target.GetComponent(/datum/component/magic_item)) // i KNOW one of y'all is going to try to be gamer and double enchant
+		to_chat(H, span_warning("The arcyne energies embedded into [target] repel me!"))
+		return FALSE
+	if(target.GetComponent(/datum/component/possessed_item))
+		to_chat(H, span_warning("[target] is already possessed!"))
+		return FALSE
+	if(target.GetComponent(/datum/component/cursed_item))
+		to_chat(H, span_warning("Divine energy repulses me... [target] already bears a curse, it cannot contain me as well."))
+		return FALSE
+	if(istype(target, /obj/item/rogueweapon/sword/long/judgement/vlord)) // why the FUCK does this reimplement the cursed item component's functionality without actually having a cursed item component
+		to_chat(H, span_warning("Divine energy repulses me... [target] already bears a curse, it cannot contain me as well."))
+		return FALSE
+	if(target.GetComponent(/datum/component/conjured_item))
+		to_chat(H, span_warning("I should not possess something so ephemeral."))
 		return FALSE
 	// not a weapon, not an amulet/ring, and not armor
 	if(!istype(target, /obj/item/rogueweapon) && !istype(target, /obj/item/clothing/ring) && !istype(target, /obj/item/clothing/neck/roguetown/psicross) && !target.has_armor_value())
 		to_chat(H, span_warning("I can only possess weapons, armor, rings, and amulets."))
 		return FALSE
 	// it's that easy. all the logic for this is actually in the possessed item component
-	var/datum/component/possessed_item/P = target.AddComponent(/datum/component/possessed_item, H, spell_color, ephemeral = staff)
+	var/datum/component/possessed_item/P = target.AddComponent(/datum/component/possessed_item, H, spell_color, temp = (current_mode != 1))
 	if(P)
 		RegisterSignal(P, COMSIG_QDELETING, PROC_REF(handle_cooldown))
 	return FALSE // we don't want the CD to start until we get in the item

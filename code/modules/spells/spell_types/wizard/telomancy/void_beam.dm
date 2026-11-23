@@ -147,7 +147,7 @@
 	if(!length(line))
 		return
 
-	playsound(origin, 'sound/magic/soulshot.ogg', 90, TRUE, 4)
+	playsound(origin, 'sound/magic/obeliskbeam.ogg', 90, TRUE, 4)
 	var/index = 0
 	var/last_index = length(line)
 	var/list/struck = list()

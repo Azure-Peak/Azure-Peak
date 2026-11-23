@@ -55,7 +55,8 @@
 		TRAIT_UNCONVERTIBLE,
 		TRAIT_NONAMESTEAL,
 		TRAIT_IRON_WEAK, // iron makes them uncomfy and iron weapons hurt more
-		TRAIT_LESSER_FAE // iron can shackle them
+		TRAIT_LESSER_FAE, // iron can shackle them
+		TRAIT_BLOOD_RESISTANCE // i know, i know, but they genuinely bleed out WAY too fast without it. consider that they have no armor and can't drink water to regen blood
 	)
 	origin = "The Faewyld"
 	origin_default = /datum/virtue/origin/unselectable/fae

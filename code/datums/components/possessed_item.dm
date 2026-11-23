@@ -54,6 +54,7 @@
 	powerful = start_powerful
 	ephemeral = temp
 	RegisterSignal(parent, COMSIG_ITEM_EQUIPPED, PROC_REF(update_bearer))
+	RegisterSignal(parent, COMSIG_PARENT_EXAMINE, PROC_REF(on_examine))
 	if(revert_on_break) // for cursed items we want you to have to DESTROY the item (melt it down with a lamptern/break it completely)
 		RegisterSignal(parent, COMSIG_ITEM_BROKEN, PROC_REF(revert))
 	RegisterSignal(spirit, COMSIG_LIVING_RESIST, PROC_REF(revert))
@@ -75,13 +76,15 @@
 	bearer_verb = verb_to_bearer
 	I.become_hearing_sensitive()
 	spirit.set_resting(TRUE, TRUE)
-	add_verb(spirit, /mob/living/carbon/human/proc/possessed_item_possess)
+	add_verb(spirit.client, /client/proc/possessed_item_possess)
 
 // undo the possession, clean ourselves up
 /datum/component/possessed_item/proc/revert()
 	if(bearer)
 		bearer.release_vessel() // no lingering possession
+		bearer.remove_infernal_armor() // should this be a comsig? probably. but it's harmless to have here as it doesn't do anything unless there IS infernal armor to remove so that's a problem for future me
 	spirit.forceMove(get_turf(parent))
+	remove_verb(spirit.client, /client/proc/possessed_item_possess)
 	if(magic_effect)
 		QDEL_NULL(magic_effect)
 	if(ephemeral)
@@ -96,7 +99,7 @@
 	UnregisterSignal(spirit, COMSIG_MOB_SAY)
 	var/obj/item/I = parent
 	I.filters -= item_filter
-	remove_verb(spirit, /mob/living/carbon/human/proc/possessed_item_possess)
+	remove_verb(spirit.client, /client/proc/possessed_item_possess)
 	. = ..()
 
 /datum/component/possessed_item/proc/update_bearer(datum/source, mob/equipper, slot)
@@ -108,9 +111,14 @@
 		RegisterSignal(bearer, COMSIG_MOB_DROPITEM, PROC_REF(handle_drop))
 		RegisterSignal(bearer, COMSIG_MOB_ITEM_ATTACK_POST_SWINGDELAY, PROC_REF(handle_attack)) // if you whack someone with it, you're cooked
 		if((istype(parent, /obj/item/clothing/ring) || istype(parent, /obj/item/clothing/neck/roguetown/psicross)) && slot != ITEM_SLOT_HANDS) // rings grant passive effects, so simply wearing them is enough; amulets are quintessential cursed item and get an easy pass too
+			to_chat(bearer, span_userdanger("I feel [I]'s power over me grow stronger as I use it...")) // let them know they're being #corrupted so they can drop it if they don't want that
 			curse_timer_id = addtimer(CALLBACK(src, PROC_REF(add_user), bearer), CURSE_CORRUPTION_THRESHOLD, TIMER_STOPPABLE)
 		else if(I.has_armor_value()) // for armor, using it to tank blows is what does you in
 			RegisterSignal(bearer, COMSIG_MOB_ARMOR_INTEGRITY_DAMAGED, PROC_REF(handle_armor_damage))
+
+/datum/component/possessed_item/proc/on_examine(atom/movable/source, mob/user, list/examine_list)
+	if(magic_effect && magic_effect.description)
+		examine_list += span_info(magic_effect.description)
 
 /datum/component/possessed_item/proc/add_user(mob/living/carbon/human/user)
 	if(bearer == user && !(bearer.real_name in users)) // we do need to still be equipped on them for the whole timer period
@@ -141,6 +149,8 @@
 /datum/component/possessed_item/proc/handle_release(mob/living/carbon/human/vessel, mob/dead/observer/eye/screye/displaced_soul/dsoul, mob/living/carbon/human/original, dying)
 	heresy_severity = heresy_severity_passive
 	heresy_desc = heresy_desc_passive
+	if(bearer_verb)
+		remove_verb(vessel, bearer_verb)
 	UnregisterSignal(vessel, COMSIG_MOB_POSSESS_RELEASE)
 	COOLDOWN_START(src, possession_cooldown, POSSESSION_END_COOLDOWN)
 	return TRUE
@@ -162,32 +172,31 @@
 		deltimer(curse_timer_id)
 
 /datum/component/possessed_item/proc/handle_attack(datum/source, mob/target, mob/user, obj/item/I)
-	if(!curse_timer_id && I == parent)
-		to_chat(bearer, span_warning("I feel [I]'s power over me grow stronger as I use it...")) // let them know they're being #corrupted so they can drop it if they don't want that
+	if(powerful && !curse_timer_id && I == parent)
+		to_chat(bearer, span_userdanger("I feel [I]'s power over me grow stronger as I use it...")) // let them know they're being #corrupted so they can drop it if they don't want that
 		curse_timer_id = addtimer(CALLBACK(src, PROC_REF(add_user), bearer), CURSE_CORRUPTION_THRESHOLD, TIMER_STOPPABLE)
 
 /datum/component/possessed_item/proc/handle_armor_damage(datum/source, amount, obj/item/clothing/damaged)
-	if(!curse_timer_id && damaged == parent)
-		to_chat(bearer, span_warning("I feel [damaged]'s power over me grow stronger as I use it...")) // let them know they're being #corrupted so they can drop it if they don't want that
+	if(powerful && !curse_timer_id && damaged == parent)
+		to_chat(bearer, span_userdanger("I feel [damaged]'s power over me grow stronger as I use it...")) // let them know they're being #corrupted so they can drop it if they don't want that
 		curse_timer_id = addtimer(CALLBACK(src, PROC_REF(add_user), bearer), CURSE_CORRUPTION_THRESHOLD, TIMER_STOPPABLE)
 
-/mob/living/carbon/human/proc/possessed_item_possess()
+/client/proc/possessed_item_possess()
 	set name = "Possess Bearer"
 	set category = "RoleUnique.Possessed Item"
 
-	to_chat(world, span_warning("[src]"))
-	var/obj/item/cursed_item = loc
+	var/mob/living/carbon/human/H = mob
+	if(!istype(H))
+		return
+	var/obj/item/cursed_item = mob.loc
 	if(!cursed_item || !istype(cursed_item))
 		return
-	to_chat(world, span_warning("here"))
 	var/datum/component/possessed_item/curse = cursed_item.GetComponent(/datum/component/possessed_item)
 	if(!curse || !curse.bearer || (cursed_item.loc != curse.bearer))
 		return
-	to_chat(world, span_warning("here 2 [COOLDOWN_FINISHED(curse, possession_cooldown)]"))
 	if(!COOLDOWN_FINISHED(curse, possession_cooldown))
 		to_chat(curse.spirit, span_warning("I cannot possess again for another [COOLDOWN_TIMELEFT(curse, possession_cooldown) / (1 MINUTES)] minutes."))
 		return
-	to_chat(world, span_warning("here 3 [curse.powerful] [COOLDOWN_FINISHED(curse, possession_prompt)]"))
 	// powerful curses can possess without consent, but only if the conditions are met. nonpowerful or non-valid targets instead get a consent prompt, but not a spammable one
 	if((!curse.powerful || !(curse.bearer.real_name in curse.users)))
 		if(!COOLDOWN_FINISHED(curse, possession_prompt))
@@ -198,10 +207,9 @@
 			COOLDOWN_START(curse, possession_prompt, POSSESSION_PROMPT_COOLDOWN)
 			return
 
-	to_chat(world, span_warning("here 4"))
 	curse.heresy_severity = curse.heresy_severity_active
 	curse.heresy_desc = curse.heresy_desc_active
-	possess_vessel(curse.bearer, TRAIT_POSSESSED_ITEM, FALSE, TRUE)
+	H.possess_vessel(curse.bearer, TRAIT_POSSESSED_ITEM, FALSE, TRUE)
 	curse.RegisterSignal(curse.bearer, COMSIG_MOB_POSSESS_RELEASE, TYPE_PROC_REF(/datum/component/possessed_item, handle_release))
 	var/mob/dead/observer/eye/screye/displaced_soul/dsoul = curse.bearer.get_displaced_soul()
 	if(dsoul)
