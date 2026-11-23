@@ -1,5 +1,5 @@
-#define BOULDER_MODE_HEAVE "heave"
-#define BOULDER_MODE_DROP "drop"
+#define BOULDER_MODE_HEAVE 1
+#define BOULDER_MODE_DROP 2
 
 /datum/action/cooldown/spell/menhir
 	button_icon = 'icons/mob/actions/mage_geomancy.dmi'
@@ -41,7 +41,6 @@
 	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
 
 	impact_radius = 1
-	var/boulder_mode = BOULDER_MODE_HEAVE
 	var/heave_damage = SPELL_DMG(90)
 	var/drop_damage = 90
 	var/drop_splash = 35
@@ -49,41 +48,17 @@
 	var/frag_count = 8
 	var/frag_damage = SPELL_DMG(15)
 	var/pillar_lifetime = 15 SECONDS
-	var/static/list/mode_labels = list(BOULDER_MODE_HEAVE = "HEAVE", BOULDER_MODE_DROP = "DROP")
-
-/datum/action/cooldown/spell/menhir/Grant(mob/grant_to)
-	. = ..()
-	update_mode_maptext()
-
-/datum/action/cooldown/spell/menhir/toggle_alt_mode(mob/user)
-	boulder_mode = (boulder_mode == BOULDER_MODE_HEAVE) ? BOULDER_MODE_DROP : BOULDER_MODE_HEAVE
-	to_chat(user, span_notice("Menhir set to: [mode_labels[boulder_mode]]."))
-	update_mode_maptext()
-	return TRUE
-
-/datum/action/cooldown/spell/menhir/proc/update_mode_maptext()
-	var/label = mode_labels[boulder_mode]
-	for(var/datum/hud/hud as anything in viewers)
-		var/atom/movable/screen/movable/action_button/B = viewers[hud]
-		var/atom/movable/screen/arc_maptext_holder/holder
-		for(var/atom/movable/screen/arc_maptext_holder/existing in B.vis_contents)
-			holder = existing
-			break
-		if(!holder)
-			holder = new(B)
-			B.vis_contents.Add(holder)
-		holder.maptext = MAPTEXT(label)
-		holder.maptext_x = 5
-		holder.color = GLOW_COLOR_EARTHEN
+	modes = list(list("tag" = "HEAVE", "name" = "Heave"), list("tag" = "DROP", "name" = "Drop"))
+	default_maptext_x = 5
 
 /datum/action/cooldown/spell/menhir/proc/is_drop_mode()
-	return boulder_mode == BOULDER_MODE_DROP
+	return current_mode == BOULDER_MODE_DROP
 
 /datum/action/cooldown/spell/menhir/proc/set_drop_mode(drop)
 	var/wanted = drop ? BOULDER_MODE_DROP : BOULDER_MODE_HEAVE
-	if(boulder_mode == wanted)
+	if(current_mode == wanted)
 		return
-	boulder_mode = wanted
+	current_mode = wanted
 	update_mode_maptext()
 
 /datum/action/cooldown/spell/menhir/get_impact_turfs(atom/center)
@@ -97,7 +72,7 @@
 	var/mob/living/carbon/human/H = owner
 	if(!istype(H))
 		return FALSE
-	if(boulder_mode == BOULDER_MODE_DROP)
+	if(current_mode == BOULDER_MODE_DROP)
 		var/turf/target = get_turf(cast_on)
 		if(!target)
 			return FALSE

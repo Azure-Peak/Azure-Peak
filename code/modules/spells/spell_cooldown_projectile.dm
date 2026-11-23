@@ -167,3 +167,13 @@
 	if(projectile_type_arc)
 		stats += span_info("Arc Mode (toggle with Shift+G): lobs the shot across elevations - aim at a target a level above or below, or at an opening over them.")
 	return stats
+
+/datum/action/cooldown/spell/projectile/apply_mode()
+	..()
+	if(!LAZYLEN(modes))
+		return
+	var/list/mode = modes[current_mode]
+	projectile_type = (mode["proj"] || projectile_type)
+	projectile_type_arc = (mode["proj_arc"] || projectile_type_arc)
+	projectiles_per_fire = (mode["per_fire"] || projectiles_per_fire)
+	arc_mode = (mode["arc"] || arc_mode)
