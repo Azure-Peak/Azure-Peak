@@ -35,7 +35,7 @@
 	offer.region_id = region.region_id
 	offer.good_id = good_id
 	offer.name = "[uppertext(region.name)] - [uppertext(tg ? tg.name : good_id)]"
-	offer.units = max(1, round(rand(OFFER_VALUE_MIN, OFFER_VALUE_MAX) / price))
+	offer.units = deal_units(good_id)
 	offer.unit_price = mammon_round(price * OFFER_PRICE_MULT)
 	offer.total_price = whole_mammon(offer.unit_price * offer.units)
 	offer.day_issued = ECONOMY_DAY

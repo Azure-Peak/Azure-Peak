@@ -161,7 +161,7 @@
 		Master to send a zad and keep an order open another dae.</p>
 
 		<h3>Limits</h3>
-		<p>Each region will have one order at a time. Blockaded regions can have orders but cannot be delivered to.</p>
+		<p>Each region will have one order at a time. Blockaded regions can have orders but cannot be delivered to. Without petitions, there will be few orders for crafted goods, instead favoring normal commodities instead.</p>
 		</div>
 	"}
 
@@ -176,7 +176,7 @@
 		goods that fulfill standing orders tagged for the warehouse.</p>
 
 		<h3>Equipment Orders</h3> <p>Only an exact type match counts. Subtypes,
-		variants, and heirlooms are not consumed.</p>
+		variants, and heirlooms are not consumed. Only crafted goods will count. Hunt trophies are the exception.</p>
 
 		<h3>Potion Orders</h3>
 		<p>Swept by reagent and volume. Any container holding the right reagent counts, consumed from the top until the order is met.</p>

@@ -81,12 +81,14 @@
 	trade_good_id = TRADE_GOOD_CINNABAR
 
 /datum/roguestock/stockpile/cloth
+	market_target = MARKET_TARGET_BULK
 	name = "Cloth"
 	desc = "Lengths of cloth for sewing and tailoring."
 	item_type = /obj/item/natural/cloth
 	trade_good_id = TRADE_GOOD_CLOTH
 
 /datum/roguestock/stockpile/fibers
+	market_target = MARKET_TARGET_BULK
 	name = "Fibers"
 	desc = "Strands used to make cloth and other items."
 	item_type = /obj/item/natural/fibers

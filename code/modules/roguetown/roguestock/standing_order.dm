@@ -19,6 +19,7 @@ GLOBAL_LIST_INIT(request_kinds, init_request_kinds())
 	/// Spawned by a Steward petition. Payout is shaved by PETITION_TAX_MULT and the UI tags it.
 	var/petitioned = FALSE
 	var/partly_delivered = FALSE
+	var/crafted = FALSE
 
 /// Called after region_id is set. Return the order's display name.
 /datum/standing_order/proc/generate_name(datum/economic_region/region)
@@ -41,6 +42,7 @@ GLOBAL_LIST_INIT(request_kinds, init_request_kinds())
 /datum/request_kind
 	var/name
 	var/roll_weight = 1
+	var/crafted = TRUE
 	var/list/goods = list()
 
 /datum/request_kind/arms
@@ -98,6 +100,7 @@ GLOBAL_LIST_INIT(request_kinds, init_request_kinds())
 /datum/request_kind/potions
 	name = "Potions"
 	roll_weight = REQUEST_WEIGHT_POTIONS
+	crafted = FALSE
 	goods = list(
 		TRADE_GOOD_HEALTH_POTION,
 		TRADE_GOOD_ANTIDOTE_POTION,
@@ -180,6 +183,7 @@ GLOBAL_LIST_INIT(request_kinds, init_request_kinds())
 /datum/request_kind/hunt_trophies
 	name = "Hunt Trophies"
 	roll_weight = REQUEST_WEIGHT_TROPHIES
+	crafted = FALSE
 	goods = list(
 		TRADE_GOOD_TROPHY_WHITE_STAG,
 		TRADE_GOOD_TROPHY_MINOTAUR,

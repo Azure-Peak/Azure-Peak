@@ -180,6 +180,7 @@
 			"region_blockaded" = is_blockaded,
 			"has_warehouse" = has_warehouse,
 			"has_stockpile" = has_stockpile,
+			"crafted" = O.crafted,
 			"days_left" = days_left,
 			"payout" = SSeconomy.order_needs_payout(O),
 			"halved" = is_blockaded,

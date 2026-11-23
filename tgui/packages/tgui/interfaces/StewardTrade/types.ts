@@ -74,6 +74,7 @@ export type Order = {
   region_blockaded: BooleanLike;
   has_warehouse: BooleanLike;
   has_stockpile: BooleanLike;
+  crafted: BooleanLike;
   days_left: number;
   payout: number;
   items: OrderItem[];

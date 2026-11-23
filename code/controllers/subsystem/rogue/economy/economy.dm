@@ -202,7 +202,7 @@ SUBSYSTEM_DEF(economy)
 /datum/controller/subsystem/economy/proc/compute_good_unit_payout(datum/standing_order/order, good_id)
 	if(!GLOB.trade_goods[good_id])
 		return 0
-	var/unit_mult = 1 + STANDING_ORDER_BASE_BONUS
+	var/unit_mult = order.crafted ? REQUEST_CRAFTED_PAYOUT_MULT : REQUEST_GOODS_PAYOUT_MULT
 	if(order.petitioned)
 		unit_mult *= PETITION_TAX_MULT
 	return mammon_round(good_steady_price(good_id) * unit_mult)
@@ -256,9 +256,25 @@ SUBSYSTEM_DEF(economy)
 		goods[good_id] = volumes[good_id]
 	return goods
 
+/datum/controller/subsystem/economy/proc/crafted_order_count()
+	var/count = 0
+	for(var/datum/standing_order/O as anything in GLOB.standing_order_pool)
+		if(O.crafted && !O.petitioned && !O.is_fulfilled)
+			count++
+	return count
+
+/datum/controller/subsystem/economy/proc/crafted_order_cap()
+	var/progress = (get_effective_player_count() - REQUEST_CRAFTED_POP_SCALE_START) / (REQUEST_CRAFTED_POP_SCALE_FULL - REQUEST_CRAFTED_POP_SCALE_START)
+	return round(REQUEST_CRAFTED_MAX_OPEN_MIN + clamp(progress, 0, 1) * (REQUEST_CRAFTED_MAX_OPEN_MAX - REQUEST_CRAFTED_MAX_OPEN_MIN), 1)
+
 /datum/controller/subsystem/economy/proc/roll_standing_order(datum/economic_region/region)
 	var/list/goods = stockpile_goods(region.demands)
 	var/list/kinds = region.request_kinds.Copy()
+	if(crafted_order_count() >= crafted_order_cap())
+		for(var/kind in kinds.Copy())
+			var/datum/request_kind/request_kind = GLOB.request_kinds[kind]
+			if(request_kind?.crafted)
+				kinds -= kind
 	if(length(goods))
 		kinds[REQUEST_KIND_GOODS] = REQUEST_WEIGHT_GOODS
 	if(!length(kinds))
@@ -272,18 +288,25 @@ SUBSYSTEM_DEF(economy)
 	var/datum/request_kind/request_kind = GLOB.request_kinds[kind]
 	if(!request_kind || !length(request_kind.goods))
 		return null
-	return instantiate_request(region, pick(request_kind.goods), petitioned)
+	return instantiate_request(region, pick(request_kind.goods), petitioned, request_kind.crafted)
 
-/datum/controller/subsystem/economy/proc/instantiate_request(datum/economic_region/region, good_id, petitioned = FALSE)
-	var/price = good_steady_price(good_id)
-	if(!region || price <= 0)
+/datum/controller/subsystem/economy/proc/instantiate_request(datum/economic_region/region, good_id, petitioned = FALSE, crafted = FALSE)
+	if(!region || good_steady_price(good_id) <= 0)
 		return null
 	var/datum/standing_order/request/O = new()
 	O.region_id = region.region_id
 	O.good_id = good_id
 	O.petitioned = petitioned
-	O.required_items[good_id] = max(1, round(rand(STANDING_ORDER_VALUE_MIN, STANDING_ORDER_VALUE_MAX) / price))
+	O.crafted = crafted
+	O.required_items[good_id] = deal_units(good_id, crafted ? REQUEST_CRAFTED_MAX_UNITS : 0)
 	return post_standing_order(O, region)
+
+/datum/controller/subsystem/economy/proc/deal_units(good_id, max_units = 0)
+	var/datum/roguestock/D = find_stockpile_by_trade_good(good_id)
+	if(D)
+		return max(1, round(D.market_target * rand(DEAL_TARGET_SHARE_MIN, DEAL_TARGET_SHARE_MAX) / 100))
+	var/units = max(1, round(rand(STANDING_ORDER_VALUE_MIN, STANDING_ORDER_VALUE_MAX) / good_steady_price(good_id)))
+	return max_units ? min(units, max_units) : units
 
 /datum/controller/subsystem/economy/proc/post_standing_order(datum/standing_order/O, datum/economic_region/region)
 	O.name = O.generate_name(region)
@@ -315,7 +338,7 @@ SUBSYSTEM_DEF(economy)
 			stock_goods += good_id
 
 	var/list/needs = order_needs(order)
-	var/list/equip_avail = length(equip_goods) ? scan_equipment_availability(needs, equip_goods) : list()
+	var/list/equip_avail = length(equip_goods) ? scan_equipment_availability(needs, equip_goods, order.crafted) : list()
 	var/list/potion_avail = length(potion_goods) ? scan_potion_availability(needs, potion_goods) : list()
 	var/list/stock_avail = length(stock_goods) ? scan_stockpile_availability(needs, stock_goods) : list()
 
@@ -361,7 +384,7 @@ SUBSYSTEM_DEF(economy)
 	GLOB.standing_order_pool -= order
 	return TRUE
 
-/datum/controller/subsystem/economy/proc/scan_equipment_availability(list/needs, list/goods)
+/datum/controller/subsystem/economy/proc/scan_equipment_availability(list/needs, list/goods, crafted_only = FALSE)
 	var/list/out = list()
 	var/list/matched_by_good = list()
 	var/list/found_by_good = list()
@@ -373,6 +396,8 @@ SUBSYSTEM_DEF(economy)
 		if(QDELETED(M))
 			continue
 		for(var/obj/item/I in view(1, M))
+			if(crafted_only && !I.was_crafted)
+				continue
 			for(var/good_id in goods)
 				var/datum/trade_good/tg = GLOB.trade_goods[good_id]
 				if(!tg || !tg.item_type || !istype(I, tg.item_type))

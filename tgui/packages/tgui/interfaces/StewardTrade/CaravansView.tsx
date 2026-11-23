@@ -667,6 +667,9 @@ const RouteBlock = (props: {
                     {!!o.has_warehouse && (
                       <span style={tagStyle(SEAL_BLUE)}>WAREHOUSE</span>
                     )}
+                    {!!o.crafted && (
+                      <span style={tagStyle(SEAL_AMBER)}>CRAFTED ONLY</span>
+                    )}
                     {!!o.petitioned && (
                       <span style={tagStyle(PETITION_PURPLE)}>PETITIONED</span>
                     )}
@@ -883,7 +886,9 @@ const RequestPanel = (props: {
   const stockLines = quote.items.map((it) => {
     const prefix = single ? '' : `${it.needed} ${goodName(it.good_id)}: `;
     if (it.route === 'warehouse') {
-      return `${prefix}On the warehouse dock: ${it.loaded}`;
+      return order.crafted
+        ? `${prefix}Crafted pieces on the warehouse dock: ${it.loaded}`
+        : `${prefix}On the warehouse dock: ${it.loaded}`;
     }
     const market = it.market_closed
       ? 'closed'
