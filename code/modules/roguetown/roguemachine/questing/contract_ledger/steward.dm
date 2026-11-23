@@ -49,7 +49,7 @@
 	for(var/list/draw as anything in draws)
 		Q.add_funding(draw["fund"], draw["amount"])
 
-/obj/structure/roguemachine/contractledger/proc/apply_commission_terms(datum/quest/Q, list/params, cost, list/draws, funding, is_directive, bonus_pay_level, is_alderman_acting, region_name, in_hands)
+/obj/structure/roguemachine/contractledger/proc/apply_commission_terms(datum/quest/Q, list/params, cost, list/draws, funding, is_directive, bonus_pay_level, region_name, in_hands)
 	attach_commission_draws(Q, draws)
 	var/bonus_mult = get_commission_bonus_pay_mult(bonus_pay_level)
 	if(bonus_mult != 1.0)
@@ -59,7 +59,7 @@
 		Q.reward_amount = 0
 		Q.is_directive = TRUE
 		directives_issued_today++
-	var/levy_exempt = (!is_directive && !is_alderman_acting && params["levy_exempt"]) ? TRUE : FALSE
+	var/levy_exempt = (!is_directive && params["levy_exempt"]) ? TRUE : FALSE
 	if(levy_exempt)
 		Q.levy_exempt = TRUE
 	var/list/log_entry = list(
@@ -123,7 +123,8 @@
 	if(!ishuman(user))
 		return
 	var/mob/living/carbon/human/steward = user
-	if(!can_commission(steward))
+	var/access = commission_access(steward)
+	if(!access)
 		return
 	if(!steward.Adjacent(src))
 		return
@@ -137,14 +138,15 @@
 		to_chat(steward, span_warning("The Crown doesn't issue that kind of contract."))
 		return
 
-	var/is_alderman_acting = SScity_assembly?.is_alderman(steward)
-	if(is_alderman_acting && steward.job == "Steward")
-		is_alderman_acting = FALSE
+	var/is_alderman_acting = access == COMMISSION_ACCESS_ALDERMAN
+	var/pledge_only = access != COMMISSION_ACCESS_FULL
 
 	var/funding = params["funding"] || "pledge"
-	if(is_alderman_acting && funding != "pledge")
-		to_chat(steward, span_warning("As Alderman, you can't use the Treasury or issue Requests."))
+	if(pledge_only && funding != "pledge")
+		to_chat(steward, span_warning(is_alderman_acting ? "As Alderman, you can't use the Treasury or issue Requests." : "With the Steward's key, you can't use the Treasury or issue Requests."))
 		return
+	if(pledge_only)
+		params["levy_exempt"] = null
 
 	var/cost = chosen_proto.defense_cost
 	var/bonus_pay_level = CLAMP(text2num("[params["bonus_pay_level"]]") || COMMISSION_BONUS_PAY_NONE, COMMISSION_BONUS_PAY_NONE, COMMISSION_BONUS_PAY_FULL)
@@ -180,7 +182,7 @@
 	var/list/draws = list()
 	if(source_fund && cost > 0)
 		var/topup_share = 0
-		if(source_fund == SStreasury.burgher_pledge_fund && source_fund.balance < cost && params["crown_topup"] && !is_alderman_acting)
+		if(source_fund == SStreasury.burgher_pledge_fund && source_fund.balance < cost && params["crown_topup"] && !pledge_only)
 			if(!SStreasury.discretionary_fund)
 				to_chat(steward, span_warning("The Treasury isn't open yet."))
 				return
@@ -242,7 +244,7 @@
 	dispatched.shows_commission_seal = TRUE
 	if(is_alderman_acting && cost > 0)
 		dispatched.warrant_consumed = cost
-	var/levy_exempt = apply_commission_terms(dispatched, params, cost, draws, funding, is_directive, bonus_pay_level, is_alderman_acting, chosen_region.region_name, in_hands)
+	var/levy_exempt = apply_commission_terms(dispatched, params, cost, draws, funding, is_directive, bonus_pay_level, chosen_region.region_name, in_hands)
 	var/bonus_label_text = get_commission_bonus_pay_label(bonus_pay_level)
 	SSquestpool.log_event("defense_issue", "[steward.real_name] commissioned [dispatched.quest_difficulty] [chosen_type] in [chosen_region.region_name] for [cost]m ([funding])[levy_exempt ? " (levy-exempt)" : ""][bonus_label_text ? " ([bonus_label_text])" : ""][dispatched.veteran ? " (veteran)" : ""][in_hands ? " (in hand)" : ""]")
 	var/source_label = commission_source_label(is_directive, draws)
@@ -277,7 +279,7 @@
 		return
 	if(is_alderman_acting && cost > 0 && SScity_assembly.consume_defense(cost, steward, "blockade defense scroll ([region_name])"))
 		Q.warrant_consumed = cost
-	var/levy_exempt = apply_commission_terms(Q, params, cost, draws, funding, is_directive, bonus_pay_level, is_alderman_acting, region_name, TRUE)
+	var/levy_exempt = apply_commission_terms(Q, params, cost, draws, funding, is_directive, bonus_pay_level, region_name, TRUE)
 	var/bonus_label_text = get_commission_bonus_pay_label(bonus_pay_level)
 	SSquestpool.log_event("defense_issue", "[steward.real_name] commissioned blockade defense on [region_name] (faction [Q.faction_id]) for [cost]m ([funding])[levy_exempt ? " (levy-exempt)" : ""][bonus_label_text ? " ([bonus_label_text])" : ""]")
 	scom_announce("A blockade defense scroll has been issued for [chosen.get_region_names()][bonus_label_text ? ". It carries [bonus_label_text]" : ""].")
@@ -308,7 +310,7 @@
 		return
 	if(is_alderman_acting && cost > 0 && SScity_assembly.consume_defense(cost, steward, "hoard recovery scroll ([region_name])"))
 		Q.warrant_consumed = cost
-	var/levy_exempt = apply_commission_terms(Q, params, cost, draws, funding, is_directive, bonus_pay_level, is_alderman_acting, region_name, TRUE)
+	var/levy_exempt = apply_commission_terms(Q, params, cost, draws, funding, is_directive, bonus_pay_level, region_name, TRUE)
 	var/bonus_label_text = get_commission_bonus_pay_label(bonus_pay_level)
 	SSquestpool.log_event("defense_issue", "[steward.real_name] commissioned hoard recovery on [region_name] (faction [Q.faction_id], hoard [TR.banditry_hoard]) for [cost]m ([funding])[levy_exempt ? " (levy-exempt)" : ""][bonus_label_text ? " ([bonus_label_text])" : ""]")
 	scom_announce("A hoard recovery scroll has been issued for [region_name][bonus_label_text ? ". It carries [bonus_label_text]" : ""].")
