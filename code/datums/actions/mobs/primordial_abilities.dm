@@ -44,7 +44,7 @@
 	strike_sound = 'sound/misc/undertow.ogg'
 	detonate_sound = null
 	hit_sound = null
-	var/victim_slowdown = 4
+	var/victim_slowdown = 7 SECONDS
 	var/flood_duration = 15 SECONDS
 	var/list/flooded
 
@@ -54,7 +54,7 @@
 /datum/action/cooldown/spell/telegraphed_strike/dragons_breath/mob_ability/primordial/deluge/on_hit_target(mob/living/H, mob/living/L, facing)
 	. = ..()
 	if(victim_slowdown)
-		L.Slowdown(victim_slowdown)
+		L.apply_slowdown(victim_slowdown)
 
 /datum/action/cooldown/spell/telegraphed_strike/dragons_breath/mob_ability/primordial/deluge/on_strike_complete(mob/living/H, hit_count, deflected)
 	. = ..()

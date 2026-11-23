@@ -123,7 +123,7 @@
 					continue
 				apply_scorch_stack(L, 1)
 				L.apply_status_effect(/datum/status_effect/debuff/vulnerable, WYRMFIRE_VULNERABLE_DURATION)
-				L.Slowdown(1)
+				L.apply_slowdown(1 SECONDS)
 
 	if(arcyne_aoe_radius > 0)
 		var/struct_radius = structural_damage_radius ? structural_damage_radius : arcyne_aoe_radius

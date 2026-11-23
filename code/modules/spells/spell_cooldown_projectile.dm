@@ -69,7 +69,7 @@
 	else if(aim_locked_turf && isliving(owner))
 		var/mob/living/caster = owner
 		var/obj/projectile/active_type = (arc_mode && projectile_type_arc) ? projectile_type_arc : projectile_type
-		target = caster.get_ranged_lead_turf(target, aim_locked_turf, initial(active_type.speed), caster.STAINT) || target
+		target = caster.get_ranged_lead_turf(target, aim_locked_turf, initial(active_type.speed), caster.STAINT, CASTER_NPC_LEAD_ERROR_BONUS) || target
 
 	fire_projectile(target)
 	aim_locked_turf = null

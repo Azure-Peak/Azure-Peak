@@ -24,7 +24,7 @@
 
 /datum/component/alter_ego/proc/disguised(mob/watcher)
 	var/mob/living/carbon/human/H = parent
-	return active && !isobserver(watcher) && H.get_face_name() != H.real_name
+	return active && !isobserver(watcher) && H.get_face_name("U") != H.get_unmasked_name()
 
 /datum/component/alter_ego/proc/apply(state)
 	var/mob/living/carbon/human/H = parent

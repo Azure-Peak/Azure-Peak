@@ -442,7 +442,7 @@
 	playsound(victim, 'sound/items/knife_open.ogg', 100, TRUE)
 	victim.visible_message(span_warningbig("[victim] steps on [src]!"),
 		span_warningbig("I feel the snapping of twine under my boot!"))
-	victim.Slowdown(5)
+	victim.apply_slowdown(9 SECONDS)
 	if(victim.STAINT <= 10 || victim.STAPER <= 10 || !victim.mind)
 		victim.Immobilize(5)
 		victim.emote(pick("huh","whimper","fwhine","gasp"))

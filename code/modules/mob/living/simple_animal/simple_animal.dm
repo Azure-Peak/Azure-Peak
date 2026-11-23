@@ -240,19 +240,22 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 		nest.spawned_mobs -= src
 		nest = null
 
-	if(ssaddle)
-		QDEL_NULL(ssaddle)
-		ssaddle = null
-
-	if(ccaparison)
-		QDEL_NULL(ccaparison)
-		ccaparison = null
-
-	if(bbarding)
-		QDEL_NULL(bbarding)
-		bbarding = null
+	drop_tack()
+	QDEL_NULL(ssaddle)
+	QDEL_NULL(ccaparison)
+	QDEL_NULL(bbarding)
 
 	return ..()
+
+/mob/living/simple_animal/proc/drop_tack()
+	var/turf/T = get_turf(src)
+	if(!T)
+		return
+	for(var/obj/item/gear as anything in list(ssaddle, bbarding, ccaparison))
+		gear?.forceMove(T)
+	ssaddle = null
+	bbarding = null
+	ccaparison = null
 
 /mob/living/simple_animal/attackby(obj/item/O, mob/user, params)
 	if(!food_typecache?[O.type])
@@ -505,9 +508,7 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 	..()
 
 /mob/living/simple_animal/proc/butcher(mob/living/user, on_meathook = FALSE)
-	if(ssaddle)
-		ssaddle.forceMove(get_turf(src))
-		ssaddle = null
+	drop_tack()
 
 	var/butchery_skill_level = user.get_skill_level(/datum/skill/labor/butchering)
 	var/time_per_cut = min(BUTCHERING_MAX_TIME_PER_STEP, BUTCHERING_BASE_TIME_PER_STEP - butchery_skill_level * BUTCHERING_TIME_REDUCTION_PER_SKILL) // 1.8 seconds for no skill, 0.2 seconds for legendary
