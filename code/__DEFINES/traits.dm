@@ -484,7 +484,7 @@
 #define TRAIT_MONSTER_HUNTER "Monster Hunter" // SHOULD BE EXCLUSIVE TO TOWNER HUNTER, Noble Hunters is already a noble and other classes have combat advantage.
 #define TRAIT_RUN_FOR_IT "Running For It"
 #define TRAIT_ENCHANTING_EXPERT "Expert Enchanter" //Engineering, Smelting, Blacksmithing, used for enchanting virtue
-#define TRAIT_PROWLER_EXPERT "Legendary Prowler"
+#define TRAIT_PROWLER_EXPERT "Legendary Prowler" //Sneaking, Lockpicking
 
 
 //item and enchantment traits should go under here as new ones get added
@@ -754,8 +754,7 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_BLOODLOSS_IMMUNE = span_notice("While I may bleed, I will feel nothing from it."),
 	TRAIT_ASTRATAN_AFFINITY = span_bone("My bond with Astrata is strong. I can tell who worships her from up close."),
 	TRAIT_ADRENALINE_RUSH = span_notice("I'm invigorated in the midst of battle! I don't feel my wounds!"),
-	TRAIT_PROWLER_EXPERT = span_greentext("I've honed the arts of stealth. " \
-		+ "Sneaking and Lockpicking can progress to Legendary."),
+	TRAIT_PROWLER_EXPERT = span_greentext("I've honed the arts of stealth. Sneaking and Lockpicking can progress to Legendary levels."),
 	TRAIT_MEDICINE_EXPERT = span_greentext("I've deep, intricate knowledge of the medicinal arts. This skill can progress to Master and Legendary levels."),
 	TRAIT_ALCHEMY_EXPERT = span_greentext("I've deep, intricate knowledge of the alchemical arts. This skill can progress to Legendary levels."),
 	TRAIT_SMITHING_EXPERT = span_greentext("I'm experienced with the arts of smithing and engineering. Smithing, Smelting, Engineering, Mining, Masonry and Pottery can progress to Legendary levels."),
