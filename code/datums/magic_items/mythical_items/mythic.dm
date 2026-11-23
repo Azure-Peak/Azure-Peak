@@ -11,7 +11,7 @@
 	var/warned
 
 /datum/magic_item/mythic/infernalflame/on_hit(obj/item/source, atom/target, mob/user, proximity_flag, click_parameters)
-	if(!proximity_flag)
+	if(!proximity_flag || HAS_TRAIT(user, TRAIT_PACIFISM))
 		return
 	if(world.time < src.last_used + INFERNAL_FLAME_COOLDOWN)
 		return
@@ -74,7 +74,7 @@
 			src.last_used = world.time
 
 /datum/magic_item/mythic/freezing/on_hit(obj/item/source, atom/target, mob/user, proximity_flag, click_parameters)
-	if(!proximity_flag)
+	if(!proximity_flag || HAS_TRAIT(user, TRAIT_PACIFISM))
 		return
 	if(world.time < src.last_used + FREEZING_COOLDOWN)
 		return
@@ -103,7 +103,7 @@
 
 /datum/magic_item/mythic/briarcurse/on_hit(obj/item/source, atom/target, mob/user, proximity_flag, click_parameters)
 	.=..()
-	if(!proximity_flag)
+	if(!proximity_flag || HAS_TRAIT(user, TRAIT_PACIFISM))
 		return
 	if(isliving(user))
 		var/mob/living/carbon/targeted = user
@@ -120,7 +120,7 @@
 
 /datum/magic_item/mythic/rewind/on_hit(obj/item/source, atom/target, mob/user, proximity_flag, click_parameters)
 	.=..()
-	if(!proximity_flag)
+	if(!proximity_flag || HAS_TRAIT(user, TRAIT_PACIFISM))
 		return
 	if(world.time < src.last_used + REWIND_COOLDOWN)
 		return
