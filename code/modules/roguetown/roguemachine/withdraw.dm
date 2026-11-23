@@ -27,7 +27,7 @@
 	return GLOB.human_adjacent_state
 
 /obj/structure/roguemachine/withdraw/attackby(obj/item/P, mob/user, params)
-	if(istype(P, /obj/item/roguecoin/ancient))
+	if(istype(P, /obj/item/roguecoin/psila))
 		return
 	if(istype(P, /obj/item/roguecoin/marque))
 		return

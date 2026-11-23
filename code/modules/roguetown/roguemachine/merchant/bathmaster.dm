@@ -140,7 +140,7 @@
 		if(!right_key)
 			to_chat(user, span_warning("Wrong key."))
 		return
-	if(istype(P, /obj/item/roguecoin/ancient))
+	if(istype(P, /obj/item/roguecoin/psila))
 		return
 	if(istype(P, /obj/item/roguecoin/marque))
 		return

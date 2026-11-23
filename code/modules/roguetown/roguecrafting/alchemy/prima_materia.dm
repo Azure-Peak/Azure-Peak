@@ -43,7 +43,7 @@
 /datum/materia_aspect/ancient // gilbranze, specifically the pure stuff
 	name = "Vindexio"
 	desc = "A lost ideal. Once, this was the most important of materia; now, its uses are for the esoteric and heretical. <i>And it was a beautiful world we lost...</i>"
-	cheapest_known_source = /obj/item/roguecoin/ancient
+	cheapest_known_source = /obj/item/roguecoin/psila
 
 /datum/materia_aspect/malleability // cinnabar
 	name = "Mollis"

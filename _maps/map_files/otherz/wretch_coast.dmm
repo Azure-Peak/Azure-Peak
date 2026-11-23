@@ -368,7 +368,7 @@
 /turf/open/floor/carpet/red,
 /area/rogue/under/cave/inhumen)
 "bu" = (
-/obj/item/roguecoin/ancient/pile,
+/obj/item/roguecoin/psila/pile,
 /obj/structure/ritualcircle/matthios,
 /turf/open/floor/rogue/cobble,
 /area/rogue/under/cave/inhumen)
@@ -389,7 +389,7 @@
 /obj/effect/decal/cobbleedge{
 	icon_state = "cobbleedge-sread"
 	},
-/obj/item/roguecoin/ancient/pile,
+/obj/item/roguecoin/psila/pile,
 /turf/open/floor/rogue/cobble/mossy,
 /area/rogue/under/cave/inhumen)
 "by" = (
@@ -2148,7 +2148,7 @@
 /area/rogue/indoors/banditcamp)
 "jj" = (
 /obj/structure/table/vtable,
-/obj/item/roguecoin/ancient/pile,
+/obj/item/roguecoin/psila/pile,
 /obj/structure/mirror/fancy,
 /turf/open/floor/rogue/churchbrick,
 /area/rogue/indoors/vampire_manor)
@@ -7229,7 +7229,7 @@
 /obj/item/reagent_containers/glass/cup/silver/pewter{
 	pixel_x = -11
 	},
-/obj/item/roguecoin/ancient/pile,
+/obj/item/roguecoin/psila/pile,
 /turf/open/floor/rogue/twig,
 /area/rogue/under/cave/inhumen)
 "DE" = (
@@ -7734,7 +7734,7 @@
 /turf/open/water/ocean,
 /area/rogue/outdoors/woods/wretch_lair)
 "FZ" = (
-/obj/item/roguecoin/ancient/pile,
+/obj/item/roguecoin/psila/pile,
 /obj/structure/closet/crate/chest/neu_iron,
 /obj/item/clothing/neck/roguetown/psicross/noc/aalloy,
 /obj/item/rogueweapon/thresher/aalloy,
@@ -8615,7 +8615,7 @@
 /turf/closed/wall/mineral/rogue/decostone,
 /area/rogue/under/cave/inhumen)
 "JN" = (
-/obj/item/roguecoin/ancient/pile,
+/obj/item/roguecoin/psila/pile,
 /turf/open/floor/rogue/cobble,
 /area/rogue/under/cave/inhumen)
 "JO" = (
@@ -8751,7 +8751,7 @@
 /area/rogue/under/cave/inhumen)
 "Kg" = (
 /obj/machinery/light/rogue/candle/r,
-/obj/item/roguecoin/ancient/pile,
+/obj/item/roguecoin/psila/pile,
 /obj/structure/ritualcircle/matthios,
 /turf/open/floor/rogue/cobble/mossy,
 /area/rogue/under/cave/inhumen)
@@ -9411,7 +9411,7 @@
 /area/rogue/outdoors/woods/vampire_lair)
 "MG" = (
 /obj/structure/closet/crate/chest/neu_iron,
-/obj/item/roguecoin/ancient/pile,
+/obj/item/roguecoin/psila/pile,
 /obj/item/clothing/neck/roguetown/psicross/aalloy,
 /obj/item/rogueweapon/sickle/aalloy,
 /turf/open/floor/rogue/AzureSand,
@@ -9770,7 +9770,7 @@
 "Oi" = (
 /obj/machinery/light/rogue/candle/l,
 /obj/structure/ritualcircle/matthios,
-/obj/item/roguecoin/ancient/pile,
+/obj/item/roguecoin/psila/pile,
 /obj/effect/decal/cobbleedge{
 	dir = 9
 	},
@@ -9983,7 +9983,7 @@
 /turf/closed/wall/mineral/rogue/decostone/mossy/cand,
 /area/rogue/under/cave/inhumen)
 "Pb" = (
-/obj/item/roguecoin/ancient/pile,
+/obj/item/roguecoin/psila/pile,
 /obj/structure/closet/crate/chest/neu_iron,
 /obj/item/clothing/neck/roguetown/psicross/noc/aalloy,
 /obj/item/roguestatue/aalloy,
@@ -12047,7 +12047,7 @@
 /area/rogue/under/cave/inhumen)
 "Yf" = (
 /obj/structure/table/vtable/v2,
-/obj/item/roguecoin/ancient/pile,
+/obj/item/roguecoin/psila/pile,
 /obj/effect/decal/cleanable/dirt/cobweb{
 	icon_state = "cobweb2"
 	},

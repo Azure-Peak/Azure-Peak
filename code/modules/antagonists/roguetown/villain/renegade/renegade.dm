@@ -78,7 +78,7 @@
 	if(H.advsetup)
 		addtimer(CALLBACK(src, PROC_REF(wait_class)), 5 SECONDS)
 		return
-	H.put_in_hands(new /obj/item/roguecoin/ancient(get_turf(H), RENEGADE_STARTING_PSILA))
+	H.put_in_hands(new /obj/item/roguecoin/psila(get_turf(H), RENEGADE_STARTING_PSILA))
 	to_chat(H, span_notice("A purse of [RENEGADE_STARTING_PSILA] psila weighs in my hand. Vheslie will take them gladly."))
 	INVOKE_ASYNC(src, PROC_REF(pick_skills))
 

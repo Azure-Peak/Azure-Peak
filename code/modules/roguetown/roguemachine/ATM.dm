@@ -72,7 +72,7 @@
 
 /obj/structure/roguemachine/atm/attackby(obj/item/P, mob/user, params)
 	if(ishuman(user))
-		if(istype(P, /obj/item/roguecoin/ancient))
+		if(istype(P, /obj/item/roguecoin/psila))
 			return
 
 		if(istype(P, /obj/item/roguecoin/marque))

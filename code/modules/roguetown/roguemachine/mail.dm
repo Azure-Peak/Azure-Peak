@@ -868,7 +868,7 @@
 			playsound(loc, 'sound/misc/disposalflush.ogg', 100, FALSE, -1)
 			return
 
-	if(istype(P, /obj/item/roguecoin/ancient))
+	if(istype(P, /obj/item/roguecoin/psila))
 		return
 
 	if(istype(P, /obj/item/roguecoin/marque))
