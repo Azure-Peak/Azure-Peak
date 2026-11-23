@@ -379,7 +379,7 @@
 
 
 //mob projectiles
-/obj/projectile/bullet/reusable/arrow/ancient
+/obj/projectile/bullet/reusable/arrow/skeleton
 	damage = 10
 	armor_penetration = PEN_LIGHT
 	ammo_type = /obj/item/ammo_casing/caseless/rogue/arrow/ancient/decrepit
