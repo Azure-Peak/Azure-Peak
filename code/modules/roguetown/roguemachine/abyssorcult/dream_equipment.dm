@@ -86,20 +86,21 @@
 	max_integrity = ARMOR_INT_HELMET_HARDLEATHER
 	armor = ARMOR_PADDED
 	block2add = null
+	var/sleek = FALSE
 
 /obj/item/clothing/head/roguetown/helmet/heavy/abyssor_painter/attack_self(mob/user)
 	..()
-	if(icon_state == "leaderhelm")
-		icon_state = "leaderhelm_f"
-		to_chat(user, span_notice("You adjust [src] into a sleek configuration."))
-	else
-		icon_state = "leaderhelm"
-		to_chat(user, span_notice("You adjust [src] back to its standard configuration."))
-
+	sleek = !sleek
+	to_chat(user, span_notice("You adjust [src] [sleek ? "into a sleek" : "back to its standard"] configuration."))
 	update_icon()
 	if(loc == user && ishuman(user))
 		var/mob/living/carbon/human/H = user
 		H.update_inv_head()
+
+/obj/item/clothing/head/roguetown/helmet/heavy/abyssor_painter/build_worn_icon(default_layer, default_icon_file, isinhands, femaleuniform, override_state, female, customi, sleeveindex, boobed_overlay, icon/clip_mask)
+	if(sleek)
+		female = TRUE // the 'sleek' sprite is a _f sprite, but mob/living/carbon/human/update_inv_head always passes FALSE to 'female' and therefore never uses it!
+	return ..()
 
 /obj/item/rogueweapon/huntingknife/paint
 	name = "painted knife"
