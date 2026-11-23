@@ -1,4 +1,0 @@
-author: "WeNeedMorePhoron"
-delete-after: True
-changes:
-  - rscadd: "Optimized the contract ledger, admin tabs removal and crafting menu. Report oddities."

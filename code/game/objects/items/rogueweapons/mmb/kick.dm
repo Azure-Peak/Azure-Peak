@@ -37,6 +37,8 @@
 	var/atom/target = A
 	if(isturf(A))
 		for(var/mob/living/M in A)
+			if(M == src)
+				continue
 			target = M
 			break
 	// but the rest of the logic is pretty much mob-only

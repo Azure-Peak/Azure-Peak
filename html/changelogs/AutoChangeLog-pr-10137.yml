@@ -1,4 +1,0 @@
-author: "WeNeedMorePhoron"
-delete-after: True
-changes:
-  - rscadd: "Remove leashing / presence requirements for Mercenary to receive stipend, added a note that you will get jobbanned if you abuse this"

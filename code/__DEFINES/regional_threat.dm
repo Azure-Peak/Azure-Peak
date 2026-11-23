@@ -15,14 +15,14 @@
 #define LOWPOP_THRESHOLD 60 // When do we give highpop tick?
 
 /// Threat Point tiers for ambush mobs. Base unit: 10 = one wolf.
-#define THREAT_TRASH 8		// Fox, raccoon, bigrat, mire crawler, all goblins — trivial critters
-#define THREAT_LOW 10		// Wolf, bobcat, badger, honeyspider, supereasy skeleton, medium skeleton
-#define THREAT_MODERATE 14	// Mossback, mole, easy/pirate/bogguard skeleton, hobgoblin, militia deserter
-#define THREAT_HIGH 20		// Highwayman + archer/crossbowman, orc footsoldier/archer, deepone, mutated spider
-#define THREAT_TOUGH 25		// Searaider + archer, mount reaver, hard skeleton, drow raider, deepone spit/wiz
-#define THREAT_DANGEROUS 30	// Bog deserter, orc berserker/marauder, troll, bog troll, drider, direbear
-#define THREAT_DEADLY 40		// Searaider huscarl, road knight, sharpshooter, orc warlord, direvolf — champion-tier
-#define THREAT_ELITE 50		// Minotaur, mirespider lurker/paralytic, dwarf skeleton, mad-touched — boss-tier mobs
+#define THREAT_TRASH 8		// Fox, raccoon, bigrat, mire crawler, all goblins, ungeared ambush skeleton — trivial critters
+#define THREAT_LOW 10		// Wolf, bobcat, badger, honeyspider, supereasy skeleton
+#define THREAT_MODERATE 14	// Mossback, mole, easy/pirate skeleton, bog skeleton + archer, hobgoblin, militia deserter
+#define THREAT_HIGH 20		// Highwayman + archer/crossbowman, orc footsoldier/archer, medium/archer/mediumspread skeleton, deepone, mutated spider
+#define THREAT_TOUGH 25		// Searaider + archer, mount reaver, hardspread skeleton, drow raider, deepone spit/wiz
+#define THREAT_DANGEROUS 30	// Bog deserter, orc berserker/marauder, hard skeleton, troll, bog troll, drider, direbear
+#define THREAT_DEADLY 40		// Searaider huscarl, road knight, sharpshooter, orc warlord, bog skeleton master, direvolf — champion-tier
+#define THREAT_ELITE 50		// Minotaur, mirespider lurker/paralytic, dwarf skeleton, deadite troll/saiga, mad-touched — boss-tier mobs
 #define THREAT_ELITE_PLUS 60	// For mad-touched madman so we can account for their strength w/o nerfing them
 #define THREAT_APEX 70		// Half-drakkyn, ancient dreamfiend
 #define THREAT_LEGENDARY 100 // Drakkyn broodmother

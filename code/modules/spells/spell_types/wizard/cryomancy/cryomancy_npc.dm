@@ -65,7 +65,7 @@
 
 /datum/action/cooldown/spell/verglas/npc_use_chance(atom/target)
 	var/mob/living/victim = target
-	if(verglas_mode != initial(verglas_mode) || !isliving(victim) || npc_target_shooting(victim))
+	if(current_mode != initial(current_mode) || !isliving(victim) || npc_target_shooting(victim))
 		return 0
 	var/list/patch = get_impact_turfs(victim)
 	if(!length(patch) || npc_allies_in(get_visible_area_turfs(get_turf(victim), verglas_radius + CRYO_VERGLAS_ALLY_MARGIN)))

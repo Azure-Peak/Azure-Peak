@@ -1,3 +1,5 @@
+#define MOB_ABILITY_RETRY_DELAY (4 SECONDS)
+
 /**
  * # Targeted Mob Ability
  * Attempts to use a mob's cooldown ability on a target
@@ -21,6 +23,7 @@
 			controller.set_blackboard_key(BB_ABILITY_COMMITTED_UNTIL, world.time + commit)
 		return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_SUCCEEDED
 
+	ability.npc_retry_at = world.time + MOB_ABILITY_RETRY_DELAY
 	//var/result = ability.perform(list(target), TRUE, pawn)
 	return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_FAILED
 /datum/ai_behavior/targeted_mob_ability/finish_action(datum/ai_controller/controller, succeeded, ability_key, target_key)
@@ -51,3 +54,5 @@
 	if(QDELETED(target))
 		return FALSE
 	set_movement_target(controller, target, new_movement)
+
+#undef MOB_ABILITY_RETRY_DELAY
