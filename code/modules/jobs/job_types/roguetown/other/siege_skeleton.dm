@@ -81,7 +81,7 @@
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/ancient/decrepit
 	pants = /obj/item/clothing/under/roguetown/chainlegs/kilt/ancient/decrepit
 	shoes = /obj/item/clothing/shoes/roguetown/boots/ancient/decrepit
-	neck = /obj/item/clothing/neck/roguetown/chaincoif/iron/ancient/decrepit
+	neck = /obj/item/clothing/neck/roguetown/chaincoif/ancient/decrepit
 	gloves = /obj/item/clothing/gloves/roguetown/chain/ancient/decrepit
 	l_hand = /obj/item/rogueweapon/shield/tower/ancient/decrepit //guarrenteed ancient shield, its going to break pretty fast.
 	H.adjust_blindness(-3)
@@ -161,7 +161,7 @@
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/ancient/decrepit
 	pants = /obj/item/clothing/under/roguetown/chainlegs/kilt/ancient/decrepit
 	shoes = /obj/item/clothing/shoes/roguetown/boots/ancient/decrepit
-	neck = /obj/item/clothing/neck/roguetown/chaincoif/iron/ancient/decrepit
+	neck = /obj/item/clothing/neck/roguetown/chaincoif/ancient/decrepit
 	gloves = /obj/item/clothing/gloves/roguetown/chain/ancient/decrepit
 	l_hand = /obj/item/gun/ballistic/revolver/grenadelauncher/bow
 	backl = /obj/item/quiver/decrepit

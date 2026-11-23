@@ -110,7 +110,7 @@ LICH SKELETONS
 			backr = /obj/item/rogueweapon/shield/wood //Weaker, go ballistaire for a good shield w/this
 		if("An Ancient Dagger + Ancient Shield")
 			beltl = /obj/item/rogueweapon/huntingknife/idagger/ancient
-			backr = /obj/item/rogueweapon/shield/bronze/paalloy
+			backr = /obj/item/rogueweapon/shield/bronze/ancient
 	var/tabards = list("Black Jupon", "Black Tabard", "Black Cloak + Greathood", "Black Toga")
 	var/tabard_choice = input(H, "Choose your CLOAK.", "BEAR YOUR MASTER'S HERALDRY.") as anything in tabards
 	switch(tabard_choice)
@@ -304,7 +304,7 @@ LICH SKELETONS
 			H.adjust_skillrank(/datum/skill/combat/polearms, 1, TRUE)
 			H.change_stat(STATKEY_STR, 1)
 		if("Shieldbearer - Mace + Shield, +3 WIL / -1 SPD") //Bulwark in the name, these guys are harder than legionarries to tire but they don't do as much damage and are much slower.
-			r_hand = /obj/item/rogueweapon/mace/steel/ancient
+			r_hand = /obj/item/rogueweapon/mace/ancient
 			l_hand = /obj/item/rogueweapon/shield/tower/ancient
 			H.adjust_skillrank(/datum/skill/combat/maces, 1, TRUE)
 			H.adjust_skillrank(/datum/skill/combat/shields, 2, TRUE) //Upto expert
@@ -717,11 +717,11 @@ LICH SKELETONS
 			var/weapon_choice = input(H, "Choose your WEAPON.", "RAGE AGAINST THE LYVING.") as anything in weapons
 			switch(weapon_choice)
 				if("Ancient Mace")
-					beltr = granted_weapon = /obj/item/rogueweapon/mace/steel/ancient
+					beltr = granted_weapon = /obj/item/rogueweapon/mace/ancient
 				if("Ancient Warhammer")
-					beltr = granted_weapon = /obj/item/rogueweapon/mace/warhammer/steel/ancient
+					beltr = granted_weapon = /obj/item/rogueweapon/mace/warhammer/ancient
 				if("Ancient Grand Mace")
-					r_hand = granted_weapon = /obj/item/rogueweapon/mace/goden/steel/ancient
+					r_hand = granted_weapon = /obj/item/rogueweapon/mace/goden/ancient
 					backr = /obj/item/rogueweapon/scabbard/gwstrap
 				if("Ancient Alloy Axe")
 					beltr = granted_weapon = /obj/item/rogueweapon/stoneaxe/woodcut/ancient

@@ -33,7 +33,7 @@
 	. = ..()
 	. += span_info("Middle click to adjust whether the ring is layered above or below your character's sleeves. This is an experimental feature, and might require some fidgeting to get working.")
 
-/obj/item/clothing/ring/ancient/decrepit
+/obj/item/clothing/ring/decrepit
 	name = "decrepit ring"
 	desc = "A coil of rotted metal."
 	icon_state = "ring_a"

@@ -19,7 +19,7 @@
 	shoes = /obj/item/clothing/shoes/roguetown/boots/ancient/decrepit
 	gloves = /obj/item/clothing/gloves/roguetown/chain/ancient/decrepit
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/ancient/decrepit
-	neck = /obj/item/clothing/neck/roguetown/chaincoif/iron/ancient/decrepit
+	neck = /obj/item/clothing/neck/roguetown/chaincoif/ancient/decrepit
 	head = /obj/item/clothing/head/roguetown/helmet/kettle/ancient/decrepit
 	mask = /obj/item/clothing/mask/rogue/facemask/ancient/decrepit
 
@@ -57,5 +57,5 @@
 	H.STAPER = 12
 	H.adjust_skillrank_up_to(/datum/skill/combat/crossbows, SKILL_LEVEL_JOURNEYMAN, TRUE)
 	H.upgrade_ai_controller(/datum/ai_controller/human_npc/archer)
-	backr = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow/decrepit
+	backr = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow/ancient
 	backl = /obj/item/quiver/bolt/conjured

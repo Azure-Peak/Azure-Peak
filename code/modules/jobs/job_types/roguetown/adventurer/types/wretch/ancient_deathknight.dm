@@ -129,7 +129,7 @@
 			r_hand = /obj/item/rogueweapon/halberd/bardiche/ancient
 			H.adjust_skillrank_up_to(/datum/skill/combat/polearms, 4, TRUE)
 		if("Grand Mace") //Arguably amongst the stronger picks.
-			r_hand = /obj/item/rogueweapon/mace/goden/steel/ancient
+			r_hand = /obj/item/rogueweapon/mace/goden/ancient
 			H.adjust_skillrank_up_to(/datum/skill/combat/maces, 4, TRUE)
 
 	backpack_contents = list(

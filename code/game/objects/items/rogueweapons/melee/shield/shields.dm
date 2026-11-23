@@ -296,8 +296,7 @@
 	coverage = 40
 	max_integrity = 200
 
-// Heater Shields.
-obj/item/rogueweapon/shield/heater
+/obj/item/rogueweapon/shield/heater
 	name = "heater shield"
 	desc = "A sturdy wood and leather shield. Made to not be too encumbering while still providing good protection."
 	icon_state = "heatersh"
@@ -474,7 +473,7 @@ obj/item/rogueweapon/shield/heater
 	smeltresult = /obj/item/ingot/drow
 	smelt_bar_num = 1
 
-/obj/item/rogueweapon/shield/tower/decrepit
+/obj/item/rogueweapon/shield/tower/ancient/decrepit
 	name = "decrepit shield"
 	desc = "A hefty tower shield, wrought from rotted metal. Looped with dried kelp and reeking of saltwater, you'd assume that this had been fished \
 	out from the remains of a long-sunken warship.. alongside its former legionnaire."

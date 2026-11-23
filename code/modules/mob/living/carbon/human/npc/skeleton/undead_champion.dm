@@ -50,7 +50,7 @@
 	. = ..()
 	H.adjust_skillrank_up_to(/datum/skill/combat/maces, SKILL_LEVEL_EXPERT, TRUE)
 	H.adjust_skillrank_up_to(/datum/skill/combat/shields, SKILL_LEVEL_EXPERT, TRUE)
-	r_hand = /obj/item/rogueweapon/mace/steel/ancient
+	r_hand = /obj/item/rogueweapon/mace/ancient
 	l_hand = /obj/item/rogueweapon/shield/tower/ancient
 
 /datum/outfit/job/roguetown/undead_champion/grand_mace/pre_equip(mob/living/carbon/human/H, visualsOnly)
