@@ -78,14 +78,12 @@
 // in case it wasn't obvious enough that this is license for people to be mad at you
 // update 2026-04-16: it wasn't obvious enough STILL. have some role-specific prodding to do some conflict
 // update 2026-08-02: maybe the role-specific text is enough actually
-/mob/living/carbon/human/species/familiar/infernal/examine(mob/user)
-	var/list/ret = ..()
-	// ret.Insert(2,span_userdanger("A DAEMON...!"))
-	if(HAS_TRAIT(user, TRAIT_CLERGY))
-		ret.Insert(3, span_notice("Vile Archdevil-spawn! Binding such things is forbidden! Brook not daemonbinders!"))
-	if(HAS_TRAIT(user, TRAIT_INQUISITION))
-		ret.Insert(3, span_notice("Summoning daemons to kill is one thing. Bringing one to Psydonia in full is blatant disrespect of His sacrifice! Brook not daemonbinders!"))
-	return ret
+/mob/living/carbon/human/species/familiar/infernal/get_villain_text(mob/examiner)
+	if(HAS_TRAIT(examiner, TRAIT_CLERGY))
+		return span_notice("Vile Archdevil-spawn! Binding such things is forbidden! Brook not daemonbinders!")
+	if(HAS_TRAIT(examiner, TRAIT_INQUISITION))
+		return span_notice("Summoning daemons to kill is one thing. Bringing one to Psydonia in full is blatant disrespect of His sacrifice! Brook not daemonbinders!")
+	return ..()
 
 /mob/living/carbon/human/species/familiar/infernal/Life()
 	. = ..()
