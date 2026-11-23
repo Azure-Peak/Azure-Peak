@@ -182,6 +182,8 @@
 	if("towner" in dynamic_roles)
 		data["towner_purse_balance"] = SStreasury?.discretionary_fund?.balance || 0
 		data["towner_company_balance"] = SStreasury?.merchant_fund?.balance || 0
+		data["towner_pledge_balance"] = SStreasury?.burgher_pledge_fund?.balance || 0
+		data["towner_can_pledge"] = user_can_pledge_towner(user)
 		data["towner_active_postings"] = count_active_towner_postings(user)
 	return data
 
