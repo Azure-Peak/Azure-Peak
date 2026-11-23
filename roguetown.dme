@@ -2049,6 +2049,7 @@
 #include "code\modules\discord\toggle_notify.dm"
 #include "code\modules\droning\droning.dm"
 #include "code\modules\economy\regions\economic_region.dm"
+#include "code\modules\economy\regions\estate_realms.dm"
 #include "code\modules\economy\regions\regions.dm"
 #include "code\modules\economy\regions\routes.dm"
 #include "code\modules\economy\regions\trade_good_groups.dm"

@@ -132,18 +132,6 @@ GLOBAL_LIST_INIT(economic_regions, init_economic_regions())
 		record_material_flow(MATERIAL_FLOW_IN, MATERIAL_SOURCE_LOCAL_IMPORT, D.item_type, units[good_id])
 	deliver_gifts()
 
-/datum/economic_region/proc/estate_parcel()
-	var/list/goods = list()
-	if(!length(tribute_goods))
-		return goods
-	var/good_id = pick(tribute_goods)
-	var/datum/trade_good/tg = GLOB.trade_goods[good_id]
-	var/price = SSeconomy.good_steady_price(good_id)
-	if(!tg?.item_type || price <= 0)
-		return goods
-	goods[tg.item_type] = max(1, round(ESTATE_PARCEL_VALUE / price))
-	return goods
-
 /datum/economic_region/proc/deliver_gifts()
 	if(!length(gifts))
 		return
@@ -156,9 +144,9 @@ GLOBAL_LIST_INIT(economic_regions, init_economic_regions())
 	var/obj/item/gift = new gift_type(parcel)
 	gift.mark_as_gift()
 
-/datum/economic_region/proc/gift_names()
+/proc/gift_names(list/gift_types)
 	var/list/names = list()
-	for(var/obj/item/gift_type as anything in gifts)
+	for(var/obj/item/gift_type as anything in gift_types)
 		names += initial(gift_type.name)
 	return names
 

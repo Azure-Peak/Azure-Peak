@@ -59,7 +59,7 @@
 			"description" = region.description,
 			"subroute" = "[region.subroute]",
 			"tribute" = region.tribute_goods.Copy(),
-			"gifts" = region.gift_names(),
+			"gifts" = gift_names(region.gifts),
 			"supply" = region.trade_type_rows(region.produces, region.supply_sources),
 			"demand" = region.trade_type_rows(region.demands, region.demand_sources, TRUE),
 		)

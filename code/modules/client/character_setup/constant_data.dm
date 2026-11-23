@@ -29,6 +29,7 @@
 		"patrons" = get_patrons(),
 		"political_factions" = get_political_factions(),
 		"estate_routes" = get_estate_routes(),
+		"estate_realms" = get_estate_realms(),
 		"preview_backgrounds" = get_preview_bgs(),
 		"species" = get_species(),
 		"sprite_accessories" = get_sprite_accessories(),
@@ -80,7 +81,7 @@
 					"name" = region.name,
 					"description" = region.description,
 					"tribute" = trade_good_names(region.tribute_goods),
-					"gifts" = region.gift_names(),
+					"gifts" = gift_names(region.gifts),
 				))
 			subroutes += list(list(
 				"name" = initial(subroute.name),
@@ -89,6 +90,18 @@
 		. += list(list(
 			"name" = get_route_name(route),
 			"subroutes" = subroutes,
+		))
+
+/datum/asset/json/preferences/proc/get_estate_realms()
+	. = list()
+	for(var/realm_id in GLOB.estate_realms)
+		var/datum/estate_realm/realm = GLOB.estate_realms[realm_id]
+		. += list(list(
+			"id" = realm.id,
+			"name" = realm.name,
+			"description" = realm.description,
+			"tribute" = trade_good_names(realm.tribute_goods),
+			"gifts" = gift_names(realm.gifts),
 		))
 
 /* INSTRUCTIONS FOR DOWNSTREAM:

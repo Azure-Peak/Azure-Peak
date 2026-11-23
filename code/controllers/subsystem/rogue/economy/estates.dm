@@ -1,3 +1,12 @@
+/proc/estate_choice_name(estate_id)
+	if(estate_id == ESTATE_LANDLESS)
+		return "Landless"
+	var/datum/economic_region/region = GLOB.economic_regions[estate_id]
+	if(region)
+		return region.name
+	var/datum/estate_realm/realm = GLOB.estate_realms[estate_id]
+	return realm?.name
+
 /datum/noble_estate
 	var/region_id = TRADE_REGION_KINGSFIELD
 	var/rank = NOBLE_RANK_NONE
@@ -31,14 +40,26 @@
 	return 0
 
 /datum/noble_estate/proc/get_region()
-	if(rank == NOBLE_RANK_NONE && pay_rank == NOBLE_RANK_NONE)
+	if(max(rank, pay_rank) == NOBLE_RANK_NONE || region_id == ESTATE_LANDLESS || GLOB.estate_realms[region_id])
 		return null
 	return GLOB.economic_regions[region_id] || GLOB.economic_regions[TRADE_REGION_KINGSFIELD]
+
+/datum/noble_estate/proc/get_realm()
+	if(max(rank, pay_rank) == NOBLE_RANK_NONE)
+		return null
+	return GLOB.estate_realms[region_id]
+
+/datum/noble_estate/proc/estate_name()
+	var/datum/economic_region/region = get_region()
+	if(region)
+		return region.name
+	var/datum/estate_realm/realm = get_realm()
+	return realm?.name
 
 /datum/controller/subsystem/economy/proc/estate_region_pref(mob/living/H, client/C)
 	var/datum/preferences/prefs = C?.prefs || H.client?.prefs || GLOB.preferences_datums[ckey(H.mind?.key)]
 	var/region_id = prefs?.estate_region
-	if(!region_id || !GLOB.economic_regions[region_id])
+	if(!estate_choice_name(region_id))
 		return TRADE_REGION_KINGSFIELD
 	return region_id
 
@@ -55,9 +76,9 @@
 	E.rank = max(E.rank, rank)
 	E.pay_rank = max(E.pay_rank, pay_rank)
 	if(!was_ranked && E.rank > NOBLE_RANK_NONE)
-		var/datum/economic_region/region = E.get_region()
-		if(region)
-			record_featured_object_stat(FEATURED_STATS_ESTATES, region.name)
+		var/estate_name = E.estate_name()
+		if(estate_name)
+			record_featured_object_stat(FEATURED_STATS_ESTATES, estate_name)
 	if(ishuman(H))
 		var/mob/living/carbon/human/human = H
 		human.noble_rank = E.rank
@@ -68,11 +89,21 @@
 
 /datum/controller/subsystem/economy/proc/pay_estates()
 	var/gift_today = (ECONOMY_DAY % ESTATE_GIFT_INTERVAL) == 0
+	var/ship_today = (ECONOMY_DAY % ESTATE_FOREIGN_INTERVAL) == 0
 	for(var/mob/living/H as anything in estates.Copy())
 		if(QDELETED(H))
 			estates -= H
 			continue
 		var/datum/noble_estate/E = estates[H]
+		if(E.get_realm())
+			if(HAS_TRAIT(H, TRAIT_OUTLAW))
+				continue
+			E.undelivered_days++
+			if(gift_today)
+				E.undelivered_gifts++
+			if(ship_today)
+				deliver_estate(H, E, E.undelivered_days, E.undelivered_gifts)
+			continue
 		var/datum/economic_region/region = E.get_region()
 		if(!region)
 			SStreasury.grant_estate_income(H, E.daily_income())
@@ -97,10 +128,27 @@
 			continue
 		deliver_estate(H, E, E.undelivered_days, E.undelivered_gifts)
 
+/datum/controller/subsystem/economy/proc/estate_parcel(list/good_ids)
+	var/list/goods = list()
+	var/list/valid = list()
+	for(var/good_id in good_ids)
+		var/datum/trade_good/tg = GLOB.trade_goods[good_id]
+		if(tg?.item_type && good_steady_price(good_id) > 0)
+			valid += good_id
+	if(!length(valid))
+		return goods
+	var/good_id = pick(valid)
+	var/datum/trade_good/tg = GLOB.trade_goods[good_id]
+	var/count = ESTATE_PARCEL_VALUE / good_steady_price(good_id)
+	var/whole = round(count)
+	goods[tg.item_type] = max(1, whole + prob((count - whole) * 100))
+	return goods
+
 /datum/controller/subsystem/economy/proc/deliver_estate(mob/living/H, datum/noble_estate/E, days, gifts)
 	E.undelivered_days = 0
 	E.undelivered_gifts = 0
 	var/datum/economic_region/region = E.get_region()
+	var/datum/estate_realm/realm = E.get_realm()
 	SStreasury.grant_estate_income(H, E.daily_income() * days)
 	var/parcels = E.parcels_per_day() * days + E.unsent_parcels
 	gifts += E.unsent_gifts
@@ -113,15 +161,17 @@
 		return
 	E.unsent_parcels = 0
 	E.unsent_gifts = 0
+	var/list/parcel_goods = region ? region.tribute_goods : realm.tribute_goods
+	var/list/gift_pool = region ? region.gifts : realm.gifts
 	var/list/items = list()
 	for(var/i in 1 to parcels)
-		var/list/goods = region.estate_parcel()
+		var/list/goods = estate_parcel(parcel_goods)
 		for(var/path in goods)
 			for(var/j in 1 to goods[path])
 				items += new path()
-	if(length(region.gifts))
+	if(length(gift_pool))
 		for(var/i in 1 to gifts)
-			var/gift_type = pick(region.gifts)
+			var/gift_type = pick(gift_pool)
 			var/obj/item/gift = new gift_type()
 			gift.mark_as_gift()
 			items += gift
@@ -135,11 +185,12 @@
 		sack = new_estate_sack(deliveries)
 		if(!SEND_SIGNAL(sack, COMSIG_TRY_STORAGE_INSERT, I, null, TRUE, FALSE))
 			deliveries += I
+	var/sender = "[E.estate_name()] Estate"
 	for(var/obj/item/delivery as anything in deliveries)
 		if(istype(delivery, /obj/item/storage/roguebag) && !length(delivery.contents))
 			qdel(delivery)
 			continue
-		if(!deliver_mail(delivery, H.real_name, "[region.name] Estate"))
+		if(!deliver_mail(delivery, H.real_name, sender))
 			qdel(delivery)
 
 /datum/controller/subsystem/economy/proc/new_estate_sack(list/deliveries)

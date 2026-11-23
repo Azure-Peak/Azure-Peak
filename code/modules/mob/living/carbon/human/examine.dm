@@ -853,25 +853,22 @@
 		if(show_descriptors || observer_privilege)
 			var/datum/political_faction/faction = political_faction_seen_by(user)
 			var/fellow = user != src && is_political_noble(user)
-			var/neutral = faction?.id == POLITICAL_FACTION_NEUTRAL
 			if(is_political_noble(src) && !is_ruler)
-				var/rank_line = noble_rank_examine_line(noble_rank)
-				if(fellow)
-					var/fellow_line = (faction && !neutral) ? "A fellow noble of the [faction.name] faction" : "A fellow noble"
-					var/estate_name = estate_region_name()
-					if(estate_name)
-						fellow_line += ", with an estate in [estate_name]"
-					standing += "[fellow_line]."
-				if(rank_line)
-					standing += rank_line
-				else if(!fellow)
-					standing += "A noble!"
-				if(faction && (!fellow || neutral))
-					standing += faction.examine_line(TRUE)
-				if(observer_privilege)
-					var/ghost_estate = estate_region_name()
-					if(ghost_estate)
-						standing += "Holds an estate in [ghost_estate]."
+				var/noble_line = "[fellow ? "A fellow" : "A"] noble"
+				if(noble_rank > NOBLE_RANK_NONE)
+					noble_line += " (<span class='tooltip' title=\"[GLOB.noble_rank_descs[noble_rank]]\">[GLOB.noble_rank_titles[noble_rank]]</span>)"
+				if(faction && !faction.examine_text)
+					noble_line += " of the [faction.name] faction"
+				var/datum/noble_estate/estate = SSeconomy.estates[src]
+				if(estate && (fellow || observer_privilege) && !HAS_TRAIT(src, TRAIT_OUTLAW))
+					var/estate_name = estate.estate_name()
+					if(estate.region_id == ESTATE_LANDLESS)
+						noble_line += ", without any significant estates"
+					else if(estate_name)
+						noble_line += ", with an estate in [estate_name]"
+				standing += "[noble_line]."
+				if(faction?.examine_text)
+					standing += faction.examine_text
 			else if(faction)
 				standing += faction.examine_line(is_political_noble(src))
 

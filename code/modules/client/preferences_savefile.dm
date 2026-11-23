@@ -753,7 +753,8 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	clothes_pref	= sanitize_inlist(clothes_pref, GLOB.clothespref_list, CLOTHES_M)
 	voice_type		= sanitize_inlist(voice_type, GLOB.voice_types_list, VOICE_TYPE_MASC)
 	voice_pack		= sanitize_inlist(voice_pack, GLOB.voice_packs_list, VOICE_PACK_DEFAULT)
-	estate_region	= sanitize_inlist(estate_region, GLOB.economic_regions, TRADE_REGION_KINGSFIELD)
+	if(!estate_choice_name(estate_region))
+		estate_region	= TRADE_REGION_KINGSFIELD
 	political_faction	= sanitize_inlist(political_faction, GLOB.political_factions, POLITICAL_FACTION_NEUTRAL)
 	race_bonus		= sanitize_inlist_no_pick(race_bonus, pref_species.custom_selection, initial(race_bonus))
 	examine_theme	= sanitize_inlist_no_pick(examine_theme, GLOB.tgui_themes, initial(examine_theme))

@@ -40,6 +40,8 @@
 #define TRADE_REGION_HEARTFELT "heartfelt"
 #define TRADE_REGION_HAGENWALD "hagenwald"
 
+#define ESTATE_LANDLESS "landless"
+
 #define ECONOMY_DAY (max(1, GLOB.dayspassed))
 
 // How many caravans you start with - 4 for a decent amount of Steward agency
@@ -97,6 +99,7 @@
 #define ESTATE_PARCELS_ROYAL 3
 #define ESTATE_PARCEL_VALUE 15
 #define ESTATE_GIFT_INTERVAL 3
+#define ESTATE_FOREIGN_INTERVAL 2
 
 #define REQUEST_KIND_GOODS "goods"
 

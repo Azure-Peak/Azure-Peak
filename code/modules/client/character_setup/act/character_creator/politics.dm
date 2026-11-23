@@ -3,12 +3,12 @@
 
 	switch(action)
 		if("set_estate_region")
-			var/datum/economic_region/region = GLOB.economic_regions[params["region_id"]]
-			if(!region)
+			var/new_id = params["region_id"]
+			var/new_name = estate_choice_name(new_id)
+			if(!new_name)
 				return CHARACTER_ACT_DATA_UPDATE
-			var/datum/economic_region/current = GLOB.economic_regions[estate_region]
-			verbose_pref_log_change(user, "notice", "Estate", current?.name, region.name)
-			estate_region = region.region_id
+			verbose_pref_log_change(user, "notice", "Estate", estate_choice_name(estate_region), new_name)
+			estate_region = new_id
 			return CHARACTER_ACT_DATA_UPDATE
 
 		if("set_political_faction")

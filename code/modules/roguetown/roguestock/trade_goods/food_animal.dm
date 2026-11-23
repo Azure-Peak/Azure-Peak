@@ -159,3 +159,9 @@
 	name = "Honey"
 	base_price = SELLPRICE_HONEY
 	item_type = /obj/item/reagent_containers/food/snacks/rogue/honey
+
+/datum/trade_good/animal_preserved/spider_honey
+	id = TRADE_GOOD_SPIDER_HONEY
+	name = "Spider Honey"
+	base_price = SELLPRICE_SPIDER_HONEY
+	item_type = /obj/item/reagent_containers/food/snacks/rogue/honey/spider

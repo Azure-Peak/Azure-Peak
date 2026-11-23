@@ -72,6 +72,7 @@
 #define TRADE_GOOD_FAT "FAT"
 #define TRADE_GOOD_TALLOW "TALLOW"
 #define TRADE_GOOD_HONEY "HONEY"
+#define TRADE_GOOD_SPIDER_HONEY "SPIDER_HONEY"
 #define TRADE_GOOD_BONES "BONES"
 #define TRADE_GOOD_LESSER_MEAT "LESSER_MEAT"
 #define TRADE_GOOD_BOGMEAT "BOGMEAT"
@@ -335,6 +336,7 @@
 #define SELLPRICE_FAT 3
 #define SELLPRICE_TALLOW 2
 #define SELLPRICE_HONEY 5
+#define SELLPRICE_SPIDER_HONEY 7
 // Preserved meats (raw meat + salt, hand-processed — cheap per bite but orders want a lot).
 // Coppiette is intentionally NOT a trade good — it's a merchant-purchasable bulk pack
 // (see code/modules/cargo/packsrogue/), which would let the Steward arbitrage buy-to-sell

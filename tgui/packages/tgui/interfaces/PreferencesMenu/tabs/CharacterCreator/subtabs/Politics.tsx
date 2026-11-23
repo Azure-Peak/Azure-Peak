@@ -29,7 +29,9 @@ const FACTION_HELP =
   "Your faction will always apply to your character. It is always visible to other nobles if you're a noble, but otherwise only to people of the same faction.";
 
 const ESTATE_HELP =
-  "Estates will only apply if your character is a noble. Your estate determines which region of Azuria your character's estate is located in, and determines what kind of tributes in kind you will receive every day, the gifts you will receive every third dae, and what blockades will affect your income. If you're a noble of foreign origin, you can flavor it as where your foreign tributes or income arrive.";
+  "Estates will only apply if your character is a noble. Your estate determines which region your character's estate is located in, and determines what kind of tributes in kind you will receive every day / every two day, the gifts you will receive every third dae, and what blockades will affect your income. Foreign estates arrive every other dae and are immune to blockades.";
+
+const LANDLESS = 'landless';
 
 const HelpButton = (props: { text: string }) => (
   <Button
@@ -164,22 +166,49 @@ const FactionSection = (props: { constantData: ConstantData }) => {
   );
 };
 
+const EstateTab = (props: {
+  id: string;
+  name: string;
+  viewing: string;
+  held: string;
+  onView: (id: string) => void;
+}) => (
+  <Tabs.Tab
+    selected={props.viewing === props.id}
+    onClick={() => props.onView(props.id)}
+    leftSlot={props.name}
+    rightSlot={<Icon name={props.held === props.id ? 'check' : ''} />}
+  />
+);
+
 const EstateSection = (props: { constantData: ConstantData }) => {
   const { act, data } = useBackendStrict<PoliticsData>();
   const routes = props.constantData.estate_routes;
+  const realms = props.constantData.estate_realms;
   const [viewing, setViewing] = useState(data.estate_region);
 
-  const entries = routes.flatMap((route) =>
-    route.subroutes.flatMap((sub) =>
-      sub.regions.map((region) => ({
-        region,
-        subroute: sub.name,
-        route: route.name,
-      })),
+  const entries = [
+    ...routes.flatMap((route) =>
+      route.subroutes.flatMap((sub) =>
+        sub.regions.map((region) => ({
+          region,
+          label: `${sub.name}, ${route.name}`,
+          raid: sub.name,
+        })),
+      ),
     ),
-  );
-  const found = entries.find((e) => e.region.id === viewing) ?? entries[0];
-  const selected = found?.region.id === data.estate_region;
+    ...realms.map((region) => ({
+      region,
+      label: 'Foreign',
+      raid: null as string | null,
+    })),
+  ];
+  const landless = viewing === LANDLESS;
+  const found = landless
+    ? undefined
+    : (entries.find((e) => e.region.id === viewing) ?? entries[0]);
+  const viewingId = landless ? LANDLESS : found?.region.id;
+  const selected = viewingId === data.estate_region;
 
   return (
     <Stack fill>
@@ -190,6 +219,15 @@ const EstateSection = (props: { constantData: ConstantData }) => {
           title="Estate"
           buttons={<HelpButton text={ESTATE_HELP} />}
         >
+          <Tabs vertical mt={0} mb={1}>
+            <EstateTab
+              id={LANDLESS}
+              name="Landless"
+              viewing={viewing}
+              held={data.estate_region}
+              onView={setViewing}
+            />
+          </Tabs>
           {routes.map((route) => (
             <Box key={route.name} mb={1}>
               <Box bold>{route.name}</Box>
@@ -198,18 +236,13 @@ const EstateSection = (props: { constantData: ConstantData }) => {
                   <Box color="label">{sub.name}</Box>
                   <Tabs vertical mt={0}>
                     {sub.regions.map((region) => (
-                      <Tabs.Tab
+                      <EstateTab
                         key={region.id}
-                        selected={viewing === region.id}
-                        onClick={() => setViewing(region.id)}
-                        leftSlot={region.name}
-                        rightSlot={
-                          region.id === data.estate_region ? (
-                            <Icon name="check" />
-                          ) : (
-                            <Icon name="" />
-                          )
-                        }
+                        id={region.id}
+                        name={region.name}
+                        viewing={viewing}
+                        held={data.estate_region}
+                        onView={setViewing}
                       />
                     ))}
                   </Tabs>
@@ -217,20 +250,37 @@ const EstateSection = (props: { constantData: ConstantData }) => {
               ))}
             </Box>
           ))}
+          {realms.length ? (
+            <Box mb={1}>
+              <Box bold>Foreign</Box>
+              <Tabs vertical mt={0.5} ml={1}>
+                {realms.map((region) => (
+                  <EstateTab
+                    key={region.id}
+                    id={region.id}
+                    name={region.name}
+                    viewing={viewing}
+                    held={data.estate_region}
+                    onView={setViewing}
+                  />
+                ))}
+              </Tabs>
+            </Box>
+          ) : null}
         </Section>
       </Stack.Item>
       <Stack.Item grow basis={0}>
         <Section
           fill
           scrollable
-          title={found?.region.name}
+          title={landless ? 'Landless' : found?.region.name}
           buttons={
-            found ? (
+            viewingId ? (
               <Button
                 disabled={selected}
                 color="justNotTransparent"
                 onClick={() =>
-                  act('set_estate_region', { region_id: found.region.id })
+                  act('set_estate_region', { region_id: viewingId })
                 }
               >
                 {selected ? 'Already Selected' : 'Select This Estate'}
@@ -238,15 +288,25 @@ const EstateSection = (props: { constantData: ConstantData }) => {
             ) : null
           }
         >
-          {found ? (
+          {landless ? (
+            <Box>
+              Landless nobles only receive noble income and gain noble
+              privilege, but will not be affected by blockades.
+            </Box>
+          ) : found ? (
             <>
-              <Box color="label">
-                {found.subroute}, {found.route}
-              </Box>
+              <Box color="label">{found.label}</Box>
               {found.region.tribute.length ? (
-                <Box mt={1}>
-                  <b>Parcels:</b> {found.region.tribute.join(', ')}
-                </Box>
+                <>
+                  <Box mt={1}>
+                    <b>Parcels:</b> {found.region.tribute.join(', ')}
+                  </Box>
+                  <Box mt={0.5} color="label">
+                    {found.raid
+                      ? 'You get a random selection of goods mailed to you every dae through the HERMES from your estate.'
+                      : 'You get a random selection of goods mailed to you through the HERMES from your estate.'}
+                  </Box>
+                </>
               ) : null}
               {found.region.gifts.length ? (
                 <Box mt={0.5}>
@@ -255,8 +315,9 @@ const EstateSection = (props: { constantData: ConstantData }) => {
                 </Box>
               ) : null}
               <Box mt={0.5} color="average">
-                A raid on {found.subroute} holds back estate income until it is
-                cleared.
+                {found.raid
+                  ? `A raid on ${found.raid} holds back estate income until it is cleared.`
+                  : 'Foreign estates arrive every other dae and are immune to blockades. Each delivery carries the income, goods and gifts owed since the last.'}
               </Box>
               {found.region.description ? (
                 <Box mt={1}>{found.region.description}</Box>

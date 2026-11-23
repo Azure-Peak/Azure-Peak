@@ -26,6 +26,7 @@ export type ConstantData = {
   patrons: Record<Path, ConstantPatron>;
   political_factions: ConstantPoliticalFaction[];
   estate_routes: ConstantEstateRoute[];
+  estate_realms: ConstantEstateRegion[];
   preview_backgrounds: string[];
   species: ConstantSpecies[];
   sprite_accessories: Record<Path, ConstantSpriteAccessory>;
