@@ -60,7 +60,7 @@
 			src.mind.AddSpell(new /datum/action/cooldown/spell/void_beam/familiar)
 		if("elemental") // stat buff, inherits spell
 			to_chat(src, span_notice("As you absorb the essence of the depths, you take on some of its nature. Your body grows sturdier, and you can now tear stones from the earth itself, or reshape your form."))
-			src.STACON += 5 // set to 10 con
+			src.STACON += 5 // = 10 con total
 			src.mind.AddSpell(new /datum/action/cooldown/spell/magicians_stone/elemental/void)
 			src.mind.AddSpell(new /datum/action/cooldown/spell/earthen_forge/void)
 
