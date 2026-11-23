@@ -341,6 +341,10 @@
 	glow_intensity = GLOW_INTENSITY_LOW
 	cooldown_time = 10 MINUTES // once you're out, you're exposed for a good while. note that this cooldown starts once you LEAVE the form, not on possess
 	charge_required = FALSE
+	modes = list(
+		list("tag" = "", "name" = "Visible"),
+		list("tag" = "INV", "name" = "Invisible"),
+	)
 
 /datum/action/cooldown/spell/infernal_possession/cast(atom/cast_on)
 	. = ..()
@@ -359,7 +363,7 @@
 		to_chat(H, span_warning("I can only possess weapons, armor, rings, and amulets."))
 		return FALSE
 	// it's that easy. all the logic for this is actually in the possessed item component
-	var/datum/component/possessed_item/P = target.AddComponent(/datum/component/possessed_item, H, spell_color, staff ? EXAMINEHIGHLIGHT_HERESYSEVERITY_SUSPICIOUS : EXAMINEHIGHLIGHT_HERESYSEVERITY_ODD, staff ? HERESYDESC_INFERNAL_PASSIVE_OBVIOUS : HERESYDESC_INFERNAL_PASSIVE, EXAMINEHIGHLIGHT_HERESYSEVERITY_SUSPICIOUS, HERESYDESC_INFERNAL_ACTIVE, TRUE, staff, TRUE, /mob/living/carbon/human/proc/toggle_infernal_armor)
+	var/datum/component/possessed_item/P = target.AddComponent(/datum/component/possessed_item, H, spell_color, staff ? EXAMINEHIGHLIGHT_HERESYSEVERITY_SUSPICIOUS : EXAMINEHIGHLIGHT_HERESYSEVERITY_ODD, staff ? HERESYDESC_INFERNAL_PASSIVE_OBVIOUS : HERESYDESC_INFERNAL_PASSIVE, EXAMINEHIGHLIGHT_HERESYSEVERITY_SUSPICIOUS, HERESYDESC_INFERNAL_ACTIVE, TRUE, staff, (current_mode == 1), /mob/living/carbon/human/proc/toggle_infernal_armor)
 	if(P)
 		RegisterSignal(P, COMSIG_QDELETING, PROC_REF(handle_cooldown))
 	return FALSE // we don't want the CD to start until we get in the item
