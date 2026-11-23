@@ -340,7 +340,8 @@
 	spell_color = PATRON_COLOR_VHESLYN
 	glow_intensity = GLOW_INTENSITY_LOW
 	cooldown_time = 10 MINUTES // once you're out, you're exposed for a good while. note that this cooldown starts once you LEAVE the form, not on possess
-	charge_required = FALSE
+	charge_required = TRUE
+	charge_time = 1 SECONDS
 	modes = list(
 		list("tag" = "", "name" = "Visible"),
 		list("tag" = "INV", "name" = "Invisible"),
@@ -764,6 +765,9 @@
 	name = "Void Possession"
 	desc = "Possess armor, a ring, an amulet, or a weapon, lending it a fragment of your power; resist to cancel the possession. Cast on yourself instead to turn into a particularly effective staff. While possessing a wielded weapon or worn clothing/armor, whisper to speak directly into the mind of your bearer. Should they allow it, you can possess your bearer outright; you'll be able to use their skills, spells, and traits while you do. Your creator remains your creator, however, and you are still bound to obey them - though, of course, nobody said it had to be your creator you possess..."
 	spell_color = GLOW_COLOR_ARCANE // todo: maybe add a void glow later? black or green to match the obelisks?
+	charge_required = TRUE
+	charge_time = 1 SECONDS
+	cooldown_time = 5 MINUTES // this one's less nefarious, and as such can be freer
 
 /datum/action/cooldown/spell/void_possession/cast(atom/cast_on)
 	. = ..()
