@@ -3905,7 +3905,7 @@ As Excaliber."
 	icon_state = "rosecollar"
 
 /obj/item/clothing/neck/roguetown/psicross/eora/rosecollar/get_examine_highlight_status()
-	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ODD, HERESYDESC_AASIMAR_BINDING)
+	return (..() || list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ODD, HERESYDESC_AASIMAR_BINDING))
 
 // NOIRE + CO.
 /obj/item/clothing/cloak/furcloak/woodland
