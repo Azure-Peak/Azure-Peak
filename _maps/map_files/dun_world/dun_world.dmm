@@ -6375,6 +6375,12 @@
 /obj/structure/fluff/railing/border/west,
 /turf/open/floor/rogue/cobble,
 /area/rogue/under/cave/goblinfort)
+"bfi" = (
+/obj/effect/decal/cleanable/blood{
+	icon_state = "floor6-old"
+	},
+/turf/open/floor/rogue/dirt/road,
+/area/rogue/indoors)
 "bfj" = (
 /obj/structure/stairs{
 	dir = 1
@@ -63619,6 +63625,10 @@
 /obj/effect/decal/cleanable/blood,
 /turf/open/floor/rogue/cobblerock,
 /area/rogue/outdoors/beach/north)
+"kOI" = (
+/obj/effect/decal/cleanable/blood,
+/turf/open/floor/rogue/dirt/road,
+/area/rogue/indoors)
 "kOK" = (
 /obj/machinery/light/rogue/torchholder/c,
 /turf/open/floor/rogue/dirt,
@@ -108142,6 +108152,12 @@
 "shi" = (
 /turf/open/water/ocean,
 /area/rogue/indoors/cave/central)
+"shj" = (
+/obj/effect/decal/cleanable/blood{
+	icon_state = "floor4-old"
+	},
+/turf/open/floor/rogue/dirt/road,
+/area/rogue/indoors)
 "shp" = (
 /obj/structure/fluff/railing/border/north,
 /turf/open/floor/rogue/tile,
@@ -331953,14 +331969,14 @@ fnC
 fnC
 eXA
 pWW
-shA
+bwv
 xgj
 xgj
 xfj
 xfj
 xgj
 xgj
-shA
+bwv
 fnC
 fnC
 fnC
@@ -332859,9 +332875,9 @@ eXA
 voK
 xgj
 siW
-siW
 arg
 siW
+shj
 siW
 siW
 xgj
@@ -334215,7 +334231,7 @@ eXA
 jFf
 xgj
 siW
-siW
+kOI
 siW
 siW
 siW
@@ -334668,9 +334684,9 @@ voK
 xgj
 siW
 siW
-siW
 arg
 siW
+bfi
 siW
 xgj
 jFf
@@ -335569,14 +335585,14 @@ acF
 acF
 eXA
 tdu
-shA
+bwv
 xgj
 xgj
 kDK
 kDK
 xgj
 xgj
-shA
+bwv
 fnC
 fnC
 fnC
