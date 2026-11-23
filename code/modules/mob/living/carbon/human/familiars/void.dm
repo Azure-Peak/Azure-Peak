@@ -43,7 +43,7 @@
 		knows |= (user.mind.mage_aspect_config && user.mind.mage_aspect_config["major"])
 	if(knows)
 		ret.Insert(2, span_userdanger("AN ABERRANT...?"))
-		ret[3] = "A fragment of a void aberrant's power, torn away and fashioned into a familiar; its eyes shine with a voracious hunger. What work of hubris has been wrought, here? Who would—or even could—create such a thing?"
+		ret[3] = span_greentext("\[Arcyna: Success\]") + ": A fragment of a void aberrant's power, torn away and fashioned into a familiar; its eyes shine with a voracious hunger. What work of hubris has been wrought, here? Who would—or even could—create such a thing?"
 	return ret
 
 /mob/living/carbon/human/species/familiar/void/proc/grant_essence(type)

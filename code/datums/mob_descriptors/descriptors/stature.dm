@@ -348,7 +348,7 @@
 	if(described.get_descriptor_of_slot(MOB_DESCRIPTOR_SLOT_HEIGHT, described.mob_descriptors))
 		return LOWER_TEXT(get_description(described))
 	else // if we don't have other descriptors - the one before this being height - we need to append an "is (a/an) here to make it not just go "She (stature)" or something
-		return (prefix == CUSTOM_PREFIX_HAS_AN ? "is an" : "is a") + LOWER_TEXT(get_description(described))
+		return (prefix == CUSTOM_PREFIX_HAS_AN ? "[described.p_are()] an " : "[described.p_are()] a ") + LOWER_TEXT(get_description(described))
 
 /datum/mob_descriptor/stature/custom/ten
 	name = "Custom Stature"
