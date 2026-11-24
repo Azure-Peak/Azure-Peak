@@ -1,4 +1,4 @@
-import { type ReactNode, useEffect, useRef, useState } from 'react';
+import { type ReactNode, useEffect, useState } from 'react';
 
 const CHUNK = 40;
 
@@ -14,14 +14,16 @@ const scrollParentOf = (element: HTMLElement) => {
   return null;
 };
 
-export const IncrementalList = (props: { children: ReactNode[] }) => {
-  const { children } = props;
+export const useIncrementalLimit = (total: number, resetKey?: string) => {
   const [limit, setLimit] = useState(CHUNK);
-  const endRef = useRef<HTMLDivElement>(null);
-  const more = limit < children.length;
+  const [end, setEnd] = useState<HTMLDivElement | null>(null);
+  const more = limit < total;
 
   useEffect(() => {
-    const end = endRef.current;
+    setLimit(CHUNK);
+  }, [resetKey]);
+
+  useEffect(() => {
     if (!more || !end) {
       return;
     }
@@ -35,12 +37,21 @@ export const IncrementalList = (props: { children: ReactNode[] }) => {
     );
     observer.observe(end);
     return () => observer.disconnect();
-  }, [more, limit]);
+  }, [more, limit, end]);
+
+  const sentinel = more ? <div ref={setEnd} style={{ height: '1px' }} /> : null;
+
+  return { limit, sentinel };
+};
+
+export const IncrementalList = (props: { children: ReactNode[] }) => {
+  const { children } = props;
+  const { limit, sentinel } = useIncrementalLimit(children.length);
 
   return (
     <>
       {children.slice(0, limit)}
-      {more && <div ref={endRef} style={{ height: '1px' }} />}
+      {sentinel}
     </>
   );
 };
