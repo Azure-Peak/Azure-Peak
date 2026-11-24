@@ -1243,7 +1243,7 @@
 	icon_state = "amazon_f"
 
 /datum/sprite_accessory/hair/head/archivist
-	name = "Archivist"
+	name = "Archivist (F)"
 	icon_state = "archivist_f"
 
 /datum/sprite_accessory/hair/head/barbarian_f
