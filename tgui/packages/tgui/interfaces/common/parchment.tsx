@@ -303,3 +303,75 @@ export const PriceTag = (props: {
     </div>
   );
 };
+
+export type RateSeal = {
+  label: string;
+  value: string;
+  color: string;
+  struck?: boolean;
+  note?: string;
+  noteColor?: string;
+  title?: string;
+};
+
+export const RateSeals = (props: { seals: RateSeal[] }) => {
+  const { seals } = props;
+  return (
+    <div
+      style={{
+        display: 'grid',
+        gridTemplateColumns: `repeat(${seals.length}, minmax(0, 1fr))`,
+        gap: '8px',
+        marginBottom: '10px',
+      }}
+    >
+      {seals.map((seal) => (
+        <div
+          key={seal.label}
+          title={seal.title}
+          style={{
+            border: `1px solid ${seal.color}`,
+            borderRadius: '2px',
+            background: 'var(--p-card-bg)',
+            padding: '4px 8px',
+            textAlign: 'center',
+            fontFamily: SERIF,
+          }}
+        >
+          <div
+            style={{
+              fontSize: FONT_SMALL,
+              color: INK_SOFT,
+              letterSpacing: '0.06em',
+              textTransform: 'uppercase',
+            }}
+          >
+            {seal.label}
+          </div>
+          <div
+            style={{
+              fontSize: '20px',
+              fontWeight: 'bold',
+              lineHeight: 1.25,
+              color: seal.struck ? INK_FAINT : seal.color,
+              textDecoration: seal.struck ? 'line-through' : undefined,
+            }}
+          >
+            {seal.value}
+          </div>
+          {!!seal.note && (
+            <div
+              style={{
+                fontSize: FONT_SMALL,
+                fontWeight: 'bold',
+                color: seal.noteColor || seal.color,
+              }}
+            >
+              {seal.note}
+            </div>
+          )}
+        </div>
+      ))}
+    </div>
+  );
+};

@@ -129,7 +129,8 @@ export type HarborData = {
   dock_spots_max: number;
   cultural_stock: CulturalStockEntry[];
   catalogs: CatalogData[];
-  merchant_levy_percent: number;
+  navigator_levy_percent: number;
+  fulfillment_levy_percent: number;
   merchant_levy_cap: number;
   merchant_levy_collected: number;
   merchant_levy_taxed: number;

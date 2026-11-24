@@ -474,7 +474,8 @@
 		"dock_spots_max" = SSmerchant_trade.get_dock_spots_max(),
 		"cultural_stock" = build_cultural_stock_data(viewer),
 		"catalogs" = build_catalog_data(viewer),
-		"merchant_levy_percent" = SSmerchant_trade.merchant_levy_percent,
+		"navigator_levy_percent" = SSmerchant_trade.navigator_levy_percent,
+		"fulfillment_levy_percent" = SSmerchant_trade.fulfillment_levy_percent,
 		"merchant_levy_cap" = TRADE_MERCHANT_LEVY_CAP_PERCENT,
 		"merchant_levy_collected" = SSmerchant_trade.merchant_levy_collected,
 		"merchant_levy_taxed" = SSmerchant_trade.merchant_levy_taxed,
@@ -1016,8 +1017,18 @@
 			var/requested = text2num(params["percent"])
 			if(isnull(requested))
 				return TRUE
-			var/applied = SSmerchant_trade.set_merchant_levy(requested)
-			to_chat(H, span_notice("Merchant's levy set to <b>[applied]%</b>."))
+			var/applied
+			var/levy_label
+			switch(params["kind"])
+				if("navigator")
+					applied = SSmerchant_trade.set_navigator_levy(requested)
+					levy_label = "Navigator sales"
+				if("fulfillment")
+					applied = SSmerchant_trade.set_fulfillment_levy(requested)
+					levy_label = "ship exports"
+				else
+					return TRUE
+			to_chat(H, span_notice("Merchant's levy on [levy_label] set to <b>[applied]%</b>."))
 			playsound(loc, 'sound/misc/gold_misc.ogg', 70, FALSE, -1)
 			return TRUE
 		if("set_gnome_margin")

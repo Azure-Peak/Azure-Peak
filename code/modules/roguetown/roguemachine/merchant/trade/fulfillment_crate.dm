@@ -124,7 +124,7 @@
 					"lines" = lines,
 				))
 	data["manifests"] = manifests
-	data["middleman_cut_percent"] = SSmerchant_trade ? SSmerchant_trade.merchant_levy_percent : TRADE_MERCHANT_LEVY_DEFAULT_PERCENT
+	data["middleman_cut_percent"] = SSmerchant_trade ? SSmerchant_trade.fulfillment_levy_percent : TRADE_MERCHANT_LEVY_DEFAULT_PERCENT
 	data["kinship_sell_pct"] = round((KINSHIP_SELL_MULT - 1) * 100)
 	data["can_manage"] = can_manage(user) ? TRUE : FALSE
 	data["duty_suspended"] = duty_suspended
@@ -393,7 +393,7 @@
 			gross = mammon_round(gross * kin_mult)
 			kin_bonus = gross - pre_kin
 	var/duty_rate = SStreasury.get_tax_rate(TAX_CATEGORY_EXPORT_DUTY)
-	var/levy_pct = SSmerchant_trade ? SSmerchant_trade.merchant_levy_percent : 0
+	var/levy_pct = SSmerchant_trade ? SSmerchant_trade.fulfillment_levy_percent : 0
 	var/levy_float = gross * levy_pct / 100
 	var/duty_on_gross_float = gross * duty_rate
 	var/duty_on_levy_float = levy_float * duty_rate

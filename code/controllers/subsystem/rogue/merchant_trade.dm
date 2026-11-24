@@ -7,7 +7,8 @@ SUBSYSTEM_DEF(merchant_trade)
 	var/list/datum/trade_ship/all_ships = list()
 	var/hails_remaining = 0
 	var/list/active_conditions = list()
-	var/merchant_levy_percent = TRADE_MERCHANT_LEVY_DEFAULT_PERCENT
+	var/navigator_levy_percent = TRADE_MERCHANT_LEVY_DEFAULT_PERCENT
+	var/fulfillment_levy_percent = TRADE_MERCHANT_LEVY_DEFAULT_PERCENT
 	var/merchant_levy_collected = 0
 	var/merchant_levy_taxed = 0
 	var/list/pool_capacity = list()
@@ -55,10 +56,13 @@ SUBSYSTEM_DEF(merchant_trade)
 	var/current_kinship_realm = null
 	var/current_kinship_origin_name = null
 
-/datum/controller/subsystem/merchant_trade/proc/set_merchant_levy(new_percent)
-	new_percent = clamp(round(new_percent), 0, TRADE_MERCHANT_LEVY_CAP_PERCENT)
-	merchant_levy_percent = new_percent
-	return merchant_levy_percent
+/datum/controller/subsystem/merchant_trade/proc/set_navigator_levy(new_percent)
+	navigator_levy_percent = clamp(round(new_percent), 0, TRADE_MERCHANT_LEVY_CAP_PERCENT)
+	return navigator_levy_percent
+
+/datum/controller/subsystem/merchant_trade/proc/set_fulfillment_levy(new_percent)
+	fulfillment_levy_percent = clamp(round(new_percent), 0, TRADE_MERCHANT_LEVY_CAP_PERCENT)
+	return fulfillment_levy_percent
 
 /datum/controller/subsystem/merchant_trade/proc/set_silverface_margin(new_percent)
 	new_percent = clamp(round(new_percent), 0, 100)
