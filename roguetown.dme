@@ -2337,6 +2337,7 @@
 #include "code\modules\jobs\job_types\roguetown\church\sexton.dm"
 #include "code\modules\jobs\job_types\roguetown\church\templar.dm"
 #include "code\modules\jobs\job_types\roguetown\church\templar\templar_guardian.dm"
+#include "code\modules\jobs\job_types\roguetown\church\templar\templar_maris.dm"
 #include "code\modules\jobs\job_types\roguetown\church\templar\templar_monk.dm"
 #include "code\modules\jobs\job_types\roguetown\church\templar\templar_spellblade.dm"
 #include "code\modules\jobs\job_types\roguetown\courtier\archivist.dm"
