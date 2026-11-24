@@ -26,9 +26,9 @@
 
 /datum/economic_event/fish/mirespider_swarm
 	name = "Mirespider Swarm"
-	description = "The mirespiders in the Terrorbog are unusually active, devouring all of the swamp fish. Their silk and honey are plentiful."
+	description = "The mirespiders in the Terrorbog are unusually active, devouring all of the swamp fish. Their honey is plentiful."
 	shortage_goods = ECON_GOODS_SWAMP_CATCH
-	glut_goods = list(TRADE_GOOD_SILK, TRADE_GOOD_HONEY)
+	glut_goods = list(TRADE_GOOD_HONEY)
 
 /datum/economic_event/fish/teeming_mire
 	name = "Teeming Mire"
