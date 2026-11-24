@@ -222,6 +222,7 @@
 	button_icon = 'icons/mob/actions/mage_hex.dmi'
 	button_icon_state = "wither"
 
+	charge_required = FALSE
 	cooldown_time = 1 SECONDS
 
 	primary_resource_type = SPELL_COST_NONE
