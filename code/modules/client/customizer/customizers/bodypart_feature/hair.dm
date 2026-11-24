@@ -649,7 +649,7 @@
 		/datum/sprite_accessory/hair/head/alsoprotagonist,
 		/datum/sprite_accessory/hair/head/amazon,
 		/datum/sprite_accessory/hair/head/amazon_f,
-		/datum/sprite_accessory/hair/head/archivist,
+		/datum/sprite_accessory/hair/head/archivist_f,
 		/datum/sprite_accessory/hair/head/astolfo,
 		/datum/sprite_accessory/hair/head/astolfo_f,
 		/datum/sprite_accessory/hair/head/bald,
