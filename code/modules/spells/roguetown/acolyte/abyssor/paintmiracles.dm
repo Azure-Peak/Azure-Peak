@@ -505,14 +505,12 @@
 	var/mutable_appearance/ico = new(user.appearance)
 	user.setDir(tmpdir)
 	user.set_resting(TRUE, TRUE)
-	var/turf/open/water/wturf = target_turf
 	ico.color = "#6a9295"
-	ico.alpha = 190 // watery effect without being TOO hard to see
+	ico.alpha = 200 // watery effect without being TOO hard to see
 	projection.appearance = ico
 	var/datum/language_holder/lang = user.mind.get_language_holder()
 	projection.name = user.get_unmasked_name()
 	projection.key = user.key
-	projection.desc = "A water spirit shaped by an Abyssorite's will. It looks fragile."
 	projection.original_body = user
 	var/datum/mind/undine_mind = projection.mind
 	if(undine_mind)
@@ -523,6 +521,7 @@
 	projection.RegisterSignal(projection, COMSIG_MOB_DEATH, TYPE_PROC_REF(/mob/living/simple_animal/undine, come_back))
 	projection.RegisterSignal(projection, COMSIG_LIVING_RESIST, TYPE_PROC_REF(/mob/living/simple_animal/undine, come_back))
 	projection.RegisterSignal(user, COMSIG_MOB_DEATH, TYPE_PROC_REF(/mob/living/simple_animal/undine, alert_death))
+	projection.desc = "A water spirit shaped by an Abyssorite's will. It looks fragile." // idk why this is being overridden to null if it's done any earlier
 	return projection
 
 /mob/living/simple_animal/undine
@@ -538,7 +537,11 @@
 
 /mob/living/simple_animal/undine/Initialize(mapload)
 	. = ..()
+	ADD_TRAIT(src, TRAIT_TRAM_MOVER, TRAIT_MIRACLE) // this prevents movement slowdown from water. that's all it does.
 	RegisterSignal(src, COMSIG_MOVABLE_PRE_MOVE, PROC_REF(handle_move))
+
+/mob/living/simple_animal/undine/ConveyorMove() // they can only be in water, so this is a river; and as a water spirit they should not be washed away by rivers!
+	return
 
 /mob/living/simple_animal/undine/proc/handle_move(mob/source, newloc)
 	SIGNAL_HANDLER
