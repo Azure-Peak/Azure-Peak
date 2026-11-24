@@ -190,7 +190,8 @@
 	data["hingot_type"] = hingot?.type
 
 	var/datum/recipe_pins/pinned = user?.get_recipe_pins()
-	data["pins"] = pinned ? pinned.pins["anvil"] : list()
+	data["pins"] = pinned ? pinned.pins[RECIPE_PIN_MENU_ANVIL] : list()
+	data["pins_imported"] = pinned ? !!pinned.imported[RECIPE_PIN_MENU_ANVIL] : FALSE
 	data["pin_key"] = pinned?.pin_key
 
 	return data
@@ -226,12 +227,12 @@
 	switch(action)
 		if("cycle_pin")
 			var/datum/recipe_pins/pinned = user.get_recipe_pins()
-			pinned?.cycle("anvil", params["path"])
+			pinned?.cycle(user, RECIPE_PIN_MENU_ANVIL, params["path"])
 			return TRUE
 
 		if("import_pins")
 			var/datum/recipe_pins/pinned = user.get_recipe_pins()
-			pinned?.import_saved("anvil", params["paths"])
+			pinned?.import_saved(RECIPE_PIN_MENU_ANVIL, params["paths"])
 			return TRUE
 
 		if("choose_recipe")

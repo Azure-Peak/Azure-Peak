@@ -1,8 +1,3 @@
-/*
-// this is for pinning recipes in the craftingg and anvil menus. You can do it per round or per character.
-// This is done locally per ckey, so a new ckey will need to build its pinlist again and can't be edited or saved server side.
- */
-
 /datum/mind/var/datum/recipe_pins/recipe_pins
 
 /mob/proc/get_recipe_pins()
@@ -14,16 +9,15 @@
 
 /datum/recipe_pins
 	var/list/pins
+	var/list/imported
 	var/pin_key
-	/// Max pins were recommended to stop abuse
-	var/max_pins = 200
 
 /datum/recipe_pins/New(pin_key)
 	. = ..()
 	src.pin_key = pin_key
-	pins = list("crafting" = list(), "anvil" = list())
+	pins = list(RECIPE_PIN_MENU_CRAFTING = list(), RECIPE_PIN_MENU_ANVIL = list())
+	imported = list()
 
-//verify the path for the pin is valid for the menu, and that it exists, useful with PRs deleting recipes
 /datum/recipe_pins/proc/valid_path(menu, path_text)
 	if(!istext(path_text))
 		return FALSE
@@ -31,24 +25,25 @@
 	if(!recipe_path)
 		return FALSE
 	switch(menu)
-		if("crafting")
+		if(RECIPE_PIN_MENU_CRAFTING)
 			return ispath(recipe_path, /datum/crafting_recipe)
-		if("anvil")
+		if(RECIPE_PIN_MENU_ANVIL)
 			return ispath(recipe_path, /datum/anvil_recipe)
 	return FALSE
 
-/datum/recipe_pins/proc/cycle(menu, path_text)
+/datum/recipe_pins/proc/cycle(mob/user, menu, path_text)
 	if(!valid_path(menu, path_text))
 		return FALSE
 	var/list/menu_pins = pins[menu]
 	var/old_scope = menu_pins[path_text]
 	var/new_scope
 	if(isnull(old_scope))
-		if(length(menu_pins) >= max_pins)
+		if(length(menu_pins) >= MAX_RECIPE_PINS)
+			to_chat(user, span_warning("You cannot pin more than [MAX_RECIPE_PINS] recipes."))
 			return FALSE
-		new_scope = "round"
-	else if(old_scope == "round")
-		new_scope = "saved"
+		new_scope = RECIPE_PIN_ROUND
+	else if(old_scope == RECIPE_PIN_ROUND)
+		new_scope = RECIPE_PIN_SAVED
 	else
 		new_scope = null
 
@@ -59,16 +54,19 @@
 	return TRUE
 
 /datum/recipe_pins/proc/import_saved(menu, list/paths)
-	if(!islist(paths) || !islist(pins[menu]))
+	if(!islist(pins[menu]) || imported[menu])
 		return FALSE
+	imported[menu] = TRUE
+	if(!islist(paths))
+		return TRUE
 	var/list/menu_pins = pins[menu]
 	var/checked = 0
 	for(var/path_text in paths)
-		if(++checked > max_pins || length(menu_pins) >= max_pins)
+		if(++checked > MAX_RECIPE_PINS || length(menu_pins) >= MAX_RECIPE_PINS)
 			break
 		if(!valid_path(menu, path_text))
 			continue
 		if(!isnull(menu_pins[path_text]))
 			continue
-		menu_pins[path_text] = "saved"
+		menu_pins[path_text] = RECIPE_PIN_SAVED
 	return TRUE

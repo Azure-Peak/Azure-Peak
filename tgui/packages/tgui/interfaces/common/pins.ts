@@ -1,9 +1,15 @@
+import { storage } from 'common/storage';
 import { useEffect } from 'react';
+import type { BooleanLike } from 'tgui-core/react';
 
-// Pin and star icons
-export type PinScope = 'round' | 'saved' | undefined;
 export type PinMap = Record<string, string>;
 export type PinMenu = 'crafting' | 'anvil';
+
+export type PinData = {
+  pins?: PinMap;
+  pin_key?: string | null;
+  pins_imported?: BooleanLike;
+};
 
 type ActFn = (action: string, params?: Record<string, unknown>) => void;
 
@@ -17,56 +23,38 @@ export const pinTitle = (scope?: string): string =>
       ? 'Pinned for this round. Click to save to this character.'
       : 'Pin for this round';
 
-const readSaved = (storageKey: string): string[] => {
-  try {
-    const raw = window.localStorage.getItem(storageKey);
-    const parsed = raw ? JSON.parse(raw) : [];
-    return Array.isArray(parsed)
-      ? parsed.filter((p): p is string => typeof p === 'string')
-      : [];
-  } catch {
-    return [];
-  }
-};
-
-const writeSaved = (storageKey: string, paths: string[]): void => {
-  try {
-    if (paths.length) {
-      window.localStorage.setItem(storageKey, JSON.stringify(paths));
-    } else {
-      window.localStorage.removeItem(storageKey);
-    }
-  } catch {
-    // storage unavailable or full; pins just won't persist
-  }
-};
-
-export const usePinSync = (
-  act: ActFn,
-  menu: PinMenu,
-  pinKey: string | null | undefined,
-  pins: PinMap,
-) => {
-  const storageKey = `recipe_pins:${menu}:${pinKey || 'default'}`;
+export const usePinSync = (act: ActFn, menu: PinMenu, data: PinData) => {
+  const storageKey = `recipe_pins:${menu}:${data.pin_key || 'default'}`;
+  const imported = !!data.pins_imported;
+  const pins = data.pins || {};
+  const savedPaths = Object.keys(pins)
+    .filter((path) => pins[path] === 'saved')
+    .sort()
+    .join('\n');
 
   useEffect(() => {
-    const saved = readSaved(storageKey);
-    if (saved.length) {
-      act('import_pins', { paths: saved });
+    if (imported) {
+      return;
     }
+    storage.get(storageKey).then((saved) => {
+      act('import_pins', {
+        paths: Array.isArray(saved)
+          ? saved.filter((p): p is string => typeof p === 'string')
+          : [],
+      });
+    });
   }, [storageKey]);
 
-  return (path: string) => {
-    const oldScope = pins[path];
-    const saved = readSaved(storageKey);
-    if (oldScope === 'saved') {
-      writeSaved(
-        storageKey,
-        saved.filter((p) => p !== path),
-      );
-    } else if (oldScope === 'round' && !saved.includes(path)) {
-      writeSaved(storageKey, [...saved, path]);
+  useEffect(() => {
+    if (!imported) {
+      return;
     }
-    act('cycle_pin', { path });
-  };
+    if (savedPaths) {
+      storage.set(storageKey, savedPaths.split('\n'));
+    } else {
+      storage.remove(storageKey);
+    }
+  }, [imported, storageKey, savedPaths]);
+
+  return (path: string) => act('cycle_pin', { path });
 };

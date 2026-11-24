@@ -10,7 +10,7 @@ import {
 
 import { useBackend } from '../backend';
 import { Window } from '../layouts';
-import { type PinMap, pinGlyph, pinTitle, usePinSync } from './common/pins';
+import { type PinData, pinGlyph, pinTitle, usePinSync } from './common/pins';
 
 type Recipe = {
   name: string;
@@ -22,10 +22,8 @@ type Recipe = {
   icon: string;
 };
 
-type Data = {
+type Data = PinData & {
   hingot_type?: string | null;
-  pins?: PinMap;
-  pin_key?: string | null;
   recipes: Recipe[];
 };
 
@@ -86,7 +84,7 @@ export const RecipeDisplay = () => {
 
   const { recipes, hingot_type } = data;
   const pins = data.pins || {};
-  const cyclePin = usePinSync(act, 'anvil', data.pin_key, pins);
+  const cyclePin = usePinSync(act, 'anvil', data);
 
   const availableRecipes = recipes
     .filter((recipe) => {

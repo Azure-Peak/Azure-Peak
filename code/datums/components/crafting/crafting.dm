@@ -665,7 +665,8 @@
 	data["busy"] = busy
 	data["showonlycraftable"] = showonlycraftable
 	var/datum/recipe_pins/pinned = user?.get_recipe_pins()
-	data["pins"] = pinned ? pinned.pins["crafting"] : list()
+	data["pins"] = pinned ? pinned.pins[RECIPE_PIN_MENU_CRAFTING] : list()
+	data["pins_imported"] = pinned ? !!pinned.imported[RECIPE_PIN_MENU_CRAFTING] : FALSE
 	data["pin_key"] = pinned?.pin_key
 
 	var/list/surroundings = get_surroundings(user)
@@ -746,11 +747,11 @@
 			showonlycraftable = params["state"]
 		if("cycle_pin")
 			var/datum/recipe_pins/pinned = usr.get_recipe_pins()
-			pinned?.cycle("crafting", params["path"])
+			pinned?.cycle(usr, RECIPE_PIN_MENU_CRAFTING, params["path"])
 			return TRUE
 		if("import_pins")
 			var/datum/recipe_pins/pinned = usr.get_recipe_pins()
-			pinned?.import_saved("crafting", params["paths"])
+			pinned?.import_saved(RECIPE_PIN_MENU_CRAFTING, params["paths"])
 			return TRUE
 
 

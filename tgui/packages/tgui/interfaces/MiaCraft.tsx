@@ -24,7 +24,13 @@ import {
   SERIF,
   TITLE,
 } from './common/parchment';
-import { type PinMap, pinGlyph, pinTitle, usePinSync } from './common/pins';
+import {
+  type PinData,
+  type PinMap,
+  pinGlyph,
+  pinTitle,
+  usePinSync,
+} from './common/pins';
 
 type Recipe = {
   name: string;
@@ -42,12 +48,10 @@ type Craftability = [string, number][];
 
 type ActFn = (action: string, params?: Record<string, unknown>) => void;
 
-type Data = {
+type Data = PinData & {
   busy: number;
   showonlycraftable: number;
   craftability: Record<string, number>;
-  pins: PinMap;
-  pin_key?: string | null;
   crafting_recipes: Record<string, Record<string, Recipe>>;
 };
 
@@ -310,9 +314,8 @@ export const MiaCraft = () => {
   }, []);
 
   const pins = data.pins || {};
-  const cyclePin = usePinSync(act, 'crafting', data.pin_key, pins);
+  const cyclePin = usePinSync(act, 'crafting', data);
 
-  // Every pinned recipe, gathered from all categories
   const pinnedRecipes = useMemo(() => {
     const out: Record<string, Recipe> = {};
     for (const recipes of Object.values(data.crafting_recipes)) {
