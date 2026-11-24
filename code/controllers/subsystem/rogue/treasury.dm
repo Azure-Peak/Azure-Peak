@@ -572,6 +572,8 @@ SUBSYSTEM_DEF(treasury)
 		return null
 	if(HAS_TRAIT(H, TRAIT_OUTLAW) || HAS_TRAIT(H, TRAIT_ROYAL_SUBSIDY))
 		return null
+	if(H.job == "Merchant")
+		return POLL_LEVY_CAT_MERCHANT
 	if(HAS_TRAIT(H, TRAIT_NOBLE) || (H.job in GLOB.noble_positions))
 		return POLL_LEVY_CAT_NOBLE
 	if(H.job in GLOB.inquisition_positions)
@@ -586,8 +588,6 @@ SUBSYSTEM_DEF(treasury)
 		return POLL_LEVY_CAT_GARRISON
 	if(H.job in list("Guildmaster", "Guildsman", "Tailor"))
 		return POLL_LEVY_CAT_GUILDS
-	if(H.job == "Merchant")
-		return POLL_LEVY_CAT_MERCHANT
 	if((H.job in list("Innkeeper", "Bathmaster")) || HAS_TRAIT(H, TRAIT_RESIDENT))
 		return POLL_LEVY_CAT_BURGHER
 	if(H.job in GLOB.wanderer_positions)

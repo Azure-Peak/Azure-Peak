@@ -21,6 +21,8 @@ Yeven under the seal of the Crown, in witness of the Ten."}
 		return FALSE
 	if(tax_category == TAX_CATEGORY_CONTRACT_LEVY)
 		return FALSE
+	if(tax_category == TAX_CATEGORY_POLL_LEVY && SStreasury.get_poll_levy_category(payer) != POLL_LEVY_CAT_NOBLE)
+		return FALSE
 	if(HAS_TRAIT(payer, TRAIT_NOBLE))
 		return TRUE
 	return FALSE
