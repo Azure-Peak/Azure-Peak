@@ -127,7 +127,7 @@
 		var/list/requirements = recipe_req_data(recipe)
 		UNTYPED_LIST_ADD(recipes, list(
 			"name" = recipe.name,
-			"category" = recipe.i_type || recipe.category,
+			"category" = recipe.display_category || ITEM_CAT_SMITHING_MISC,
 			"ref" = REF(recipe),
 			"icon" = spritesheet.icon_class_name(sanitize_css_class_name("recipe_[REF(recipe)]")),
 			"icon_file" = "[initial(recipe.created_item:icon)]",
@@ -154,7 +154,7 @@
 			"id" = queue_entry.id,
 			"index" = i,
 			"name" = recipe.name,
-			"category" = recipe.i_type || recipe.category,
+			"category" = recipe.display_category || ITEM_CAT_SMITHING_MISC,
 			"icon" = spritesheet.icon_class_name(sanitize_css_class_name("recipe_[REF(recipe)]")),
 			"created_num" = recipe.createditem_num,
 			"active" = (queue_entry.id == current_queue_id)

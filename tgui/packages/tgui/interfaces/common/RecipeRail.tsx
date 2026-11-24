@@ -26,6 +26,15 @@ export type RailNode = {
   children?: RailNode[];
 };
 
+export const SMITHING_GROUP_ORDER = [
+  'Armor',
+  'Weapons',
+  'Tools',
+  'Valuables',
+  'Decoration',
+  'Engineering',
+];
+
 export const groupOf = (category: string) => {
   const paren = category.indexOf(' (');
   return paren === -1 ? category : category.slice(0, paren);

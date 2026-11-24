@@ -14,6 +14,7 @@ import {
 } from './common/parchment';
 import { type PinData, pinGlyph, pinTitle, usePinSync } from './common/pins';
 import { RecipeBrowser } from './common/RecipeBrowser';
+import { SMITHING_GROUP_ORDER } from './common/RecipeRail';
 
 type Recipe = {
   name: string;
@@ -31,15 +32,6 @@ type Data = PinData & {
   hingot_type?: string | null;
   recipes: Recipe[];
 };
-
-const GROUP_ORDER = [
-  'Armor',
-  'Weapons',
-  'Tools',
-  'Valuables',
-  'Decoration',
-  'Engineering',
-];
 
 export const Anvil = () => {
   const { data } = useBackend<Data>();
@@ -153,7 +145,7 @@ export const RecipeDisplay = () => {
     <RecipeBrowser
       recipes={available}
       pins={pins}
-      groupOrder={GROUP_ORDER}
+      groupOrder={SMITHING_GROUP_ORDER}
       renderRow={(recipe) => (
         <AnvilRecipe
           recipe={recipe}

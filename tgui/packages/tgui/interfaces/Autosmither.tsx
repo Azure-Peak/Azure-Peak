@@ -3,6 +3,7 @@ import {
   Box,
   Button,
   DmIcon,
+  Dropdown,
   Input,
   NoticeBox,
   Section,
@@ -12,6 +13,13 @@ import {
 import { useBackend } from '../backend';
 import { Window } from '../layouts';
 import { IncrementalList } from './common/IncrementalList';
+import {
+  buildGroupedRail,
+  compareGroupedCategories,
+  groupOf,
+  type RailNode,
+  SMITHING_GROUP_ORDER,
+} from './common/RecipeRail';
 
 type Requirement = {
   key: string;
@@ -90,6 +98,10 @@ const QUOTE_LINES = [
 
 const QUOTE_LINES_PER_RAIL = 2;
 
+const ALL_CATEGORIES = '__all__';
+
+const compareCategories = compareGroupedCategories(SMITHING_GROUP_ORDER);
+
 const shuffleLines = (lines: string[]) => {
   const shuffled = [...lines];
 
@@ -145,6 +157,7 @@ const AutosmitherContent = ({ data }: AutosmitherContentProps) => {
   );
   const [amount, setAmount] = useState(1);
   const [searchText, setSearchText] = useState('');
+  const [category, setCategory] = useState<string>(ALL_CATEGORIES);
 
   useEffect(() => {
     if (!recipes.length) {
@@ -161,18 +174,40 @@ const AutosmitherContent = ({ data }: AutosmitherContentProps) => {
     [recipes, selectedRef],
   );
 
+  const categoryNodes = useMemo(() => {
+    const counts: Record<string, number> = {};
+    for (const recipe of recipes) {
+      counts[recipe.category] = (counts[recipe.category] || 0) + 1;
+    }
+    return buildGroupedRail(
+      Object.keys(counts).sort(compareCategories),
+      counts,
+    );
+  }, [recipes]);
+
   const filteredRecipes = useMemo(() => {
     const query = searchText.trim().toLowerCase();
-    if (!query) {
-      return recipes;
-    }
-
-    return recipes.filter((recipe) => {
-      const recipeName = recipe.name.toLowerCase();
-      const recipeCategory = recipe.category.toLowerCase();
-      return recipeName.includes(query) || recipeCategory.includes(query);
-    });
-  }, [recipes, searchText]);
+    return recipes
+      .filter(
+        (recipe) =>
+          category === ALL_CATEGORIES ||
+          recipe.category === category ||
+          groupOf(recipe.category) === category,
+      )
+      .filter((recipe) => {
+        if (!query) {
+          return true;
+        }
+        const recipeName = recipe.name.toLowerCase();
+        const recipeCategory = recipe.category.toLowerCase();
+        return recipeName.includes(query) || recipeCategory.includes(query);
+      })
+      .sort(
+        (a, b) =>
+          compareCategories(a.category, b.category) ||
+          a.name.localeCompare(b.name),
+      );
+  }, [recipes, searchText, category]);
 
   const quoteColumns = useMemo(
     () => getQuoteColumns(QUOTE_LINES, QUOTE_LINES_PER_RAIL),
@@ -238,10 +273,14 @@ const AutosmitherContent = ({ data }: AutosmitherContentProps) => {
         <Stack.Item basis="30%">
           <RecipePickerSection
             recipes={filteredRecipes}
+            totalCount={recipes.length}
             selectedRef={selectedRef}
             onSelect={setSelectedRef}
             searchText={searchText}
             onSearch={setSearchText}
+            categoryNodes={categoryNodes}
+            category={category}
+            onCategory={setCategory}
           />
         </Stack.Item>
       </Stack>
@@ -649,22 +688,71 @@ const ControlRack = ({ controlsLocked }: ControlRackProps) => {
 
 type RecipePickerSectionProps = {
   recipes: Recipe[];
+  totalCount: number;
   selectedRef: string | null;
   onSelect: (ref: string) => void;
   searchText: string;
   onSearch: (value: string) => void;
+  categoryNodes: RailNode[];
+  category: string;
+  onCategory: (category: string) => void;
 };
+
+const CategoryOption = (props: {
+  label: string;
+  count: number;
+  indent?: boolean;
+}) => (
+  <Stack>
+    <Stack.Item grow pl={props.indent ? 2 : 0}>
+      {props.label}
+    </Stack.Item>
+    <Stack.Item color="label">{props.count}</Stack.Item>
+  </Stack>
+);
 
 const RecipePickerSection = ({
   recipes,
+  totalCount,
   selectedRef,
   onSelect,
   searchText,
   onSearch,
+  categoryNodes,
+  category,
+  onCategory,
 }: RecipePickerSectionProps) => {
+  const categoryOptions = [
+    {
+      value: ALL_CATEGORIES,
+      displayText: <CategoryOption label="All recipes" count={totalCount} />,
+    },
+    ...categoryNodes.flatMap((node) => [
+      {
+        value: node.key,
+        displayText: <CategoryOption label={node.label} count={node.count} />,
+      },
+      ...(node.children || []).map((child) => ({
+        value: child.key,
+        displayText: (
+          <CategoryOption label={child.label} count={child.count} indent />
+        ),
+      })),
+    ]),
+  ];
+
   return (
     <Stack vertical fill>
       <Stack.Item>
+        <Dropdown
+          fluid
+          selected={category}
+          displayText={category === ALL_CATEGORIES ? 'All recipes' : category}
+          options={categoryOptions}
+          onSelected={onCategory}
+        />
+      </Stack.Item>
+      <Stack.Item mt={1}>
         <Input
           fluid
           placeholder="Search recipes..."
@@ -673,7 +761,7 @@ const RecipePickerSection = ({
         />
       </Stack.Item>
       <Stack.Item grow basis={0} mt={1}>
-        <Section title="What I Can Provide" fill scrollable>
+        <Section key={category} title="What I Can Provide" fill scrollable>
           {!recipes.length && <NoticeBox>No matching recipes.</NoticeBox>}
           <IncrementalList>
             {recipes.map((recipe) => (
