@@ -167,7 +167,6 @@
 	// only check this once every few seconds, to avoid lag. also obviously only if we HAVE a summoner, and would be capable of flight normally
 	if(familiar_summoner && !src.has_status_effect(/datum/status_effect/debuff/iron_weakness) && (world.time > (leash_check_time + 2 SECONDS)))
 		leash_check_time = world.time
-		to_chat(world, span_warning("[get_dist_3d(src, familiar_summoner)]"))
 		var/is_near_owner = (get_dist_3d(src, familiar_summoner) < FAMILIAR_FLIGHT_RANGE)
 		if(!is_near_owner && movement_type & FLYING)
 			if(warned)
