@@ -270,7 +270,7 @@
 		"fleet" = SSeconomy.caravan_fleet,
 		"home" = SSeconomy.caravans_home(),
 		"rented" = SSeconomy.caravan_rentals,
-		"return_seconds" = max(0, round(seconds_until_dawn())),
+		"return_seconds" = max(0, round(SSeconomy.seconds_until_caravan_tally())),
 		"remembered_left" = SSeconomy.remembered_caravans_left,
 		"remembered_minutes" = CARAVAN_REMEMBERED_TIME / (1 MINUTES),
 		"trips" = trips,

@@ -198,14 +198,27 @@
 		if(remembered)
 			to_chat(user, span_notice("You remember sending a caravan to [get_route_name(route)] before the start of the week."))
 		else
-			to_chat(user, span_notice("A caravan sets out toward [get_route_name(route)]. It returns the next dawn."))
+			to_chat(user, span_notice("A caravan sets out toward [get_route_name(route)]. It returns shortly before dawn."))
 	return TRUE
+
+/datum/controller/subsystem/economy/proc/schedule_caravan_tally()
+	deltimer(caravan_tally_timer)
+	caravan_tally_timer = addtimer(CALLBACK(src, PROC_REF(caravan_tally)), max(1 SECONDS, seconds_until_dawn() * (1 SECONDS) - CARAVAN_TALLY_LEAD), TIMER_STOPPABLE)
+
+/datum/controller/subsystem/economy/proc/caravan_tally()
+	caravan_tally_timer = null
+	resolve_caravans()
+
+/datum/controller/subsystem/economy/proc/seconds_until_caravan_tally()
+	if(caravan_tally_timer)
+		return timeleft(caravan_tally_timer) / (1 SECONDS)
+	var/rate = SSticker?.station_time_rate_multiplier || 1
+	return seconds_until_dawn() + (MIDNIGHT_ROLLOVER / rate - CARAVAN_TALLY_LEAD) / (1 SECONDS)
 
 /datum/controller/subsystem/economy/proc/resolve_caravans()
 	for(var/datum/caravan_trip/trip as anything in caravan_trips)
 		resolve_trip(trip)
 	caravan_trips.Cut()
-	caravan_fleet = min(CARAVAN_FLEET_MAX, caravan_fleet + CARAVAN_FLEET_PER_DAY)
 	SStreasury.dirty_market_view()
 
 /datum/controller/subsystem/economy/proc/return_remembered_caravan(datum/caravan_trip/trip)
