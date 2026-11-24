@@ -256,7 +256,7 @@
 	qdel(src)
 	return TRUE
 
-/obj/item/cursed_item_spawner/rmb_self(mob/user)
+/obj/item/cursed_item_spawner/rmb_self(mob/user, keybind)
 	if(!ishuman(user) || isfamiliar(user)) // nuh uh
 		to_chat(user, "The relic rejects me!")
 		return ..()
