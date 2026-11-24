@@ -13,6 +13,10 @@
 	var/withdraw_price = 1
 	var/category = "Raw Materials"
 	var/trade_good_id
+	var/list/market_row
+	var/market_row_stock
+	var/market_row_royal
+	var/market_row_version
 
 /datum/roguestock/New()
 	..()
@@ -316,3 +320,40 @@
 			"affected" = jointext(good_names, ", "),
 		)
 	return null
+
+/datum/roguestock/proc/market_row()
+	if(market_row && market_row_stock == market_stock && market_row_royal == royal_stock && market_row_version == SStreasury.market_view_version)
+		return market_row
+	refresh_auto_price()
+	var/list/shortage = get_shortage_progress()
+	var/list/dawn = dawn_forecast()
+	market_row = list(
+		"ref" = "\ref[src]",
+		"name" = name,
+		"desc" = desc,
+		"category" = category,
+		"amount" = market_stock,
+		"limit" = market_target,
+		"royal_amount" = royal_stock,
+		"never_supplied" = market_never_supplies ? TRUE : FALSE,
+		"sold_out" = market_available() <= 0 ? TRUE : FALSE,
+		"next_buy" = market_next_buy_change(),
+		"next_sell" = market_next_sell_change(),
+		"segments" = market_segments(),
+		"market_label" = market_step_label(market_step(market_stock)),
+		"withdraw_price" = market_ask(1),
+		"deposit_price" = market_bid(1),
+		"event_tag" = get_event_label(),
+		"shortage_progress" = shortage ? shortage["progress"] : 0,
+		"shortage_target" = shortage ? shortage["target"] : 0,
+		"shortage_affected" = shortage ? shortage["affected"] : "",
+		"dawn_change" = dawn["dawn_change"],
+		"raided_supply" = dawn["raided_supply"],
+		"raided_demand" = dawn["raided_demand"],
+		"raided_suppliers" = dawn["raided_suppliers"],
+		"raided_demanders" = dawn["raided_demanders"],
+	)
+	market_row_stock = market_stock
+	market_row_royal = royal_stock
+	market_row_version = SStreasury.market_view_version
+	return market_row

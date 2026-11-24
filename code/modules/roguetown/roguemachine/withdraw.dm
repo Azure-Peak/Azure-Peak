@@ -74,35 +74,7 @@
 
 	var/list/rows = list()
 	for(var/datum/roguestock/stockpile/R in SStreasury.stockpile_datums)
-		R.refresh_auto_price()
-		var/list/shortage = R.get_shortage_progress()
-		var/list/dawn = R.dawn_forecast()
-		rows += list(list(
-			"ref" = "\ref[R]",
-			"name" = R.name,
-			"desc" = R.desc,
-			"category" = R.category,
-			"amount" = R.market_stock,
-			"limit" = R.market_target,
-			"royal_amount" = R.royal_stock,
-			"never_supplied" = R.market_never_supplies ? TRUE : FALSE,
-			"sold_out" = R.market_available() <= 0 ? TRUE : FALSE,
-			"next_buy" = R.market_next_buy_change(),
-			"next_sell" = R.market_next_sell_change(),
-			"segments" = R.market_segments(),
-			"market_label" = market_step_label(R.market_step(R.market_stock)),
-			"withdraw_price" = R.market_ask(1),
-			"deposit_price" = R.market_bid(1),
-			"event_tag" = R.get_event_label(),
-			"shortage_progress" = shortage ? shortage["progress"] : 0,
-			"shortage_target" = shortage ? shortage["target"] : 0,
-			"shortage_affected" = shortage ? shortage["affected"] : "",
-			"dawn_change" = dawn["dawn_change"],
-			"raided_supply" = dawn["raided_supply"],
-			"raided_demand" = dawn["raided_demand"],
-			"raided_suppliers" = dawn["raided_suppliers"],
-			"raided_demanders" = dawn["raided_demanders"],
-		))
+		rows += list(R.market_row())
 	data["stocks"] = rows
 	data["bounties"] = list()
 	return data

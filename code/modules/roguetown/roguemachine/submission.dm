@@ -44,7 +44,7 @@
 			var/obj/item/natural/bundle/B = I
 			if(B.stacktype == R.item_type)
 				R.royal_stock += B.amount
-				SStreasury.dirty_market_view()
+				SStreasury.dirty_market_view(R)
 				qdel(B)
 				if(sound == TRUE)
 					playsound(loc, 'sound/misc/hiss.ogg', 100, FALSE, -1)
@@ -53,7 +53,7 @@
 			if(!R.check_item(I))
 				continue
 			R.royal_stock += 1 //stacked logs need to check for multiple
-			SStreasury.dirty_market_view()
+			SStreasury.dirty_market_view(R)
 			qdel(I)
 			if(sound == TRUE)
 				playsound(loc, 'sound/misc/hiss.ogg', 100, FALSE, -1)

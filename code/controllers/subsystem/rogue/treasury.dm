@@ -93,6 +93,7 @@ SUBSYSTEM_DEF(treasury)
 	var/list/royal_subsidy_spent = list()
 	var/list/cached_market_rows = null
 	var/market_view_dirty = TRUE
+	var/market_view_version = 0
 	var/rumor_points = RUMOR_POINTS_START
 	var/list/rumor_log = list()
 	var/list/rumor_issued_today = list()
@@ -179,8 +180,12 @@ SUBSYSTEM_DEF(treasury)
 
 // Mark the cached stewardry market / region
 // View as needing rebuild on next read.
-/datum/controller/subsystem/treasury/proc/dirty_market_view()
+/datum/controller/subsystem/treasury/proc/dirty_market_view(datum/roguestock/changed)
 	market_view_dirty = TRUE
+	if(changed)
+		changed.market_row = null
+		return
+	market_view_version++
 
 /datum/controller/subsystem/treasury/proc/get_expected_wage_outlay()
 	if(!steward_machine || !steward_machine.daily_payments)

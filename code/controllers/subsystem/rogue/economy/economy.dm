@@ -45,6 +45,7 @@ SUBSYSTEM_DEF(economy)
 	if(GLOB.dayspassed <= last_processed_day)
 		return
 	last_processed_day = GLOB.dayspassed
+	SStreasury.dirty_market_view()
 
 	if(!dawn_digest)
 		dawn_digest = list("regular_orders_by_region" = list())
@@ -537,7 +538,7 @@ SUBSYSTEM_DEF(economy)
 	D.royal_stock -= quantity
 	D.market_stock += quantity
 	credit_economic_event_saturation(good_id, quantity)
-	SStreasury.dirty_market_view()
+	SStreasury.dirty_market_view(D)
 	SStreasury.mint(SStreasury.discretionary_fund, revenue, "Market Sale: [quantity] [D.name] by [user.real_name]", null, LEDGER_CROWN_REV_STOCKPILE_SALES)
 	log_game("MARKET SALE by [user.ckey]: [quantity] [D.name] (revenue [revenue]m)")
 	to_chat(user, span_notice("Sold [quantity] [D.name] to the market for [format_mammon(revenue)]m."))
@@ -565,7 +566,7 @@ SUBSYSTEM_DEF(economy)
 	D.royal_stock += quantity
 	D.check_glut_relief()
 	debit_economic_event_saturation(good_id, quantity)
-	SStreasury.dirty_market_view()
+	SStreasury.dirty_market_view(D)
 	log_game("MARKET PURCHASE by [user.ckey]: [quantity] [D.name] (cost [cost]m)")
 	to_chat(user, span_notice("Bought [quantity] [D.name] from the market for [format_mammon(cost)]m."))
 	return cost

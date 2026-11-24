@@ -59,7 +59,7 @@
 		D.market_stock--
 		D.check_glut_relief()
 		debit_economic_event_saturation(D.trade_good_id, 1)
-	SStreasury.dirty_market_view()
+	SStreasury.dirty_market_view(D)
 	var/licensed = !from_royal_stock && !treasury_pays && (user.job in GLOB.atc_positions) && SSmerchant_trade?.export_licence_left() >= total_price
 	if(licensed)
 		SSmerchant_trade.export_licence_spent += total_price

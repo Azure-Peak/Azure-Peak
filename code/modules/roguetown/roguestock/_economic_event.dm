@@ -90,6 +90,7 @@ GLOBAL_LIST_EMPTY(active_economic_events)
 		if(E.relief_triggered || !(good_id in E.shortage_goods))
 			continue
 		E.saturation_progress = mammon_round(E.saturation_progress + units * SSeconomy.good_steady_price(good_id))
+		E.dirty_shortage_rows()
 		if(E.saturation_progress >= E.saturation_target)
 			relieved += E
 	for(var/datum/economic_event/E as anything in relieved)
@@ -102,6 +103,13 @@ GLOBAL_LIST_EMPTY(active_economic_events)
 		if(E.relief_triggered || !(good_id in E.shortage_goods))
 			continue
 		E.saturation_progress = max(0, mammon_round(E.saturation_progress - units * SSeconomy.good_steady_price(good_id)))
+		E.dirty_shortage_rows()
+
+/datum/economic_event/proc/dirty_shortage_rows()
+	for(var/good_id in shortage_goods)
+		var/datum/roguestock/D = SStreasury.stockpile_by_trade_good[good_id]
+		if(D)
+			D.market_row = null
 
 /proc/trade_good_names(list/good_ids)
 	var/list/names = list()
