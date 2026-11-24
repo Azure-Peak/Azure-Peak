@@ -61,6 +61,7 @@
 		debit_economic_event_saturation(D.trade_good_id, 1)
 	SStreasury.dirty_market_view()
 	var/obj/item/I = new D.item_type(parent_structure.loc)
+	I.stockpile_stamped = TRUE
 	if(from_royal_stock)
 		to_chat(user, span_info("[parent_structure] chitters and squeaks."))
 	else if(treasury_pays)

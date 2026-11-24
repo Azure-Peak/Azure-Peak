@@ -14,6 +14,7 @@ SUBSYSTEM_DEF(economy)
 	var/caravan_fleet = CARAVAN_FLEET_START
 	var/list/caravan_trips = list()
 	var/caravan_tally_timer
+	var/caravans_used_home = 0
 	var/remembered_caravans_left = CARAVAN_REMEMBERED_COUNT
 	var/caravan_rentals = 0
 	var/fresh_caravan_rentals = 0
@@ -51,6 +52,7 @@ SUBSYSTEM_DEF(economy)
 	var/effective_pop = get_effective_player_count()
 
 	caravan_fleet = min(CARAVAN_FLEET_MAX, caravan_fleet + CARAVAN_FLEET_PER_DAY)
+	caravans_used_home = 0
 	schedule_caravan_tally()
 	restock_crown_imports()
 	restock_commissions()

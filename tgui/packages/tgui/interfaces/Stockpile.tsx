@@ -400,6 +400,17 @@ export const Stockpile = () => {
               ? `Market Conditions (${filtered.length})`
               : `${data.category} (${filtered.length})`}
           </div>
+          <div
+            style={{
+              fontStyle: 'italic',
+              color: INK_SOFT,
+              fontSize: FONT_BODY,
+              padding: '2px 8px 6px',
+            }}
+          >
+            Goods sold from the market CANNOT be re-exported at the Navigator
+            or the Black Market due to the law against cabotage.
+          </div>
           {filtered.length === 0 ? (
             <div
               style={{

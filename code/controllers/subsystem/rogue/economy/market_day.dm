@@ -88,6 +88,8 @@
 /datum/controller/subsystem/economy/proc/rental_blocker()
 	if(caravans_home() <= 0)
 		return "No caravans are home."
+	if(caravans_home() <= caravans_used_home)
+		return "Caravans back from the road today can't be rented out before dawn."
 	return null
 
 /datum/controller/subsystem/economy/proc/rent_caravan(mob/user)

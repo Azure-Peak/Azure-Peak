@@ -187,6 +187,7 @@
 		trip.tribute_region_id = tribute_region.region_id
 		trip.tribute_units = tribute_region.take_tribute()
 	caravan_trips += trip
+	caravans_used_home = max(0, caravans_used_home - 1)
 	var/remembered = remembered_caravans_left > 0
 	if(remembered)
 		remembered_caravans_left--
@@ -218,6 +219,7 @@
 /datum/controller/subsystem/economy/proc/resolve_caravans()
 	for(var/datum/caravan_trip/trip as anything in caravan_trips)
 		resolve_trip(trip)
+	caravans_used_home += length(caravan_trips)
 	caravan_trips.Cut()
 	SStreasury.dirty_market_view()
 
@@ -225,6 +227,7 @@
 	if(!(trip in caravan_trips))
 		return
 	caravan_trips -= trip
+	caravans_used_home++
 	resolve_trip(trip)
 	SStreasury.dirty_market_view()
 
