@@ -50,6 +50,13 @@
 	stop_hunt_tick()
 	clear_hunter_marks()
 	clear_boss_marker()
+	INVOKE_ASYNC(src, PROC_REF(settle_won_hunt))
+
+/datum/quest/kill/notorious_bounty/proc/settle_won_hunt()
+	if(despawn_gang())
+		announce_to_party("<b>The gang scatters.</b>")
+	hunt_engaged = TRUE
+	succour_fallen_hunters()
 
 /datum/quest/kill/notorious_bounty/on_first_pop()
 	var/obj/effect/landmark/quest_spawner/landmark = pending_landmark_ref?.resolve()
@@ -173,10 +180,7 @@
 	return ..(extras - 1)
 
 /datum/quest/kill/notorious_bounty/proc/extra_escort_tp(extras)
-	if(extras <= 0)
-		return 0
-	var/datum/threat_region/TR = SSregionthreat.get_region(region)
-	return round(extras * NOTORIOUS_BOUNTY_ESCORT_TP_PER_EXTRA * (TR ? region_scale(TR) : 1))
+	return max(0, extras) * NOTORIOUS_BOUNTY_ESCORT_TP_PER_EXTRA
 
 /datum/quest/kill/notorious_bounty/proc/spawn_gang(obj/effect/landmark/quest_spawner/landmark)
 	if(gang_settled)
@@ -185,9 +189,9 @@
 	if(fellowship_extras <= 0 || QDELETED(landmark))
 		return
 	spawn_goons(landmark, tp_budget, NOTORIOUS_BOUNTY_GOON_CAP)
-	var/escort_tp = extra_escort_tp(fellowship_extras - 1)
-	if(escort_tp > 0)
-		spawn_goons(landmark, escort_tp, QUEST_KILL_MAX_MOBS)
+	var/escort_extras = fellowship_extras - 1
+	if(escort_extras > 0)
+		spawn_goons(landmark, extra_escort_tp(escort_extras), escort_extras * NOTORIOUS_BOUNTY_ESCORT_CAP_PER_EXTRA)
 
 /datum/quest/kill/notorious_bounty/estimate_mob_count()
 	return 1
@@ -396,6 +400,10 @@
 				party |= M
 	return party
 
+/datum/quest/kill/notorious_bounty/proc/announce_to_party(msg)
+	for(var/mob/living/M as anything in get_hunting_party())
+		to_chat(M, span_notice(msg))
+
 /datum/quest/kill/notorious_bounty/proc/describe_hunting_party()
 	var/mob/living/bearer = quest_receiver_reference?.resolve()
 	var/list/names = list()
@@ -451,6 +459,7 @@
 		if(M.client)
 			M.ghostize(FALSE)
 		qdel(M)
+		. = TRUE
 	goon_refs.Cut()
 
 /datum/quest/kill/notorious_bounty/proc/check_hunt_engaged(mob/living/boss)
