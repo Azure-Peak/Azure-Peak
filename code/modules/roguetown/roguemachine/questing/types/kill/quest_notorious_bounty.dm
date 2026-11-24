@@ -34,9 +34,13 @@
 	var/hunt_tick_id
 	var/party_down_since = 0
 	var/gang_settled = FALSE
+	var/ground_tick_id
+	var/ground_radius = NOTORIOUS_BOUNTY_LEASH_RANGE
+	var/list/bound_hunters = list()
 
 /datum/quest/kill/notorious_bounty/Destroy()
 	stop_hunt_tick()
+	stop_ground_tick()
 	if(!complete && !failed)
 		release_boss()
 		despawn_gang()
@@ -48,6 +52,7 @@
 /datum/quest/kill/notorious_bounty/mark_complete()
 	..()
 	stop_hunt_tick()
+	stop_ground_tick()
 	clear_hunter_marks()
 	clear_boss_marker()
 	INVOKE_ASYNC(src, PROC_REF(settle_won_hunt))
@@ -71,6 +76,7 @@
 	if(complete || failed)
 		return
 	stop_hunt_tick()
+	stop_ground_tick()
 	release_boss()
 	succour_fallen_hunters()
 	despawn_gang()
@@ -88,7 +94,8 @@
 		return
 	var/mob/living/boss = boss_ref?.resolve()
 	if(!QDELETED(boss) && boss.client)
-		leash_boss(boss)
+		if(boss.stat == DEAD)
+			release_dead_boss(boss)
 		refresh_hunter_marks()
 		count_engaged_tick(boss)
 	check_hunt_engaged(boss)
@@ -296,6 +303,7 @@
 	boss.add_filter("notorious_bounty_outline", 1, list("type" = "drop_shadow", "color" = "#ffee00", "size" = 0.1))
 	boss.update_sight()
 	refresh_hunter_marks()
+	start_ground_tick()
 	var/player_bonus = fellowship_extras > 0 ? NOTORIOUS_BOUNTY_PLAYER_BONUS : NOTORIOUS_BOUNTY_PLAYER_BONUS_SOLO
 	reward_amount += player_bonus
 	quest_scroll?.update_quest_text()
@@ -338,14 +346,60 @@
 	for(var/skill_type in subtypesof(/datum/skill/magic))
 		boss.adjust_skillrank_down_to(skill_type, NOTORIOUS_BOUNTY_PLAYER_MAGIC_SKILL_CAP, TRUE)
 
-/datum/quest/kill/notorious_bounty/proc/leash_boss(mob/living/boss)
-	if(boss.stat == DEAD)
-		release_dead_boss(boss)
+/datum/quest/kill/notorious_bounty/proc/start_ground_tick()
+	if(ground_tick_id || !leash_origin)
 		return
-	var/turf/T = get_turf(boss)
-	if(T && leash_origin && (T.z != leash_origin.z || get_dist(T, leash_origin) > NOTORIOUS_BOUNTY_LEASH_RANGE))
-		boss.forceMove(leash_origin)
-		to_chat(boss, span_userdanger("An unknown force drags you back. Stand and fight."))
+	ground_tick_id = addtimer(CALLBACK(src, PROC_REF(ground_tick)), NOTORIOUS_BOUNTY_GROUND_TICK, TIMER_STOPPABLE | TIMER_LOOP)
+
+/datum/quest/kill/notorious_bounty/proc/stop_ground_tick()
+	if(!ground_tick_id)
+		return
+	deltimer(ground_tick_id)
+	ground_tick_id = null
+
+/datum/quest/kill/notorious_bounty/proc/ground_tick()
+	if(complete || failed || !leash_origin)
+		stop_ground_tick()
+		return
+	var/mob/living/boss = boss_ref?.resolve()
+	if(!QDELETED(boss) && boss.client && boss.stat != DEAD && !in_ground(boss))
+		pull_to_edge(boss)
+	for(var/mob/living/M as anything in get_hunting_party())
+		if(M.stat == DEAD)
+			continue
+		var/datum/weakref/W = WEAKREF(M)
+		if(W in bound_hunters)
+			if(!in_ground(M))
+				pull_to_edge(M)
+			continue
+		if(in_ground(M))
+			bound_hunters += W
+			to_chat(M, span_warning("You have entered the battleground. You cannot leave until the fight is over."))
+
+/datum/quest/kill/notorious_bounty/proc/in_ground(atom/movable/AM)
+	var/turf/T = get_turf(AM)
+	return T && T.z == leash_origin.z && get_dist(T, leash_origin) <= ground_radius
+
+/datum/quest/kill/notorious_bounty/proc/pull_to_edge(mob/living/M)
+	var/turf/dest = edge_turf_toward(get_turf(M))
+	if(M.buckled)
+		M.buckled.unbuckle_mob(M, TRUE)
+	M.forceMove(dest)
+	to_chat(M, span_userdanger("An unknown force drags you back. Stand and fight."))
+
+/datum/quest/kill/notorious_bounty/proc/edge_turf_toward(turf/from)
+	var/turf/target = from ? locate(from.x, from.y, leash_origin.z) : null
+	if(!target)
+		return leash_origin
+	var/list/line = get_line(leash_origin, target)
+	for(var/i = length(line), i >= 1, i--)
+		var/turf/T = line[i]
+		if(get_dist(T, leash_origin) > ground_radius - NOTORIOUS_BOUNTY_GROUND_EDGE_INSET)
+			continue
+		if(!isopenturf(T) || istype(T, /turf/open/transparent/openspace) || istype(T, /turf/open/lava) || is_blocked_turf(T, TRUE))
+			continue
+		return T
+	return leash_origin
 
 /datum/quest/kill/notorious_bounty/proc/release_boss()
 	var/mob/living/boss = boss_ref?.resolve()
