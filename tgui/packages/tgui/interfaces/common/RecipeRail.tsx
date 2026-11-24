@@ -1,4 +1,9 @@
-import type { CSSProperties, ReactNode } from 'react';
+import {
+  type CSSProperties,
+  type ReactNode,
+  useEffect,
+  useRef,
+} from 'react';
 
 import {
   FONT_BODY,
@@ -19,6 +24,57 @@ export type RailNode = {
   label: string;
   count: number;
   children?: RailNode[];
+};
+
+export const groupOf = (category: string) => {
+  const paren = category.indexOf(' (');
+  return paren === -1 ? category : category.slice(0, paren);
+};
+
+const subcategoryOf = (category: string) => {
+  const paren = category.indexOf(' (');
+  return paren === -1 ? category : category.slice(paren + 2, -1);
+};
+
+export const compareGroupedCategories = (order: string[]) => {
+  const rank = (group: string) => {
+    const index = order.indexOf(group);
+    return index === -1 ? order.length : index;
+  };
+  return (a: string, b: string) =>
+    rank(groupOf(a)) - rank(groupOf(b)) || a.localeCompare(b);
+};
+
+export const buildGroupedRail = (
+  categories: string[],
+  counts: Record<string, number>,
+) => {
+  const groups: string[] = [];
+  const members: Record<string, string[]> = {};
+  for (const category of categories) {
+    const group = groupOf(category);
+    if (!members[group]) {
+      members[group] = [];
+      groups.push(group);
+    }
+    members[group].push(category);
+  }
+  return groups.map((group): RailNode => {
+    const cats = members[group];
+    if (cats.length === 1) {
+      return { key: cats[0], label: cats[0], count: counts[cats[0]] || 0 };
+    }
+    return {
+      key: group,
+      label: group,
+      count: cats.reduce((sum, category) => sum + (counts[category] || 0), 0),
+      children: cats.map((category) => ({
+        key: category,
+        label: subcategoryOf(category),
+        count: counts[category] || 0,
+      })),
+    };
+  });
 };
 
 export const recipeGroupHeaderStyle: CSSProperties = {
@@ -102,43 +158,54 @@ export const RecipeRail = (props: {
 export const RecipeRailLayout = (props: {
   header: ReactNode;
   rail: ReactNode;
+  scrollKey?: string;
   children: ReactNode;
-}) => (
-  <div
-    style={{
-      ...pageStyle,
-      height: '100%',
-      boxSizing: 'border-box',
-      padding: '8px 12px',
-      display: 'flex',
-      flexDirection: 'column',
-    }}
-  >
+}) => {
+  const listRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (listRef.current) {
+      listRef.current.scrollTop = 0;
+    }
+  }, [props.scrollKey]);
+
+  return (
     <div
       style={{
-        flexShrink: 0,
+        ...pageStyle,
+        height: '100%',
+        boxSizing: 'border-box',
+        padding: '8px 12px',
         display: 'flex',
-        alignItems: 'center',
-        gap: '8px',
-        marginBottom: '8px',
+        flexDirection: 'column',
       }}
     >
-      {props.header}
-    </div>
-    <div style={{ flex: 1, minHeight: 0, display: 'flex', gap: '10px' }}>
       <div
         style={{
-          flex: '0 0 180px',
-          overflowY: 'auto',
-          borderRight: `1px solid ${PARCHMENT_SHADOW}`,
-          paddingRight: '6px',
+          flexShrink: 0,
+          display: 'flex',
+          alignItems: 'center',
+          gap: '8px',
+          marginBottom: '8px',
         }}
       >
-        {props.rail}
+        {props.header}
       </div>
-      <div style={{ flex: 1, minWidth: 0, overflowY: 'auto' }}>
-        {props.children}
+      <div style={{ flex: 1, minHeight: 0, display: 'flex', gap: '10px' }}>
+        <div
+          style={{
+            flex: '0 0 180px',
+            overflowY: 'auto',
+            borderRight: `1px solid ${PARCHMENT_SHADOW}`,
+            paddingRight: '6px',
+          }}
+        >
+          {props.rail}
+        </div>
+        <div ref={listRef} style={{ flex: 1, minWidth: 0, overflowY: 'auto' }}>
+          {props.children}
+        </div>
       </div>
     </div>
-  </div>
-);
+  );
+};
