@@ -269,6 +269,8 @@ SUBSYSTEM_DEF(economy)
 
 /datum/controller/subsystem/economy/proc/roll_standing_order(datum/economic_region/region)
 	var/list/goods = stockpile_goods(region.demands)
+	for(var/datum/economic_event/E as anything in GLOB.active_economic_events)
+		goods -= E.glut_goods
 	var/list/kinds = region.request_kinds.Copy()
 	if(crafted_order_count() >= crafted_order_cap())
 		for(var/kind in kinds.Copy())

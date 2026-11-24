@@ -46,7 +46,7 @@
 
 // How many caravans you start with - 4 for a decent amount of Steward agency
 // You get +1 per day, up to a maximum of 8. This way Steward don't need to compete and gain increased economic power as the round goes on
-#define CARAVAN_FLEET_START 5
+#define CARAVAN_FLEET_START 4
 #define CARAVAN_FLEET_PER_DAY 1
 #define CARAVAN_FLEET_MAX 12
 #define CARAVAN_REMEMBERED_COUNT (CARAVAN_FLEET_START + CARAVAN_FLEET_PER_DAY)
@@ -65,7 +65,7 @@
 #define STANDING_ORDERS_POOL_CAP 17
 #define STANDING_ORDERS_MAX_PER_REGION 1
 
-#define REQUEST_GOODS_PAYOUT_MULT 3
+#define REQUEST_GOODS_PAYOUT_MULT 2.5
 #define REQUEST_CRAFTED_PAYOUT_MULT 5
 #define REQUEST_CRAFTED_MAX_UNITS 3
 #define REQUEST_CRAFTED_MAX_OPEN_MIN 3
@@ -162,8 +162,8 @@
 
 #define MARKET_GLUT_SHOCK 300
 
-#define MARKET_DAY_RATE 50
-#define MARKET_DAY_FLOOR 25
+#define MARKET_DAY_RATE 35
+#define MARKET_DAY_FLOOR 15
 #define MARKET_DAY_RENTAL_RATE 10
 #define CARAVAN_RENTAL_PAY 50
 #define MARKET_DAY_GRACE_DAYS 1
