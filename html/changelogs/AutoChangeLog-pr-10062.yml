@@ -1,0 +1,5 @@
+author: "Ryumi"
+delete-after: True
+changes:
+  - rscadd: "Static threat spawners now have a chance to extinguish all lights around them when nobody is looking, to keep the roads feeling at least a little dangerous, even when the lights are on."
+  - rscadd: "Static threat spawners now ignore the light fixtures seen in the Underdark and Mount Decapitation; meaning they will will spawn threats even when they are in their \"area of effect.\" You'll need to build lights in such areas if you're seeing threats appearing there!"

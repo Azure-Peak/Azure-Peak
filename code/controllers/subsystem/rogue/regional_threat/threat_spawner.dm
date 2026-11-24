@@ -1,23 +1,37 @@
 /*
-*	So, here's the general idea behind these:
 *	These are static threat spawners. They routinely will, at random, generate enemies
-*	in the same way that ambushes spawn them - that is, spawning them around random
-*	trees/mushrooms/etc within view of the spawner. However, unlike ambushes, THESE
-*	mobs will actually stick around and not despawn!
+*	in a similar way as an ambush, although instead it spawns them on "open" (non-obstructed)
+*   terrain. However, unlike ambushes, THESE mobs will actually stick around and not despawn!
 *
-*	After a specified time into the round, the threat spawners become "active," and will
+*	After a specified grace period at round start, the threat spawners become "active," and will
 *	start a cooldown that is randomized between the min and max time. When the cooldown
-*	hits 0, it spawns lingering enemies around any valid targets in much the same way
-*	that ambushes spawn enemies. Then it goes on a randomized cooldown again, and the
-*	cycle repeats for the rest of the round.
+*	hits 0, it spawns lingering enemies on any valid terrain surrounding the spawner if there are
+*	no players around to witness the enemies being spawned, (to make it appear as though the
+*	enemies had always been there.)
+*	It then goes on a randomized cooldown again, and the cycle repeats for the rest of the round.
+*
+*	However, if a lit object (i.e. brazier, torch, etc.) is in the "area of effect" of a spawner, it will
+*	not spawn threats - with a caveat. The caveat being that there is a chance the spawner will
+*	extinguish all lit objects in its range and force a mob spawning right afterward, (so long as
+*	there are no players around to witness this.)
+*
+*	The philosophy behind these is that these should be placed in locations where one should expect
+*	some level of danger, (threat regions are mandatory for them to work.) Ambushes and contracts
+*	don't really give you much of a sense of how "dangerous" a region is and feel rather gamey.
+*	With these, there are actual, unpredictable, lingering threats that routinely appear. These give
+*	the player a textured view of how dangerous a region is and make the world feel more organic and
+*	alive, as well as feel more responsive and representative of the threat level system. Their inner
+*	workings have RNG within RNG within RNG by design, to keep them unpredictable and difficult to
+*	metagame beyond their locations and the intended way of suppressing them. And even when they are
+*	"Suppressed," there is no guarantee of safety... Because this world is never an entirely safe one.
 *
 */
 
 GLOBAL_LIST_INIT(threat_spawner_budget_mults, alist(
-	0.25 = 50,
-	0.35 = 20,
-	0.5 = 10,
-	1 = 1,
+	0.25 = 50, // 25% of our budget will be the most common budget allowance for mob spawning
+	0.35 = 20, // 35%
+	0.5 = 10, // 50%
+	1 = 1, // Very rarely we'll actually have our entire budget and will be MEAN with it
 ))
 
 /obj/effect/landmark/threatspawner
@@ -25,11 +39,18 @@ GLOBAL_LIST_INIT(threat_spawner_budget_mults, alist(
 	icon = 'icons/effects/threat_spawners.dmi'
 	icon_state = "threatspawner"
 	invisibility = INVISIBILITY_OBSERVER
+	/// Initial grace period at round start before we start spawning mobs.
 	var/initial_cooldown = THREAT_SPAWNER_INITIAL_COOLDOWN
 	var/spawn_range = THREAT_SPAWNER_RANGE
 	var/next_spawn_time = 0
 	var/list/mob/living/our_living_mobs = list()
 	var/wave_tp_spent = 0
+	/// The % chance that every time we consider spawning mobs, we'll knock out all lights around us to force spawning.
+	var/lights_extinguish_chance = 20
+	/// List of types of lights that will be ignored when looking for lights that keep our spawning functionality disabled.
+	var/list/ignored_light_types = list(
+		/obj/machinery/light/roguestreet, // Literally cannot be turned off and are all over the Underdark and mountain, so we'll just ignore these
+	)
 
 /obj/effect/landmark/threatspawner/Initialize(mapload = FALSE)
 	. = ..()
@@ -49,9 +70,11 @@ GLOBAL_LIST_INIT(threat_spawner_budget_mults, alist(
 	if(!T)
 		next_spawn_time = world.time + INFINITY
 		CRASH("Threat spawner [src] has no turf")
+#ifndef SPAWNER_DEBUGGING_MODE
 	if(GLOB.tod != "night" && T.can_see_sky())
 		next_spawn_time = world.time + THREAT_SPAWNER_RETRY_DELAY
 		return FALSE
+#endif
 	if(our_living_mobs.len > 0)
 		next_spawn_time = world.time + THREAT_SPAWNER_RETRY_DELAY
 		return FALSE
@@ -70,23 +93,39 @@ GLOBAL_LIST_INIT(threat_spawner_budget_mults, alist(
 		start_cooldown()
 		return FALSE
 
+	// If there are players who are in our range, (or who can potentially see into our area of effect,)
+	// do nothing and wait a minute before trying again!
 	for(var/mob/living/carbon/human/L in range(src, THREAT_SPAWNER_PLAYER_CHECK_RANGE))
 		if(L.mind)
 			next_spawn_time = world.time + THREAT_SPAWNER_RETRY_DELAY
 			return FALSE
 
 	var/lights_around = FALSE
+	// If there are lights around us, there's a chance we may knock the lights out around us
+	// so that we can keep spawning mobs.
+	// This way we aren't rendered a non-threat for the rest of the round just because
+	// someone built a light roundstart and then forgot about us.
+	var/is_killing_lights = prob(lights_extinguish_chance)
 	for(var/obj/O in range(spawn_range, src))
+		for(var/light_type in ignored_light_types)
+			if(istype(O, light_type))
+				continue
 		if(istype(O, /obj/item/flashlight/flare))
 			var/obj/item/flashlight/flare/F = O
 			if(F.on)
-				lights_around = TRUE
-				break
+				if(is_killing_lights)
+					F.extinguish()
+				else
+					lights_around = TRUE
+					break
 		if(istype(O, /obj/machinery/light/rogue))
 			var/obj/machinery/light/rogue/L = O
 			if(L.on)
-				lights_around = TRUE
-				break
+				if(is_killing_lights)
+					L.extinguish()
+				else
+					lights_around = TRUE
+					break
 	if(lights_around)
 		start_cooldown()
 		return FALSE

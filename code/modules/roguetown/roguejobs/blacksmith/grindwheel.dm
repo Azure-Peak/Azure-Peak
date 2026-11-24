@@ -1,6 +1,6 @@
 /obj/structure/fluff/grindwheel
 	name = "grinding wheel"
-	desc = "Steadily hums when operated, a massive wheel of grinding stone. It can be used to sharpen blades, and to cut logs into planks."
+	desc = "Steadily hums when operated, a massive wheel of grinding stone. It can be used to sharpen blades, and to cut small logs into planks."
 	icon = 'icons/roguetown/misc/forge.dmi'
 	icon_state = "grindwheel"
 	density = TRUE
@@ -19,11 +19,7 @@
 		var/wood_time = (40 - (skill_level * 5))
 		playsound(src, pick('sound/misc/slide_wood (2).ogg', 'sound/misc/slide_wood (1).ogg'), 100, FALSE)
 		if(do_after(user, wood_time, target = src))
-			if(prob(max(40 - (skill_level * 10), 0)) || !skill_level) //Chance maxes at level 4
-				to_chat(user, span_info("Curses! I ruined this piece of wood..."))
-				playsound(src,'sound/combat/hits/onwood/destroyfurniture.ogg', 100, FALSE)
-			else
-				new /obj/item/natural/wood/plank(get_turf(src))
+			new /obj/item/natural/wood/plank(get_turf(src))
 			user.mind.add_sleep_experience(/datum/skill/craft/carpentry, (user.STAINT*0.5))
 			qdel(I)
 			return

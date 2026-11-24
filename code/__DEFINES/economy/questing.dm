@@ -394,7 +394,6 @@
 #define MERC_CONTRACT_MEDAL_DAYS 2
 #define MERC_CONTRACT_MEDAL_TRIUMPHS 3
 
-// Cuts out the most egregious case of a Mercenary abusing contract with stipended role to print free money, by requiring them to be present with their hirer for 1/3 of the day to receive the stipend.
-#define MERC_CONTRACT_PRESENCE_INTERVAL (30 SECONDS)
-#define MERC_CONTRACT_PRESENCE_RANGE 14
-#define MERC_CONTRACT_PRESENCE_SHARE (1/3)
+#define MERC_CONTRACT_HOLD_RETRY_INTERVAL (30 SECONDS)
+
+#define MERC_CONTRACT_OOC_NOTE_LINE "OOC Note: Abusing this, such as making phony contracts with a friend and then not doing anything actually for them but just to benefit from the free stipend, will result in actions including but not limited to jobban."

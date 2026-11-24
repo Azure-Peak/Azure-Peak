@@ -70,14 +70,14 @@
 
 /datum/npc_loadout/kit/dwarf_skeleton/knight
 	cloak = /obj/item/clothing/cloak/tabard/stabard/dungeon
-	wrists = /obj/item/clothing/wrists/roguetown/bracers
-	armor = /obj/item/clothing/suit/roguetown/armor/plate/scale
+	wrists = /obj/item/clothing/wrists/roguetown/bracers/iron
+	armor = /obj/item/clothing/suit/roguetown/armor/plate/scale/iron
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy
-	pants = /obj/item/clothing/under/roguetown/platelegs
-	head = /obj/item/clothing/head/roguetown/helmet/heavy/knight/armet
-	neck = /obj/item/clothing/neck/roguetown/chaincoif
-	shoes = /obj/item/clothing/shoes/roguetown/boots/armor
-	gloves = /obj/item/clothing/gloves/roguetown/plate
+	pants = /obj/item/clothing/under/roguetown/platelegs/iron
+	head = /obj/item/clothing/head/roguetown/helmet/heavy/knight/armet/iron
+	neck = /obj/item/clothing/neck/roguetown/chaincoif/iron
+	shoes = /obj/item/clothing/shoes/roguetown/boots/armor/iron
+	gloves = /obj/item/clothing/gloves/roguetown/plate/iron
 	belt = /obj/item/storage/belt/rogue/leather
 
 //** WEAPONS **//

@@ -643,9 +643,9 @@ GLOBAL_LIST_INIT(convert_incantations, list(
 			had_blast = TRUE
 			new_convert.mind.RemoveSpell(/datum/action/cooldown/spell/projectile/divine_blast)
 
-		if(new_convert.mind.has_spell(/datum/action/cooldown/spell/projectile/unholy_blast))
+		if(new_convert.mind.has_spell(/datum/action/cooldown/spell/projectile/divine_blast/inhumen))
 			had_blast = TRUE
-			new_convert.mind.RemoveSpell(/datum/action/cooldown/spell/projectile/unholy_blast)
+			new_convert.mind.RemoveSpell(/datum/action/cooldown/spell/projectile/divine_blast/inhumen)
 
 		// cleric traits are removed here
 		new_convert.devotion.Destroy()
@@ -662,7 +662,7 @@ GLOBAL_LIST_INIT(convert_incantations, list(
 		if(!istype(new_convert.patron, /datum/patron/old_god)) // psydonites don't get new miracles, since psydonite "miracles" don't work like real miracles
 			new_devotion.grant_miracles(new_convert, saved_level, saved_devotion_gain, saved_max_progression)
 			if(had_blast)
-				var/blast_to_grant = (istype(new_convert.patron, /datum/patron/inhumen) ? /datum/action/cooldown/spell/projectile/divine_blast : /datum/action/cooldown/spell/projectile/unholy_blast)
+				var/blast_to_grant = (istype(new_convert.patron, /datum/patron/inhumen) ? /datum/action/cooldown/spell/projectile/divine_blast : /datum/action/cooldown/spell/projectile/divine_blast/inhumen)
 				new_convert.mind.AddSpell(new blast_to_grant)
 			// why are you like this
 			if(saved_level >= 3 && istype(new_convert.patron, /datum/patron/inhumen/zizo) && !new_convert.mind.has_spell(/datum/action/cooldown/spell/minion_mark))

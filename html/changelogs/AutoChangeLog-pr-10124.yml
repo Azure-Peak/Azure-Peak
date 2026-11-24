@@ -1,0 +1,4 @@
+author: "KatTheFox"
+delete-after: True
+changes:
+  - refactor: "Spell alt modes are now handled through a unified set of vars and procs, instead of being manually reinvented in each of 15 different spell files. Spells should behave identically, except for unholy blast, which will now dust instead of gib because I cba to port that to the new, parented-to-divine-blast version."

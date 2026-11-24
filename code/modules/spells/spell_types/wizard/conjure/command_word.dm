@@ -27,49 +27,10 @@
 
 	spell_requirements = SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
 
-	var/current_mode = 1
-	var/list/modes = list()
+	default_maptext_x = 5
 	var/command_range = 12
 	var/focusing = FALSE
 
-/datum/action/cooldown/spell/command_word/Grant(mob/grant_to)
-	. = ..()
-	apply_mode(current_mode)
-
-/datum/action/cooldown/spell/command_word/proc/apply_mode(index)
-	if(!length(modes))
-		return
-	current_mode = index
-	var/list/mode = modes[index]
-	invocations = list(mode["invocation"])
-	cooldown_time = mode["cooldown"]
-	build_all_button_icons()
-	update_mode_maptext()
-
-/datum/action/cooldown/spell/command_word/toggle_alt_mode(mob/user)
-	if(length(modes) < 2)
-		return FALSE
-	apply_mode((current_mode % length(modes)) + 1)
-	if(user)
-		user.balloon_alert(user, modes[current_mode]["name"])
-	return TRUE
-
-/datum/action/cooldown/spell/command_word/proc/update_mode_maptext()
-	if(!length(modes))
-		return
-	var/list/mode = modes[current_mode]
-	for(var/datum/hud/hud as anything in viewers)
-		var/atom/movable/screen/movable/action_button/B = viewers[hud]
-		var/atom/movable/screen/arc_maptext_holder/holder
-		for(var/atom/movable/screen/arc_maptext_holder/existing in B.vis_contents)
-			holder = existing
-			break
-		if(!holder)
-			holder = new(B)
-			B.vis_contents.Add(holder)
-		holder.maptext = MAPTEXT(mode["tag"])
-		holder.maptext_x = 5
-		holder.color = mode["color"]
 
 /datum/action/cooldown/spell/command_word/get_spell_statistics(mob/living/user)
 	var/list/stats = ..()
