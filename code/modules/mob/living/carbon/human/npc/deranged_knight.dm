@@ -45,13 +45,13 @@ GLOBAL_LIST_INIT(hedgeknight_aggro, world.file2list("strings/rt/hedgeknightaggro
 	var/list/aggro_lines
 	switch(preset_lines)
 		if("graggar")
-			preset_title = pick("of Graggar","the Butcherer","Orphanbane","the Warlord","Blood-Chosen","the Bloody","of the Darkstar","of the Sinistar","the Chainbreaker","the Unshackled","the War-Born","the Murderer","Bane of Peace","the herald of Graggar","the Culler","Slaughterer of Lambs")
+			preset_title = pick("of Graggar","the Butcherer","Orphanbane","the Warlord","Blood-Chosen","the Bloody","of the Darkstar","of the Sinistar","the Chainbreaker","the Unshackled","the War-Born","the Murderer","Bane of Peace","the herald of Graggar","the Culler","the Slaughterer of Lambs")
 			aggro_lines = GLOB.graggar_aggro
 		if("matthios")
-			preset_title = pick("the Rich","of Equal Exchange","the Opulant","of the Gilded Flame","Fyre-Kindled","the Brigand","of Matthios","of the Transactor","the Free","the Wealthy","of the Kindled Pyre","of the Gilded Drakkyn","the herald of Matthios","of Exchange","of Transaction")
+			preset_title = pick("the Rich","of Equal Exchange","the Opulant","of the Gilded Flame","Fyre-Kindled","the Brigand","of Matthios","of the Transactor","the Free","the Wealthy","of the Kindled Pyre","of the Gilded Drakkyn","the herald of Matthios","of the Gilded Exchange","of the Gilded Camaraderie")
 			aggro_lines = GLOB.matthios_aggro
 		if("zizo")
-			preset_title = pick("of Zizo","of the Avantyne Legion","bane of the Hallowed","the Defiler","Shadow-Blessed","the Insane","sworn-in-her-name","the herald of Progress","the herald of Zizo","the Luxbane","of the Dark Shield","of Shadows","the Truesighted","Truth-Seeker","of the Pale Lady")
+			preset_title = pick("of Zizo","of the Avantyne Legion","bane of the Hallowed","the Defiler","the Shadow-Blessed","the Insane","sworn-in-her-name","the herald of Progress","the herald of Zizo","the Luxbane","of the Dark Shield","of Shadows","the Truesighted","the Truth-Seeker","of the Pale Lady")
 			aggro_lines = GLOB.zizo_aggro
 			src.grant_language(/datum/language/undead)
 		if("baotha")
