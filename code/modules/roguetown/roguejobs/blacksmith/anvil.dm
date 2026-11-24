@@ -210,7 +210,7 @@
 			"req_bar" = R.req_bar,
 			"ref" = REF(R),
 			"path" = "[R.type]",
-			"icon" = spritesheet.icon_class_name(sanitize_css_class_name("recipe_[REF(R)]"))
+			"icon" = spritesheet.icon_class_name(sanitize_css_class_name("recipe_[R.type]"))
 		))
 
 	data["recipes"] = recipes

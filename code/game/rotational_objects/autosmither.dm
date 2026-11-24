@@ -129,7 +129,7 @@
 			"name" = recipe.name,
 			"category" = recipe.display_category || ITEM_CAT_SMITHING_MISC,
 			"ref" = REF(recipe),
-			"icon" = spritesheet.icon_class_name(sanitize_css_class_name("recipe_[REF(recipe)]")),
+			"icon" = spritesheet.icon_class_name(sanitize_css_class_name("recipe_[recipe.type]")),
 			"icon_file" = "[initial(recipe.created_item:icon)]",
 			"icon_state" = "[initial(recipe.created_item:icon_state)]",
 			"created_num" = recipe.createditem_num,
@@ -155,7 +155,7 @@
 			"index" = i,
 			"name" = recipe.name,
 			"category" = recipe.display_category || ITEM_CAT_SMITHING_MISC,
-			"icon" = spritesheet.icon_class_name(sanitize_css_class_name("recipe_[REF(recipe)]")),
+			"icon" = spritesheet.icon_class_name(sanitize_css_class_name("recipe_[recipe.type]")),
 			"created_num" = recipe.createditem_num,
 			"active" = (queue_entry.id == current_queue_id)
 		))
