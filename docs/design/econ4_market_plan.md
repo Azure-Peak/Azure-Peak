@@ -463,7 +463,8 @@ UI: `tgui/packages/tgui/interfaces/StewardTrade/OrdersView.tsx` and `types.ts`:
   - `release_estate_backlogs()` runs from `clear_blockade` and pays the whole backlog at once.
   - Outlaws get nothing and build no backlog.
 - **Parcel:**
-  - Each parcel rolls one of the region's `tribute_goods`, worth `ESTATE_PARCEL_VALUE` at the Steady price. That comes to 1 to 5 items per region.
+  - Each parcel rolls one of the region's or realm's `estate_goods` by weight, worth `ESTATE_PARCEL_VALUE` at the Steady price. Weights are `ESTATE_GOOD_REGULAR` 3 and `ESTATE_GOOD_OCCASIONAL` 1. Estate lists are separate from tribute (built 2026-11-24). Regions draw on their types plus lore picks. Realms draw on their Merchant export lists plus lore picks.
+  - Goods worth more than a parcel (gems, gold, Dendor essence) are left out until a rule for them is decided. Lirvas has only rosestone and cinnabar for now.
   - Every third dae (3, 6), the parcel also carries one of the region's `gifts`, which can't be sold. The lists are still empty for the user to fill.
   - It goes by HERMES to the noble by name as an "estate parcel" from "[Region] Estate", or drops at their feet if there is no HERMES.
 - **Preference:** `estate_region` is a per-character savefile var, defaulting to Kingsfield. Chargen shows it as an Estate row in Identity > Gameplay with a region list. At spawn it is read from the joining client, because the new mob has no client yet.

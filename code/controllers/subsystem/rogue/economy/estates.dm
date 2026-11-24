@@ -7,6 +7,13 @@
 	var/datum/estate_realm/realm = GLOB.estate_realms[estate_id]
 	return realm?.name
 
+/proc/estate_good_names(list/estate_goods, weight)
+	var/list/good_ids = list()
+	for(var/good_id in estate_goods)
+		if(estate_goods[good_id] == weight)
+			good_ids += good_id
+	return trade_good_names(good_ids)
+
 /datum/noble_estate
 	var/region_id = TRADE_REGION_KINGSFIELD
 	var/rank = NOBLE_RANK_NONE
@@ -129,16 +136,16 @@
 			continue
 		deliver_estate(H, E, E.undelivered_days, E.undelivered_gifts)
 
-/datum/controller/subsystem/economy/proc/estate_parcel(list/good_ids)
+/datum/controller/subsystem/economy/proc/estate_parcel(list/estate_goods)
 	var/list/goods = list()
 	var/list/valid = list()
-	for(var/good_id in good_ids)
+	for(var/good_id in estate_goods)
 		var/datum/trade_good/tg = GLOB.trade_goods[good_id]
 		if(tg?.item_type && good_steady_price(good_id) > 0)
-			valid += good_id
+			valid[good_id] = estate_goods[good_id]
 	if(!length(valid))
 		return goods
-	var/good_id = pick(valid)
+	var/good_id = pickweight(valid)
 	var/datum/trade_good/tg = GLOB.trade_goods[good_id]
 	var/count = ESTATE_PARCEL_VALUE / good_steady_price(good_id)
 	var/whole = round(count)
@@ -162,7 +169,7 @@
 		return
 	E.unsent_parcels = 0
 	E.unsent_gifts = 0
-	var/list/parcel_goods = region ? region.tribute_goods : realm.tribute_goods
+	var/list/parcel_goods = region ? region.estate_goods : realm.estate_goods
 	var/list/gift_pool = region ? region.gifts : realm.gifts
 	var/list/items = list()
 	for(var/i in 1 to parcels)

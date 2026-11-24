@@ -80,7 +80,8 @@
 					"id" = region.region_id,
 					"name" = region.name,
 					"description" = region.description,
-					"tribute" = trade_good_names(region.tribute_goods),
+					"parcels" = estate_good_names(region.estate_goods, ESTATE_GOOD_REGULAR),
+					"occasional" = estate_good_names(region.estate_goods, ESTATE_GOOD_OCCASIONAL),
 					"gifts" = gift_names(region.gifts),
 				))
 			subroutes += list(list(
@@ -100,7 +101,8 @@
 			"id" = realm.id,
 			"name" = realm.name,
 			"description" = realm.description,
-			"tribute" = trade_good_names(realm.tribute_goods),
+			"parcels" = estate_good_names(realm.estate_goods, ESTATE_GOOD_REGULAR),
+			"occasional" = estate_good_names(realm.estate_goods, ESTATE_GOOD_OCCASIONAL),
 			"gifts" = gift_names(realm.gifts),
 			"carrier" = realm.carrier,
 		))

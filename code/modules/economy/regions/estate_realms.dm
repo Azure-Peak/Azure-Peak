@@ -13,15 +13,21 @@ GLOBAL_LIST_INIT(estate_realms, init_estate_realms())
 	var/description = ""
 	var/carrier = "the ATC office"
 	var/sender = "Azurian Trading Company"
-	var/list/tribute_goods = list()
+	var/list/estate_goods = list()
 	var/list/gifts = list()
 
 /datum/estate_realm/aavnr
 	id = REALM_AAVNR
 	name = "Aavnr"
-	tribute_goods = list(
-		TRADE_GOOD_HIDE,
-		TRADE_GOOD_DRIED_FISH,
+	estate_goods = list(
+		TRADE_GOOD_HIDE = ESTATE_GOOD_REGULAR,
+		TRADE_GOOD_MEAT = ESTATE_GOOD_REGULAR,
+		TRADE_GOOD_GRAIN = ESTATE_GOOD_REGULAR,
+		TRADE_GOOD_DRIED_FISH = ESTATE_GOOD_REGULAR,
+		TRADE_GOOD_FUR = ESTATE_GOOD_OCCASIONAL,
+		TRADE_GOOD_TALLOW = ESTATE_GOOD_OCCASIONAL,
+		TRADE_GOOD_CLAM = ESTATE_GOOD_OCCASIONAL,
+		TRADE_GOOD_SALT = ESTATE_GOOD_OCCASIONAL,
 	)
 	gifts = list(
 		/obj/item/reagent_containers/glass/bottle/rogue/beer/avarmead,
@@ -32,9 +38,15 @@ GLOBAL_LIST_INIT(estate_realms, init_estate_realms())
 /datum/estate_realm/etrusca
 	id = REALM_ETRUSCA
 	name = "Etrusca"
-	tribute_goods = list(
-		TRADE_GOOD_LEMON,
-		TRADE_GOOD_SALT,
+	estate_goods = list(
+		TRADE_GOOD_LEMON = ESTATE_GOOD_REGULAR,
+		TRADE_GOOD_TANGERINE = ESTATE_GOOD_REGULAR,
+		TRADE_GOOD_SALT = ESTATE_GOOD_REGULAR,
+		TRADE_GOOD_DRIED_FISH = ESTATE_GOOD_REGULAR,
+		TRADE_GOOD_LIME = ESTATE_GOOD_OCCASIONAL,
+		TRADE_GOOD_TOMATO = ESTATE_GOOD_OCCASIONAL,
+		TRADE_GOOD_GARLICK = ESTATE_GOOD_OCCASIONAL,
+		TRADE_GOOD_SUGAR = ESTATE_GOOD_OCCASIONAL,
 	)
 	gifts = list(
 		/obj/item/reagent_containers/glass/bottle/rogue/beer/limoncello,
@@ -45,9 +57,15 @@ GLOBAL_LIST_INIT(estate_realms, init_estate_realms())
 /datum/estate_realm/grenzelhoft
 	id = REALM_GRENZELHOFT
 	name = "Grenzelhoft"
-	tribute_goods = list(
-		TRADE_GOOD_IRON_INGOT,
-		TRADE_GOOD_BUTTER,
+	estate_goods = list(
+		TRADE_GOOD_GRAIN = ESTATE_GOOD_REGULAR,
+		TRADE_GOOD_IRON_INGOT = ESTATE_GOOD_REGULAR,
+		TRADE_GOOD_STEEL_INGOT = ESTATE_GOOD_REGULAR,
+		TRADE_GOOD_BUTTER = ESTATE_GOOD_REGULAR,
+		TRADE_GOOD_COAL = ESTATE_GOOD_OCCASIONAL,
+		TRADE_GOOD_CHEESE = ESTATE_GOOD_OCCASIONAL,
+		TRADE_GOOD_CURED_LEATHER = ESTATE_GOOD_OCCASIONAL,
+		TRADE_GOOD_OATS = ESTATE_GOOD_OCCASIONAL,
 	)
 	gifts = list(
 		/obj/item/reagent_containers/glass/bottle/rogue/wine/sourwine,
@@ -58,9 +76,15 @@ GLOBAL_LIST_INIT(estate_realms, init_estate_realms())
 /datum/estate_realm/gronn
 	id = REALM_GRONN
 	name = "Gronn"
-	tribute_goods = list(
-		TRADE_GOOD_FUR,
-		TRADE_GOOD_IRON_ORE,
+	estate_goods = list(
+		TRADE_GOOD_FUR = ESTATE_GOOD_REGULAR,
+		TRADE_GOOD_HIDE = ESTATE_GOOD_REGULAR,
+		TRADE_GOOD_IRON_ORE = ESTATE_GOOD_REGULAR,
+		TRADE_GOOD_TALLOW = ESTATE_GOOD_REGULAR,
+		TRADE_GOOD_MEAT = ESTATE_GOOD_OCCASIONAL,
+		TRADE_GOOD_PORK = ESTATE_GOOD_OCCASIONAL,
+		TRADE_GOOD_CURED_LEATHER = ESTATE_GOOD_OCCASIONAL,
+		TRADE_GOOD_VISCERA = ESTATE_GOOD_OCCASIONAL,
 	)
 	gifts = list(
 		/obj/item/reagent_containers/glass/bottle/rogue/beer/gronnmead,
@@ -71,9 +95,15 @@ GLOBAL_LIST_INIT(estate_realms, init_estate_realms())
 /datum/estate_realm/hammerhold
 	id = REALM_HAMMERHOLD
 	name = "Hammerhold"
-	tribute_goods = list(
-		TRADE_GOOD_COPPER_INGOT,
-		TRADE_GOOD_COAL,
+	estate_goods = list(
+		TRADE_GOOD_COPPER_INGOT = ESTATE_GOOD_REGULAR,
+		TRADE_GOOD_COPPER_ORE = ESTATE_GOOD_REGULAR,
+		TRADE_GOOD_IRON_ORE = ESTATE_GOOD_REGULAR,
+		TRADE_GOOD_COAL = ESTATE_GOOD_REGULAR,
+		TRADE_GOOD_SALT = ESTATE_GOOD_OCCASIONAL,
+		TRADE_GOOD_FUR = ESTATE_GOOD_OCCASIONAL,
+		TRADE_GOOD_HIDE = ESTATE_GOOD_OCCASIONAL,
+		TRADE_GOOD_SILK = ESTATE_GOOD_OCCASIONAL,
 	)
 	gifts = list(
 		/obj/item/reagent_containers/glass/bottle/rogue/beer/nred,
@@ -84,9 +114,14 @@ GLOBAL_LIST_INIT(estate_realms, init_estate_realms())
 /datum/estate_realm/kazengun
 	id = REALM_KAZENGUN
 	name = "Kazengun"
-	tribute_goods = list(
-		TRADE_GOOD_SILK,
-		TRADE_GOOD_RICE,
+	estate_goods = list(
+		TRADE_GOOD_SILK = ESTATE_GOOD_REGULAR,
+		TRADE_GOOD_RICE = ESTATE_GOOD_REGULAR,
+		TRADE_GOOD_TEA = ESTATE_GOOD_REGULAR,
+		TRADE_GOOD_SUGAR = ESTATE_GOOD_REGULAR,
+		TRADE_GOOD_SALT = ESTATE_GOOD_OCCASIONAL,
+		TRADE_GOOD_COFFEE = ESTATE_GOOD_OCCASIONAL,
+		TRADE_GOOD_CINNABAR = ESTATE_GOOD_OCCASIONAL,
 	)
 	gifts = list(
 		/obj/item/reagent_containers/glass/bottle/rogue/beer/kgunsake,
@@ -97,9 +132,14 @@ GLOBAL_LIST_INIT(estate_realms, init_estate_realms())
 /datum/estate_realm/lingyue
 	id = REALM_LINGYUE
 	name = "Lingyue"
-	tribute_goods = list(
-		TRADE_GOOD_TEA,
-		TRADE_GOOD_PLUM,
+	estate_goods = list(
+		TRADE_GOOD_TEA = ESTATE_GOOD_REGULAR,
+		TRADE_GOOD_SILK = ESTATE_GOOD_REGULAR,
+		TRADE_GOOD_RICE = ESTATE_GOOD_REGULAR,
+		TRADE_GOOD_CINNABAR = ESTATE_GOOD_REGULAR,
+		TRADE_GOOD_PLUM = ESTATE_GOOD_OCCASIONAL,
+		TRADE_GOOD_SUGAR = ESTATE_GOOD_OCCASIONAL,
+		TRADE_GOOD_CLOTH = ESTATE_GOOD_OCCASIONAL,
 	)
 	gifts = list(
 		/obj/item/reagent_containers/glass/bottle/rogue/beer/huangjiu,
@@ -110,9 +150,9 @@ GLOBAL_LIST_INIT(estate_realms, init_estate_realms())
 /datum/estate_realm/lirvas
 	id = REALM_LIRVAS
 	name = "Lirvas"
-	tribute_goods = list(
-		TRADE_GOOD_ROSESTONE,
-		TRADE_GOOD_CINNABAR,
+	estate_goods = list(
+		TRADE_GOOD_ROSESTONE = ESTATE_GOOD_REGULAR,
+		TRADE_GOOD_CINNABAR = ESTATE_GOOD_REGULAR,
 	)
 	gifts = list(
 		/obj/item/reagent_containers/glass/bottle/rogue/beer/rtoper,
@@ -123,9 +163,15 @@ GLOBAL_LIST_INIT(estate_realms, init_estate_realms())
 /datum/estate_realm/naledi
 	id = REALM_NALEDI
 	name = "Naledi"
-	tribute_goods = list(
-		TRADE_GOOD_GLASS_BATCH,
-		TRADE_GOOD_LENTILS,
+	estate_goods = list(
+		TRADE_GOOD_GLASS_BATCH = ESTATE_GOOD_REGULAR,
+		TRADE_GOOD_SALT = ESTATE_GOOD_REGULAR,
+		TRADE_GOOD_LENTILS = ESTATE_GOOD_REGULAR,
+		TRADE_GOOD_BEANS = ESTATE_GOOD_REGULAR,
+		TRADE_GOOD_SILK = ESTATE_GOOD_OCCASIONAL,
+		TRADE_GOOD_CLOTH = ESTATE_GOOD_OCCASIONAL,
+		TRADE_GOOD_COFFEE = ESTATE_GOOD_OCCASIONAL,
+		TRADE_GOOD_SUGAR = ESTATE_GOOD_OCCASIONAL,
 	)
 	gifts = list(
 		/obj/item/perfume/sandalwood,
@@ -136,9 +182,15 @@ GLOBAL_LIST_INIT(estate_realms, init_estate_realms())
 /datum/estate_realm/otava
 	id = REALM_OTAVA
 	name = "Otava"
-	tribute_goods = list(
-		TRADE_GOOD_CHEESE,
-		TRADE_GOOD_TANGERINE,
+	estate_goods = list(
+		TRADE_GOOD_CHEESE = ESTATE_GOOD_REGULAR,
+		TRADE_GOOD_TANGERINE = ESTATE_GOOD_REGULAR,
+		TRADE_GOOD_LEMON = ESTATE_GOOD_REGULAR,
+		TRADE_GOOD_PLUM = ESTATE_GOOD_REGULAR,
+		TRADE_GOOD_STRAWBERRY = ESTATE_GOOD_OCCASIONAL,
+		TRADE_GOOD_COD = ESTATE_GOOD_OCCASIONAL,
+		TRADE_GOOD_DRIED_FISH = ESTATE_GOOD_OCCASIONAL,
+		TRADE_GOOD_SALT = ESTATE_GOOD_OCCASIONAL,
 	)
 	gifts = list(
 		/obj/item/reagent_containers/glass/bottle/rogue/redwine,
@@ -149,9 +201,15 @@ GLOBAL_LIST_INIT(estate_realms, init_estate_realms())
 /datum/estate_realm/raneshen
 	id = REALM_RANESHEN
 	name = "Raneshen"
-	tribute_goods = list(
-		TRADE_GOOD_COFFEE,
-		TRADE_GOOD_SUGAR,
+	estate_goods = list(
+		TRADE_GOOD_COFFEE = ESTATE_GOOD_REGULAR,
+		TRADE_GOOD_SUGAR = ESTATE_GOOD_REGULAR,
+		TRADE_GOOD_SILK = ESTATE_GOOD_REGULAR,
+		TRADE_GOOD_RICE = ESTATE_GOOD_REGULAR,
+		TRADE_GOOD_TEA = ESTATE_GOOD_OCCASIONAL,
+		TRADE_GOOD_GARLICK = ESTATE_GOOD_OCCASIONAL,
+		TRADE_GOOD_GLASS_BATCH = ESTATE_GOOD_OCCASIONAL,
+		TRADE_GOOD_SALT = ESTATE_GOOD_OCCASIONAL,
 	)
 	gifts = list(
 		/obj/item/reagent_containers/glass/bottle/rogue/wine,
@@ -162,9 +220,13 @@ GLOBAL_LIST_INIT(estate_realms, init_estate_realms())
 /datum/estate_realm/underdark
 	id = REALM_UNDERDARK
 	name = "Underdark"
-	tribute_goods = list(
-		TRADE_GOOD_SPIDER_HONEY,
-		TRADE_GOOD_SILK,
+	estate_goods = list(
+		TRADE_GOOD_SILK = ESTATE_GOOD_REGULAR,
+		TRADE_GOOD_MUSHROOM = ESTATE_GOOD_REGULAR,
+		TRADE_GOOD_BOGMEAT = ESTATE_GOOD_REGULAR,
+		TRADE_GOOD_SPIDER_HONEY = ESTATE_GOOD_OCCASIONAL,
+		TRADE_GOOD_VISCERA = ESTATE_GOOD_OCCASIONAL,
+		TRADE_GOOD_CINNABAR = ESTATE_GOOD_OCCASIONAL,
 	)
 	gifts = list(
 		/obj/item/candle/skull,

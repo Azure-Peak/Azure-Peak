@@ -68,7 +68,8 @@ export type ConstantEstateRegion = {
   id: string;
   name: string;
   description: string;
-  tribute: string[];
+  parcels: string[];
+  occasional: string[];
   gifts: string[];
   carrier?: string;
 };

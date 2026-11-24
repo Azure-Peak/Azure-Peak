@@ -296,11 +296,17 @@ const EstateSection = (props: { constantData: ConstantData }) => {
           ) : found ? (
             <>
               <Box color="label">{found.label}</Box>
-              {found.region.tribute.length ? (
+              {found.region.parcels.length ? (
                 <>
                   <Box mt={1}>
-                    <b>Parcels:</b> {found.region.tribute.join(', ')}
+                    <b>Parcels:</b> {found.region.parcels.join(', ')}
                   </Box>
+                  {found.region.occasional.length ? (
+                    <Box mt={0.5}>
+                      <b>Occasionally:</b>{' '}
+                      {found.region.occasional.join(', ')}
+                    </Box>
+                  ) : null}
                   <Box mt={0.5} color="label">
                     {found.raid
                       ? 'You get a random selection of goods mailed to you every dae through the HERMES from your estate.'

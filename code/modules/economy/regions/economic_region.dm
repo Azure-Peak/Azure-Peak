@@ -20,6 +20,7 @@ GLOBAL_LIST_INIT(economic_regions, init_economic_regions())
 	var/list/supply_sources = list()
 	var/list/demand_sources = list()
 	var/list/tribute_goods = list()
+	var/list/estate_goods = list()
 	var/list/gifts = list()
 	var/tribute_day = -1
 	var/list/request_kinds = list()
