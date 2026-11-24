@@ -524,6 +524,7 @@
 
 	R.obj_integrity = R.max_integrity
 	owner.status_flags |= GODMODE
+	ADD_TRAIT(owner, TRAIT_NOSLEEP, "orbed")
 	if(isitem(R))
 		// Mark as conjured — no salvage, no smelting
 		I.smeltresult = null
@@ -548,6 +549,7 @@
 
 /datum/action/cooldown/spell/earthen_forge/proc/revert()
 	if(conjured_item)
+		REMOVE_TRAIT(owner, TRAIT_NOSLEEP, "orbed")
 		owner.forceMove(get_turf(owner))
 		owner.status_flags &= ~GODMODE
 		owner.update_cone_show()

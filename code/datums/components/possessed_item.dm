@@ -61,7 +61,7 @@
 	RegisterSignal(spirit, COMSIG_LIVING_RESIST, PROC_REF(revert))
 	RegisterSignal(spirit, COMSIG_MOB_SAY, PROC_REF(handle_speech))
 	possession_verbiage = verbiage
-
+	ADD_TRAIT(spirit, TRAIT_NOSLEEP, TRAIT_POSSESSED_ITEM)
 	if(istype(parent, /obj/item/rogueweapon))
 		magic_effect = new /datum/magic_item/greater/lifesteal
 		magic_effect.flat_heal = 5 // halved effectiveness from the enchantment
@@ -89,6 +89,7 @@
 	remove_verb(spirit.client, /client/proc/possessed_item_possess)
 	if(magic_effect)
 		QDEL_NULL(magic_effect)
+	REMOVE_TRAIT(spirit, TRAIT_NOSLEEP, TRAIT_POSSESSED_ITEM)
 	if(ephemeral)
 		qdel(parent)
 	else
