@@ -19,11 +19,11 @@ import { SubtabIdentity } from './CharacterCreator/subtabs/Identity';
 import { SubtabVillain } from './CharacterCreator/subtabs/Villains';
 
 enum Subtab {
-  IDENTITY = 0,
-  APPEARANCE = 1,
-  DESCRIPTORS = 2,
-  CLASS = 3,
-  VILLAIN = 4,
+  IDENTITY = 'identity',
+  APPEARANCE = 'appearance',
+  DESCRIPTORS = 'descriptors',
+  CLASS = 'class',
+  VILLAIN = 'villain',
 }
 
 export const CharacterCreator = () => {
