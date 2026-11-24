@@ -74,7 +74,7 @@
 /datum/action/cooldown/spell/conjure_projection/cast(atom/cast_on)
 	. = ..()
 	var/mob/living/body = owner
-	if(!istype(body) || projecting)
+	if(!istype(body) || projecting || HAS_TRAIT(body, TRAIT_POSSESSED))
 		return FALSE
 	if(!body.key)
 		return FALSE
