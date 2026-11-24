@@ -2,7 +2,7 @@
 /datum/job/roguetown/heartfelt/retinue
 	title = "Heartfelt Retinue"
 	allowed_sexes = list(MALE, FEMALE)
-	forbidden_races = list(RACES_DESPISED)
+	forbidden_races = list(RACES_DESPISED RACES_HEARTFELT)
 	job_traits = list(TRAIT_HEARTFELT)
 
 	job_subclasses = list(

@@ -159,6 +159,7 @@ Balloon Alert / Floating Text defines
 // All but elves & half-elves.
 #define RACES_BLACKOAK \
 	/datum/species/human/northern,\
+	/datum/species/elf/dark,\
 	/datum/species/elf/dark/raider,\
 	/datum/species/dwarf/mountain,\
 	/datum/species/tieberian,\
@@ -180,6 +181,12 @@ Balloon Alert / Floating Text defines
 	/datum/species/dwarf/gnome,\
 	/datum/species/construct/metal,\
 	/datum/species/ooze,\
+
+// No goblinoid, orc or kobold
+#define RACES_HEARTFELT \
+	/datum/species/halforc,\
+	/datum/species/goblinp,\
+	/datum/species/kobold,\
 
 // All but dwarves.
 #define RACES_GRUDGE \
@@ -520,7 +527,7 @@ GLOBAL_LIST_EMPTY(round_join_times)
 #define CTAG_BATHWORKER		"CAT_BATHWORKER"	// Bathhouse Attendant's aesthetic choices.
 
 // List of Migrant Classes.
-#define CTAG_HFT_LORD "CAT_HFT_LORD"	// Heartfelt Lord Class - Handles Heartfelt Lord class selector.
+#define CTAG_HFT_COUNT "CAT_HFT_COUNT"	// Heartfelt Count Class - Handles Heartfelt Count class selector.
 #define CTAG_HFT_HAND "CAT_HFT_HAND"	// Heartfelt Hand Class - Handles Heartfelt Hand class selector.
 #define CTAG_HFT_KNIGHT "CAT_HFT_KNIGHT"	// Heartfelt Knight Class - Handles Heartfelt Knight class selector.
 #define CTAG_HFT_RETINUE "CAT_HFT_RETINUE"	// Heartfelt Retinue Class - Handles Heartfelt Retinue class selector.
