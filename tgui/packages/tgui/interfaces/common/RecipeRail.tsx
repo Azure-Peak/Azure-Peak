@@ -40,7 +40,7 @@ export const groupOf = (category: string) => {
   return paren === -1 ? category : category.slice(0, paren);
 };
 
-const subcategoryOf = (category: string) => {
+export const subcategoryOf = (category: string) => {
   const paren = category.indexOf(' (');
   return paren === -1 ? category : category.slice(paren + 2, -1);
 };
