@@ -274,7 +274,7 @@
 	backl = /obj/item/storage/backpack/rogue/satchel/black // literally just flavor
 
 /datum/npc_loadout/kit/zizo_knight_flavor
-	miracle_tier = CLERIC_T2 //currently only can do lesser miracle
+	miracle_tier = CLERIC_T2 //can do lesser miracle + lightsnuff + profane
 	skills = list(
 		/datum/skill/magic/holy = SKILL_LEVEL_EXPERT,
 	)
