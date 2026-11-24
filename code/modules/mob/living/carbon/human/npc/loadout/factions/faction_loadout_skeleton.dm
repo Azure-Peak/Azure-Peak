@@ -75,7 +75,7 @@
 
 /datum/npc_archetype/skeleton/medium
 	name = "Skeleton Soldier"
-	threat_point = THREAT_LOW
+	threat_point = THREAT_HIGH
 	statpack = /datum/npc_statpack/line/t1
 	melee = SKILL_LEVEL_JOURNEYMAN
 	brawl = SKILL_LEVEL_JOURNEYMAN
@@ -98,7 +98,7 @@
 // This combines the khopesh and withered dreadknight
 /datum/npc_archetype/skeleton/hard
 	abstract_type = /datum/npc_archetype/skeleton/hard
-	threat_point = THREAT_TOUGH
+	threat_point = THREAT_DANGEROUS
 	traits = list(TRAIT_NORUN) //I think the AI respects this, should stop them leaping or w/e which can cause them to lose their weapons.
 	melee = SKILL_LEVEL_EXPERT
 	brawl = SKILL_LEVEL_EXPERT
@@ -141,7 +141,7 @@
 
 /datum/npc_archetype/skeleton/archer
 	name = "Skeleton Archer"
-	threat_point = THREAT_LOW
+	threat_point = THREAT_HIGH
 	statpack = /datum/npc_statpack/marksman/t0
 	melee = SKILL_LEVEL_APPRENTICE
 	brawl = SKILL_LEVEL_APPRENTICE
@@ -158,7 +158,7 @@
 // For Duke Manor & Zizo Manor - Ground based spread, so no pirate in pool!
 /datum/npc_archetype/skeleton/mediumspread
 	name = "Skeleton (Mixed)"
-	threat_point = THREAT_MODERATE
+	threat_point = THREAT_HIGH
 	variants = list(
 		/datum/npc_archetype/skeleton/supereasy = 1,
 		/datum/npc_archetype/skeleton/easy = 1,
@@ -201,7 +201,7 @@
 
 /datum/npc_archetype/skeleton/bogguard/archer
 	name = "Bog Skeleton Archer"
-	threat_point = THREAT_LOW
+	threat_point = THREAT_MODERATE
 	statpack = /datum/npc_statpack/marksman/t1
 	skills = list(/datum/skill/combat/bows = SKILL_LEVEL_JOURNEYMAN)
 	ai_controller = /datum/ai_controller/human_npc/archer
@@ -214,6 +214,7 @@
 
 /datum/npc_archetype/skeleton/bogguard/master
 	name = "Bog Skeleton Master"
+	threat_point = THREAT_DEADLY
 	statpack = /datum/npc_statpack/line/t3
 	armor_training = ARMOR_CLASS_HEAVY
 	melee = SKILL_LEVEL_JOURNEYMAN
@@ -455,14 +456,14 @@
 	armor = /obj/item/clothing/suit/roguetown/shirt/rags
 
 /datum/npc_loadout/kit/bog_skeleton_master
-	head = /obj/item/clothing/head/roguetown/helmet/bascinet/pigface/hounskull
-	gloves = /obj/item/clothing/gloves/roguetown/plate
+	head = /obj/item/clothing/head/roguetown/helmet/bascinet/pigface/hounskull/iron
+	gloves = /obj/item/clothing/gloves/roguetown/plate/iron
 	pants = /obj/item/clothing/under/roguetown/chainlegs/iron
 	cloak = /obj/item/clothing/cloak/tabard/stabard/bog
-	neck = /obj/item/clothing/neck/roguetown/chaincoif
+	neck = /obj/item/clothing/neck/roguetown/chaincoif/iron
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy
-	armor = /obj/item/clothing/suit/roguetown/armor/plate/scale
-	shoes = /obj/item/clothing/shoes/roguetown/boots/armor
+	armor = /obj/item/clothing/suit/roguetown/armor/plate/scale/iron
+	shoes = /obj/item/clothing/shoes/roguetown/boots/armor/iron
 	belt = /obj/item/storage/belt/rogue/leather
 
 /datum/npc_loadout/kit/fallen_duke

@@ -1269,14 +1269,18 @@ Inquisitorial armory down here
 		to_chat(user, span_warning("It looks like it needs blood to work properly."))
 		return
 	if(!active)
-		var/input = input(user, "WHO DO YOU SEEK?", "THE PRICE IS PAID") as text|null
+		var/other = "Someone else..."
+		var/list/names = list(other) + sortList(user.mind.known_people.Copy())
+		var/input = tgui_input_list(user, "WHOM DO YOU SEEK?", "THE PRICE IS PAID", names)
+		if(input == other)
+			input = tgui_input_text(user, "WHOM DO YOU SEEK?", "THE PRICE IS PAID", max_length = MAX_NAME_LEN, encode = FALSE)
 		if(!input)
 			return
 		if(!user.key)
 			return
+		input = strip_diacritics(input)
 		for(var/mob/living/carbon/human/HL in GLOB.player_list)
-		//	to_world("going through mob: [HL] | real_name: [HL.real_name] | input: [input] | [world.time]") Mirror-bugsplatter. Disregard this.
-			if(HL.real_name == input)
+			if(strip_diacritics(HL.real_name) == input)
 				if(HAS_TRAIT(HL, TRAIT_ANTISCRYING))
 					to_chat(user, span_warning("They are not within the gaze of the Mirror."))
 					return
@@ -1295,11 +1299,10 @@ Inquisitorial armory down here
 		playsound(src, 'sound/items/blackmirror_no.ogg', 100, FALSE)
 		to_chat(user, span_warning("[src] makes a grating sound."))
 		return
-	var/lookat = null
-	if(alert(user, "WHERE ARE YOU LOOKING?", "BLACK MIRROR", "BLOOD", "FIXATION") != "BLOOD")
-		lookat = target
-	else
-		lookat = whofedme
+	var/choice = tgui_alert(user, "WHERE ARE YOU LOOKING?", "BLACK MIRROR", list("BLOOD", "FIXATION"))
+	if(!choice)
+		return
+	var/lookat = choice == "BLOOD" ? whofedme : target
 	playsound(src, 'sound/items/blackmirror_use.ogg', 100, FALSE)
 	ADD_TRAIT(user, TRAIT_NOSSDINDICATOR, "blackmirror")
 	var/mob/dead/observer/eye/screye/blackmirror/S = user.scry_ghost()

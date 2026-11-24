@@ -86,8 +86,11 @@ SUBSYSTEM_DEF(statpanels)
 			target.update_listed_turf()
 
 		if(!target.holder)
-			target.stat_panel.send_message("remove_admin_tabs")
+			if(target.statbrowser_admin_tabs_shown)
+				target.stat_panel.send_message("remove_admin_tabs")
+				target.statbrowser_admin_tabs_shown = FALSE
 		else
+			target.statbrowser_admin_tabs_shown = TRUE
 			if(!("MC" in target.panel_tabs) || !("Tickets" in target.panel_tabs))
 				target.stat_panel.send_message("add_admin_tabs", target.holder.href_token)
 

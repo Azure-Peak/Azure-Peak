@@ -17,4 +17,7 @@
 	boss_mob_types = list(
 		/mob/living/carbon/human/species/orc/npc/warlord = 100,
 	)
+	variant_chances = list(
+		/datum/quest_faction_variant/orc_elites = 10,
+	)
 	boss_name_file = "strings/rt/names/other/halforcm.txt"

@@ -1407,3 +1407,8 @@
 	name = "Donator Item - Adjustable Blacksteel Coronet"
 	path = /obj/item/clothing/head/roguetown/circlet/sigholt_coronet
 	ckeywhitelist = list("sigholtstarsong")
+
+/datum/loadout_item/donator/lunarmuzzle
+	name = "Donator Item - Ceremonial Lunar Muzzle"
+	path = /obj/item/clothing/mask/rogue/lunarmuzzle
+	ckeywhitelist = list("clemtheduck", "persephoneq")

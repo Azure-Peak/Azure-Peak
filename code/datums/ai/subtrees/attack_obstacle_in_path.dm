@@ -12,7 +12,7 @@
 		return
 
 	var/turf/next_step = get_step_towards(controller.pawn, target)
-	if (!next_step.is_blocked_turf(exclude_mobs = TRUE, source_atom = controller.pawn))
+	if (!next_step || next_step == get_turf(controller.pawn) || !next_step.is_blocked_turf(exclude_mobs = TRUE, source_atom = controller.pawn))
 		return
 
 	controller.queue_behavior(attack_behaviour, target_key)
@@ -59,23 +59,36 @@
 	return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_SUCCEEDED
 
 /datum/ai_behavior/attack_obstructions/proc/attack_in_direction(datum/ai_controller/controller, mob/living/basic_mob, direction)
+	if (!direction)
+		return FALSE
 	var/turf/next_step = get_step(basic_mob, direction)
-	if (!next_step.is_blocked_turf(exclude_mobs = TRUE, source_atom = controller.pawn))
+	if (!next_step || !next_step.is_blocked_turf(exclude_mobs = TRUE, source_atom = controller.pawn))
 		return FALSE
 
-	for (var/obj/object as anything in next_step.contents)
+	for (var/obj/object in next_step)
 		if (!can_smash_object(basic_mob, object))
 			continue
-		basic_mob.ClickOn(object, list())
+		controller.ai_interact(object, TRUE)
 		return TRUE
 
 	if (can_attack_turfs)
-		basic_mob.ClickOn(next_step)
+		controller.ai_interact(next_step, TRUE)
 		return TRUE
+	return FALSE
+
+/datum/ai_behavior/attack_obstructions/proc/is_climbable(obj/object)
+	if(isstructure(object))
+		var/obj/structure/structure = object
+		return structure.climbable
+	if(ismachinery(object))
+		var/obj/machinery/machine = object
+		return machine.climbable
 	return FALSE
 
 /datum/ai_behavior/attack_obstructions/proc/can_smash_object(mob/living/basic_mob, obj/object)
 	if (!object.density && !can_attack_dense_objects)
+		return FALSE
+	if (ishuman(basic_mob) && basic_mob.ai_controller.can_climb_structures && is_climbable(object) && get_turf(object) != basic_mob.ai_controller.climb_failed_turf)
 		return FALSE
 	if (object.IsObscured())
 		return FALSE

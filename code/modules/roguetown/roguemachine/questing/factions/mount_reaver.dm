@@ -36,5 +36,6 @@
 	variant_chances = list(
 		/datum/quest_faction_variant/rogue_coven = 10,
 		/datum/quest_faction_variant/rogue_azurcaephan = 10,
+		/datum/quest_faction_variant/mountain_spirits = 10,
 	)
 	boss_name_file = "strings/rt/names/human/humnorm.txt"

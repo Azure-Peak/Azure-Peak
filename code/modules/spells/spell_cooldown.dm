@@ -246,6 +246,13 @@
 	/// A parent variable to store devotion cost. -- Kuan's Note: This is kinda needed if we want to shift Miracles from proc_holder to spell/cooldown
 	var/devotion_cost = null
 
+	/// Modes: from 1 to the length of modes.
+	var/current_mode = 1
+	/// Spell modes: list of lists. Each entry is a list of properties for a mode, the only mandatory ones are 'tag' which controls the maptext overlaid on the spell button, and 'name' which is printed to chat. Plenty of other supported properties, see apply_mode.
+	var/modes
+	/// Default maptext_x for the mode text. Generally, 2 is good for 4-5 character modes and 5 is good for 3-character modes. So you can set it per mode, or if they're all the same, just change this variable.
+	var/default_maptext_x = 2
+
 /datum/action/cooldown/spell/New(Target)
 	. = ..()
 	// Create overhead spell icon effect (matching old proc_holder system)
@@ -373,6 +380,7 @@
 	// TODO: COMSIG_MOB_EQUIPPED_ITEM doesn't exist in AP yet — need to port for garb/antimagic updates
 
 	// TODO: devotion/blood cost signal updates for button status
+	apply_mode() // does nothing on spells with no modes, required to initialize those that do have modes
 
 /datum/action/cooldown/spell/Remove(mob/living/remove_from)
 	UnregisterSignal(remove_from, list(
@@ -2071,18 +2079,56 @@
 	vis_contents |= wave
 	wave.color = spell_color
 
-/// Override on spells that have an alt mode (e.g. cycling ward types). Called by the Alt Mode keybind (Shift+G).
+/// Called by the Alt Mode keybind (Shift+G). Do NOT add a spell that has both fellowship-snap and multiple modes to cycle through; they use the same key.
 /// Return TRUE if handled.
 /datum/action/cooldown/spell/proc/toggle_alt_mode(mob/user)
-	if(!supports_fellowship_snap)
-		return FALSE
-	fellowship_snap = !fellowship_snap
-	if(fellowship_snap)
-		to_chat(user, span_notice("[name]: Fellowship Mode enabled - an off-target cast snaps to your nearest fellowship member in range."))
-	else
-		to_chat(user, span_notice("[name]: Fellowship Mode disabled."))
-	update_snap_maptext()
-	return TRUE
+	if(supports_fellowship_snap) // fellowship snap spell
+		fellowship_snap = !fellowship_snap
+		if(fellowship_snap)
+			to_chat(user, span_notice("[name]: Fellowship Mode enabled - an off-target cast snaps to your nearest fellowship member in range."))
+		else
+			to_chat(user, span_notice("[name]: Fellowship Mode disabled."))
+		update_snap_maptext()
+		return TRUE
+	if(LAZYLEN(modes)) // spell with alt modes
+		current_mode = (current_mode % LAZYLEN(modes)) + 1
+		to_chat(user, span_notice("[name]: [modes[current_mode]["name"]] mode."))
+		apply_mode()
+		return TRUE
+	return FALSE // if it's neither, the keybind does nothing
+
+/datum/action/cooldown/spell/proc/update_mode_maptext()
+	for(var/datum/hud/hud as anything in viewers)
+		var/atom/movable/screen/movable/action_button/B = viewers[hud]
+		var/atom/movable/screen/arc_maptext_holder/holder
+		for(var/atom/movable/screen/arc_maptext_holder/existing in B.vis_contents)
+			holder = existing
+			break
+		if(!holder)
+			holder = new(B)
+			B.vis_contents.Add(holder)
+		holder.maptext = MAPTEXT(modes[current_mode]["tag"])
+		holder.color = (modes[current_mode]["color"] || spell_color) // sane fallback
+		holder.maptext_x = (modes[current_mode]["maptext_x"] || holder.maptext_x)
+
+/// Called on mode change, and also on grant. Applies various properties from the modes alists; if you need more properties, either add them here (preferred) or override this if you're sure it's a one-time thing.
+/datum/action/cooldown/spell/proc/apply_mode()
+	SHOULD_CALL_PARENT(TRUE)
+	if(!LAZYLEN(modes))
+		return
+	var/list/mode = modes[current_mode]
+	if(mode["invocation"])
+		invocations = (islist(mode["invocation"]) ? mode["invocation"] : list(mode["invocation"]))
+	invocation_type = (mode["invocation_type"] || invocation_type)
+	button_icon_state = (mode["icon"] || button_icon_state)
+	primary_resource_cost = (mode["cost"] || primary_resource_cost)
+	cooldown_time = (mode["cooldown"] || cooldown_time)
+	charge_time = (mode["charge"] || charge_time)
+	charge_slowdown = (mode["slowdown"] || charge_slowdown)
+	sound = (mode["sound"] || sound)
+	build_all_button_icons()
+	update_mode_maptext()
+	return
 
 /datum/action/cooldown/spell/proc/get_snap_target(mob/living/clicker)
 	if(!clicker.current_fellowship)

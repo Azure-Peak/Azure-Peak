@@ -1,10 +1,10 @@
 
 /datum/job/roguetown/heartfelt/knight
 	title = "Knight of Heartfelt"
-	tutorial = "You are a Knight of Heartfelt, part of a brotherhood in service to your Lord. \
-	Now, alone and committed to safeguarding the court, you ride to the Peaks, resolved to ensure their safe arrival."
+	tutorial = "You are a Knight of Heartfelt. Having proven yourself both loyal and capable, you have been knighted to serve the County as the Count's sentry. \
+	You listen to your Liege and the Marshal, defending your Lord and realm - the last beacon of chivalry in these dark times."
 	allowed_sexes = list(MALE, FEMALE)
-	forbidden_races = list(RACES_CONSTRUCT RACES_DESPISED)
+	forbidden_races = list(RACES_CONSTRUCT RACES_DESPISED RACES_HEARTFELT)
 	total_positions = 1
 	spawn_positions = 1
 	job_traits = list(TRAIT_NOBLE, TRAIT_HEAVYARMOR, TRAIT_HEARTFELT)
@@ -45,10 +45,10 @@
 
 /datum/advclass/heartfelt/knight
 	name = "Knight of Heartfelt"
-	tutorial = "You are a Knight of Heartfelt, once part of a brotherhood in service to your Lord. \
-	Now, alone and committed to safeguarding what remains of your court, you ride to the Peaks, resolved to ensure their safe arrival."
+	tutorial = "You are a Knight of Heartfelt. Having proven yourself both loyal and capable, you have been knighted to serve the County as the Count's sentry. \
+	You listen to your Liege and the Marshal, defending your Lord and realm - the last beacon of chivalry in these dark times."
 	allowed_sexes = list(MALE, FEMALE)
-	forbidden_races = list(RACES_CONSTRUCT RACES_DESPISED)
+	forbidden_races = list(RACES_CONSTRUCT RACES_DESPISED RACES_HEARTFELT)
 	outfit = /datum/outfit/job/heartfelt/knight
 	maximum_possible_slots = 1
 	pickprob = 100

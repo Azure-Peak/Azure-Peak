@@ -1,0 +1,4 @@
+author: "Quinalion"
+delete-after: True
+changes:
+  - bugfix: "Armour, weapons and clothing no longer lose their secondary colours when broken or repaired."

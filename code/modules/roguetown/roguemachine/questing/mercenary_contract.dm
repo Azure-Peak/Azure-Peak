@@ -185,10 +185,7 @@ GLOBAL_LIST_INIT(merc_hirer_categories, list(
 	var/list/end_ask_ready_at = list()
 	var/hirer_category
 	var/day_timer_id
-	var/presence_timer_id
-	var/day_started_at
-	var/last_presence_check
-	var/presence_time = 0
+	var/hold_retry_timer_id
 
 /datum/merc_contract/New(mob/living/merc, mob/living/hirer, datum/fellowship/F, obj/item/merc_contract/item, days, rate)
 	merc_ref = WEAKREF(merc)
@@ -203,9 +200,8 @@ GLOBAL_LIST_INIT(merc_hirer_categories, list(
 		take_hold(hirer)
 	hirer_category = get_merc_hirer_category(hirer)
 	day_timer_id = addtimer(CALLBACK(src, PROC_REF(on_day_passed)), MERC_CONTRACT_DAY_LENGTH, TIMER_STOPPABLE | TIMER_LOOP | TIMER_DELETE_ME)
-	day_started_at = world.time
-	last_presence_check = world.time
-	presence_timer_id = addtimer(CALLBACK(src, PROC_REF(on_presence_tick)), MERC_CONTRACT_PRESENCE_INTERVAL, TIMER_STOPPABLE | TIMER_LOOP)
+	if(src.rate)
+		hold_retry_timer_id = addtimer(CALLBACK(src, PROC_REF(retry_hold)), MERC_CONTRACT_HOLD_RETRY_INTERVAL, TIMER_STOPPABLE | TIMER_LOOP)
 	RegisterSignal(F, COMSIG_PARENT_QDELETING, PROC_REF(on_fellowship_deleted))
 	RegisterSignal(merc, COMSIG_PARENT_QDELETING, PROC_REF(on_merc_deleted))
 	GLOB.merc_contracts += src
@@ -223,9 +219,9 @@ GLOBAL_LIST_INIT(merc_hirer_categories, list(
 	if(day_timer_id)
 		deltimer(day_timer_id)
 		day_timer_id = null
-	if(presence_timer_id)
-		deltimer(presence_timer_id)
-		presence_timer_id = null
+	if(hold_retry_timer_id)
+		deltimer(hold_retry_timer_id)
+		hold_retry_timer_id = null
 	var/datum/fellowship/F = fellowship_ref?.resolve()
 	if(F)
 		UnregisterSignal(F, COMSIG_PARENT_QDELETING)
@@ -263,28 +259,21 @@ GLOBAL_LIST_INIT(merc_hirer_categories, list(
 /datum/merc_contract/proc/on_day_passed()
 	days_served++
 	credit_served_day()
-	check_presence()
-	var/presence = get_presence_share()
-	presence_time = 0
-	day_started_at = world.time
 	var/mob/living/merc = merc_ref?.resolve()
 	var/mob/living/hirer = hirer_ref?.resolve()
 	var/merc_dead = merc?.stat == DEAD
 	var/hirer_dead = hirer?.stat == DEAD
 	pay_rate()
-	if(merc_dead || hirer_dead)
-		presence = null
 	if(days_served >= days)
-		pay_day(presence)
+		pay_day()
 		complete_term()
 	else if(merc_dead || hirer_dead)
 		end_by_death(merc_dead ? merc_name : hirer_name)
 	else
-		pay_day(presence)
+		pay_day()
 		refresh_hold()
 
-/datum/merc_contract/proc/on_presence_tick()
-	check_presence()
+/datum/merc_contract/proc/retry_hold()
 	if(unpaid)
 		refresh_hold()
 
@@ -297,20 +286,8 @@ GLOBAL_LIST_INIT(merc_hirer_categories, list(
 		log_quest(merc.ckey, merc.mind, merc, "Contract with [hirer_name] completed early by [dead_name]'s death")
 	if(hirer)
 		to_chat(hirer, message)
-	pay_day(null)
+	pay_day()
 	end_contract()
-
-/datum/merc_contract/proc/check_presence()
-	var/elapsed = world.time - last_presence_check
-	last_presence_check = world.time
-	if(is_with_employer())
-		presence_time += elapsed
-
-/datum/merc_contract/proc/get_presence_share()
-	return presence_time / max(world.time - day_started_at, 1)
-
-/datum/merc_contract/proc/get_day_presence_share()
-	return min(1, presence_time / MERC_CONTRACT_DAY_LENGTH)
 
 /datum/merc_contract/proc/status_lines(mob/viewer)
 	. = list()
@@ -326,9 +303,10 @@ GLOBAL_LIST_INIT(merc_hirer_categories, list(
 	. += "[merc_name] can end it once the first dae has passed, or at any time while a dae's rate is not covered."
 	. += "Either can end it with the contract in hand, at a MEISTER, or with the \"End Mercenary Contract\" verb."
 	if(hirer_category)
-		var/share = get_day_presence_share()
-		var/enough = share >= MERC_CONTRACT_PRESENCE_SHARE ? " This is enough." : ""
-		. += "[merc_name] has spent [round(share * 100)]% of this dae with their employer. [round(MERC_CONTRACT_PRESENCE_SHARE * 100)]% is needed for the dae's stipend.[enough]"
+		var/list/terms = GLOB.merc_hirer_categories[hirer_category]
+		if(terms?["stipend"])
+			. += "[capitalize(terms["payer"])] pays [merc_name] [terms["stipend"]] mammon a dae."
+		. += MERC_CONTRACT_OOC_NOTE_LINE
 
 /datum/merc_contract/proc/try_end_early(mob/living/user)
 	var/is_hirer = user == hirer_ref?.resolve()
@@ -349,27 +327,7 @@ GLOBAL_LIST_INIT(merc_hirer_categories, list(
 	else
 		end_early_by_merc()
 
-/datum/merc_contract/proc/is_with_employer()
-	var/mob/living/merc = merc_ref?.resolve()
-	var/turf/merc_turf = get_turf(merc)
-	if(!merc_turf)
-		return FALSE
-	var/mob/living/hirer = hirer_ref?.resolve()
-	if(is_near_merc(hirer, merc_turf))
-		return TRUE
-	var/datum/fellowship/F = fellowship_ref?.resolve()
-	for(var/mob/living/member as anything in F?.get_members())
-		if(member != merc && member != hirer && is_near_merc(member, merc_turf))
-			return TRUE
-	return FALSE
-
-/datum/merc_contract/proc/is_near_merc(mob/living/member, turf/merc_turf)
-	var/turf/member_turf = get_turf(member)
-	if(!member_turf)
-		return FALSE
-	return max(abs(member_turf.x - merc_turf.x), abs(member_turf.y - merc_turf.y)) <= MERC_CONTRACT_PRESENCE_RANGE
-
-/datum/merc_contract/proc/pay_day(presence)
+/datum/merc_contract/proc/pay_day()
 	if(!hirer_category)
 		return
 	var/list/terms = GLOB.merc_hirer_categories[hirer_category]
@@ -378,11 +336,6 @@ GLOBAL_LIST_INIT(merc_hirer_categories, list(
 	if(!stipend || !merc)
 		return
 	var/payer = terms["payer"]
-	var/presence_text = isnull(presence) ? "presence waived on death" : "[round(presence * 100)]% with employer"
-	if(!isnull(presence) && presence < MERC_CONTRACT_PRESENCE_SHARE)
-		to_chat(merc, span_warning("Your stipend from [payer] is not paid. You spent too little of the dae with your employer."))
-		log_quest(merc.ckey, merc.mind, merc, "Contract stipend withheld by [payer], [presence_text] (day [days_served] of [days] with [hirer_name])")
-		return
 	var/datum/fund/account = SStreasury.get_account(merc)
 	if(account && !terms["by_mail"])
 		SStreasury.mint(account, stipend, "Mercenary contract with [hirer_name]", payer, LEDGER_CITIZEN_CONTRACTS)
@@ -390,7 +343,7 @@ GLOBAL_LIST_INIT(merc_hirer_categories, list(
 	else
 		mail_merc_cash(merc, stipend, capitalize(payer))
 		to_chat(merc, span_notice("You receive [stipend] mammon by HERMES from [payer] for your contract with [hirer_name]."))
-	log_quest(merc.ckey, merc.mind, merc, "Contract stipend [stipend] from [payer], [presence_text] (day [days_served] of [days] with [hirer_name])")
+	log_quest(merc.ckey, merc.mind, merc, "Contract stipend [stipend] from [payer] (day [days_served] of [days] with [hirer_name])")
 
 /datum/merc_contract/proc/take_hold(mob/living/hirer)
 	hold = new /datum/fund("[merc_name] contract hold", null, 0, CURRENCY_MAMMON)
@@ -582,7 +535,7 @@ GLOBAL_LIST_INIT(merc_hirer_categories, list(
 		to_chat(hirer, span_notice("You end your contract with [merc_name]."))
 		log_quest(hirer.ckey, hirer.mind, hirer, "End contract with mercenary [merc_name] early[merc_dead ? " while they are dead" : ""]")
 	if(merc_dead)
-		pay_day(null)
+		pay_day()
 	pay_rate()
 	end_contract(merc_dead ? 0 : world.time + MERC_CONTRACT_DAY_LENGTH)
 
@@ -699,8 +652,7 @@ GLOBAL_LIST_INIT(merc_hirer_categories, list(
 		var/list/terms = GLOB.merc_hirer_categories[category]
 		. += "- [terms["label"]]: [terms["stipend"]] mammon from [terms["payer"]]"
 	. += "- Anyone else: nothing extra"
-	. += "To receive the stipend, spend at least [round(MERC_CONTRACT_PRESENCE_SHARE * 100)]% of each dae within [MERC_CONTRACT_PRESENCE_RANGE] tiles of your employer or a member of their fellowship."
-	. += "The hirer's daily rate and the Guild's share bonus are always paid no matter where you spend the dae. Any pay negotiated outside of the contract is also unaffected by the presence requirements. Only the stipend are."
+	. += MERC_CONTRACT_OOC_NOTE_LINE
 
 /obj/item/merc_contract/proc/offer_lines()
 	. = list("They will join your fellowship.")

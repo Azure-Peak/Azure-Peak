@@ -1,7 +1,7 @@
 /mob/living/carbon/human/proc/on_examine_face(mob/living/carbon/human/user)
 	if(!istype(user))
 		return
-	if(user.mind)
+	if(user.mind && src.client)
 		user.mind.i_know_person(src)
 	if(user.has_flaw(/datum/charflaw/paranoid))	//The weak should fear the strong..
 		if((STASTR - user.STASTR) > 1 && !has_flaw(/datum/charflaw/paranoid))
@@ -719,24 +719,16 @@
 		. += span_userdanger("DEADITE!")
 		. += span_warning("Uneasy steps, the sound of profane flesh and bone knitting itself and a stench of rot. A walking corpse!")
 
-/// Black Oaks recognize each other on sight, even behind masks.
-/mob/living/carbon/human/proc/blackoak_examine(mob/user)
-	. = list()
-	if(user != src && HAS_TRAIT(user, TRAIT_BLACKOAK) && HAS_TRAIT(src, TRAIT_BLACKOAK))
-		. += span_nicegreen("A member of the enclave.")
-
 /mob/living/carbon/human/proc/generate_main_examine_body(mob/user, m1, m2, m3, obscure_name, race_name, origin_name, observer_privilege, list/unknown_names)
 	. = list()
 	var/datum/component/hag_name/HN = GetComponent(/datum/component/hag_name)
 	if((name in unknown_names) && !HN) // the identity datum can set your name to 'unknown' but we do still want full examine unless they're masked
 		. += span_info("ø ------------ ø\nThis is <EM>[name]</EM>.")
 		. += deadite_examine()
-		. += blackoak_examine(user)
 		. += get_ssd_examine_text(m3)
 	else if(obscure_name && !client?.prefs?.masked_examine)
 		. += span_info("ø ------------ ø\nThis is an unknown <EM>[name]</EM>.")
 		. += deadite_examine()
-		. += blackoak_examine(user)
 		. += get_ssd_examine_text(m3)
 	else
 		on_examine_face(user)
@@ -932,11 +924,6 @@
 				var/mob/living/carbon/human/viewer = user
 				if((viewer.job in GLOB.garrison_positions) || (viewer.job in GLOB.retinue_positions) || (viewer.job in GLOB.courtier_positions) || (viewer.job in GLOB.noble_positions))
 					. += span_smallred("Destitute..")
-
-		if((HAS_TRAIT(user, TRAIT_BLACKOAK) && !(src.dna.species.name == "Elf" || src.dna.species.name == "Dark Elf" || src.dna.species.name == "Half-Elf")))
-			. += span_phobia("An invader...")
-
-		. += blackoak_examine(user)
 
 		if(length(GLOB.tennite_schisms))
 			var/datum/tennite_schism/S = GLOB.tennite_schisms[1]

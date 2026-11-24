@@ -4,6 +4,7 @@
 	var/group_word
 	var/list/mob_types
 	var/list/boss_mob_types
+	var/pickable = TRUE
 
 /datum/quest_faction_variant/proc/make_faction(datum/quest_faction/base)
 	var/datum/quest_faction/variant = new base.type()
