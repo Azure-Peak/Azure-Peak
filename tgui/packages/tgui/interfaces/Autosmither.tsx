@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { memo, useEffect, useMemo, useState } from 'react';
 import {
   Box,
   Button,
@@ -11,6 +11,7 @@ import {
 
 import { useBackend } from '../backend';
 import { Window } from '../layouts';
+import { IncrementalList } from './common/IncrementalList';
 
 type Requirement = {
   key: string;
@@ -674,30 +675,48 @@ const RecipePickerSection = ({
       <Stack.Item grow basis={0} mt={1}>
         <Section title="What I Can Provide" fill scrollable>
           {!recipes.length && <NoticeBox>No matching recipes.</NoticeBox>}
-          {recipes.map((recipe) => (
-            <Button
-              key={recipe.ref}
-              fluid
-              mb={1}
-              selected={recipe.ref === selectedRef}
-              onClick={() => onSelect(recipe.ref)}
-            >
-              <Stack align="center">
-                <Stack.Item>
-                  <Box className={recipe.icon} mr={1} inline />
-                </Stack.Item>
-                <Stack.Item grow>
-                  <Box bold>{recipe.name}</Box>
-                  <Box color="label">
-                    {recipe.category}
-                    {recipe.created_num > 1 ? ` x${recipe.created_num}` : ''}
-                  </Box>
-                </Stack.Item>
-              </Stack>
-            </Button>
-          ))}
+          <IncrementalList>
+            {recipes.map((recipe) => (
+              <RecipePickerRow
+                key={recipe.ref}
+                recipe={recipe}
+                selected={recipe.ref === selectedRef}
+                onSelect={onSelect}
+              />
+            ))}
+          </IncrementalList>
         </Section>
       </Stack.Item>
     </Stack>
   );
 };
+
+type RecipePickerRowProps = {
+  recipe: Recipe;
+  selected: boolean;
+  onSelect: (ref: string) => void;
+};
+
+const RecipePickerRow = memo(
+  ({ recipe, selected, onSelect }: RecipePickerRowProps) => (
+    <Button
+      fluid
+      mb={1}
+      selected={selected}
+      onClick={() => onSelect(recipe.ref)}
+    >
+      <Stack align="center">
+        <Stack.Item>
+          <Box className={recipe.icon} mr={1} inline />
+        </Stack.Item>
+        <Stack.Item grow>
+          <Box bold>{recipe.name}</Box>
+          <Box color="label">
+            {recipe.category}
+            {recipe.created_num > 1 ? ` x${recipe.created_num}` : ''}
+          </Box>
+        </Stack.Item>
+      </Stack>
+    </Button>
+  ),
+);
