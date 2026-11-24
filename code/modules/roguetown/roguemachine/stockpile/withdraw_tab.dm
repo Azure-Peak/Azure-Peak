@@ -60,8 +60,13 @@
 		D.check_glut_relief()
 		debit_economic_event_saturation(D.trade_good_id, 1)
 	SStreasury.dirty_market_view()
+	var/licensed = !from_royal_stock && !treasury_pays && (user.job in GLOB.atc_positions) && SSmerchant_trade?.export_licence_left() >= total_price
+	if(licensed)
+		SSmerchant_trade.export_licence_spent += total_price
 	var/obj/item/I = new D.item_type(parent_structure.loc)
-	I.stockpile_stamped = TRUE
+	I.stockpile_stamped = !licensed
+	I.sellprice = max(1, round(total_price))
+	I.static_price = TRUE
 	if(from_royal_stock)
 		to_chat(user, span_info("[parent_structure] chitters and squeaks."))
 	else if(treasury_pays)

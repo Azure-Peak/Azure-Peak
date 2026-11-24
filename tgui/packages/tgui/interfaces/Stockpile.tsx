@@ -88,6 +88,7 @@ type Data = {
   stocks: StockRow[];
   bounties: Bounty[];
   no_deposit: BooleanLike;
+  export_licence?: { left: number; total: number };
   next_market_day_minutes: number;
   title: string;
   subtitle: string;
@@ -408,8 +409,19 @@ export const Stockpile = () => {
               padding: '2px 8px 6px',
             }}
           >
-            Goods sold from the market CANNOT be re-exported at the Navigator
-            or the Black Market due to the law against cabotage.
+            {data.export_licence ? (
+              <>
+                The ATC holds a monopoly on re-export of town goods. Export
+                License: {formatMammon(data.export_licence.left)}m out of{' '}
+                {formatMammon(data.export_licence.total)}m left todae.
+              </>
+            ) : (
+              <>
+                Goods sold from the market CANNOT be re-exported at the
+                Navigator, the Black Market or the ship crates due to the law
+                against cabotage.
+              </>
+            )}
           </div>
           {filtered.length === 0 ? (
             <div

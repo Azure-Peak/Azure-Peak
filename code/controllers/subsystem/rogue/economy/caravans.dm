@@ -3,7 +3,6 @@
 	var/sender_name
 	var/request_name
 	var/request_payout = 0
-	var/request_quality_delta = 0
 	var/request_finished = FALSE
 	var/offer_good_id
 	var/offer_units = 0
@@ -177,7 +176,6 @@
 	if(request)
 		trip.request_name = request.name
 		trip.request_payout = scan["payout"]
-		trip.request_quality_delta = scan["quality_delta"]
 		trip.request_finished = load_order(request, scan)
 	if(offer)
 		trip.offer_good_id = offer.good_id
@@ -235,16 +233,8 @@
 	if(trip.request_name)
 		SStreasury.mint(SStreasury.discretionary_fund, trip.request_payout, "Standing Order: [trip.request_name]", null, LEDGER_CROWN_REV_STANDING_ORDERS)
 		record_round_statistic(STATS_STANDING_ORDER_REVENUE, trip.request_payout)
-		var/quality_suffix = ""
-		if(trip.request_quality_delta > 0)
-			quality_suffix = " (quality bonus: +[format_mammon(trip.request_quality_delta)]m)"
-		else if(trip.request_quality_delta < 0)
-			quality_suffix = " (quality penalty: [format_mammon(trip.request_quality_delta)]m)"
 		if(trip.request_finished)
 			record_round_statistic(STATS_STANDING_ORDERS_FULFILLED, 1)
-			scom_announce("Standing Order fulfilled: [trip.request_name] (+[format_mammon(trip.request_payout)]m)[quality_suffix].")
-		else
-			scom_announce("Standing Order part delivered: [trip.request_name] (+[format_mammon(trip.request_payout)]m)[quality_suffix].")
 	if(trip.offer_good_id)
 		deliver_offer(trip.offer_good_id, trip.offer_units)
 	if(trip.tribute_region_id)

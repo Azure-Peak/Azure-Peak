@@ -563,6 +563,10 @@
 		"gnome_unlocked" = SSmerchant_trade.gnome_automation_unlocked,
 		"pier_cost" = ADDITIONAL_PIER_FAVOR,
 		"pier_rented" = SSmerchant_trade.extra_pier_rented,
+		"licence_cost" = EXPORT_LICENCE_FAVOR,
+		"licence_extended" = SSmerchant_trade.export_licence_extended,
+		"licence_left" = SSmerchant_trade.export_licence_left(),
+		"licence_total" = SSmerchant_trade.export_licence_allowance(),
 		"auto_hailer_cost" = AUTO_HAILER_FAVOR,
 		"auto_hailer_unlocked" = SSmerchant_trade.auto_hailer_unlocked,
 		"auto_hailer_on" = SSmerchant_trade.auto_hailer_on,
@@ -1041,6 +1045,12 @@
 				if(SSmerchant_trade.rent_extra_pier())
 					scom_announce("The ATC has rented the fishermen's pier for the week.")
 					to_chat(H, span_notice("The extra pier is yours. The harbor can now hold one more vessel at a time."))
+					playsound(loc, 'sound/misc/gold_misc.ogg', 70, FALSE, -1)
+			return TRUE
+		if("extend_export_licence")
+			if(try_favor_unlock(H, SSmerchant_trade?.export_licence_extended, EXPORT_LICENCE_FAVOR, "The ATC's monopoly rights on export are already expanded for the week.", "Not enough favor with the ATC to petition for more monopoly rights."))
+				if(SSmerchant_trade.extend_export_licence())
+					to_chat(H, span_notice("The petition is granted. The ATC's monopoly rights on export are expanded, and the daily allowance is doubled."))
 					playsound(loc, 'sound/misc/gold_misc.ogg', 70, FALSE, -1)
 			return TRUE
 		if("unlock_auto_hailer")

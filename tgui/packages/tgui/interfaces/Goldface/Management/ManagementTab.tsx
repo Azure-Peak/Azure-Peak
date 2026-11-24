@@ -517,6 +517,16 @@ const FavorCard = (props: {
         act={act}
       />
       <SinkButton
+        label="Petition for increased monopoly rights on export"
+        flavor={`The law against cabotage bars re-exporting town goods. Unless you're part of the Azurian Trading Company, who have a special monopoly on doing so. ${favor.licence_left}m of ${favor.licence_total}m is left today. Expanding it doubles the allowance for the rest of the week.`}
+        cost={favor.licence_cost}
+        current={favor.current}
+        done={!!favor.licence_extended}
+        doneLabel="EXPANDED"
+        action="extend_export_licence"
+        act={act}
+      />
+      <SinkButton
         label="Call in the Company Gnomes"
         flavor="Invoke the contract with the Azurian Guild of Porters and Stevedores. They handle Silverface sales and you recover the margins for yourself. For some odd reason, no one has ever spotted these gnomes. Do not let this deter you. You will profit greatly without lifting a finger for the rest of the week."
         cost={favor.gnome_cost}

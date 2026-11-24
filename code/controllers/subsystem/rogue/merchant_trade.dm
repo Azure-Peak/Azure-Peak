@@ -37,6 +37,8 @@ SUBSYSTEM_DEF(merchant_trade)
 	var/gnome_automation_unlocked = FALSE
 	var/extra_pier_rented = FALSE
 	var/auto_hailer_unlocked = FALSE
+	var/export_licence_extended = FALSE
+	var/export_licence_spent = 0
 	var/list/datum/merchant_catalog/catalogs = list()
 	var/list/unlocked_catalogs = list()
 	var/list/catalog_stock = list()
@@ -339,6 +341,7 @@ SUBSYSTEM_DEF(merchant_trade)
 		return
 	last_processed_day = GLOB.dayspassed
 	hails_remaining = TRADE_SHIPS_HAIL_PER_DAY
+	export_licence_spent = 0
 	restock_catalogs()
 	expire_undocked_ships()
 	roll_daily_pool()
@@ -562,6 +565,24 @@ SUBSYSTEM_DEF(merchant_trade)
 		return FALSE
 	extra_pier_rented = TRUE
 	return TRUE
+
+/datum/controller/subsystem/merchant_trade/proc/extend_export_licence()
+	if(export_licence_extended)
+		return FALSE
+	if(!spend_merchant_favor(EXPORT_LICENCE_FAVOR))
+		return FALSE
+	export_licence_extended = TRUE
+	return TRUE
+
+/datum/controller/subsystem/merchant_trade/proc/export_licence_allowance()
+	var/progress = (SSeconomy.get_effective_player_count() - EXPORT_LICENCE_POP_SCALE_START) / (EXPORT_LICENCE_POP_SCALE_FULL - EXPORT_LICENCE_POP_SCALE_START)
+	var/allowance = EXPORT_LICENCE_BASE * (1 + clamp(progress, 0, 1) * (EXPORT_LICENCE_POP_MAX_MULT - 1))
+	if(export_licence_extended)
+		allowance *= EXPORT_LICENCE_EXTENDED_MULT
+	return round(allowance)
+
+/datum/controller/subsystem/merchant_trade/proc/export_licence_left()
+	return max(0, export_licence_allowance() - export_licence_spent)
 
 /datum/controller/subsystem/merchant_trade/proc/unlock_auto_hailer()
 	if(auto_hailer_unlocked)

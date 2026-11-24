@@ -255,6 +255,10 @@
 		if(message)
 			to_chat(user, span_warning("[I] bears an ATC seal. Foreign captains won't buy ATC stock back."))
 		return
+	if(I.stockpile_stamped)
+		if(message)
+			to_chat(user, span_warning("[I] has  a stockpile stamp. The law against cabotage bars its re-export."))
+		return
 	var/datum/component/unsellable/unsellable = I.GetComponent(/datum/component/unsellable)
 	if(unsellable)
 		to_chat(user, span_warning("[I] [unsellable.reason]. No captain will buy it."))

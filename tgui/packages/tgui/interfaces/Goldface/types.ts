@@ -182,6 +182,10 @@ export type FavorData = {
   gnome_unlocked: BooleanLike;
   pier_cost: number;
   pier_rented: BooleanLike;
+  licence_cost: number;
+  licence_extended: BooleanLike;
+  licence_left: number;
+  licence_total: number;
   auto_hailer_cost: number;
   auto_hailer_unlocked: BooleanLike;
   auto_hailer_on: BooleanLike;

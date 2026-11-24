@@ -63,6 +63,11 @@
 	data["wage_reserve"] = wage_reserve
 	data["below_reserve"] = (data["food_stipend"] && SStreasury.discretionary_fund.balance < wage_reserve) ? TRUE : FALSE
 	data["no_deposit"] = TRUE
+	if((user.job in GLOB.atc_positions) && SSmerchant_trade)
+		data["export_licence"] = list(
+			"left" = SSmerchant_trade.export_licence_left(),
+			"total" = SSmerchant_trade.export_licence_allowance(),
+		)
 	data["next_market_day_minutes"] = max(1, CEILING(seconds_until_market_day() / 60, 1))
 	data["title"] = "Vomitorium"
 	data["subtitle"] = "Put in mammon, then withdraw goods from the local stockpile."
