@@ -5685,7 +5685,7 @@
 /turf/open/floor/rogue/twig,
 /area/rogue/outdoors/woods)
 "xk" = (
-/obj/structure/roguemachine/mail{
+/obj/structure/roguemachine/mail/receiver{
 	mailtag = "Woodland Camp"
 	},
 /obj/structure/table/wood/poor,
