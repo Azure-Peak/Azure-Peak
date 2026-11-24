@@ -1242,7 +1242,7 @@
 	name = "Amazon (F)"
 	icon_state = "amazon_f"
 
-/datum/sprite_accessory/hair/head/archivist
+/datum/sprite_accessory/hair/head/archivist_f
 	name = "Archivist (F)"
 	icon_state = "archivist_f"
 
