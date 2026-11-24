@@ -616,7 +616,9 @@ const QueueSection = ({
                   icon="times"
                   tooltip="Cancel"
                   confirmContent="Materials are lost. Cancel?"
-                  onClick={() => act('remove_recipe', { id: first.id })}
+                  onClick={() =>
+                    act('remove_recipe', { id: first.id, cancel_active: true })
+                  }
                 />
               ) : (
                 <Button

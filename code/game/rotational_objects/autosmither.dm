@@ -197,6 +197,9 @@
 			if(!queue_id)
 				return TRUE
 			if(queue_id == current_queue_id)
+				if(!params["cancel_active"])
+					to_chat(ui.user, span_warning("That recipe has already started."))
+					return TRUE
 				clear_current_recipe()
 			remove_entry_id(queue_id)
 			update_animation_effect()
@@ -600,6 +603,10 @@
 		if(length(step_list) == length(pre_start_list))
 			if(hopper?.opened)
 				to_chat(user, span_warning("The anvil refuses to operate, for [hopper] is open."))
+				step_list = list()
+				return
+			if(!has_power_flow())
+				to_chat(user, span_warning("The anvil refuses to operate without power."))
 				step_list = list()
 				return
 			working = TRUE
