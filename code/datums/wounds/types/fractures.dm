@@ -343,8 +343,6 @@
 				var/mob/living/carbon/carbon_affected = affected
 				carbon_affected.update_disabled_bodyparts()
 		if(HAS_TRAIT(CA, TRAIT_SHATTER_KILL) && HAS_TRAIT(CA, TRAIT_NPC_EXAMINE)) //NPCs die because their AI freaks out easily + we want to clear them from existance quickly rather than have them crawl slowly.
-																				  //This blanket-catches conjurations too, even w/ a player controling it b.c fragile conjures should stay fragile.
-			CA.death()
 
 /datum/wound/fracture/chest/on_mob_loss(mob/living/affected)
 	. = ..()
