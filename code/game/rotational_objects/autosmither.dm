@@ -153,6 +153,7 @@
 		UNTYPED_LIST_ADD(current_recipes, list(
 			"id" = queue_entry.id,
 			"index" = i,
+			"ref" = REF(recipe),
 			"name" = recipe.name,
 			"category" = recipe.display_category || ITEM_CAT_SMITHING_MISC,
 			"icon" = spritesheet.icon_class_name(sanitize_css_class_name("recipe_[recipe.type]")),
@@ -174,6 +175,8 @@
 	data["current_recipe_ref"] = current ? REF(current) : null
 	data["progress"] = progress
 	data["needed_progress"] = needed_progress
+	data["steps_done"] = length(step_list)
+	data["steps_total"] = length(working ? post_start_list : pre_start_list)
 	return data
 
 /obj/structure/autosmither/ui_act(action, list/params, datum/tgui/ui, datum/ui_state/state)

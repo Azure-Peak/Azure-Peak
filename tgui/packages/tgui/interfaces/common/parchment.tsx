@@ -255,6 +255,34 @@ export const compactButtonStyle = (
   fontSize: FONT_LEAD,
 });
 
+export const ParchmentProgressBar = (props: {
+  value: number;
+  max: number;
+  color: string;
+}) => {
+  const { value, max, color } = props;
+  const pct = max > 0 ? Math.min((value / max) * 100, 100) : 0;
+  return (
+    <div
+      style={{
+        background: PARCHMENT_SHADOW,
+        height: '6px',
+        borderRadius: '2px',
+        margin: '2px 0',
+      }}
+    >
+      <div
+        style={{
+          background: color,
+          width: `${pct}%`,
+          height: '100%',
+          borderRadius: '2px',
+        }}
+      />
+    </div>
+  );
+};
+
 export const PriceTag = (props: {
   price: number;
   tariff?: number;

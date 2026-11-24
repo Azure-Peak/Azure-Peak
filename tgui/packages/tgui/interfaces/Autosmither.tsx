@@ -15,7 +15,7 @@ import { Window } from '../layouts';
 import { IncrementalList } from './common/IncrementalList';
 import {
   dashedFrameStyle,
-  PARCHMENT_SHADOW,
+  ParchmentProgressBar,
   SEAL_AMBER,
   SEAL_BLUE,
   SEAL_GREEN,
@@ -52,6 +52,7 @@ type Recipe = {
 type QueueEntry = {
   id: number;
   index: number;
+  ref: string;
   name: string;
   category: string;
   icon: string;
@@ -70,6 +71,8 @@ type Data = {
   current_recipe_ref: string | null;
   progress: number;
   needed_progress: number;
+  steps_done: number;
+  steps_total: number;
 };
 
 const STATUS_COLORS = {
@@ -176,10 +179,12 @@ const AutosmitherContent = ({ data }: AutosmitherContentProps) => {
     }
   }, [recipes, selectedRef]);
 
-  const selectedRecipe = useMemo(
-    () => recipes.find((recipe) => recipe.ref === selectedRef) || null,
-    [recipes, selectedRef],
+  const recipeByRef = useMemo(
+    () => Object.fromEntries(recipes.map((recipe) => [recipe.ref, recipe])),
+    [recipes],
   );
+
+  const selectedRecipe = (selectedRef && recipeByRef[selectedRef]) || null;
 
   const categoryNodes = useMemo(() => {
     const counts: Record<string, number> = {};
@@ -289,6 +294,9 @@ const AutosmitherContent = ({ data }: AutosmitherContentProps) => {
                 <Stack.Item grow basis={0}>
                   <QueueSection
                     queue={current_recipes}
+                    recipeByRef={recipeByRef}
+                    hopperCounts={data.hopper_counts}
+                    onSelect={setSelectedRef}
                     progress={data.progress}
                     neededProgress={data.needed_progress}
                   />
@@ -369,6 +377,12 @@ const StatusBar = ({ data, quote }: StatusBarProps) => {
           <Box italic color="label">
             {flavor}
           </Box>
+        </Stack.Item>
+        <Stack.Item color="label">
+          {machine_on ? 'Stop ' : 'Start '}
+          {Array.from({ length: data.steps_total || 0 }, (_, step) =>
+            step < data.steps_done ? '●' : '○',
+          ).join('')}
         </Stack.Item>
         <Stack.Item>
           <Button disabled={isLocked} onClick={() => act('lever')}>
@@ -498,43 +512,66 @@ const RecipeDetailSection = ({
 const CraftProgress = (props: { percent: number }) => (
   <Stack align="center">
     <Stack.Item grow>
-      <Box
-        style={{
-          background: PARCHMENT_SHADOW,
-          height: '8px',
-          borderRadius: '2px',
-        }}
-      >
-        <Box
-          style={{
-            background: SEAL_AMBER,
-            width: `${props.percent}%`,
-            height: '100%',
-            borderRadius: '2px',
-          }}
-        />
-      </Box>
+      <ParchmentProgressBar value={props.percent} max={100} color={SEAL_AMBER} />
     </Stack.Item>
     <Stack.Item color="label">{props.percent}%</Stack.Item>
   </Stack>
 );
 
+type QueueNeed = {
+  name: string;
+  icon: string;
+  amount: number;
+};
+
+const queueNeeds = (
+  queue: QueueEntry[],
+  recipeByRef: Record<string, Recipe>,
+) => {
+  const needs: Record<string, QueueNeed> = {};
+  for (const entry of queue) {
+    const recipe = recipeByRef[entry.ref];
+    if (entry.active || !recipe) {
+      continue;
+    }
+    for (const requirement of recipe.requirements) {
+      if (!needs[requirement.key]) {
+        needs[requirement.key] = {
+          name: requirement.name,
+          icon: requirement.icon,
+          amount: 0,
+        };
+      }
+      needs[requirement.key].amount += requirement.amount;
+    }
+  }
+  return needs;
+};
+
 type QueueSectionProps = {
   queue: QueueEntry[];
+  recipeByRef: Record<string, Recipe>;
+  hopperCounts: Record<string, number>;
   progress: number;
   neededProgress: number;
+  onSelect: (ref: string) => void;
 };
 
 const QueueSection = ({
   queue,
+  recipeByRef,
+  hopperCounts,
   progress,
   neededProgress,
+  onSelect,
 }: QueueSectionProps) => {
   const { act } = useBackend<Data>();
   const progressPercent =
     neededProgress > 0
       ? Math.min(100, Math.round((progress / neededProgress) * 100))
       : 0;
+  const needs = queueNeeds(queue, recipeByRef);
+  const needKeys = Object.keys(needs);
 
   return (
     <Section
@@ -561,9 +598,12 @@ const QueueSection = ({
             <Stack.Item grow style={{ minWidth: 0 }}>
               <Box
                 bold
+                className="toc-link"
                 style={{
                   color: group.active ? SEAL_AMBER : undefined,
+                  cursor: 'pointer',
                 }}
+                onClick={() => onSelect(first.ref)}
               >
                 {first.name}
                 {count > 1 ? ` x${count}` : ''}
@@ -589,6 +629,31 @@ const QueueSection = ({
           </Stack>
         );
       })}
+      {needKeys.length > 0 && (
+        <Box mt={1} style={dashedFrameStyle}>
+          <Box bold mb={0.5}>
+            Queue needs
+          </Box>
+          {needKeys.map((key) => {
+            const need = needs[key];
+            const have = hopperCounts[key] || 0;
+            const hasEnough = have >= need.amount;
+            return (
+              <Stack key={key} align="center">
+                <Stack.Item>
+                  <Box className={need.icon} mr={1} inline />
+                </Stack.Item>
+                <Stack.Item grow>{need.name}</Stack.Item>
+                <Stack.Item
+                  style={{ color: hasEnough ? SEAL_GREEN : SEAL_RED }}
+                >
+                  {hasEnough ? '✓' : '✗'} {have}/{need.amount}
+                </Stack.Item>
+              </Stack>
+            );
+          })}
+        </Box>
+      )}
     </Section>
   );
 };
