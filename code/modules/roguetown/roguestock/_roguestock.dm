@@ -17,6 +17,8 @@
 	var/market_row_stock
 	var/market_row_royal
 	var/market_row_version
+	var/list/market_segments_cache
+	var/market_segments_key
 
 /datum/roguestock/New()
 	..()
@@ -52,9 +54,9 @@
 	var/datum/trade_good/tg = GLOB.trade_goods[trade_good_id]
 	if(!tg?.importable)
 		return FALSE
-	for(var/region_id in GLOB.economic_regions)
+	for(var/region_id in SSeconomy.good_producer_volumes(trade_good_id))
 		var/datum/economic_region/region = GLOB.economic_regions[region_id]
-		if(region.produces[trade_good_id] > 0 && !region.is_region_blockaded)
+		if(!region.is_region_blockaded)
 			return TRUE
 	return FALSE
 
@@ -83,10 +85,9 @@
 	return market_zone_step(MARKET_STEP_VERY_SCARCE)
 
 /datum/roguestock/proc/market_zone_step(step)
-	var/event = get_event_label()
-	if(step == MARKET_STEP_OVERSTOCKED && event == "GLUT")
+	if(step == MARKET_STEP_OVERSTOCKED && get_event_label() == "GLUT")
 		return MARKET_STEP_GLUT
-	if(step == MARKET_STEP_VERY_SCARCE && event == "SHORTAGE")
+	if(step == MARKET_STEP_VERY_SCARCE && get_event_label() == "SHORTAGE")
 		return MARKET_STEP_SHORTAGE
 	return step
 
@@ -189,13 +190,14 @@
 		return null
 	var/stock = market_stock - 1
 	var/step = market_step(stock)
-	var/price = market_unit_ask(stock)
+	var/price = market_step_unit_ask(step)
 	var/count = 0
 	while(market_step_ratio(step) > 0)
-		count += stock - market_step_min_stock(step) + 1
-		stock = market_step_min_stock(step) - 1
+		var/zone_min = market_step_min_stock(step)
+		count += stock - zone_min + 1
+		stock = zone_min - 1
 		step = market_step(stock)
-		var/next_price = market_unit_ask(stock)
+		var/next_price = market_step_unit_ask(step)
 		if(next_price != price)
 			return list("count" = count, "price" = next_price)
 	count += stock - out_of_stock + 1
@@ -206,19 +208,22 @@
 /datum/roguestock/proc/market_next_sell_change()
 	var/stock = market_stock + 1
 	var/step = market_step(stock)
-	var/price = stockpile_price(market_unit_ask(stock) * STOCKPILE_BID_RATIO)
+	var/price = stockpile_price(market_step_unit_ask(step) * STOCKPILE_BID_RATIO)
 	var/count = 0
 	while(market_step_above(step))
 		var/next_min = market_step_min_stock(market_step_above(step))
 		count += next_min - stock
 		stock = next_min
 		step = market_step(stock)
-		var/next_price = stockpile_price(market_unit_ask(stock) * STOCKPILE_BID_RATIO)
+		var/next_price = stockpile_price(market_step_unit_ask(step) * STOCKPILE_BID_RATIO)
 		if(next_price != price)
 			return list("count" = count, "price" = next_price)
 	return null
 
 /datum/roguestock/proc/market_segments()
+	var/key = "[get_event_label()][market_has_supply()]"
+	if(market_segments_cache && market_segments_key == key)
+		return market_segments_cache
 	var/list/segments = list()
 	for(var/step = MARKET_STEP_VERY_SCARCE, step >= MARKET_STEP_OVERSTOCKED, step--)
 		var/shown = market_zone_step(step)
@@ -228,6 +233,8 @@
 			"to" = step == MARKET_STEP_OVERSTOCKED ? null : market_step_min_stock(step - 1) - 1,
 			"price" = market_step_unit_ask(shown),
 		))
+	market_segments_key = key
+	market_segments_cache = segments
 	return segments
 
 /datum/roguestock/proc/market_base_price()
@@ -324,7 +331,6 @@
 /datum/roguestock/proc/market_row()
 	if(market_row && market_row_stock == market_stock && market_row_royal == royal_stock && market_row_version == SStreasury.market_view_version)
 		return market_row
-	refresh_auto_price()
 	var/list/shortage = get_shortage_progress()
 	var/list/dawn = dawn_forecast()
 	market_row = list(
