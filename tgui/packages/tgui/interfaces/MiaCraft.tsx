@@ -1,5 +1,6 @@
 import {
   type CSSProperties,
+  memo,
   type ReactNode,
   useEffect,
   useMemo,
@@ -90,7 +91,7 @@ const CRAFT_AMOUNTS: { label: string; params: Record<string, unknown> }[] = [
   { label: '∞', params: { auto: true } },
 ];
 
-const CraftingRecipe = (props: {
+const CraftingRecipe = memo((props: {
   recipe: Recipe;
   craftable: boolean;
   pin?: string;
@@ -212,7 +213,7 @@ const CraftingRecipe = (props: {
       )}
     </div>
   );
-};
+});
 
 export const MiaCraft = () => {
   const { act, data } = useBackend<Data>();

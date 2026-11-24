@@ -1,5 +1,5 @@
 import { storage } from 'common/storage';
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 import type { BooleanLike } from 'tgui-core/react';
 
 export type PinMap = Record<string, string>;
@@ -60,5 +60,5 @@ export const usePinSync = (act: ActFn, menu: PinMenu, data: PinData) => {
     }
   }, [imported, storageKey, savedPaths]);
 
-  return (path: string) => act('cycle_pin', { path });
+  return useCallback((path: string) => act('cycle_pin', { path }), [act]);
 };

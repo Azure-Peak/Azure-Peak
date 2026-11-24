@@ -1,4 +1,4 @@
-import { type ReactNode, useState } from 'react';
+import { memo, type ReactNode, useState } from 'react';
 import { Box, DmIcon, Stack } from 'tgui-core/components';
 
 import { useBackend } from '../backend';
@@ -39,6 +39,8 @@ type Recipe = {
   path: string;
   icon: string;
 };
+
+type ActFn = (action: string, params?: Record<string, unknown>) => void;
 
 type Data = PinData & {
   hingot_type?: string | null;
@@ -143,13 +145,13 @@ export const LonelyAnvil = () => {
   );
 };
 
-const AnvilRecipe = (props: {
+const AnvilRecipe = memo((props: {
   recipe: Recipe;
   pin?: string;
-  onChoose: () => void;
-  onPin: () => void;
+  act: ActFn;
+  cyclePin: (path: string) => void;
 }) => {
-  const { recipe, pin, onChoose, onPin } = props;
+  const { recipe, pin, act, cyclePin } = props;
   return (
     <div
       style={{
@@ -164,7 +166,7 @@ const AnvilRecipe = (props: {
         type="button"
         style={inkButtonStyle({ color: pin ? SEAL_AMBER : INK_FAINT })}
         title={pinTitle(pin)}
-        onClick={onPin}
+        onClick={() => cyclePin(recipe.path)}
       >
         {pinGlyph(pin)}
       </button>
@@ -185,14 +187,14 @@ const AnvilRecipe = (props: {
           cursor: 'pointer',
           padding: '2px 0',
         }}
-        onClick={onChoose}
+        onClick={() => act('choose_recipe', { ref: recipe.ref })}
       >
         <Box className={recipe.icon} inline />
         {recipe.name}
       </button>
     </div>
   );
-};
+});
 
 export const RecipeDisplay = () => {
   const { act, data } = useBackend<Data>();
@@ -248,8 +250,8 @@ export const RecipeDisplay = () => {
       key={recipe.ref}
       recipe={recipe}
       pin={pins[recipe.path]}
-      onChoose={() => act('choose_recipe', { ref: recipe.ref })}
-      onPin={() => cyclePin(recipe.path)}
+      act={act}
+      cyclePin={cyclePin}
     />
   );
 
