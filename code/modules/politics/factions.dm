@@ -20,8 +20,11 @@ GLOBAL_LIST_INIT(political_factions, init_political_factions())
 	var/psydonite_only = FALSE
 	var/examine_text
 	var/commoner_examine_text
+	var/self_examine_text
 
-/datum/political_faction/proc/examine_line(noble)
+/datum/political_faction/proc/examine_line(noble, self = FALSE)
+	if(self && self_examine_text)
+		return self_examine_text
 	if(!noble && commoner_examine_text)
 		return commoner_examine_text
 	return examine_text || "Of the [name] faction."
@@ -37,6 +40,7 @@ GLOBAL_LIST_INIT(political_factions, init_political_factions())
 	color = "#9a9a9a"
 	examine_text = "A despicable neutral."
 	commoner_examine_text = "A neutral in the politics of this land."
+	self_examine_text = "A neutral in the politics of this land."
 	motto = "And irresolute princes, to avoid present dangers, generally follow the neutral path, and are generally ruined."
 	description = "By circumstances, or because you truly do not hold an opinion, you do not declare your allegiance to any of the existing political factions in Azuria. A normal path for a wandering sort, a peasant, or perhaps one of the Church. But a rather odd choice if you're a noble, for there is none as perfidious as one who refuses to choose any side. For the victorious shall build a bond of amity with those who were on their side out of gratitude, and should those you ally with lose, you shall be sheltered and aided by them when they are able, and you become companions on a fortune that may rise again."
 

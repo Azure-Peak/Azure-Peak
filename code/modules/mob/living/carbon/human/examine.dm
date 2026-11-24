@@ -868,9 +868,9 @@
 						noble_line += ", with an estate in [estate_name]"
 				standing += "[noble_line]."
 				if(faction?.examine_text)
-					standing += faction.examine_text
+					standing += faction.examine_line(TRUE, user == src)
 			else if(faction)
-				standing += faction.examine_line(is_political_noble(src))
+				standing += faction.examine_line(is_political_noble(src), user == src)
 
 		if(length(standing))
 			. += span_smallnotice(jointext(standing, " "))
