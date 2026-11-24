@@ -996,3 +996,42 @@
   - rscadd: NPC spells and bow draw can no longer be interrupted by hitting them,
       same as a player's
   - rscadd: Refactored and cleaned up succession rituals code
+2026-11-24:
+  567Turtle:
+  - bugfix: tiger stripes are now drawn correctly
+  KatTheFox:
+  - refactor: Spell alt modes are now handled through a unified set of vars and procs,
+      instead of being manually reinvented in each of 15 different spell files. Spells
+      should behave identically, except for unholy blast, which will now dust instead
+      of gib because I cba to port that to the new, parented-to-divine-blast version.
+  - bugfix: Adjudicators who pick the Psydonic War Axe now actually get their war
+      axe and shield instead of nothing.
+  OrbisAnima:
+  - balance: Makes alchemical arrows have antibeast base (150%).
+  - qol: Removes fail chance on grindwheel plank creation.
+  Quinalion:
+  - qol: You can now climb onto nearby tree branches by left-clicking them with an
+      empty hand.
+  - qol: Branch climbing respects Climbing skill, Speed, furniture bonuses, Woodwalker,
+      and sneak mode.
+  - bugfix: Leaves over open space no longer swallow interactions intended for the
+      tile beneath them.
+  - bugfix: Carried or grabbed characters now remain attached to their carrier when
+      using stairs.
+  - bugfix: Passengers attached to a dragged mob now travel between floors with it.
+  Ryumi:
+  - rscadd: Static threat spawners now have a chance to extinguish all lights around
+      them when nobody is looking, to keep the roads feeling at least a little dangerous,
+      even when the lights are on.
+  - rscadd: Static threat spawners now ignore the light fixtures seen in the Underdark
+      and Mount Decapitation; meaning they will will spawn threats even when they
+      are in their "area of effect." You'll need to build lights in such areas if
+      you're seeing threats appearing there!
+  awwlie:
+  - bugfix: fixed shift + key, keybinds not taking the key, but the result.
+  radarseas:
+  - rscadd: Added Zizo Fog, its exclusive to Zizo's Pet Cemetary omen and Zizo's defilement.
+      Zizites can prayer during it, Zizites get a minor mood buff.
+  - rscadd: Added omen text to Zizo's defilement.
+  - bugfix: fixed Zizo's pet cemetary being inconsistant and using the wrong way to
+      announce itself, making it almost seem more like an admin event.

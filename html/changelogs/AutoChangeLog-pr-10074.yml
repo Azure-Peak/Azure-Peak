@@ -1,6 +1,0 @@
-author: "Quinalion"
-delete-after: True
-changes:
-  - qol: "You can now climb onto nearby tree branches by left-clicking them with an empty hand."
-  - qol: "Branch climbing respects Climbing skill, Speed, furniture bonuses, Woodwalker, and sneak mode."
-  - bugfix: "Leaves over open space no longer swallow interactions intended for the tile beneath them."
