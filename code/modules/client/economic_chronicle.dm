@@ -78,6 +78,7 @@ GLOBAL_DATUM(economic_chronicle, /datum/economic_chronicle)
 		paths |= path
 
 	var/list/rows = list()
+	var/list/by_name = list()
 	var/total_in = 0
 	var/total_out = 0
 	var/list/column_totals = list()
@@ -104,15 +105,21 @@ GLOBAL_DATUM(economic_chronicle, /datum/economic_chronicle)
 			continue
 		total_in += row_in
 		total_out += row_out
-		rows += list(list(
-			"name" = material_flow_name(path),
-			"cat" = material_flow_category(path),
-			"cells" = cells,
-			"in" = row_in,
-			"out" = row_out,
-			"open" = open_demand,
-			"net" = row_in - row_out,
-		))
+		var/row_name = material_flow_name(path)
+		var/list/row = by_name[row_name]
+		if(!row)
+			row = list("name" = row_name, "cat" = material_flow_category(path), "cells" = list(), "in" = 0, "out" = 0, "open" = 0)
+			by_name[row_name] = row
+		var/list/row_cells = row["cells"]
+		for(var/code in cells)
+			row_cells[code] = (row_cells[code] || 0) + cells[code]
+		row["in"] += row_in
+		row["out"] += row_out
+		row["open"] += open_demand
+	for(var/row_name in by_name)
+		var/list/row = by_name[row_name]
+		row["net"] = row["in"] - row["out"]
+		rows += list(row)
 	if(length(rows))
 		sortTim(rows, GLOBAL_PROC_REF(cmp_material_row_flow_desc))
 
