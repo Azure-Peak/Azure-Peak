@@ -45,17 +45,17 @@ GLOBAL_LIST_INIT(hedgeknight_aggro, world.file2list("strings/rt/hedgeknightaggro
 	var/list/aggro_lines
 	switch(preset_lines)
 		if("graggar")
-			preset_title = pick("of Graggar","the Butcherer","Orphanbane","the Warlord","Blood-Chosen","the Bloody","of the Darkstar","of the Sinistar","the Chainbreaker","the Unshackled","the War-Born","the Murderer","Bane of Peace","the herald of Graggar","the Culler","the Slaughterer of Lambs")
+			preset_title = pick("of Graggar","the Butcherer","Orphanbane","the Warlord","Blood-Chosen","the Bloody","of the Darkstar","of the Sinistar","the Chainbreaker","the Unshackled","the War-Born","the Murderer","Bane of Peace","the Herald of Graggar","the Culler","the Slaughterer of Lambs")
 			aggro_lines = GLOB.graggar_aggro
 		if("matthios")
-			preset_title = pick("the Rich","of Equal Exchange","the Opulant","of the Gilded Flame","Fyre-Kindled","the Brigand","of Matthios","of the Transactor","the Free","the Wealthy","of the Kindled Pyre","of the Gilded Drakkyn","the herald of Matthios","of the Gilded Exchange","of the Gilded Camaraderie")
+			preset_title = pick("the Rich","of Equal Exchange","the Opulant","of the Gilded Flame","Fyre-Kindled","the Brigand","of Matthios","of the Transactor","the Free","the Wealthy","of the Kindled Pyre","of the Gilded Drakkyn","the Herald of Matthios","of the Gilded Exchange","of the Gilded Camaraderie")
 			aggro_lines = GLOB.matthios_aggro
 		if("zizo")
-			preset_title = pick("of Zizo","of the Avantyne Legion","bane of the Hallowed","the Defiler","the Shadow-Blessed","the Insane","sworn-in-her-name","the herald of Progress","the herald of Zizo","the Luxbane","of the Dark Shield","of Shadows","the Truesighted","the Truth-Seeker","of the Pale Lady")
+			preset_title = pick("of Zizo","of the Avantyne Legion","bane of the Hallowed","the Defiler","the Shadow-Blessed","the Insane","sworn-in-her-name","the Herald of Progress","the Herald of Zizo","the Luxbane","of the Dark Shield","of Shadows","the Truesighted","the Truth-Seeker","of the Pale Lady")
 			aggro_lines = GLOB.zizo_aggro
 			src.grant_language(/datum/language/undead)
 		if("baotha")
-			preset_title = pick("of Baotha","the Heartache","the Indulgent","the Mirthful","the Never-Sober","the Manic","of the Spider","the herald of Baotha","the herald of Heartache","the Luxdrinker","of the The Overflowing Goblet","of the Lady of Heartache","of the Lady of Pleasure")
+			preset_title = pick("of Baotha","the Heartache","the Indulgent","the Mirthful","the Never-Sober","the Manic","of the Spider","the Herald of Baotha","the Herald of Heartache","the Luxdrinker","of the The Overflowing Goblet","of the Lady of Heartache","of the Lady of Pleasure")
 			aggro_lines = GLOB.baotha_aggro
 		if("hedgeknight")
 			preset_title = pick("the Outlawed","the Brigand","the Disgraced","the Bastard","of the Outcast","disgrace of Azuria","the Unchained","the Boss","the Wall","the Unbreakable","the Warlord","the Deserter","the Gauntlet","the Uncrushable","the Unstoppable")
