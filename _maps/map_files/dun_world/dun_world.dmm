@@ -9125,9 +9125,7 @@
 /turf/open/floor/rogue/hexstone,
 /area/rogue/indoors/inq)
 "bCn" = (
-/obj/structure/bed/rogue/inn/double{
-	can_buckle = 0
-	},
+/obj/structure/bed/rogue/inn/double,
 /obj/item/bedsheet/rogue/double_pelt,
 /obj/effect/decal/carpet/kover_darkred{
 	pixel_x = -16
@@ -33879,14 +33877,6 @@
 	},
 /turf/open/floor/rogue/blocks,
 /area/rogue/indoors/town)
-"fKc" = (
-/obj/structure/bed/rogue/inn/double{
-	can_buckle = 0
-	},
-/obj/item/bedsheet/rogue/double_pelt,
-/obj/machinery/light/rogue/candle/r,
-/turf/open/floor/carpet/purple,
-/area/rogue/indoors/town/tavern)
 "fKi" = (
 /obj/structure/closet/crate/chest/wicker,
 /obj/effect/spawner/lootdrop/roguetown/dungeon/food,
@@ -39771,7 +39761,9 @@
 /obj/structure/chair/wood/rogue/chair4{
 	dir = 8
 	},
-/obj/structure/fluff/walldeco/sign/trophy,
+/obj/structure/roguemachine/talkstatue/mercenary{
+	pixel_y = 32
+	},
 /turf/open/floor/carpet/stellar,
 /area/rogue/indoors/town/shop)
 "gMh" = (
@@ -48819,9 +48811,7 @@
 /turf/open/floor/rogue/metal/barograte,
 /area/rogue/under/underdark/north)
 "ioW" = (
-/obj/structure/bed/rogue/inn/double{
-	can_buckle = 0
-	},
+/obj/structure/bed/rogue/inn/double,
 /obj/item/bedsheet/rogue/fabric_double,
 /obj/structure/rack/rogue/shelf,
 /obj/item/candle/yellow{
@@ -80122,9 +80112,7 @@
 /turf/open/floor/rogue/wood,
 /area/rogue/indoors/town/physician)
 "nzV" = (
-/obj/structure/bed/rogue/inn/double{
-	can_buckle = 0
-	},
+/obj/structure/bed/rogue/inn/double,
 /obj/item/bedsheet/rogue/double_pelt{
 	dir = 4
 	},
@@ -111717,9 +111705,7 @@
 /turf/open/floor/carpet/royalblack,
 /area/rogue/indoors/town/steward)
 "sJh" = (
-/obj/structure/bed/rogue/inn/double{
-	can_buckle = 0
-	},
+/obj/structure/bed/rogue/inn/double,
 /obj/item/bedsheet/rogue/fabric_double,
 /obj/machinery/light/rogue/candle/r,
 /obj/effect/landmark/start/marshal{
@@ -128861,9 +128847,7 @@
 /obj/effect/decal/cobbleedge{
 	icon_state = "cobbleedge-n"
 	},
-/obj/structure/bed/rogue/inn/double{
-	can_buckle = 0
-	},
+/obj/structure/bed/rogue/inn/double,
 /obj/machinery/light/rogue/candle,
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/under/town/basement/keep)
@@ -287279,7 +287263,7 @@ rHL
 hKw
 vNI
 taS
-fKc
+aJy
 uhn
 taS
 tFj
