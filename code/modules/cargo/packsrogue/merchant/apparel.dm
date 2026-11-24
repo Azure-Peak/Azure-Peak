@@ -169,6 +169,11 @@
 	cost = 13
 	contains = list(/obj/item/storage/backpack/rogue/satchel/short/black)
 
+/datum/supply_pack/rogue/apparel/beltedtsatchel
+	name = "Belted Satchel"
+	cost = 13
+	contains = list(/obj/item/storage/backpack/rogue/satchel/beltpack)
+
 /datum/supply_pack/rogue/apparel/meatpouch
 	name = "Game Satchel"
 	cost = 13

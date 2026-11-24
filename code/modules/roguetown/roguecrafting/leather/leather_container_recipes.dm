@@ -45,6 +45,10 @@
 	name = "black satchel"
 	result = /obj/item/storage/backpack/rogue/satchel/black
 
+/datum/crafting_recipe/roguetown/leather/container/satchel/beltpack
+	name = "belted satchel"
+	result = /obj/item/storage/backpack/rogue/satchel/beltpack
+
 /datum/crafting_recipe/roguetown/leather/container/satchelshort
 	name = "short satchel"
 	result = /obj/item/storage/backpack/rogue/satchel/short
