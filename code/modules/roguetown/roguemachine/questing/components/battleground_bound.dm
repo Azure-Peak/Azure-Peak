@@ -24,7 +24,7 @@
 	return ..()
 
 /datum/component/battleground_bound/proc/is_inside(turf/T)
-	return T && T.z == center.z && get_dist(T, center) <= range
+	return T && is_in_zweb(T.z, center.z) && max(abs(T.x - center.x), abs(T.y - center.y)) <= range
 
 /datum/component/battleground_bound/proc/check_step(atom/movable/source, atom/newloc)
 	SIGNAL_HANDLER

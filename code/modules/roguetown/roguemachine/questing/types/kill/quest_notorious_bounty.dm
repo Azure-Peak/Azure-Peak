@@ -411,7 +411,7 @@
 
 /datum/quest/kill/notorious_bounty/proc/in_ground(atom/A, range = NOTORIOUS_BOUNTY_LEASH_RANGE)
 	var/turf/T = get_turf(A)
-	return T && T.z == leash_origin.z && get_dist(T, leash_origin) <= range
+	return T && is_in_zweb(T.z, leash_origin.z) && max(abs(T.x - leash_origin.x), abs(T.y - leash_origin.y)) <= range
 
 /datum/quest/kill/notorious_bounty/proc/draw_in(mob/living/M)
 	var/turf/dest = leash_origin
