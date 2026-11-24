@@ -338,32 +338,21 @@
 	var/tariff_active = !is_tax_exempt(H)
 	if(search_query != "")
 		var/needle = LOWER_TEXT(search_query)
-		var/list/matches = list()
-		for(var/pack in SSmerchant.supply_packs)
-			var/datum/supply_pack/PA = SSmerchant.supply_packs[pack]
+		for(var/datum/supply_pack/PA as anything in SSmerchant.sorted_supply_packs)
 			if(PA.not_in_public && is_public)
 				continue
 			if(!(PA.group in all_cats))
 				continue
-			if(findtext(LOWER_TEXT(PA.name), needle) || findtext(LOWER_TEXT(PA.group), needle))
-				matches += PA
-		total_matches = length(matches)
-		var/shown = 0
-		for(var/datum/supply_pack/PA in sortNames(matches))
-			if(shown >= search_result_cap)
-				break
-			shown++
-			packs_data += list(serialize_pack(PA, tariff_active))
+			if(!findtext(LOWER_TEXT(PA.name), needle) && !findtext(LOWER_TEXT(PA.group), needle))
+				continue
+			total_matches++
+			if(total_matches <= search_result_cap)
+				packs_data += list(serialize_pack(PA, tariff_active))
 	else if(current_cat)
-		var/list/pax = list()
-		for(var/pack in SSmerchant.supply_packs)
-			var/datum/supply_pack/PA = SSmerchant.supply_packs[pack]
+		for(var/datum/supply_pack/PA as anything in SSmerchant.supply_packs_by_group[current_cat])
 			if(PA.not_in_public && is_public)
 				continue
-			if(PA.group == current_cat)
-				pax += PA
-		total_matches = length(pax)
-		for(var/datum/supply_pack/PA in sortNames(pax))
+			total_matches++
 			packs_data += list(serialize_pack(PA, tariff_active))
 	data["packs"] = packs_data
 	data["total_matches"] = total_matches
