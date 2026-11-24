@@ -206,7 +206,7 @@
 	for(var/datum/anvil_recipe/R in GLOB.anvil_recipes)
 		UNTYPED_LIST_ADD(recipes, list(
 			"name" = R.name,
-			"category" = R.i_type,
+			"category" = R.display_category || ITEM_CAT_SMITHING_MISC,
 			"req_bar" = R.req_bar,
 			"ref" = REF(R),
 			"path" = "[R.type]",

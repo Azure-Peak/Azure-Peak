@@ -23,6 +23,10 @@ export const pinTitle = (scope?: string): string =>
       ? 'Pinned for this round. Click to save to this character.'
       : 'Pin for this round';
 
+export const pinnedFirst =
+  (pins: PinMap) => (a: { path: string }, b: { path: string }) =>
+    Number(!!pins[b.path]) - Number(!!pins[a.path]);
+
 export const usePinSync = (act: ActFn, menu: PinMenu, data: PinData) => {
   const storageKey = `recipe_pins:${menu}:${data.pin_key || 'default'}`;
   const imported = !!data.pins_imported;

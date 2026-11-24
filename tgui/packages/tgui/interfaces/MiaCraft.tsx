@@ -1,5 +1,6 @@
 import {
   type CSSProperties,
+  type ReactNode,
   useEffect,
   useMemo,
   useRef,
@@ -10,7 +11,6 @@ import { useBackend } from '../backend';
 import { Window } from '../layouts';
 import {
   FONT_BODY,
-  FONT_LEAD,
   FONT_SMALL,
   INK,
   INK_FAINT,
@@ -18,19 +18,26 @@ import {
   inkButtonStyle,
   inkInputStyle,
   PARCHMENT_SHADOW,
-  pageStyle,
   SEAL_AMBER,
   SEAL_GREEN,
   SERIF,
-  TITLE,
 } from './common/parchment';
 import {
   type PinData,
-  type PinMap,
   pinGlyph,
+  pinnedFirst,
   pinTitle,
   usePinSync,
 } from './common/pins';
+import {
+  RAIL_ALL,
+  RAIL_PINNED,
+  type RailNode,
+  RecipeRail,
+  RecipeRailLayout,
+  recipeEmptyStyle,
+  recipeGroupHeaderStyle,
+} from './common/RecipeRail';
 
 type Recipe = {
   name: string;
@@ -44,7 +51,7 @@ type Recipe = {
   has_item_quality: number;
 };
 
-type Craftability = [string, number][];
+type CraftEntry = Recipe & { category: string };
 
 type ActFn = (action: string, params?: Record<string, unknown>) => void;
 
@@ -54,9 +61,6 @@ type Data = PinData & {
   craftability: Record<string, number>;
   crafting_recipes: Record<string, Record<string, Recipe>>;
 };
-
-const isCraftable = (craftability: Craftability, name: string): boolean =>
-  craftability.some((entry) => entry[0] === name && entry[1] === 1);
 
 const labelStyle: CSSProperties = {
   flex: '0 0 130px',
@@ -210,103 +214,11 @@ const CraftingRecipe = (props: {
   );
 };
 
-const CraftingCategory = (props: {
-  title: string;
-  recipes: Record<string, Recipe>;
-  onlyCraftable: boolean;
-  craftability: Craftability;
-  searchText: string;
-  pins: PinMap;
-  defaultOpen?: boolean;
-  act: ActFn;
-  cyclePin: (path: string) => void;
-}) => {
-  const {
-    title,
-    recipes,
-    onlyCraftable,
-    craftability,
-    searchText,
-    pins,
-    defaultOpen,
-    act,
-    cyclePin,
-  } = props;
-  const [open, setOpen] = useState(!!defaultOpen);
-
-  const visible = useMemo(
-    () =>
-      Object.values(recipes)
-        .filter(
-          (recipe) => !onlyCraftable || isCraftable(craftability, recipe.name),
-        )
-        .filter(
-          (recipe) =>
-            recipe.name.toLowerCase().includes(searchText) ||
-            recipe.aliases.toLowerCase().includes(searchText),
-        )
-        .sort((a, b) => String(a.name).localeCompare(String(b.name))),
-    [recipes, onlyCraftable, craftability, searchText],
-  );
-
-  if (visible.length === 0) {
-    return null;
-  }
-
-  return (
-    <div style={{ marginBottom: '6px' }}>
-      <button
-        type="button"
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          width: '100%',
-          textAlign: 'left',
-          fontFamily: SERIF,
-          fontSize: FONT_LEAD,
-          fontWeight: 'bold',
-          color: TITLE,
-          background: 'var(--p-card-bg)',
-          border: `1px solid ${INK_FAINT}`,
-          borderRadius: '2px',
-          padding: '7px 12px',
-          cursor: 'pointer',
-        }}
-        onClick={() => setOpen(!open)}
-      >
-        <span style={{ color: INK_SOFT, marginRight: '10px' }}>
-          {open ? '▼' : '▶'}
-        </span>
-        {title}
-        <span
-          style={{ color: INK_SOFT, fontWeight: 'normal', marginLeft: '6px' }}
-        >
-          ({visible.length})
-        </span>
-      </button>
-      {open && (
-        <div style={{ padding: '2px 4px 4px 4px' }}>
-          {visible.map((recipe) => (
-            <CraftingRecipe
-              key={recipe.path}
-              recipe={recipe}
-              craftable={isCraftable(craftability, recipe.name)}
-              pin={pins[recipe.path]}
-              act={act}
-              cyclePin={cyclePin}
-            />
-          ))}
-        </div>
-      )}
-    </div>
-  );
-};
-
 export const MiaCraft = () => {
   const { act, data } = useBackend<Data>();
-  const craftability: Craftability = Object.entries(data.craftability);
   const onlyCraftable = !!data.showonlycraftable;
   const [searchText, setSearchText] = useState('');
+  const [view, setView] = useState<string>(RAIL_ALL);
   const searchRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -315,105 +227,155 @@ export const MiaCraft = () => {
 
   const pins = data.pins || {};
   const cyclePin = usePinSync(act, 'crafting', data);
-
-  const pinnedRecipes = useMemo(() => {
-    const out: Record<string, Recipe> = {};
-    for (const recipes of Object.values(data.crafting_recipes)) {
-      for (const recipe of Object.values(recipes)) {
-        if (pins[recipe.path]) {
-          out[recipe.path] = recipe;
-        }
-      }
-    }
-    return out;
-  }, [data.crafting_recipes, pins]);
+  const craftable = (name: string) => data.craftability[name] === 1;
 
   const categories = useMemo(
     () =>
-      Object.entries(data.crafting_recipes).sort(([a], [b]) =>
-        String(a).localeCompare(String(b)),
-      ),
+      Object.keys(data.crafting_recipes).sort((a, b) => a.localeCompare(b)),
     [data.crafting_recipes],
   );
 
-  return (
-    <Window width={560} height={760} theme="parchment" title="Crafting">
-      <Window.Content scrollable>
-        <div style={pageStyle}>
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '8px',
-              position: 'sticky',
-              top: 0,
-              zIndex: 1,
-              background: 'var(--p-bg)',
-              padding: '6px 0 8px 0',
-              marginBottom: '4px',
-            }}
-          >
-            <input
-              ref={searchRef}
-              style={{ ...inkInputStyle, flex: 1 }}
-              placeholder="Search..."
-              value={searchText}
-              onChange={(e) => setSearchText(e.target.value.toLowerCase())}
-            />
-            <button
-              type="button"
-              style={{
-                ...inkButtonStyle({
-                  color: onlyCraftable ? SEAL_GREEN : INK_SOFT,
-                }),
-                display: 'flex',
-                alignItems: 'center',
-                whiteSpace: 'nowrap',
-              }}
-              onClick={() =>
-                act('checkboxonlycraftable', { state: !onlyCraftable })
-              }
-            >
-              <span
-                style={{
-                  display: 'inline-block',
-                  width: '12px',
-                  textAlign: 'center',
-                  marginRight: '4px',
-                }}
-              >
-                {onlyCraftable ? '✓' : ''}
-              </span>
-              Craftable only
-            </button>
-          </div>
+  const entries = useMemo(() => {
+    const out: CraftEntry[] = [];
+    for (const category of categories) {
+      for (const recipe of Object.values(data.crafting_recipes[category])) {
+        out.push({ ...recipe, category });
+      }
+    }
+    return out.sort((a, b) => String(a.name).localeCompare(String(b.name)));
+  }, [data.crafting_recipes, categories]);
 
-          <CraftingCategory
-            title="★ Pinned"
-            recipes={pinnedRecipes}
-            onlyCraftable={false}
-            craftability={craftability}
-            searchText={searchText}
-            pins={pins}
-            defaultOpen
-            act={act}
-            cyclePin={cyclePin}
-          />
+  const listed = entries.filter(
+    (recipe) => !onlyCraftable || craftable(recipe.name),
+  );
+  const pinned = entries.filter((recipe) => pins[recipe.path]);
 
-          {categories.map(([title, recipes]) => (
-            <CraftingCategory
-              key={title}
-              title={title}
-              recipes={recipes}
-              onlyCraftable={onlyCraftable}
-              craftability={craftability}
-              searchText={searchText}
-              pins={pins}
-              act={act}
-              cyclePin={cyclePin}
-            />
-          ))}
+  const counts: Record<string, number> = {};
+  for (const recipe of listed) {
+    counts[recipe.category] = (counts[recipe.category] || 0) + 1;
+  }
+
+  const nodes: RailNode[] = [
+    { key: RAIL_PINNED, label: '★ Pinned', count: pinned.length },
+    { key: RAIL_ALL, label: 'All', count: listed.length },
+    ...categories
+      .filter((category) => counts[category] || category === view)
+      .map((category) => ({
+        key: category,
+        label: category,
+        count: counts[category] || 0,
+      })),
+  ];
+
+  let shown: CraftEntry[];
+  if (searchText) {
+    shown = listed.filter(
+      (recipe) =>
+        recipe.name.toLowerCase().includes(searchText) ||
+        recipe.aliases.toLowerCase().includes(searchText),
+    );
+  } else if (view === RAIL_PINNED) {
+    shown = pinned;
+  } else if (view === RAIL_ALL) {
+    shown = listed;
+  } else {
+    shown = listed.filter((recipe) => recipe.category === view);
+  }
+  shown = [...shown].sort(pinnedFirst(pins));
+
+  const grouped = !!searchText || view === RAIL_PINNED || view === RAIL_ALL;
+
+  const renderRecipe = (recipe: CraftEntry) => (
+    <CraftingRecipe
+      key={recipe.path}
+      recipe={recipe}
+      craftable={craftable(recipe.name)}
+      pin={pins[recipe.path]}
+      act={act}
+      cyclePin={cyclePin}
+    />
+  );
+
+  let body: ReactNode;
+  if (!shown.length) {
+    body = (
+      <div style={recipeEmptyStyle}>
+        {view === RAIL_PINNED && !searchText
+          ? 'No pinned recipes.'
+          : 'No recipes found.'}
+      </div>
+    );
+  } else if (!grouped) {
+    body = shown.map(renderRecipe);
+  } else {
+    body = categories.map((category) => {
+      const rows = shown.filter((recipe) => recipe.category === category);
+      if (!rows.length) {
+        return null;
+      }
+      return (
+        <div key={category}>
+          <div style={recipeGroupHeaderStyle}>{category}</div>
+          {rows.map(renderRecipe)}
         </div>
+      );
+    });
+  }
+
+  return (
+    <Window width={720} height={760} theme="parchment" title="Crafting">
+      <Window.Content>
+        <RecipeRailLayout
+          header={
+            <>
+              <input
+                ref={searchRef}
+                style={{ ...inkInputStyle, flex: 1 }}
+                placeholder="Search..."
+                value={searchText}
+                onChange={(e) => setSearchText(e.target.value.toLowerCase())}
+              />
+              <button
+                type="button"
+                style={{
+                  ...inkButtonStyle({
+                    color: onlyCraftable ? SEAL_GREEN : INK_SOFT,
+                  }),
+                  display: 'flex',
+                  alignItems: 'center',
+                  whiteSpace: 'nowrap',
+                }}
+                onClick={() =>
+                  act('checkboxonlycraftable', { state: !onlyCraftable })
+                }
+              >
+                <span
+                  style={{
+                    display: 'inline-block',
+                    width: '12px',
+                    textAlign: 'center',
+                    marginRight: '4px',
+                  }}
+                >
+                  {onlyCraftable ? '✓' : ''}
+                </span>
+                Craftable only
+              </button>
+            </>
+          }
+          rail={
+            <RecipeRail
+              nodes={nodes}
+              selected={searchText ? null : view}
+              onSelect={(key) => {
+                setView(key);
+                setSearchText('');
+              }}
+            />
+          }
+        >
+          {body}
+        </RecipeRailLayout>
       </Window.Content>
     </Window>
   );
