@@ -132,6 +132,7 @@
 /datum/component/possessed_item/proc/handle_speech(mob/living/speaker, list/speech_args)
 	if(speech_args[SPEECH_MODE] == MODE_WHISPER)
 		speaker.log_talk(speech_args[SPEECH_MESSAGE], LOG_WHISPER)
+		to_chat(speaker, span_centcomradio("You whisper into [bearer]'s mind... \"[speech_args[SPEECH_MESSAGE]]\""))
 		to_chat(bearer, span_centcomradio("You hear a whisper in your mind... \"[speech_args[SPEECH_MESSAGE]]\""))
 		speech_args[SPEECH_MESSAGE] = null // cancel the speech
 

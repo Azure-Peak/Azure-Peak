@@ -545,6 +545,7 @@ GLOBAL_LIST_INIT(body_builds, init_body_builds())
 
 
 /datum/species/proc/on_species_gain(mob/living/carbon/C, datum/species/old_species, datum/preferences/pref_load)
+	SHOULD_CALL_PARENT(TRUE)
 	// Drop the items the new species can't wear
 	if((AGENDER in species_traits))
 		C.gender = PLURAL

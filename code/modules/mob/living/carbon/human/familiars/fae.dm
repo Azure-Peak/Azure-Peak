@@ -19,9 +19,9 @@
 	tutorial_message = span_notice("As a native of the faewyld, you are able to fly, and kneestingers will not harm you. In addition, you can lash out with a vine to retrieve small objects at a distance, blend into your surroundings at will, and force hidden crops to bloom at your command. You also act as a reagent container, holding up to 90 drams of any solution. You can also deliver 5 drams at a time of your stored solution with an alchemical bite. You may also act as a portable cauldron, able to be fed alchemical reagents and brew them into potions. You do not need water to do so. Any attempts to brew potion beyond your reagent capacity will result in reagents being voided.")
 	valid_healing_items = list(/obj/item/magic/fae)
 	planar_origin = "fae"
-	STACON = 1 // annoying flying fucks
 	voiceclips = list("plantcross")
 	var/warned = FALSE // 2 second grace period to get back in range of their summoner or they lose flight
+	var/leash_check_time = 0
 	voice_desc = "rustling"
 	voice_desc_prefix = CUSTOM_PREFIX_HAS_A
 	trait_desc = "fluttering"
@@ -65,9 +65,11 @@
 
 /datum/species/familiar/fae/on_species_gain(mob/living/carbon/C, datum/species/old_species, datum/preferences/pref_load)
 	RegisterSignal(C, COMSIG_ITEM_ATTACKED_SUCCESS, PROC_REF(handle_iron_weakness))
+	return ..()
 
 /datum/species/familiar/fae/on_species_loss(mob/living/carbon/human/C, datum/species/new_species, pref_load)
 	UnregisterSignal(C, COMSIG_ITEM_ATTACKED_SUCCESS)
+	return ..()
 
 /datum/species/familiar/fae/proc/handle_iron_weakness(mob/living/carbon/human/hit, obj/item/with, mob/by)
 	if(!ishuman(hit) || !with.is_iron())
@@ -163,16 +165,18 @@
 /mob/living/carbon/human/species/familiar/fae/Life()
 	. = ..()
 	// only check this once every few seconds, to avoid lag. also obviously only if we HAVE a summoner, and would be capable of flight normally
-	if(familiar_summoner && !src.has_status_effect(/datum/status_effect/debuff/iron_weakness) && world.time % 20 == 0)
-		var/is_near_owner = (get_dist_3d(src, familiar_summoner) > FAMILIAR_FLIGHT_RANGE)
-		if(!is_near_owner && movement_type == FLYING)
+	if(familiar_summoner && !src.has_status_effect(/datum/status_effect/debuff/iron_weakness) && (world.time > (leash_check_time + 2 SECONDS)))
+		leash_check_time = world.time
+		to_chat(world, span_warning("[get_dist_3d(src, familiar_summoner)]"))
+		var/is_near_owner = (get_dist_3d(src, familiar_summoner) < FAMILIAR_FLIGHT_RANGE)
+		if(!is_near_owner && movement_type & FLYING)
 			if(warned)
 				movement_type = GROUND
 				warned = FALSE
 			else
 				to_chat(src, span_warning("My connection to my summoner wanes, I cannot maintain flight for long at this range!"))
 				warned = TRUE
-		else if(is_near_owner && movement_type == GROUND)
+		else if(is_near_owner && !(movement_type & FLYING))
 			to_chat(src, span_smallgreen("My connection with my summoner bolsters, my flight is restored!"))
 			movement_type = FLYING
 

@@ -25,6 +25,9 @@
 	if(victim.blood_volume <= 0)
 		to_chat(src, span_warning("Sigh. No blood left."))
 		return
+	if(isfamiliar(victim)) // i hate vampcode you can't just set someone's vitae to 0 to turn off the mechanic noOOoo you have to do a snowflakey ass if statement in the
+		to_chat(src, span_warning("This isn't blood...?"))
+		return
 
 	var/datum/antagonist/vampire/VDrinker = mind.has_antag_datum(/datum/antagonist/vampire)
 	var/datum/antagonist/vampire/VVictim = victim.mind?.has_antag_datum(/datum/antagonist/vampire)

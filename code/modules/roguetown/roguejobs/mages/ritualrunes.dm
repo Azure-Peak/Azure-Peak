@@ -431,7 +431,7 @@ GLOBAL_LIST_INIT(t4rune_types, generate_t4rune_types())
 		. += span_info("If you need to cancel a binding attempt, right-click the circle to delete the mob and refund the costs.")
 
 /obj/effect/decal/cleanable/roguerune/arcyne/binding/attack_hand(mob/living/user)
-	if(!summon_mob(user))
+	if(!summon_mob(user) && !summoned_thing)
 		. = ..()
 
 /obj/effect/decal/cleanable/roguerune/arcyne/binding/proc/summon_mob(mob/living/user)
@@ -480,12 +480,12 @@ GLOBAL_LIST_INIT(t4rune_types, generate_t4rune_types())
 			if(F.tutorial_message)
 				spawn(10 SECONDS) // ...to avoid them being caught up in chat spam
 					to_chat(F, F.tutorial_message)
-			return TRUE
+			return F
 		else
 			// nobody has valid familiar prefs. woe!
 			to_chat(user, span_warning("No valid familiar candidate found!"))
 			busy = FALSE
-			return
+			return FALSE
 	sleep(2 SECONDS)
 	return FALSE
 

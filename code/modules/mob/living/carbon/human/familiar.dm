@@ -241,7 +241,7 @@
 	set category = "RoleUnique.Winged Form"
 	set name = "Fly Up"
 
-	if(stat)
+	if(stat || !(movement_type & FLYING))
 		return
 	if(src.pulledby != null)
 		to_chat(src, span_notice("I can't fly away while being grabbed!"))
@@ -258,7 +258,7 @@
 	set category = "RoleUnique.Winged Form"
 	set name = "Fly Down"
 
-	if(stat)
+	if(stat || !(movement_type & FLYING))
 		return
 	if(src.pulledby != null)
 		to_chat(src, span_notice("I can't fly away while being grabbed!"))
