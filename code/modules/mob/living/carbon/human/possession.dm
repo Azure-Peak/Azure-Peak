@@ -48,7 +48,7 @@
 
 ///src is the possessing mob, vessel is the mob to be possessed. role-agnostic and can be called on non-hags safely, have fun. set remove_spells to FALSE if you want the possessor to have access to the possessee's spells. set vessel_skills to TRUE if you want the vessel's skills to be used instead of the possessor's
 /mob/living/carbon/human/proc/possess_vessel(mob/living/carbon/human/vessel, trait_source = TRAIT_GENERIC, remove_spells = TRUE, vessel_skills = FALSE)
-	if(!vessel || QDELING(vessel) || HAS_TRAIT(vessel, TRAIT_POSSESSED)) // we want to make EXTRA sure nobody does anything stupid, here
+	if(!vessel || QDELING(vessel) || HAS_TRAIT(vessel, TRAIT_POSSESSED) || vessel.ai_controller) // we want to make EXTRA sure nobody does anything stupid, here
 		return FALSE
 	var/datum/mind/vessel_orig_mind = vessel.mind // save this reference early incase make_observer fucks with it
 	vessel.mind.current = null // don't do anything funky while we execute

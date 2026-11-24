@@ -211,16 +211,17 @@
 			COOLDOWN_START(curse, possession_prompt, POSSESSION_PROMPT_COOLDOWN)
 			return
 
-	curse.bearer.visible_message(replacetext(replacetext(curse.possession_verbiage, "$src", "[curse.parent]"), "$bearer", "[curse.bearer]"))
-	curse.heresy_severity = curse.heresy_severity_active
-	curse.heresy_desc = curse.heresy_desc_active
-	H.possess_vessel(curse.bearer, TRAIT_POSSESSED_ITEM, FALSE, TRUE)
-	curse.RegisterSignal(curse.bearer, COMSIG_MOB_POSSESS_RELEASE, TYPE_PROC_REF(/datum/component/possessed_item, handle_release))
-	var/mob/dead/observer/eye/screye/displaced_soul/dsoul = curse.bearer.get_displaced_soul()
-	if(dsoul)
-		curse.RegisterSignal(dsoul, COMSIG_DEAD_RESIST, TYPE_PROC_REF(/datum/component/possessed_item, handle_resist))
-	if(curse.bearer_verb)
-		add_verb(curse.bearer, curse.bearer_verb)
+	if(H.possess_vessel(curse.bearer, TRAIT_POSSESSED_ITEM, FALSE, TRUE))
+		curse.bearer.visible_message(replacetext(replacetext(curse.possession_verbiage, "$src", "[curse.parent]"), "$bearer", "[curse.bearer]"))
+		curse.heresy_severity = curse.heresy_severity_active
+		curse.heresy_desc = curse.heresy_desc_active
+
+		curse.RegisterSignal(curse.bearer, COMSIG_MOB_POSSESS_RELEASE, TYPE_PROC_REF(/datum/component/possessed_item, handle_release))
+		var/mob/dead/observer/eye/screye/displaced_soul/dsoul = curse.bearer.get_displaced_soul()
+		if(dsoul)
+			curse.RegisterSignal(dsoul, COMSIG_DEAD_RESIST, TYPE_PROC_REF(/datum/component/possessed_item, handle_resist))
+		if(curse.bearer_verb)
+			add_verb(curse.bearer, curse.bearer_verb)
 
 #undef POSSESSION_END_COOLDOWN
 #undef CURSE_CORRUPTION_THRESHOLD
