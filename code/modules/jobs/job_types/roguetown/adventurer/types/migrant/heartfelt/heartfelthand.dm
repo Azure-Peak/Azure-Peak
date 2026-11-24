@@ -1,11 +1,9 @@
 /datum/job/roguetown/heartfelt/hand
 	title = "Hand of Heartfelt"
-	tutorial = "You are the Hand of Heartfelt, burdened by the perception in protecting your Lord's domain. \
-	However, with the increase in banditry, necromancy, deadite risings, and increasing sea raider raids, there are rumors abound that Heartfelt is not what it used to be. \
-	Travellers often warn of Heartfelt having fallen already, and words of secretive cultists isn't unheard of. \
-	Despite doubts from others, your loyalty remains steadfast as you journey to the Peaks, determined to fulfill your duties."
+	tutorial = "You are the Hand of Heartfelt, the trusted right-hand of the Count of Heartfelt. \
+	Certain circumstances have compelled your Lord to visit the capital. Whether to request more aid for the borderlands against Aavnic raids, reconstruction, canal funding, or perhaps intrigue or a plot to finally seize the throne of Azuria, you have arrived here as part of their entourage."
 	allowed_sexes = list(MALE, FEMALE)
-	forbidden_races = list(RACES_DESPISED)
+	forbidden_races = list(RACES_DESPISED RACES_HEARTFELT)
 	outfit = /datum/outfit/job/roguetown/heartfelt/hand
 	total_positions = 1
 	spawn_positions = 0
@@ -37,8 +35,8 @@
 
 /datum/advclass/heartfelt/hand/marshal
 	name = "Marshal of Heartfelt"
-	tutorial = "Renowned for your command of war, you laid down your blade in peaceful years, but peace died with Heartfelt. \
-	Pressed once more into service by tragedy, you climb towards the Peaks."
+	tutorial = "You are the Marshal of Heartfelt. You spent your daes as a dutiful knight, maybe even the best, in the service of the Count. \
+	Earning your accolades through military tactics and victories, you're renowned for your leadership in battle."
 	outfit = /datum/outfit/job/roguetown/heartfelt/hand/marshal
 	category_tags = list(CTAG_HFT_HAND)
 	traits_applied = list(TRAIT_HEAVYARMOR, TRAIT_NOBLE, TRAIT_HEARTFELT, TRAIT_STEELHEARTED)
@@ -111,9 +109,8 @@
 
 /datum/advclass/heartfelt/hand/steward
 	name = "Steward of Heartfelt"
-	tutorial = "You are the Steward of Heartfelt, once the quiet architect behind the barony's \
-	order—keeper of ledgers, harvests, and the lifeblood that sustained your people. \
-	Pressed once more into service by tragedy, you climb towards the Peaks."
+	tutorial = "Coin, Coin, Coin! Oh beautiful coin: You're addicted to it, and you hold the position as the Count of Heartfelt's personal treasurer of both coin and information. \
+	You know the power silver and gold has on a man's mortal soul, and you know just what lengths they'll go to in order to get even more."
 	outfit = /datum/outfit/job/roguetown/heartfelt/hand/steward
 	category_tags = list(CTAG_HFT_HAND)
 	traits_applied = list(TRAIT_SEEPRICES, TRAIT_HEARTFELT)
@@ -170,8 +167,8 @@
 
 /datum/advclass/heartfelt/hand/advisor
 	name = "Advisor of Heartfelt"
-	tutorial = "You are the Advisor of Heartfelt, trusted for your measured counsel and keen insight into matters of state. \
-	Bound once more to serve in the wake of ruin, you climb towards the Peaks."
+	tutorial = "You are the Advisor of Heartfelt. You have played researcher and confidant to the Count for so long that you are a vault of knowledge, something you exploit with potent conviction. \
+	Let no man ever forget the knowledge you wield. You've read more books than any marshal or steward could ever claim to."
 	outfit = /datum/outfit/job/roguetown/heartfelt/hand/advisor
 	category_tags = list(CTAG_HFT_HAND)
 	traits_applied = list(TRAIT_ARCYNE, TRAIT_INTELLECTUAL, TRAIT_SEEPRICES_SHITTY, TRAIT_HEARTFELT, TRAIT_ALCHEMY_EXPERT)

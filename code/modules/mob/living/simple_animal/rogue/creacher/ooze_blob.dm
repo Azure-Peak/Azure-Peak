@@ -126,6 +126,8 @@
 	name = "pure ooze"
 	desc = "An amorphous remnant of a Murkling, formed from a lifeless body. Splash it with blessed water or red and watch as the body reforms."
 	initial_language_holder = /datum/language_holder/pure_ooze
+	health = OOZE_PURE_HEALTH
+	maxHealth = OOZE_PURE_HEALTH
 	icon = 'icons/roguetown/mob/ooze_blob.dmi'
 	hud_type = /datum/hud/dextrous/oozeling
 	rot_type = null

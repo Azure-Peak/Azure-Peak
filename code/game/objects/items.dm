@@ -219,6 +219,7 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 	var/bloody_icon_state = "itemblood"
 	var/dam_icon = 'icons/effects/item_damage32.dmi'
 	var/dam_icon_state = "itemdamaged"
+	var/mutable_appearance/damage_overlay
 	var/boobed = FALSE
 
 	var/firefuel = 0 //add this idiot
@@ -1767,7 +1768,9 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 	return TRUE
 
 /obj/item/proc/update_damaged_state()
-	cut_overlays()
+	if(damage_overlay)
+		cut_overlay(damage_overlay)
+		damage_overlay = null
 	if (!obj_broken)
 		return
 	var/icon/damaged_icon = icon(initial(icon), icon_state, , TRUE)
@@ -1775,6 +1778,7 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 	damaged_icon.Blend(icon(dam_icon, dam_icon_state), ICON_MULTIPLY)
 	var/mutable_appearance/damage = new(damaged_icon)
 	damage.alpha = 150
+	damage_overlay = damage
 	add_overlay(damage)
 
 /obj/item/proc/repair_coverage()

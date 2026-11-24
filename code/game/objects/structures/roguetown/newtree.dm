@@ -116,23 +116,13 @@
 		if(!L.can_zTravel(target, UP))
 			to_chat(user, span_warning("I can't climb there."))
 			return
-		var/used_time = 3 SECONDS
+		var/used_time = L.get_tree_climb_time()
 		var/exp_to_gain = 0
-		var/myskill = SKILL_LEVEL_NOVICE // default for NPCs
 		if(L.mind)
-			myskill = L.get_skill_level(/datum/skill/misc/climbing)
 			if(HAS_TRAIT(L, TRAIT_WOODWALKER))
 				exp_to_gain = L.STAINT
 			else
 				exp_to_gain = L.STAINT/2
-			var/obj/structure/table/TA = locate() in L.loc
-			if(TA)
-				myskill += 1
-			else
-				var/obj/structure/chair/CH = locate() in L.loc
-				if(CH)
-					myskill += 1
-			used_time = max(70 - (myskill * 10) - (L.STASPD * 3), (HAS_TRAIT(L, TRAIT_WOODWALKER) ? 15 : 30))
 		if(!L.start_climb())
 			return
 		playsound(user, 'sound/foley/climb.ogg', 100, TRUE)
@@ -148,6 +138,20 @@
 			playsound(user, 'sound/foley/climb.ogg', 100, TRUE)
 			if(L.mind) // idk just following whats going on above
 				L.mind.add_sleep_experience(/datum/skill/misc/climbing, exp_to_gain, FALSE)
+
+/mob/living/proc/get_tree_climb_time(use_furniture = TRUE)
+	if(!mind)
+		return 3 SECONDS
+	var/climbing_skill = get_skill_level(/datum/skill/misc/climbing)
+	if(use_furniture)
+		var/obj/structure/table/table = locate() in loc
+		var/obj/structure/chair/chair = locate() in loc
+		if(table || chair)
+			climbing_skill++
+	var/minimum_time = 3 SECONDS
+	if(HAS_TRAIT(src, TRAIT_WOODWALKER))
+		minimum_time = 1.5 SECONDS
+	return max(70 - climbing_skill * 10 - STASPD * 3, minimum_time)
 
 /obj/structure/flora/newtree/attacked_by(obj/item/I, mob/living/user)
 	var/was_destroyed = obj_destroyed
@@ -336,6 +340,40 @@
 /obj/structure/flora/newbranch/update_icon_state()
 	icon_state = ""
 
+/obj/structure/flora/newbranch/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Left-click a nearby branch with an empty hand to climb onto it. Climbing skill, Speed, and Woodwalker work as they do when climbing a tree.")
+
+/obj/structure/flora/newbranch/attack_hand(mob/user)
+	. = ..()
+	if(. || !isliving(user))
+		return
+	var/mob/living/climber = user
+	if(climber.stat != CONSCIOUS || climber.incapacitated() || !(climber.mobility_flags & MOBILITY_STAND))
+		return
+	if(!isturf(loc) || climber.loc == loc || !climber.Adjacent(src))
+		return
+	if(!climber.start_climb())
+		return
+	if(climber.m_intent != MOVE_INTENT_SNEAK)
+		playsound(climber, 'sound/foley/climb.ogg', 100, TRUE)
+		climber.visible_message(span_warning("[climber] starts climbing onto [src]."), span_warning("I start climbing onto [src]..."))
+	var/climbed = do_after(climber,
+		climber.get_tree_climb_time(use_furniture = FALSE), target = src,
+		extra_checks = climber.climb_check_callback())
+	climber.end_climb()
+	if(!climbed || QDELETED(src) || !climber.Adjacent(src))
+		return
+	if(!climber.Move(get_turf(src)))
+		return
+	if(climber.m_intent != MOVE_INTENT_SNEAK)
+		playsound(climber, 'sound/foley/climb.ogg', 100, TRUE)
+		climber.visible_message(span_notice("[climber] climbs onto [src]."), span_notice("I climb onto [src]."))
+	if(climber.mind)
+		var/experience = HAS_TRAIT(climber, TRAIT_WOODWALKER) ? climber.STAINT : climber.STAINT / 2
+		climber.mind.add_sleep_experience(/datum/skill/misc/climbing, experience, FALSE)
+	return TRUE
+
 /obj/structure/flora/newbranch/update_overlays()
 	. = ..()
 	var/mutable_appearance/M
@@ -413,6 +451,11 @@
 	density = FALSE
 	max_integrity = 10
 	var/leaf_season = FLORA_SEASON_SPRING
+
+/obj/structure/flora/newleaf/attack_hand(mob/user)
+	. = ..()
+	if(!. && isopenspace(loc))
+		return loc.attack_hand(user)
 
 /obj/structure/flora/newleaf/proc/refresh_leaf_icon()
 	icon_state = "leaf-[leaf_season]-[leaf_variant]"

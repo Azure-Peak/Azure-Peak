@@ -1,5 +1,0 @@
-author: "WeNeedMorePhoron"
-delete-after: True
-changes:
-  - rscadd: "Animals now drop barding, caparison, saddlebags etc. when they are destroyed / rot etc."
-  - rscadd: "Tamed animals now rot / dust on a 45 / 60 minutes timer, much longer than normal animals. However, they will still turn deadite at nearly the same time."

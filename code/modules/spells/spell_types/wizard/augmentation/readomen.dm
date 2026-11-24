@@ -35,10 +35,10 @@
 
 	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
 
-	var/current_mode = 1
-	var/list/modes = list(
-		list("name" = "Read Omen", "tag" = "OMEN", "icon" = "readomen", "invocation" = "Caelum Feri!"),
-		list("name" = "Orb of Wisdom", "tag" = "ORB", "icon" = "readomen", "invocation" = "Feri Fulmine Hostem!"),
+	default_maptext_x = 5
+	modes = list(
+		list("name" = "Read Omen", "tag" = "OMEN", "invocation" = "Miror cur!", "color" = GLOW_COLOR_LIGHTNING), // "I wonder why"
+		list("name" = "Orb of Wisdom", "tag" = "ORB", "invocation" = "Dic mihi cur!", "color" = GLOW_COLOR_LIGHTNING), // "Tell me why"
 	)
 
 	var/list/reign_messages = list(
@@ -60,38 +60,6 @@
 	)
 
 	var/obj/item/rogueweapon/conjured_orb = null
-
-/datum/action/cooldown/spell/readomen/Grant(mob/grant_to)
-	. = ..()
-	apply_mode(current_mode)
-
-/datum/action/cooldown/spell/readomen/proc/apply_mode(index)
-	var/list/mode = modes[index]
-	name = mode["name"]
-	button_icon_state = mode["icon"]
-	invocations = list(mode["invocation"])
-	build_all_button_icons()
-	update_mode_maptext(mode["tag"])
-
-/datum/action/cooldown/spell/readomen/toggle_alt_mode(mob/user)
-	current_mode = (current_mode % length(modes)) + 1
-	apply_mode(current_mode)
-	to_chat(user, span_notice("[name]: [modes[current_mode]["name"]] mode."))
-	return TRUE
-
-/datum/action/cooldown/spell/readomen/proc/update_mode_maptext(tag)
-	for(var/datum/hud/hud as anything in viewers)
-		var/atom/movable/screen/movable/action_button/B = viewers[hud]
-		var/atom/movable/screen/arc_maptext_holder/holder
-		for(var/atom/movable/screen/arc_maptext_holder/existing in B.vis_contents)
-			holder = existing
-			break
-		if(!holder)
-			holder = new(B)
-			B.vis_contents.Add(holder)
-		holder.maptext = MAPTEXT(tag)
-		holder.maptext_x = 5
-		holder.color = GLOW_COLOR_LIGHTNING
 
 /datum/action/cooldown/spell/readomen/cast()
 	. = ..()
