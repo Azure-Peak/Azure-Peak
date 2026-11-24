@@ -423,10 +423,7 @@ SUBSYSTEM_DEF(treasury)
 		return
 
 	// Receivership: salaries are universally suspended for the duration of bankruptcy.
-	// SSeconomy.daily_tick() still runs so the economy keeps churning autonomously.
 	if(treasury_state == TREASURY_BANKRUPTCY)
-		if(SSeconomy)
-			SSeconomy.daily_tick()
 		return
 
 	var/projected_total = get_expected_wage_outlay()
@@ -439,14 +436,10 @@ SUBSYSTEM_DEF(treasury)
 		if(treasury_state == TREASURY_NORMAL)
 			if(atc_loan_arrears_consumed)
 				enter_bankruptcy()
-				if(SSeconomy)
-					SSeconomy.daily_tick()
 				return
 			enter_arrears(projected_total)
 		else if(treasury_state == TREASURY_IN_ARREARS)
 			enter_bankruptcy()
-			if(SSeconomy)
-				SSeconomy.daily_tick()
 			return
 
 	var/list/payments = steward_machine.daily_payments
@@ -461,9 +454,6 @@ SUBSYSTEM_DEF(treasury)
 			continue
 		if(give_money_account(payment_amount, owner, "Daily Wage", is_salary = TRUE))
 			record_round_statistic(STATS_WAGES_PAID, payment_amount)
-
-	if(SSeconomy)
-		SSeconomy.daily_tick()
 
 /datum/controller/subsystem/treasury/proc/tick_rumor_points()
 	var/active = get_active_player_count()

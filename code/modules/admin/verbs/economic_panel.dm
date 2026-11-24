@@ -318,7 +318,7 @@ GLOBAL_DATUM_INIT(economic_panel, /datum/economic_panel, new)
 		if("advance_day")
 			GLOB.dayspassed++
 			// Run the full dawn cadence so testing matches in-game timing: rural tax,
-			// loans, pledge, estate incomes, then payroll (which itself triggers SSeconomy.daily_tick).
+			// loans, pledge, estate incomes, then payroll, then SSeconomy.daily_tick.
 			// Rural mints first so it's in the pool when payroll checks solvency. Payroll runs last
 			// because it's the call that may transition the solvency state.
 			SStreasury.tick_rural_tax()
@@ -326,6 +326,7 @@ GLOBAL_DATUM_INIT(economic_panel, /datum/economic_panel, new)
 			SStreasury.tick_burgher_pledge()
 			SSeconomy.pay_estates()
 			SStreasury.distribute_daily_payments()
+			SSeconomy.daily_tick()
 			SStreasury.tick_poll_levy_arrears()
 			SStreasury.royal_subsidy_spent = list()
 			for(var/mob/living/carbon/human/H in GLOB.human_list)
