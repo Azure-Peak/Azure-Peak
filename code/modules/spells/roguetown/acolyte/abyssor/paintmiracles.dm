@@ -494,8 +494,7 @@
 		return FALSE
 
 	unset_click_ability(user) // otherwise our click intercept sticks around and causes issues
-	create_undine(user, target_turf)
-	return TRUE
+	return !!create_undine(user, target_turf)
 
 /proc/create_undine(mob/living/carbon/human/user, turf/target_turf)
 	if(!user.mind?.active || HAS_TRAIT(user, TRAIT_POSSESSED))
