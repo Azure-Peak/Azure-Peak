@@ -71,10 +71,7 @@
 	data["title"] = ""
 	data["subtitle"] = ""
 
-	var/list/rows = list()
-	for(var/datum/roguestock/stockpile/R in SStreasury.stockpile_datums)
-		rows += list(R.market_row())
-	data["stocks"] = rows
+	withdraw_tab.add_stock_rows(data)
 
 	// The treasure-mint bounty was removed; no bounty datums remain. Keep the key so the
 	// Stockpile TGUI's bounty section simply stays hidden (it gates on bounties.length).

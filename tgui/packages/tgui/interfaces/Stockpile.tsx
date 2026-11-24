@@ -86,6 +86,7 @@ type Data = {
   wage_reserve: number;
   below_reserve: BooleanLike;
   stocks: StockRow[];
+  conditions_count: number;
   bounties: Bounty[];
   no_deposit: BooleanLike;
   export_licence?: { left: number; total: number };
@@ -302,11 +303,9 @@ const CONDITIONS_KEY = '__conditions__';
 export const Stockpile = () => {
   const { act, data } = useBackend<Data>();
   const compact = !!data.compact;
-  const conditionsCount = data.stocks.filter((r) => !!r.event_tag).length;
+  const conditionsCount = data.conditions_count;
   const isConditionsTab = data.category === CONDITIONS_KEY;
-  const filtered = isConditionsTab
-    ? data.stocks.filter((r) => !!r.event_tag)
-    : data.stocks.filter((r) => r.category === data.category);
+  const rows = data.stocks;
   const noDeposit = !!data.no_deposit;
   return (
     <Window width={780} height={720} theme="parchment">
@@ -398,8 +397,8 @@ export const Stockpile = () => {
 
           <div style={sectionHeaderStyle}>
             {isConditionsTab
-              ? `Market Conditions (${filtered.length})`
-              : `${data.category} (${filtered.length})`}
+              ? `Market Conditions (${rows.length})`
+              : `${data.category} (${rows.length})`}
           </div>
           <div
             style={{
@@ -423,7 +422,7 @@ export const Stockpile = () => {
               </>
             )}
           </div>
-          {filtered.length === 0 ? (
+          {rows.length === 0 ? (
             <div
               style={{
                 ...cardStyle,
@@ -435,7 +434,7 @@ export const Stockpile = () => {
               No stock in this category.
             </div>
           ) : (
-            filtered.map((row) => (
+            rows.map((row) => (
               <StockRowView
                 key={row.ref}
                 row={row}

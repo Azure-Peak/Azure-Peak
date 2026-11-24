@@ -72,10 +72,7 @@
 	data["title"] = "Vomitorium"
 	data["subtitle"] = "Put in mammon, then withdraw goods from the local stockpile."
 
-	var/list/rows = list()
-	for(var/datum/roguestock/stockpile/R in SStreasury.stockpile_datums)
-		rows += list(R.market_row())
-	data["stocks"] = rows
+	withdraw_tab.add_stock_rows(data)
 	data["bounties"] = list()
 	return data
 

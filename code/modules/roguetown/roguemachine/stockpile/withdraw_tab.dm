@@ -23,6 +23,20 @@
 	budget = refund_pouch(budget, user)
 	return TRUE
 
+/datum/withdraw_tab/proc/add_stock_rows(list/data)
+	var/list/rows = list()
+	var/conditions = 0
+	var/conditions_tab = current_category == "__conditions__"
+	for(var/datum/roguestock/stockpile/R in SStreasury.stockpile_datums)
+		var/list/row = R.market_row()
+		var/has_event = row["event_tag"] ? TRUE : FALSE
+		if(has_event)
+			conditions++
+		if(conditions_tab ? has_event : R.category == current_category)
+			rows += list(row)
+	data["stocks"] = rows
+	data["conditions_count"] = conditions
+
 /datum/withdraw_tab/proc/do_withdraw(datum/roguestock/D, mob/user)
 	if(!D || !parent_structure)
 		return FALSE
