@@ -505,7 +505,8 @@
 	var/mutable_appearance/ico = new(user.appearance)
 	user.setDir(tmpdir)
 	user.set_resting(TRUE, TRUE)
-	ico.color = COLOR_BLUE_LIGHT
+	var/turf/open/water/wturf = target_turf
+	ico.color = "#6a9295"
 	ico.alpha = 190 // watery effect without being TOO hard to see
 	projection.appearance = ico
 	var/datum/language_holder/lang = user.mind.get_language_holder()
@@ -576,9 +577,6 @@
 	sound = 'sound/magic/abyssor_splash.ogg'
 	spell_color = "#330066"
 
-	click_to_activate = FALSE
-	self_cast_possible = TRUE
-	charge_required = FALSE
 	cooldown_time = 1 SECONDS
 
 	charge_required = TRUE
@@ -670,8 +668,8 @@
 	if(!creator || !istype(get_turf(src), valid_turf_type))
 		return
 	var/turf/origin = get_turf(creator)
-	if(create_undine(creator, get_turf(src)))
+	if(alert(creator, "You feel a your spirit tugged towards the waves - will you answer the call of your talisman?", "THE WAVES SWELL", "Yes", "No") != "No" && create_undine(creator, get_turf(src)))
 		origin.visible_message(span_warning("[creator] vanishes into the scent of the sea!"))
 		qdel(src)
 	else
-		visible_message(span_info("...but nothing seems to happen?"))
+		visible_message(span_info("The talisman remains silent, its call unanswered."))
