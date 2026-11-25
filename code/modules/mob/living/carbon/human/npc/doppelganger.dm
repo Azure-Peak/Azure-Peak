@@ -8,6 +8,8 @@
 #define DOPPEL_NAME_PREFIX "Wyrd"
 #define DOPPEL_SIZE_UP_TIME (4 SECONDS)
 #define DOPPEL_FRESH_FACE_PATIENCE (12 SECONDS)
+#define DOPPEL_SKILL_DEFICIT 1
+#define DOPPEL_STAT_DEFICIT 1
 
 /mob/living/carbon/human/species/human/northern/doppelganger
 	ai_controller = /datum/ai_controller/human_npc
@@ -171,11 +173,12 @@
 	form_registered = TRUE
 	mirror_gear(target)
 	var/controller_type = mirror_magic(target)
-	for(var/obj/item/equipped_item in get_equipped_items(TRUE) + held_items)
-		equipped_item.AddComponent(/datum/component/item_on_drop/dust)
+	if(!controller_type && _find_archer_bow(src))
+		controller_type = /datum/ai_controller/human_npc/archer
 	if(!client)
-		for(var/obj/item/held_item in held_items)
-			ADD_TRAIT(held_item, TRAIT_NODROP, TRAIT_GENERIC)
+		for(var/obj/item/weapon in GetAllContents(/obj/item))
+			if((ai_is_melee_weapon(weapon) && !istype(weapon, /obj/item/rogueweapon/scabbard)) || istype(weapon, /obj/item/gun))
+				ADD_TRAIT(weapon, TRAIT_NODROP, TRAIT_GENERIC)
 		if(controller_type)
 			upgrade_ai_controller(controller_type)
 	regenerate_icons()
@@ -187,8 +190,8 @@
 		return
 	if(istype(ai_controller))
 		QDEL_NULL(ai_controller)
-	for(var/obj/item/held_item in held_items)
-		REMOVE_TRAIT(held_item, TRAIT_NODROP, TRAIT_GENERIC)
+	for(var/obj/item/weapon in GetAllContents(/obj/item))
+		REMOVE_TRAIT(weapon, TRAIT_NODROP, TRAIT_GENERIC)
 	if(cloned_target)
 		to_chat(src, span_notice("You are a doppelganger wearing the form of [copied_name]."))
 		return
@@ -312,8 +315,8 @@
 
 	STASTR = target.STASTR
 	STASPD = target.STASPD
-	STACON = target.STACON
-	STAWIL = target.STAWIL
+	STACON = max(1, target.STACON - DOPPEL_STAT_DEFICIT)
+	STAWIL = max(1, target.STAWIL - DOPPEL_STAT_DEFICIT)
 	STAPER = target.STAPER
 	STAINT = target.STAINT
 	STALUC = target.STALUC
@@ -321,7 +324,7 @@
 
 /mob/living/carbon/human/species/human/northern/doppelganger/proc/mirror_training(mob/living/carbon/human/target)
 	for(var/skill in GLOB.npc_melee_skills + GLOB.npc_brawl_skills + GLOB.npc_athletics_skills + GLOB.npc_survival_skills + ranged_skills + /datum/skill/combat/arcyne)
-		var/their_level = target.get_skill_level(skill)
+		var/their_level = max(SKILL_LEVEL_NONE, target.get_skill_level(skill) - DOPPEL_SKILL_DEFICIT)
 		adjust_skillrank_up_to(skill, their_level, TRUE)
 		adjust_skillrank_down_to(skill, their_level, TRUE)
 	for(var/trait in mirrored_traits)
@@ -370,6 +373,8 @@
 	if(QDELETED(copy))
 		return null
 	copy.color = original.color
+	copy.AddComponent(/datum/component/item_on_drop/dust)
+
 	var/datum/component/holster/their_holster = original.GetComponent(/datum/component/holster)
 	var/datum/component/holster/our_holster = copy.GetComponent(/datum/component/holster)
 	if(their_holster?.sheathed && our_holster && !our_holster.sheathed)
@@ -378,13 +383,35 @@
 			blade.forceMove(copy)
 			our_holster.sheathed = blade
 			our_holster.update_icon()
-			blade.AddComponent(/datum/component/item_on_drop/dust)
+
+	var/datum/component/storage/our_storage = copy.GetComponent(/datum/component/storage)
+	if(our_storage)
+		for(var/obj/item/prefilled in copy.held_contents())
+			our_storage.remove_from_storage(prefilled, null)
+			qdel(prefilled)
+		for(var/obj/item/stored in original.held_contents())
+			if(!isweapon(stored) && !istype(stored, /obj/item/gun))
+				continue
+			var/obj/item/stored_copy = copy_item(stored)
+			if(stored_copy && !(our_storage.can_be_inserted(stored_copy, TRUE, src) && our_storage.handle_item_insertion(stored_copy, TRUE, src)))
+				qdel(stored_copy)
+
+	if(istype(copy, /obj/item/quiver))
+		var/obj/item/quiver/their_quiver = original
+		var/obj/item/quiver/our_quiver = copy
+		QDEL_LIST(our_quiver.arrows)
+		for(var/obj/item/arrow in their_quiver.arrows)
+			var/obj/item/arrow_copy = copy_item(arrow)
+			if(arrow_copy)
+				arrow_copy.forceMove(our_quiver)
+				our_quiver.arrows += arrow_copy
+		our_quiver.update_icon()
 	return copy
 
 /mob/living/carbon/human/species/human/northern/doppelganger/proc/mirror_magic(mob/living/carbon/human/target)
 	var/controller_type
-	adjust_skillrank_up_to(/datum/skill/magic/arcane, min(target.get_skill_level(/datum/skill/magic/arcane), SKILL_LEVEL_EXPERT), TRUE)
-	adjust_skillrank_up_to(/datum/skill/magic/holy, min(target.get_skill_level(/datum/skill/magic/holy), SKILL_LEVEL_EXPERT), TRUE)
+	adjust_skillrank_up_to(/datum/skill/magic/arcane, min(target.get_skill_level(/datum/skill/magic/arcane) - DOPPEL_SKILL_DEFICIT, SKILL_LEVEL_EXPERT), TRUE)
+	adjust_skillrank_up_to(/datum/skill/magic/holy, min(target.get_skill_level(/datum/skill/magic/holy) - DOPPEL_SKILL_DEFICIT, SKILL_LEVEL_EXPERT), TRUE)
 
 	var/datum/status_effect/buff/arcyne_momentum/their_momentum = target.has_status_effect(/datum/status_effect/buff/arcyne_momentum)
 	if(their_momentum?.chant)
@@ -535,3 +562,5 @@
 #undef DOPPEL_NAME_PREFIX
 #undef DOPPEL_SIZE_UP_TIME
 #undef DOPPEL_FRESH_FACE_PATIENCE
+#undef DOPPEL_SKILL_DEFICIT
+#undef DOPPEL_STAT_DEFICIT

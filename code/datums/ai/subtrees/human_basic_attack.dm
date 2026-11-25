@@ -214,7 +214,7 @@
 	if(!stowed)
 		return FALSE
 	var/datum/component/holster/holster = isitem(stowed.loc) ? stowed.loc.GetComponent(/datum/component/holster) : null
-	if(!_draw_into_hand(pawn, stowed, active))
+	if(!ai_draw_stowed_weapon(pawn, stowed, active))
 		return FALSE
 	npc_spend_input(pawn, pawn.npc_reaction_time() + (holster ? holster.sheathe_time : 0))
 	return TRUE

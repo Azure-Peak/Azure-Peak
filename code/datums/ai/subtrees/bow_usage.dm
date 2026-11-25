@@ -368,8 +368,8 @@
 		_draw_into_hand(pawn, bow, active = TRUE)
 
 /proc/_stash_melee_weapon(datum/ai_controller/controller, mob/living/carbon/human/pawn, obj/item/weapon, remember = TRUE)
-	var/stashed = FALSE
-	if(pawn.belt)
+	var/stashed = ai_sheathe_weapon(pawn, weapon)
+	if(!stashed && pawn.belt)
 		for(var/slot in list(SLOT_BELT_R, SLOT_BELT_L))
 			if(!pawn.get_item_by_slot(slot) && pawn.equip_to_slot_if_possible(weapon, slot, disable_warning = TRUE, bypass_equip_delay_self = TRUE))
 				stashed = TRUE
@@ -405,7 +405,7 @@
 			stowed = TRUE
 		if(!stowed)
 			return
-	_draw_into_hand(pawn, stashed, active = TRUE)
+	ai_draw_stowed_weapon(pawn, stashed, active = TRUE)
 	controller.clear_blackboard_key(BB_ARCHER_NPC_STASHED_WEAPON)
 
 /proc/_quiver_has_ammo(mob/living/carbon/human/pawn)
