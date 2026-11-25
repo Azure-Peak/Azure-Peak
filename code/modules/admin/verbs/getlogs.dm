@@ -279,7 +279,7 @@ GENERAL_PROTECT_DATUM(/datum/log_round)
 	/// Source names whose entries are shown
 	var/list/shown = list()
 	/// Categories unticked by the admin
-	var/list/hidden = list()
+	var/list/hidden = list(LOG_CATEGORY_SUBTLE = TRUE)
 	/// Text an entry must contain
 	var/search = ""
 	/// Whether search is a regex
@@ -473,6 +473,8 @@ GENERAL_PROTECT_DATUM(/datum/log_viewer)
 					return
 				hidden[cat] = TRUE
 			log_admin("[key_name(usr)] toggled log category [cat] [hidden[cat] ? "off" : "on"] in the log viewer.")
+			if(cat == LOG_CATEGORY_SUBTLE && !hidden[cat])
+				message_admins("[key_name_admin(usr)] turned on subtle logs in the log viewer.")
 			kick()
 			return TRUE
 		if("filter")
@@ -515,7 +517,7 @@ GENERAL_PROTECT_DATUM(/datum/log_viewer)
 			return TRUE
 		if("clear")
 			unfilter()
-			hidden = list()
+			hidden = list(LOG_CATEGORY_SUBTLE = TRUE)
 			page = 1
 			focus = null
 			kick()

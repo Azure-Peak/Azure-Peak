@@ -123,6 +123,9 @@
 /proc/log_emote(text)
 	logger.Log(LOG_CATEGORY_GAME_EMOTE, text)
 
+/proc/log_subtle(text)
+	logger.Log(LOG_CATEGORY_SUBTLE, text)
+
 /proc/log_prayer(text)
 	logger.Log(LOG_CATEGORY_GAME_PRAYER, text)
 

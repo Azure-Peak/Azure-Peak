@@ -1338,6 +1338,8 @@
 			return
 
 		log_admin_view(M, "had their individual logs viewed")
+		if(text2num(href_list["log_type"]) == INDIVIDUAL_SUBTLE_LOG)
+			log_admin_view(M, "had their subtle logs viewed", TRUE)
 		show_individual_logging_panel(M, href_list["log_src"], href_list["log_type"])
 	else if(href_list["examine_player"])
 		if(!check_rights(R_ADMIN))
