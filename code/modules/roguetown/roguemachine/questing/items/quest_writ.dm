@@ -142,7 +142,7 @@ GLOBAL_LIST_EMPTY(quest_scrolls)
 	return null
 
 /obj/item/quest_writ/proc/target_whisper()
-	if(!assigned_quest || assigned_quest.complete)
+	if(!assigned_quest || assigned_quest.complete || !assigned_quest.scroll_whispers)
 		return
 	var/mob/living/quest_bearer = get_carrying_bearer()
 	if(opened && quest_bearer)
