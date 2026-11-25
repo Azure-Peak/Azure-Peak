@@ -532,7 +532,7 @@ This is the proc mobs get to turn into a ghost. Forked from ghostize due to comp
 		var/area/A = V
 		if(!A.hidden)
 			filtered += A
-	var/area/thearea	= tgui_input_list(usr, "Area to jump to", "BOOYEA", null|filtered)
+	var/area/thearea	= input(usr, "Area to jump to", "BOOYEA") as null|anything in filtered
 
 	if(!thearea)
 		return
@@ -557,7 +557,7 @@ This is the proc mobs get to turn into a ghost. Forked from ghostize due to comp
 	else
 		mobs = getpois(mobs_only=TRUE,skip_mindless=TRUE)
 
-	var/input = tgui_input_list(usr, "Who?!", "Haunt", null|mobs)
+	var/input = input(usr, "Who?!", "Haunt", null) as null|anything in mobs
 	var/mob/target = mobs[input]
 	ManualFollow(target)
 
@@ -623,7 +623,7 @@ This is the proc mobs get to turn into a ghost. Forked from ghostize due to comp
 		var/target = null		//Chosen target.
 
 		dest += getpois(mobs_only=TRUE) //Fill list, prompt user with list
-		target = tgui_input_list(usr, "Please, select a player!", "Jump to Mob", null|dest)
+		target = input(usr, "Please, select a player!", "Jump to Mob", null) as null|anything in dest
 
 		if (!target)//Make sure we actually have a target
 			return
@@ -715,7 +715,7 @@ This is the proc mobs get to turn into a ghost. Forked from ghostize due to comp
 		if(!(L in GLOB.player_list) && !L.mind)
 			possessible += L
 
-	var/mob/living/target = tgui_input_list(usr, "Your new life begins today!", "Possess Mob", null|sortNames(possessible))
+	var/mob/living/target = input(usr, "Your new life begins today!", "Possess Mob", null) as null|anything in sortNames(possessible)
 
 	if(!target)
 		return FALSE
@@ -843,7 +843,7 @@ This is the proc mobs get to turn into a ghost. Forked from ghostize due to comp
 
 	var/eye_name = null
 
-	eye_name = tgui_input_list(usr, "Please, select a player!", "Observe", null|creatures)
+	eye_name = input(usr, "Please, select a player!", "Observe", null) as null|anything in creatures
 
 	if (!eye_name)
 		return
