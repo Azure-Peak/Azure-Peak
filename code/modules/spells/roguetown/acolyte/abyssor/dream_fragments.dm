@@ -64,10 +64,20 @@ GLOBAL_DATUM_INIT(dream_omens_handler, /datum/dream_omens_handler, new)
 	if(!ishuman(parent))
 		return COMPONENT_INCOMPATIBLE
 	var/mob/living/carbon/human/H = parent
-	H.Sleeping(3 SECONDS) // aura
+	H.apply_status_effect(/datum/status_effect/debuff/mishap_blindness/abyssor) // instead of putting you to sleep we just blind you for a bit so it's less jarring/abusable (not that it's rly that abusable in the first place)
 	to_chat(parent, span_purple(dream_text))
 	apply_buff()
 	QDEL_IN(src, DREAM_BUFF_DURATION) // only start the timer once the buff is actually applied
+
+/atom/movable/screen/alert/status_effect/waking_dream
+	name = "Waking Dream"
+	desc = "A wave of drowsiness overtakes me, a dream flashing through my mind...!"
+	icon_state = "sleepy"
+
+/datum/status_effect/debuff/mishap_blindness/abyssor
+	id = "dream_blindness"
+	duration = 3 SECONDS // it's just for aura
+	alert_type = /atom/movable/screen/alert/status_effect/waking_dream
 
 /datum/component/dream_fragment/Destroy(force, silent)
 	to_chat(parent, span_warning("The guidance of dream fades..."))
