@@ -269,7 +269,7 @@ GLOBAL_DATUM_INIT(dream_omens_handler, /datum/dream_omens_handler, new)
 		var/discipline = pick(sages)
 		. += "To learn the way of [discipline], seek the guidance of [sages[discipline]]... "
 		sages -= discipline
-	. = copytext(., 0, -1) + "\". You wake with a fleeting sliver of moonlight behind your eyes..." // trim the trailing space, finish the quote
+	. = copytext(., 1, -1) + "\". You wake with a fleeting sliver of moonlight behind your eyes..." // trim the trailing space, finish the quote
 
 /datum/component/dream_fragment/int/proc/get_sage_name(stat)
 	if(!GLOB.featured_stats[stat] || !LAZYLEN(GLOB.featured_stats[stat]["entries"]))
