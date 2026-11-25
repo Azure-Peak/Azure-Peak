@@ -174,20 +174,20 @@
 			l_hand = /obj/item/rogueweapon/woodstaff/quarterstaff/steel/paint_heal
 
 // Templar monk equivalent
-// No dodge expert, relies on parrying and higher con instead
+// Identical stats/traitswise, but no access to templar unarmed gear and an unambiguously worse miracleset for combat. One slot. Their role is to guard the squishy painters and they can't do that if they have arms like wet noodles.
 /datum/advclass/templar/maris
 	name = "Maris"
 	tutorial = "One of Abyssor's sentinels dedicated to the path of the dream painter. You are amongst the protectors of the cult, keeping your fellow cultists safe from dreamfiends. You are beholden to the word of the Bishop whose basement you dwell in."
 	outfit = /datum/outfit/job/roguetown/maris
 	allowed_patrons = list(/datum/patron/divine/abyssor)
-	traits_applied = list(TRAIT_WATERBREATHING, TRAIT_CIVILIZEDBARBARIAN)
+	traits_applied = list(TRAIT_WATERBREATHING, TRAIT_CIVILIZEDBARBARIAN, TRAIT_DODGEEXPERT)
 	category_tags = list(CTAG_TEMPLAR)
 	maximum_possible_slots = 1
 	subclass_stats = list(
-		STATKEY_CON = 2,
-		STATKEY_WIL = 3,
-		STATKEY_SPD = 1,
-		STATKEY_PER = 1,
+		STATKEY_STR = 2,
+		STATKEY_CON = 1,
+		STATKEY_WIL = 2,
+		STATKEY_SPD = 1
 	)
 	subclass_skills = list(
 		/datum/skill/combat/wrestling = SKILL_LEVEL_EXPERT,
@@ -238,6 +238,7 @@
 	var/weapon_choice = input(H,"Choose your weapon.", "TAKE UP ARMS") as anything in weapons
 	switch(weapon_choice)
 		if("Discipline - Unarmed")
+			H.adjust_skillrank_up_to(/datum/skill/misc/athletics, SKILL_LEVEL_MASTER, TRUE)
 			H.put_in_hands(new /obj/item/clothing/gloves/roguetown/bandages/pugilist(H))
 		if("Knuckledusters")
 			H.put_in_hands(new /obj/item/clothing/gloves/roguetown/knuckles(H))
