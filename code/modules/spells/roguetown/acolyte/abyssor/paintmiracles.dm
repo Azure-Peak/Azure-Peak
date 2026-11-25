@@ -518,6 +518,7 @@
 		var/datum/language_holder/proj_lang = undine_mind.get_language_holder()
 		proj_lang.copy_known_languages_from(lang)
 		undine_mind.AddSpell(new /datum/action/cooldown/spell/undine_teleport, projection)
+		undine_mind.AddSpell(new /datum/action/cooldown/spell/projectile/waterbolt/undine, projection)
 	projection.RegisterSignal(user, COMSIG_QDELETING, TYPE_PROC_REF(/mob/living/simple_animal/undine, entrap_spirit))
 	projection.RegisterSignal(projection, COMSIG_MOB_DEATH, TYPE_PROC_REF(/mob/living/simple_animal/undine, come_back))
 	projection.RegisterSignal(projection, COMSIG_LIVING_RESIST, TYPE_PROC_REF(/mob/living/simple_animal/undine, come_back))
@@ -570,6 +571,10 @@
 
 /mob/living/simple_animal/undine/update_sneak_invis(reset = FALSE)
 	return // don't fucking remove our translucency???
+
+/datum/action/cooldown/spell/projectile/waterbolt/undine
+	invocation_type = INVOCATION_NONE
+	spell_requirements = NONE
 
 /datum/action/cooldown/spell/undine_teleport
 	name = "Abyssal Jaunt"

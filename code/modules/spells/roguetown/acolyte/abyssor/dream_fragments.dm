@@ -104,7 +104,7 @@ GLOBAL_DATUM_INIT(dream_omens_handler, /datum/dream_omens_handler, new)
 // the buffs aren't incredibly impactful, but they ARE nice to have
 /datum/component/dream_fragment/spd/apply_buff()
 	var/mob/living/carbon/human/H = parent
-	H.apply_status_effect(/datum/status_effect/buff/dream_fragment, list(STAKEY_SPD = 1))
+	H.apply_status_effect(/datum/status_effect/buff/dream_fragment, list(STATKEY_SPD = 1))
 
 /datum/component/dream_fragment/per
 	dream_blurb = "a dream of ruin"
@@ -123,7 +123,7 @@ GLOBAL_DATUM_INIT(dream_omens_handler, /datum/dream_omens_handler, new)
 
 /datum/component/dream_fragment/per/apply_buff()
 	var/mob/living/carbon/human/H = parent
-	H.apply_status_effect(/datum/status_effect/buff/dream_fragment, list(STAKEY_PER = 1))
+	H.apply_status_effect(/datum/status_effect/buff/dream_fragment, list(STATKEY_PER = 1))
 
 /datum/component/dream_fragment/swimming
 	dream_blurb = "a dream of abyssal predation"
@@ -209,7 +209,7 @@ GLOBAL_DATUM_INIT(dream_omens_handler, /datum/dream_omens_handler, new)
 
 /datum/component/dream_fragment/lck/apply_buff()
 	var/mob/living/carbon/human/H = parent
-	H.apply_status_effect(/datum/status_effect/buff/dream_fragment, list(STAKEY_LUC = 3)) // equivalent to a luck potion, which are easy to make - and FOR isn't really impactful beyond 1-2 anyway
+	H.apply_status_effect(/datum/status_effect/buff/dream_fragment, list(STATKEY_LUC = 3)) // equivalent to a luck potion, which are easy to make - and FOR isn't really impactful beyond 1-2 anyway
 
 // tells you what category of thing has been killed most, like the roundend "blood toll" chronicle. useful? no. potentially interesting? yes. this gives you WIL because you're inspired to courage, or something
 /datum/component/dream_fragment/wil
@@ -285,7 +285,7 @@ GLOBAL_DATUM_INIT(dream_omens_handler, /datum/dream_omens_handler, new)
 
 /datum/component/dream_fragment/int/apply_buff()
 	var/mob/living/carbon/human/H = parent
-	H.apply_status_effect(/datum/status_effect/buff/dream_fragment, list(STAKEY_INT = 1))
+	H.apply_status_effect(/datum/status_effect/buff/dream_fragment, list(STATKEY_INT = 1))
 
 /datum/component/dream_fragment/con
 	dream_blurb = "a dream of a boundary"
@@ -296,7 +296,7 @@ GLOBAL_DATUM_INIT(dream_omens_handler, /datum/dream_omens_handler, new)
 
 /datum/component/dream_fragment/con/apply_buff()
 	var/mob/living/carbon/human/H = parent
-	H.apply_status_effect(/datum/status_effect/buff/dream_fragment, list(STAKEY_CON = 1))
+	H.apply_status_effect(/datum/status_effect/buff/dream_fragment, list(STATKEY_CON = 1))
 
 /datum/component/dream_fragment/str
 	dream_blurb = "a dream of struggle"
@@ -337,7 +337,7 @@ GLOBAL_DATUM_INIT(dream_omens_handler, /datum/dream_omens_handler, new)
 	dream_text = "You dream of... nothing. There is probably scenery around you; you no longer even perceive it. Your focus has narrowed the world to the edge of your blade as you face your rival, heart pounding, body straining. You know their name, their face: [closest.real_name], as much a warrior as yourself. A feeling of exhilarating purity washes over you as you clash again and again, each intent on ending the other. You unleash a blinding flurry of blows and they respond in kind, both pushing each other past your limits... you awake, feeling invigorated. Whispers of [H.patron.associated_faith == /datum/faith/inhumen ? "a chance to grow strong through sanguine delight" : "a chance to hone your skills in the sight of Malum and Ravox"] linger in your mind, pointing you towards [closest.prepare_deathsight_message(H)]."
 	to_chat(closest, span_info("A wave of drowsiness washes over you, a waking dream overtaking you momentarily..."))
 	to_chat(closest, span_purple("You dream of... nothing. There is probably scenery around you; you no longer even perceive it. Your focus has narrowed the world to the edge of your blade as you face your rival, heart pounding, body straining. You know their name, their face: [H.real_name], as much a warrior as yourself. A feeling of exhilarating purity washes over you as you clash again and again, each intent on ending the other. You unleash a blinding flurry of blows and they respond in kind, both pushing each other past your limits... you awake, feeling invigorated. Whispers of [closest.patron.associated_faith == /datum/faith/inhumen ? "a chance to grow strong through sanguine delight" : "a chance to hone your skills in the sight of Malum and Ravox"] linger in your mind, pointing you towards [H.prepare_deathsight_message(closest)]."))
-	closest.apply_status_effect(/datum/status_effect/buff/dream_fragment, list(STAKEY_STR = 1))
+	closest.apply_status_effect(/datum/status_effect/buff/dream_fragment, list(STATKEY_STR = 1))
 	rival = closest
 	RegisterSignal(H, COMSIG_MOB_CHECKDEFENSE, PROC_REF(handle_clash))
 	RegisterSignal(closest, COMSIG_MOB_CHECKDEFENSE, PROC_REF(handle_clash))
@@ -366,7 +366,7 @@ GLOBAL_DATUM_INIT(dream_omens_handler, /datum/dream_omens_handler, new)
 
 /datum/component/dream_fragment/str/apply_buff()
 	var/mob/living/carbon/human/H = parent
-	H.apply_status_effect(/datum/status_effect/buff/dream_fragment, list(STAKEY_STR = 1))
+	H.apply_status_effect(/datum/status_effect/buff/dream_fragment, list(STATKEY_STR = 1))
 
 /datum/component/dream_fragment/str/remove_buff()
 	if(removed)
