@@ -209,7 +209,7 @@ GLOBAL_DATUM_INIT(dream_omens_handler, /datum/dream_omens_handler, new)
 
 /datum/component/dream_fragment/lck/apply_buff()
 	var/mob/living/carbon/human/H = parent
-	H.apply_status_effect(/datum/status_effect/buff/dream_fragment, list(STATKEY_LUC = 3)) // equivalent to a luck potion, which are easy to make - and FOR isn't really impactful beyond 1-2 anyway
+	H.apply_status_effect(/datum/status_effect/buff/dream_fragment, list(STATKEY_LCK = 3)) // equivalent to a luck potion, which are easy to make - and FOR isn't really impactful beyond 1-2 anyway
 
 // tells you what category of thing has been killed most, like the roundend "blood toll" chronicle. useful? no. potentially interesting? yes. this gives you WIL because you're inspired to courage, or something
 /datum/component/dream_fragment/wil
