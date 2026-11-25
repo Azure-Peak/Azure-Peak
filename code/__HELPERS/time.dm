@@ -179,6 +179,10 @@ GLOBAL_VAR_INIT(date_override_offset, 0)
 	if(!mind)
 		return
 	if(GLOB.tod == "dawn")
+		if(HAS_TRAIT(src, TRAIT_EXPLOSIVE_SUPPLY))
+			to_chat(src, span_smallnotice("I need to check on HERMES. I think a new package has arrived."))
+		if(HAS_TRAIT(src, TRAIT_DRUG_SUPPLY))
+			to_chat(src, span_smallnotice("The Guild left something for me. I should check HERMES for my delivery."))
 		var/weekday_line
 		var/day_number = get_current_day_of_week()
 		switch(day_number)
