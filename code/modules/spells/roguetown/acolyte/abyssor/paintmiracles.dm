@@ -487,8 +487,9 @@
 			if(HL.real_name != input)
 				continue
 			for(var/turf/open/water/candidate in view(7, get_turf(HL)))
-				target_turf = candidate
-				break main_loop
+				if(!istype(candidate, /turf/open/water/bath)) // sob.
+					target_turf = candidate
+					break main_loop
 	if(!target_turf)
 		to_chat(user, span_warning("[input] is not near any water, I cannot reach them..."))
 		return FALSE
