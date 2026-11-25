@@ -1,0 +1,4 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - rscadd: "Retrieval quests shouldn't care about items you carry on yourself anymore"
