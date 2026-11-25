@@ -292,6 +292,7 @@
 		options["Keep current fragment."] = /datum/component/dream_fragment // dummy value
 	var/choice = tgui_input_list(owner, "Which dream are you drawn to?", "DREDGE THE DEPTHS", options, "Keep current fragment.", 30 SECONDS)
 	if(choice && choice != "Keep current fragment.")
+		qdel(owner.GetComponent(/datum/component/dream_fragment))
 		owner.AddComponent(options[choice])
 	return
 
