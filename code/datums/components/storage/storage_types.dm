@@ -73,10 +73,6 @@
 	. = ..()
 	can_hold = typecacheof(list(/obj/item/roguecoin))
 
-/datum/component/storage/concrete/roguetown/coin_pouch/bandolier
-	screen_max_rows = 4
-	screen_max_columns = 2
-
 /datum/component/storage/concrete/roguetown/keyring
 	screen_max_rows = 4
 	screen_max_columns = 5
