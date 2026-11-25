@@ -34,7 +34,7 @@
 		set category = "Emotes.Wildtongue" //Wildtongue
 		emote("meow", intentional = TRUE, animal = TRUE)
 	else
-		to_chat(usr, span_warning("Your tongue doesn't do that"))
+		to_chat(usr, span_warning("Your tongue doesn't do that."))
 		return
 
 /datum/emote/living/mreow
