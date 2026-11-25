@@ -280,6 +280,7 @@
 	UnregisterSignal(remove_from, list(COMSIG_MOB_SLEEP, COMSIG_LIVING_STATUS_SLEEP))
 
 /datum/action/cooldown/spell/ink_blessing/proc/on_mob_sleep() // we handle dream fragment gain/overwrite here
+	set waitfor = FALSE
 	var/datum/component/dream_fragment/current_fragment = owner.GetComponent(/datum/component/dream_fragment)
 	var/list/options = list()
 	var/list/frags = GLOB.dream_fragments.Copy()
