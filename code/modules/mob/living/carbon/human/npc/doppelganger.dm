@@ -83,7 +83,7 @@
 	return count
 
 /mob/living/carbon/human/species/human/northern/doppelganger/ambush
-	threat_point = THREAT_DEADLY // Ochre had it at 20, let's go for 40
+	threat_point = THREAT_DANGEROUS_PLUS // Ochre had it at 20, let's go for 35 since it copies you with a stat penalty
 	ambush_faction = "bandits"
 
 /mob/living/carbon/human/species/human/northern/doppelganger/Initialize(mapload)
@@ -562,8 +562,10 @@
 	desc = "A chalky white heart. It is still beating. The HEADEATER pays a bounty for it."
 	icon = 'icons/roguetown/items/doppel_heart.dmi'
 	icon_state = "doppel"
-	sellprice = 100
+	sellprice = 60
 	dropshrink = 0.7
+	grid_width = 32
+	grid_height = 32
 
 #undef DOPPEL_CLONE_RANGE
 #undef DOPPEL_AUDIENCE_RANGE
