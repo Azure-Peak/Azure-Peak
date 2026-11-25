@@ -273,7 +273,6 @@
 	. = ..()
 	ADD_TRAIT(grant_to, TRAIT_DREAM_FRAGMENTS, TRAIT_MIRACLE) // there's a more bespoke way to add this to "only abyssorites of t3 or above who chose painted path" but like, we can also just do this and it's simpler
 	RegisterSignal(grant_to, COMSIG_MOB_SLEEP, PROC_REF(on_mob_sleep))
-	RegisterSignal(grant_to, COMSIG_LIVING_STATUS_SLEEP, PROC_REF(on_mob_sleep)) // narco does this one instead for whatever reason
 
 /datum/action/cooldown/spell/ink_blessing/Remove(mob/living/remove_from)
 	. = ..()
