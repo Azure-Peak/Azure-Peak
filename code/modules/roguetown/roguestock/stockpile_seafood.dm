@@ -154,3 +154,45 @@
 	item_type = /obj/item/reagent_containers/food/snacks/fish/plaice
 	trade_good_id = TRADE_GOOD_PLAICE
 	category = "Seafood"
+
+/datum/roguestock/stockpile/sunny
+	market_target = MARKET_TARGET_MODEST
+	name = "Sunny"
+	desc = "A small whole sunny."
+	item_type = /obj/item/reagent_containers/food/snacks/fish/sunny
+	trade_good_id = TRADE_GOOD_SUNNY
+	category = "Seafood"
+
+/datum/roguestock/stockpile/beaksnapper
+	market_target = MARKET_TARGET_MODEST
+	name = "Beaksnapper"
+	desc = "Whole slab of beaksnapper."
+	item_type = /obj/item/reagent_containers/food/snacks/fish/beaksnapper
+	trade_good_id = TRADE_GOOD_BEAKSNAPPER
+	category = "Seafood"
+
+/datum/roguestock/stockpile/anglerfish
+	market_target = MARKET_TARGET_MODEST
+	name = "Anglerfish"
+	desc = "Whole slab of anglerfish."
+	item_type = /obj/item/reagent_containers/food/snacks/fish/angler
+	trade_good_id = TRADE_GOOD_ANGLERFISH
+	category = "Seafood"
+
+/datum/roguestock/stockpile/oyster
+	market_target = MARKET_TARGET_MODEST
+	name = "Oyster"
+	desc = "A whole oyster in its shell."
+	item_type = /obj/item/reagent_containers/food/snacks/fish/oyster
+	trade_good_id = TRADE_GOOD_OYSTER
+	market_stock = 0
+	market_never_supplies = TRUE
+	category = "Seafood"
+
+/datum/roguestock/stockpile/shellfish_meat
+	market_target = MARKET_TARGET_MODEST
+	name = "Shellfish Meat"
+	desc = "Edible flesh harvested from shellfish."
+	item_type = /obj/item/reagent_containers/food/snacks/rogue/meat/shellfish
+	trade_good_id = TRADE_GOOD_SHELLFISH_MEAT
+	category = "Seafood"

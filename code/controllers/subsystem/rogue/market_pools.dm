@@ -98,6 +98,8 @@
 		bucket = get_armor_weight_bucket(I, bucket)
 	if(bucket == NAVIGATOR_BUCKET_VALUABLES_LOOTED && I.was_crafted)
 		return NAVIGATOR_BUCKET_VALUABLES_CRAFTED
+	if(category == ITEM_CAT_SEAFOOD && !(GLOB.bulk_trade_item_types && GLOB.bulk_trade_item_types[I.type]))
+		return NAVIGATOR_BUCKET_SEAFOOD
 	return bucket
 
 /proc/get_armor_weight_bucket(obj/item/clothing/C, category_bucket)

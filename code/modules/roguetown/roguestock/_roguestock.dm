@@ -270,7 +270,7 @@
 			return FALSE
 		if(food.bitecount > 0)
 			return FALSE
-		if(food.slices_num && food.slices_num < initial(food.slices_num))
+		if(food.slices_num && food.slices_num < initial(food.slices_num) && !istype(food, /obj/item/reagent_containers/food/snacks/fish))
 			return FALSE
 	return TRUE
 

@@ -124,3 +124,33 @@
 	name = "Plaice"
 	base_price = SELLPRICE_PLAICE
 	item_type = /obj/item/reagent_containers/food/snacks/fish/plaice
+
+/datum/trade_good/seafood/sunny
+	id = TRADE_GOOD_SUNNY
+	name = "Sunny"
+	base_price = SELLPRICE_SUNNY
+	item_type = /obj/item/reagent_containers/food/snacks/fish/sunny
+
+/datum/trade_good/seafood/beaksnapper
+	id = TRADE_GOOD_BEAKSNAPPER
+	name = "Beaksnapper"
+	base_price = SELLPRICE_BEAKSNAPPER
+	item_type = /obj/item/reagent_containers/food/snacks/fish/beaksnapper
+
+/datum/trade_good/seafood/anglerfish
+	id = TRADE_GOOD_ANGLERFISH
+	name = "Anglerfish"
+	base_price = SELLPRICE_ANGLERFISH
+	item_type = /obj/item/reagent_containers/food/snacks/fish/angler
+
+/datum/trade_good/seafood/oyster
+	id = TRADE_GOOD_OYSTER
+	name = "Oyster"
+	base_price = SELLPRICE_OYSTER
+	item_type = /obj/item/reagent_containers/food/snacks/fish/oyster
+
+/datum/trade_good/seafood/shellfish_meat
+	id = TRADE_GOOD_SHELLFISH_MEAT
+	name = "Shellfish Meat"
+	base_price = SELLPRICE_SHELLFISH_MEAT
+	item_type = /obj/item/reagent_containers/food/snacks/rogue/meat/shellfish
