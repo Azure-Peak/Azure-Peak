@@ -267,7 +267,7 @@
 
 /obj/item/rogueweapon/huntingknife/idagger/steel/stalker
 	name = "stalker dagger"
-	desc = "A wave-bladed dagger, forged in reverence to the visage of an anthraxi spider's fang. Offer a keen-eyed glance to its obsidian edge, and you might just notice the hundreds of capillary-like channels lining its surface. Sadly, heavy corrosion and dried grime have completely clogged these cruel grooves, rendering the blade incapable of holding any fresh poison."
+	desc = "A wave-bladed dagger, forged in reverence to the visage of an anthraxi spider's fang. Offer a keen-eyed glance to its obsidian edge, and you might just notice the hundreds of capillary-like channels lining its surface."
 	icon_state = "spiderdaggeralt"
 	sheathe_icon = "spiderdaggeralt"
 	smeltresult = /obj/item/ingot/drow
@@ -275,7 +275,7 @@
 
 /obj/item/rogueweapon/huntingknife/idagger/steel/corroded
 	name = "corroded dagger"
-	desc = "A wicked deliverer of poison, serrated and notched. Curved steel cradles the knuckles, ensuring that the wielder doesn't inflict the fatal dose on themselves. </br>I can coat this dagger in most poisons, ensuring that my next strike leaves a festering surprise."
+	desc = "A wicked deliverer of poison, serrated and notched. Curved steel cradles the knuckles, ensuring that the wielder doesn't inflict the fatal dose on themselves."
 	icon_state = "pdagger"
 	sheathe_icon = "spdagger"
 
@@ -285,7 +285,7 @@
 
 /obj/item/rogueweapon/huntingknife/idagger/steel/corroded/dirk
 	name = "stalker dirk"
-	desc = "A wave-bladed dagger, forged in reverence to the visage of an anthraxi spider's fang. Offer a keen-eyed glance to its obsidian edge, and you might just notice the hundreds of capillary-like channels lining its surface; a cruel finishing touch, soon to be understood by the sundrunk. </br>I can coat this dagger in most poisons, ensuring that my next strike leaves a festering surprise."
+	desc = "A wave-bladed dagger, forged in reverence to the visage of an anthraxi spider's fang. Offer a keen-eyed glance to its obsidian edge, and you might just notice the hundreds of capillary-like channels lining its surface; a cruel finishing touch, soon to be understood by the sundrunk."
 	icon_state = "spiderdagger"
 	sheathe_icon = "spiderdagger"
 	smeltresult = /obj/item/ingot/drow
@@ -302,6 +302,7 @@
 	max_blade_int = 300
 	embedding = list("embedded_pain_multiplier" = 1.2, "embed_chance" = 20, "embedded_fall_chance" = 0)
 	smeltresult = /obj/item/ingot/component/zizo
+	no_loot_taint = TRUE
 
 /obj/item/rogueweapon/huntingknife/idagger/steel/zizo/Initialize(mapload)
 	. = ..()
@@ -320,6 +321,7 @@
 	max_blade_int = 300
 	embedding = list("embedded_pain_multiplier" = 1.2, "embed_chance" = 20, "embedded_fall_chance" = 0)
 	smeltresult = /obj/item/ingot/component/matthios
+	no_loot_taint = TRUE
 
 /obj/item/rogueweapon/huntingknife/idagger/steel/matthios/Initialize(mapload)
 	. = ..()
@@ -338,6 +340,7 @@
 	max_blade_int = 300
 	embedding = list("embedded_pain_multiplier" = 1.2, "embed_chance" = 20, "embedded_fall_chance" = 0)
 	smeltresult = /obj/item/ingot/component/baotha
+	no_loot_taint = TRUE
 
 /obj/item/rogueweapon/huntingknife/idagger/steel/baotha/Initialize(mapload)
 	. = ..()
@@ -360,6 +363,7 @@
 	sheathe_icon = "gsdagger"
 	smeltresult = /obj/item/ingot/silver
 	is_silver = TRUE
+	no_loot_taint = TRUE
 
 /obj/item/rogueweapon/huntingknife/idagger/steel/holysee/ComponentInitialize()
 	AddComponent(\

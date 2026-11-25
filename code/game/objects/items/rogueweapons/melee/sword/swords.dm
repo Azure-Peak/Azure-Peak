@@ -146,6 +146,7 @@
 	force = 25
 	force_wielded = 30
 	smeltresult = /obj/item/ingot/component/zizo
+	no_loot_taint = TRUE
 
 /obj/item/rogueweapon/sword/zizo/Initialize(mapload)
 	. = ..()
@@ -1183,6 +1184,7 @@
 	max_integrity = 300
 	max_blade_int = 300
 	wdefense = 7
+	no_loot_taint = TRUE
 
 /obj/item/rogueweapon/sword/rapier/eora
 	name = "\"Heartstring\""
@@ -1643,6 +1645,7 @@
 	wdefense_wbonus = 7
 	smeltresult = /obj/item/ingot/component/zizo
 	alt_grips = list(/datum/alt_grip/mordhau/sword/lesser, /datum/alt_grip/halfsword/lesser)
+	no_loot_taint = TRUE
 
 /obj/item/rogueweapon/sword/long/zizo/Initialize(mapload)
 	. = ..()

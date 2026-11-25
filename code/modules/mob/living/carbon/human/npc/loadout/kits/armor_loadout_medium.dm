@@ -52,7 +52,6 @@
 	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/ancient/decrepit
 	pants = /obj/item/clothing/under/roguetown/chainlegs/kilt/ancient/decrepit
 	shoes = /obj/item/clothing/shoes/roguetown/sandals/ancient/decrepit //Legionnaire look
-	mask = /obj/item/clothing/mask/rogue/facemask/ancient/decrepit
 	gloves = /obj/item/clothing/gloves/roguetown/fingerless_leather
 
 /datum/npc_loadout/armor/medium/aalloy_helm
@@ -67,7 +66,6 @@
 	neck = /obj/item/clothing/neck/roguetown/chaincoif/ancient/decrepit
 	gloves = /obj/item/clothing/gloves/roguetown/chain/ancient/decrepit
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/ancient/decrepit
-	mask = /obj/item/clothing/mask/rogue/facemask/ancient/decrepit
 
 /datum/npc_loadout/armor/medium/aalloy_archer
 	head = /obj/item/clothing/head/roguetown/helmet/kettle/ancient/decrepit
@@ -77,7 +75,6 @@
 	gloves = /obj/item/clothing/gloves/roguetown/chain/ancient/decrepit
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/ancient/decrepit
 	shoes = /obj/item/clothing/shoes/roguetown/boots/ancient/decrepit
-	mask = /obj/item/clothing/mask/rogue/facemask/ancient/decrepit
 
 //** IRON CHAIN **//
 

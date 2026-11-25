@@ -1068,6 +1068,7 @@
 	unequip_delay_self = 2 SECONDS
 	inv_storage_delay = 1 SECONDS
 	icon_angle_wielded = null
+	no_loot_taint = TRUE
 
 /obj/item/rogueweapon/spear/partizan/baotha/Initialize(mapload)
 	. = ..()

@@ -21,7 +21,6 @@
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/ancient/decrepit
 	neck = /obj/item/clothing/neck/roguetown/chaincoif/ancient/decrepit
 	head = /obj/item/clothing/head/roguetown/helmet/kettle/ancient/decrepit
-	mask = /obj/item/clothing/mask/rogue/facemask/ancient/decrepit
 
 /datum/outfit/job/roguetown/undead_horde/khopesh/pre_equip(mob/living/carbon/human/H, visualsOnly)
 	. = ..()
