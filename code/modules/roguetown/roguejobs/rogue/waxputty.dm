@@ -6,6 +6,7 @@
 	abstract_type = /datum/crafting_recipe/roguetown/stealth
 	display_category = ITEM_CAT_MISCELLANEOUS
 	skillcraft = /datum/skill/misc/sneaking
+	xp_modifier = 0
 
 /datum/crafting_recipe/roguetown/stealth/puddy_tallow
 	name = "Wax Putty (Tallow)"

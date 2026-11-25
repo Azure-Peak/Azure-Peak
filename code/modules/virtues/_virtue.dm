@@ -37,6 +37,7 @@ GLOBAL_LIST_EMPTY(virtues)
 	var/custom_text
 	/// If a virtue hits the soft cap we give them a 1 skill point boost
 	var/softcap = FALSE
+	var/list/hardcapped_skills = list()
 	/// Whether a virtue should show up in regular selection
 	var/unlisted = FALSE
 	/// Whether the virtue is only available as a second virtue choice (so only available to virtuous / fated)
@@ -135,7 +136,7 @@ GLOBAL_LIST_EMPTY(virtues)
 			var/space_left = virtue_limit - current
 			increase_amount = min(inc, space_left)
 
-		if (increase_amount == 0 && softcap && current < 6)
+		if (increase_amount == 0 && softcap && current < 6 && !(S in hardcapped_skills))
 			increase_amount = 1
 
 		if (increase_amount == 0)
@@ -271,6 +272,7 @@ GLOBAL_LIST_EMPTY(virtues)
 			"name" = name,
 			"level" = L[2],
 			"max_level" = SSskills.level_names_plain[L[3]],
+			"hardcap" = (L[1] in hardcapped_skills),
 		))
 	data["added_skills"] = added_skills_data
 

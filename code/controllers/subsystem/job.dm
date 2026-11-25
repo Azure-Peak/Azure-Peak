@@ -1035,6 +1035,8 @@ SUBSYSTEM_DEF(job)
 			key = "Inquisition"
 		if(BURGHERS)
 			key = "Burghers"
+		if(ATC)
+			key = "Azurian Trading Company"
 		if(GUILDSMAN)
 			key = "Guildsmen"
 		if(PEASANTS)

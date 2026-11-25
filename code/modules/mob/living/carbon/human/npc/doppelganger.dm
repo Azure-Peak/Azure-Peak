@@ -8,6 +8,8 @@
 #define DOPPEL_NAME_PREFIX "Wyrd"
 #define DOPPEL_SIZE_UP_TIME (4 SECONDS)
 #define DOPPEL_FRESH_FACE_PATIENCE (12 SECONDS)
+#define DOPPEL_SKILL_DEFICIT 1
+#define DOPPEL_STAT_DEFICIT 1
 
 /mob/living/carbon/human/species/human/northern/doppelganger
 	ai_controller = /datum/ai_controller/human_npc
@@ -18,9 +20,50 @@
 	var/cloned_target = FALSE
 	var/clone_ready = FALSE
 	var/copied_name
+	var/datum/weakref/copied_target
 	var/first_sighting = 0
 	var/form_registered = FALSE
 	var/static/list/forms_worn = list()
+	var/static/list/ranged_skills = list(
+		/datum/skill/combat/bows,
+		/datum/skill/combat/crossbows,
+		/datum/skill/combat/slings,
+	)
+	var/static/list/mirrored_traits = list(
+		TRAIT_MEDIUMARMOR,
+		TRAIT_HEAVYARMOR,
+		TRAIT_DODGEEXPERT,
+		TRAIT_CIVILIZEDBARBARIAN,
+		TRAIT_DUALWIELDER,
+		TRAIT_FENCERDEXTERITY,
+		TRAIT_FREEBLADE,
+		TRAIT_SENTINELOFWITS,
+		TRAIT_TEMPO,
+		TRAIT_LONGSWORDSMAN,
+		TRAIT_SABRIST,
+		TRAIT_WEAPONLESS,
+		TRAIT_NODEF,
+		TRAIT_STRONGBITE,
+		TRAIT_NUTCRACKER,
+		TRAIT_STRENGTH_UNCAPPED,
+		TRAIT_SHARPER_BLADES,
+		TRAIT_BIGGUY,
+		TRAIT_FORTITUDE,
+		TRAIT_CRITICAL_RESISTANCE,
+		TRAIT_CRITICAL_WEAKNESS,
+		TRAIT_BLOOD_RESISTANCE,
+		TRAIT_BLOODLOSS_IMMUNE,
+		TRAIT_NOPAIN,
+		TRAIT_NOPAINSTUN,
+		TRAIT_IGNOREDAMAGESLOWDOWN,
+		TRAIT_GRABIMMUNE,
+		TRAIT_HARDDISMEMBER,
+		TRAIT_EASYDISMEMBER,
+		TRAIT_BRITTLE,
+		TRAIT_NORUN,
+		TRAIT_DECEIVING_MEEKNESS,
+		TRAIT_COMBAT_AWARE,
+	)
 
 /mob/living/carbon/human/species/human/northern/doppelganger/Destroy()
 	release_form()
@@ -40,7 +83,7 @@
 	return count
 
 /mob/living/carbon/human/species/human/northern/doppelganger/ambush
-	threat_point = THREAT_DEADLY // Ochre had it at 20, let's go for 40
+	threat_point = THREAT_DANGEROUS_PLUS // Ochre had it at 20, let's go for 35 since it copies you with a stat penalty
 	ambush_faction = "bandits"
 
 /mob/living/carbon/human/species/human/northern/doppelganger/Initialize(mapload)
@@ -68,11 +111,6 @@
 	ADD_TRAIT(src, TRAIT_DODGEEXPERT, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_STEELHEARTED, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_KNEESTINGER_IMMUNITY, TRAIT_GENERIC)
-	var/static/list/ranged_skills = list(
-		/datum/skill/combat/bows,
-		/datum/skill/combat/crossbows,
-		/datum/skill/combat/slings,
-	)
 	for(var/skill in GLOB.npc_melee_skills + GLOB.npc_brawl_skills + GLOB.npc_athletics_skills + ranged_skills)
 		adjust_skillrank_up_to(skill, SKILL_LEVEL_EXPERT, TRUE)
 	for(var/skill in GLOB.npc_survival_skills)
@@ -127,19 +165,22 @@
 	if(!target.dna?.species)
 		return FALSE
 	cloned_target = TRUE
+	copied_target = WEAKREF(target)
 	return_to_sight()
 	for(var/obj/item/shroud_item in get_equipped_items(TRUE) + held_items)
 		qdel(shroud_item)
 	mirror_body(target)
+	mirror_training(target)
 	forms_worn += copied_name
 	form_registered = TRUE
 	mirror_gear(target)
 	var/controller_type = mirror_magic(target)
-	for(var/obj/item/equipped_item in get_equipped_items(TRUE) + held_items)
-		equipped_item.AddComponent(/datum/component/item_on_drop/dust)
+	if(!controller_type && _find_archer_bow(src))
+		controller_type = /datum/ai_controller/human_npc/archer
 	if(!client)
-		for(var/obj/item/held_item in held_items)
-			ADD_TRAIT(held_item, TRAIT_NODROP, TRAIT_GENERIC)
+		for(var/obj/item/weapon in GetAllContents(/obj/item))
+			if((ai_is_melee_weapon(weapon) && !istype(weapon, /obj/item/rogueweapon/scabbard)) || istype(weapon, /obj/item/gun))
+				ADD_TRAIT(weapon, TRAIT_NODROP, TRAIT_GENERIC)
 		if(controller_type)
 			upgrade_ai_controller(controller_type)
 	regenerate_icons()
@@ -151,9 +192,13 @@
 		return
 	if(istype(ai_controller))
 		QDEL_NULL(ai_controller)
-	for(var/obj/item/held_item in held_items)
-		REMOVE_TRAIT(held_item, TRAIT_NODROP, TRAIT_GENERIC)
+	for(var/obj/item/weapon in GetAllContents(/obj/item))
+		REMOVE_TRAIT(weapon, TRAIT_NODROP, TRAIT_GENERIC)
 	if(cloned_target)
+		var/mob/living/carbon/human/target = copied_target?.resolve()
+		if(target)
+			mirror_stats(target)
+			mirror_training(target)
 		to_chat(src, span_notice("You are a doppelganger wearing the form of [copied_name]."))
 		return
 	if(!(locate(/datum/action/cooldown/doppel_take_form) in actions))
@@ -274,14 +319,33 @@
 		var/obj/item/organ/copy = blueprint.create_organ()
 		copy.Insert(src, TRUE, FALSE)
 
+	mirror_stats(target)
+
+/mob/living/carbon/human/species/human/northern/doppelganger/proc/mirror_stats(mob/living/carbon/human/target)
+	var/deficit = client ? 0 : DOPPEL_STAT_DEFICIT
 	STASTR = target.STASTR
 	STASPD = target.STASPD
-	STACON = target.STACON
-	STAWIL = target.STAWIL
+	STACON = max(1, target.STACON - deficit)
+	STAWIL = max(1, target.STAWIL - deficit)
 	STAPER = target.STAPER
 	STAINT = target.STAINT
 	STALUC = target.STALUC
 	recalculate_pain_threshold()
+
+/mob/living/carbon/human/species/human/northern/doppelganger/proc/mirror_training(mob/living/carbon/human/target)
+	var/deficit = client ? 0 : DOPPEL_SKILL_DEFICIT
+	for(var/skill in GLOB.npc_melee_skills + GLOB.npc_brawl_skills + GLOB.npc_athletics_skills + GLOB.npc_survival_skills + ranged_skills + /datum/skill/combat/arcyne)
+		var/their_level = max(SKILL_LEVEL_NONE, target.get_skill_level(skill) - deficit)
+		adjust_skillrank_up_to(skill, their_level, TRUE)
+		adjust_skillrank_down_to(skill, their_level, TRUE)
+	for(var/skill in list(/datum/skill/magic/arcane, /datum/skill/magic/holy))
+		var/their_level = clamp(target.get_skill_level(skill) - deficit, SKILL_LEVEL_NONE, SKILL_LEVEL_EXPERT)
+		adjust_skillrank_up_to(skill, their_level, TRUE)
+		adjust_skillrank_down_to(skill, their_level, TRUE)
+	for(var/trait in mirrored_traits)
+		REMOVE_TRAIT(src, trait, TRAIT_GENERIC)
+		if(HAS_TRAIT(target, trait))
+			ADD_TRAIT(src, trait, TRAIT_GENERIC)
 
 /mob/living/carbon/human/species/human/northern/doppelganger/proc/mirror_gear(mob/living/carbon/human/target)
 	var/static/list/worn_slots = list(
@@ -324,12 +388,43 @@
 	if(QDELETED(copy))
 		return null
 	copy.color = original.color
+	copy.AddComponent(/datum/component/item_on_drop/dust)
+
+	var/datum/component/holster/their_holster = original.GetComponent(/datum/component/holster)
+	var/datum/component/holster/our_holster = copy.GetComponent(/datum/component/holster)
+	if(their_holster?.sheathed && our_holster && !our_holster.sheathed)
+		var/obj/item/blade = copy_item(their_holster.sheathed)
+		if(blade)
+			blade.forceMove(copy)
+			our_holster.sheathed = blade
+			our_holster.update_icon()
+
+	var/datum/component/storage/our_storage = copy.GetComponent(/datum/component/storage)
+	if(our_storage)
+		for(var/obj/item/prefilled in copy.held_contents())
+			our_storage.remove_from_storage(prefilled, null)
+			qdel(prefilled)
+		for(var/obj/item/stored in original.held_contents())
+			if(!isweapon(stored) && !istype(stored, /obj/item/gun))
+				continue
+			var/obj/item/stored_copy = copy_item(stored)
+			if(stored_copy && !(our_storage.can_be_inserted(stored_copy, TRUE, src) && our_storage.handle_item_insertion(stored_copy, TRUE, src)))
+				qdel(stored_copy)
+
+	if(istype(copy, /obj/item/quiver))
+		var/obj/item/quiver/their_quiver = original
+		var/obj/item/quiver/our_quiver = copy
+		QDEL_LIST(our_quiver.arrows)
+		for(var/obj/item/arrow in their_quiver.arrows)
+			var/obj/item/arrow_copy = copy_item(arrow)
+			if(arrow_copy)
+				arrow_copy.forceMove(our_quiver)
+				our_quiver.arrows += arrow_copy
+		our_quiver.update_icon()
 	return copy
 
 /mob/living/carbon/human/species/human/northern/doppelganger/proc/mirror_magic(mob/living/carbon/human/target)
 	var/controller_type
-	adjust_skillrank_up_to(/datum/skill/magic/arcane, min(target.get_skill_level(/datum/skill/magic/arcane), SKILL_LEVEL_EXPERT), TRUE)
-	adjust_skillrank_up_to(/datum/skill/magic/holy, min(target.get_skill_level(/datum/skill/magic/holy), SKILL_LEVEL_EXPERT), TRUE)
 
 	var/datum/status_effect/buff/arcyne_momentum/their_momentum = target.has_status_effect(/datum/status_effect/buff/arcyne_momentum)
 	if(their_momentum?.chant)
@@ -467,8 +562,10 @@
 	desc = "A chalky white heart. It is still beating. The HEADEATER pays a bounty for it."
 	icon = 'icons/roguetown/items/doppel_heart.dmi'
 	icon_state = "doppel"
-	sellprice = 100
+	sellprice = 60
 	dropshrink = 0.7
+	grid_width = 32
+	grid_height = 32
 
 #undef DOPPEL_CLONE_RANGE
 #undef DOPPEL_AUDIENCE_RANGE
@@ -480,3 +577,5 @@
 #undef DOPPEL_NAME_PREFIX
 #undef DOPPEL_SIZE_UP_TIME
 #undef DOPPEL_FRESH_FACE_PATIENCE
+#undef DOPPEL_SKILL_DEFICIT
+#undef DOPPEL_STAT_DEFICIT
