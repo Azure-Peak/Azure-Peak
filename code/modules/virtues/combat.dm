@@ -13,7 +13,7 @@
 		if (!recipient.mind?.has_spell(/datum/action/cooldown/spell/touch/prestidigitation))
 			recipient.mind?.AddSpell(new /datum/action/cooldown/spell/touch/prestidigitation)
 		ADD_TRAIT(recipient, TRAIT_ARCYNE, TRAIT_GENERIC)
-		add_arcyne_potential_utilities(recipient, recipient.has_combat_trait() ? 4 : 1)
+		add_arcyne_potential_utilities(recipient, recipient.has_combat_trait() ? 1 : 4)
 	else
 		add_arcyne_potential_utilities(recipient, 4)
 
