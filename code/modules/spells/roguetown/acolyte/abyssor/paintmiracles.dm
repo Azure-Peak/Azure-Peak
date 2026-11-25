@@ -486,6 +486,9 @@
 		for(var/mob/living/carbon/human/HL in GLOB.human_list)
 			if(HL.real_name != input)
 				continue
+			if(LAZYLEN(HL.contents) < 4)
+				to_chat(user, span_warning("I sense reaching them now might be unwise."))
+				return FALSE
 			for(var/turf/open/water/candidate in view(7, get_turf(HL)))
 				if(!istype(candidate, /turf/open/water/bath)) // sob.
 					target_turf = candidate
