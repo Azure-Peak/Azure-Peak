@@ -72,6 +72,9 @@
 /mob/living/carbon/human/species/familiar/proc/is_aligned_leyline(obj/structure/leyline/ley)
 	return FALSE
 
+/mob/living/carbon/human/species/familiar/can_be_firemanned(mob/living/carbon/target)
+	return FALSE // we don't want them carrying people
+
 // leying down gives healing
 /mob/living/carbon/human/species/familiar/Life()
 	. = ..()
