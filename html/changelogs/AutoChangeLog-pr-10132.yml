@@ -1,5 +1,0 @@
-author: "WeNeedMorePhoron"
-delete-after: True
-changes:
-  - rscadd: "Poison daggers now applies the envenomed debuff on penetrative wounds when used by someone with the venomcraft trait."
-  - rscdel: "Removed the ability to dip certain poison dagger in reagents"
