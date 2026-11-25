@@ -573,6 +573,8 @@ This is the proc mobs get to turn into a ghost. Forked from ghostize due to comp
 
 	if(is_hidden_from_ghosts(target, src))
 		return
+	if(has_ghost_protection(target))
+		log_admin_view(target, "was orbited through anti-ghost")
 
 	var/icon/I = icon(target.icon,target.icon_state,target.dir)
 

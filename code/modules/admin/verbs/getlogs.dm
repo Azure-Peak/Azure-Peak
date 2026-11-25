@@ -453,6 +453,7 @@ GENERAL_PROTECT_DATUM(/datum/log_viewer)
 				shown -= name
 			else
 				shown[name] = TRUE
+			log_admin("[key_name(usr)] toggled log source [name] [shown[name] ? "on" : "off"] in the log viewer.")
 			kick()
 			return TRUE
 		if("cat")
@@ -471,6 +472,7 @@ GENERAL_PROTECT_DATUM(/datum/log_viewer)
 				if(!known)
 					return
 				hidden[cat] = TRUE
+			log_admin("[key_name(usr)] toggled log category [cat] [hidden[cat] ? "off" : "on"] in the log viewer.")
 			kick()
 			return TRUE
 		if("filter")
@@ -479,6 +481,8 @@ GENERAL_PROTECT_DATUM(/datum/log_viewer)
 			exclude = clean(params["exclude"], 300)
 			from = clean(params["from"], 9)
 			till = clean(params["till"], 9)
+			if(search || exclude || from || till)
+				log_admin("[key_name(usr)] filtered the log viewer: search \"[search]\"[pattern ? " (regex)" : ""], exclude \"[exclude]\", time [from]-[till].")
 			page = 1
 			focus = null
 			kick()
@@ -489,8 +493,10 @@ GENERAL_PROTECT_DATUM(/datum/log_viewer)
 				return
 			if(who in players)
 				players -= who
+				log_admin("[key_name(usr)] removed [who] from the log viewer player filter.")
 			else if(length(players) < LOGVIEW_PLAYERS)
 				players += who
+				log_admin("[key_name(usr)] added [who] to the log viewer player filter.")
 			else
 				return
 			page = 1
@@ -522,6 +528,7 @@ GENERAL_PROTECT_DATUM(/datum/log_viewer)
 				return
 			unfilter()
 			want = list(source, i)
+			log_admin("[key_name(usr)] viewed the context of [name] entry [i] from [folder.path] in the log viewer.")
 			kick()
 			return TRUE
 		if("download")

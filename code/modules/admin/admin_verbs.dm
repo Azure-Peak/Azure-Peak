@@ -442,6 +442,7 @@ GLOBAL_PROTECT(admin_verbs_hideable)
 	if (!holder)
 		return
 	aghost_toggle = !aghost_toggle
+	log_admin("[key_name(usr)] toggled aghost invisibility [aghost_toggle ? "on" : "off"].")
 	to_chat(src, aghost_toggle ? "Aghosting will now turn your mob invisible." : "Aghost will no longer turn your mob invisible.")
 
 /client/proc/set_admin_ghost_image()
@@ -534,9 +535,11 @@ GLOBAL_PROTECT(admin_verbs_hideable)
 	if(holder && mob)
 		if(mob.invisibility == INVISIBILITY_OBSERVER)
 			mob.invisibility = initial(mob.invisibility)
+			log_admin("[key_name(usr)] toggled invisimin off.")
 			to_chat(mob, span_boldannounce("Invisimin off. Invisibility reset."))
 		else
 			mob.invisibility = INVISIBILITY_OBSERVER
+			log_admin("[key_name(usr)] toggled invisimin on.")
 			to_chat(mob, span_adminnotice("<b>Invisimin on. You are now as invisible as a ghost.</b>"))
 
 /client/proc/check_antagonists()
@@ -629,6 +632,7 @@ GLOBAL_PROTECT(admin_verbs_hideable)
 	set category = "Admin.Admin"
 	if(!check_rights(0))
 		return
+	log_admin("[key_name(usr)] opened the letter archive.")
 	holder.show_letter_log()
 
 /client/proc/game_panel()
@@ -949,6 +953,7 @@ GLOBAL_PROTECT(admin_verbs_hideable)
 	if(player_book)
 		SSlibrarian.del_player_book(player_book)
 		message_admins("[src] has deleted the player book: [player_book]")
+		log_admin("[key_name(usr)] deleted the player book: [player_book]")
 	else
 		to_chat(src, span_notice("Either the book file doesn't exist or you have failed to type it in properly (you can look up the file name by the verb 'database book file names'"))
 
@@ -977,6 +982,7 @@ GLOBAL_PROTECT(admin_verbs_hideable)
 	var/amend_text = input(src, "What do you want to amend it to? (you don't have to make it in the file name format, use normal spaces)")
 	if(SSlibrarian.amend_player_book(book_title, amend_type, amend_text))
 		message_admins("[src] has amended [book_title]'s [amend_type] to [amend_text]")
+		log_admin("[key_name(usr)] amended [book_title]'s [amend_type] to [amend_text]")
 	else
 		to_chat(src, span_notice("Either the book file doesn't exist or you have failed to type something in properly (you can look up the file name by the verb 'database book file names'"))
 
@@ -1005,6 +1011,7 @@ GLOBAL_PROTECT(admin_verbs_hideable)
 			GLOB.head_bounties -= removing_bounty
 			scom_announce("An unknown force has erased the bounty on [target_name]. The gods are displeased.")
 			message_admins("[ADMIN_LOOKUPFLW(src)] has removed the bounty on [ADMIN_LOOKUPFLW(target_name)]")
+			log_admin("[key_name(usr)] removed the bounty on [target_name]")
 			return
 	to_chat(src, "Error. Bounty no longer active.")
 
