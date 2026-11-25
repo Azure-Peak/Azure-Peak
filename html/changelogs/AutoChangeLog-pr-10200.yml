@@ -1,0 +1,4 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - rscadd: "Add skill hardcap to virtues. Pilgrim now adjust knives and athletic up to Apprentice or by +1, and cannot exceed and therefore give you +1 Athletic or +1 Knives on a combat role and give you Master / Legendary knives BS."
