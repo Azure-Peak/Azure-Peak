@@ -48,17 +48,17 @@
 
 //** DECREPIT ALLOY - SKELETONS **//
 
-/datum/npc_loadout/armor/medium/aalloy
+/datum/npc_loadout/armor/medium/decrepit
 	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/ancient/decrepit
 	pants = /obj/item/clothing/under/roguetown/chainlegs/kilt/ancient/decrepit
 	shoes = /obj/item/clothing/shoes/roguetown/sandals/ancient/decrepit //Legionnaire look
 	gloves = /obj/item/clothing/gloves/roguetown/fingerless_leather
 
-/datum/npc_loadout/armor/medium/aalloy_helm
+/datum/npc_loadout/armor/medium/decrepit_helm
 	head = /obj/item/clothing/head/roguetown/helmet/kettle/ancient/decrepit
 	neck = /obj/item/clothing/neck/roguetown/chaincoif/ancient/decrepit
 
-/datum/npc_loadout/armor/medium/aalloy_soldier
+/datum/npc_loadout/armor/medium/decrepit_soldier
 	head = /obj/item/clothing/head/roguetown/helmet/heavy/ancient/decrepit
 	armor = /obj/item/clothing/suit/roguetown/armor/plate/cuirass/ancient/decrepit
 	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/ancient/decrepit
@@ -67,7 +67,7 @@
 	gloves = /obj/item/clothing/gloves/roguetown/chain/ancient/decrepit
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/ancient/decrepit
 
-/datum/npc_loadout/armor/medium/aalloy_archer
+/datum/npc_loadout/armor/medium/decrepit_archer
 	head = /obj/item/clothing/head/roguetown/helmet/kettle/ancient/decrepit
 	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/ancient/decrepit
 	pants = /obj/item/clothing/under/roguetown/chainlegs/kilt/ancient/decrepit

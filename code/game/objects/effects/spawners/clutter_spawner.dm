@@ -47,6 +47,7 @@
 		/obj/item/roguestatue/gold/loot = 1,
 		/obj/item/roguestatue/silver = 1,
 		/obj/item/roguestatue/steel = 1,
+		/obj/item/roguestatue/ancient = 1,
 		/obj/item/rogueweapon/hammer/steel = 1,
 		/obj/item/repair_kit = 1,
 	)

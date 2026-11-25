@@ -66,33 +66,33 @@
 
 //** DeCREPIT ALLOY - SKELETONS **//
 
-/datum/npc_loadout/armor/heavy/aalloy
+/datum/npc_loadout/armor/heavy/decrepit
 	pants = /obj/item/clothing/under/roguetown/platelegs/ancient/decrepit
 	shoes = /obj/item/clothing/shoes/roguetown/boots/ancient/decrepit
 	neck = /obj/item/clothing/neck/roguetown/gorget/ancient/decrepit
 	gloves = /obj/item/clothing/gloves/roguetown/chain/ancient/decrepit
 
-/datum/npc_loadout/armor/heavy/aalloy/plated
+/datum/npc_loadout/armor/heavy/decrepit/plated
 	gloves = /obj/item/clothing/gloves/roguetown/plate/ancient/decrepit
 	head = list(
 		/obj/item/clothing/head/roguetown/helmet/heavy/guard/ancient/decrepit = 60,
 		/obj/item/clothing/head/roguetown/helmet/heavy/knight/ancient/decrepit = 40,
 	)
 
-/datum/npc_loadout/armor/heavy/aalloy/plated/guard
+/datum/npc_loadout/armor/heavy/decrepit/plated/guard
 	head = /obj/item/clothing/head/roguetown/helmet/heavy/guard/ancient/decrepit
 
-/datum/npc_loadout/armor/heavy/aalloy_cuirass
+/datum/npc_loadout/armor/heavy/decrepit_cuirass
 	armor = /obj/item/clothing/suit/roguetown/armor/plate/cuirass/ancient/decrepit
 	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/ancient/decrepit
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/ancient/decrepit
 
-/datum/npc_loadout/armor/heavy/aalloy_hauberk
+/datum/npc_loadout/armor/heavy/decrepit_hauberk
 	armor = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/ancient/decrepit/heavy
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/light
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/ancient/decrepit/chain
 
-/datum/npc_loadout/armor/heavy/aalloy_plate
+/datum/npc_loadout/armor/heavy/decrepit_plate
 	armor = /obj/item/clothing/suit/roguetown/armor/plate/ancient/decrepit
 	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/ancient/decrepit
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/ancient/decrepit

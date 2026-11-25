@@ -27,12 +27,20 @@
 	created_item = /obj/item/roguestatue/iron
 	display_category = ITEM_CAT_DECORATION
 
-/datum/anvil_recipe/valuables/aalloy
-	name = "Statue, Decrepit" // decrepit
+/datum/anvil_recipe/valuables/decrepit
+	name = "Statue, Decrepit"
 	category = "Decrepit Alloy"
 	req_bar = /obj/item/ingot/decrepit
 	created_item = /obj/item/roguestatue/decrepit
 	display_category = ITEM_CAT_DECORATION
+
+/datum/anvil_recipe/valuables/ancient
+	name = "Statue, Ancient"
+	category = "Ancient Alloy"
+	req_bar = /obj/item/ingot/ancient
+	created_item = /obj/item/roguestatue/ancient
+	display_category = ITEM_CAT_DECORATION
+	craftdiff = SKILL_LEVEL_EXPERT
 
 //
 

@@ -71,7 +71,7 @@ LICH SKELETONS
 
 	backpack_contents = list(
 		/obj/item/natural/feather = 1, //For your helm
-		/obj/item/storage/belt/rogue/pouch/coins/aalloy = 1 //Hilarious
+		/obj/item/storage/belt/rogue/pouch/coins/psila = 1 //Hilarious
 	)
 
 	H.adjust_blindness(-3)
@@ -177,7 +177,7 @@ LICH SKELETONS
 
 	backpack_contents = list(
 		/obj/item/natural/cloth = 1, //For your helm
-		/obj/item/storage/belt/rogue/pouch/coins/aalloy = 1 //Hilarious
+		/obj/item/storage/belt/rogue/pouch/coins/psila = 1 //Hilarious
 	)
 	H.adjust_blindness(-3)
 	var/weapons = list("Bow & 24 Arrows", "Bow & 24 Broadheads", "Longbow & 24 Arrows", "Longbow & 24 Broadheads", "Crossbow & 16 Bolts", "Sling + Ancient Shield")
@@ -275,7 +275,7 @@ LICH SKELETONS
 
 	backpack_contents = list(
 		/obj/item/natural/feather = 1, //For your helm
-		/obj/item/storage/belt/rogue/pouch/coins/aalloy = 1 //Hilarious
+		/obj/item/storage/belt/rogue/pouch/coins/psila = 1 //Hilarious
 	)
 
 	H.adjust_blindness(-3)
@@ -415,7 +415,7 @@ LICH SKELETONS
 		/obj/item/rogueweapon/hammer/ancient = 1,
 		/obj/item/rogueweapon/tongs/ancient = 1,
 		/obj/item/rogueweapon/hammer/wood = 1,
-		/obj/item/storage/belt/rogue/pouch/coins/aalloy = 1, //Hilarious
+		/obj/item/storage/belt/rogue/pouch/coins/psila = 1, //Hilarious
 		/obj/item/rogueweapon/chisel/bronze = 1,
 		/obj/item/rogueweapon/handsaw/bronze = 1,
 		/obj/item/dye_brush = 1
@@ -506,7 +506,7 @@ LICH SKELETONS
 
 	backpack_contents = list(
 		/obj/item/natural/cloth = 1, //For your helm
-		/obj/item/storage/belt/rogue/pouch/coins/aalloy/mid = 1 //Hilarious
+		/obj/item/storage/belt/rogue/pouch/coins/psila/mid = 1 //Hilarious
 	)
 
 	H.adjust_blindness(-3)
@@ -587,7 +587,7 @@ LICH SKELETONS
 
 	backpack_contents = list(
 		/obj/item/natural/feather = 1, //For your helm
-		/obj/item/storage/belt/rogue/pouch/coins/aalloy/rich = 1 //Hilarious
+		/obj/item/storage/belt/rogue/pouch/coins/psila/rich = 1 //Hilarious
 	)
 
 	H.adjust_blindness(-3)
@@ -674,7 +674,7 @@ LICH SKELETONS
 
 	backpack_contents = list(
 		/obj/item/natural/feather = 1, //For your helm
-		/obj/item/storage/belt/rogue/pouch/coins/aalloy/rich = 1 //Hilarious
+		/obj/item/storage/belt/rogue/pouch/coins/psila/rich = 1 //Hilarious
 	)
 
 
@@ -827,7 +827,7 @@ LICH SKELETONS
 	backr = /obj/item/rogueweapon/woodstaff/quarterstaff/iron //replace w/ gilbranze once ancient ver added (its literally +3 force w/ steel grade staff vs iron anyway)
 
 	backpack_contents = list(
-		/obj/item/storage/belt/rogue/pouch/coins/aalloy/mid = 1, //Hilarious
+		/obj/item/storage/belt/rogue/pouch/coins/psila/mid = 1, //Hilarious
 		/obj/item/clothing/neck/roguetown/psicross/inhumen/ancient/decrepit = 4 //SPREAD HER INFLUENCE. ZIZO. ZIZO. ZIZO. (or just wear them all to aurafarm on the Psydonites, IDK)
 	)
 

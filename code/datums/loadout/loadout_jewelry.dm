@@ -71,13 +71,8 @@
 	path = /obj/item/clothing/neck/roguetown/psicross/undivided
 	sort_category = "Jewelry"
 
-/datum/loadout_item/psicross/zizo
-	name = "Decrepit Zcross"
-	path = /obj/item/clothing/neck/roguetown/psicross/inhumen/ancient/decrepit
-	sort_category = "Jewelry"
-
-/datum/loadout_item/zcross_iron
-	name = "Iron Zcross"
+/datum/loadout_item/pscicross/zizo
+	name = "Amulet of Zizo"
 	path = /obj/item/clothing/neck/roguetown/psicross/inhumen/iron
 	sort_category = "Jewelry"
 
@@ -96,32 +91,37 @@
 	path = /obj/item/clothing/neck/roguetown/psicross/inhumen/baotha
 	sort_category = "Jewelry"
 
-/datum/loadout_item/psicross/gronnzizo
+/datum/loadout_item/pscicross/zizo/decrepit
+	name = "Decrepit Amulet of Zizo"
+	path = /obj/item/clothing/neck/roguetown/psicross/inhumen/ancient/decrepit
+	sort_category = "Jewelry"
+
+/datum/loadout_item/psicross/gronn_zizo
 	name = "Wolf Talisman"
 	path = /obj/item/clothing/neck/roguetown/psicross/inhumen/gronn
 	sort_category = "Jewelry"
 
-/datum/loadout_item/psicross/gronnbaotha
+/datum/loadout_item/psicross/gronn_baotha
 	name = "Leopard Talisman"
 	path = /obj/item/clothing/neck/roguetown/psicross/inhumen/baothagronn
 	sort_category = "Jewelry"
 
-/datum/loadout_item/psicross/gronnmatthios
+/datum/loadout_item/psicross/gronn_matthios
 	name = "Bear Talisman"
 	path = /obj/item/clothing/neck/roguetown/psicross/inhumen/matthios/gronn
 	sort_category = "Jewelry"
 
-/datum/loadout_item/psicross/gronngraggar
+/datum/loadout_item/psicross/gronn_graggar
 	name = "Moose Talisman"
 	path = /obj/item/clothing/neck/roguetown/psicross/inhumen/graggar/gronn
 	sort_category = "Jewelry"
 
-/datum/loadout_item/psicross/gronndendor
+/datum/loadout_item/psicross/gronn_dendor
 	name = "Volfskinned Talisman"
 	path = /obj/item/clothing/neck/roguetown/psicross/dendor/gronn
 	sort_category = "Jewelry"
 
-/datum/loadout_item/psicross/gronnabyssor
+/datum/loadout_item/psicross/gronn_abyssor
 	name = "Hadal Talisman"
 	path = /obj/item/clothing/neck/roguetown/psicross/abyssor/gronn
 	sort_category = "Jewelry"

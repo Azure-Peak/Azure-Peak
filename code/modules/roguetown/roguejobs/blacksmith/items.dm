@@ -61,6 +61,16 @@
 	. = ..()
 	icon_state = "astatue[pick(1,2)]"
 
+/obj/item/roguestatue/ancient
+	name = "ancient statue"
+	desc = "There were no gods in their legends; only heroes."
+	icon_state = "astatue1"
+	smeltresult = /obj/item/ingot/ancient
+
+/obj/item/roguestatue/ancient/Initialize(mapload)
+	. = ..()
+	icon_state = "astatue[pick(1,2)]"
+
 /obj/item/roguestatue/bronze
 	name = "bronze statue"
 	desc = "A statue of sculpted bronze, forged in the visage of an ancient hero."

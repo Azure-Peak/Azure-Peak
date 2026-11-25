@@ -136,7 +136,7 @@
 		/obj/item/rogueweapon/huntingknife/idagger/ancient = 1,
 		/obj/item/rogueweapon/scabbard/sheath = 1,
 		/obj/item/natural/feather = 1, //For your helm
-		/obj/item/storage/belt/rogue/pouch/coins/aalloy/rich = 1, //Hilarious
+		/obj/item/storage/belt/rogue/pouch/coins/psila/rich = 1, //Hilarious
 	)
 
 	if(H.mind)

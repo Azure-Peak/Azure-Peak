@@ -32,11 +32,11 @@
 	brawl = SKILL_LEVEL_APPRENTICE
 	survival = SKILL_LEVEL_APPRENTICE
 	loadouts = list(
-		/datum/npc_loadout/armor/medium/aalloy,
+		/datum/npc_loadout/armor/medium/decrepit,
 		/datum/npc_loadout/kit/skeleton_amulet,
 		/datum/npc_loadout/kit/skeleton_tabard,
 		list( //50% chance of a decrepit helm w/coif
-			/datum/npc_loadout/armor/medium/aalloy_helm = 1,
+			/datum/npc_loadout/armor/medium/decrepit_helm = 1,
 			NPC_NOTHING = 1,
 		),
 		/datum/npc_loadout/weapon/skeleton_footsoldier,
@@ -82,7 +82,7 @@
 	survival = SKILL_LEVEL_APPRENTICE
 	skills = list(/datum/skill/misc/climbing = SKILL_LEVEL_JOURNEYMAN)
 	loadouts = list(
-		/datum/npc_loadout/armor/medium/aalloy_soldier,
+		/datum/npc_loadout/armor/medium/decrepit_soldier,
 		/datum/npc_loadout/kit/skeleton_amulet,
 		/datum/npc_loadout/kit/skeleton_tabard/soldier,
 		list( //20% chance to have overpowered levels of aurafarming
@@ -116,11 +116,11 @@
 	statpack = /datum/npc_statpack/light/t2
 	survival = SKILL_LEVEL_EXPERT //Needed at expert else we lose our duel blades by falling over in water cause heavy
 	loadouts = list(
-		/datum/npc_loadout/armor/heavy/aalloy,
+		/datum/npc_loadout/armor/heavy/decrepit,
 		/datum/npc_loadout/kit/skeleton_dreadnought/khopesh,
 		list(
-			/datum/npc_loadout/armor/heavy/aalloy_cuirass = 60,
-			/datum/npc_loadout/armor/heavy/aalloy_hauberk = 40,
+			/datum/npc_loadout/armor/heavy/decrepit_cuirass = 60,
+			/datum/npc_loadout/armor/heavy/decrepit_hauberk = 40,
 		),
 		/datum/npc_loadout/weapon/skeleton_khopesh,
 	)
@@ -130,11 +130,11 @@
 	statpack = /datum/npc_statpack/heavy/t2
 	survival = SKILL_LEVEL_APPRENTICE //Tanky but falls over in water
 	loadouts = list(
-		/datum/npc_loadout/armor/heavy/aalloy/plated,
+		/datum/npc_loadout/armor/heavy/decrepit/plated,
 		/datum/npc_loadout/kit/skeleton_dreadnought/withered,
 		list(
-			/datum/npc_loadout/armor/heavy/aalloy_plate = 60,
-			/datum/npc_loadout/armor/heavy/aalloy_hauberk = 40,
+			/datum/npc_loadout/armor/heavy/decrepit_plate = 60,
+			/datum/npc_loadout/armor/heavy/decrepit_hauberk = 40,
 		),
 		/datum/npc_loadout/weapon/skeleton_withered,
 	)
@@ -149,7 +149,7 @@
 	skills = list(/datum/skill/combat/bows = SKILL_LEVEL_JOURNEYMAN)
 	ai_controller = /datum/ai_controller/human_npc/archer
 	loadouts = list(
-		/datum/npc_loadout/armor/medium/aalloy_archer,
+		/datum/npc_loadout/armor/medium/decrepit_archer,
 		/datum/npc_loadout/kit/skeleton_amulet,
 		/datum/npc_loadout/kit/skeleton_tabard,
 		/datum/npc_loadout/weapon/skeleton_archer,
@@ -237,8 +237,8 @@
 	survival = SKILL_LEVEL_APPRENTICE
 	skills = list(/datum/skill/misc/climbing = SKILL_LEVEL_EXPERT)
 	loadouts = list(
-		/datum/npc_loadout/armor/heavy/aalloy/plated/guard,
-		/datum/npc_loadout/armor/heavy/aalloy_plate,
+		/datum/npc_loadout/armor/heavy/decrepit/plated/guard,
+		/datum/npc_loadout/armor/heavy/decrepit_plate,
 		/datum/npc_loadout/kit/fallen_duke,
 		/datum/npc_loadout/weapon/fallen_duke,
 	)
@@ -352,7 +352,7 @@
 		NPC_NOTHING = 85,
 	)
 	beltr = list(
-		/obj/item/storage/belt/rogue/pouch/coins/aalloy = 10,
+		/obj/item/storage/belt/rogue/pouch/coins/psila = 10,
 		NPC_NOTHING = 90,
 	)
 
@@ -382,7 +382,7 @@
 /datum/npc_loadout/kit/skeleton_dreadnought
 	abstract_type = /datum/npc_loadout/kit/skeleton_dreadnought
 	beltr = list(
-		/obj/item/storage/belt/rogue/pouch/coins/aalloy = 15,
+		/obj/item/storage/belt/rogue/pouch/coins/psila = 15,
 		NPC_NOTHING = 85,
 	)
 
@@ -494,7 +494,7 @@
 	backl = /obj/item/storage/backpack/rogue/satchel/short/black
 	backpack_contents = list(
 		/obj/item/clothing/head/roguetown/crown/fakecrown = 1,
-		/obj/item/storage/belt/rogue/pouch/coins/aalloy/rich = 1, //funny
+		/obj/item/storage/belt/rogue/pouch/coins/psila/rich = 1, //funny
 		/obj/item/roguegem/diamond = 1,
 	)
 	beltl = list(
