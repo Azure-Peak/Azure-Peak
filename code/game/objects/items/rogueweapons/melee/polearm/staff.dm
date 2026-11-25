@@ -168,7 +168,6 @@
 	force = 16
 	force_wielded = 22
 	gripped_intents = list(/datum/intent/spear/bash/ranged/quarterstaff, /datum/intent/spear/thrust/quarterstaff, /datum/intent/mace/smash/wood/ranged)
-	signature_intent = /datum/intent/effect/hobble/quarterstaff
 	icon_state = "quarterstaff_virtue"
 	max_integrity = 200
 
