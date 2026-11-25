@@ -21,6 +21,46 @@
 	var/first_sighting = 0
 	var/form_registered = FALSE
 	var/static/list/forms_worn = list()
+	var/static/list/ranged_skills = list(
+		/datum/skill/combat/bows,
+		/datum/skill/combat/crossbows,
+		/datum/skill/combat/slings,
+	)
+	var/static/list/mirrored_traits = list(
+		TRAIT_MEDIUMARMOR,
+		TRAIT_HEAVYARMOR,
+		TRAIT_DODGEEXPERT,
+		TRAIT_CIVILIZEDBARBARIAN,
+		TRAIT_DUALWIELDER,
+		TRAIT_FENCERDEXTERITY,
+		TRAIT_FREEBLADE,
+		TRAIT_SENTINELOFWITS,
+		TRAIT_TEMPO,
+		TRAIT_LONGSWORDSMAN,
+		TRAIT_SABRIST,
+		TRAIT_WEAPONLESS,
+		TRAIT_NODEF,
+		TRAIT_STRONGBITE,
+		TRAIT_NUTCRACKER,
+		TRAIT_STRENGTH_UNCAPPED,
+		TRAIT_SHARPER_BLADES,
+		TRAIT_BIGGUY,
+		TRAIT_FORTITUDE,
+		TRAIT_CRITICAL_RESISTANCE,
+		TRAIT_CRITICAL_WEAKNESS,
+		TRAIT_BLOOD_RESISTANCE,
+		TRAIT_BLOODLOSS_IMMUNE,
+		TRAIT_NOPAIN,
+		TRAIT_NOPAINSTUN,
+		TRAIT_IGNOREDAMAGESLOWDOWN,
+		TRAIT_GRABIMMUNE,
+		TRAIT_HARDDISMEMBER,
+		TRAIT_EASYDISMEMBER,
+		TRAIT_BRITTLE,
+		TRAIT_NORUN,
+		TRAIT_DECEIVING_MEEKNESS,
+		TRAIT_COMBAT_AWARE,
+	)
 
 /mob/living/carbon/human/species/human/northern/doppelganger/Destroy()
 	release_form()
@@ -68,11 +108,6 @@
 	ADD_TRAIT(src, TRAIT_DODGEEXPERT, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_STEELHEARTED, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_KNEESTINGER_IMMUNITY, TRAIT_GENERIC)
-	var/static/list/ranged_skills = list(
-		/datum/skill/combat/bows,
-		/datum/skill/combat/crossbows,
-		/datum/skill/combat/slings,
-	)
 	for(var/skill in GLOB.npc_melee_skills + GLOB.npc_brawl_skills + GLOB.npc_athletics_skills + ranged_skills)
 		adjust_skillrank_up_to(skill, SKILL_LEVEL_EXPERT, TRUE)
 	for(var/skill in GLOB.npc_survival_skills)
@@ -131,6 +166,7 @@
 	for(var/obj/item/shroud_item in get_equipped_items(TRUE) + held_items)
 		qdel(shroud_item)
 	mirror_body(target)
+	mirror_training(target)
 	forms_worn += copied_name
 	form_registered = TRUE
 	mirror_gear(target)
@@ -282,6 +318,16 @@
 	STAINT = target.STAINT
 	STALUC = target.STALUC
 	recalculate_pain_threshold()
+
+/mob/living/carbon/human/species/human/northern/doppelganger/proc/mirror_training(mob/living/carbon/human/target)
+	for(var/skill in GLOB.npc_melee_skills + GLOB.npc_brawl_skills + GLOB.npc_athletics_skills + GLOB.npc_survival_skills + ranged_skills + /datum/skill/combat/arcyne)
+		var/their_level = target.get_skill_level(skill)
+		adjust_skillrank_up_to(skill, their_level, TRUE)
+		adjust_skillrank_down_to(skill, their_level, TRUE)
+	for(var/trait in mirrored_traits)
+		REMOVE_TRAIT(src, trait, TRAIT_GENERIC)
+		if(HAS_TRAIT(target, trait))
+			ADD_TRAIT(src, trait, TRAIT_GENERIC)
 
 /mob/living/carbon/human/species/human/northern/doppelganger/proc/mirror_gear(mob/living/carbon/human/target)
 	var/static/list/worn_slots = list(
