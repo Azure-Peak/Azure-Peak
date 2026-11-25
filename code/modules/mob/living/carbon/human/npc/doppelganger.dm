@@ -20,6 +20,7 @@
 	var/cloned_target = FALSE
 	var/clone_ready = FALSE
 	var/copied_name
+	var/datum/weakref/copied_target
 	var/first_sighting = 0
 	var/form_registered = FALSE
 	var/static/list/forms_worn = list()
@@ -164,6 +165,7 @@
 	if(!target.dna?.species)
 		return FALSE
 	cloned_target = TRUE
+	copied_target = WEAKREF(target)
 	return_to_sight()
 	for(var/obj/item/shroud_item in get_equipped_items(TRUE) + held_items)
 		qdel(shroud_item)
@@ -193,6 +195,10 @@
 	for(var/obj/item/weapon in GetAllContents(/obj/item))
 		REMOVE_TRAIT(weapon, TRAIT_NODROP, TRAIT_GENERIC)
 	if(cloned_target)
+		var/mob/living/carbon/human/target = copied_target?.resolve()
+		if(target)
+			mirror_stats(target)
+			mirror_training(target)
 		to_chat(src, span_notice("You are a doppelganger wearing the form of [copied_name]."))
 		return
 	if(!(locate(/datum/action/cooldown/doppel_take_form) in actions))
@@ -313,18 +319,27 @@
 		var/obj/item/organ/copy = blueprint.create_organ()
 		copy.Insert(src, TRUE, FALSE)
 
+	mirror_stats(target)
+
+/mob/living/carbon/human/species/human/northern/doppelganger/proc/mirror_stats(mob/living/carbon/human/target)
+	var/deficit = client ? 0 : DOPPEL_STAT_DEFICIT
 	STASTR = target.STASTR
 	STASPD = target.STASPD
-	STACON = max(1, target.STACON - DOPPEL_STAT_DEFICIT)
-	STAWIL = max(1, target.STAWIL - DOPPEL_STAT_DEFICIT)
+	STACON = max(1, target.STACON - deficit)
+	STAWIL = max(1, target.STAWIL - deficit)
 	STAPER = target.STAPER
 	STAINT = target.STAINT
 	STALUC = target.STALUC
 	recalculate_pain_threshold()
 
 /mob/living/carbon/human/species/human/northern/doppelganger/proc/mirror_training(mob/living/carbon/human/target)
+	var/deficit = client ? 0 : DOPPEL_SKILL_DEFICIT
 	for(var/skill in GLOB.npc_melee_skills + GLOB.npc_brawl_skills + GLOB.npc_athletics_skills + GLOB.npc_survival_skills + ranged_skills + /datum/skill/combat/arcyne)
-		var/their_level = max(SKILL_LEVEL_NONE, target.get_skill_level(skill) - DOPPEL_SKILL_DEFICIT)
+		var/their_level = max(SKILL_LEVEL_NONE, target.get_skill_level(skill) - deficit)
+		adjust_skillrank_up_to(skill, their_level, TRUE)
+		adjust_skillrank_down_to(skill, their_level, TRUE)
+	for(var/skill in list(/datum/skill/magic/arcane, /datum/skill/magic/holy))
+		var/their_level = clamp(target.get_skill_level(skill) - deficit, SKILL_LEVEL_NONE, SKILL_LEVEL_EXPERT)
 		adjust_skillrank_up_to(skill, their_level, TRUE)
 		adjust_skillrank_down_to(skill, their_level, TRUE)
 	for(var/trait in mirrored_traits)
@@ -410,8 +425,6 @@
 
 /mob/living/carbon/human/species/human/northern/doppelganger/proc/mirror_magic(mob/living/carbon/human/target)
 	var/controller_type
-	adjust_skillrank_up_to(/datum/skill/magic/arcane, min(target.get_skill_level(/datum/skill/magic/arcane) - DOPPEL_SKILL_DEFICIT, SKILL_LEVEL_EXPERT), TRUE)
-	adjust_skillrank_up_to(/datum/skill/magic/holy, min(target.get_skill_level(/datum/skill/magic/holy) - DOPPEL_SKILL_DEFICIT, SKILL_LEVEL_EXPERT), TRUE)
 
 	var/datum/status_effect/buff/arcyne_momentum/their_momentum = target.has_status_effect(/datum/status_effect/buff/arcyne_momentum)
 	if(their_momentum?.chant)
