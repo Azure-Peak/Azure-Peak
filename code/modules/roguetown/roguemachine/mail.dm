@@ -11,6 +11,7 @@
 	var/inqonly = FALSE // Has the Inquisitor locked Marque-spending for lessers?
 	var/keycontrol = "puritan"
 	var/static/list/last_free_send = list()
+	var/static/list/daily_supply_claims = list()
 	var/datum/marquette_panel/marquette
 	var/ournum
 	var/mailtag
@@ -51,6 +52,15 @@
 		return
 	last_free_send[user.ckey] = world.time
 
+/obj/structure/roguemachine/mail/proc/claim_daily_supply(mob/user, trait)
+	if(!user?.ckey || !HAS_TRAIT(user, trait))
+		return FALSE
+	var/claim_key = "[trait]|[user.ckey]"
+	if(daily_supply_claims[claim_key] == GLOB.dayspassed)
+		return FALSE
+	daily_supply_claims[claim_key] = GLOB.dayspassed
+	return TRUE
+
 /obj/structure/roguemachine/mail/attack_hand(mob/user)
 	if(SSroguemachine.hermailermaster && ishuman(user))
 		var/obj/item/roguemachine/mastermail/M = SSroguemachine.hermailermaster
@@ -71,15 +81,11 @@
 			H.remove_status_effect(/datum/status_effect/ugotmail)
 	if(!ishuman(user))
 		return
-	if (user.mind?.has_bomb) //for TRAIT_EXPLOSIVE_SUPPLY. One bomb per one day.
+	if(claim_daily_supply(user, TRAIT_EXPLOSIVE_SUPPLY))
 		var/mob/living/carbon/human/H = user
-		H.mind?.has_bomb = FALSE
 		var/bomb_type
 		var/static/list/bomb_type_list = list(/obj/item/explosive/fused/powder/stick,
 		/obj/item/explosive/impact/shrapnel,
-		/obj/item/explosive/impact/smoke/poison_gas,
-		/obj/item/explosive/impact/smoke/fire_gas,
-		/obj/item/explosive/impact/smoke/healing_gas,
 		)
 		var/bonus = 0
 		if(H.STALUC > 10)
@@ -95,9 +101,8 @@
 			bomb_type = pick(bomb_type_list)
 			var/obj/item/B = new bomb_type(get_turf(H))
 			H.put_in_hands(B)
-	if(user.mind?.has_drug_delivery) //for TRAIT_DRUG_SUPPLY. One delivery per day.
+	if(claim_daily_supply(user, TRAIT_DRUG_SUPPLY))
 		var/mob/living/carbon/human/H = user
-		H.mind.has_drug_delivery = FALSE
 		var/static/list/common_drug_list = list(
 			/obj/item/reagent_containers/powder/spice,
 			/obj/item/reagent_containers/powder/moondust,

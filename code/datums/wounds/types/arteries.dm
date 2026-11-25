@@ -30,7 +30,7 @@
 /datum/wound/artery/on_mob_gain(mob/living/affected)
 	. = ..()
 	affected.emote("paincrit", TRUE)
-	affected.Slowdown(20)
+	affected.apply_slowdown(39 SECONDS)
 	shake_camera(affected, 2, 2)
 	if(iscarbon(owner) && owner.mind)
 		affected.apply_status_effect(/datum/status_effect/debuff/critwounded) //apply critically wounded - more energy in cmode cost. Until fixed.
@@ -141,7 +141,7 @@
 /datum/wound/integrity/on_mob_gain(mob/living/carbon/affected)
 	. = ..()
 	affected.emote("superagony", TRUE)
-	affected.Slowdown(20)
+	affected.apply_slowdown(39 SECONDS)
 	affected.electrocute_act(10, affected)
 	shake_camera(affected, 2, 2)
 	if(iscarbon(owner) && owner.mind)

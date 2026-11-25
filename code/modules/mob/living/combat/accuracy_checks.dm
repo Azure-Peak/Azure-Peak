@@ -184,13 +184,13 @@
 		return
 	P.aim_peak = ACC_RANGED_BASE + ((STAPER - ACC_SPELL_PER_BASELINE) * ACC_SPELL_PER_STEP)
 /// aim_stat defaults to Perception, the archery case. Spells pass Intelligence.
-/mob/living/proc/get_ranged_lead_error(moved, aim_stat)
+/mob/living/proc/get_ranged_lead_error(moved, aim_stat, error_bonus = 0)
 	// If you have not moved, they don't miss
 	if(moved <= 0)
 		return 0
 	if(isnull(aim_stat))
 		aim_stat = STAPER
-	var/error = ARCHER_NPC_STATIONARY_MISS + (moved * ARCHER_NPC_MOVING_TARGET_ERROR)
+	var/error = ARCHER_NPC_STATIONARY_MISS + (moved * ARCHER_NPC_MOVING_TARGET_ERROR) + error_bonus
 	if(aim_stat > ARCHER_NPC_AIM_BASELINE)
 		error -= min((aim_stat - ARCHER_NPC_AIM_BASELINE) * ARCHER_NPC_LEAD_ERROR_PER_POINT, ARCHER_NPC_LEAD_ERROR_MAX_BONUS)
 	else if(aim_stat < ARCHER_NPC_AIM_BASELINE)
@@ -203,7 +203,7 @@
 	var/perp = turn(get_dir(src, reference), pick(90, -90))
 	return get_ranged_target_turf(aim, perp, tiles) || aim
 
-/mob/living/proc/get_ranged_lead_turf(atom/movable/target, turf/locked_turf, projectile_speed = ARCHER_NPC_DEFAULT_PROJECTILE_SPEED, aim_stat)
+/mob/living/proc/get_ranged_lead_turf(atom/movable/target, turf/locked_turf, projectile_speed = ARCHER_NPC_DEFAULT_PROJECTILE_SPEED, aim_stat, error_bonus = 0)
 	var/turf/current = get_turf(target)
 	if(!isturf(current) || !isturf(locked_turf))
 		return current
@@ -219,7 +219,7 @@
 			lead = CLAMP(round((get_dist(src, current) * projectile_speed) / target_delay, 1), 0, ARCHER_NPC_MAX_LEAD)
 			if(lead)
 				aim = get_ranged_target_turf(current, target.last_move, lead) || current
-	var/error_chance = get_ranged_lead_error(moved, aim_stat)
+	var/error_chance = get_ranged_lead_error(moved, aim_stat, error_bonus)
 	if(!prob(error_chance))
 		return aim
 	var/offset = ARCHER_NPC_MISS_OFFSET_TILES + (prob(error_chance) ? 1 : 0)

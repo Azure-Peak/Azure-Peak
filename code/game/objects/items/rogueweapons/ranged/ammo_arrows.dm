@@ -242,6 +242,7 @@
 	name = "elemental arrow"
 	desc = "An iron broadhead arrow coated with an alchemical tincture."
 	caliber = "arrow"
+	antibeast_factor = ANTIBEAST_DEFAULT
 	ammo_weight = 1
 	possible_item_intents = list(/datum/intent/dagger/cut, /datum/intent/dagger/thrust)
 
@@ -328,7 +329,7 @@
 		return
 	var/mob/living/M = target
 	M.electrocute_act(1, src, 1, SHOCK_NOSTUN)
-	M.Slowdown(1 SECONDS)
+	M.apply_slowdown(1 SECONDS)
 	to_chat(M, span_danger("Arcyne thunder sears through my body!"))
 
 // --- KINETIC --- (Arcyne sprite)

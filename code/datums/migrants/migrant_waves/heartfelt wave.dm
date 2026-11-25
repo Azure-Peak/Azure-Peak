@@ -4,7 +4,7 @@
 	max_spawns = 1
 	weight = 50
 	required_roles = list(
-		/datum/migrant_role/heartfelt/lord = 1,
+		/datum/migrant_role/heartfelt/count = 1,
 	)
 	optional_roles = list(
 		/datum/migrant_role/heartfelt/hand = 1,

@@ -75,7 +75,7 @@
 
 /datum/npc_archetype/skeleton/medium
 	name = "Skeleton Soldier"
-	threat_point = THREAT_LOW
+	threat_point = THREAT_HIGH
 	statpack = /datum/npc_statpack/line/t1
 	melee = SKILL_LEVEL_JOURNEYMAN
 	brawl = SKILL_LEVEL_JOURNEYMAN
@@ -98,7 +98,7 @@
 // This combines the khopesh and withered dreadknight
 /datum/npc_archetype/skeleton/hard
 	abstract_type = /datum/npc_archetype/skeleton/hard
-	threat_point = THREAT_TOUGH
+	threat_point = THREAT_DANGEROUS
 	traits = list(TRAIT_NORUN) //I think the AI respects this, should stop them leaping or w/e which can cause them to lose their weapons.
 	melee = SKILL_LEVEL_EXPERT
 	brawl = SKILL_LEVEL_EXPERT
@@ -141,7 +141,7 @@
 
 /datum/npc_archetype/skeleton/archer
 	name = "Skeleton Archer"
-	threat_point = THREAT_LOW
+	threat_point = THREAT_HIGH
 	statpack = /datum/npc_statpack/marksman/t0
 	melee = SKILL_LEVEL_APPRENTICE
 	brawl = SKILL_LEVEL_APPRENTICE
@@ -158,7 +158,7 @@
 // For Duke Manor & Zizo Manor - Ground based spread, so no pirate in pool!
 /datum/npc_archetype/skeleton/mediumspread
 	name = "Skeleton (Mixed)"
-	threat_point = THREAT_MODERATE
+	threat_point = THREAT_HIGH
 	variants = list(
 		/datum/npc_archetype/skeleton/supereasy = 1,
 		/datum/npc_archetype/skeleton/easy = 1,
@@ -201,7 +201,7 @@
 
 /datum/npc_archetype/skeleton/bogguard/archer
 	name = "Bog Skeleton Archer"
-	threat_point = THREAT_LOW
+	threat_point = THREAT_MODERATE
 	statpack = /datum/npc_statpack/marksman/t1
 	skills = list(/datum/skill/combat/bows = SKILL_LEVEL_JOURNEYMAN)
 	ai_controller = /datum/ai_controller/human_npc/archer
@@ -214,6 +214,7 @@
 
 /datum/npc_archetype/skeleton/bogguard/master
 	name = "Bog Skeleton Master"
+	threat_point = THREAT_DEADLY
 	statpack = /datum/npc_statpack/line/t3
 	armor_training = ARMOR_CLASS_HEAVY
 	melee = SKILL_LEVEL_JOURNEYMAN
@@ -230,6 +231,7 @@
 	threat_point = THREAT_ELITE
 	stat_modifiers = null
 	statpack = /datum/npc_statpack/skeleton/fallenduke
+	patron = /datum/patron/inhumen/zizo
 	melee = SKILL_LEVEL_MASTER
 	brawl = SKILL_LEVEL_MASTER
 	survival = SKILL_LEVEL_APPRENTICE
@@ -316,7 +318,6 @@
 		/obj/item/clothing/shoes/roguetown/simpleshoes = 60,
 		/obj/item/clothing/shoes/roguetown/boots/leather/reinforced/shoddy = 40,
 	)
-	mask = /obj/item/clothing/mask/rogue/facemask/aalloy
 	gloves = /obj/item/clothing/gloves/roguetown/fingerless_leather
 	head = list(
 		/obj/item/clothing/head/roguetown/cap = 1,
@@ -419,70 +420,86 @@
 	)
 	armor = list(
 		/obj/item/clothing/suit/roguetown/armor/chainmail/iron = 10,
-		NPC_NOTHING = 90,
+		NPC_NOTHING = 30,
 	)
 	shirt = list(
-		/obj/item/clothing/suit/roguetown/armor/gambeson/light = 340,
-		/obj/item/clothing/suit/roguetown/armor/gambeson = 51,
-		/obj/item/clothing/suit/roguetown/armor/gambeson/heavy = 9,
-		NPC_NOTHING = 400,
+		/obj/item/clothing/suit/roguetown/armor/gambeson/light = 40,
+		/obj/item/clothing/suit/roguetown/armor/gambeson = 10,
 	)
 	pants = list(
 		/obj/item/clothing/under/roguetown/tights/vagrant = 12,
 		/obj/item/clothing/under/roguetown/chainlegs/iron = 3,
-		/obj/item/clothing/under/roguetown/heavy_leather_pants = 1,
-		NPC_NOTHING = 16,
+		/obj/item/clothing/under/roguetown/trou/leather = 15,
+		NPC_NOTHING = 5,
 	)
 	head = list(
-		/obj/item/clothing/neck/roguetown/coif = 35,
-		/obj/item/clothing/head/roguetown/helmet/kettle/iron = 15,
-		NPC_NOTHING = 50,
+		/obj/item/clothing/head/roguetown/helmet/skullcap = 20, //old sovl
+		/obj/item/clothing/head/roguetown/helmet/skullcap/old = 1, //old SOVL (rare b.c its a triumph thing otherwise)
+		/obj/item/clothing/head/roguetown/helmet/kettle/iron = 8,
+		/obj/item/clothing/head/roguetown/helmet/leather = 15,
+		/obj/item/clothing/head/roguetown/helmet/heavy/guard/bogman/iron = 3,
+		/obj/item/clothing/head/roguetown/roguehood/bogman = 8, //no colored varients, these were who didn't defect
+		NPC_NOTHING = 10,
 	)
 	neck = list(
+		/obj/item/clothing/neck/roguetown/coif = 25,
 		/obj/item/clothing/neck/roguetown/chaincoif/iron = 1,
-		NPC_NOTHING = 1,
+	)
+	mask = list(
+		/obj/item/clothing/mask/rogue/facemask = 1,
+		/obj/item/clothing/mask/rogue/ragmask/black = 3,
+		/obj/item/clothing/mask/rogue/ragmask/red = 3,
+		NPC_NOTHING = 10,
 	)
 	cloak = list(
 		/obj/item/clothing/cloak/tabard/stabard/bog = 1,
 		NPC_NOTHING = 1,
 	)
-	mask = /obj/item/clothing/mask/rogue/facemask/aalloy
-	gloves = /obj/item/clothing/gloves/roguetown/fingerless_leather
-	shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced/shoddy
+	gloves = list(
+		/obj/item/clothing/gloves/roguetown/fingerless_leather = 3,
+		/obj/item/clothing/gloves/roguetown/leather = 3,
+		/obj/item/clothing/gloves/roguetown/chain/iron = 1,
+	)
+	shoes = list(
+		/obj/item/clothing/shoes/roguetown/boots/leather/reinforced/shoddy = 1,
+		/obj/item/clothing/shoes/roguetown/boots/leather = 3,
+	)
+	belt = list(
+		/obj/item/storage/belt/rogue/leather = 1,
+		/obj/item/storage/belt/rogue/leather/cloth = 2,
+		/obj/item/storage/belt/rogue/leather/rope = 2,
+		NPC_NOTHING = 3,
+	)
 
 /datum/npc_loadout/kit/bog_skeleton_archer
 	clear_slots = list("head", "mask", "neck")
 	armor = /obj/item/clothing/suit/roguetown/shirt/rags
 
 /datum/npc_loadout/kit/bog_skeleton_master
-	head = /obj/item/clothing/head/roguetown/helmet/bascinet/pigface/hounskull
-	gloves = /obj/item/clothing/gloves/roguetown/plate
+	head = /obj/item/clothing/head/roguetown/helmet/bascinet/pigface/hounskull/iron
+	gloves = /obj/item/clothing/gloves/roguetown/plate/iron
 	pants = /obj/item/clothing/under/roguetown/chainlegs/iron
 	cloak = /obj/item/clothing/cloak/tabard/stabard/bog
-	neck = /obj/item/clothing/neck/roguetown/chaincoif
+	neck = /obj/item/clothing/neck/roguetown/chaincoif/iron
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy
-	armor = /obj/item/clothing/suit/roguetown/armor/plate/scale
-	shoes = /obj/item/clothing/shoes/roguetown/boots/armor
+	armor = /obj/item/clothing/suit/roguetown/armor/plate/scale/iron
+	shoes = /obj/item/clothing/shoes/roguetown/boots/armor/iron
 	belt = /obj/item/storage/belt/rogue/leather
 
 /datum/npc_loadout/kit/fallen_duke
+	traits = list(TRAIT_NOBLE) //Its a duke, sire. Sovl (also its only 1 NPC, it won't affect Astrata's score that badly)
+	cloak = /obj/item/clothing/cloak/lordcloak
 	belt = /obj/item/storage/belt/rogue/leather/black
+	beltl = /obj/item/rogueweapon/scabbard/sword/royal
 	backl = /obj/item/storage/backpack/rogue/satchel/short/black
 	backpack_contents = list(
 		/obj/item/clothing/head/roguetown/crown/fakecrown = 1,
+		/obj/item/storage/belt/rogue/pouch/coins/aalloy/rich = 1, //funny
 		/obj/item/roguegem/diamond = 1,
-	)
-	mask = list(
-		/obj/item/clothing/mask/rogue/facemask/aalloy = 25,
-		NPC_NOTHING = 75,
 	)
 	beltl = list(
 		/obj/item/repair_kit/bad = 20,
 		NPC_NOTHING = 80,
-	)
-	beltr = list(
-		/obj/item/storage/belt/rogue/pouch/coins/aalloy = 15,
-		NPC_NOTHING = 85,
 	)
 
 //** WEAPONS **//

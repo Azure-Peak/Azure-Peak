@@ -186,7 +186,9 @@
 					var/stepped = step(movable_pawn, move_dir)
 					if(stepped)
 						charge_diagonal_step(controller, current_turf)
-					if(!stepped && controller.can_climb_structures && world.time >= controller.next_climb_time)
+						controller.climb_windup_turf = null
+						controller.climb_failed_turf = null
+					if(!stepped && controller.can_climb_structures)
 						// climbable/climb_structure are declared on /obj/structure and /obj/machinery separately, so iterate both.
 						var/obj/structure/struct_target
 						var/obj/machinery/mach_target
@@ -209,12 +211,12 @@
 								if(M.climbable)
 									mach_target = M
 									break
-						if(struct_target)
+						var/turf/climb_turf = get_turf(struct_target || mach_target)
+						if(climb_turf && controller.climb_windup_done(climb_turf) && world.time >= controller.next_climb_time)
 							controller.next_climb_time = world.time + controller.climb_interval
-							struct_target.climb_structure(movable_pawn)
-						else if(mach_target)
-							controller.next_climb_time = world.time + controller.climb_interval
-							mach_target.climb_structure(movable_pawn)
+							controller.climb_windup_turf = null
+							var/climbed = struct_target ? struct_target.climb_structure(movable_pawn) : mach_target.climb_structure(movable_pawn)
+							controller.climb_failed_turf = climbed ? null : climb_turf
 
 				// Check if target has moved significantly from the end of our path
 				if(last_turf != get_turf(controller.current_movement_target))

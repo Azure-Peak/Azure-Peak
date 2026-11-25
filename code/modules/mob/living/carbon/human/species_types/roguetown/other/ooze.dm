@@ -329,12 +329,21 @@
 		return
 	return ..()
 
+/mob/living/carbon/human/fall(forced)
+	var/datum/component/amorphous_landing/landing = GetComponent(/datum/component/amorphous_landing)
+	if(landing?.suppress_fall_sound)
+		loc?.handle_fall(src, forced, TRUE)
+		return
+	return ..()
+
 /datum/component/amorphous_landing
 	var/landing_timer
 	var/is_landing = FALSE
+	var/suppress_fall_sound = FALSE
 	var/original_icon
 	var/original_icon_state
 	var/original_color
+	var/original_rotate_on_lying
 
 /datum/component/amorphous_landing/Initialize()
 	. = ..()
@@ -361,6 +370,12 @@
 		original_icon = owner.icon
 		original_icon_state = owner.icon_state
 		original_color = owner.color
+		original_rotate_on_lying = owner.rotate_on_lying
+		if(original_rotate_on_lying)
+			var/matrix/landing_transform = matrix(owner.transform)
+			landing_transform.TurnTo(owner.lying_prev, 0)
+			owner.transform = landing_transform
+			owner.rotate_on_lying = FALSE
 
 	is_landing = TRUE
 	var/datum/component/ooze_color_shift/color_shift = owner.GetComponent(/datum/component/ooze_color_shift)
@@ -373,6 +388,8 @@
 		span_warning("[owner] splats against the ground, flattening into a puddle of ooze!"),
 		span_warning("I splat against the ground, my body flattening!"),
 	)
+	if(isturf(owner.loc))
+		playsound(owner.loc, "bodyfall", 100, TRUE)
 	playsound(owner.loc, 'sound/magic/splat.ogg', 50, TRUE)
 	landing_timer = addtimer(CALLBACK(src, PROC_REF(finish_landing)), landing_duration, TIMER_STOPPABLE)
 
@@ -387,7 +404,9 @@
 		span_notice("My body slowly reforms, taking shape once more."),
 	)
 	playsound(owner.loc, 'sound/magic/slimesquish.ogg', 50, TRUE)
+	suppress_fall_sound = TRUE
 	owner.Knockdown(2 SECONDS, ignore_canstun = TRUE)
+	suppress_fall_sound = FALSE
 
 /datum/component/amorphous_landing/proc/restore_landing_sprite()
 	var/mob/living/carbon/human/owner = parent
@@ -397,6 +416,13 @@
 	is_landing = FALSE
 	if(!original_icon || !owner)
 		return
+	if(original_rotate_on_lying)
+		var/matrix/restored_transform = matrix(owner.transform)
+		if(!owner.dna?.species?.custom_rotation_icon)
+			restored_transform.TurnTo(0, owner.lying_prev)
+		owner.transform = restored_transform
+		owner.rotate_on_lying = original_rotate_on_lying
+	original_rotate_on_lying = null
 	owner.icon = original_icon
 	owner.icon_state = original_icon_state
 	owner.color = original_color

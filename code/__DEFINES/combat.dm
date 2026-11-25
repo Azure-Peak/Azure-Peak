@@ -642,3 +642,9 @@ Medical defines
 
 // How long we can't use stealth & other misc. things for
 #define IN_COMBAT_DELAY 10 SECONDS
+
+/* ENVENOMED DEFINES */
+#define ENVENOMED_DURATION 8 SECONDS
+#define ENVENOMED_SLOWDOWN SLOWDOWN_SEVERITY_LIGHT
+#define ENVENOMED_ENERGY_DRAIN 2 // Its very very tiny on purpose
+#define ENVENOMED_STAT_PENALTY -1

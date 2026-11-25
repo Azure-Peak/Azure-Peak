@@ -42,45 +42,10 @@
 	var/ts_radius = 2
 	var/ts_telegraph = TELEGRAPH_AREA_DENIAL
 
-	var/current_mode = 1
-	var/list/modes = list(
+	modes = list(
 		list("name" = "Heaven's Strike", "tag" = "SMITE", "icon" = "heavens_strike", "cost" = SPELLCOST_MAJOR_AOE, "cooldown" = 12 SECONDS, "charge" = CHARGETIME_MAJOR, "invocation" = "Caelum Feri!"),
 		list("name" = "Thunderstrike", "tag" = "STORM", "icon" = "thunderstrike", "cost" = SPELLCOST_MAJOR_AOE, "cooldown" = 20 SECONDS, "charge" = CHARGETIME_HEAVY, "invocation" = "Feri Fulmine Hostem!"),
 	)
-
-/datum/action/cooldown/spell/fulmination/Grant(mob/grant_to)
-	. = ..()
-	apply_mode(current_mode)
-
-/datum/action/cooldown/spell/fulmination/proc/apply_mode(index)
-	var/list/mode = modes[index]
-	button_icon_state = mode["icon"]
-	primary_resource_cost = mode["cost"]
-	cooldown_time = mode["cooldown"]
-	charge_time = mode["charge"]
-	invocations = list(mode["invocation"])
-	build_all_button_icons()
-	update_mode_maptext(mode["tag"])
-
-/datum/action/cooldown/spell/fulmination/toggle_alt_mode(mob/user)
-	current_mode = (current_mode % length(modes)) + 1
-	apply_mode(current_mode)
-	to_chat(user, span_notice("[name]: [modes[current_mode]["name"]] mode."))
-	return TRUE
-
-/datum/action/cooldown/spell/fulmination/proc/update_mode_maptext(tag)
-	for(var/datum/hud/hud as anything in viewers)
-		var/atom/movable/screen/movable/action_button/B = viewers[hud]
-		var/atom/movable/screen/arc_maptext_holder/holder
-		for(var/atom/movable/screen/arc_maptext_holder/existing in B.vis_contents)
-			holder = existing
-			break
-		if(!holder)
-			holder = new(B)
-			B.vis_contents.Add(holder)
-		holder.maptext = MAPTEXT(tag)
-		holder.maptext_x = 5
-		holder.color = GLOW_COLOR_LIGHTNING
 
 /datum/action/cooldown/spell/fulmination/get_spell_statistics(mob/living/user)
 	var/list/stats = ..()

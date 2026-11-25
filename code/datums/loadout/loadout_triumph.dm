@@ -344,12 +344,6 @@
 	sort_category = "Triumphs"
 
 // -7 TRI
-/datum/loadout_item/triumph_buttpack
-	name = "Belted Satchel"
-	path = /obj/item/storage/backpack/rogue/satchel/beltpack
-	triumph_cost = 7
-	sort_category = "Triumphs"
-
 /datum/loadout_item/triumph_lunchpouch
 	name = "Pouch of Luncheons"
 	path = /obj/item/storage/belt/rogue/pouch/triumphlunch
@@ -658,6 +652,12 @@
 /datum/loadout_item/triumph_armorkit_platearmharness
 	name = "Triumph Kit - Plate Arm Harnesses"
 	path = /obj/item/enchantingkit/donator_universal_armharness
+	triumph_cost = 3
+	sort_category = "Triumphs"
+
+/datum/loadout_item/triumph_tomekit_enduring
+	name = "Triumph Kit - The Enduring Codex"
+	path = /obj/item/enchantingkit/triumph_tomekit_enduring
 	triumph_cost = 3
 	sort_category = "Triumphs"
 

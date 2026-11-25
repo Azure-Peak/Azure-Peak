@@ -165,7 +165,7 @@
 			var/mob/horse_mob = new horse(TU)
 			if(istype(horse_mob, /mob/living/simple_animal/hostile/retaliate/rogue))
 				var/mob/living/simple_animal/hostile/retaliate/rogue/rogue_animal = horse_mob
-				rogue_animal.owner = H
+				rogue_animal.claim(H)
 				rogue_animal.friends |= H
 	H.set_advsetup(FALSE)
 	H.mind?.refresh_spell_buttons()

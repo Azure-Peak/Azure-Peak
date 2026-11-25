@@ -37,7 +37,8 @@
 // ─── Monsters
 #define HAUNT_HEALTH 50
 #define SKELETON_HEALTH 100
-#define OOZE_BLOB_HEALTH 120
+#define OOZE_BLOB_HEALTH 120 //NPC Oozes
+#define OOZE_PURE_HEALTH 400 //Player-controlled Oozes
 #define LAMIA_HEALTH 200
 #define DRAGGER_HEALTH 215
 #define HEADLESS_HEALTH 350

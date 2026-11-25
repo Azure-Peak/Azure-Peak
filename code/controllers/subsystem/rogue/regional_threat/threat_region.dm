@@ -4,8 +4,8 @@
 	var/min_ambush = 0
 	var/max_ambush = 150
 	var/fixed_ambush = FALSE // Some region like Underdark cannot be reduced in danger
-	var/lowpop_tick = 3 // How much TP to tick up every 15 min (<= 30 pop)
-	var/highpop_tick = 5 // How much TP to tick up every 15 min (> 30 pop)
+	var/lowpop_tick = 3
+	var/highpop_tick = 5
 	var/last_natural_ambush_time = -AMBUSH_REGION_COOLDOWN // Pre-expired so start-of-round doesn't block ambushes
 	var/last_induced_ambush_time = 0 // Time between now and the previous ambush triggered by horn
 	var/list/faction_weights = list()

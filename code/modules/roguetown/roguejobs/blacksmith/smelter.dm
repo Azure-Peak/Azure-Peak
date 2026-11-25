@@ -266,7 +266,9 @@
 		record_material_flow(MATERIAL_FLOW_IN, MATERIAL_SOURCE_DOMESTIC, path, 1)
 		if(source)
 			record_material_flow(MATERIAL_FLOW_OUT, MATERIAL_SOURCE_SMELTING, source.type, 1)
-	return new path(src, quality)
+	if(ispath(path, /obj/item/ingot))
+		return new path(src, quality)
+	return new path(src)
 
 /obj/machinery/light/rogue/smelter/proc/handle_smelting()
 	for(var/obj/item/item as anything in contained_items)

@@ -26,8 +26,8 @@
 		real_name = "direbear"
 		faction += "bears"
 
-/mob/living/carbon/human/species/wildshape/bear/buckle_mob(mob/living/target, force = TRUE, check_loc = TRUE, lying_buckle = FALSE, hands_needed = 0, target_hands_needed = 0)
-	. = ..(target, force, check_loc, lying_buckle, hands_needed, target_hands_needed)
+/mob/living/carbon/human/species/wildshape/bear/buckle_mob(mob/living/target, force = TRUE, check_loc = TRUE, lying_buckle = FALSE)
+	. = ..(target, force, check_loc, lying_buckle)
 
 /datum/species/shapebear
 	name = "direbear"
