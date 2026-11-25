@@ -20,6 +20,7 @@ GLOBAL_PROTECT(admin_verbs_default)
 	/datum/admins/proc/admin_heal,
 	/datum/admins/proc/admin_show_heal_panel,
 	/datum/admins/proc/admin_show_inventory,
+	/datum/admins/proc/admin_show_character_panel,
 	/datum/admins/proc/admin_revive,
 	/datum/admins/proc/admin_sleep,
 	/client/proc/jumptoarea,

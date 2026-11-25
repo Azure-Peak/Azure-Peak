@@ -95,6 +95,7 @@
 	if(!H)
 		return FALSE
 
+	var/list/snapshot = dummy ? null : H.snapshot_build()
 	if(outfit)
 		H.equipOutfit(outfit, dummy)
 
@@ -127,7 +128,9 @@
 			H.mind.AddSpell(new spell)
 
 	if(reset_stats)
+		H.record_build_changes(BUILD_SOURCE_JOB, snapshot)
 		H.reset_stats()
+		snapshot = H.snapshot_build()
 
 	if(length(subclass_stats))
 		for(var/stat in subclass_stats)
@@ -136,6 +139,8 @@
 	if(length(subclass_skills))
 		for(var/skill in subclass_skills)
 			H.adjust_skillrank_up_to(skill, subclass_skills[skill], TRUE)
+
+	H.record_build_changes(BUILD_SOURCE_JOB, snapshot)
 
 	// Set up spell systems before virtues so Arcyne Potential can detect and add to them
 	if(LAZYLEN(subclass_mage_aspects))
@@ -325,8 +330,10 @@
 // Basically the handler has a chance to plus up a class, heres a generic proc you can override to handle behavior related to it.
 // For now you just get an extra stat in everything depending on how many plusses you managed to get.
 /datum/advclass/proc/boost_by_plus_power(plus_factor, mob/living/carbon/human/H)
+	var/list/snapshot = H.snapshot_build()
 	for(var/S in MOBSTATS)
 		H.change_stat(S, plus_factor)
+	H.record_build_changes(BUILD_SOURCE_JOB, snapshot)
 
 
 //Final proc in the set for really silly shit

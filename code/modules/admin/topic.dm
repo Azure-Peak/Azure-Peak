@@ -47,6 +47,12 @@
 			show_inventory_panel(M)
 		return
 
+	if(href_list["character_panel"])
+		var/mob/living/M = locate(href_list["character_panel"])
+		if(M)
+			show_character_panel(M)
+		return
+
 	// Open Secrets from Player Panel
 	if(href_list["secrets_panel"])
 		if(!check_rights(R_ADMIN))

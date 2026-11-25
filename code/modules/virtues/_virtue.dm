@@ -109,7 +109,6 @@ GLOBAL_LIST_EMPTY(virtues)
 	if (!recipient?.mind || !LAZYLEN(added_skills))
 		return
 
-	. = list()
 	for (var/entry in added_skills)
 		var/datum/skill/S
 		var/inc
@@ -144,9 +143,6 @@ GLOBAL_LIST_EMPTY(virtues)
 			to_chat(recipient, span_notice("My Virtue cannot influence my skill with [LOWER_TEXT(S.name)] any further."))
 		else
 			recipient.adjust_skillrank(S.type, increase_amount, TRUE)
-			var/gained = recipient.get_skill_level(S) - current
-			if (gained)
-				.[S.type] += gained
 
 			if (increase_amount == 1 && max && current >= max)
 				to_chat(recipient, span_notice("My Virtue can only minorly influence my skill with [LOWER_TEXT(S.name)]."))
@@ -190,14 +186,17 @@ GLOBAL_LIST_EMPTY(virtues)
 	var/triumphs_before = recipient.get_triumphs()
 	if (!virtue_type.check_triumphs(recipient))
 		return
+	var/mob/living/carbon/human/tracked = ishuman(recipient) ? recipient : null
+	var/list/snapshot = tracked?.snapshot_build()
 	virtue_type.apply_to_human(recipient)
 	virtue_type.handle_traits(recipient)
-	var/list/skills_gained = virtue_type.handle_skills(recipient)
+	virtue_type.handle_skills(recipient)
 	virtue_type.handle_stashed_items(recipient)
 	virtue_type.handle_added_languages(recipient)
 	virtue_type.handle_stats(recipient)
-	if(ishuman(recipient) && !istype(virtue_type, /datum/virtue/none))
-		LAZYADD(recipient.virtue_records, new /datum/virtue_record(virtue_type, source, skills_gained, triumphs_before - recipient.get_triumphs()))
+	var/list/skills_gained = tracked?.record_build_changes(BUILD_SOURCE_VIRTUES, snapshot)
+	if(tracked && !istype(virtue_type, /datum/virtue/none))
+		LAZYADD(tracked.virtue_records, new /datum/virtue_record(virtue_type, source, skills_gained, triumphs_before - recipient.get_triumphs()))
 	if(HAS_TRAIT(recipient, TRAIT_RESIDENT))
 		if(SStreasury.has_account(recipient))
 			SStreasury.generate_money_account(20, recipient)
