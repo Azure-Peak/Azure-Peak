@@ -62,6 +62,7 @@
 	max_integrity = ARMOR_INT_CHEST_LIGHT_MASTER + 150
 	body_parts_covered = GROIN | LEGS
 	smeltresult = /obj/item/ingot/component/baotha
+	no_loot_taint = TRUE //heretic stuff, in case it somehow ends up on a skele/NPC or w/e
 
 /obj/item/clothing/under/roguetown/skirt/baotha/Initialize(mapload)
 	. = ..()

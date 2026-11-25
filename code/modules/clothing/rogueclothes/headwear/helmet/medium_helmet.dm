@@ -830,6 +830,7 @@
 	armor_class = ARMOR_CLASS_LIGHT
 	max_integrity = ARMOR_INT_HELMET_ANTAG - 300 //Halved durability, compared to traditional Ascendant-tier armor.
 	smeltresult = /obj/item/ingot/component/baotha
+	no_loot_taint = TRUE //heretic stuff, in case it somehow ends up on a skele/NPC or w/e
 
 /obj/item/clothing/head/roguetown/helmet/baotha/Initialize(mapload)
 	. = ..()

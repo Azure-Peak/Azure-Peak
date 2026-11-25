@@ -64,7 +64,7 @@
 	return !!find_member_ref(user)
 
 /datum/fellowship/proc/add_member(mob/living/user)
-	if(!istype(user) || QDELETED(user))
+	if(!istype(user) || QDELETED(user) || HAS_TRAIT(user, TRAIT_CONJURED_SUMMON))
 		return FALSE
 	if(has_member(user))
 		return FALSE
@@ -197,7 +197,7 @@
 	if(!is_leader(inviter))
 		to_chat(inviter, span_warning("Only the fellowship leader can invite others."))
 		return FALSE
-	if(!istype(target) || QDELETED(target))
+	if(!istype(target) || QDELETED(target) || HAS_TRAIT(target, TRAIT_CONJURED_SUMMON))
 		to_chat(inviter, span_warning("That target cannot be invited."))
 		return FALSE
 	if(target == inviter)

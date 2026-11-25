@@ -64,6 +64,7 @@ GLOBAL_LIST_INIT(quest_prototypes, build_quest_prototypes())
 
 	var/obj/item/quest_writ/quest_scroll
 	var/datum/weakref/quest_scroll_ref
+	var/scroll_whispers = TRUE
 	var/list/datum/weakref/tracked_atoms = list()
 	var/datum/weakref/pending_landmark_ref
 	var/materialized = FALSE
