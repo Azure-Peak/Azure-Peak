@@ -281,7 +281,7 @@
 
 /obj/item/rogueweapon/huntingknife/idagger/steel/corroded/Initialize(mapload)
 	. = ..()
-	AddElement(/datum/element/tipped_item)	//Lets you tip your weapon in poison
+	AddElement(/datum/element/envenomed_blade)	//Lets you tip your weapon in poison
 
 /obj/item/rogueweapon/huntingknife/idagger/steel/corroded/dirk
 	name = "stalker dirk"
@@ -381,7 +381,7 @@
 
 /obj/item/rogueweapon/huntingknife/idagger/steel/pestrasickle/Initialize(mapload)
 	. = ..()
-	AddElement(/datum/element/tipped_item)	//Lets you tip your weapon in poison
+	AddElement(/datum/element/envenomed_blade)	//Lets you tip your weapon in poison
 
 /obj/item/rogueweapon/huntingknife/idagger/steel/pestrasickle/keeper
 	name = "plaguebringer kris"
