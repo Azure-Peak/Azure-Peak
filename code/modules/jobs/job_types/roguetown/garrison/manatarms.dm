@@ -216,7 +216,7 @@
 				wrists = /obj/item/clothing/wrists/roguetown/bracers
 				pants = /obj/item/clothing/under/roguetown/heavy_leather_pants
 				beltl = /obj/item/rogueweapon/scabbard/sheath
-				H.adjust_skillrank(/datum/skill/combat/knives, SKILL_LEVEL_EXPERT, TRUE)
+				H.adjust_skillrank_up_to(/datum/skill/combat/knives, SKILL_LEVEL_EXPERT, TRUE)
 				ADD_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_GENERIC)
 				var/sidearm = list(
 					"Dagger" = /obj/item/rogueweapon/huntingknife/idagger/steel/special,

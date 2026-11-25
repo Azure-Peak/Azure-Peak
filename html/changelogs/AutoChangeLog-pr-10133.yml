@@ -1,5 +1,0 @@
-author: "fffelinid"
-delete-after: True
-changes:
-  - bugfix: "Fixed a few bugs related to the Amorphous Landing murkling quirk."
-  - balance: "Increased player-controlled ooze mobs health a bit."

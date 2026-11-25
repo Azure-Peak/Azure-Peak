@@ -1,0 +1,4 @@
+author: "BobProductive"
+delete-after: True
+changes:
+  - bugfix: "Fixes runtime when examining the properties of javelins"

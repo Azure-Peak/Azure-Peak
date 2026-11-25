@@ -1,0 +1,4 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - rscadd: "Arsonist and Dust Runner virtue's delivery should now works as described and intended whether or not you've slept or not."

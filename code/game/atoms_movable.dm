@@ -393,6 +393,8 @@
 
 	if(.)
 		Moved(oldloc, direct)
+		if(has_buckled_mobs() && !handle_buckled_mob_movement(loc, direct, glide_size_override)) //movement failed due to buckled mob(s)
+			return FALSE
 	if(. && pulled && pulledby == pulled && pulled.cmode && pulled.grab_state < GRAB_AGGRESSIVE) //NICHE case of being in a first tier grab state.
 		if(!pulledby || QDELETED(pulledby))
 			return
@@ -438,8 +440,6 @@
 	last_move = direct
 	if(!nodirchange && !throwing)
 		setDir(direction_to_move)
-	if(. && has_buckled_mobs() && !handle_buckled_mob_movement(loc,direct, glide_size_override)) //movement failed due to buckled mob(s)
-		return FALSE
 
 //Called after a successful Move(). By this point, we've already moved
 /atom/movable/proc/Moved(atom/OldLoc, Dir, Forced = FALSE)
