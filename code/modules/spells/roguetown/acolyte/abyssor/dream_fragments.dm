@@ -131,7 +131,7 @@ GLOBAL_DATUM_INIT(dream_omens_handler, /datum/dream_omens_handler, new)
 /datum/component/dream_fragment/swimming/generate_dream_text()
 	if(GLOB.dream_omens_handler.last_drown_desc)
 		. = "You are dragged beneath the surface near [GLOB.dream_omens_handler.last_drown_area.deathsight_message ? GLOB.dream_omens_handler.last_drown_area.deathsight_message : "a city beneath the waves"], thrashing and struggling to reach the air. A great eel swims around you, circling, its whirlpool dragging you deeper; in your desperation you nearly break free, but it catches up; you see your reflection in its eyes—no, not yours, the reflection of a [GLOB.dream_omens_handler.last_drown_desc]—and you wake with a start."
-	return "You run frantically through a strange forest, chased by a terrible beast. Your steps are swift as the wind as you leap over fallen logs and dive gracefully into a river, swept far away where it cannot reach you..."
+	return "You are dragged beneath the surface, thrashing and struggling to reach the air. A great eel swims around you, circling, its whirlpool dragging you deeper; you swim desparately, grasping a fortunate current, and barely break free...."
 
 /datum/status_effect/buff/dream_fragment/swim
 	alert_type = /atom/movable/screen/alert/status_effect/buff/dream_fragment/swim
