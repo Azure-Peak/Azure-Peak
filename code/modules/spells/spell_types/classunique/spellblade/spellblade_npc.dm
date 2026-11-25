@@ -20,9 +20,9 @@
 			continue
 		var/datum/action/cooldown/spell/new_spell = new spell_path(H)
 		new_spell.Grant(H)
-	for(var/obj/item/held in list(H.get_active_held_item(), H.get_inactive_held_item()))
-		if(M.weapon_fits_chant(held))
-			M.bind_conduit(held)
+	for(var/obj/item/weapon in list(H.get_active_held_item(), H.get_inactive_held_item(), ai_find_stowed_weapon(H)))
+		if(M.weapon_fits_chant(weapon))
+			M.bind_conduit(weapon)
 			return
 
 /datum/action/cooldown/spell/proc/npc_momentum_status()

@@ -1,0 +1,13 @@
+author: "Ryan180602"
+delete-after: True
+changes:
+  - balance: "Mounts need to ride in a direction to get up to top speed."
+  - balance: "Mounts turning 90* kills some speed (only on gallop), and 180* kills all of it (on gallop or otherwise)."
+  - balance: "People who's saddleborn mounts were killed and cull the debuff by bonding with another."
+  - balance: "Riding unbonded mounts gives an apprentice riding skill cap."
+  - balance: "People can parry on mounts once more."
+  - balance: "Under Journeyman and without galloping, there's a chance for the rider to be dehorsed depending on force of the damage + rider skill."
+  - bugfix: "Only the rider gains XP on riding. Not the passenger."
+  - bugfix: "Hitting the mount when galloping will also dehorse the rider."
+  - bugfix: "Some mount related layering issues."
+  - qol: "Mounting an incap/bound person only mounts them to the passenger slot now. So you don't need another to do it for you."

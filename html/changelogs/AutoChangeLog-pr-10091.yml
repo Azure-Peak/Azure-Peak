@@ -1,0 +1,11 @@
+author: "Ryan180602"
+delete-after: True
+changes:
+  - balance: "Reintroduce chain exploding for impacts."
+  - balance: "Halve the shrapnel count on impacts."
+  - balance: "Impacts now do blunt damage to armour without the integ mod. They also do far lesser damage now."
+  - balance: "Impacts chaining off do most of the raw damage on the spot. Shrapnel spreads out all the same tho some can be caught by the suicide bomber."
+  - balance: "Impacts are now 2x2 inventory space."
+  - balance: "Blaststick damage was nearly halved."
+  - balance: "Blaststicks are 2x1."
+  - rscdel: "Remove belchers."

@@ -21,6 +21,7 @@
 #define THREAT_HIGH 20		// Highwayman + archer/crossbowman, orc footsoldier/archer, medium/archer/mediumspread skeleton, deepone, mutated spider
 #define THREAT_TOUGH 25		// Searaider + archer, mount reaver, hardspread skeleton, drow raider, deepone spit/wiz
 #define THREAT_DANGEROUS 30	// Bog deserter, orc berserker/marauder, hard skeleton, troll, bog troll, drider, direbear
+#define THREAT_DANGEROUS_PLUS 35	// Doppelganger
 #define THREAT_DEADLY 40		// Searaider huscarl, road knight, sharpshooter, orc warlord, bog skeleton master, direvolf — champion-tier
 #define THREAT_ELITE 50		// Minotaur, mirespider lurker/paralytic, dwarf skeleton, deadite troll/saiga, mad-touched — boss-tier mobs
 #define THREAT_ELITE_PLUS 60	// For mad-touched madman so we can account for their strength w/o nerfing them
