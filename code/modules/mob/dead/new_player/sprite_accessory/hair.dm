@@ -891,7 +891,7 @@
 	icon_state = "gloomy"
 
 /datum/sprite_accessory/hair/head/gloomylong
-	name = "Gloomy (Long)"
+	name = "Gloomy (Medium Alt)"
 	icon_state = "gloomylong"
 
 /datum/sprite_accessory/hair/head/shortmessy
@@ -1846,10 +1846,6 @@
 /datum/sprite_accessory/hair/head/renard
 	name = "Renard"
 	icon_state = "renard"
-
-/datum/sprite_accessory/hair/head/royalcurl
-	name = "Royal Curl"
-	icon_state = "royalcurl"
 
 /datum/sprite_accessory/hair/head/shieldsister
 	name = "Shield Sister"
