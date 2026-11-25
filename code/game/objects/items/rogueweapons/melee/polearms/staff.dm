@@ -356,7 +356,7 @@
 
 /obj/item/churcharticles/litany
 	name = "litany of the Ten"
-	desc = "A finely illuminated parchment of litany bearing the sacred verses of the Holy See. Penned upon blessed parchment and sealed with crimson wax, it contains the Rite of Endorsement, a solemn invocation entrusted only to ordained bishops. Once the final verse is spoken, the parchment burns to ash, and one of the Ten's sacred croziers is called forth. Don't lose it."
+	desc = "A finely illuminated parchment of litany bearing sacred verses. Penned upon blessed parchment and sealed with crimson wax, it contains the Rite of Endorsement, a solemn invocation entrusted only to ordained bishops. Once the final verse is spoken, the parchment burns to ash, and one of the Ten's sacred croziers is called forth. Don't lose it."
 	icon = 'icons/roguetown/items/misc.dmi'
 	icon_state = "litany"
 	item_state = "litany"
@@ -375,27 +375,27 @@
 	if(!do_after(user, 25, target = user))
 		in_use = FALSE
 		return
-	user.say(",g Before the Holy Ten, I reaffirm the sacred vows laid upon my soul.")
+	user.say("Before the Holy Ten, I reaffirm the sacred vows laid upon my soul.")
 	if(!do_after(user, 25, target = user))
 		in_use = FALSE
 		return
-	user.say(",g May I serve with humility, wisdom, and unwavering faith.")
+	user.say("May I serve with humility, wisdom, and unwavering faith.")
 	if(!do_after(user, 25, target = user))
 		in_use = FALSE
 		return
-	user.say(",g Let my voice be Yours in counsel.")
+	user.say("Let my voice be Yours in counsel.")
 	if(!do_after(user, 25, target = user))
 		in_use = FALSE
 		return
-	user.say(",g Let my hand be Yours in mercy.")
+	user.say("Let my hand be Yours in mercy.")
 	if(!do_after(user, 25, target = user))
 		in_use = FALSE
 		return
-	user.say(",g Let my office stand as testament to the covenant between the Holy See and the faithful.")
+	user.say("Let my office stand as testament to the covenant between the Holy Ten and the faithful.")
 	if(!do_after(user, 25, target = user))
 		in_use = FALSE
 		return
-	user.say(",g Should I yet prove worthy in Your sight, grant unto me a sacred staff, wrought by the grace of the Holy Ten, that I may bear it as the symbol of the authority entrusted to me.")
+	user.say("Should I yet prove worthy in Your sight, grant unto me a sacred staff, wrought by the grace of the Holy Ten, that I may bear it as the symbol of the authority entrusted to me.")
 	var/choice = tgui_alert(user, "Which of the Ten's staves do you invoke?", "RITE OF THE TEN", list("Staff of the Shepherd", "Staff of the Guide", "Cancel"))
 	if(!choice || choice == "Cancel")
 		in_use = FALSE

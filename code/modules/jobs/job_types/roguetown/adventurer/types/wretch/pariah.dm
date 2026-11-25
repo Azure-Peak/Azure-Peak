@@ -1,7 +1,7 @@
 // WOE: SPELLBLADE DODGE EXPERT POLEARM BUILD UPON YE.
 /datum/advclass/wretch/pariah
 	name = "Black Oaken Pariah"
-	tutorial = "Carrying extreme beliefs not even befit of the Black Oaks, you have decided to secede yourself from the group and everyone else. This land was once great...and now, wave after wave of monsters and outsiders trample your home. Your people were the ones that settled these lands, and the foreign-backed Crown, deceitful and arrogant, has denied your people the rewards they deserve! Your extensive training in the Black Oaks has given you skill in both blades and magycks. A bounty from the crown follows you, as you had already done enough to be officially condemned by the group that was not committed to the cause due to the lure of coin."
+	tutorial = "Most of the Oaks have long made peace with the status quo of Azuria. The Azurians have won, they outnumber the elves eight to one, and they will hold the throne, for now, and further conflicts will only lead to the destruction of the Rossans. Not you, however. Carrying the pure determination and skills not seen in the rest of the Oaks, you have seceded and taken your training of the arcyne and martial beyond the others would teach. The lineage of Rosawood is the true ruler of Azuria, and the holy land shall be shepherded by the wise rule of the Rossan elves, the kinsmen of the Taricheans of old. Remember the twins! Death to the tyrant! Death to the kinslayer!"
 	allowed_sexes = list(MALE, FEMALE)
 	forbidden_races = list(RACES_BLACKOAK)
 	outfit = /datum/outfit/job/roguetown/wretch/pariah
@@ -9,7 +9,7 @@
 	maximum_possible_slots = 1
 	class_select_category = CLASS_CAT_RACIAL
 	category_tags = list(CTAG_WRETCH)
-	traits_applied = list(TRAIT_AZURENATIVE, TRAIT_OUTDOORSMAN, TRAIT_BLACKOAK, TRAIT_ARCYNE, TRAIT_WOODWALKER, TRAIT_EXPERT_HUNTER)
+	traits_applied = list(TRAIT_AZURENATIVE, TRAIT_OUTDOORSMAN, TRAIT_ARCYNE, TRAIT_WOODWALKER, TRAIT_EXPERT_HUNTER)
 	//lower-than-avg stats for wretch but their traits are insanely good
 	subclass_stats = list(
 		STATKEY_INT = 1,
@@ -44,7 +44,7 @@
 		"Sewing Kit" =	/obj/item/repair_kit,
 		"Stashed Funds" = /obj/item/roguecoin/silver/pile/wretchpile,
 	)
-	extra_context = "This class is restricted to the Elf, Half-Elf, and Dark Elf species."
+	extra_context = "This class is restricted to the Elf and Half-Elf species."
 
 
 /datum/outfit/job/roguetown/wretch/pariah

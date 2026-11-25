@@ -1,11 +1,10 @@
 
 /datum/advclass/heartfelt/retinue/houseguard
 	name = "Heartfelt House Guard"
-	tutorial = "You are a House Guard for the Lord of Heartfelt, a valiant defender of the prosperous borderlands. \
-	However, with the increase in banditry, necromancy, deadite risings, and increasing sea raider raids, there are rumors abound that Heartfelt is not what it used to be. \
-	Travellers often warn of Heartfelt having fallen already, and words of secretive cultists isn't unheard of."
+	tutorial = "You are a House Guard for the Count of Heartfelt, a valiant defender of the prosperous borderlands. \
+	Certain circumstances have compelled your Lord to visit the capital. Whether to request more aid for the borderlands against Aavnic raids, reconstruction, canal funding, or perhaps intrigue or a plot to finally seize the throne of Azuria, you have arrived here as part of their entourage."
 	allowed_sexes = list(MALE, FEMALE)
-	forbidden_races = list(RACES_DESPISED)
+	forbidden_races = list(RACES_DESPISED RACES_HEARTFELT)
 	outfit = /datum/outfit/job/roguetown/heartfelt/retinue/houseguard
 	maximum_possible_slots = 4
 	pickprob = 100
@@ -109,9 +108,8 @@
 // Ranged weapons
 /datum/advclass/heartfelt/retinue/housearb
 	name = "Heartfelt Missilite"
-	tutorial = "You are a Missilite for the Lord of Heartfelt, a ranged combatant of the prosperous borderlands. \
-	However, with the increase in banditry, necromancy, deadite risings, and increasing sea raider raids, there are rumors abound that Heartfelt is not what it used to be. \
-	Travellers often warn of Heartfelt having fallen already, and words of secretive cultists isn't unheard of."
+	tutorial = "You are a Missilite for the Count of Heartfelt, a ranged combatant of the prosperous borderlands. \
+	Certain circumstances have compelled your Lord to visit the capital. Whether to request more aid for the borderlands against Aavnic raids, reconstruction, canal funding, or perhaps intrigue or a plot to finally seize the throne of Azuria, you have arrived here as part of their entourage."
 	allowed_sexes = list(MALE, FEMALE)
 	outfit = /datum/outfit/job/roguetown/heartfelt/retinue/housearb
 	category_tags = list(CTAG_HFT_RETINUE)
@@ -217,10 +215,9 @@
 /datum/advclass/heartfelt/retinue/squire
 	name = "Heartfelt Squire"
 	tutorial = "You are a Squire for the Knights of Heartfelt, a trainee of the valiant defenders of the prosperous borderlands. \
-	However, with the increase in banditry, necromancy, deadite risings, and increasing sea raider raids, there are rumors abound that Heartfelt is not what it used to be. \
-	Travellers often warn of Heartfelt having fallen already, and words of secretive cultists isn't unheard of."
+	Certain circumstances have compelled your Lord to visit the capital. Whether to request more aid for the borderlands against Aavnic raids, reconstruction, canal funding, or perhaps intrigue or a plot to finally seize the throne of Azuria, you have arrived here as part of their entourage."
 	allowed_sexes = list(MALE, FEMALE)
-	forbidden_races = list(RACES_CONSTRUCT RACES_DESPISED)
+	forbidden_races = list(RACES_CONSTRUCT RACES_DESPISED RACES_HEARTFELT)
 	outfit = /datum/outfit/job/roguetown/heartfelt/retinue/squire
 	maximum_possible_slots = 2
 	pickprob = 100

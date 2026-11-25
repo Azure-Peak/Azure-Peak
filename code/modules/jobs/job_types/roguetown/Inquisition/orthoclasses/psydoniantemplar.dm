@@ -84,7 +84,7 @@
 	H.equip_to_slot_or_del(new /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/inq, SLOT_SHIRT, TRUE)
 	H.equip_to_slot_or_del(new /obj/item/clothing/wrists/roguetown/bracers/chain, SLOT_WRISTS, TRUE)
 
-	var/weapons = list("Psydonic Longsword + Shield", "Psydonic Broadsword + Shield", "Psydonic Greatsword", "Psydonic Executioner Sword", "Psydonic War Axe", "Psydonic Whip + Shield", "Psydonic Flail + Shield", "Psydonic Flanged Mace + Shield", "Psydonic Grand Mace", "Psydonic Halberd + Arming Sword", "Psydonic Spear + Flanged Mace", "Psydonic Poleaxe + Shortsword")
+	var/weapons = list("Psydonic Longsword + Shield", "Psydonic Broadsword + Shield", "Psydonic Greatsword", "Psydonic Executioner Sword", "Psydonic War Axe + Shield", "Psydonic Whip + Shield", "Psydonic Flail + Shield", "Psydonic Flanged Mace + Shield", "Psydonic Grand Mace", "Psydonic Halberd + Arming Sword", "Psydonic Spear + Flanged Mace", "Psydonic Poleaxe + Shortsword")
 	var/weapon_choice = tgui_input_list(H,"Choose your WEAPON.", "TAKE UP PSYDON'S ARMS.", weapons)
 	switch(weapon_choice)
 		if("Psydonic Longsword + Shield")

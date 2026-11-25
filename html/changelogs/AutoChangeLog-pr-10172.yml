@@ -1,0 +1,15 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - rscadd: "Corrected numerous class texts that would imply that the Azurian Church is under the Holy See of Grenzelhoft (It is politically independent). Changed the Divine Pantheon text to match this to imply Grenzelhoftian Holy See is more of a first amongst equal"
+  - rscadd: "The litany of the ten that gives them their staff is now spoken in Imperial instead of Grenzelhoftian."
+  - rscdel: "Removed the Heritage Vision traits from Black Oak"
+  - rscadd: "Rewrote Black Oak descriptor and class to move away from the \"this is our land\" angle to one based on the new Bloak lore. Also updated the related grovewalker description."
+  - rscdel: "Dark Elf are no longer allowed to be bloak (I am not sure why they were even allowed in the first place)"
+  - rscdel: "Removed the Chieftain class from the Heartfelt Migration Wave"
+  - rscadd: "Rewrote the lore of the heartfelt classes and ported some Azurian classes description. The Magi has a mention that their election as the Count of Heartfelt is considered an oddity and they must've came after 1492."
+  - rscadd: "The Heartfelt Priest is no longer a Bishop equivalence (!?) in traits but more of an acolyte with T4 access"
+  - rscadd: "Heartfelt is officially racist and will no longer accept goblins, half-orcs or kobolds amongst their rank,"
+  - rscadd: "Rewrote some description of alcohol to give them a proper origin within Azuria"
+  - rscadd: "Corrected some lore desc I did not catch that referred to Rockhill as a country, or to the papacies of Grenzelhoft / Etrusca (And instead use the word clergies)"
+  - rscadd: "Corrected some quest writs to match the above rewrite"

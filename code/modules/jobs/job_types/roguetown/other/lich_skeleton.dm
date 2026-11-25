@@ -834,7 +834,7 @@ LICH SKELETONS
 	H.adjust_blindness(-3)
 
 	//Our offensive kit
-	H.mind.AddSpell(new /datum/action/cooldown/spell/projectile/unholy_blast)
+	H.mind.AddSpell(new /datum/action/cooldown/spell/projectile/divine_blast/inhumen)
 	H.mind.AddSpell(new /datum/action/cooldown/spell/raise_deadite) //SPREAD THE... ROT? turn-player-corpses-into-player-zombies spell. No skeleton mitosis please.
 	//Our Utility Spells
 	H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/diagnose/secular)
