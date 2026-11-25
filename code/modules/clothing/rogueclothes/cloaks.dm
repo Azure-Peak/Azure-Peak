@@ -10,7 +10,7 @@
 	sewrepair = TRUE //Vrell - AFAIK, all cloaks are cloth ATM. Technically semi-less future-proof, but it removes a line of code from every subtype, which is worth it IMO.
 	experimental_inhand = TRUE
 	var/overarmor = TRUE
-	var/storage = TRUE
+	var/storage = /datum/component/storage/concrete/roguetown/cloak
 
 	grid_width = 64
 	grid_height = 64
@@ -26,7 +26,7 @@
 /obj/item/clothing/cloak/ComponentInitialize()
 	. = ..()
 	if(storage)
-		AddComponent(/datum/component/storage/concrete/roguetown/cloak)
+		AddComponent(storage)
 
 /obj/item/clothing/cloak/dropped(mob/living/carbon/human/user)
 	..()
@@ -60,11 +60,8 @@
 	icon_state = "bandolier"
 	item_state = "bandolier"
 	resistance_flags = FIRE_PROOF
-	w_class = WEIGHT_CLASS_BULKY
 	slot_flags = ITEM_SLOT_BACK_R|ITEM_SLOT_SHIRT|ITEM_SLOT_ARMOR|ITEM_SLOT_CLOAK //Same slots as the regular tabard, with the added bonus of being slingable on the rightmost backslot.
 	salvage_result = /obj/item/natural/hide/cured
-	grid_width = 64
-	grid_height = 96
 
 //////////////////////////
 /// TABARD
