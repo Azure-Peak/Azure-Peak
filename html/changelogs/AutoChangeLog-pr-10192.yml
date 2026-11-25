@@ -1,0 +1,4 @@
+author: "dopamiin0"
+delete-after: True
+changes:
+  - bugfix: "custom emotes ending in bold/italic/underlined text no longer get extra periods added to them"
