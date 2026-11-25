@@ -146,6 +146,7 @@ export const RecipeDisplay = () => {
       recipes={available}
       pins={pins}
       groupOrder={SMITHING_GROUP_ORDER}
+      pinnedOnTop
       renderRow={(recipe) => (
         <AnvilRecipe
           recipe={recipe}

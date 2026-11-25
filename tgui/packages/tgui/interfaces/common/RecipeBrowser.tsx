@@ -41,6 +41,7 @@ export const RecipeBrowser = <T extends BrowsableRecipe>(props: {
   groupOrder?: string[];
   headerExtra?: ReactNode;
   autoFocusSearch?: boolean;
+  pinnedOnTop?: boolean;
 }) => {
   const {
     recipes,
@@ -51,6 +52,7 @@ export const RecipeBrowser = <T extends BrowsableRecipe>(props: {
     groupOrder,
     headerExtra,
     autoFocusSearch,
+    pinnedOnTop,
   } = props;
   const [view, setView] = useState<string>(RAIL_ALL);
   const [search, setSearch] = useState('');
@@ -125,8 +127,23 @@ export const RecipeBrowser = <T extends BrowsableRecipe>(props: {
   if (!needle && categories.includes(view)) {
     items.push(...shown.map(row));
   } else {
+    const leadPinned = pinnedOnTop && view !== RAIL_PINNED;
+    if (leadPinned) {
+      const lead = shown.filter((recipe) => pins[recipe.path]);
+      if (lead.length) {
+        items.push(
+          <div key="header:pinned" style={recipeGroupHeaderStyle}>
+            ★ Pinned
+          </div>,
+          ...lead.map(row),
+        );
+      }
+    }
     const buckets: Record<string, T[]> = {};
     for (const recipe of shown) {
+      if (leadPinned && pins[recipe.path]) {
+        continue;
+      }
       if (!buckets[recipe.category]) {
         buckets[recipe.category] = [];
       }
