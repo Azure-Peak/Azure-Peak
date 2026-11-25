@@ -2106,7 +2106,7 @@
 	update_icon()
 
 /obj/item/clothing/cloak/half/duelcape_alt  //sprites from vanderlin
-	name = "duelist cape (alt)"
+	name = "duelist cloak"
 	desc = "A flamboyant red duelists cape that is sure to catch the eye. This one had it's cape trimmed, leaving only the cloak"
 	icon_state = "duelistcape_alt"
 	item_state = "duelistcape_alt"
