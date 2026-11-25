@@ -7,6 +7,7 @@
 GLOBAL_LIST_INIT(matthios_aggro, world.file2list("strings/rt/matthiosaggrolines.txt"))
 GLOBAL_LIST_INIT(zizo_aggro, world.file2list("strings/rt/zizoaggrolines.txt"))
 GLOBAL_LIST_INIT(graggar_aggro, world.file2list("strings/rt/graggaraggrolines.txt"))
+GLOBAL_LIST_INIT(baotha_aggro, world.file2list("strings/rt/baothaaggrolines.txt"))
 GLOBAL_LIST_INIT(hedgeknight_aggro, world.file2list("strings/rt/hedgeknightaggrolines.txt"))
 
 /mob/living/carbon/human/species/human/northern/deranged_knight
@@ -14,30 +15,23 @@ GLOBAL_LIST_INIT(hedgeknight_aggro, world.file2list("strings/rt/hedgeknightaggro
 	d_intent = INTENT_PARRY
 	faction = list(FACTION_DUNDEAD)
 	ambushable = FALSE
-	dodgetime = 30
-	var/preset = "matthios"
-	var/forced_preset = "" // If set, force a specific preset instead of randomizing.
-
-
+	cmode = 1
+	setparrytime = 20
+	dodgetime = 20
+	a_intent = INTENT_HELP
+	d_intent = INTENT_PARRY
+	possible_mmb_intents = list(INTENT_BITE, INTENT_JUMP, INTENT_KICK, INTENT_SPECIAL)
+	var/preset_lines = "hedgeknight"
+	var/preset_title ="the untitled"
 
 /mob/living/carbon/human/species/human/northern/deranged_knight/Initialize(mapload)
 	. = ..()
-	//Begin RANDOMISE here
-	set_species(pick(NPC_RACES_TYPES))
 	gender = pick(MALE, FEMALE)
 	dna.species.random_character(src) //Now we just randomise here, MUST be called after both race + gender
-	addtimer(CALLBACK(src, PROC_REF(after_creation)), 1 SECONDS)
-
-/mob/living/carbon/human/species/human/northern/deranged_knight/proc/outfit_dk(datum/outfit/outfit)
-	if(!outfit)
-		return
-	equipOutfit(outfit)
-	// Apply dust-on-drop to all equipped gear so it can't be looted via dismemberment or stripping.
-	// TRAIT_NODROP on held items prevents grab disarming.
-	for(var/obj/item/equipped_item in get_equipped_items() + held_items)
-		equipped_item.AddComponent(/datum/component/item_on_drop/dust)
-	for(var/obj/item/held_item in held_items)
-		ADD_TRAIT(held_item, TRAIT_NODROP, TRAIT_GENERIC)
+	cut_overlays()
+	if(!npc_archetype)
+		spawn(10) // To prevent dropping weapons
+			after_creation()
 
 /mob/living/carbon/human/species/human/northern/deranged_knight/after_creation()
 	..()
@@ -47,50 +41,32 @@ GLOBAL_LIST_INIT(hedgeknight_aggro, world.file2list("strings/rt/hedgeknightaggro
 	ADD_TRAIT(src, TRAIT_NOHUNGER, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_LEECHIMMUNE, INNATE_TRAIT)
 	ADD_TRAIT(src, TRAIT_BREADY, TRAIT_GENERIC)
-	ADD_TRAIT(src, TRAIT_HEAVYARMOR, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_NPC_EXAMINE, TRAIT_GENERIC)
-	if(forced_preset)
-		preset = forced_preset
-	else
-		switch(rand(1, 4))
-			if(1)
-				preset = "graggar"
-			if(2)
-				preset = "matthios"
-			if(3)
-				preset = "zizo"
-			if(4)
-				preset = "hedgeknight"
-	switch(preset)
-		if("graggar")
-			ADD_TRAIT(src, TRAIT_HORDE, TRAIT_GENERIC)
-			outfit_dk(new /datum/outfit/job/roguetown/quest_miniboss/graggar)
-		if ("matthios")
-			ADD_TRAIT(src, TRAIT_FREEMAN, TRAIT_GENERIC)
-			outfit_dk(new /datum/outfit/job/roguetown/quest_miniboss/matthios)
-		if ("zizo")
-			ADD_TRAIT(src, TRAIT_CABAL, TRAIT_GENERIC)
-			src.grant_language(/datum/language/undead)
-			outfit_dk(new /datum/outfit/job/roguetown/quest_miniboss/zizo)
-		if ("hedgeknight")
-			if(prob(50))
-				outfit_dk(new /datum/outfit/job/roguetown/quest_miniboss/hedge_knight)
-			else
-				outfit_dk(new /datum/outfit/job/roguetown/quest_miniboss/blacksteel)
-			// No special trait for hedgeknight, he's just a generic tough guy.
-
 	var/list/aggro_lines
-	switch(preset)
+	switch(preset_lines)
 		if("graggar")
+			preset_title = pick("of Graggar","the Butcherer","Orphanbane","the Warlord","Blood-Chosen","the Bloody","of the Darkstar","of the Sinistar","the Chainbreaker","the Unshackled","the War-Born","the Murderer","Bane of Peace","the Herald of Graggar","the Culler","the Slaughterer of Lambs")
 			aggro_lines = GLOB.graggar_aggro
 		if("matthios")
+			preset_title = pick("the Rich","of Equal Exchange","the Opulant","of the Gilded Flame","Fyre-Kindled","the Brigand","of Matthios","of the Transactor","the Free","the Wealthy","of the Kindled Pyre","of the Gilded Drakkyn","the Herald of Matthios","of the Gilded Exchange","of the Gilded Camaraderie")
 			aggro_lines = GLOB.matthios_aggro
 		if("zizo")
+			preset_title = pick("of Zizo","of the Avantyne Legion","bane of the Hallowed","the Defiler","the Shadow-Blessed","the Insane","sworn-in-her-name","the Herald of Progress","the Herald of Zizo","the Luxbane","of the Dark Shield","of Shadows","the Truesighted","the Truth-Seeker","of the Pale Lady")
 			aggro_lines = GLOB.zizo_aggro
+			src.grant_language(/datum/language/undead)
+		if("baotha")
+			preset_title = pick("of Baotha","the Heartache","the Indulgent","the Mirthful","the Never-Sober","the Manic","of the Spider","the Herald of Baotha","the Herald of Heartache","the Luxdrinker","of the The Overflowing Goblet","of the Lady of Heartache","of the Lady of Pleasure")
+			aggro_lines = GLOB.baotha_aggro
 		if("hedgeknight")
+			preset_title = pick("the Outlawed","the Brigand","the Disgraced","the Bastard","of the Outcast","disgrace of Azuria","the Unchained","the Boss","the Wall","the Unbreakable","the Warlord","the Deserter","the Gauntlet","the Uncrushable","the Unstoppable")
 			aggro_lines = GLOB.hedgeknight_aggro
 	if(aggro_lines)
 		SEND_SIGNAL(src, COMSIG_MOB_MODIFY_AGGRO_LINES, aggro_lines, TRUE)
+
+	for(var/obj/item/equipped_item in get_equipped_items() + held_items)
+		equipped_item.AddComponent(/datum/component/item_on_drop/dust)
+	for(var/obj/item/held_item in held_items)
+		ADD_TRAIT(held_item, TRAIT_NODROP, TRAIT_GENERIC)
 
 	regenerate_icons()
 
@@ -98,158 +74,43 @@ GLOBAL_LIST_INIT(hedgeknight_aggro, world.file2list("strings/rt/hedgeknightaggro
 	random_hair_no_beard_NPC()
 	random_eye_color_NPC()
 	correct_features_NPC()
-
 	if(prob(1))
 		real_name = "Taras Mura"
+	else
+		real_name = "[real_name] [preset_title]" //give us a fancy title. based on patron.
 	update_hair()
 	update_body()
 
-	def_intent_change(INTENT_PARRY)
-
-
 /mob/living/carbon/human/species/human/northern/deranged_knight/death(gibbed, nocutscene)
-	if(preset == "matthios")
-		if(prob(95))
-			say("Matthios, I have failed you...", forced = TRUE, npc_speech = TRUE)
-		else
-			say("Matthios, is this true?!", forced = TRUE, npc_speech = TRUE)
-	else if(preset == "zizo")
-		if(prob(95))
-			say("Zizo, forgive me!", forced = TRUE, npc_speech = TRUE)
-		else
-			say("We lyve in a Zociety...", forced = TRUE, npc_speech = TRUE)
-	else if(preset == "graggar")
-		if(prob(95))
-			say("No more... Blood!", forced = TRUE, npc_speech = TRUE)
-		else
-			say("WHERE'S THE BLOOD?!!", forced = TRUE, npc_speech = TRUE)
+	if(prob(50))
+		if(preset_lines == "matthios")
+			if(prob(95))
+				say(pick("Matthios, I have failed you...","My lord... I tried...","The weight of myne wealth was too much...","My final... Transaction..?","Myne wealth hath... become woe..?"), forced = TRUE, npc_speech = TRUE)
+			else
+				say("Matthios, is this true?!", forced = TRUE, npc_speech = TRUE)
+		else if(preset_lines == "zizo")
+			if(prob(95))
+				say(pick("Zizo, forgive me!","Zizo, one last... chance...","Death is never... The end...?","Failure... How...?","Not like this... Zizo..."), forced = TRUE, npc_speech = TRUE)
+			else
+				say("We lyve in a Zociety...", forced = TRUE, npc_speech = TRUE)
+		else if(preset_lines == "graggar")
+			if(prob(95))
+				say(pick("NO... More... Blood...","Shatter... My..-","I feel... calm...?","This... Cannot be...","Free at... Last...","Failure...? N-No..."), forced = TRUE, npc_speech = TRUE)
+			else
+				say("WHERE'S THE BLOOD?!!", forced = TRUE, npc_speech = TRUE)
+		else if(preset_lines == "baotha")
+			if(prob(95))
+				say(pick("Where's the high...","I just... Wanted to be happy..","It hurts... So much","I... Don't feel so good..","My... Greatest end..?"), forced = TRUE, npc_speech = TRUE)
+			else
+				say("YOU ARE EVERRRRRYTHING!!!", forced = TRUE, npc_speech = TRUE)
 	emote("painscream")
 	. = ..()
 	if(!gibbed)
+		if(preset_lines == "matthios")
+			playsound(src, 'sound/effects/matth_barter.ogg', 100)
+			var/turf/T = get_turf(src)
+			new /obj/effect/temp_visual/barter_fx(T) //hilarious
 		dust(FALSE, FALSE, TRUE)
-
-/datum/outfit/job/roguetown/quest_miniboss/pre_equip(mob/living/carbon/human/H, visualsOnly)
-	. = ..()
-	H.STASTR = 15
-	H.STASPD = 14
-	H.STACON = 12
-	H.STAWIL = 12
-	H.STAPER = 12
-	H.STAINT = 12
-	H.STALUC = 10
-
-	H.adjust_skillrank_up_to(/datum/skill/combat/whipsflails, SKILL_LEVEL_EXPERT, TRUE)
-	H.adjust_skillrank_up_to(/datum/skill/combat/polearms, SKILL_LEVEL_EXPERT, TRUE)
-	H.adjust_skillrank_up_to(/datum/skill/combat/maces, SKILL_LEVEL_EXPERT, TRUE)
-	H.adjust_skillrank_up_to(/datum/skill/combat/axes, SKILL_LEVEL_EXPERT, TRUE)
-	H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_EXPERT, TRUE)
-	H.adjust_skillrank_up_to(/datum/skill/combat/shields, SKILL_LEVEL_EXPERT, TRUE)
-	H.adjust_skillrank_up_to(/datum/skill/combat/unarmed, SKILL_LEVEL_EXPERT, TRUE)
-	H.adjust_skillrank_up_to(/datum/skill/combat/wrestling, SKILL_LEVEL_EXPERT, TRUE)
-	H.adjust_skillrank_up_to(/datum/skill/misc/swimming, SKILL_LEVEL_EXPERT, TRUE) //No more swimming cheese
-	H.adjust_skillrank_up_to(/datum/skill/misc/climbing, SKILL_LEVEL_JOURNEYMAN, TRUE)
-
-	if(prob(60))
-		var/voicepack_choice = rand(1, 6)
-		switch(voicepack_choice)
-			if(1)
-				H.dna.species.soundpack_m = GLOB.voice_packs[/datum/voicepack/male/warrior]
-				H.dna.species.soundpack_f = GLOB.voice_packs[/datum/voicepack/female/warrior]
-			if(2)
-				H.dna.species.soundpack_m = GLOB.voice_packs[/datum/voicepack/male/stern]
-				H.dna.species.soundpack_f = GLOB.voice_packs[/datum/voicepack/female/haughty]
-			if(3)
-				H.dna.species.soundpack_m = GLOB.voice_packs[/datum/voicepack/male/foppish]
-				H.dna.species.soundpack_f = GLOB.voice_packs[/datum/voicepack/female/dainty]
-			if(4)
-				H.dna.species.soundpack_m = GLOB.voice_packs[/datum/voicepack/male/knight]
-				H.dna.species.soundpack_f = GLOB.voice_packs[/datum/voicepack/female/haughty]
-			if(5)
-				H.dna.species.soundpack_m = GLOB.voice_packs[/datum/voicepack/male/wizard]
-				H.dna.species.soundpack_f = GLOB.voice_packs[/datum/voicepack/female/warrior]
-			if(6)
-				H.dna.species.soundpack_m = GLOB.voice_packs[/datum/voicepack/male/evil]
-				H.dna.species.soundpack_f = GLOB.voice_packs[/datum/voicepack/female/warrior]
-
-/datum/outfit/job/roguetown/quest_miniboss/matthios/pre_equip(mob/living/carbon/human/H)
-	. = ..()
-
-	armor = /obj/item/clothing/suit/roguetown/armor/plate/full/matthios
-	belt = /obj/item/storage/belt/rogue/leather/plaquegold
-	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/matthios
-	pants = /obj/item/clothing/under/roguetown/platelegs/matthios
-	shoes = /obj/item/clothing/shoes/roguetown/boots/armor/matthios
-	wrists = /obj/item/clothing/wrists/roguetown/bracers/matthios
-	gloves = /obj/item/clothing/gloves/roguetown/plate/matthios
-	head = /obj/item/clothing/head/roguetown/helmet/heavy/matthios
-	neck = /obj/item/clothing/neck/roguetown/chaincoif/chainmantle/matthios
-	r_hand = /obj/item/rogueweapon/flail/peasantwarflail/matthios
-	id = /obj/item/clothing/neck/roguetown/psicross/inhumen/matthios //IS THIS TRVE?!
-
-/datum/outfit/job/roguetown/quest_miniboss/zizo/pre_equip(mob/living/carbon/human/H)
-	. = ..()
-
-	armor = /obj/item/clothing/suit/roguetown/armor/plate/full/zizo
-	belt = /obj/item/storage/belt/rogue/leather/steel/tasset
-	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/zizo
-	pants = /obj/item/clothing/under/roguetown/platelegs/zizo/heavy
-	shoes = /obj/item/clothing/shoes/roguetown/boots/armor/zizo
-	wrists = /obj/item/clothing/wrists/roguetown/bracers/zizo
-	gloves = /obj/item/clothing/gloves/roguetown/plate/zizo/heavy
-	head = /obj/item/clothing/head/roguetown/helmet/heavy/zizo
-	neck = /obj/item/clothing/neck/roguetown/bevor/zizo
-	r_hand = /obj/item/rogueweapon/sword/long/zizo
-	id = /obj/item/clothing/neck/roguetown/psicross/inhumen/g //ZIZO. ZIZO. ZIZO. (golden inverted cross)
-
-/datum/outfit/job/roguetown/quest_miniboss/graggar/pre_equip(mob/living/carbon/human/H)
-	. = ..()
-
-	armor = /obj/item/clothing/suit/roguetown/armor/plate/fluted/graggar
-	belt = /obj/item/storage/belt/rogue/leather/steel/tasset
-	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/graggar
-	pants = /obj/item/clothing/under/roguetown/platelegs/graggar
-	shoes = /obj/item/clothing/shoes/roguetown/boots/armor/graggar
-	gloves = /obj/item/clothing/gloves/roguetown/plate/graggar
-	wrists = /obj/item/clothing/wrists/roguetown/bracers/graggar
-	head = /obj/item/clothing/head/roguetown/helmet/heavy/graggar
-	neck = /obj/item/clothing/neck/roguetown/gorget/steel/graggar
-	r_hand = /obj/item/rogueweapon/greataxe/steel/doublehead/graggar
-	wrists = /obj/item/clothing/wrists/roguetown/bracers
-	cloak = /obj/item/clothing/cloak/graggar
-	id = /obj/item/clothing/neck/roguetown/psicross/inhumen/graggar //SHATTER MY BINDS
-
-/datum/outfit/job/roguetown/quest_miniboss/blacksteel/pre_equip(mob/living/carbon/human/H)
-	. = ..()
-
-	armor = /obj/item/clothing/suit/roguetown/armor/plate/full/blacksteel/modern
-	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk
-	belt = /obj/item/storage/belt/rogue/leather/steel
-	pants = /obj/item/clothing/under/roguetown/platelegs/blacksteel/modern
-	shoes = /obj/item/clothing/shoes/roguetown/boots/armor/blacksteel/modern
-	gloves = /obj/item/clothing/gloves/roguetown/plate/blacksteel/modern
-	wrists = /obj/item/clothing/wrists/roguetown/bracers
-	head = /obj/item/clothing/head/roguetown/helmet/blacksteel/modern
-	neck = /obj/item/clothing/neck/roguetown/gorget/steel
-	r_hand = /obj/item/rogueweapon/greatsword/grenz/flamberge/blacksteel //I am evil, yes.
-	wrists = /obj/item/clothing/wrists/roguetown/bracers
-
-/datum/outfit/job/roguetown/quest_miniboss/hedge_knight/pre_equip(mob/living/carbon/human/H)
-	. = ..()
-
-	armor = /obj/item/clothing/suit/roguetown/armor/plate/full/fluted
-	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk
-	pants = /obj/item/clothing/under/roguetown/platelegs
-	shoes = /obj/item/clothing/shoes/roguetown/boots/armor
-	gloves = /obj/item/clothing/gloves/roguetown/plate
-	head = /obj/item/clothing/head/roguetown/helmet/heavy/sheriff
-	neck = /obj/item/clothing/neck/roguetown/gorget/steel
-	r_hand = /obj/item/rogueweapon/greatsword/grenz/flamberge
-	belt = /obj/item/storage/belt/rogue/leather/steel/tasset
-	beltl = /obj/item/flashlight/flare/torch/lantern
-	beltr = /obj/item/rogueweapon/sword/long
-	wrists = /obj/item/clothing/wrists/roguetown/bracers
-	cloak = /obj/item/clothing/cloak/tabard/stabard/black
-
 /*
  * Goon preset
  * Intended to support knight, but should not have any special/overly expensive gear.
@@ -258,14 +119,31 @@ GLOBAL_LIST_INIT(hedgeknight_aggro, world.file2list("strings/rt/hedgeknightaggro
 /mob/living/carbon/human/species/human/northern/highwayman/dk_goon
 	faction = list(FACTION_DUNDEAD)
 
-/mob/living/carbon/human/species/human/northern/deranged_knight/matthios
-	forced_preset = "matthios"
-
 /mob/living/carbon/human/species/human/northern/deranged_knight/zizo
-	forced_preset = "zizo"
+	npc_archetype = /datum/npc_archetype/deranged_knight/zizo/mixed
+	preset_lines = "zizo"
+
+/mob/living/carbon/human/species/human/northern/deranged_knight/zizo_heavy
+	npc_archetype = /datum/npc_archetype/deranged_knight/zizo_heavy/mixed
+	preset_lines = "zizo"
 
 /mob/living/carbon/human/species/human/northern/deranged_knight/graggar
-	forced_preset = "graggar"
+	npc_archetype = /datum/npc_archetype/deranged_knight/graggar
+	preset_lines = "graggar"
+
+/mob/living/carbon/human/species/human/northern/deranged_knight/graggar_heavy
+	npc_archetype = /datum/npc_archetype/deranged_knight/graggar_heavy
+	preset_lines = "graggar"
+
+/mob/living/carbon/human/species/human/northern/deranged_knight/matthios
+	npc_archetype = /datum/npc_archetype/deranged_knight/matthios_heavy
+	preset_lines = "matthios"
+
+/mob/living/carbon/human/species/human/northern/deranged_knight/baotha
+	d_intent = INTENT_DODGE
+	npc_archetype = /datum/npc_archetype/deranged_knight/baotha
+	preset_lines = "baotha"
 
 /mob/living/carbon/human/species/human/northern/deranged_knight/hedgeknight
-	forced_preset = "hedgeknight"
+	npc_archetype = /datum/npc_archetype/deranged_knight/hedgeknight
+	preset_lines = "hedgeknight"
