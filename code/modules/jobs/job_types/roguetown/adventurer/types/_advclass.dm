@@ -143,7 +143,7 @@
 
 	if(length(subclass_virtues))
 		for(var/virtue in subclass_virtues)
-			apply_virtue(H, new virtue)
+			apply_virtue(H, new virtue, VIRTUE_SOURCE_JOB)
 
 	if(age_mod)
 		if(istype(age_mod))

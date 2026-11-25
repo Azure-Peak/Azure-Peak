@@ -1,0 +1,6 @@
+#define VIRTUE_SOURCE_CHOSEN "Chosen"
+#define VIRTUE_SOURCE_JOB "Job"
+#define VIRTUE_SOURCE_RACE "Race"
+#define VIRTUE_SOURCE_ANTAG "Antagonist"
+#define VIRTUE_SOURCE_ADMIN "Admin"
+#define VIRTUE_SOURCE_OTHER "Other"

@@ -38,6 +38,7 @@ GLOBAL_LIST_EMPTY(quirks)
 /proc/apply_quirk(mob/living/carbon/human/recipient, datum/quirk/quirk_type)
 	quirk_type.apply_to_human(recipient)
 	quirk_type.handle_traits(recipient)
+	LAZYADD(recipient.applied_quirks, quirk_type.type)
 	record_featured_object_stat(FEATURED_STATS_QUIRKS, quirk_type.name, 1)
 
 /datum/quirk/none

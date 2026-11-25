@@ -109,6 +109,7 @@ GLOBAL_LIST_EMPTY(virtues)
 	if (!recipient?.mind || !LAZYLEN(added_skills))
 		return
 
+	. = list()
 	for (var/entry in added_skills)
 		var/datum/skill/S
 		var/inc
@@ -143,6 +144,9 @@ GLOBAL_LIST_EMPTY(virtues)
 			to_chat(recipient, span_notice("My Virtue cannot influence my skill with [LOWER_TEXT(S.name)] any further."))
 		else
 			recipient.adjust_skillrank(S.type, increase_amount, TRUE)
+			var/gained = recipient.get_skill_level(S) - current
+			if (gained)
+				.[S.type] += gained
 
 			if (increase_amount == 1 && max && current >= max)
 				to_chat(recipient, span_notice("My Virtue can only minorly influence my skill with [LOWER_TEXT(S.name)]."))
@@ -182,15 +186,18 @@ GLOBAL_LIST_EMPTY(virtues)
 	recipient.adjust_triumphs(-triumph_cost, FALSE)
 	return TRUE
 
-/proc/apply_virtue(mob/living/carbon/human/recipient, datum/virtue/virtue_type)
+/proc/apply_virtue(mob/living/carbon/human/recipient, datum/virtue/virtue_type, source = VIRTUE_SOURCE_OTHER)
+	var/triumphs_before = recipient.get_triumphs()
 	if (!virtue_type.check_triumphs(recipient))
 		return
 	virtue_type.apply_to_human(recipient)
 	virtue_type.handle_traits(recipient)
-	virtue_type.handle_skills(recipient)
+	var/list/skills_gained = virtue_type.handle_skills(recipient)
 	virtue_type.handle_stashed_items(recipient)
 	virtue_type.handle_added_languages(recipient)
 	virtue_type.handle_stats(recipient)
+	if(ishuman(recipient) && !istype(virtue_type, /datum/virtue/none))
+		LAZYADD(recipient.virtue_records, new /datum/virtue_record(virtue_type, source, skills_gained, triumphs_before - recipient.get_triumphs()))
 	if(HAS_TRAIT(recipient, TRAIT_RESIDENT))
 		if(SStreasury.has_account(recipient))
 			SStreasury.generate_money_account(20, recipient)
@@ -211,6 +218,24 @@ GLOBAL_LIST_EMPTY(virtues)
 	desc = "Without virtue."
 	ui_fa_icon = "ban"
 	stackable = TRUE
+
+/datum/virtue_record
+	var/virtue_type
+	var/name
+	var/source
+	var/list/picked_choices
+	var/list/skills_gained
+	var/triumphs_spent = 0
+
+/datum/virtue_record/New(datum/virtue/virtue, source, list/skills_gained, triumphs_spent)
+	virtue_type = virtue.type
+	name = virtue.name
+	src.source = source
+	if(LAZYLEN(virtue.picked_choices))
+		picked_choices = virtue.picked_choices.Copy()
+	if(LAZYLEN(skills_gained))
+		src.skills_gained = skills_gained
+	src.triumphs_spent = max(0, triumphs_spent)
 
 /// Dynamic UI data for TGUI to display these in the prefs menu
 /datum/virtue/ui_data(mob/user)
