@@ -370,6 +370,15 @@
 	if(QDELETED(copy))
 		return null
 	copy.color = original.color
+	var/datum/component/holster/their_holster = original.GetComponent(/datum/component/holster)
+	var/datum/component/holster/our_holster = copy.GetComponent(/datum/component/holster)
+	if(their_holster?.sheathed && our_holster && !our_holster.sheathed)
+		var/obj/item/blade = copy_item(their_holster.sheathed)
+		if(blade)
+			blade.forceMove(copy)
+			our_holster.sheathed = blade
+			our_holster.update_icon()
+			blade.AddComponent(/datum/component/item_on_drop/dust)
 	return copy
 
 /mob/living/carbon/human/species/human/northern/doppelganger/proc/mirror_magic(mob/living/carbon/human/target)

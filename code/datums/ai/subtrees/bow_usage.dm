@@ -254,14 +254,7 @@
 
 /proc/_archer_has_sidearm(datum/ai_controller/controller, mob/living/carbon/human/pawn)
 	var/obj/item/stashed = controller.blackboard[BB_ARCHER_NPC_STASHED_WEAPON]
-	return !QDELETED(stashed) || _find_archer_sidearm(pawn)
-
-/proc/_find_archer_sidearm(mob/living/carbon/human/pawn)
-	for(var/slot in list(SLOT_BELT_R, SLOT_BELT_L, SLOT_BACK_R, SLOT_BACK_L))
-		var/obj/item/rogueweapon/weapon = pawn.get_item_by_slot(slot)
-		if(istype(weapon) && !istype(weapon, /obj/item/rogueweapon/shield) && !istype(weapon, /obj/item/rogueweapon/scabbard))
-			return weapon
-	return null
+	return !QDELETED(stashed) || ai_find_stowed_weapon(pawn)
 
 /proc/_archer_has_firing_lane(turf/from, atom/target)
 	var/turf/tt = get_turf(target)
@@ -395,7 +388,7 @@
 		controller.clear_blackboard_key(BB_ARCHER_NPC_STASHED_WEAPON)
 		if(!draw_sidearm || (held && !istype(held, /obj/item/gun/ballistic/revolver/grenadelauncher)))
 			return
-		stashed = _find_archer_sidearm(pawn)
+		stashed = ai_find_stowed_weapon(pawn)
 		if(!stashed)
 			return
 	if(istype(held, /obj/item/gun/ballistic/revolver/grenadelauncher)) // never drop the bow: it must stay in inventory to re-draw

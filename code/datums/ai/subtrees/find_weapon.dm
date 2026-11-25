@@ -16,7 +16,18 @@
 			return TRUE
 	if(_find_archer_bow(pawn)) // a bow in hand or worn - this is an archer, leave the loot
 		return TRUE
+	if(ai_find_stowed_weapon(pawn))
+		return TRUE
 	return FALSE
+
+/proc/ai_find_stowed_weapon(mob/living/carbon/human/pawn)
+	for(var/slot in list(SLOT_BELT_R, SLOT_BELT_L, SLOT_BACK_R, SLOT_BACK_L, SLOT_WRISTS, SLOT_SHOES))
+		var/obj/item/worn = pawn.get_item_by_slot(slot)
+		var/datum/component/holster/holster = worn?.GetComponent(/datum/component/holster)
+		var/obj/item/weapon = holster ? holster.sheathed : worn
+		if(ai_is_melee_weapon(weapon) && !istype(weapon, /obj/item/rogueweapon/shield) && !istype(weapon, /obj/item/rogueweapon/scabbard))
+			return weapon
+	return null
 
 /proc/ai_npc_fights_unarmed(mob/living/carbon/human/pawn)
 	if(!istype(pawn))
