@@ -55,7 +55,7 @@ const ItemRow = (props: {
 }) => {
   const { item, contents, disabled, onBuy } = props;
   const outOfStock = !!item.maximum && !item.remaining;
-  const row = (
+  return (
     <div style={denseRowStyle}>
       <div
         style={{
@@ -64,7 +64,18 @@ const ItemRow = (props: {
           color: outOfStock ? INK_FAINT : INK,
         }}
       >
-        {item.name}
+        {contents.length ? (
+          <Tooltip
+            position="bottom-start"
+            content={contents.map((line) => (
+              <div key={line}>{line}</div>
+            ))}
+          >
+            <span>{item.name}</span>
+          </Tooltip>
+        ) : (
+          item.name
+        )}
       </div>
       <div
         style={{
@@ -103,19 +114,6 @@ const ItemRow = (props: {
         Buy
       </button>
     </div>
-  );
-  if (!contents.length) {
-    return row;
-  }
-  return (
-    <Tooltip
-      position="bottom-start"
-      content={contents.map((line) => (
-        <div key={line}>{line}</div>
-      ))}
-    >
-      {row}
-    </Tooltip>
   );
 };
 
