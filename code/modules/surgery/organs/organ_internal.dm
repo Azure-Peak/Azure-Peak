@@ -82,7 +82,7 @@
 	update_accessory_colors()
 	STOP_PROCESSING(SSobj, src)
 
-	if(ishuman(M))
+	if(visible_organ && ishuman(M))
 		var/mob/living/carbon/human/humanized = M
 		humanized.update_body_parts(TRUE)
 
@@ -104,7 +104,7 @@
 		A.Remove(M)
 	update_icon()
 
-	if(ishuman(M))
+	if(visible_organ && ishuman(M))
 		var/mob/living/carbon/human/humanized = M
 		humanized.update_body_parts(TRUE)
 //	START_PROCESSING(SSobj, src)
