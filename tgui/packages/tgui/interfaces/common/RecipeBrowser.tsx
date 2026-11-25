@@ -8,8 +8,14 @@ import {
 } from 'react';
 
 import { IncrementalList } from './IncrementalList';
-import { inkInputStyle } from './parchment';
-import { type PinMap, pinnedFirst } from './pins';
+import { INK_SOFT, inkButtonStyle, inkInputStyle } from './parchment';
+import {
+  type OpenView,
+  type PinMap,
+  type PinMenu,
+  pinnedFirst,
+  useOpenView,
+} from './pins';
 import {
   buildGroupedRail,
   compareGroupedCategories,
@@ -32,29 +38,44 @@ export type BrowsableRecipe = {
 const matchesName = (recipe: BrowsableRecipe, needle: string) =>
   recipe.name.toLowerCase().includes(needle);
 
+const startView = (
+  openView: OpenView,
+  recipes: BrowsableRecipe[],
+  pins: PinMap,
+) =>
+  openView === 'pinned' && recipes.some((recipe) => pins[recipe.path])
+    ? RAIL_PINNED
+    : RAIL_ALL;
+
 export const RecipeBrowser = <T extends BrowsableRecipe>(props: {
+  menu: PinMenu;
   recipes: T[];
   pins: PinMap;
+  pinsReady: boolean;
   renderRow: (recipe: T) => ReactNode;
   listed?: (recipe: T) => boolean;
   matches?: (recipe: T, needle: string) => boolean;
   groupOrder?: string[];
   headerExtra?: ReactNode;
   autoFocusSearch?: boolean;
-  pinnedOnTop?: boolean;
 }) => {
   const {
+    menu,
     recipes,
     pins,
+    pinsReady,
     renderRow,
     listed,
     matches = matchesName,
     groupOrder,
     headerExtra,
     autoFocusSearch,
-    pinnedOnTop,
   } = props;
-  const [view, setView] = useState<string>(RAIL_ALL);
+  const [openView, toggleOpenView] = useOpenView(menu);
+  const [chosenView, setView] = useState<string | null>(() =>
+    pinsReady && openView ? startView(openView, recipes, pins) : null,
+  );
+  const view = chosenView ?? RAIL_ALL;
   const [search, setSearch] = useState('');
   const searchRef = useRef<HTMLInputElement>(null);
 
@@ -63,6 +84,12 @@ export const RecipeBrowser = <T extends BrowsableRecipe>(props: {
       searchRef.current?.focus();
     }
   }, []);
+
+  useEffect(() => {
+    if (pinsReady && openView && chosenView === null) {
+      setView(startView(openView, recipes, pins));
+    }
+  }, [pinsReady, openView]);
 
   const sorted = useMemo(
     () =>
@@ -127,7 +154,7 @@ export const RecipeBrowser = <T extends BrowsableRecipe>(props: {
   if (!needle && categories.includes(view)) {
     items.push(...shown.map(row));
   } else {
-    const leadPinned = pinnedOnTop && view !== RAIL_PINNED;
+    const leadPinned = view !== RAIL_PINNED;
     if (leadPinned) {
       const lead = shown.filter((recipe) => pins[recipe.path]);
       if (lead.length) {
@@ -177,6 +204,17 @@ export const RecipeBrowser = <T extends BrowsableRecipe>(props: {
             onChange={(e) => setSearch(e.target.value)}
           />
           {headerExtra}
+          <button
+            type="button"
+            style={{
+              ...inkButtonStyle({ color: INK_SOFT }),
+              whiteSpace: 'nowrap',
+            }}
+            title="The list this menu opens on"
+            onClick={toggleOpenView}
+          >
+            {openView === 'all' ? 'Opens on All' : 'Opens on ★ Pinned'}
+          </button>
         </>
       }
       rail={

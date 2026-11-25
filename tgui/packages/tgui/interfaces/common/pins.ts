@@ -1,5 +1,5 @@
 import { storage } from 'common/storage';
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import type { BooleanLike } from 'tgui-core/react';
 
 export type PinMap = Record<string, string>;
@@ -22,6 +22,37 @@ export const pinTitle = (scope?: string): string =>
     : scope === 'round'
       ? 'Pinned for this round. Click to save to this character.'
       : 'Pin for this round';
+
+export type OpenView = 'pinned' | 'all';
+
+const openViewCache: Partial<Record<PinMenu, OpenView>> = {};
+
+export const useOpenView = (menu: PinMenu) => {
+  const storageKey = `recipe_open_view:${menu}`;
+  const [openView, setOpenView] = useState<OpenView | undefined>(
+    openViewCache[menu],
+  );
+
+  useEffect(() => {
+    if (openViewCache[menu]) {
+      return;
+    }
+    storage.get(storageKey).then((saved) => {
+      const value: OpenView = saved === 'all' ? 'all' : 'pinned';
+      openViewCache[menu] = value;
+      setOpenView(value);
+    });
+  }, [menu]);
+
+  const toggle = useCallback(() => {
+    const next: OpenView = openView === 'all' ? 'pinned' : 'all';
+    openViewCache[menu] = next;
+    storage.set(storageKey, next);
+    setOpenView(next);
+  }, [menu, openView]);
+
+  return [openView, toggle] as const;
+};
 
 export const pinnedFirst =
   (pins: PinMap) => (a: { path: string }, b: { path: string }) =>

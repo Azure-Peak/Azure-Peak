@@ -213,8 +213,10 @@ export const MiaCraft = () => {
     <Window width={720} height={760} theme="parchment" title="Crafting">
       <Window.Content>
         <RecipeBrowser
+          menu="crafting"
           recipes={entries}
           pins={pins}
+          pinsReady={!!data.pins_imported}
           autoFocusSearch
           listed={(recipe) => !onlyCraftable || craftable(recipe.name)}
           matches={(recipe, needle) =>

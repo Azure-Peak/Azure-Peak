@@ -143,10 +143,11 @@ export const RecipeDisplay = () => {
 
   return (
     <RecipeBrowser
+      menu="anvil"
       recipes={available}
       pins={pins}
+      pinsReady={!!data.pins_imported}
       groupOrder={SMITHING_GROUP_ORDER}
-      pinnedOnTop
       renderRow={(recipe) => (
         <AnvilRecipe
           recipe={recipe}
