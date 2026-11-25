@@ -77,3 +77,13 @@
 	var/datum/language/langpath = choices[tgui_input_list(recipient, "Which language do you study?", "LINGUISTIC BOON", choices)]
 	if(langpath && ispath(langpath, /datum/language))
 		holder.grant_language(langpath)
+
+
+/datum/quirk/webspinner
+	name = "Webspinner"
+	desc = "Through research or natural gifts, I know how to spin two pieces of silk into a sticky web. I still can't move through them gracefully."
+	added_traits = list(TRAIT_WEBSPINNER)
+	// anthro/moth/demihumen/drow (drider)/revenants bc they could reasonably be buggy/taurs, aasimar bc gods are weird, ooze because yucky goop
+	allowed_species = list(/datum/species/anthromorph, /datum/species/anthromorphsmall, /datum/species/elf/dark, /datum/species/demihuman, /datum/species/moth, /datum/species/aasimar, /datum/species/dullahan, /datum/species/ooze)
+	greater = TRUE
+	ui_fa_icon = "bugs"

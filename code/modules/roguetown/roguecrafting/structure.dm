@@ -1622,6 +1622,14 @@
 	craftdiff = 3
 	ignoredensity = TRUE
 
+/datum/crafting_recipe/roguetown/structure/spiderweb
+	name = "web"
+	category = "Misc"
+	result = /obj/structure/spider/stickyweb/builtweb
+	reqs = list(/obj/item/natural/silk = 2 )
+	craftdiff = 1
+	required_trait = TRAIT_WEBSPINNER
+
 /datum/crafting_recipe/roguetown/structure/apiary
 	name = "apiary"
 	category = "Misc"
