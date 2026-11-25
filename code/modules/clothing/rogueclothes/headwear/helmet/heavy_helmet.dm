@@ -1387,6 +1387,7 @@
 	experimental_inhand = FALSE
 	experimental_onhip = FALSE
 	smeltresult = /obj/item/ingot/component/matthios
+	no_loot_taint = TRUE //heretic stuff, in case it somehow ends up on a skele/NPC or w/e
 
 /obj/item/clothing/head/roguetown/helmet/heavy/matthios/Initialize(mapload)
 	. = ..()
@@ -1403,6 +1404,7 @@
 	flags_inv = HIDEEARS|HIDEFACE|HIDESNOUT|HIDEHAIR|HIDEFACIALHAIR
 	var/active_item = FALSE
 	smeltresult = /obj/item/ingot/component/graggar
+	no_loot_taint = TRUE //heretic stuff, in case it somehow ends up on a skele/NPC or w/e
 
 /obj/item/clothing/head/roguetown/helmet/heavy/graggar/Initialize(mapload)
 	. = ..()
@@ -1448,6 +1450,7 @@
 	max_integrity = ARMOR_INT_HELMET_ANTAG
 	chunkcolor = "#363030"
 	smeltresult = /obj/item/ingot/component/zizo
+	no_loot_taint = TRUE //heretic stuff, in case it somehow ends up on a skele/NPC or w/e
 
 /obj/item/clothing/head/roguetown/helmet/heavy/zizo/Initialize(mapload)
 	. = ..()

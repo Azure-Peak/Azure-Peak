@@ -1,0 +1,4 @@
+author: "JustSomeGal"
+delete-after: True
+changes:
+  - rscadd: "Shophand now has Cicerone"

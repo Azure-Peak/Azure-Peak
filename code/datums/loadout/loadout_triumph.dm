@@ -344,12 +344,6 @@
 	sort_category = "Triumphs"
 
 // -7 TRI
-/datum/loadout_item/triumph_buttpack
-	name = "Belted Satchel"
-	path = /obj/item/storage/backpack/rogue/satchel/beltpack
-	triumph_cost = 7
-	sort_category = "Triumphs"
-
 /datum/loadout_item/triumph_lunchpouch
 	name = "Pouch of Luncheons"
 	path = /obj/item/storage/belt/rogue/pouch/triumphlunch

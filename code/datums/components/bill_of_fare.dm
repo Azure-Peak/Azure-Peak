@@ -181,6 +181,7 @@
 			counts += column.count_text()
 	if(length(counts))
 		examine_list += "It lists [english_list(counts)]."
+	INVOKE_ASYNC(src, PROC_REF(open), user)
 
 /datum/component/bill_of_fare/proc/open(mob/user)
 	if(!user.can_read(parent))

@@ -454,6 +454,7 @@
 	block2add = null
 	body_parts_covered = MOUTH|NOSE
 	flags_inv = HIDEFACE|HIDESNOUT
+	no_loot_taint = TRUE //heretic stuff, in case it somehow ends up on a skele/NPC or w/e
 
 /obj/item/clothing/mask/rogue/facemask/steel/graggar/ComponentInitialize()
 	AddComponent(/datum/component/cursed_item, TRAIT_HORDE, "ARMOR", "RENDERED ASUNDER")

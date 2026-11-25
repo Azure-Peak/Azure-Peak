@@ -329,6 +329,7 @@
 	item_state = "matthioshauberk"
 	smeltresult = /obj/item/ingot/component/matthios
 	unenchantable = TRUE
+	no_loot_taint = TRUE //heretic stuff, in case it somehow ends up on a skele/NPC or w/e
 
 /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/matthios/Initialize(mapload)
 	. = ..()
@@ -350,6 +351,7 @@
 	material_category = ARMOR_MAT_CHAINMAIL
 	smeltresult = /obj/item/ingot/component/zizo
 	unenchantable = TRUE
+	no_loot_taint = TRUE //heretic stuff, in case it somehow ends up on a skele/NPC or w/e
 
 /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/zizo/Initialize(mapload)
 	. = ..()
@@ -369,6 +371,7 @@
 	item_state = "graggarhauberk"
 	smeltresult = /obj/item/ingot/component/graggar
 	unenchantable = TRUE
+	no_loot_taint = TRUE //heretic stuff, in case it somehow ends up on a skele/NPC or w/e
 
 /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/graggar/Initialize(mapload)
 	. = ..()
