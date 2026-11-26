@@ -1,5 +1,4 @@
 ,w Slay the ignorant!
-,w Intruder!
 ,w To arms!
 ,w Slay the lyving!
 ,w Death to the living!
@@ -8,9 +7,10 @@
 ,w Another to remake in her name!
 ,w Kill them in her name!
 ,w Slay these ignorant savages!
-,w We got interlopers inbound!
 ,w No surrender, only forwards!
 ,w Slay them all!
+,w Spill their blood to oil the way forwards!
+,w Slay the insolent!
 You will die!
 Death to the ignorant!
 Slay the ignorant!

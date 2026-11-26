@@ -96,6 +96,38 @@ GLOBAL_LIST_INIT(smartskeleton_aggro, world.file2list("strings/rt/smartskeletona
 	threat_point = THREAT_TOUGH
 	npc_archetype = /datum/npc_archetype/skeleton/hardspread
 
+// Casters - currently for a unique dungeon, maybe they'll see use later
+
+/mob/living/carbon/human/species/skeleton/npc/caster_mixed
+	threat_point = THREAT_DANGEROUS
+	npc_archetype = /datum/npc_archetype/skeleton/caster/mixed
+
+/mob/living/carbon/human/species/skeleton/npc/caster_pyromancer
+	threat_point = THREAT_DANGEROUS
+	npc_archetype = /datum/npc_archetype/skeleton/caster/pyromancer
+
+/mob/living/carbon/human/species/skeleton/npc/caster_cryomancer
+	threat_point = THREAT_DANGEROUS
+	npc_archetype = /datum/npc_archetype/skeleton/caster/cryomancer
+
+/mob/living/carbon/human/species/skeleton/npc/caster_fulgarmancer
+	threat_point = THREAT_DANGEROUS
+	npc_archetype = /datum/npc_archetype/skeleton/caster/fulgarmancer
+
+/mob/living/carbon/human/species/skeleton/npc/caster_telomancer
+	threat_point = THREAT_DANGEROUS
+	npc_archetype = /datum/npc_archetype/skeleton/caster/telomancer
+
+/mob/living/carbon/human/species/skeleton/npc/caster_ferramancer
+	threat_point = THREAT_DANGEROUS
+	npc_archetype = /datum/npc_archetype/skeleton/caster/ferramancer
+
+/mob/living/carbon/human/species/skeleton/npc/caster_geomancer
+	threat_point = THREAT_DANGEROUS
+	npc_archetype = /datum/npc_archetype/skeleton/caster/geomancer
+
+//unique duke NPC
+
 /mob/living/carbon/human/species/skeleton/npc/fallenduke
 	threat_point = THREAT_ELITE
 	cmode = 1
@@ -370,6 +402,13 @@ GLOBAL_LIST_INIT(smartskeleton_aggro, world.file2list("strings/rt/smartskeletona
 	..()
 	AddComponent(/datum/component/ai_aggro_system)
 
+	gender = pick(MALE, FEMALE)
+	dna.species.handle_body(src)
+	update_body()
+	src.grant_language(/datum/language/undead)
+	SEND_SIGNAL(src, COMSIG_MOB_MODIFY_AGGRO_LINES, GLOB.skeleton_aggro, TRUE)
+	src.regenerate_icons() //Fixes the weird body with random genders for NPCs.
+
 	ADD_TRAIT(src, TRAIT_NPC_EXAMINE, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_DUSTABLE, TRAIT_GENERIC) //nessessary
 	ADD_TRAIT(src, TRAIT_DUST_DELETE_GEAR, TRAIT_GENERIC)
@@ -386,9 +425,15 @@ GLOBAL_LIST_INIT(smartskeleton_aggro, world.file2list("strings/rt/smartskeletona
 /mob/living/carbon/human/species/skeleton/unstrippable_npc/zizo
 	threat_point = THREAT_DANGEROUS_PLUS //above hard
 	npc_archetype = /datum/npc_archetype/skeleton/zizo
+
+/mob/living/carbon/human/species/skeleton/unstrippable_npc/zizo/after_creation()
+	..()
 	SEND_SIGNAL(src, COMSIG_MOB_MODIFY_AGGRO_LINES, GLOB.smartskeleton_aggro, TRUE)
 
 /mob/living/carbon/human/species/skeleton/unstrippable_npc/zizo_heavy
 	threat_point = THREAT_ELITE //above the prior b.c fullplate
 	npc_archetype = /datum/npc_archetype/skeleton/zizo_heavy
+
+/mob/living/carbon/human/species/skeleton/unstrippable_npc/zizo_heavy/after_creation()
+	..()
 	SEND_SIGNAL(src, COMSIG_MOB_MODIFY_AGGRO_LINES, GLOB.smartskeleton_aggro, TRUE)

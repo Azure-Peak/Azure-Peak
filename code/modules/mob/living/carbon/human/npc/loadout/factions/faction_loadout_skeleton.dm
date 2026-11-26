@@ -271,6 +271,7 @@
 	patron = /datum/patron/inhumen/zizo
 	melee = SKILL_LEVEL_EXPERT
 	brawl = SKILL_LEVEL_EXPERT //needed so you can't tacklepin them
+	survival = SKILL_LEVEL_APPRENTICE
 	armor_training = ARMOR_CLASS_MEDIUM
 	loadouts = list(
 		/datum/npc_loadout/armor/luxplate/zizo,
@@ -285,12 +286,84 @@
 	patron = /datum/patron/inhumen/zizo
 	melee = SKILL_LEVEL_EXPERT
 	brawl = SKILL_LEVEL_EXPERT //needed so you can't tacklepin them
+	survival = SKILL_LEVEL_APPRENTICE
 	armor_training = ARMOR_CLASS_HEAVY
 	loadouts = list(
 		/datum/npc_loadout/armor/luxplate/zizo_heavy,
 		/datum/npc_loadout/kit/skeleton_amulet,
 		/datum/npc_loadout/kit/skeleton_tabard,
 		/datum/npc_loadout/weapon/zizo_heavy,
+	)
+
+//caster skeletons
+
+/datum/npc_archetype/skeleton/caster
+	abstract_type = /datum/npc_archetype/skeleton/caster
+	statpack = /datum/npc_statpack/caster/t2 //decent but not high-end
+	ai_controller = /datum/ai_controller/human_npc/caster
+	patron = /datum/patron/inhumen/zizo
+	magic = SKILL_LEVEL_JOURNEYMAN
+	melee = SKILL_LEVEL_JOURNEYMAN
+	brawl = SKILL_LEVEL_APPRENTICE //intended to be weak vs tackles
+
+/datum/npc_archetype/skeleton/caster/mixed
+	name = "Skeleton Mage"
+	variants = list(
+		/datum/npc_archetype/skeleton/caster/fulgarmancer = 1,
+		/datum/npc_archetype/skeleton/caster/geomancer = 1,
+		/datum/npc_archetype/skeleton/caster/telomancer = 1,
+		/datum/npc_archetype/skeleton/caster/ferramancer = 1,
+		/datum/npc_archetype/skeleton/caster/cryomancer = 1,
+		/datum/npc_archetype/skeleton/caster/pyromancer = 1,
+	)
+
+/datum/npc_archetype/skeleton/caster/fulgarmancer
+	name = "Skeleton Fulgarmancer"
+	loadouts = list(
+		/datum/npc_loadout/armor/light/skeleton_caster,
+		/datum/npc_loadout/kit/skeleton_amulet,
+		/datum/npc_loadout/kit/caster_skele_fulgurmancer,
+	)
+
+/datum/npc_archetype/skeleton/caster/geomancer
+	name = "Skeleton Geomancer"
+	loadouts = list(
+		/datum/npc_loadout/armor/light/skeleton_caster,
+		/datum/npc_loadout/kit/skeleton_amulet,
+		/datum/npc_loadout/kit/caster_skele_geomancer,
+
+	)
+
+/datum/npc_archetype/skeleton/caster/telomancer
+	name = "Skeleton Telomancer"
+	loadouts = list(
+		/datum/npc_loadout/armor/light/skeleton_caster,
+		/datum/npc_loadout/kit/skeleton_amulet,
+		/datum/npc_loadout/kit/caster_skele_telomancer,
+	)
+
+/datum/npc_archetype/skeleton/caster/ferramancer
+	name = "Skeleton Ferramancer"
+	loadouts = list(
+		/datum/npc_loadout/armor/light/skeleton_caster,
+		/datum/npc_loadout/kit/skeleton_amulet,
+		/datum/npc_loadout/kit/caster_skele_ferramancer,
+	)
+
+/datum/npc_archetype/skeleton/caster/cryomancer
+	name = "Skeleton Cryomancer"
+	loadouts = list(
+		/datum/npc_loadout/armor/light/skeleton_caster,
+		/datum/npc_loadout/kit/skeleton_amulet,
+		/datum/npc_loadout/kit/caster_skele_cryomancer,
+	)
+
+/datum/npc_archetype/skeleton/caster/pyromancer
+	name = "Skeleton Pyromancer"
+	loadouts = list(
+		/datum/npc_loadout/armor/light/skeleton_caster,
+		/datum/npc_loadout/kit/skeleton_amulet,
+		/datum/npc_loadout/kit/caster_skele_pyromancer,
 	)
 
 //** STATS **//
@@ -614,3 +687,43 @@
 		list(/obj/item/rogueweapon/eaglebeak/lucerne),
 		list(/obj/item/rogueweapon/greatsword/zwei),
 	)
+	r_hand = /obj/item/rogueweapon/woodstaff/implement/amethyst
+
+//casters
+
+/datum/npc_loadout/kit/caster_skele_fulgurmancer
+	magic_aspects = list(
+		/datum/magic_aspect/fulgurmancy,
+	)
+	r_hand = /obj/item/rogueweapon/woodstaff/implement/amethyst
+
+/datum/npc_loadout/kit/caster_skele_geomancer
+	magic_aspects = list(
+		/datum/magic_aspect/geomancy,
+	)
+	r_hand = /obj/item/rogueweapon/woodstaff/implement/amethyst
+
+/datum/npc_loadout/kit/caster_skele_telomancer
+	magic_aspects = list(
+		/datum/magic_aspect/telomancy,
+	)
+	r_hand = /obj/item/rogueweapon/woodstaff/implement/amethyst
+
+/datum/npc_loadout/kit/caster_skele_ferramancer
+	armor = /obj/item/clothing/suit/roguetown/armor/leather/studded //otherwise they'll die too fast
+	magic_aspects = list(
+		/datum/magic_aspect/ferramancy,
+		/datum/magic_aspect/aegiscraft,
+	)
+
+/datum/npc_loadout/kit/caster_skele_cryomancer
+	magic_aspects = list(
+		/datum/magic_aspect/cryomancy,
+	)
+	r_hand = /obj/item/rogueweapon/woodstaff/implement/amethyst
+
+/datum/npc_loadout/kit/caster_skele_pyromancer
+	magic_aspects = list(
+		/datum/magic_aspect/pyromancy,
+	)
+	r_hand = /obj/item/rogueweapon/woodstaff/implement/amethyst
