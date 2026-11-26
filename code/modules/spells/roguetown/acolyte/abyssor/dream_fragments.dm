@@ -259,9 +259,13 @@ GLOBAL_DATUM_INIT(dream_omens_handler, /datum/dream_omens_handler, new)
 	var/farm_sage = get_sage_name(FEATURED_STATS_FARMERS)
 	var/cha_sage = get_sage_name(FEATURED_STATS_SPEAKERS)
 	var/list/sages = list("alchemy" = alch_sage, "diligence" = craft_sage, "eloquence" = cha_sage, "Abyssor's bounty" = fish_sage, "Dendor's toil" = farm_sage)
+	var/list/names = ()
 	for(var/key in sages) // unlikely as it is, we might actually have a round where this fires before anyone farms/fishes/alchemy...iess...? whatever
 		if(!sages[key])
 			sages -= key
+		if(sages[key] in names)
+			sages -= key // no duplicates
+		names += sages[key]
 	if(!LAZYLEN(sages)) // VERY VERY UNLIKELY this means nobody has  crafteed/fished/farmed/spoken/etc this round
 		return "You dream of a wise sage, hovering in an empty void. They shake their head sadly, and you hear their words—though you do not see their lips move—\"Noc's wisdom and Malum's diligence forsake you and yours. Go forth and fill the void; learn, create, and see the truth of the world.\" You wake with a brief glimmer of moonlight behind your eyes..."
 	. = "You dream of a wise sage, hovering in an empty void. You hear their words, though you do not see their lips move: \""
