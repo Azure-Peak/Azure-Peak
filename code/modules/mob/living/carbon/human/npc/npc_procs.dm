@@ -441,9 +441,7 @@ GLOBAL_LIST_INIT(zombie_aggro, list(
 
 	var/static/list/removed_slots = list(
 		SLOT_MOUTH,
-		SLOT_MASK, //HEY YOU, MASK OFF NOW (makes it easier to tell that the NPC is a deadite)
 	)
-	//we don't include this for the above, we just want dynamically reanimated NPCs to stand out.
 
 	for(var/slot in removed_slots)
 		zombie.dropItemToGround(zombie.get_item_by_slot(slot), TRUE)
