@@ -7,7 +7,9 @@ GLOBAL_LIST_INIT(skeleton_aggro, list(
 	"*rage",
 	"*rage",
 	"*rage",
-)) //Single Words or noises, feral and empty of mind.
+)) //Single Words or noises, feral and empty of mind. Doesn't need a file.
+
+GLOBAL_LIST_INIT(smartskeleton_aggro, world.file2list("strings/rt/smartskeletonaggrolines.txt")) //smarter skeletons have more lines
 
 /mob/living/carbon/human/species/skeleton
 	name = "skeleton"
@@ -384,7 +386,9 @@ GLOBAL_LIST_INIT(skeleton_aggro, list(
 /mob/living/carbon/human/species/skeleton/unstrippable_npc/zizo
 	threat_point = THREAT_DANGEROUS_PLUS //above hard
 	npc_archetype = /datum/npc_archetype/skeleton/zizo
+	SEND_SIGNAL(src, COMSIG_MOB_MODIFY_AGGRO_LINES, GLOB.smartskeleton_aggro, TRUE)
 
 /mob/living/carbon/human/species/skeleton/unstrippable_npc/zizo_heavy
 	threat_point = THREAT_ELITE //above the prior b.c fullplate
 	npc_archetype = /datum/npc_archetype/skeleton/zizo_heavy
+	SEND_SIGNAL(src, COMSIG_MOB_MODIFY_AGGRO_LINES, GLOB.smartskeleton_aggro, TRUE)

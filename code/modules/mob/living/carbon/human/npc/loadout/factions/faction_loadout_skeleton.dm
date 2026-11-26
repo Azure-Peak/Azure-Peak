@@ -269,6 +269,8 @@
 	name = "Avantyne Skeleton Warrior"
 	statpack = /datum/npc_statpack/line/t3 //on par w/ dwarf skeletons
 	patron = /datum/patron/inhumen/zizo
+	melee = SKILL_LEVEL_EXPERT
+	brawl = SKILL_LEVEL_EXPERT //needed so you can't tacklepin them
 	armor_training = ARMOR_CLASS_MEDIUM
 	loadouts = list(
 		/datum/npc_loadout/armor/luxplate/zizo,
@@ -281,6 +283,8 @@
 	name = "Avantyne Skeleton Bulwark"
 	statpack = /datum/npc_statpack/line/t3 //on par w/ dwarf skeletons
 	patron = /datum/patron/inhumen/zizo
+	melee = SKILL_LEVEL_EXPERT
+	brawl = SKILL_LEVEL_EXPERT //needed so you can't tacklepin them
 	armor_training = ARMOR_CLASS_HEAVY
 	loadouts = list(
 		/datum/npc_loadout/armor/luxplate/zizo_heavy,
