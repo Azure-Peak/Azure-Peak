@@ -193,6 +193,7 @@
 	if(m_intent == MOVE_INTENT_RUN && dir == get_dir(src, M))
 		if(isliving(M))
 			var/sprint_distance = sprinted_tiles
+			var/sprint_start = sprint_distance ? sprint_start_coord : COORD(src)
 			var/instafail = FALSE
 			var/fail_reason
 			toggle_rogmove_intent(MOVE_INTENT_WALK, TRUE)
@@ -205,15 +206,15 @@
 
 			switch(sprint_distance)
 				// Point blank
-				if(0 to 1)
+				if(0)
 					self_points -= 99
 					instafail = TRUE
 					fail_reason = "no headstart"
 				// One to two tile between the people
-				if(2 to 3)
+				if(1 to 2)
 					self_points -= 2
 				// Five or above tiles between people
-				if(6 to INFINITY)
+				if(5 to INFINITY)
 					self_points += 1
 			// If charging into the BACK of the enemy (facing away)
 			if(L.dir == get_dir(src, L))
@@ -234,7 +235,7 @@
 			self_points += rand(-1, 1)
 
 			//Safety check for changing direction at the last step
-			if(src.dir != src.sprint_dir)
+			if(sprint_distance && dir != sprint_dir)
 				self_points -= 99
 				instafail = TRUE
 				fail_reason = "changed direction too late"
@@ -286,7 +287,7 @@
 			else
 				charge_outcome = "FAILED[fail_reason ? ", [fail_reason]" : ""]"
 			var/turf/charge_end = get_turf(src)
-			log_combat(src, L, "charged into", addition = "([charge_outcome]) (HEADSTART: [sprint_distance]) (START: [sprint_start_coord || "unknown"]) (END: [COORD(charge_end)]) (POINTS: [self_points] vs [target_points])", zone = BODY_ZONE_CHEST, damtype = BRUTE)
+			log_combat(src, L, "charged into", addition = "([charge_outcome]) (HEADSTART: [sprint_distance]) (START: [sprint_start || "unknown"]) (END: [COORD(charge_end)]) (POINTS: [self_points] vs [target_points])", zone = BODY_ZONE_CHEST, damtype = BRUTE)
 			return TRUE
 
 	//okay, so we didn't switch. but should we push?
@@ -1083,12 +1084,8 @@
 	var/old_direction = dir
 	var/turf/T = loc
 
-	if(m_intent == MOVE_INTENT_RUN)
-		if(!sprinted_tiles)
-			var/turf/sprint_origin = get_turf(src)
-			sprint_start_coord = COORD(sprint_origin)
-		sprinted_tiles++
-		sprint_dir = dir
+	// Diagonal movement retries through this proc as a cardinal step.
+	var/count_sprint_step = m_intent == MOVE_INTENT_RUN && !(direct & (direct - 1))
 
 	if(wallpressed)
 		update_wallpress(T, newloc, direct)
@@ -1111,6 +1108,12 @@
 		update_pull_movespeed()
 
 	. = ..()
+
+	if(. && count_sprint_step && m_intent == MOVE_INTENT_RUN && istype(T) && isturf(loc) && loc != T)
+		if(!sprinted_tiles)
+			sprint_start_coord = COORD(T)
+		sprinted_tiles++
+		sprint_dir = dir
 
 	update_sneak_invis()
 
