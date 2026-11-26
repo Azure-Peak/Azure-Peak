@@ -379,7 +379,7 @@ GLOBAL_LIST_INIT(zombie_aggro, list(
 	//now we take every trait an actual deadite has and apply it.
 	ADD_TRAIT(src, TRAIT_LIMBATTACHMENT, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_BREADY, TRAIT_GENERIC)
-	ADD_TRAIT(src, TRAIT_STRONGBITE, TRAIT_GENERIC) //they are deadly if they surround you, but not smart enough to move like a player can or jump like one.
+	ADD_TRAIT(src, TRAIT_STRONGBITE, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_NOMOOD, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_NOHUNGER, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_EASYDISMEMBER, TRAIT_GENERIC)
