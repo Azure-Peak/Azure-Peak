@@ -10,7 +10,7 @@
 	sound = 'sound/magic/whiteflame.ogg'
 
 	click_to_activate = TRUE
-	cast_range = 1
+	cast_range = 2
 
 	primary_resource_type = SPELL_COST_STAMINA
 	primary_resource_cost = SPELLCOST_MAJOR_SUMMON
@@ -20,7 +20,7 @@
 
 	charge_required = TRUE
 	charge_swingdelay_type = SWINGDELAY_CANCEL
-	charge_time = 3 SECONDS
+	charge_time = 5 SECONDS
 	hold_drain = 1
 	charge_slowdown = 2
 	charge_sound = 'sound/magic/charging.ogg'
@@ -69,7 +69,7 @@
 		else
 			playsound(get_turf(M), 'sound/magic/magnet.ogg', 80, TRUE, soundping = TRUE)
 			owner.visible_message("[owner] mutters an incantation and [M] twitches with unnatural life!")
-			addtimer(CALLBACK(M, TYPE_PROC_REF(/mob/living/carbon/human, do_deadite_npc_reanimation)), 1 SECONDS)
+			addtimer(CALLBACK(M, TYPE_PROC_REF(/mob/living/carbon/human, do_deadite_npc_reanimation)), 1 SECONDS) //rise my chud son. OH GOD GET IT OFF AAAAA.
 			return TRUE
 	else
 		to_chat(owner, span_notice("They can not be risen!"))
