@@ -45,6 +45,26 @@
 	var/area/A = get_area(src)
 	dna?.species?.stop_wagging_tail(src)
 
+	if(client || mind)
+		record_round_statistic(STATS_DEATHS)
+		var/area_of_death = LOWER_TEXT(get_area_name(src))
+		if(area_of_death == "wilderness")
+			record_round_statistic(STATS_FOREST_DEATHS)
+		if(is_noble())
+			record_round_statistic(STATS_NOBLE_DEATHS)
+		if(ishumannorthern(src))
+			record_round_statistic(STATS_HUMEN_DEATHS)
+		if(mind)
+			cmode = FALSE
+			if(mind.assigned_role in GLOB.church_positions)
+				record_round_statistic(STATS_CLERGY_DEATHS)
+			if(mind.has_antag_datum(/datum/antagonist/vampire))
+				record_round_statistic(STATS_VAMPIRES_KILLED)
+			if(mind.has_antag_datum(/datum/antagonist/zombie))
+				record_round_statistic(STATS_DEADITES_KILLED)
+			if(mind.has_antag_datum(/datum/antagonist/skeleton) || mind.has_antag_datum(/datum/antagonist/lich))
+				record_round_statistic(STATS_SKELETONS_KILLED)
+
 	if(client)
 		SSdroning.kill_droning(client)
 		SSdroning.kill_loop(client)
@@ -87,26 +107,6 @@
 				L.out_of_lives = TRUE
 				gib()
 				return
-
-	if(client || mind)
-		record_round_statistic(STATS_DEATHS)
-		var/area_of_death = LOWER_TEXT(get_area_name(src))
-		if(area_of_death == "wilderness")
-			record_round_statistic(STATS_FOREST_DEATHS)
-		if(is_noble())
-			record_round_statistic(STATS_NOBLE_DEATHS)
-		if(ishumannorthern(src))
-			record_round_statistic(STATS_HUMEN_DEATHS)
-		if(mind)
-			cmode = FALSE
-			if(mind.assigned_role in GLOB.church_positions)
-				record_round_statistic(STATS_CLERGY_DEATHS)
-			if(mind.has_antag_datum(/datum/antagonist/vampire))
-				record_round_statistic(STATS_VAMPIRES_KILLED)
-			if(mind.has_antag_datum(/datum/antagonist/zombie))
-				record_round_statistic(STATS_DEADITES_KILLED)
-			if(mind.has_antag_datum(/datum/antagonist/skeleton) || mind.has_antag_datum(/datum/antagonist/lich))
-				record_round_statistic(STATS_SKELETONS_KILLED)
 
 	if(!gibbed)
 		/*

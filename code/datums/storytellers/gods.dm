@@ -242,16 +242,16 @@
 	influence_sets = list(
 		"Set 1" = list(
 			STATS_HUMEN_DEATHS = list("name" = "Humen killed:", "points" = 5.5, "capacity" = 80),
-			STATS_CLERGY_DEATHS = list("name" = "Clergy killed:", "points" = 12, "capacity" = 70),
 		),
 		"Set 2" = list(
-			STATS_DEADITES_WOKEN_UP = list("name" = "Deadites woken up:", "points" = 0.5, "capacity" = 85), //todo, balance this.
+			STATS_DEADITES_WOKEN_UP = list("name" = "Deadites reanimated:", "points" = 0.5, "capacity" = 85), //some rounds this can go pretty crazy, because of NPCs hense its 0.5 points now.
+			STATS_SKELETONS_ARISEN = list("name" = "Sapient skeletons risen:", "points" = 1, "capacity" = 30), //lich rounds will raise this a fair bit.
 		),
 		"Set 3" = list(
-			STATS_DEADITES_ALIVE = list("name" = "Deadites alive:", "points" = 1, "capacity" = 40),
+			STATS_DEADITES_ALIVE = list("name" = "Sapient deadites alive:", "points" = 3, "capacity" = 50),
 		),
 		"Set 4" = list(
-			STATS_LUX_HARVESTED = list("name" = "Clergy killed:", "points" = 12, "capacity" = 70),
+			STATS_LUX_HARVESTED = list("name" = "Lux extracted:", "points" = 12, "capacity" = 70),
 		),
 		"Set 5" = list(
 			STATS_TORTURES = list("name" = "Tortures performed:", "points" = 5.25, "capacity" = 70),
@@ -317,13 +317,16 @@
 			STATS_NOBLE_DEATHS = list("name" = "Nobles killed:", "points" = 5.5, "capacity" = 80),
 		),
 		"Set 2" = list(
-			STATS_SHRINE_VALUE = list("name" = "Value offered to his idol:", "points" = 0.08, "capacity" = 70),
+			STATS_CLERGY_DEATHS = list("name" = "Clergy killed:", "points" = 12, "capacity" = 70), //more fitting for Matthios, since wealth and stealing from Astrata is kinda his creed
 		),
 		"Set 3" = list(
+			STATS_SHRINE_VALUE = list("name" = "Value offered to his idol:", "points" = 0.08, "capacity" = 70),
+		),
+		"Set 4" = list(
 			STATS_GREEDY_PEOPLE = list("name" = "Number of greedy people:", "points" = 6.5, "capacity" = 70),
 			STATS_INDEBTED = list("name"= "Number of indebted people:", "points" = 5, "capacity" = 25),
 		),
-		"Set 4" = list(
+		"Set 5" = list(
 			STATS_LOCKS_PICKED = list("name" = "Locks picked:", "points" = 3.75, "capacity" = 80),
 		)
 	)

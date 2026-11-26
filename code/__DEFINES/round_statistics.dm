@@ -223,6 +223,7 @@
 //Zizo
 #define STATS_ZIZO_PRAISED "zizo_praised"
 #define STATS_DEADITES_WOKEN_UP "deadites_woken_up"
+#define STATS_SKELETONS_ARISEN "skeletons_arisen"
 #define STATS_CLERGY_DEATHS "priest_deaths"
 #define STATS_TORTURES "tortures"
 #define STATS_SADISTS "sadists"

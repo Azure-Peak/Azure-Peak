@@ -63,7 +63,7 @@
 	addtimer(CALLBACK(target, TYPE_PROC_REF(/mob/living/carbon/human, choose_pronouns_and_body)), 7 SECONDS)
 	addtimer(CALLBACK(target, TYPE_PROC_REF(/mob/living/carbon/human, select_skeleton_features)), 7 SECONDS)
 	target.mind.AddSpell(new /obj/effect/proc_holder/spell/self/suicidebomb/lesser)
-	record_round_statistic(STATS_DEADITES_WOKEN_UP) //lich will raise this like crazy, but its a zizo round so IDC.
+	record_round_statistic(STATS_SKELETONS_ARISEN) //Zizo score goes up per skeleton raised.
 	return TRUE
 
 /obj/effect/proc_holder/spell/invoked/raise_undead/proc/backup_summon(turf/T, mob/living/user)
