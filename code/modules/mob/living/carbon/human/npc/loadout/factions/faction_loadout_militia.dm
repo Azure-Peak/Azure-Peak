@@ -69,6 +69,6 @@
 		list(/obj/item/rogueweapon/mace/cudgel),
 		list(/obj/item/rogueweapon/mace/goden),
 		list(/obj/item/rogueweapon/stoneaxe/woodcut, /obj/item/rogueweapon/shield/wood),
-		list(/obj/item/rogueweapon/flail/peasantwarflail),
+		list(/obj/item/rogueweapon/flail/great),
 		list(/obj/item/rogueweapon/huntingknife/idagger, /obj/item/rogueweapon/shield/wood),
 	)

@@ -67,28 +67,28 @@
 // ----- Familiar Binding -----
 
 /datum/runeritual/binding/infernal
-	name = "Bind Infernal Familiar"
+	name = "Bind Lesser Daemon"
 	desc = "Bind a lesser infernal to your service: a being of daemonic hatred, specializing in fiery destruction."
 	blacklisted = FALSE
 	mob_to_bind = /mob/living/carbon/human/species/familiar/infernal
 	invocation = "Appare, spiritus infernus!"
 
 /datum/runeritual/binding/fae
-	name = "Bind Fae Familiar"
+	name = "Bind Lesser Fae"
 	desc =		"Bind a lesser fae to your service: a being of natural whimsy, specializing in mobility and alchemy."
 	blacklisted = FALSE
 	mob_to_bind = /mob/living/carbon/human/species/familiar/fae
 	invocation = "Appare, spiritus silvae!"
 
 /datum/runeritual/binding/elemental
-	name = "Bind Elemental Familiar"
+	name = "Bind Lesser Elemental"
 	desc = "Bind a lesser elemental to your service: a creature of earthen durability, specializing in world-manipulation and repairs."
 	blacklisted = FALSE
 	mob_to_bind = /mob/living/carbon/human/species/familiar/elemental
 	invocation = "Appare, spiritus terrae!"
 
 /datum/runeritual/binding/void
-	name = "Bind Void Drakeling Familiar"
+	name = "Bind Void Drakeling"
 	desc = "Reach into the void and grasp a fragment of draconic power, shaping it into a familiar."
 	blacklisted = FALSE
 	mob_to_bind = /mob/living/carbon/human/species/familiar/void

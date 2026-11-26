@@ -312,13 +312,13 @@ GLOBAL_LIST_INIT(skeleton_aggro, list(
 
 /datum/outfit/job/roguetown/conjured_skeleton/sword_shield/pre_equip(mob/living/carbon/human/H, visualsOnly)
 	. = ..()
-	r_hand = /obj/item/rogueweapon/sword/sabre/palloy
-	l_hand = /obj/item/rogueweapon/shield/tower/metal/palloy
+	r_hand = /obj/item/rogueweapon/sword/sabre/ancient
+	l_hand = /obj/item/rogueweapon/shield/tower/ancient
 	shoes = /obj/item/clothing/shoes/roguetown/boots/leather
 	gloves = /obj/item/clothing/gloves/roguetown/leather
 	neck = /obj/item/clothing/neck/roguetown/gorget/copper
 	head = /obj/item/clothing/head/roguetown/headband/bloodied
-	mask = /obj/item/clothing/mask/rogue/facemask/aalloy
+	mask = /obj/item/clothing/mask/rogue/facemask/ancient/decrepit
 	pants = /obj/item/clothing/under/roguetown/heavy_leather_pants/bronzeskirt
 	shirt = /obj/item/clothing/suit/roguetown/armor/leather/studded/cuirbouilli
 	armor = /obj/item/clothing/suit/roguetown/armor/plate/cuirass/copper
@@ -326,7 +326,7 @@ GLOBAL_LIST_INIT(skeleton_aggro, list(
 
 /datum/outfit/job/roguetown/conjured_skeleton/spear/pre_equip(mob/living/carbon/human/H, visualsOnly)
 	. = ..()
-	r_hand = /obj/item/rogueweapon/spear/paalloy
+	r_hand = /obj/item/rogueweapon/spear/ancient
 	shoes = /obj/item/clothing/shoes/roguetown/boots/leather
 	gloves = /obj/item/clothing/gloves/roguetown/leather
 	neck = /obj/item/clothing/neck/roguetown/gorget/copper
@@ -338,8 +338,8 @@ GLOBAL_LIST_INIT(skeleton_aggro, list(
 
 /datum/outfit/job/roguetown/conjured_skeleton/dual_daggers/pre_equip(mob/living/carbon/human/H, visualsOnly)
 	. = ..()
-	r_hand = /obj/item/rogueweapon/huntingknife/idagger/steel/padagger
-	l_hand = /obj/item/rogueweapon/huntingknife/idagger/steel/padagger
+	r_hand = /obj/item/rogueweapon/huntingknife/idagger/ancient
+	l_hand = /obj/item/rogueweapon/huntingknife/idagger/ancient
 	shoes = /obj/item/clothing/shoes/roguetown/boots/leather
 	gloves = /obj/item/clothing/gloves/roguetown/leather
 	neck = /obj/item/clothing/neck/roguetown/gorget/copper

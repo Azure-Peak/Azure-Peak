@@ -128,7 +128,7 @@
 		/obj/item/clothing/head/roguetown/helmet/heavy/dwarven,
 		/obj/item/clothing/gloves/roguetown/plate/dwarven,
 		/obj/item/clothing/shoes/roguetown/boots/armor/dwarven,
-		/obj/item/rogueweapon/shield/tower/metal/dwarf,
+		/obj/item/rogueweapon/shield/kite/dwarf,
 	)
 	ship_qty_min = 1
 	ship_qty_max = 1

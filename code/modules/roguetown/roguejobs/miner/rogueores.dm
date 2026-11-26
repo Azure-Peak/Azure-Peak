@@ -345,7 +345,7 @@
 	is_lesser_silver = TRUE
 	materia = list(/datum/materia_aspect/lunar, /datum/materia_aspect/metal)
 
-/obj/item/ingot/aalloy
+/obj/item/ingot/decrepit
 	name = "decrepit ingot"
 	desc = "A decrepit slab of rotted metal, uncomfortably cold to the touch. The gales shift into whispers, when held for long enough; 'progress commands sacrifice'."
 	icon_state = "ingotancient"
@@ -353,13 +353,13 @@
 	color = "#bb9696"
 	sellprice = 33
 
-/obj/item/ingot/purifiedaalloy
+/obj/item/ingot/ancient
 	name = "ancient alloy"
 	desc = "An ingot of polished gilbranze, teeming with forbidden knowledge. The reflection on its surface isn't yours; it smiles back at you with eternal malice."
 	icon_state = "ingotancient"
-	smeltresult = /obj/item/ingot/purifiedaalloy
+	smeltresult = /obj/item/ingot/ancient
 	sellprice = 111
-	materia = list(/datum/materia_aspect/aalloy)
+	materia = list(/datum/materia_aspect/ancient)
 
 /obj/item/ingot/aaslag
 	name = "glimmering slag"
@@ -409,7 +409,7 @@
 	icon_state = "ingotenduring"
 	smeltresult = /obj/item/ingot/weeping
 	sellprice = 222
-	materia = list(/datum/materia_aspect/aalloy) // if you use this for this i will be genuinely dumbfounded
+	materia = list(/datum/materia_aspect/ancient) // if you use this for this i will be genuinely dumbfounded
 
 /obj/item/ingot/weeping/Initialize(mapload)
 	..()
@@ -457,9 +457,9 @@
 	name = "ancient ceremonial alloy"
 	desc = "An ingot of enchanted gilbranze, radiating with ceremonial authority. Chiseled into the surface is an intricate golden matrix; forbidden knowledge, long lost in the wake of Zizo's ascension."
 	icon_state = "ingotvampire"
-	smeltresult = /obj/item/ingot/purifiedaalloy
+	smeltresult = /obj/item/ingot/ancient
 	sellprice = 256
-	materia = list(/datum/materia_aspect/aalloy)
+	materia = list(/datum/materia_aspect/ancient)
 
 /obj/item/ingot/vampire/Initialize(mapload)
 	..()

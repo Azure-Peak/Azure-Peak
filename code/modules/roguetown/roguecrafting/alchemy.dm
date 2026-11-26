@@ -215,7 +215,7 @@
 	name = "transmutation equipment"
 	category = "Table"
 	result = list(/obj/item/trans_table_upgrade)
-	reqs = list(/obj/item/ingot/purifiedaalloy = 2)
+	reqs = list(/obj/item/ingot/ancient = 2)
 	craftdiff = 1
 	verbage_simple = "forge"
 

@@ -41,7 +41,7 @@
 
 /datum/supply_pack/rogue/bronze_weapons/warhammer
 	name = "Bronze Warclub"
-	contains = list(/obj/item/rogueweapon/mace/warhammer/bronze)
+	contains = list(/obj/item/rogueweapon/mace/warclub)
 
 /datum/supply_pack/rogue/bronze_weapons/spear
 	name = "Bronze Spear"

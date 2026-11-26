@@ -50,7 +50,7 @@
 	to_chat(H, span_warning("You are a passable warrior- though weak- but your true strength lies in your ability to bend the resources of Azuria to your will."))
 	has_loadout = TRUE
 	head = /obj/item/clothing/head/roguetown/roguehood/warden/munitioneer
-	mask = /obj/item/clothing/mask/rogue/facemask/steel/paalloy
+	mask = /obj/item/clothing/mask/rogue/facemask/ancient
 	neck = /obj/item/clothing/neck/roguetown/gorget
 	pants = /obj/item/clothing/under/roguetown/heavy_leather_pants
 	cloak = /obj/item/clothing/cloak/templar/malumite

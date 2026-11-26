@@ -1,0 +1,4 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - rscdel: "Reverted quarterstaff state to the balance before November 11 to preserve their viability"

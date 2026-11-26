@@ -657,9 +657,9 @@
 	dir = 1;
 	icon_state = "longtable"
 	},
-/obj/item/rogueweapon/flail/sflail,
-/obj/item/rogueweapon/flail/sflail,
-/obj/item/rogueweapon/flail/sflail,
+/obj/item/rogueweapon/flail/steel,
+/obj/item/rogueweapon/flail/steel,
+/obj/item/rogueweapon/flail/steel,
 /obj/machinery/light/rogue/candle/r,
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/indoors)

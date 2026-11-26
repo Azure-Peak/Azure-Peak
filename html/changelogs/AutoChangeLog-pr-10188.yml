@@ -1,0 +1,6 @@
+author: "OrbisAnima"
+delete-after: True
+changes:
+  - code_imp: "Expands the cloak storage system so that individual items can be given its own storage system instead of forcing the same compoinent to all of them."
+  - balance: "Nerfs the martyr cloak to have no storage."
+  - balance: "Reverts Bandolier to a regular cloak stats, ie, it will fit in bags and be sized 2x2"

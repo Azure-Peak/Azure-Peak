@@ -2107,39 +2107,6 @@
 	. = ..()
 	update_icon()
 
-/obj/item/clothing/cloak/half/duelcape_alt  //sprites from vanderlin
-	name = "duelist cloak"
-	desc = "A flamboyant red duelists cape that is sure to catch the eye. This one had it's cape trimmed, leaving only the cloak"
-	icon_state = "duelistcape_alt"
-	item_state = "duelistcape_alt"
-	color = CLOTHING_SCARLET
-	nodismemsleeves = TRUE
-	detail_tag = "_detail"
-	detail_color = CLOTHING_GOLD_METALLIC
-	sleeved = null
-	sleevetype = "shirt"
-	sleeved = 'icons/roguetown/clothing/onmob/cloaks.dmi'
-	slot_flags = ITEM_SLOT_BACK_R|ITEM_SLOT_CLOAK
-	allowed_race = NON_DWARVEN_RACE_TYPES
-	inhand_mod = FALSE
-
-/obj/item/clothing/cloak/half/duelcape_alt/Initialize(mapload)
-	. = ..()
-	update_icon()
-
-/obj/item/clothing/cloak/half/duelcape_alt/update_icon()
-	cut_overlays()
-	if(get_detail_tag())
-		var/mutable_appearance/pic = mutable_appearance(icon(icon, "[icon_state][detail_tag]"))
-		pic.appearance_flags = RESET_COLOR
-		if(get_detail_color())
-			pic.color = get_detail_color()
-		add_overlay(pic)
-
-/obj/item/clothing/cloak/half/duelcape_alt/Initialize(mapload)
-	. = ..()
-	update_icon()
-
 /obj/item/clothing/cloak/rosa
 	name = "regal cloak"
 	desc = "A finely crafted cloak of silk adorned with rosas."

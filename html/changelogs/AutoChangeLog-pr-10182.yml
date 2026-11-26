@@ -1,0 +1,4 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - rscadd: "Ported Ratwood's smoother, more performant animated energy / stamina bar."

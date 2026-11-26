@@ -860,10 +860,10 @@
 			playsound(loc, 'sound/misc/disposalflush.ogg', 100, FALSE, -1)
 			return
 
-	if(istype(P, /obj/item/roguecoin/aalloy))
+	if(istype(P, /obj/item/roguecoin/psila))
 		return
 
-	if(istype(P, /obj/item/roguecoin/inqcoin))
+	if(istype(P, /obj/item/roguecoin/marque))
 		if(HAS_TRAIT(user, TRAIT_INQUISITION))
 			if(coin_loaded && !inqcoins)
 				return

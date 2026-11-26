@@ -135,7 +135,7 @@ GLOBAL_LIST_EMPTY(escrow_machines)
 		/obj/item/roguegear,
 	)
 	var/list/excluded_materials = list(
-		/obj/item/ingot/aalloy,
+		/obj/item/ingot/decrepit,
 		/obj/item/ingot/drow,
 	)
 	var/list/excluded_material_parents = list()
@@ -146,7 +146,7 @@ GLOBAL_LIST_EMPTY(escrow_machines)
 		/obj/item/ingot/silverblessed/bullion,
 		/obj/item/ingot/steelholy,
 		/obj/item/ingot/lithmyc,
-		/obj/item/ingot/purifiedaalloy,
+		/obj/item/ingot/ancient,
 	)
 	var/list/disabled_materials = list()
 	var/list/allowed_categories = list(

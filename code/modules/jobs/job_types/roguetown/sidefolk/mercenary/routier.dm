@@ -50,7 +50,7 @@
 				H.adjust_skillrank_up_to(/datum/skill/combat/swords, 4, TRUE)
 				beltl = /obj/item/rogueweapon/scabbard/sword
 				l_hand = /obj/item/rogueweapon/sword/short/falchion
-				backl = /obj/item/rogueweapon/shield/tower/metal
+				backl = /obj/item/rogueweapon/shield/kite
 			if("Longswordsman")
 				H.adjust_skillrank_up_to(/datum/skill/combat/swords, 4, TRUE)
 				beltl = /obj/item/rogueweapon/scabbard/sword
@@ -62,11 +62,11 @@
 			if("Macebearer")
 				H.adjust_skillrank_up_to(/datum/skill/combat/maces, 4, TRUE)
 				beltl = /obj/item/rogueweapon/mace/steel/morningstar
-				backl = /obj/item/rogueweapon/shield/tower/metal
+				backl = /obj/item/rogueweapon/shield/kite
 			if("Flailman")
 				H.adjust_skillrank_up_to(/datum/skill/combat/whipsflails, 4, TRUE)
-				beltl = /obj/item/rogueweapon/flail/sflail
-				backl = /obj/item/rogueweapon/shield/tower/metal
+				beltl = /obj/item/rogueweapon/flail/steel
+				backl = /obj/item/rogueweapon/shield/kite
 			if("Foot Lancer")
 				H.adjust_skillrank_up_to(/datum/skill/combat/polearms, 4, TRUE)
 				r_hand = /obj/item/rogueweapon/halberd

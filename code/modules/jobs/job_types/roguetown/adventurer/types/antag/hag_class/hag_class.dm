@@ -55,7 +55,7 @@
 	belt = /obj/item/storage/belt/rogue/leather/black
 	backl = /obj/item/storage/backpack/rogue/satchel
 	shoes = /obj/item/clothing/shoes/roguetown/sandals
-	beltl = /obj/item/storage/belt/rogue/pouch/coins/aalloy
+	beltl = /obj/item/storage/belt/rogue/pouch/coins/psila
 	beltr = /obj/item/roguekey/hag
 	backpack_contents = list(
 		/obj/item/handmirror = 1

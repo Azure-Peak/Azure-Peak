@@ -143,7 +143,7 @@
 	update_icon()
 
 
-/obj/item/roguecoin/inqcoin/attack_self(mob/living/user)
+/obj/item/roguecoin/marque/attack_self(mob/living/user)
 	if(quantity > 1 || !base_type)
 		return
 	if(world.time < flip_cd + 30)
@@ -205,7 +205,7 @@
 	return ..()
 
 //OTAVAN MARQUE - WORTHLESS TO ANYONE BUT INQ.
-/obj/item/roguecoin/inqcoin
+/obj/item/roguecoin/marque
 	name = "otavan marque"
 	desc = "A blessed silver coin finished with a unique wash of black dye, bearing the post-kingdom Psycross. Kingsfield has denied the existence of such a coin when queried, as such coinage is rumoured to be used internally by Otava's inquisitorial sects."
 	icon_state = "i1"
@@ -214,7 +214,7 @@
 	plural_name = "otavan marques"
 	materia = list(/datum/materia_aspect/lunar)
 
-/obj/item/roguecoin/inqcoin/get_mechanics_examine(mob/user)
+/obj/item/roguecoin/marque/get_mechanics_examine(mob/user)
 	. = ..()
 	. += span_info("By loading these coins into a HERMES, I can access the MARQUETTE; a discrete variant of the GOLDFACE, capable of supplying the Inquisition with whatever's needed.")
 	. += span_info("The MARQUETTE exclusively accepts these coins as payment. Purchased supplies are dropped off inside the Inquisition's abode.")
@@ -229,7 +229,6 @@
 	base_type = CTYPE_GOLD
 	plural_name = "zenarii"
 	materia = list(/datum/materia_aspect/solar)
-
 
 // SILVER
 /obj/item/roguecoin/silver
@@ -252,33 +251,33 @@
 	materia = list(/datum/materia_aspect/change)
 
 // ANCIENT
-/obj/item/roguecoin/aalloy
+/obj/item/roguecoin/psila
 	name = "psilen"
 	desc = "A coin of polished gilbranze, beheld to a fallen kingdom that hadn't endured the passage of tyme. </br>Most sophisticated machines won't recognize its value, but keen-eyed Merchants and Stewards might still pay a fair sum for such a relic."
 	icon_state = "a1"
 	sellprice = 3 //Dungeon-specific coinage - valued by historians, collectors, and smelters.
 	base_type = CTYPE_ANCIENT
 	plural_name = "psila"
-	materia = list(/datum/materia_aspect/aalloy)
+	materia = list(/datum/materia_aspect/ancient)
 
-/obj/item/roguecoin/aalloy/update_icon()
+/obj/item/roguecoin/psila/update_icon()
 	..()
 	slot_flags = ITEM_SLOT_MOUTH
 
-/obj/item/roguecoin/aalloy/examine(mob/user)
+/obj/item/roguecoin/psila/examine(mob/user)
 	. = ..()
 	if(user.mind?.has_antag_datum(/datum/antagonist/renegade))
 		. += span_info("I'm feeling quite hungry. I want to put them in my mouth. Maybe I'll fetch a boon?")
 		. += span_info("In a pickle? Take a chance. Flip the coin.")
 
-/obj/item/roguecoin/aalloy/mob_can_equip(mob/living/M, mob/living/equipper, slot, disable_warning = FALSE, bypass_equip_delay_self = FALSE)
+/obj/item/roguecoin/psila/mob_can_equip(mob/living/M, mob/living/equipper, slot, disable_warning = FALSE, bypass_equip_delay_self = FALSE)
 	if(slot == SLOT_MOUTH && quantity > 1 && !M?.mind?.has_antag_datum(/datum/antagonist/renegade))
 		if(!disable_warning)
 			to_chat(M, span_warning("That's far too many coins to fit in my mouth."))
 		return FALSE
 	return ..()
 
-/obj/item/roguecoin/aalloy/equipped(mob/user, slot, initial = FALSE)
+/obj/item/roguecoin/psila/equipped(mob/user, slot, initial = FALSE)
 	. = ..()
 	var/datum/antagonist/renegade/R = user.mind?.has_antag_datum(/datum/antagonist/renegade)
 	if(slot != SLOT_MOUTH || !R)
@@ -288,7 +287,7 @@
 		return
 	R.boons.ui_interact(user)
 
-/obj/item/roguecoin/aalloy/attack_self(mob/living/carbon/user)
+/obj/item/roguecoin/psila/attack_self(mob/living/carbon/user)
 	var/last_flip = flip_cd
 	. = ..()
 	if(flip_cd == last_flip || !user.mind?.has_antag_datum(/datum/antagonist/renegade))
@@ -314,15 +313,15 @@
 				to_chat(user, span_userdanger("The psilen crumbles and my [BP.name] tears open!"))
 				return
 
-/obj/item/roguecoin/inqcoin/pile/Initialize(mapload)
+/obj/item/roguecoin/marque/pile/Initialize(mapload)
 	. = ..()
 	set_quantity(rand(4,19))
 
-/obj/item/roguecoin/aalloy/pile/Initialize(mapload)
+/obj/item/roguecoin/psila/pile/Initialize(mapload)
 	. = ..()
 	set_quantity(rand(4,19))
 
-/obj/item/roguecoin/aalloy/pile/rich/Initialize(mapload)
+/obj/item/roguecoin/psila/pile/rich/Initialize(mapload)
 	. = ..()
 	set_quantity(rand(8,19)) //Hilarious
 

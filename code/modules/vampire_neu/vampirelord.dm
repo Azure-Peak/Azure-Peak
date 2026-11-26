@@ -336,7 +336,7 @@
 /obj/item/clothing/suit/roguetown/armor/plate/vampire/get_examine_highlight_status() //best armor in the game, it shouldn't be worn lightly
 	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_VERYODD, HERESYDESC_VAMPIRE)
 
-/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/paalloy/vampire
+/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/ancient/vampire
 	name = "ancient ceremonial vestments"
 	desc = "An ornate aketon, woven from crimson silk and worn beneath a layer of enchanted gilbranze maille. Vheslyn, and Zizo had both failed in their pursuits - yet, the ancient truths they left behind were more valuable than lyfe itself. It's time to show them all how a Lord truly gets it done."
 	icon_state = "vhauberk"
@@ -348,11 +348,11 @@
 	smeltresult = /obj/item/ingot/vampire
 	unenchantable = TRUE //Its pretty much near-perfect protection, you do not need this.
 
-/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/paalloy/vampire/Initialize(mapload)
+/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/ancient/vampire/Initialize(mapload)
 	..()
 	add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = GLOW_COLOR_VAMPIRIC, "alpha" = 180, "size" = 1)) //Enchanted look.
 
-/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/paalloy/vampire/get_examine_highlight_status() //best armor in the game, it shouldn't be worn lightly
+/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/ancient/vampire/get_examine_highlight_status() //best armor in the game, it shouldn't be worn lightly
 	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_VERYODD, HERESYDESC_VAMPIRE)
 
 /obj/item/clothing/under/roguetown/platelegs/vampire
@@ -420,7 +420,7 @@
 /obj/item/clothing/gloves/roguetown/chain/vampire/get_examine_highlight_status() //best armor in the game, it shouldn't be worn lightly
 	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_VERYODD, HERESYDESC_VAMPIRE)
 
-/obj/item/clothing/wrists/roguetown/bracers/paalloy/vampire
+/obj/item/clothing/wrists/roguetown/bracers/ancient/vampire
 	name = "ancient ceremonial bracers"
 	desc = "Enchanted gilbranze cuffings, clasped around the wrists. They call it a 'curse', but what would they know? What would they have in five hundred years? Would the oh-so-valiant heroes truly accept death, or would they see the pointlessness in besmirching eternal lyfe?"
 	icon_state = "vbracers"
@@ -430,14 +430,14 @@
 	unenchantable = TRUE //Its pretty much near-perfect protection, you do not need this.
 	throw_on_break = FALSE //We only get one set.
 
-/obj/item/clothing/wrists/roguetown/bracers/paalloy/vampire/Initialize(mapload)
+/obj/item/clothing/wrists/roguetown/bracers/ancient/vampire/Initialize(mapload)
 	..()
 	add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = GLOW_COLOR_VAMPIRIC, "alpha" = 180, "size" = 1)) //Enchanted look.
 
-/obj/item/clothing/wrists/roguetown/bracers/paalloy/vampire/get_examine_highlight_status() //best armor in the game, it shouldn't be worn lightly
+/obj/item/clothing/wrists/roguetown/bracers/ancient/vampire/get_examine_highlight_status() //best armor in the game, it shouldn't be worn lightly
 	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_VERYODD, HERESYDESC_VAMPIRE)
 
-/obj/item/clothing/neck/roguetown/gorget/paalloy/vampire
+/obj/item/clothing/neck/roguetown/gorget/ancient/vampire
 	name = "ancient ceremonial gorget"
 	desc = "A neckguard of enchanted gilbranze. Though a vampyre needn't air to lyve, they most certainly need a spine."
 	icon_state = "vgorget"
@@ -447,11 +447,11 @@
 	unenchantable = TRUE //Its pretty much near-perfect protection, you do not need this.
 	throw_on_break = FALSE //We only get one set.
 
-/obj/item/clothing/neck/roguetown/gorget/paalloy/vampire/Initialize(mapload)
+/obj/item/clothing/neck/roguetown/gorget/ancient/vampire/Initialize(mapload)
 	..()
 	add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = GLOW_COLOR_VAMPIRIC, "alpha" = 180, "size" = 1)) //Enchanted look.
 
-/obj/item/clothing/neck/roguetown/gorget/paalloy/vampire/get_examine_highlight_status() //best armor in the game, it shouldn't be worn lightly
+/obj/item/clothing/neck/roguetown/gorget/ancient/vampire/get_examine_highlight_status() //best armor in the game, it shouldn't be worn lightly
 	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_VERYODD, HERESYDESC_VAMPIRE)
 
 /obj/item/clothing/head/roguetown/helmet/heavy/vampire

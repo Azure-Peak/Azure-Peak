@@ -130,30 +130,6 @@
 		if(M in party)
 			. += M
 
-/datum/quest/kill/notorious_bounty/can_claim(mob/living/user)
-	if(!SSquestpool.debug_mode && party_has_notorious(user))
-		return FALSE
-	return ..()
-
-/datum/quest/kill/notorious_bounty/claim_failure_reason(mob/living/user)
-	if(party_has_notorious(user))
-		return "[user.current_fellowship ? "Your fellowship already has" : "You already have"] a Notorious Bounty. Finish it before signing another."
-	return ..()
-
-/datum/quest/kill/notorious_bounty/proc/party_has_notorious(mob/living/user)
-	if(!istype(user))
-		return FALSE
-	var/list/party = list(user)
-	if(user.current_fellowship)
-		party |= user.current_fellowship.get_members()
-	for(var/obj/item/quest_writ/scroll as anything in GLOB.quest_scrolls)
-		var/datum/quest/kill/notorious_bounty/Q = scroll.assigned_quest
-		if(!istype(Q) || Q == src || Q.complete || Q.failed)
-			continue
-		if(length(Q.get_hunting_party() & party))
-			return TRUE
-	return FALSE
-
 /datum/quest/kill/notorious_bounty/on_claim(mob/user)
 	. = ..()
 	var/mob/living/claimant = user
@@ -403,15 +379,14 @@
 	if(ground_tick_id)
 		deltimer(ground_tick_id)
 		ground_tick_id = null
-	unbind(boss_ref?.resolve())
+	var/mob/living/boss = boss_ref?.resolve()
+	if(boss)
+		qdel(boss.GetComponent(/datum/component/battleground_bound))
 	for(var/datum/weakref/W as anything in bound_hunters)
-		unbind(W.resolve())
+		var/mob/living/M = W.resolve()
+		if(M)
+			qdel(M.GetComponent(/datum/component/battleground_bound))
 	bound_hunters.Cut()
-
-/datum/quest/kill/notorious_bounty/proc/unbind(mob/living/M)
-	var/datum/component/battleground_bound/leash = M?.GetComponent(/datum/component/battleground_bound)
-	if(leash?.center == leash_origin)
-		qdel(leash)
 
 /datum/quest/kill/notorious_bounty/proc/bind_hunters()
 	var/list/party = get_hunting_party()
@@ -420,12 +395,13 @@
 		if(M in party)
 			continue
 		bound_hunters -= W
-		unbind(M)
+		if(M)
+			qdel(M.GetComponent(/datum/component/battleground_bound))
 	for(var/mob/living/M as anything in party)
 		if(M.stat == DEAD)
 			continue
 		var/datum/weakref/W = WEAKREF(M)
-		if((W in bound_hunters) || M.GetComponent(/datum/component/battleground_bound) || !in_ground(M, NOTORIOUS_BOUNTY_DRAW_IN_RANGE))
+		if((W in bound_hunters) || !in_ground(M, NOTORIOUS_BOUNTY_DRAW_IN_RANGE))
 			continue
 		if(!in_ground(M))
 			draw_in(M)

@@ -1,0 +1,4 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - rscadd: "Renamed the variant of gloomy medium hairstyle to gloomy (medium alt) instead of duplicated name of gloomy long"

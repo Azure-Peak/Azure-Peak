@@ -21,7 +21,7 @@
 
 /datum/outfit/job/roguetown/greater_skeleton/siege_skeleton //Basically just NPC skeleton but slightly tuned up for players, with decrepit gear that can't be fixed. YOU WILL DIE.
 	belt = /obj/item/storage/belt/rogue/leather //Enough to hold some things, go kill for a satchel, literally.
-	beltr = /obj/item/rogueweapon/huntingknife/idagger/adagger //Softlock protection, can be used as a pick in a pinch.
+	beltr = /obj/item/rogueweapon/huntingknife/idagger/ancient/decrepit //Softlock protection, can be used as a pick in a pinch.
 
 ////WARNING, SHITCODE GALORE BELOW, THIS THING IS HELD TOGETHER WITH TAPE AND PRAYERS, IT ALWAYS WAS BUT NOW MORESO////
 
@@ -75,37 +75,37 @@
 	H.adjust_skillrank(/datum/skill/misc/climbing, 2, TRUE)
 
 	//intentionally decrepit gear, you're going to die rapidly. You're just here to start some fights and do some shennagions.
-	head = /obj/item/clothing/head/roguetown/helmet/heavy/aalloy
-	armor = /obj/item/clothing/suit/roguetown/armor/plate/cuirass/aalloy
-	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/aalloy
-	wrists = /obj/item/clothing/wrists/roguetown/bracers/aalloy
-	pants = /obj/item/clothing/under/roguetown/chainlegs/kilt/aalloy
-	shoes = /obj/item/clothing/shoes/roguetown/boots/aalloy
-	neck = /obj/item/clothing/neck/roguetown/chaincoif/iron/aalloy
-	gloves = /obj/item/clothing/gloves/roguetown/chain/aalloy
-	l_hand = /obj/item/rogueweapon/shield/tower/metal/alloy //guarrenteed ancient shield, its going to break pretty fast.
+	head = /obj/item/clothing/head/roguetown/helmet/heavy/ancient/decrepit
+	armor = /obj/item/clothing/suit/roguetown/armor/plate/cuirass/ancient/decrepit
+	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/ancient/decrepit
+	wrists = /obj/item/clothing/wrists/roguetown/bracers/ancient/decrepit
+	pants = /obj/item/clothing/under/roguetown/chainlegs/kilt/ancient/decrepit
+	shoes = /obj/item/clothing/shoes/roguetown/boots/ancient/decrepit
+	neck = /obj/item/clothing/neck/roguetown/chaincoif/ancient/decrepit
+	gloves = /obj/item/clothing/gloves/roguetown/chain/ancient/decrepit
+	l_hand = /obj/item/rogueweapon/shield/tower/ancient/decrepit //guarrenteed ancient shield, its going to break pretty fast.
 	H.adjust_blindness(-3)
 	var/weapons = list("Gladius","Spear","Flail","Khopesh","Axe","Mace")
 	var/weapon_choice = input(H, "Choose your DECREPIT WEAPON.", "RAGE AGAINST THE LYVING.") as anything in weapons
 	H.set_blindness(0)
 	switch(weapon_choice)
 		if("Gladius")
-			r_hand = /obj/item/rogueweapon/sword/short/gladius/agladius
+			r_hand = /obj/item/rogueweapon/sword/short/gladius/ancient/decrepit
 			H.adjust_skillrank(/datum/skill/combat/swords, 1, TRUE)
 		if("Spear")
-			r_hand = /obj/item/rogueweapon/spear/aalloy
+			r_hand = /obj/item/rogueweapon/spear/ancient/decrepit
 			H.adjust_skillrank(/datum/skill/combat/polearms, 1, TRUE)
 		if("Khopesh")
-			beltr = /obj/item/rogueweapon/sword/sabre/alloy
+			beltr = /obj/item/rogueweapon/sword/sabre/ancient/decrepit
 			H.adjust_skillrank(/datum/skill/combat/swords, 1, TRUE)
 		if("Axe")
-			beltr = /obj/item/rogueweapon/stoneaxe/woodcut/aaxe
+			beltr = /obj/item/rogueweapon/stoneaxe/woodcut/ancient/decrepit
 			H.adjust_skillrank(/datum/skill/combat/axes, 1, TRUE)
 		if("Flail")
-			r_hand = /obj/item/rogueweapon/flail/aflail
+			r_hand = /obj/item/rogueweapon/flail/ancient/decrepit
 			H.adjust_skillrank(/datum/skill/combat/whipsflails, 1, TRUE)
 		if("Mace")
-			beltr = /obj/item/rogueweapon/mace/alloy
+			beltr = /obj/item/rogueweapon/mace/ancient/decrepit
 			H.adjust_skillrank(/datum/skill/combat/maces, 1, TRUE)
 
 	var/tabards = list("Black Jupon", "Black Tabard", "Black Cloak", "Black Toga")
@@ -156,15 +156,15 @@
 	H.adjust_skillrank(/datum/skill/misc/climbing, 2, TRUE)
 
 	//intentionally decrepit gear, you're going to die rapidly. You're just here to start some fights and do some shennagions.
-	head = /obj/item/clothing/head/roguetown/helmet/kettle/aalloy
-	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/aalloy
-	wrists = /obj/item/clothing/wrists/roguetown/bracers/aalloy
-	pants = /obj/item/clothing/under/roguetown/chainlegs/kilt/aalloy
-	shoes = /obj/item/clothing/shoes/roguetown/boots/aalloy
-	neck = /obj/item/clothing/neck/roguetown/chaincoif/iron/aalloy
-	gloves = /obj/item/clothing/gloves/roguetown/chain/aalloy
+	head = /obj/item/clothing/head/roguetown/helmet/kettle/ancient/decrepit
+	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/ancient/decrepit
+	wrists = /obj/item/clothing/wrists/roguetown/bracers/ancient/decrepit
+	pants = /obj/item/clothing/under/roguetown/chainlegs/kilt/ancient/decrepit
+	shoes = /obj/item/clothing/shoes/roguetown/boots/ancient/decrepit
+	neck = /obj/item/clothing/neck/roguetown/chaincoif/ancient/decrepit
+	gloves = /obj/item/clothing/gloves/roguetown/chain/ancient/decrepit
 	l_hand = /obj/item/gun/ballistic/revolver/grenadelauncher/bow
-	backl = /obj/item/quiver/broadhead_aalloy
+	backl = /obj/item/quiver/decrepit
 	//Knife is default softlock protection sidearm, difference is you don't suck at it here as much.
 
 	var/tabards = list("Black Jupon", "Black Tabard", "Black Cloak", "Black Toga")
@@ -217,34 +217,34 @@
 
 	//intentionally decrepit gear, you're going to die rapidly. You're just here to start some fights and do some shennagions.
 	cloak = /obj/item/clothing/cloak/tabard/blkknight
-	pants = /obj/item/clothing/under/roguetown/platelegs/aalloy
-	shoes = /obj/item/clothing/shoes/roguetown/boots/aalloy
-	neck = /obj/item/clothing/neck/roguetown/gorget/aalloy
-	gloves = /obj/item/clothing/gloves/roguetown/plate/aalloy
+	pants = /obj/item/clothing/under/roguetown/platelegs/ancient/decrepit
+	shoes = /obj/item/clothing/shoes/roguetown/boots/ancient/decrepit
+	neck = /obj/item/clothing/neck/roguetown/gorget/ancient/decrepit
+	gloves = /obj/item/clothing/gloves/roguetown/plate/ancient/decrepit
 	H.adjust_blindness(-3)
 	var/weapons = list("Greatsword","Grand Mace")
 	var/weapon_choice = input(H, "Choose your DECREPIT WEAPON.", "RAGE AGAINST THE LYVING.") as anything in weapons
 	H.set_blindness(0)
 	switch(weapon_choice)
 		if("Greatsword")
-			r_hand = /obj/item/rogueweapon/greatsword/aalloy
+			r_hand = /obj/item/rogueweapon/greatsword/ancient/decrepit
 			H.adjust_skillrank(/datum/skill/combat/swords, 1, TRUE)
 		if("Grand Mace")
-			r_hand = /obj/item/rogueweapon/mace/goden/aalloy
+			r_hand = /obj/item/rogueweapon/mace/goden/ancient/decrepit
 			H.adjust_skillrank(/datum/skill/combat/maces, 1, TRUE)
 	var/armors = list("Sayovard + Cuirass & Hauberk", "Bascinet + Heavy Hauberk")
 	var/armor_choice = input(H, "Choose your PLATE.", "SHRUG OFF THINE BLOWS.") as anything in armors
 	switch(armor_choice)
 		if("Sayovard + Cuirass & Hauberk")
-			head = /obj/item/clothing/head/roguetown/helmet/heavy/guard/aalloy
-			shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/aalloy
-			wrists = /obj/item/clothing/wrists/roguetown/bracers/aalloy
-			armor = /obj/item/clothing/suit/roguetown/armor/plate/cuirass/aalloy
+			head = /obj/item/clothing/head/roguetown/helmet/heavy/guard/ancient/decrepit
+			shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/ancient/decrepit
+			wrists = /obj/item/clothing/wrists/roguetown/bracers/ancient/decrepit
+			armor = /obj/item/clothing/suit/roguetown/armor/plate/cuirass/ancient/decrepit
 		if("Bascinet + Heavy Hauberk")
-			head = /obj/item/clothing/head/roguetown/helmet/heavy/knight/aalloy
-			wrists = /obj/item/clothing/wrists/roguetown/bracers/aalloy/chain
+			head = /obj/item/clothing/head/roguetown/helmet/heavy/knight/ancient/decrepit
+			wrists = /obj/item/clothing/wrists/roguetown/bracers/ancient/decrepit/chain
 			shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/light
-			armor = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/aalloy/heavy
+			armor = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/ancient/decrepit/heavy
 	var/tabards = list("Black Jupon", "Black Tabard", "Black Cloak", "Black Toga")
 	var/tabard_choice = input(H, "Choose your CLOAK.", "BEAR YOUR HERALDRY.") as anything in tabards
 	switch(tabard_choice)
