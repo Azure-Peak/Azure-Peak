@@ -156,7 +156,7 @@
 /datum/supply_pack/rogue/Iconoclast/steelflail
 	name = "Steel Flail"
 	cost = 60
-	contains =	list(/obj/item/rogueweapon/flail/steel)
+	contains =	list(/obj/item/rogueweapon/flail/sflail)
 
 /////////////
 // SHIELDS //
@@ -170,4 +170,4 @@
 /datum/supply_pack/rogue/Iconoclast/kiteshield
 	name = "Kite Shield"
 	cost = 40
-	contains = list(/obj/item/rogueweapon/shield/kite)
+	contains = list(/obj/item/rogueweapon/shield/tower/metal)

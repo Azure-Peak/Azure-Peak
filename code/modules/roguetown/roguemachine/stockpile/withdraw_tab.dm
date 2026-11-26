@@ -15,28 +15,27 @@
 	parent_structure.update_icon()
 	playsound(parent_structure.loc, 'sound/misc/coininsert.ogg', 100, TRUE, -1)
 
-/datum/withdraw_tab/proc/get_direct_import_quote(datum/roguestock/D)
-	if(!D || !D.trade_good_id)
-		return null
-	var/list/best = SSeconomy.get_best_import_region(D.trade_good_id)
-	if(!best || !best["region_id"])
-		return null
-	var/datum/economic_region/region = GLOB.economic_regions[best["region_id"]]
-	if(!region)
-		return null
-	var/daily_pace = region.produces[D.trade_good_id] || 0
-	var/produces_today = region.produces_today[D.trade_good_id] || 0
-	if(daily_pace <= 0 || produces_today <= 0)
-		return null
-	var/starting_index = max(0, daily_pace - produces_today)
-	var/unit_cost = SSeconomy.compute_import_unit_price(D.trade_good_id, region, starting_index + 1)
-	var/margin = (SStreasury.royal_custom_active && SStreasury.royal_custom_unlocked) ? SStreasury.royal_custom_margin : ROYAL_CUSTOM_DEFAULT_MARGIN
-	var/price = max(1, round(unit_cost * (100 + margin) / 100))
-	return list("region" = region, "unit_cost" = unit_cost, "price" = price)
+/datum/withdraw_tab/proc/refund_budget(mob/user)
+	if(budget <= 0)
+		return FALSE
+	if(floor(mammon_round(budget)) < 1)
+		return FALSE
+	budget = refund_pouch(budget, user)
+	return TRUE
 
-/datum/withdraw_tab/proc/direct_import_price(datum/roguestock/D)
-	var/list/quote = get_direct_import_quote(D)
-	return quote ? quote["price"] : 0
+/datum/withdraw_tab/proc/add_stock_rows(list/data)
+	var/list/rows = list()
+	var/conditions = 0
+	var/conditions_tab = current_category == "__conditions__"
+	for(var/datum/roguestock/stockpile/R in SStreasury.stockpile_datums)
+		var/list/row = R.market_row()
+		var/has_event = row["event_tag"] ? TRUE : FALSE
+		if(has_event)
+			conditions++
+		if(conditions_tab ? has_event : R.category == current_category)
+			rows += list(row)
+	data["stocks"] = rows
+	data["conditions_count"] = conditions
 
 /datum/withdraw_tab/proc/do_withdraw(datum/roguestock/D, mob/user)
 	if(!D || !parent_structure)
@@ -44,92 +43,51 @@
 	if(get_dist(parent_structure, user) > 1)
 		return FALSE
 	D.refresh_auto_price()
-	var/total_price = D.withdraw_price
-	if(D.withdraw_disabled && !has_fiscal_authority(user))
+	if(D.market_never_supplies)
 		parent_structure.say("Not available.")
 		return FALSE
-	if(D.stockpile_amount <= 0)
-		parent_structure.say("Out of stock.")
-		return FALSE
-	var/food_stipend = ishuman(user) && HAS_TRAIT(user, TRAIT_ROYAL_SUBSIDY)
-	if(!food_stipend && total_price > budget)
-		parent_structure.say("You haven't put in enough mammon.")
-		return FALSE
-	D.stockpile_amount--
-	SStreasury.dirty_market_view()
-	if(!food_stipend)
-		budget -= total_price
-		SStreasury.mint(SStreasury.discretionary_fund, total_price, "Stockpile withdrawal", null, LEDGER_CROWN_REV_STOCKPILE_SALES)
-		record_round_statistic(STATS_STOCKPILE_REVENUE, total_price)
+	var/market_open = D.market_available() > 0
+	var/total_price = D.market_ask(1)
+	var/subsidy = ishuman(user) && HAS_TRAIT(user, TRAIT_ROYAL_SUBSIDY) && SStreasury.royal_subsidy_remaining(user) >= total_price
+	var/from_royal_stock = subsidy && D.royal_stock > 0
+	var/treasury_pays = subsidy && !from_royal_stock && market_open && SStreasury.royal_subsidy_treasury_covers(total_price)
+	if(from_royal_stock)
+		D.royal_stock--
+		SStreasury.spend_royal_subsidy(user, total_price)
+		SStreasury.log_fund_entry(new /datum/treasury_entry(null, SStreasury.discretionary_fund, SStreasury.discretionary_fund, 0, "Subsidy Withdraw: [D.name] by [user.real_name]"))
 	else
-		var/actor_suffix = user ? " by [user.real_name]" : ""
-		SStreasury.log_fund_entry(new /datum/treasury_entry(null, SStreasury.discretionary_fund, SStreasury.discretionary_fund, 0, "Subsidy Withdraw: [D.name][actor_suffix]"))
-	var/obj/item/I = new D.item_type(parent_structure.loc)
-	if(food_stipend)
-		to_chat(user, span_info("[parent_structure] chitters and squeaks. Your food stipend pays from the Treasury."))
-	if(!user.put_in_hands(I))
-		I.forceMove(get_turf(user))
-	playsound(parent_structure.loc, 'sound/misc/hiss.ogg', 100, FALSE, -1)
-	return TRUE
-
-/datum/withdraw_tab/proc/do_direct_import(datum/roguestock/D, mob/user)
-	if(!D || !ishuman(user) || !parent_structure)
-		return FALSE
-	if(!D.trade_good_id)
-		parent_structure.say("Not available.")
-		return FALSE
-	var/list/quote = get_direct_import_quote(D)
-	if(!quote)
-		parent_structure.say("No region currently supplies [D.name].")
-		return FALSE
-	var/datum/economic_region/region = quote["region"]
-	var/unit_cost = quote["unit_cost"]
-	var/price = quote["price"]
-	var/surcharge = max(0, price - unit_cost)
-	var/food_stipend = HAS_TRAIT(user, TRAIT_ROYAL_SUBSIDY)
-	var/using_stipend = food_stipend && price > budget
-	if(using_stipend)
-		if(SStreasury.discretionary_fund.balance < unit_cost)
-			parent_structure.say("The Treasury can't cover the import cost.")
+		if(!market_open)
+			parent_structure.say("Out of stock.")
 			return FALSE
-	else
-		if(price > budget)
-			parent_structure.say("You haven't put in enough mammon.")
-			return FALSE
-		if(SStreasury.discretionary_fund.balance < unit_cost)
-			parent_structure.say("The Treasury can't cover the import cost.")
-			return FALSE
-	var/spent = SSeconomy.manual_import(user, region.region_id, D.trade_good_id, 1, using_stipend)
-	if(!spent)
-		return FALSE
-	if(using_stipend)
-		record_treasury_expense(TREASURY_FLOW_SUBSIDY, treasury_role_of(user), spent)
-	else
-		budget -= price
-	D.stockpile_amount = max(0, D.stockpile_amount - 1)
-	SStreasury.dirty_market_view()
-	var/chartered = SStreasury.royal_custom_active && SStreasury.royal_custom_unlocked
-	if(!using_stipend)
-		SStreasury.mint(SStreasury.discretionary_fund, unit_cost, "Direct import reimbursement: [D.name] from [region.name]", null, LEDGER_CROWN_REV_STOCKPILE_SALES)
-	record_round_statistic(STATS_STOCKPILE_DIRECT_IMPORTS, price)
-	record_material_flow(MATERIAL_FLOW_IN, MATERIAL_SOURCE_LOCAL_IMPORT, D.item_type, 1, price)
-	if(!using_stipend && chartered && surcharge > 0)
-		SStreasury.mint(SStreasury.discretionary_fund, surcharge, "Royal Custom: direct import of [D.name]", null, LEDGER_CROWN_REV_STOCKPILE_SALES)
-		record_round_statistic(STATS_STOCKPILE_REVENUE, surcharge)
-	var/obj/item/I = new D.item_type(parent_structure.loc)
-	if(!user.put_in_hands(I))
-		I.forceMove(get_turf(user))
-	playsound(parent_structure.loc, 'sound/misc/hiss.ogg', 100, FALSE, -1)
-	if(using_stipend)
-		var/waived = max(0, surcharge)
-		to_chat(user, span_info("[parent_structure] chitters and squeaks. Your food stipend pays from the Treasury."))
-		if(waived > 0)
-			to_chat(user, span_notice("[D.name] imported from [region.name] for [unit_cost]m. Your food stipend paid for it. The [waived]m markup is waived."))
+		if(treasury_pays)
+			if(!SStreasury.burn(SStreasury.discretionary_fund, total_price, "Royal Subsidy: [D.name] for [user.real_name]", LEDGER_CROWN_EXP_STOCKPILE))
+				return FALSE
+			SStreasury.spend_royal_subsidy(user, total_price)
+			record_treasury_expense(TREASURY_FLOW_SUBSIDY, treasury_role_of(user), total_price)
 		else
-			to_chat(user, span_notice("[D.name] imported from [region.name] for [unit_cost]m."))
-	else
-		var/flavor = chartered ? "The markup goes to the Treasury." : "The markup pays for shipping."
-		to_chat(user, span_notice("[D.name] imported from [region.name] for [price]m. [flavor]"))
+			if(total_price > mammon_round(budget))
+				parent_structure.say("You haven't put in enough mammon.")
+				return FALSE
+			budget = max(0, mammon_round(budget - total_price))
+			record_round_statistic(STATS_STOCKPILE_REVENUE, total_price)
+		D.market_stock--
+		D.check_glut_relief()
+		debit_economic_event_saturation(D.trade_good_id, 1)
+	SStreasury.dirty_market_view(D)
+	var/licensed = !from_royal_stock && !treasury_pays && (user.job in GLOB.atc_positions) && SSmerchant_trade?.export_licence_left() >= total_price
+	if(licensed)
+		SSmerchant_trade.export_licence_spent += total_price
+	var/obj/item/I = new D.item_type(parent_structure.loc)
+	I.stockpile_stamped = !licensed
+	I.sellprice = max(1, round(total_price))
+	I.static_price = TRUE
+	if(from_royal_stock)
+		to_chat(user, span_info("[parent_structure] chitters and squeaks."))
+	else if(treasury_pays)
+		to_chat(user, span_info("[parent_structure] chitters and squeaks. Paid from royal subsidy."))
+	if(!user.put_in_hands(I))
+		I.forceMove(get_turf(user))
+	playsound(parent_structure.loc, 'sound/misc/hiss.ogg', 100, FALSE, -1)
 	return TRUE
 
 /proc/stock_announce(message)

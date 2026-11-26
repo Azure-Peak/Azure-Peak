@@ -50,24 +50,14 @@
 	. = ..()
 	icon_state = "ststatue[pick(1,2)]"
 
-/obj/item/roguestatue/decrepit
+/obj/item/roguestatue/aalloy
 	name = "decrepit statue"
 	desc = "A statue of rotted metal, forged to venerate an ancient champion."
 	icon_state = "astatue1"
-	smeltresult = /obj/item/ingot/decrepit
+	smeltresult = /obj/item/ingot/aalloy
 	color = "#bb9696"
 
-/obj/item/roguestatue/decrepit/Initialize(mapload)
-	. = ..()
-	icon_state = "astatue[pick(1,2)]"
-
-/obj/item/roguestatue/ancient
-	name = "ancient statue"
-	desc = "There were no gods in their legends; only heroes."
-	icon_state = "astatue1"
-	smeltresult = /obj/item/ingot/ancient
-
-/obj/item/roguestatue/ancient/Initialize(mapload)
+/obj/item/roguestatue/aalloy/Initialize(mapload)
 	. = ..()
 	icon_state = "astatue[pick(1,2)]"
 

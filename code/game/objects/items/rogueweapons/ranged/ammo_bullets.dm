@@ -83,7 +83,11 @@
 	. = ..()
 	inscription = pick(sling_inscriptions)
 
-/obj/item/ammo_casing/caseless/rogue/sling_bullet/ancient/Initialize(mapload)
+/obj/item/ammo_casing/caseless/rogue/sling_bullet/aalloy/Initialize(mapload)
+	. = ..()
+	inscription = pick(sling_inscriptions)
+
+/obj/item/ammo_casing/caseless/rogue/sling_bullet/paalloy/Initialize(mapload)
 	. = ..()
 	inscription = pick(sling_inscriptions)
 
@@ -112,17 +116,17 @@
 	projectile_type = /obj/projectile/bullet/reusable/sling_bullet/bronze
 	icon_state = "bronze_sling_bullet"
 
-/obj/item/ammo_casing/caseless/rogue/sling_bullet/ancient/decrepit
+/obj/item/ammo_casing/caseless/rogue/sling_bullet/aalloy
 	name = "decrepit sling bullet"
 	desc = "A pellet of rotted metal. The alloy flakes apart in your grasp, staining the palm with flecks of brown-and-red."
-	projectile_type = /obj/projectile/bullet/reusable/sling_bullet/ancient/decrepit
+	projectile_type = /obj/projectile/bullet/reusable/sling_bullet/aalloy
 	icon_state = "ancient_sling_bullet"
 	color = "#bb9696"
 
-/obj/item/ammo_casing/caseless/rogue/sling_bullet/ancient
+/obj/item/ammo_casing/caseless/rogue/sling_bullet/paalloy
 	name = "ancient sling bullet"
 	desc = "A pellet of polished gilbranze. The bigger they are, the harder they'll fall; be it Man or God."
-	projectile_type = /obj/projectile/bullet/reusable/sling_bullet/ancient
+	projectile_type = /obj/projectile/bullet/reusable/sling_bullet/paalloy
 	icon_state = "ancient_sling_bullet"
 
 /obj/item/ammo_casing/caseless/rogue/sling_bullet/iron
@@ -204,10 +208,10 @@
 	damage = 32 //proper stones are better
 	ammo_type = /obj/item/ammo_casing/caseless/rogue/sling_bullet/stone
 
-/obj/projectile/bullet/reusable/sling_bullet/ancient/decrepit
+/obj/projectile/bullet/reusable/sling_bullet/aalloy
 	name = "decrepit sling bullet"
 	damage = 22
-	ammo_type = /obj/item/ammo_casing/caseless/rogue/sling_bullet/ancient/decrepit
+	ammo_type = /obj/item/ammo_casing/caseless/rogue/sling_bullet/aalloy
 	icon_state = "ancientslingbullet_proj"
 
 /obj/projectile/bullet/reusable/sling_bullet/bronze
@@ -223,10 +227,10 @@
 	ammo_type = /obj/item/ammo_casing/caseless/rogue/sling_bullet/iron
 	icon_state = "ironslingbullet_proj"
 
-/obj/projectile/bullet/reusable/sling_bullet/ancient
+/obj/projectile/bullet/reusable/sling_bullet/paalloy
 	name = "ancient sling bullet"
 	damage = 40
-	ammo_type = /obj/item/ammo_casing/caseless/rogue/sling_bullet/ancient
+	ammo_type = /obj/item/ammo_casing/caseless/rogue/sling_bullet/paalloy
 	icon_state = "ancientslingbullet_proj"
 
 // SCATTERSHOT - Steel pellets that shatter on impact. Non-recoverable.
@@ -379,10 +383,10 @@
 
 
 //mob projectiles
-/obj/projectile/bullet/reusable/arrow/skeleton
+/obj/projectile/bullet/reusable/arrow/ancient
 	damage = 10
 	armor_penetration = PEN_LIGHT
-	ammo_type = /obj/item/ammo_casing/caseless/rogue/arrow/ancient/decrepit
+	ammo_type = /obj/item/ammo_casing/caseless/rogue/arrow/iron/aalloy
 	embedchance = 100
 	speed = 2 // I guess slower to be slightly more forgiving to players since they're otherwise aimbots
 

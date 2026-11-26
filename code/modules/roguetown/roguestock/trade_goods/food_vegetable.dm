@@ -38,6 +38,12 @@
 	source_region_id = TRADE_REGION_KINGSFIELD
 	item_type = /obj/item/reagent_containers/food/snacks/grown/onion/rogue
 
+/datum/trade_good/vegetable/mushroom
+	id = TRADE_GOOD_MUSHROOM
+	name = "Mushroom"
+	base_price = SELLPRICE_MUSHROOM
+	item_type = /obj/item/reagent_containers/food/snacks/rogue/mushroom
+
 /datum/trade_good/vegetable/carrot
 	id = TRADE_GOOD_CARROT
 	name = "Carrot"

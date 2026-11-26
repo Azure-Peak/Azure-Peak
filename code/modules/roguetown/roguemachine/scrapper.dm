@@ -90,7 +90,7 @@
 				SStgui.update_uis(src)
 				return
 
-	if(istype(P, /obj/item/roguecoin/psila) || istype(P, /obj/item/roguecoin/marque))
+	if(istype(P, /obj/item/roguecoin/aalloy) || istype(P, /obj/item/roguecoin/inqcoin))
 		return
 	if(istype(P, /obj/item/roguecoin))
 		if(!is_keyholder(user))
@@ -373,10 +373,11 @@
 		if("withdraw")
 			if(budget <= 0)
 				return TRUE
-			var/amount = budget
-			budget = 0
+			var/amount = floor(mammon_round(budget))
+			if(amount < 1)
+				return TRUE
+			budget = refund_pouch(budget, usr)
 			bark_dirty = TRUE
-			budget2change(amount, usr)
 			playsound(loc, 'sound/misc/coindispense.ogg', 100, FALSE, -1)
 			to_chat(usr, span_notice("I withdraw [amount]m from the coffer."))
 			return TRUE

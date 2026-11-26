@@ -41,17 +41,16 @@
 	salvage_result = /obj/item/natural/hide/cured
 	bootknife = TRUE
 
-/obj/item/clothing/shoes/roguetown/boots/ancient/decrepit
+/obj/item/clothing/shoes/roguetown/boots/aalloy
 	name = "decrepit boots"
 	desc = "Rotted metal greaves, shingled atop boots of rotted leather. The toebones of its former legionnaire remain within, rattling about with every step taken."
 	max_integrity = ARMOR_INT_SIDE_DECREPIT
 	armor = ARMOR_BRONZE
 	icon_state = "ancientboots"
 	smeltresult = /obj/item/ingot/aaslag
-	anvilrepair = null
 	color = "#bb9696"
 
-/obj/item/clothing/shoes/roguetown/boots/ancient
+/obj/item/clothing/shoes/roguetown/boots/paalloy
 	name = "ancient boots"
 	desc = "Polished gilbranze sabatons, curved around to loosely mimic the calves of another. </br>It looks chivalry is dead, after all.. and walking, no less!"
 	icon_state = "ancientboots"
@@ -182,7 +181,7 @@
 	salvage_result = /obj/item/natural/cloth
 	sewrepair = TRUE
 
-/obj/item/clothing/shoes/roguetown/sandals/ancient/decrepit
+/obj/item/clothing/shoes/roguetown/sandals/aalloy
 	name = "decrepit sandals"
 	desc = "Rotted metal platforms, curled about to cradle the feet. The beaches that these sandals once trod are no more; pearly sands, long since turnt to glass from the Comet Syon's impact."
 	icon_state = "ancientsandals"
@@ -190,7 +189,7 @@
 	max_integrity = ARMOR_INT_SIDE_DECREPIT
 	armor = ARMOR_BRONZE
 
-/obj/item/clothing/shoes/roguetown/sandals/ancient
+/obj/item/clothing/shoes/roguetown/sandals/paalloy
 	name = "ancient sandals"
 	desc = "Polished gilbranze platforms, laced with bog-reeds to remain secured beneath skeletal soles. A thousand yils later, and they still clack-and-clop like new."
 	icon_state = "ancientsandals"

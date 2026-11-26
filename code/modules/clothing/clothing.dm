@@ -95,7 +95,7 @@
 		else
 			materia = list(/datum/materia_aspect/animal)
 		if(smeltresult == /obj/item/ingot/aaslag && findtext(name, "ancient"))
-			materia += /datum/materia_aspect/ancient
+			materia += /datum/materia_aspect/aalloy
 
 /obj/item/clothing/examine(mob/user)
 	. = ..()

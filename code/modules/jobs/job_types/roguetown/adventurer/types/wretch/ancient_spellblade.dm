@@ -62,15 +62,15 @@
 
 	// Equipment — gilbranze loadout matching lich skeleton spellblade
 	belt = /obj/item/storage/belt/rogue/leather
-	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/ancient
+	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/paalloy
 	armor = /obj/item/clothing/suit/roguetown/armor/leather/studded
-	pants = /obj/item/clothing/under/roguetown/chainlegs/kilt/ancient
-	neck = /obj/item/clothing/neck/roguetown/chaincoif/ancient
-	shoes = /obj/item/clothing/shoes/roguetown/sandals/ancient
-	gloves = /obj/item/clothing/gloves/roguetown/chain/ancient
-	wrists = /obj/item/clothing/wrists/roguetown/bracers/ancient/chain
+	pants = /obj/item/clothing/under/roguetown/chainlegs/kilt/paalloy
+	neck = /obj/item/clothing/neck/roguetown/chaincoif/paalloy
+	shoes = /obj/item/clothing/shoes/roguetown/sandals/paalloy
+	gloves = /obj/item/clothing/gloves/roguetown/chain/paalloy
+	wrists = /obj/item/clothing/wrists/roguetown/bracers/paalloy/chain
 	mask = /obj/item/clothing/head/roguetown/roguehood/shalal/hijab/lich //Stands out
-	backr = /obj/item/rogueweapon/shield/bronze/ancient
+	backr = /obj/item/rogueweapon/shield/bronze/paalloy
 	backl = /obj/item/storage/backpack/rogue/satchel
 
 	H.taints_loot = TRUE //For that shitty-ass reanimated corpse gear look.
@@ -80,7 +80,7 @@
 	backpack_contents = list(
 		/obj/item/rogueweapon/spellbook = 1,
 		/obj/item/natural/feather = 1, //For your helm
-		/obj/item/storage/belt/rogue/pouch/coins/psila/rich = 1, //Hilarious
+		/obj/item/storage/belt/rogue/pouch/coins/aalloy/rich = 1, //Hilarious
 		)
 
 	// Chant selection — uses undead faction for "MEMORIES" UI
@@ -96,7 +96,7 @@
 
 	H.adjust_blindness(-3)
 	var/helmets = list(
-		"Gilbranze Helmet"	= /obj/item/clothing/head/roguetown/helmet/heavy/ancient,
+		"Gilbranze Helmet"	= /obj/item/clothing/head/roguetown/helmet/heavy/paalloy,
 		"None",
 	)
 	var/helmchoice = input(H, "Choose your Helm.", "A VISAGE UNBOUND.") as anything in helmets
@@ -111,20 +111,20 @@
 			var/weapon_choice = input(H, "Choose your WEAPON.", "RAGE AGAINST THE LYVING.") as anything in weapons
 			switch(weapon_choice)
 				if("Ancient Khopesh")
-					beltr = granted_weapon = /obj/item/rogueweapon/sword/sabre/ancient
+					beltr = granted_weapon = /obj/item/rogueweapon/sword/sabre/palloy
 				if("Ancient Longsword")
-					beltr = granted_weapon = /obj/item/rogueweapon/sword/long/ancient //role unique
+					beltr = granted_weapon = /obj/item/rogueweapon/sword/long/palloy //role unique
 				if("Ancient Dagger")
-					beltr = granted_weapon = /obj/item/rogueweapon/huntingknife/idagger/ancient
+					beltr = granted_weapon = /obj/item/rogueweapon/huntingknife/idagger/steel/padagger
 		if("phalangite")
 			var/weapons = list("Ancient Spear", "Ancient Bardiche", "Dory")
 			var/weapon_choice = input(H, "Choose your WEAPON.", "RAGE AGAINST THE LYVING.") as anything in weapons
 			switch(weapon_choice)
 				if("Ancient Spear")
-					r_hand = granted_weapon = /obj/item/rogueweapon/spear/ancient
+					r_hand = granted_weapon = /obj/item/rogueweapon/spear/paalloy
 					backr = /obj/item/rogueweapon/scabbard/gwstrap
 				if("Ancient Bardiche")
-					r_hand = granted_weapon = /obj/item/rogueweapon/halberd/bardiche/ancient
+					r_hand = granted_weapon = /obj/item/rogueweapon/halberd/bardiche/paalloy
 					backr = /obj/item/rogueweapon/scabbard/gwstrap
 				if("Dory")
 					r_hand = granted_weapon = /obj/item/rogueweapon/spear/spellblade
@@ -134,14 +134,14 @@
 			var/weapon_choice = input(H, "Choose your WEAPON.", "RAGE AGAINST THE LYVING.") as anything in weapons
 			switch(weapon_choice)
 				if("Ancient Mace")
-					beltr = granted_weapon = /obj/item/rogueweapon/mace/ancient
+					beltr = granted_weapon = /obj/item/rogueweapon/mace/steel/palloy
 				if("Ancient Warhammer")
-					beltr = granted_weapon = /obj/item/rogueweapon/mace/warhammer/ancient
+					beltr = granted_weapon = /obj/item/rogueweapon/mace/warhammer/steel/paalloy
 				if("Ancient Grand Mace")
-					r_hand = granted_weapon = /obj/item/rogueweapon/mace/goden/ancient
+					r_hand = granted_weapon = /obj/item/rogueweapon/mace/goden/steel/paalloy
 					backr = /obj/item/rogueweapon/scabbard/gwstrap
 				if("Ancient Alloy Axe")
-					beltr = granted_weapon = /obj/item/rogueweapon/stoneaxe/woodcut/ancient
+					beltr = granted_weapon = /obj/item/rogueweapon/stoneaxe/woodcut/steel/paaxe
 				if("Steel Greataxe")
 					r_hand = granted_weapon = /obj/item/rogueweapon/greataxe/steel
 					backr = /obj/item/rogueweapon/scabbard/gwstrap

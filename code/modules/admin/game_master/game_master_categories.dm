@@ -34,7 +34,6 @@ GLOBAL_LIST_INIT(gm_category_rules, list(
 	/mob/living/carbon/human/species/elf/dark/drowraider = FACTION_DROW,
 	/mob/living/simple_animal/hostile/retaliate/rogue/drider = FACTION_DROW,
 	/mob/living/carbon/human/species/lizardfolk = FACTION_LIZARDS,
-	/mob/living/simple_animal/hostile/rogue/zardman_jailer_mage = FACTION_LIZARDS,
 
 	/mob/living/simple_animal/hostile/retaliate/rogue/infernal = FACTION_INFERNAL,
 	/mob/living/simple_animal/hostile/retaliate/rogue/fae = FACTION_FAE,

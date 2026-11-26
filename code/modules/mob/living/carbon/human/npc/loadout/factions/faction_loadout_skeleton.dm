@@ -32,11 +32,11 @@
 	brawl = SKILL_LEVEL_APPRENTICE
 	survival = SKILL_LEVEL_APPRENTICE
 	loadouts = list(
-		/datum/npc_loadout/armor/medium/decrepit,
+		/datum/npc_loadout/armor/medium/aalloy,
 		/datum/npc_loadout/kit/skeleton_amulet,
 		/datum/npc_loadout/kit/skeleton_tabard,
 		list( //50% chance of a decrepit helm w/coif
-			/datum/npc_loadout/armor/medium/decrepit_helm = 1,
+			/datum/npc_loadout/armor/medium/aalloy_helm = 1,
 			NPC_NOTHING = 1,
 		),
 		/datum/npc_loadout/weapon/skeleton_footsoldier,
@@ -82,7 +82,7 @@
 	survival = SKILL_LEVEL_APPRENTICE
 	skills = list(/datum/skill/misc/climbing = SKILL_LEVEL_JOURNEYMAN)
 	loadouts = list(
-		/datum/npc_loadout/armor/medium/decrepit_soldier,
+		/datum/npc_loadout/armor/medium/aalloy_soldier,
 		/datum/npc_loadout/kit/skeleton_amulet,
 		/datum/npc_loadout/kit/skeleton_tabard/soldier,
 		list( //20% chance to have overpowered levels of aurafarming
@@ -116,11 +116,11 @@
 	statpack = /datum/npc_statpack/light/t2
 	survival = SKILL_LEVEL_EXPERT //Needed at expert else we lose our duel blades by falling over in water cause heavy
 	loadouts = list(
-		/datum/npc_loadout/armor/heavy/decrepit,
+		/datum/npc_loadout/armor/heavy/aalloy,
 		/datum/npc_loadout/kit/skeleton_dreadnought/khopesh,
 		list(
-			/datum/npc_loadout/armor/heavy/decrepit_cuirass = 60,
-			/datum/npc_loadout/armor/heavy/decrepit_hauberk = 40,
+			/datum/npc_loadout/armor/heavy/aalloy_cuirass = 60,
+			/datum/npc_loadout/armor/heavy/aalloy_hauberk = 40,
 		),
 		/datum/npc_loadout/weapon/skeleton_khopesh,
 	)
@@ -130,11 +130,11 @@
 	statpack = /datum/npc_statpack/heavy/t2
 	survival = SKILL_LEVEL_APPRENTICE //Tanky but falls over in water
 	loadouts = list(
-		/datum/npc_loadout/armor/heavy/decrepit/plated,
+		/datum/npc_loadout/armor/heavy/aalloy/plated,
 		/datum/npc_loadout/kit/skeleton_dreadnought/withered,
 		list(
-			/datum/npc_loadout/armor/heavy/decrepit_plate = 60,
-			/datum/npc_loadout/armor/heavy/decrepit_hauberk = 40,
+			/datum/npc_loadout/armor/heavy/aalloy_plate = 60,
+			/datum/npc_loadout/armor/heavy/aalloy_hauberk = 40,
 		),
 		/datum/npc_loadout/weapon/skeleton_withered,
 	)
@@ -149,7 +149,7 @@
 	skills = list(/datum/skill/combat/bows = SKILL_LEVEL_JOURNEYMAN)
 	ai_controller = /datum/ai_controller/human_npc/archer
 	loadouts = list(
-		/datum/npc_loadout/armor/medium/decrepit_archer,
+		/datum/npc_loadout/armor/medium/aalloy_archer,
 		/datum/npc_loadout/kit/skeleton_amulet,
 		/datum/npc_loadout/kit/skeleton_tabard,
 		/datum/npc_loadout/weapon/skeleton_archer,
@@ -237,8 +237,8 @@
 	survival = SKILL_LEVEL_APPRENTICE
 	skills = list(/datum/skill/misc/climbing = SKILL_LEVEL_EXPERT)
 	loadouts = list(
-		/datum/npc_loadout/armor/heavy/decrepit/plated/guard,
-		/datum/npc_loadout/armor/heavy/decrepit_plate,
+		/datum/npc_loadout/armor/heavy/aalloy/plated/guard,
+		/datum/npc_loadout/armor/heavy/aalloy_plate,
 		/datum/npc_loadout/kit/fallen_duke,
 		/datum/npc_loadout/weapon/fallen_duke,
 	)
@@ -410,9 +410,9 @@
 
 /datum/npc_loadout/kit/skeleton_amulet
 	id = list(
-		/obj/item/clothing/neck/roguetown/psicross/inhumen/ancient/decrepit = 1, //ZIZO. ZIZO. ZIZO.
-		/obj/item/clothing/neck/roguetown/psicross/ancient/decrepit = 1,
-		/obj/item/clothing/neck/roguetown/psicross/noc/ancient/decrepit = 1,
+		/obj/item/clothing/neck/roguetown/psicross/inhumen/aalloy = 1, //ZIZO. ZIZO. ZIZO.
+		/obj/item/clothing/neck/roguetown/psicross/aalloy = 1,
+		/obj/item/clothing/neck/roguetown/psicross/noc/aalloy = 1,
 		NPC_NOTHING = 27,
 	)
 
@@ -463,29 +463,29 @@
 		NPC_NOTHING = 85,
 	)
 	beltr = list(
-		/obj/item/storage/belt/rogue/pouch/coins/psila = 10,
+		/obj/item/storage/belt/rogue/pouch/coins/aalloy = 10,
 		NPC_NOTHING = 90,
 	)
 
 /datum/npc_loadout/kit/skeleton_hijab
 	mask = /obj/item/clothing/head/roguetown/roguehood/shalal/hijab/lich
-	wrists = /obj/item/clothing/wrists/roguetown/bracers/ancient/decrepit/chain
+	wrists = /obj/item/clothing/wrists/roguetown/bracers/aalloy/chain
 
 /datum/npc_loadout/kit/skeleton_pirate
 	head = /obj/item/clothing/head/roguetown/helmet/tricorn
 	armor = /obj/item/clothing/suit/roguetown/armor/leather/vest/sailor
-	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/ancient/decrepit
+	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/aalloy
 	pants = /obj/item/clothing/under/roguetown/tights/sailor
-	shoes = /obj/item/clothing/shoes/roguetown/sandals/ancient/decrepit
-	gloves = /obj/item/clothing/gloves/roguetown/knuckles/ancient/decrepit
+	shoes = /obj/item/clothing/shoes/roguetown/sandals/aalloy
+	gloves = /obj/item/clothing/gloves/roguetown/knuckles/decrepit
 	wrists = list(
-		/obj/item/clothing/wrists/roguetown/bracers/ancient/decrepit/chain = 20, //DO WHAT YOU WANT BECAUSE A PIRATE IS FREE
-		/obj/item/clothing/wrists/roguetown/bracers/ancient/decrepit = 80,
+		/obj/item/clothing/wrists/roguetown/bracers/aalloy/chain = 20, //DO WHAT YOU WANT BECAUSE A PIRATE IS FREE
+		/obj/item/clothing/wrists/roguetown/bracers/aalloy = 80,
 	)
 	id = list(
-		/obj/item/clothing/neck/roguetown/psicross/inhumen/ancient/decrepit = 5, //ZIZO. ZIZO. ZIZO.
-		/obj/item/clothing/neck/roguetown/psicross/ancient/decrepit = 5,
-		/obj/item/clothing/neck/roguetown/psicross/noc/ancient/decrepit = 5,
+		/obj/item/clothing/neck/roguetown/psicross/inhumen/aalloy = 5, //ZIZO. ZIZO. ZIZO.
+		/obj/item/clothing/neck/roguetown/psicross/aalloy = 5,
+		/obj/item/clothing/neck/roguetown/psicross/noc/aalloy = 5,
 		/obj/item/clothing/neck/roguetown/psicross/abyssor = 15,
 		NPC_NOTHING = 70,
 	)
@@ -493,13 +493,13 @@
 /datum/npc_loadout/kit/skeleton_dreadnought
 	abstract_type = /datum/npc_loadout/kit/skeleton_dreadnought
 	beltr = list(
-		/obj/item/storage/belt/rogue/pouch/coins/psila = 15,
+		/obj/item/storage/belt/rogue/pouch/coins/aalloy = 15,
 		NPC_NOTHING = 85,
 	)
 
 /datum/npc_loadout/kit/skeleton_dreadnought/khopesh
 	cloak = /obj/item/clothing/cloak/tabard/toga/lich
-	mask = /obj/item/clothing/mask/rogue/facemask/ancient/decrepit
+	mask = /obj/item/clothing/mask/rogue/facemask/aalloy
 	head = /obj/item/clothing/head/roguetown/roguehood/shalal/hijab/lich
 	belt = /obj/item/storage/belt/rogue/leather/black
 	beltl = list(
@@ -507,8 +507,8 @@
 		NPC_NOTHING = 80,
 	)
 	id = list( //Cultist look so, no Psydon choice
-		/obj/item/clothing/neck/roguetown/psicross/inhumen/ancient/decrepit,
-		/obj/item/clothing/neck/roguetown/psicross/noc/ancient/decrepit,
+		/obj/item/clothing/neck/roguetown/psicross/inhumen/aalloy,
+		/obj/item/clothing/neck/roguetown/psicross/noc/aalloy,
 	)
 
 /datum/npc_loadout/kit/skeleton_dreadnought/withered
@@ -605,7 +605,7 @@
 	backl = /obj/item/storage/backpack/rogue/satchel/short/black
 	backpack_contents = list(
 		/obj/item/clothing/head/roguetown/crown/fakecrown = 1,
-		/obj/item/storage/belt/rogue/pouch/coins/psila/rich = 1, //funny
+		/obj/item/storage/belt/rogue/pouch/coins/aalloy/rich = 1, //funny
 		/obj/item/roguegem/diamond = 1,
 	)
 	beltl = list(
@@ -619,7 +619,7 @@
 		/obj/item/storage/belt/rogue/leather/black = 1,
 	)
 	id = list(
-		/obj/item/clothing/neck/roguetown/psicross/inhumen/ancient/decrepit = 1, //ZIZO. ZIZO. ZIZO.
+		/obj/item/clothing/neck/roguetown/psicross/inhumen/aalloy = 1, //ZIZO. ZIZO. ZIZO.
 		NPC_NOTHING = 5,
 	)
 
@@ -627,59 +627,59 @@
 
 /datum/npc_loadout/weapon/skeleton_scavenged
 	weapons = list(
-		list(/obj/item/rogueweapon/stoneaxe/woodcut/ancient/decrepit),
-		list(/obj/item/rogueweapon/sword/short/ancient/decrepit),
-		list(/obj/item/rogueweapon/spear/ancient/decrepit),
-		list(/obj/item/rogueweapon/mace/ancient/decrepit),
+		list(/obj/item/rogueweapon/stoneaxe/woodcut/aaxe),
+		list(/obj/item/rogueweapon/sword/short/ashort),
+		list(/obj/item/rogueweapon/spear/aalloy),
+		list(/obj/item/rogueweapon/mace/alloy),
 		list(/obj/item/rogueweapon/mace/woodclub),
 	)
 
 /datum/npc_loadout/weapon/skeleton_footsoldier
 	weapons = list(
-		list(/obj/item/rogueweapon/stoneaxe/woodcut/ancient/decrepit),
-		list(/obj/item/rogueweapon/sword/short/ancient/decrepit),
-		list(/obj/item/rogueweapon/spear/ancient/decrepit),
-		list(/obj/item/rogueweapon/mace/ancient/decrepit),
+		list(/obj/item/rogueweapon/stoneaxe/woodcut/aaxe),
+		list(/obj/item/rogueweapon/sword/short/ashort),
+		list(/obj/item/rogueweapon/spear/aalloy),
+		list(/obj/item/rogueweapon/mace/alloy),
 	)
 
 /datum/npc_loadout/weapon/skeleton_pirate_knives
-	r_hand = /obj/item/rogueweapon/huntingknife/idagger/ancient/decrepit
-	l_hand = /obj/item/rogueweapon/huntingknife/idagger/ancient/decrepit
+	r_hand = /obj/item/rogueweapon/huntingknife/idagger/adagger
+	l_hand = /obj/item/rogueweapon/huntingknife/idagger/adagger
 	traits = list(TRAIT_DUALWIELDER) //Rapid knives build
 
 /datum/npc_loadout/weapon/skeleton_pirate_sabre
-	r_hand = /obj/item/rogueweapon/sword/sabre/ancient/decrepit //Its the closet thing to an ancient cutlass, matie
+	r_hand = /obj/item/rogueweapon/sword/sabre/alloy //Its the closet thing to an ancient cutlass, matie
 
 /datum/npc_loadout/weapon/skeleton_soldier_sandals
-	shoes = /obj/item/clothing/shoes/roguetown/sandals/ancient/decrepit //Legionnarie look
+	shoes = /obj/item/clothing/shoes/roguetown/sandals/aalloy //Legionnarie look
 	weapons = list(
-		list(/obj/item/rogueweapon/stoneaxe/woodcut/ancient/decrepit, /obj/item/rogueweapon/shield/tower/ancient/decrepit, 20),
-		list(/obj/item/rogueweapon/sword/short/gladius/ancient/decrepit, /obj/item/rogueweapon/shield/bronze/ancient/decrepit, 45), // ave
-		list(/obj/item/rogueweapon/flail/ancient/decrepit, /obj/item/rogueweapon/shield/bronze/ancient/decrepit, 65),
+		list(/obj/item/rogueweapon/stoneaxe/woodcut/aaxe, /obj/item/rogueweapon/shield/tower/metal/alloy, 20),
+		list(/obj/item/rogueweapon/sword/short/gladius/agladius, /obj/item/rogueweapon/shield/bronze/aalloy, 45), // ave
+		list(/obj/item/rogueweapon/flail/aflail, /obj/item/rogueweapon/shield/bronze/aalloy, 65),
 	)
 
 /datum/npc_loadout/weapon/skeleton_soldier_boots
-	shoes = /obj/item/clothing/shoes/roguetown/boots/ancient/decrepit //Bulwark look
+	shoes = /obj/item/clothing/shoes/roguetown/boots/aalloy //Bulwark look
 	weapons = list(
-		list(/obj/item/rogueweapon/mace/warhammer/ancient/decrepit, /obj/item/rogueweapon/shield/tower/ancient/decrepit, 40), //Nastier for MAA skele
-		list(/obj/item/rogueweapon/halberd/bardiche/ancient/decrepit),
+		list(/obj/item/rogueweapon/mace/warhammer/alloy, /obj/item/rogueweapon/shield/tower/metal/alloy, 40), //Nastier for MAA skele
+		list(/obj/item/rogueweapon/halberd/bardiche/aalloy),
 	)
 
 /datum/npc_loadout/weapon/skeleton_khopesh
-	r_hand = /obj/item/rogueweapon/sword/sabre/ancient/decrepit
-	l_hand = /obj/item/rogueweapon/sword/sabre/ancient/decrepit
+	r_hand = /obj/item/rogueweapon/sword/sabre/alloy
+	l_hand = /obj/item/rogueweapon/sword/sabre/alloy
 	traits = list(TRAIT_DUALWIELDER) //Parity slightly with deadlier dreadknight + swift on heavy armor no longer being cracked
 
 /datum/npc_loadout/weapon/skeleton_withered
 	weapons = list(
-		list(/obj/item/rogueweapon/greatsword/ancient/decrepit),
-		list(/obj/item/rogueweapon/mace/goden/ancient/decrepit),
-		list(/obj/item/rogueweapon/greatsword/grenz/flamberge/ancient/decrepit),
-		list(/obj/item/rogueweapon/flail/ancient/decrepit, /obj/item/rogueweapon/shield/bronze/great/ancient/decrepit), //THE WALL, THE WALL, THE WALL
+		list(/obj/item/rogueweapon/greatsword/aalloy),
+		list(/obj/item/rogueweapon/mace/goden/aalloy),
+		list(/obj/item/rogueweapon/greatsword/grenz/flamberge/aalloy),
+		list(/obj/item/rogueweapon/flail/aflail, /obj/item/rogueweapon/shield/bronze/great/aalloy), //THE WALL, THE WALL, THE WALL
 	)
 
 /datum/npc_loadout/weapon/skeleton_archer
-	r_hand = /obj/item/rogueweapon/mace/ancient/decrepit
+	r_hand = /obj/item/rogueweapon/mace/alloy
 	backr = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve
 	backl = /obj/item/quiver/randomfill/skeleton
 
@@ -699,7 +699,7 @@
 
 /datum/npc_loadout/weapon/fallen_duke
 	r_hand = /obj/item/rogueweapon/sword/rapier/lord
-	l_hand = /obj/item/rogueweapon/shield/tower/ancient/decrepit
+	l_hand = /obj/item/rogueweapon/shield/tower/metal/alloy
 
 /datum/npc_loadout/weapon/lich_knight
 	weapons = list(

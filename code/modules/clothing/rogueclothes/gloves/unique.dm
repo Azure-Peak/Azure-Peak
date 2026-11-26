@@ -152,12 +152,12 @@
 /obj/item/clothing/gloves/roguetown/knuckles/silver/psy/old/ComponentInitialize()
 	return
 
-/obj/item/clothing/gloves/roguetown/knuckles/ancient/decrepit
+/obj/item/clothing/gloves/roguetown/knuckles/decrepit
 	name = "decrepit knuckles"
 	desc = "A set of knuckles made of ancient metals, Aeon's grasp withers their form."
 	icon_state = "aknuckle"
 	max_integrity = 50 //Extra fragile - ancient and degraded.
-	smeltresult = /obj/item/ingot/decrepit
+	smeltresult = /obj/item/ingot/aalloy
 	unarmed_bonus = 4
 
 /obj/item/clothing/gloves/roguetown/knuckles/ancient

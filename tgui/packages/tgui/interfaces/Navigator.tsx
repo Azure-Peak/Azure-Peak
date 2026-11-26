@@ -8,12 +8,13 @@ import {
   fieldRowStyle,
   fieldValueStyle,
   INK,
-  INK_FAINT,
   INK_SOFT,
   inkButtonStyle,
   pageStyle,
+  RateSeals,
   rulerStyle,
   SEAL_AMBER,
+  SEAL_BLUE,
   SEAL_GREEN,
   SEAL_RED,
   subtitleStyle,
@@ -56,6 +57,16 @@ export const Navigator = () => {
   const dutyRatePct = formatRatioPct(data.duty_rate || 0);
   const isProprietor = !!data.is_proprietor;
   const isSmuggler = !!data.is_smuggler;
+  const levyWaived = !data.pay_merchant_share;
+  const dodging = isProprietor && !data.pay_taxes;
+  const keepPercent = Math.max(
+    0,
+    Math.round(
+      100 -
+        (levyWaived ? 0 : data.levy_rate) -
+        (dodging ? 0 : (data.duty_rate || 0) * 100),
+    ),
+  );
 
   return (
     <Window title="Navigator" width={720} height={760} theme="parchment">
@@ -97,109 +108,132 @@ export const Navigator = () => {
           <hr style={rulerStyle} />
 
           {isSmuggler ? (
-            <div style={cardStyle}>
-              <div style={fieldRowStyle}>
-                <div style={fieldLabelStyle}>Facilitator</div>
-                <div
-                  style={{
-                    ...fieldValueStyle,
-                    color: data.facilitator_present ? SEAL_GREEN : SEAL_RED,
-                    fontWeight: 'bold',
-                  }}
-                >
-                  {data.facilitator_present
-                    ? 'Present - handler waiving fee'
-                    : 'Absent - handler skimming 50%'}
-                </div>
-              </div>
-              <div style={fieldRowStyle}>
-                <div style={fieldLabelStyle}>Crown duty</div>
-                <div
-                  style={{
-                    ...fieldValueStyle,
-                    color: INK_FAINT,
-                    fontStyle: 'italic',
-                  }}
-                >
-                  None.
-                </div>
-              </div>
-            </div>
-          ) : (
-            <div style={cardStyle}>
-              <div style={fieldRowStyle}>
-                <div style={fieldLabelStyle}>Crown export duty</div>
-                <div style={fieldValueStyle}>
-                  <span style={{ fontWeight: 'bold' }}>{dutyRatePct}</span>
-                  {isProprietor && (
-                    <span
-                      style={{
-                        marginLeft: 10,
-                        color: data.pay_taxes ? SEAL_GREEN : SEAL_RED,
-                        fontWeight: 'bold',
-                      }}
-                    >
-                      {data.pay_taxes ? '(PAYING)' : '(DODGING)'}
-                    </span>
-                  )}
-                  {isProprietor && (
-                    <button
-                      type="button"
-                      style={{ ...inkButtonStyle(), marginLeft: 12 }}
-                      onClick={() => act('toggle_duty')}
-                    >
-                      {data.pay_taxes ? 'Stop paying' : 'Resume paying'}
-                    </button>
-                  )}
-                </div>
-              </div>
-              <div style={fieldRowStyle}>
-                <div style={fieldLabelStyle}>Merchant&apos;s levy</div>
-                <div style={fieldValueStyle}>
-                  <span style={{ fontWeight: 'bold' }}>{data.levy_rate}%</span>
-                  {isProprietor && (
-                    <span
-                      style={{
-                        marginLeft: 10,
-                        color: data.pay_merchant_share
-                          ? SEAL_GREEN
-                          : SEAL_AMBER,
-                        fontWeight: 'bold',
-                      }}
-                    >
-                      {data.pay_merchant_share ? '(COLLECTING)' : '(WAIVED)'}
-                    </span>
-                  )}
-                  {isProprietor && (
-                    <button
-                      type="button"
-                      style={{ ...inkButtonStyle(), marginLeft: 12 }}
-                      onClick={() => act('toggle_levy')}
-                    >
-                      {data.pay_merchant_share ? 'Waive levy' : 'Resume levy'}
-                    </button>
-                  )}
-                </div>
-              </div>
-              {isProprietor && (
+            <>
+              <RateSeals
+                seals={[
+                  {
+                    label: "Handler's fee",
+                    value: `${data.handler_fee_percent}%`,
+                    color: SEAL_RED,
+                  },
+                  {
+                    label: 'Crown export duty',
+                    value: 'None',
+                    color: SEAL_BLUE,
+                  },
+                  {
+                    label: 'You keep',
+                    value: `${Math.max(0, 100 - data.handler_fee_percent)}%`,
+                    color: SEAL_GREEN,
+                  },
+                ]}
+              />
+              <div style={cardStyle}>
                 <div style={fieldRowStyle}>
-                  <div style={fieldLabelStyle}>Tally</div>
-                  <div style={fieldValueStyle}>
-                    <span style={{ color: SEAL_GREEN }}>
-                      Export duty paid: {data.duty_collected_here}m
-                    </span>
-                    <span style={{ color: INK_SOFT }}> &middot; </span>
-                    <span style={{ color: SEAL_RED }}>
-                      Export duty evaded: {data.duty_evaded_here}m
-                    </span>
-                    <span style={{ color: INK_SOFT }}> &middot; </span>
-                    <span style={{ color: INK }}>
-                      Levy paid: {data.levy_collected_here}m
-                    </span>
+                  <div style={fieldLabelStyle}>Facilitator</div>
+                  <div
+                    style={{
+                      ...fieldValueStyle,
+                      color: data.facilitator_present ? SEAL_GREEN : SEAL_RED,
+                      fontWeight: 'bold',
+                    }}
+                  >
+                    {data.facilitator_present
+                      ? 'Present - handler waiving fee'
+                      : 'Absent - handler skimming 50%'}
+                  </div>
+                </div>
+              </div>
+            </>
+          ) : (
+            <>
+              <RateSeals
+                seals={[
+                  {
+                    label: "Merchant's levy",
+                    value: `${data.levy_rate}%`,
+                    color: SEAL_AMBER,
+                    struck: levyWaived,
+                    note: levyWaived ? 'WAIVED' : undefined,
+                  },
+                  {
+                    label: 'Crown export duty',
+                    value: dutyRatePct,
+                    color: SEAL_BLUE,
+                    struck: dodging,
+                    note: dodging ? 'DODGING' : undefined,
+                    noteColor: SEAL_RED,
+                  },
+                  {
+                    label: 'You keep',
+                    value: `${keepPercent}%`,
+                    color: SEAL_GREEN,
+                  },
+                ]}
+              />
+              {isProprietor && (
+                <div style={cardStyle}>
+                  <div style={fieldRowStyle}>
+                    <div style={fieldLabelStyle}>Crown export duty</div>
+                    <div style={fieldValueStyle}>
+                      <span
+                        style={{
+                          color: data.pay_taxes ? SEAL_GREEN : SEAL_RED,
+                          fontWeight: 'bold',
+                        }}
+                      >
+                        {data.pay_taxes ? '(PAYING)' : '(DODGING)'}
+                      </span>
+                      <button
+                        type="button"
+                        style={{ ...inkButtonStyle(), marginLeft: 12 }}
+                        onClick={() => act('toggle_duty')}
+                      >
+                        {data.pay_taxes ? 'Stop paying' : 'Resume paying'}
+                      </button>
+                    </div>
+                  </div>
+                  <div style={fieldRowStyle}>
+                    <div style={fieldLabelStyle}>Merchant&apos;s levy</div>
+                    <div style={fieldValueStyle}>
+                      <span
+                        style={{
+                          color: data.pay_merchant_share
+                            ? SEAL_GREEN
+                            : SEAL_AMBER,
+                          fontWeight: 'bold',
+                        }}
+                      >
+                        {data.pay_merchant_share ? '(COLLECTING)' : '(WAIVED)'}
+                      </span>
+                      <button
+                        type="button"
+                        style={{ ...inkButtonStyle(), marginLeft: 12 }}
+                        onClick={() => act('toggle_levy')}
+                      >
+                        {data.pay_merchant_share ? 'Waive levy' : 'Resume levy'}
+                      </button>
+                    </div>
+                  </div>
+                  <div style={fieldRowStyle}>
+                    <div style={fieldLabelStyle}>Tally</div>
+                    <div style={fieldValueStyle}>
+                      <span style={{ color: SEAL_GREEN }}>
+                        Export duty paid: {data.duty_collected_here}m
+                      </span>
+                      <span style={{ color: INK_SOFT }}> &middot; </span>
+                      <span style={{ color: SEAL_RED }}>
+                        Export duty evaded: {data.duty_evaded_here}m
+                      </span>
+                      <span style={{ color: INK_SOFT }}> &middot; </span>
+                      <span style={{ color: INK }}>
+                        Levy paid: {data.levy_collected_here}m
+                      </span>
+                    </div>
                   </div>
                 </div>
               )}
-            </div>
+            </>
           )}
 
           {!isSmuggler && (

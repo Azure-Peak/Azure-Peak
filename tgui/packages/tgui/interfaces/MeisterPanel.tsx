@@ -18,6 +18,7 @@ import { PatronageTab } from './MeisterPanel/PatronageTab';
 import { PersonalTab } from './MeisterPanel/PersonalTab';
 import { PollLevyTab } from './MeisterPanel/PollLevyTab';
 import type { Data, TabKey } from './MeisterPanel/types';
+import { formatMammon } from './common/format';
 
 export const MeisterPanel = () => {
   const { data, act } = useBackend<Data>();
@@ -38,7 +39,7 @@ export const MeisterPanel = () => {
           <div style={subtitleStyle}>
             Day {data.day} &middot; Personal balance:{' '}
             <span style={{ color: SEAL_AMBER, fontWeight: 'bold' }}>
-              {data.account_balance}m
+              {formatMammon(data.account_balance)}m
             </span>
           </div>
           <hr style={rulerStyle} />

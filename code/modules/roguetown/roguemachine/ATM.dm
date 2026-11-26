@@ -53,8 +53,8 @@
 		SStreasury.create_bank_account(H, defer_levies = FALSE)
 		if(H.mind)
 			var/datum/job/target_job = SSjob.GetJob(H.mind.assigned_role)
-			if(target_job && target_job.noble_income)
-				SStreasury.noble_incomes[H] = target_job.noble_income
+			if(target_job && (target_job.noble_rank || target_job.noble_income))
+				SSeconomy.register_estate(H, target_job.noble_rank, target_job.noble_income, FALSE, pay_rank = target_job.estate_pay_rank)
 		var/levy_summary = SStreasury.apply_past_poll_levies(H, announce = FALSE)
 		spawn(5)
 			say(levy_summary ? "New account created. [levy_summary]" : "New account created.")
@@ -72,11 +72,11 @@
 
 /obj/structure/roguemachine/atm/attackby(obj/item/P, mob/user, params)
 	if(ishuman(user))
-		if(istype(P, /obj/item/roguecoin/psila))
-			return
-
-		if(istype(P, /obj/item/roguecoin/marque))
-			return
+		if(istype(P, /obj/item/roguecoin/aalloy))	
+			return	
+		
+		if(istype(P, /obj/item/roguecoin/inqcoin))
+			return		
 
 		if(istype(P, /obj/item/roguecoin))
 			var/mob/living/carbon/human/H = user
@@ -150,7 +150,7 @@
 		drilling = FALSE
 		has_reported = FALSE
 		return
-	if(mammonsiphoned >199) // The cap variable for siphoning.
+	if(mammonsiphoned >199) // The cap variable for siphoning. 
 		new /obj/item/coveter(loc)
 		loc.visible_message(span_warning("Maximum withdrawal reached! The meister weeps."))
 		playsound(src, 'sound/misc/DrillDone.ogg', 70, TRUE)

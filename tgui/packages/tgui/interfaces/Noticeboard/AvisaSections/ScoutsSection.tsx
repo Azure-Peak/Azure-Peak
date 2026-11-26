@@ -12,7 +12,7 @@ import {
   SEAL_RED,
   SERIF,
 } from '../../common/parchment';
-import type { NoticeboardData, ScoutRegion } from '../types';
+import type { NoticeboardData, ScoutBlockade, ScoutRegion } from '../types';
 
 const tableStyle: React.CSSProperties = {
   width: '100%',
@@ -107,53 +107,9 @@ const RegionRow = ({ region }: { region: ScoutRegion }) => {
       </td>
       <td style={cellWithDivider}>
         {region.blockaded ? (
-          <>
-            <div
-              style={{
-                fontSize: FONT_BODY,
-                color: SEAL_RED,
-                fontWeight: 'bold',
-              }}
-            >
-              {region.blockade_faction_label || 'unknown raiders'}
-              <span
-                style={{
-                  marginLeft: 6,
-                  color: INK_SOFT,
-                  fontSize: FONT_BODY,
-                  fontWeight: 'normal',
-                }}
-              >
-                {region.blockade_days_active}d
-              </span>
-            </div>
-            {!!region.blockade_region_label && (
-              <div
-                style={{
-                  color: INK_SOFT,
-                  fontSize: FONT_BODY,
-                  marginTop: 1,
-                }}
-              >
-                blocking {region.blockade_region_label}
-              </div>
-            )}
-            {region.blockade_writ_out ? (
-              <div style={{ marginTop: 3 }}>
-                <span style={badgeStyle(SEAL_AMBER)}>SCROLL OUT</span>
-              </div>
-            ) : (
-              <div
-                style={{
-                  marginTop: 3,
-                  color: SEAL_AMBER,
-                  fontSize: FONT_BODY,
-                }}
-              >
-                Awaiting scroll
-              </div>
-            )}
-          </>
+          region.blockades.map((b, i) => (
+            <BlockadeEntry key={i} blockade={b} first={i === 0} />
+          ))
         ) : (
           <span style={{ color: INK_FAINT }}>-</span>
         )}
@@ -166,6 +122,69 @@ const RegionRow = ({ region }: { region: ScoutRegion }) => {
     </tr>
   );
 };
+
+const BlockadeEntry = ({
+  blockade,
+  first,
+}: {
+  blockade: ScoutBlockade;
+  first: boolean;
+}) => (
+  <div style={{ marginTop: first ? 0 : 6 }}>
+    <div
+      style={{
+        fontSize: FONT_BODY,
+        color: SEAL_RED,
+        fontWeight: 'bold',
+      }}
+    >
+      {blockade.faction_label || 'unknown raiders'}
+      {!blockade.gathering && (
+        <span
+          style={{
+            marginLeft: 6,
+            color: INK_SOFT,
+            fontSize: FONT_BODY,
+            fontWeight: 'normal',
+          }}
+        >
+          {blockade.days_active}d
+        </span>
+      )}
+    </div>
+    {!!blockade.region_label && (
+      <div
+        style={{
+          color: INK_SOFT,
+          fontSize: FONT_BODY,
+          marginTop: 1,
+        }}
+      >
+        {blockade.gathering ? 'massing on the road to' : 'blocking'}{' '}
+        {blockade.region_label}
+      </div>
+    )}
+    {blockade.gathering ? (
+      <div style={{ marginTop: 3 }}>
+        <span style={badgeStyle(SEAL_RED)}>STRIKES AT DAWN</span>
+      </div>
+    ) : blockade.writ_out ? (
+      <div style={{ marginTop: 3 }}>
+        <span style={badgeStyle(SEAL_AMBER)}>SCROLL OUT</span>
+      </div>
+    ) : (
+      <div
+        style={{
+          marginTop: 3,
+          color: SEAL_AMBER,
+          fontSize: FONT_BODY,
+        }}
+      >
+        Awaiting scroll
+      </div>
+    )}
+  </div>
+);
 
 const EmptyMessage = ({ text }: { text: string }) => (
   <div

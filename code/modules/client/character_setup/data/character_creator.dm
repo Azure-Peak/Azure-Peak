@@ -8,6 +8,7 @@
 	data += ui_data_character_creator_classes(user)
 	data += ui_data_character_creator_descriptors(user)
 	data += ui_data_character_creator_identity(user)
+	data += ui_data_character_creator_politics(user)
 	data += ui_data_character_creator_villain(user)
 
 	return data

@@ -19,7 +19,7 @@
 	AddComponent(/datum/component/armour_filtering/positive, TRAIT_HONORBOUND)
 	AddComponent(/datum/component/armour_filtering/positive, TRAIT_FREEBLADEDEXTERITY)
 
-/obj/item/clothing/gloves/roguetown/chain/ancient/decrepit
+/obj/item/clothing/gloves/roguetown/chain/aalloy
 	name = "decrepit chain gauntlets"
 	desc = "Rotted metal rings, interlinked together to form sagging mittens. Fingers, talons, claws; they're all the same, when smothered beneath maille and left to rot away."
 	icon_state = "acgloves"
@@ -30,7 +30,7 @@
 	smeltresult = /obj/item/ingot/aaslag
 	anvilrepair = null
 
-/obj/item/clothing/gloves/roguetown/chain/ancient
+/obj/item/clothing/gloves/roguetown/chain/paalloy
 	name = "ancient chain gauntlets"
 	desc = "Polished gilbranze rings, delicately daisy-chained together into mittens. The filament is ruptured, and it will never heal; Zizo's ascension made sure of that. By the hands of Her disciples, the final obstacle preventing this world's salvation shall be dismantled - lyfe."
 	icon_state = "acgloves"

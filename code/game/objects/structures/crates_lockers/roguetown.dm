@@ -290,7 +290,7 @@
 	new /obj/item/skull(src)
 	new /obj/item/natural/bundle/bone/full(src)
 	var/list/loot = list(
-		/obj/item/clothing/ring/decrepit = 30, //Valuables
+		/obj/item/clothing/ring/aalloy = 30, //Valuables
 		/obj/item/clothing/ring/bronze = 20,
 		/obj/item/clothing/neck/roguetown/psicross/bronze = 10,
 		/obj/item/clothing/neck/roguetown/psicross/inhumen/bronze = 10,
@@ -298,7 +298,7 @@
 		/obj/item/clothing/neck/roguetown/psicross/malum/bronze = 10,
 		/obj/item/clothing/neck/roguetown/psicross/astrata/bronze = 10,
 		/obj/item/roguecoin/copper/pile = 5, //Valuables (materials)
-		/obj/item/roguecoin/psila/pile = 2,
+		/obj/item/roguecoin/aalloy/pile = 2,
 		/obj/item/roguegem/yellow = 10,
 		/obj/item/roguestatue/bronze = 10,
 		/obj/item/roguestatue/iron = 5,
@@ -340,17 +340,16 @@
 		/obj/item/clothing/neck/roguetown/psicross/pearl = 10,
 		/obj/item/clothing/neck/roguetown/psicross/g = 15,
 		/obj/item/roguecoin/silver/pile = 5, //Valuables (materials)
-		/obj/item/roguecoin/psila/pile = 2,
+		/obj/item/roguecoin/aalloy/pile = 2,
 		/obj/item/roguegem/violet = 10,
 		/obj/item/roguestatue/gold/loot = 10,
-		/obj/item/roguestatue/decrepit = 5,
-		/obj/item/roguestatue/ancient = 3,
+		/obj/item/roguestatue/aalloy = 5,
 		/obj/item/storage/belt/rogue/pouch/zigarrete/nicotine = 15, //Misc stuff
 		/obj/item/reagent_containers/food/snacks/butter = 15,
 		/obj/item/reagent_containers/food/snacks/canned = 15,
 		/obj/item/storage/backpack/rogue/satchel = 3,
 		/obj/item/storage/roguebag = 3, //Weapons / tools
-		/obj/item/rogueweapon/stoneaxe/woodcut/old = 5,
+		/obj/item/rogueweapon/stoneaxe/woodcut/triumph = 5,
 		/obj/item/rogueweapon/sword/broken = 5,
 		/obj/item/flashlight/flare/torch/lantern = 5,
 		/obj/item/rogue/instrument/lute = 5,
@@ -400,7 +399,7 @@
 		/obj/item/rogueweapon/huntingknife/idagger/steel/decorated = 5,
 		/obj/item/rogueweapon/shovel/bronze = 5,
 		/obj/item/rogue/instrument/shamisen = 2,
-		/obj/item/rogueweapon/greatsword/grenz/flamberge/ancient = 2
+		/obj/item/rogueweapon/greatsword/grenz/flamberge/paalloy = 2
 		)
 	var/I = pickweight(loot)
 	new I(src)

@@ -7,9 +7,6 @@
 //'Replacement' variants. These specifically replace the item-in-question with a whole new instance. More bloatish, but ensures complete adherence to skin restrictions and allows for supplemental tweaks (like new onmobs.)
 // No harm in using these if you prefer, but it's strongly suggested to implement reskins via the 'Skinned' system, below. This works best for clothing (like plate armor) and special weapons (like silver or avantyne.)
 
-// Important note; if a kit has multiple items it can transform, sort the list from the highest pathed items (ala 'sword/long/exe/cloth') to the lowest (ala 'sword/long'.)
-// Thanks to Eiren for finding this out. Doing this should prevent issues where certain items won't trigger the elixir, or cause the elixir to transform it into something else entirely.
-
 /obj/item/enchantingkit/triumph_armorkit
 	name = "'Valorian Steel Armor' morphing elixir"
 	desc = "A small container of special morphing dust, perfect to make a specific item. It can restore the original appearance of a Steel Cuirass, a Steel Halfplate, a set of Steel Plate Armor, or a set of Fluted Plate Armor."
@@ -18,7 +15,7 @@
 		/obj/item/clothing/suit/roguetown/armor/plate/full/fluted			= /obj/item/clothing/suit/roguetown/armor/plate/full/fluted/legacy,
 		/obj/item/clothing/suit/roguetown/armor/plate/cuirass				= /obj/item/clothing/suit/roguetown/armor/plate/cuirass/legacy,
 		/obj/item/clothing/suit/roguetown/armor/plate/full					= /obj/item/clothing/suit/roguetown/armor/plate/full/legacy,
-		/obj/item/clothing/suit/roguetown/armor/plate						= /obj/item/clothing/suit/roguetown/armor/plate/legacy
+		/obj/item/clothing/suit/roguetown/armor/plate							= /obj/item/clothing/suit/roguetown/armor/plate/legacy
 		)
 	result_item = null
 	exact_type = TRUE
@@ -29,7 +26,7 @@
 	desc = "A small container of special morphing dust, perfect to make a specific item. It can restore the original appearance of an Iron Breastplate, an Iron Halfplate, or a set of Iron Plate Armor."
 	target_items = list(
 		/obj/item/clothing/suit/roguetown/armor/plate/cuirass/iron			= /obj/item/clothing/suit/roguetown/armor/plate/cuirass/iron/legacy,
-		/obj/item/clothing/suit/roguetown/armor/plate/full/iron				= /obj/item/clothing/suit/roguetown/armor/plate/full/iron/legacy,
+		/obj/item/clothing/suit/roguetown/armor/plate/full/iron					= /obj/item/clothing/suit/roguetown/armor/plate/full/iron/legacy,
 		/obj/item/clothing/suit/roguetown/armor/plate/iron					= /obj/item/clothing/suit/roguetown/armor/plate/iron/legacy
 		)
 	result_item = null
@@ -45,7 +42,7 @@
 		/obj/item/clothing/suit/roguetown/armor/plate/cuirass				= /obj/item/clothing/suit/roguetown/armor/plate/cuirass/triumph_slim,
 		/obj/item/clothing/suit/roguetown/armor/plate/full					= /obj/item/clothing/suit/roguetown/armor/plate/full/triumph_slim,
 		/obj/item/clothing/suit/roguetown/armor/plate/fluted				= /obj/item/clothing/suit/roguetown/armor/plate/fluted/triumph_slim,
-		/obj/item/clothing/suit/roguetown/armor/plate						= /obj/item/clothing/suit/roguetown/armor/plate/triumph_slim
+		/obj/item/clothing/suit/roguetown/armor/plate							= /obj/item/clothing/suit/roguetown/armor/plate/triumph_slim
 		)
 	result_item = null
 	custom_name = TRUE
@@ -75,8 +72,8 @@
 	name = "'Valorian Axe' morphing elixir"
 	desc = "A small container of special morphing dust, perfect to make a specific item. It can be used to alter the appearance of an Iron Axe, or an Iron Hatchet."
 	target_items = list(
-		/obj/item/rogueweapon/stoneaxe/handaxe							= /obj/item/rogueweapon/stoneaxe/handaxe/old,
-		/obj/item/rogueweapon/stoneaxe/woodcut							= /obj/item/rogueweapon/stoneaxe/woodcut/old
+		/obj/item/rogueweapon/stoneaxe/handaxe							= /obj/item/rogueweapon/stoneaxe/handaxe/triumph,
+		/obj/item/rogueweapon/stoneaxe/woodcut								= /obj/item/rogueweapon/stoneaxe/woodcut/triumph
 		)
 	result_item = null
 	custom_name = TRUE
@@ -84,16 +81,15 @@
 
 /obj/item/enchantingkit/triumph_weaponkit_axedouble
 	name = "'Doublehead' morphing elixir"
-	desc = "A small container of special morphing dust, perfect to make a specific item. It can be used to alter the appearance of an Iron Axe, a Bronze Axe, a Steel Axe, a Battle Axe, a Silver War Axe, an Anointed War Axe, a Psydonic War Axe, or a Blacksteel Axe."
+	desc = "A small container of special morphing dust, perfect to make a specific item. It can be used to alter the appearance of an Iron Axe, a Bronze Axe, a Steel Axe, a Battle Axe, a Silver War Axe, a Psydonic War Axe, or a Blacksteel Axe."
 	target_items = list(
-		/obj/item/rogueweapon/stoneaxe/woodcut/steel					= /obj/item/rogueweapon/stoneaxe/woodcut/steel/doublehead,
-		/obj/item/rogueweapon/stoneaxe/woodcut/bronze					= /obj/item/rogueweapon/stoneaxe/woodcut/bronze/doublehead,
-		/obj/item/rogueweapon/stoneaxe/woodcut/silver					= /obj/item/rogueweapon/stoneaxe/woodcut/silver/doublehead,
-		/obj/item/rogueweapon/stoneaxe/battle/blacksteel				= /obj/item/rogueweapon/stoneaxe/battle/blacksteel/doublehead,
-		/obj/item/rogueweapon/stoneaxe/battle/psyaxe					= /obj/item/rogueweapon/stoneaxe/battle/psyaxe/doublehead,
-		/obj/item/rogueweapon/stoneaxe/woodcut/cleric					= /obj/item/rogueweapon/stoneaxe/woodcut/cleric/doublehead,
-		/obj/item/rogueweapon/stoneaxe/battle							= /obj/item/rogueweapon/stoneaxe/battle/doublehead,
-		/obj/item/rogueweapon/stoneaxe/woodcut							= /obj/item/rogueweapon/stoneaxe/woodcut/doublehead
+		/obj/item/rogueweapon/stoneaxe/woodcut/steel					= /obj/item/rogueweapon/stoneaxe/woodcut/steel/triumph,
+		/obj/item/rogueweapon/stoneaxe/woodcut/bronze					= /obj/item/rogueweapon/stoneaxe/woodcut/bronze/triumph,
+		/obj/item/rogueweapon/stoneaxe/woodcut/silver					= /obj/item/rogueweapon/stoneaxe/woodcut/silver/triumph,
+		/obj/item/rogueweapon/stoneaxe/battle/blacksteel				= /obj/item/rogueweapon/stoneaxe/battle/blacksteel/triumph,
+		/obj/item/rogueweapon/stoneaxe/battle/psyaxe					= /obj/item/rogueweapon/stoneaxe/battle/psyaxe/triumph,
+		/obj/item/rogueweapon/stoneaxe/battle								= /obj/item/rogueweapon/stoneaxe/battle/triumph,
+		/obj/item/rogueweapon/stoneaxe/woodcut							= /obj/item/rogueweapon/stoneaxe/woodcut/triumph_doublehead
 		)
 	result_item = null
 	custom_name = TRUE
@@ -136,10 +132,10 @@
 	name = "'Alloytip' morphing elixir"
 	desc = "A small container of special morphing dust, perfect to make a specific item. It can be used to alter the appearance of a Whip, a Bronze whip, a Silver Whip, or a Blacksteel Whip."
 	target_items = list(
-		/obj/item/rogueweapon/whip/silver				= /obj/item/rogueweapon/whip/silver/alloytip,
-		/obj/item/rogueweapon/whip/bronze				= /obj/item/rogueweapon/whip/bronze/alloytip,
-		/obj/item/rogueweapon/whip/blacksteel			= /obj/item/rogueweapon/whip/blacksteel/alloytip,
-		/obj/item/rogueweapon/whip						= /obj/item/rogueweapon/whip/alloytip
+		/obj/item/rogueweapon/whip/silver				= /obj/item/rogueweapon/whip/silver/triumph,
+		/obj/item/rogueweapon/whip/bronze				= /obj/item/rogueweapon/whip/bronze/triumph,
+		/obj/item/rogueweapon/whip/blacksteel			= /obj/item/rogueweapon/whip/blacksteel/triumph,
+		/obj/item/rogueweapon/whip						= /obj/item/rogueweapon/whip/triumph
 		)
 	result_item = null
 
@@ -258,8 +254,8 @@
 	name = "'Classic Daggers' morphing elixir"
 	desc = "A small container of special morphing dust, perfect to make a specific item. It can be used to alter the appearance of an Iron Dagger or Steel Dagger."
 	target_items = list(
-		/obj/item/rogueweapon/huntingknife/idagger/steel		= /obj/item/rogueweapon/huntingknife/idagger/steel/old,
-		/obj/item/rogueweapon/huntingknife/idagger				= /obj/item/rogueweapon/huntingknife/idagger/old
+		/obj/item/rogueweapon/huntingknife/idagger/steel		= /obj/item/rogueweapon/huntingknife/idagger/steel/triumph_classic,
+		/obj/item/rogueweapon/huntingknife/idagger				= /obj/item/rogueweapon/huntingknife/idagger/triumph_classic
 		)
 	result_item = null
 	custom_name = TRUE
@@ -865,32 +861,32 @@
 	icon_state = "injora"
 	sheathe_icon = "sdagger"
 
-/obj/item/rogueweapon/huntingknife/idagger/old
+/obj/item/rogueweapon/huntingknife/idagger/triumph_classic
 	icon_state = "kavrick_idagger"
 	sheathe_icon = "kavrick_idagger"
 	icon = 'icons/obj/items/donor_weapons.dmi'
 
-/obj/item/rogueweapon/huntingknife/idagger/steel/old
+/obj/item/rogueweapon/huntingknife/idagger/steel/triumph_classic
 	icon_state = "kavrick_sdagger"
 	sheathe_icon = "kavrick_sdagger"
 	icon = 'icons/obj/items/donor_weapons.dmi'
 
-/obj/item/rogueweapon/whip/alloytip
+/obj/item/rogueweapon/whip/triumph
 	name = "alloy-tipped whip"
 	desc = "'When there's a whip, there's a way!'"
 	icon_state = "whip_iron"
 
-/obj/item/rogueweapon/whip/bronze/alloytip
+/obj/item/rogueweapon/whip/bronze/triumph
 	name = "bronze-tipped whip"
 	desc = "'A man chooses; a slave obeys! Now, would you kindly.. ?'"
 	icon_state = "whip_bronze"
 
-/obj/item/rogueweapon/whip/silver/alloytip
+/obj/item/rogueweapon/whip/silver/triumph
 	name = "silver-tipped whip"
 	desc = "'What is a man, but a miserable pile of secrets? But enough talk - have at you!'"
 	icon_state = "whip_steel"
 
-/obj/item/rogueweapon/whip/blacksteel/alloytip
+/obj/item/rogueweapon/whip/blacksteel/triumph
 	name = "blacksteel-tipped whip"
 	desc = "'Dance with me, my friend. Hear how the crowd adores you!'"
 	icon_state = "whip_blacksteel"
@@ -930,12 +926,12 @@
 	desc = "Originating from the Eastern Underdark, this fusion of gauntlet and dagger is rare to see on the surfaces of Psydonia. It's usually wielded by either the most eccentric or wealthy of martial artists."
 	icon_state = "pata_silver"
 
-/obj/item/rogueweapon/stoneaxe/woodcut/old
+/obj/item/rogueweapon/stoneaxe/woodcut/triumph
 	name = "valorian axe"
 	icon_state = "axelegacy"
 	desc = "'Through thick-and-thin, I have never failed you. May we trounce through the Terrorbog, one last time, before Astrata's glare vanishes 'neath the horizon?'"
 
-/obj/item/rogueweapon/stoneaxe/handaxe/old
+/obj/item/rogueweapon/stoneaxe/handaxe/triumph
 	name = "valorian hatchet"
 	icon_state = "hatchetlegacy"
 	desc = "'What is that rag for, anyways?'"
@@ -948,52 +944,46 @@
 	icon_state = "slimopsysword"
 	icon = 'icons/obj/items/donor_weapons_64.dmi'
 
-/obj/item/rogueweapon/stoneaxe/woodcut/doublehead
+/obj/item/rogueweapon/stoneaxe/woodcut/triumph_doublehead
 	name = "double-headed axe"
 	desc = "'For Karl!'"
 	icon_state = "axedouble"
 	swingsound = BLADEWOOSH_HUGE
 
-/obj/item/rogueweapon/stoneaxe/woodcut/bronze/doublehead
+/obj/item/rogueweapon/stoneaxe/woodcut/bronze/triumph
 	name = "double-headed bronze axe"
 	desc = "'Give them nothing.. but take from them, EVERYTHING!'"
 	icon_state = "bronzeaxedouble"
 	swingsound = BLADEWOOSH_HUGE
 
-/obj/item/rogueweapon/stoneaxe/woodcut/steel/doublehead
+/obj/item/rogueweapon/stoneaxe/woodcut/steel/triumph
 	name = "double-headed steel axe"
 	desc = "'Last man alive, lock the doors!'"
 	icon_state = "saxedouble"
 	swingsound = BLADEWOOSH_HUGE
 
-/obj/item/rogueweapon/stoneaxe/battle/doublehead
+/obj/item/rogueweapon/stoneaxe/battle/triumph
 	name = "double-headed battle axe"
 	desc = "'Never thought I'd die side-by-side wi' an elve.' </br>'How about with a friend?' </br>'Aye, I coul' do that.'"
 	icon_state = "battleaxedouble"
 	swingsound = BLADEWOOSH_HUGE
 
-/obj/item/rogueweapon/stoneaxe/woodcut/silver/doublehead
+/obj/item/rogueweapon/stoneaxe/woodcut/silver/triumph
 	name = "double-headed silver axe"
 	desc = "'I'll swallow your soul, I'll swallow your soul!' </br>'Swallow this.'"
 	icon_state = "silveraxedouble"
 	swingsound = BLADEWOOSH_HUGE
 
-/obj/item/rogueweapon/stoneaxe/battle/psyaxe/doublehead
+/obj/item/rogueweapon/stoneaxe/battle/psyaxe/triumph
 	name = "double-headed psydonic axe"
 	desc = "'Hail to the king, baby.'"
 	icon_state = "psyaxedouble"
 	swingsound = BLADEWOOSH_HUGE
 
-/obj/item/rogueweapon/stoneaxe/battle/blacksteel/doublehead
+/obj/item/rogueweapon/stoneaxe/battle/blacksteel/triumph
 	name = "double-headed blacksteel axe"
 	desc = "'Get away from them, you bitch!'"
 	icon_state = "bs_axedouble"
-	swingsound = BLADEWOOSH_HUGE
-
-/obj/item/rogueweapon/stoneaxe/woodcut/cleric/doublehead
-	name = "double-headed anointed axe"
-	desc = "'Alright, she-bitch; let's dance.'"
-	icon_state = "crusaderaxedouble"
 	swingsound = BLADEWOOSH_HUGE
 
 /obj/item/clothing/suit/roguetown/armor/leather/cuirass/triumph
@@ -1241,7 +1231,7 @@
 	custom_name = TRUE
 
 /obj/item/rogueweapon/spellbook/enduring_codex
-	name = "\improper the Enduring Codex"
+	name = "\improper The Enduring Codex"
 	desc = "A war scholar's codex in the Naledian manner, its pages crowded with marginalia, diagrams and battlefield notes. Well kept, and carried in the name of Psydon's knowledge."
 	icon = 'icons/obj/items/triumph_tomes.dmi'
 	icon_state = "spellbookten_0"
@@ -1250,7 +1240,7 @@
 	picked = TRUE // design already chosen, so right-click only opens and closes it
 
 /obj/item/rogueweapon/spellbook/greater/enduring_codex
-	name = "\improper the Enduring Codex"
+	name = "\improper The Enduring Codex"
 	desc = "A Naledian war scholar's codex, kept in the name of Psydon's knowledge and handed down through more owners than its margins have room for. It is well kept for its years. The newest notes are in a careful, hurried hand, and the oldest have been written over so many times that they can only be read with the page tilted to the light."
 	icon = 'icons/obj/items/triumph_tomes.dmi'
 	icon_state = "spellbookten_0"
@@ -1259,7 +1249,7 @@
 	picked = TRUE
 
 /obj/item/rogueweapon/spellbook/grand/enduring_codex
-	name = "\improper the Enduring Codex"
+	name = "\improper The Enduring Codex"
 	desc = "A Naledian war scholar's codex, kept in the name of Psydon's knowledge and handed down through more owners than its margins have room for. It is well kept for its years. The newest notes are in a careful, hurried hand, and the oldest have been written over so many times that they can only be read with the page tilted to the light."
 	icon = 'icons/obj/items/triumph_tomes.dmi'
 	icon_state = "spellbookten_0"
