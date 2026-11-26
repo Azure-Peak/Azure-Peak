@@ -269,6 +269,7 @@
 /datum/npc_archetype/skeleton/zizo
 	name = "Avantyne Skeleton Warrior"
 	statpack = /datum/npc_statpack/line/t3 //on par w/ dwarf skeletons
+	stat_modifiers = null
 	patron = /datum/patron/inhumen/zizo
 	melee = SKILL_LEVEL_EXPERT
 	brawl = SKILL_LEVEL_EXPERT //needed so you can't tacklepin them
@@ -285,6 +286,7 @@
 /datum/npc_archetype/skeleton/zizo_heavy
 	name = "Avantyne Skeleton Bulwark"
 	statpack = /datum/npc_statpack/line/t3 //on par w/ dwarf skeletons
+	stat_modifiers = null
 	patron = /datum/patron/inhumen/zizo
 	melee = SKILL_LEVEL_EXPERT
 	brawl = SKILL_LEVEL_EXPERT //needed so you can't tacklepin them
@@ -303,6 +305,7 @@
 /datum/npc_archetype/skeleton/caster
 	abstract_type = /datum/npc_archetype/skeleton/caster
 	statpack = /datum/npc_statpack/caster/t2 //decent but not high-end
+	stat_modifiers = null
 	ai_controller = /datum/ai_controller/human_npc/caster
 	patron = /datum/patron/inhumen/zizo
 	magic = SKILL_LEVEL_JOURNEYMAN
