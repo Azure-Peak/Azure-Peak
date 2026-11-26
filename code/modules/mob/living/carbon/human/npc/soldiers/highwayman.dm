@@ -7,11 +7,6 @@
 	d_intent = INTENT_PARRY
 	blood_toll_bucket = STATS_KILLED_HIGHWAYMEN
 
-/mob/living/carbon/human/species/human/northern/highwayman/death(gibbed)
-	. = ..()
-	if(!QDELETED(src) && !gibbed)
-		src.AddComponent(/datum/component/deadite_animal_reanimation)
-
 /mob/living/carbon/human/species/human/northern/highwayman/ambush
 	threat_point = THREAT_HIGH
 	ambush_faction = "bandits"

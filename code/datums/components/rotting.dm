@@ -91,6 +91,7 @@
 		qdel(src)
 		return
 
+	var/tried_to_deadite_NPC = FALSE
 	if(amount > DEAD_TO_ZOMBIE_TIME)
 		//players use the default deaditing logic
 		if(is_zombie)
@@ -105,6 +106,7 @@
 					addtimer(CALLBACK(C, TYPE_PROC_REF(/mob/living/carbon/human, do_deadite_npc_reanimation)), 3 SECONDS) //always revives
 				if(prob(25))	// 25% chance of reanimation for NPC deadites
 					addtimer(CALLBACK(C, TYPE_PROC_REF(/mob/living/carbon/human, do_deadite_npc_reanimation)), 3 SECONDS) //25% of revival
+				tried_to_deadite_NPC = TRUE
 		//this is such genuine shitcode if there's a better way, please tell me
 
 	var/findonerotten = FALSE

@@ -343,7 +343,7 @@ GLOBAL_LIST_INIT(zombie_aggro, list(
 	//Grant undead tongue then force it
 	src.grant_language(/datum/language/undead) //Now we give you the language.
 	var/datum/language_holder/language_holder = src.get_language_holder()
-	language_holder.selected_default_language = /datum/language/undead
+	language_holder.selected_default_language = /datum/language/common //so we can do UHHH and stuff
 
 	//claws for unarmed attacking
 	src.base_intents = list(INTENT_HELP, INTENT_DISARM, INTENT_GRAB, /datum/intent/unarmed/claw)
