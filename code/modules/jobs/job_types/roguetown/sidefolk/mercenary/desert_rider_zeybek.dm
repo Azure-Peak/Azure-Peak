@@ -2,7 +2,7 @@
 	name = "Desert Rider Zeybek"
 	tutorial = "The Desert Riders are a band of mercenaries known for their loose morals and high effectiveness. From an evil, ignoble beginning as an infamous company meant to track down runaway slaves, they grew into a considerable force. Their skill with long and short blades are famed and feared the world over."
 	allowed_sexes = list(MALE, FEMALE)
-
+	
 	outfit = /datum/outfit/job/roguetown/mercenary/desert_rider_zeybek
 	class_select_category = CLASS_CAT_RANESHENI
 	category_tags = list(CTAG_MERCENARY, CTAG_MERCPARTY_MARKSMAN)
@@ -41,7 +41,7 @@
 	to_chat(H, span_warning("The Desert Riders are a slightly-infamous band of mercenaries, as old and prestigious as Grenzelhoft's own. They have fought on both sides of nearly every conflict since the fall of the Celestial Empire."))
 	head = /obj/item/clothing/head/roguetown/roguehood/shalal/hijab/raneshen
 	neck = /obj/item/clothing/neck/roguetown/leather
-	mask = /obj/item/clothing/mask/rogue/facemask/ancient
+	mask = /obj/item/clothing/mask/rogue/facemask/steel/paalloy
 	armor = /obj/item/clothing/suit/roguetown/armor/leather/heavy/coat/raneshen
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/raneshen
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/brigandine

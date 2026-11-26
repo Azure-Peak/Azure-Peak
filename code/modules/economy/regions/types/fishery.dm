@@ -1,0 +1,76 @@
+/datum/region_type/fishery/coastal_cold
+	name = "Fishery (Coastal Cold)"
+	produces = list(
+		TRADE_GOOD_FISH_FILET = TG_VOLUME_HEAVY,
+		TRADE_GOOD_FISH_MINCE = TG_VOLUME_BULK,
+		TRADE_GOOD_COD = TG_VOLUME_BULK,
+		TRADE_GOOD_SALMON = TG_VOLUME_BULK,
+		TRADE_GOOD_LOBSTER = TG_VOLUME_BULK,
+		TRADE_GOOD_ANGLERFISH = TG_VOLUME_BULK,
+	)
+	demands = list(
+		TRADE_GOOD_SALT = TG_VOLUME_STANDARD,
+		TRADE_GOOD_FIBERS = TG_VOLUME_BULK,
+		TRADE_GOOD_WOOD = TG_VOLUME_MASS,
+	)
+	seasonal_produces = list(
+		SEASON_WINTER = REGION_SEASON_LEAN,
+	)
+
+/datum/region_type/fishery/coastal_temperate
+	name = "Fishery (Coastal Temperate)"
+	produces = list(
+		TRADE_GOOD_FISH_FILET = TG_VOLUME_HEAVY,
+		TRADE_GOOD_FISH_MINCE = TG_VOLUME_BULK,
+		TRADE_GOOD_BASS = TG_VOLUME_BULK,
+		TRADE_GOOD_SOLE = TG_VOLUME_BULK,
+		TRADE_GOOD_FLOUNDER = TG_VOLUME_BULK,
+		TRADE_GOOD_MACKEREL = TG_VOLUME_BULK,
+		TRADE_GOOD_PLAICE = TG_VOLUME_BULK,
+		TRADE_GOOD_BEAKSNAPPER = TG_VOLUME_BULK,
+	)
+	demands = list(
+		TRADE_GOOD_SALT = TG_VOLUME_STANDARD,
+		TRADE_GOOD_FIBERS = TG_VOLUME_BULK,
+		TRADE_GOOD_WOOD = TG_VOLUME_MASS,
+	)
+
+/datum/region_type/fishery/shellfish_beds
+	name = "Shellfish Beds"
+	produces = list(
+		TRADE_GOOD_CLAM = TG_VOLUME_BULK,
+		TRADE_GOOD_CRAB = TG_VOLUME_BULK,
+		TRADE_GOOD_SHRIMP = TG_VOLUME_BULK,
+	)
+	demands = list(
+		TRADE_GOOD_SALT = TG_VOLUME_STANDARD,
+	)
+
+/datum/region_type/fishery/riverine
+	name = "Fishery (Riverine)"
+	produces = list(
+		TRADE_GOOD_FISH_MINCE = TG_VOLUME_BULK,
+		TRADE_GOOD_CARP = TG_VOLUME_BULK,
+		TRADE_GOOD_EEL = TG_VOLUME_BULK,
+		TRADE_GOOD_BLACK_BASS = TG_VOLUME_BULK,
+		TRADE_GOOD_SALMON = TG_VOLUME_BULK,
+		TRADE_GOOD_SUNNY = TG_VOLUME_BULK,
+	)
+	demands = list(
+		TRADE_GOOD_FIBERS = TG_VOLUME_BULK,
+	)
+	seasonal_produces = list(
+		SEASON_AUTUMN = list(
+			TRADE_GOOD_SALMON = REGION_SEASON_PEAK,
+		),
+	)
+
+/datum/region_type/fishery/swamp
+	name = "Fishery (Swamp)"
+	produces = list(
+		TRADE_GOOD_FISH_MINCE = TG_VOLUME_BULK,
+		TRADE_GOOD_MUDSKIPPER = TG_VOLUME_BULK,
+		TRADE_GOOD_SWAMP_SHRIMP = TG_VOLUME_BULK,
+		TRADE_GOOD_SWAMP_MOTHER = TG_VOLUME_BULK,
+		TRADE_GOOD_EEL = TG_VOLUME_BULK,
+	)

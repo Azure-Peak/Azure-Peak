@@ -1,28 +1,25 @@
 /datum/roguestock/stockpile/viscera
+	market_target = MARKET_TARGET_MODEST
 	name = "Viscera"
 	desc = "Fresh organs and offal. Alchemists value them."
 	item_type = /obj/item/alch/viscera
 	trade_good_id = TRADE_GOOD_VISCERA
-	importexport_amt = 5
-	stockpile_limit = 20
 	category = "Alchemy"
 
 /datum/roguestock/stockpile/sinew
+	market_target = MARKET_TARGET_MODEST
 	name = "Sinew"
 	desc = "Tough animal tendon. Alchemists and crafters have some use for it."
 	item_type = /obj/item/alch/sinew
 	trade_good_id = TRADE_GOOD_SINEW
-	importexport_amt = 5
-	stockpile_limit = 20
 	category = "Alchemy"
 
 /datum/roguestock/stockpile/calendula
+	market_target = MARKET_TARGET_LOW
 	name = "Calendula"
 	desc = "Golden marigold flowers prized by apothecaries for healing salves."
 	item_type = /obj/item/alch/calendula
 	trade_good_id = TRADE_GOOD_CALENDULA
-	importexport_amt = 5
-	stockpile_limit = 20
 	category = "Alchemy"
 
 /datum/roguestock/stockpile/dendor_essence
@@ -30,6 +27,5 @@
 	desc = "Distilled Dendorian essence."
 	item_type = /obj/item/natural/cured/essence
 	trade_good_id = TRADE_GOOD_DENDOR_ESSENCE
-	importexport_amt = 3
-	stockpile_limit = 5
+	market_target = MARKET_TARGET_RARE
 	category = "Alchemy"

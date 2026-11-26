@@ -3,13 +3,9 @@
 	i_type = "Utilities"
 
 // Material parent classes - one skill level lower than weapons
-/datum/anvil_recipe/tools/decrepit
-	abstract_type = /datum/anvil_recipe/tools/decrepit
+/datum/anvil_recipe/tools/aalloy
+	abstract_type = /datum/anvil_recipe/tools/aalloy
 	craftdiff = SKILL_LEVEL_NOVICE
-
-/datum/anvil_recipe/tools/ancient
-	abstract_type = /datum/anvil_recipe/tools/decrepit
-	craftdiff = SKILL_LEVEL_JOURNEYMAN
 
 /datum/anvil_recipe/tools/copper
 	abstract_type = /datum/anvil_recipe/tools/copper
@@ -86,160 +82,167 @@
 
 // --------- ANCIENT ALLOY -----------
 
-/datum/anvil_recipe/tools/decrepit/thresher
+/datum/anvil_recipe/tools/aalloy/thresher
 	name = "Thresher, Decrepit (+1 Stick)"
 	category = "Decrepit Alloy"
-	req_bar = /obj/item/ingot/decrepit
+	req_bar = /obj/item/ingot/aalloy
 	additional_items = list(/obj/item/grown/log/tree/stick)
-	created_item = /obj/item/rogueweapon/thresher/decrepit
+	created_item = /obj/item/rogueweapon/thresher/aalloy
 	display_category = ITEM_CAT_TOOLS_FIELD
 	i_type = "Tools"
 
-/datum/anvil_recipe/tools/decrepit/hoe
+/datum/anvil_recipe/tools/aalloy/hoe
 	name = "Hoe, Decrepit (+2 Sticks)"
 	category = "Decrepit Alloy"
-	req_bar = /obj/item/ingot/decrepit
+	req_bar = /obj/item/ingot/aalloy
 	additional_items = list(/obj/item/grown/log/tree/stick,/obj/item/grown/log/tree/stick)
-	created_item = /obj/item/rogueweapon/hoe/decrepit
+	created_item = /obj/item/rogueweapon/hoe/aalloy
 	display_category = ITEM_CAT_TOOLS_FIELD
 	i_type = "Tools"
 
-/datum/anvil_recipe/tools/decrepit/pitchfork
+/datum/anvil_recipe/tools/aalloy/pitchfork
 	name = "Pitchfork, Decrepit (+2 Sticks)"
 	category = "Decrepit Alloy"
-	req_bar = /obj/item/ingot/decrepit
+	req_bar = /obj/item/ingot/aalloy
 	additional_items = list(/obj/item/grown/log/tree/stick,/obj/item/grown/log/tree/stick)
-	created_item = /obj/item/rogueweapon/pitchfork/decrepit
+	created_item = /obj/item/rogueweapon/pitchfork/aalloy
 	display_category = ITEM_CAT_TOOLS_FIELD
 	i_type = "Tools"
 
-/datum/anvil_recipe/tools/decrepit/hammer
+/datum/anvil_recipe/tools/aalloy/hammer
 	name = "Hammer, Decrepit (+1 Stick)"
 	category = "Decrepit Alloy"
-	req_bar = /obj/item/ingot/decrepit
+	req_bar = /obj/item/ingot/aalloy
 	additional_items = list(/obj/item/grown/log/tree/stick)
-	created_item = /obj/item/rogueweapon/hammer/ancient/decrepit
+	created_item = /obj/item/rogueweapon/hammer/aalloy
 	display_category = ITEM_CAT_TOOLS_WORKSHOP
 	i_type = "Tools"
 
-/datum/anvil_recipe/tools/ancient/hammer
+/datum/anvil_recipe/tools/paalloy/hammer
 	name = "Hammer, Ancient (+1 Stick)"
 	category = "Ancient Alloy"
-	req_bar = /obj/item/ingot/ancient
+	req_bar = /obj/item/ingot/purifiedaalloy
 	additional_items = list(/obj/item/grown/log/tree/stick)
-	created_item = /obj/item/rogueweapon/hammer/ancient
+	created_item = /obj/item/rogueweapon/hammer/paalloy
 	display_category = ITEM_CAT_TOOLS_WORKSHOP
 	i_type = "Tools"
 
-/datum/anvil_recipe/tools/decrepit/sickle
+/datum/anvil_recipe/tools/aalloy/sickle
 	name = "Sickle, Decrepit (+1 Stick)"
 	category = "Decrepit Alloy"
-	req_bar = /obj/item/ingot/decrepit
+	req_bar = /obj/item/ingot/aalloy
 	additional_items = list(/obj/item/grown/log/tree/stick)
-	created_item = /obj/item/rogueweapon/sickle/decrepit
+	created_item = /obj/item/rogueweapon/sickle/aalloy
 	display_category = ITEM_CAT_TOOLS_FIELD
 	i_type = "Tools"
 
-/datum/anvil_recipe/tools/decrepit/tongs
+/datum/anvil_recipe/tools/aalloy/tongs
 	name = "Tongs, Decrepit"
 	category = "Decrepit Alloy"
-	req_bar = /obj/item/ingot/decrepit
-	created_item = /obj/item/rogueweapon/tongs/ancient/decrepit
+	req_bar = /obj/item/ingot/aalloy
+	created_item = /obj/item/rogueweapon/tongs/aalloy
 	display_category = ITEM_CAT_TOOLS_WORKSHOP
 	i_type = "Tools"
 
-/datum/anvil_recipe/tools/ancient/tongs
+/datum/anvil_recipe/tools/paalloy/tongs
 	name = "Tongs, Ancient"
 	category = "Ancient Alloy"
-	req_bar = /obj/item/ingot/ancient
-	created_item = /obj/item/rogueweapon/tongs/ancient
+	req_bar = /obj/item/ingot/purifiedaalloy
+	created_item = /obj/item/rogueweapon/tongs/paalloy
 	display_category = ITEM_CAT_TOOLS_WORKSHOP
 	i_type = "Tools"
 
-/datum/anvil_recipe/tools/decrepit/pick
+/datum/anvil_recipe/tools/aalloy/pick
 	name = "Pickaxe, Decrepit (+1 Stick)"
 	category = "Decrepit Alloy"
-	req_bar = /obj/item/ingot/decrepit
+	req_bar = /obj/item/ingot/aalloy
 	additional_items = list(/obj/item/grown/log/tree/stick)
-	created_item = /obj/item/rogueweapon/pick/ancient/decrepit
+	created_item = /obj/item/rogueweapon/pick/aalloy
 	display_category = ITEM_CAT_TOOLS_FIELD
 	i_type = "Tools"
 
-/datum/anvil_recipe/tools/decrepit/shovel
+/datum/anvil_recipe/tools/aalloy/shovel
 	name = "Shovel, Decrepit (+2 Sticks)"
 	category = "Decrepit Alloy"
-	req_bar = /obj/item/ingot/decrepit
+	req_bar = /obj/item/ingot/aalloy
 	additional_items = list(/obj/item/grown/log/tree/stick,/obj/item/grown/log/tree/stick)
-	created_item = /obj/item/rogueweapon/shovel/decrepit
+	created_item = /obj/item/rogueweapon/shovel/aalloy
 	display_category = ITEM_CAT_TOOLS_FIELD
 	i_type = "Tools"
 
-/datum/anvil_recipe/tools/decrepit/sewingneedle
+/datum/anvil_recipe/tools/aalloy/sewingneedle
 	name = "Needles, Decrepit (x3)"
 	category = "Decrepit Alloy"
-	req_bar = /obj/item/ingot/decrepit
-	created_item = /obj/item/needle/decrepit
+	req_bar = /obj/item/ingot/aalloy
+	created_item = /obj/item/needle/aalloy
 	display_category = ITEM_CAT_TOOLS_WORKSHOP
 	createditem_num = 3
 
-/datum/anvil_recipe/tools/decrepit/pan
+/datum/anvil_recipe/tools/aalloy/pan
 	name = "Frypan, Decrepit"
 	category = "Decrepit Alloy"
-	req_bar = /obj/item/ingot/decrepit
-	created_item = /obj/item/cooking/pan/decrepit
+	req_bar = /obj/item/ingot/aalloy
+	created_item = /obj/item/cooking/pan/aalloy
 	display_category = ITEM_CAT_TOOLS_COOKWARE
 
-/datum/anvil_recipe/tools/decrepit/agobs
+/datum/anvil_recipe/tools/blacksteel/pan
+	name = "Frypan, Blacksteel"
+	category = "Blacksteel"
+	req_bar = /obj/item/ingot/blacksteel
+	created_item = /obj/item/cooking/pan/blacksteel
+	display_category = ITEM_CAT_TOOLS_COOKWARE
+
+/datum/anvil_recipe/tools/aalloy/agobs
 	name = "Goblet, Decrepit (x3)"
 	category = "Decrepit Alloy"
-	req_bar = /obj/item/ingot/decrepit
-	created_item = /obj/item/reagent_containers/glass/cup/decrepitgob
+	req_bar = /obj/item/ingot/aalloy
+	created_item = /obj/item/reagent_containers/glass/cup/aalloygob
 	display_category = ITEM_CAT_TOOLS_COOKWARE
 	createditem_num = 3
 
-/datum/anvil_recipe/tools/decrepit/amugs
+/datum/anvil_recipe/tools/aalloy/amugs
 	name = "Mug, Decrepit (x3)"
 	category = "Decrepit Alloy"
-	req_bar = /obj/item/ingot/decrepit
-	created_item = /obj/item/reagent_containers/glass/cup/decrepitmug
+	req_bar = /obj/item/ingot/aalloy
+	created_item = /obj/item/reagent_containers/glass/cup/aalloymug
 	display_category = ITEM_CAT_TOOLS_COOKWARE
 	createditem_num = 3
 
-/datum/anvil_recipe/tools/decrepit/pot
+/datum/anvil_recipe/tools/aalloy/pot
 	name = "Cooking Pot, Decrepit"
 	category = "Decrepit Alloy"
-	req_bar = /obj/item/ingot/decrepit
-	created_item = /obj/item/reagent_containers/glass/bucket/pot/decrepit
+	req_bar = /obj/item/ingot/aalloy
+	created_item = /obj/item/reagent_containers/glass/bucket/pot/aalloy
 	display_category = ITEM_CAT_TOOLS_COOKWARE
 
-/datum/anvil_recipe/tools/decrepit/platter
+/datum/anvil_recipe/tools/aalloy/platter
 	name = "Platter, Decrepit (x3)"
 	category = "Decrepit Alloy"
-	req_bar = /obj/item/ingot/decrepit
-	created_item = /obj/item/cooking/platter/decrepit
+	req_bar = /obj/item/ingot/aalloy
+	created_item = /obj/item/cooking/platter/aalloy
 	display_category = ITEM_CAT_TOOLS_COOKWARE
 	createditem_num = 3
 
-/datum/anvil_recipe/tools/decrepit/bowl
+/datum/anvil_recipe/tools/aalloy/bowl
 	name = "Bowl, Decrepit"
 	category = "Decrepit Alloy"
-	req_bar = /obj/item/ingot/decrepit
-	created_item = /obj/item/reagent_containers/glass/bowl/decrepit
+	req_bar = /obj/item/ingot/aalloy
+	created_item = /obj/item/reagent_containers/glass/bowl/aalloy
 	display_category = ITEM_CAT_TOOLS_COOKWARE
 
-/datum/anvil_recipe/tools/decrepit/fork
+/datum/anvil_recipe/tools/aalloy/fork
 	name = "Fork, Decrepit (x3)"
 	category = "Decrepit Alloy"
-	req_bar = /obj/item/ingot/decrepit
-	created_item = /obj/item/kitchen/fork/decrepit
+	req_bar = /obj/item/ingot/aalloy
+	created_item = /obj/item/kitchen/fork/aalloy
 	display_category = ITEM_CAT_TOOLS_COOKWARE
 	createditem_num = 3
 
-/datum/anvil_recipe/tools/decrepit/spoon
+/datum/anvil_recipe/tools/aalloy/spoon
 	name = "Spoon, Decrepit (x3)"
 	category = "Decrepit Alloy"
-	req_bar = /obj/item/ingot/decrepit
-	created_item = /obj/item/kitchen/spoon/decrepit
+	req_bar = /obj/item/ingot/aalloy
+	created_item = /obj/item/kitchen/spoon/aalloy
 	display_category = ITEM_CAT_TOOLS_COOKWARE
 	createditem_num = 3
 
@@ -964,10 +967,3 @@
 	created_item = /obj/item/rogueweapon/shovel/blacksteel
 	display_category = ITEM_CAT_TOOLS_FIELD
 	i_type = "Tools"
-
-/datum/anvil_recipe/tools/blacksteel/pan
-	name = "Frypan, Blacksteel"
-	category = "Blacksteel"
-	req_bar = /obj/item/ingot/blacksteel
-	created_item = /obj/item/cooking/pan/blacksteel
-	display_category = ITEM_CAT_TOOLS_COOKWARE

@@ -6,7 +6,7 @@
 
 /datum/loadout_item/psicross/decrepit
 	name = "Decrepit Psycross"
-	path = /obj/item/clothing/neck/roguetown/psicross/ancient/decrepit
+	path = /obj/item/clothing/neck/roguetown/psicross/aalloy
 
 /datum/loadout_item/psicross/reform
 	name = "Reformist Psydonian Cross"
@@ -71,8 +71,13 @@
 	path = /obj/item/clothing/neck/roguetown/psicross/undivided
 	sort_category = "Jewelry"
 
-/datum/loadout_item/pscicross/zizo
-	name = "Amulet of Zizo"
+/datum/loadout_item/psicross/zizo
+	name = "Decrepit Zcross"
+	path = /obj/item/clothing/neck/roguetown/psicross/inhumen/aalloy
+	sort_category = "Jewelry"
+
+/datum/loadout_item/zcross_iron
+	name = "Iron Zcross"
 	path = /obj/item/clothing/neck/roguetown/psicross/inhumen/iron
 	sort_category = "Jewelry"
 
@@ -91,37 +96,32 @@
 	path = /obj/item/clothing/neck/roguetown/psicross/inhumen/baotha
 	sort_category = "Jewelry"
 
-/datum/loadout_item/pscicross/zizo/decrepit
-	name = "Decrepit Amulet of Zizo"
-	path = /obj/item/clothing/neck/roguetown/psicross/inhumen/ancient/decrepit
-	sort_category = "Jewelry"
-
-/datum/loadout_item/psicross/gronn_zizo
+/datum/loadout_item/psicross/gronnzizo
 	name = "Wolf Talisman"
 	path = /obj/item/clothing/neck/roguetown/psicross/inhumen/gronn
 	sort_category = "Jewelry"
 
-/datum/loadout_item/psicross/gronn_baotha
+/datum/loadout_item/psicross/gronnbaotha
 	name = "Leopard Talisman"
 	path = /obj/item/clothing/neck/roguetown/psicross/inhumen/baothagronn
 	sort_category = "Jewelry"
 
-/datum/loadout_item/psicross/gronn_matthios
+/datum/loadout_item/psicross/gronnmatthios
 	name = "Bear Talisman"
 	path = /obj/item/clothing/neck/roguetown/psicross/inhumen/matthios/gronn
 	sort_category = "Jewelry"
 
-/datum/loadout_item/psicross/gronn_graggar
+/datum/loadout_item/psicross/gronngraggar
 	name = "Moose Talisman"
 	path = /obj/item/clothing/neck/roguetown/psicross/inhumen/graggar/gronn
 	sort_category = "Jewelry"
 
-/datum/loadout_item/psicross/gronn_dendor
+/datum/loadout_item/psicross/gronndendor
 	name = "Volfskinned Talisman"
 	path = /obj/item/clothing/neck/roguetown/psicross/dendor/gronn
 	sort_category = "Jewelry"
 
-/datum/loadout_item/psicross/gronn_abyssor
+/datum/loadout_item/psicross/gronnabyssor
 	name = "Hadal Talisman"
 	path = /obj/item/clothing/neck/roguetown/psicross/abyssor/gronn
 	sort_category = "Jewelry"
@@ -148,5 +148,5 @@
 
 /datum/loadout_item/wedding_band_ancient
 	name = "Wedding Band, Ancient"
-	path = /obj/item/clothing/ring/band/ancient
+	path = /obj/item/clothing/ring/band/paalloy
 	sort_category = "Jewelry"

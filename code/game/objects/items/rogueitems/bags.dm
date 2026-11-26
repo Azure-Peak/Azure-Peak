@@ -19,6 +19,7 @@
 	. += span_info("Left-click a tile to automatically stow all fittable items on it into the sack.")
 	. += span_info("Activate the sack in your hand to dump its contents out in whatever direction you're facing.")
 	. += span_info("Sacks can be crafted into bags of bait for alluring huntable creechers, or roped into rucksacks for a larger-but-heftier backpack.")
+	. += span_info("Left-click a stockpile with it to sell everything inside that the stockpile takes.")
 
 /obj/item/storage/roguebag/examine(mob/user)
 	. = ..()
@@ -129,3 +130,25 @@
 	/obj/item/bait/leech,
 	/obj/item/bait/leech,
 	)
+
+/obj/item/storage/roguebag/estate
+	name = "estate sack"
+	desc = "A coarse sack of tribute sent up from an estate."
+
+/obj/item/storage/roguebag/estate/Initialize(mapload)
+	. = ..()
+	RegisterSignal(src, COMSIG_STORAGE_REMOVED, PROC_REF(on_item_removed))
+
+/obj/item/storage/roguebag/estate/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("It falls apart once emptied.")
+
+/obj/item/storage/roguebag/estate/proc/on_item_removed(datum/source, atom/movable/removed)
+	SIGNAL_HANDLER
+	if(QDELETED(src) || length(contents))
+		return
+	addtimer(CALLBACK(src, PROC_REF(tear_if_empty)), 1)
+
+/obj/item/storage/roguebag/estate/proc/tear_if_empty()
+	if(!length(contents))
+		qdel(src)

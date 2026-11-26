@@ -1,5 +1,6 @@
 import { useBackend } from '../../backend';
 import {
+  badgeStyle,
   cardStyle,
   FONT_BODY,
   INK,
@@ -13,7 +14,7 @@ import {
   subTabBarStyle,
   subTabStyle,
 } from '../common/parchment';
-import type { Data, PetitionOffer } from './types';
+import type { Data, PetitionTarget } from './types';
 
 const PETITION_PURPLE = '#a872c4';
 
@@ -32,13 +33,11 @@ export const PetitionView = (props: { data: Data }) => {
     c.templates.some((t) => t.id === selectedId),
   );
 
-  const cannotAct = !petition.is_steward_role || !!petition.is_alderman_acting;
+  const cannotAct = !props.data.is_steward_role;
 
-  const cannotActReason = petition.is_alderman_acting
-    ? "As Alderman, you can't petition regions."
-    : !petition.is_steward_role
-      ? "Only Crown officials can petition regions."
-      : '';
+  const cannotActReason = cannotAct
+    ? "Only Crown officials can petition regions."
+    : '';
 
   const select = (template: string) => act('petition_select', { template });
 
@@ -110,12 +109,13 @@ export const PetitionView = (props: { data: Data }) => {
                 );
               })}
             </div>
-            <RegionTable
-              offers={petition.offers}
+            <TargetTable
+              targets={petition.targets}
+              blocker={cannotAct ? cannotActReason : petition.blocker}
+              cost={selectedCat.cost}
               regionNames={region_catalog}
-              cannotAct={cannotAct}
-              onPetition={(region_id) =>
-                act('petition_for_order', { region_id, template: selectedId })
+              onPetition={() =>
+                act('petition_for_order', { template: selectedId })
               }
             />
           </>
@@ -177,83 +177,102 @@ const PetitionStatusStrip = (props: { data: Data }) => {
   );
 };
 
-const RegionTable = (props: {
-  offers: PetitionOffer[];
-  regionNames: Record<string, { name: string; description: string }>;
-  cannotAct: boolean;
-  onPetition: (region_id: string) => void;
+const TARGET_HELP =
+  "The petition will come from one of the regions below, including raided ones. It will replace that region's current request, unless that request was petitioned or has already been partly delivered. In that case, it will come from another region. If there are no eligible regions, it will fail.";
+
+const TargetTable = (props: {
+  targets: PetitionTarget[];
+  blocker: string;
+  cost: number;
+  regionNames: Record<string, { name: string }>;
+  onPetition: () => void;
 }) => {
-  const { offers, regionNames, cannotAct, onPetition } = props;
-
-  if (offers.length === 0) {
-    return (
-      <div style={{ color: INK_FAINT, fontStyle: 'italic', marginTop: '6px' }}>
-        No regions configured.
-      </div>
-    );
-  }
-
-  const sorted = [...offers].sort(
-    (a, b) => Number(a.blocker !== '') - Number(b.blocker !== ''),
+  const { targets, blocker, cost, regionNames, onPetition } = props;
+  const disabled = !!blocker;
+  const sorted = [...targets].sort((a, b) =>
+    (regionNames[a.region_id]?.name ?? a.region_id).localeCompare(
+      regionNames[b.region_id]?.name ?? b.region_id,
+    ),
   );
 
   return (
-    <table
-      style={{
-        width: '100%',
-        borderCollapse: 'collapse',
-        fontSize: FONT_BODY,
-        marginTop: '6px',
-      }}
-    >
-      <tbody>
-        {sorted.map((offer) => {
-          const regionName =
-            regionNames[offer.region_id]?.name ?? offer.region_id;
-          const eligible = offer.blocker === '';
-          const disabled = cannotAct || !eligible;
-          return (
-            <tr
-              key={offer.region_id}
-              style={{
-                borderBottom: `1px dotted ${INK_FAINT}`,
-                opacity: eligible ? 1 : 0.65,
-              }}
-            >
-              <td
-                style={{
-                  padding: '4px 6px',
-                  fontWeight: 'bold',
-                  color: INK,
-                  whiteSpace: 'nowrap',
-                }}
-              >
-                {regionName}
-              </td>
-              <td
-                style={{
-                  padding: '4px 6px',
-                  width: '100%',
-                  color: eligible ? INK_SOFT : SEAL_RED,
-                }}
-              >
-                {eligible ? '' : offer.blocker}
-              </td>
-              <td style={{ padding: '4px 6px', textAlign: 'right' }}>
-                <button
-                  type="button"
-                  disabled={disabled}
-                  title={disabled ? offer.blocker : undefined}
-                  onClick={() => onPetition(offer.region_id)}
-                  style={inkButtonStyle({ color: PETITION_PURPLE, disabled })}
+    <div style={{ marginTop: '6px' }}>
+      <div
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: '8px',
+          marginBottom: '8px',
+        }}
+      >
+        <button
+          type="button"
+          disabled={disabled}
+          title={blocker || undefined}
+          onClick={onPetition}
+          style={inkButtonStyle({ color: PETITION_PURPLE, disabled })}
+        >
+          Petition <span style={{ color: SEAL_AMBER }}>{cost}p</span>
+        </button>
+        <span
+          title={TARGET_HELP}
+          style={{ color: INK_SOFT, cursor: 'help', fontWeight: 'bold' }}
+        >
+          (?)
+        </span>
+        {disabled && (
+          <span style={{ color: SEAL_RED, fontSize: FONT_BODY }}>
+            {blocker}
+          </span>
+        )}
+      </div>
+      {sorted.length === 0 ? (
+        <div style={{ color: INK_FAINT, fontStyle: 'italic' }}>
+          No region can take this petition right now.
+        </div>
+      ) : (
+        <>
+          <div style={{ color: INK_SOFT, fontSize: FONT_BODY }}>
+            May come from:
+          </div>
+          <table
+            style={{
+              width: '100%',
+              borderCollapse: 'collapse',
+              fontSize: FONT_BODY,
+              marginTop: '4px',
+            }}
+          >
+            <tbody>
+              {sorted.map((target) => (
+                <tr
+                  key={target.region_id}
+                  style={{ borderBottom: `1px dotted ${INK_FAINT}` }}
                 >
-                  Petition
-                </button>
-              </td>
-            </tr>
-          );
-        })}
-      </tbody>
-    </table>
+                  <td
+                    style={{
+                      padding: '4px 6px',
+                      fontWeight: 'bold',
+                      color: INK,
+                      whiteSpace: 'nowrap',
+                    }}
+                  >
+                    {regionNames[target.region_id]?.name ?? target.region_id}
+                    {!!target.raided && (
+                      <span style={badgeStyle(SEAL_RED)}>RAIDED</span>
+                    )}
+                  </td>
+                  <td
+                    style={{ padding: '4px 6px', width: '100%', color: INK_SOFT }}
+                  >
+                    {target.replaces ? `Replaces ${target.replaces}` : ''}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </>
+      )}
+    </div>
   );
 };

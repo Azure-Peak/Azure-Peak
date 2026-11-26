@@ -341,7 +341,7 @@
 	stringamt = 30
 	maxstring = 30
 
-/obj/item/needle/decrepit
+/obj/item/needle/aalloy
 	name = "decrepit needle"
 	icon_state = "aneedle"
 	desc = "This decrepit old needle doesn't seem helpful for much."

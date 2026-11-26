@@ -118,7 +118,7 @@
 		user.visible_message(span_warning("[user] stops reshaping [src]."))
 		return
 
-/obj/item/clothing/wrists/roguetown/bracers/ancient/decrepit
+/obj/item/clothing/wrists/roguetown/bracers/aalloy
 	name = "decrepit bracers"
 	desc = "Rotted metal cuffings, bound across the wrists. Don't bother counting the tallies left behind by their former legionnaires; none of them ever returned from the battlefields."
 	max_integrity = ARMOR_INT_SIDE_DECREPIT
@@ -129,7 +129,7 @@
 	smeltresult = /obj/item/ingot/aaslag
 	anvilrepair = null
 
-/obj/item/clothing/wrists/roguetown/bracers/ancient
+/obj/item/clothing/wrists/roguetown/bracers/paalloy
 	name = "ancient bracers"
 	desc = "Polished gilbranze cuffings, clasped around the wrists. Through ascension, the chains of mortality are broken; and only through death will the spirit be ready to embrace divinity."
 	icon_state = "ancientbracers"
@@ -414,7 +414,7 @@
 
 //
 
-/obj/item/clothing/wrists/roguetown/bracers/ancient/decrepit/chain
+/obj/item/clothing/wrists/roguetown/bracers/aalloy/chain
 	name = "decrepit chain sleeves"
 	desc = "Coverings of rotted metal maille, fashioned from hundreds of interlinked rings. An aura of decaying harlotry emanates from these sleeves. \
 	</br>I can adjust these sleeves to hang further down, rather than simply hugging my wrists."
@@ -428,7 +428,7 @@
 	equip_sound = 'sound/foley/equip/equip_armor_chain.ogg'
 	var/wrapped = FALSE
 
-/obj/item/clothing/wrists/roguetown/bracers/ancient/decrepit/chain/attack_right(mob/user)
+/obj/item/clothing/wrists/roguetown/bracers/aalloy/chain/attack_right(mob/user)
 	. = ..()
 	if(!wrapped)
 		icon_state = "ancientchainsleeves"
@@ -449,12 +449,12 @@
 		playsound(user, 'sound/foley/equip/chain_equip.ogg', 50, TRUE)
 		wrapped = FALSE
 
-/obj/item/clothing/wrists/roguetown/bracers/ancient/decrepit/chain/ComponentInitialize()
+/obj/item/clothing/wrists/roguetown/bracers/aalloy/chain/ComponentInitialize()
 	AddComponent(/datum/component/armour_filtering/negative, TRAIT_FENCERDEXTERITY)
 	AddComponent(/datum/component/armour_filtering/negative, TRAIT_HONORBOUND)
 	AddComponent(/datum/component/armour_filtering/positive, TRAIT_FREEBLADEDEXTERITY)
 
-/obj/item/clothing/wrists/roguetown/bracers/ancient/chain
+/obj/item/clothing/wrists/roguetown/bracers/paalloy/chain
 	name = "ancient chain sleeves"
 	desc = "Coverings of polished gilbranze-maille, fashioned from hundreds of interlinked rings. An aura of undying harlotry emanates from these sleeves. \
 	</br>I can adjust these sleeves to hang further down, rather than simply hugging my wrists."
@@ -468,7 +468,7 @@
 	equip_sound = 'sound/foley/equip/equip_armor_chain.ogg'
 	var/wrapped = FALSE
 
-/obj/item/clothing/wrists/roguetown/bracers/ancient/chain/attack_right(mob/user)
+/obj/item/clothing/wrists/roguetown/bracers/paalloy/chain/attack_right(mob/user)
 	. = ..()
 	if(!wrapped)
 		icon_state = "ancientchainsleeves"
@@ -489,7 +489,7 @@
 		playsound(user, 'sound/foley/equip/chain_equip.ogg', 50, TRUE)
 		wrapped = FALSE
 
-/obj/item/clothing/wrists/roguetown/bracers/ancient/chain/ComponentInitialize()
+/obj/item/clothing/wrists/roguetown/bracers/paalloy/chain/ComponentInitialize()
 	AddComponent(/datum/component/armour_filtering/negative, TRAIT_FENCERDEXTERITY)
 	AddComponent(/datum/component/armour_filtering/negative, TRAIT_HONORBOUND)
 	AddComponent(/datum/component/armour_filtering/positive, TRAIT_FREEBLADEDEXTERITY)

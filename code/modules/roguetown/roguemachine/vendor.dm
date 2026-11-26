@@ -75,9 +75,9 @@
 			return
 
 /obj/structure/roguemachine/vendor/attackby(obj/item/P, mob/user, params)
-	if(istype(P, /obj/item/roguecoin/psila))
+	if(istype(P, /obj/item/roguecoin/aalloy))
 		return
-	if(istype(P, /obj/item/roguecoin/marque))
+	if(istype(P, /obj/item/roguecoin/inqcoin))
 		return
 	if(istype(P, /obj/item/roguecoin))
 		budget += P.get_real_price()
@@ -168,8 +168,7 @@
 		if(!usr.canUseTopic(src, BE_CLOSE) || !locked)
 			return
 		if(ishuman(usr) && budget > 0)
-			budget2change(budget, usr)
-			budget = 0
+			budget = refund_pouch(budget, usr)
 
 	// WITHDRAW GAIN (owner withdraws stored profit when unlocked)
 	if(href_list["withdrawgain"])

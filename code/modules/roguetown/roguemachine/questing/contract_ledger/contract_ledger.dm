@@ -12,6 +12,7 @@
 	var/input_point_y_offset = -1
 	var/directives_issued_today = 0
 	var/directives_day_stamp = -1
+	var/commission_keyid = "steward"
 
 /obj/structure/roguemachine/contractledger/Initialize(mapload)
 	. = ..()
@@ -42,7 +43,8 @@
 	. += span_info("A contract scroll left off its holder's person for [QUEST_SCROLL_UNATTENDED_LAPSE / (1 MINUTES)] minutes crumbles to dust. A fellowship member carrying it counts as the holder. If it was taken, this counts as abandoning it.")
 	. += span_info("Heads from <b>contract targets</b> fetch nothing at a HEADEATER, because the contract's reward already covers them. Heads from beasts and brigands you kill outside a contract still sell there.")
 	. += span_info("The <b>Innkeeper and their tavern staff</b> (Cook, Tapster) may compose rumor contracts here. They spend Rumor Points to seed contracts across the realm.")
-	. += span_info("The <b>[english_list(GLOB.crown_authority_roles)]</b> can issue defense scrolls here. Scrolls are paid from the Burgher Pledge or the Treasury. A scroll can also go out as an unpaid Request. If the Pledge runs short, the Treasury can make up the difference. A Regent ruling in the Grand Duke's absence can issue scrolls while they rule.")
+	. += span_info("The <b>[english_list(GLOB.commission_full_roles)]</b> can issue defense scrolls here. Scrolls are paid from the Burgher Pledge or the Treasury. A scroll can also go out as an unpaid Request. If the Pledge runs short, the Treasury can make up the difference. A Regent ruling in the Grand Duke's absence can issue scrolls while they rule.")
+	. += span_info("Anyone carrying the <b>Steward's key</b> can also issue defense scrolls, paid from the Burgher Pledge only.")
 	. += span_info("You can <b>withdraw</b> any contract or scroll you posted from Your Postings at any time while no one has taken it. Once someone takes it, you must wait [MIN_TIME_BEFORE_CANCEL_TAKEN_QUEST / (1 MINUTES)] minutes. You can't withdraw it once the work has begun. Withdrawing refunds [REFUND_ON_NOT_TAKEN * 100]% of the cost, and so does a posting that lapses untaken. If a contract fails, [REFUND_ON_FAILURE * 100]% is refunded automatically. If its holder abandons it, you get [REFUND_ON_NOT_TAKEN * 100]% back before the work begins and [REFUND_ON_FAILURE * 100]% after.")
 	. += span_info("Some <b>townsfolk</b> can post contracts of their own and pay for them with their own money, up to [TOWNER_MAX_ACTIVE_POSTINGS] at a time. They can pin them to the Ledger or hand them over in person. The <b>[english_list(GLOB.crown_authority_roles)]</b> can post any of them. The Treasury pays [TOWNER_POSTING_CROWN_COST_MULT] times the price. The <b>[english_list(GLOB.atc_positions)]</b> can post any of them from the ATC's treasury at [TOWNER_POSTING_COMPANY_COST_MULT] times the price. Only the poster can open what is recovered.")
 	. += span_info("Your <b>fellowship</b> can turn in contracts you hold if you fall in battle. By default the reward is split evenly between everyone in the fellowship when the contract was taken. Each member's levy exemption applies to their own share. The leader can switch to paying whoever turns it in. Contracts taken while rewards were split stay split.")
@@ -159,7 +161,9 @@
 		add_rumor_types(data)
 		data["rumor_log"] = SStreasury.rumor_log
 	if("steward" in dynamic_roles)
-		data["is_alderman_acting"] = (SScity_assembly?.is_alderman(user) && user.job != "Steward") ? TRUE : FALSE
+		var/access = commission_access(user)
+		data["is_alderman_acting"] = access == COMMISSION_ACCESS_ALDERMAN
+		data["pledge_only"] = access != COMMISSION_ACCESS_FULL
 		data["pledge_balance"] = SStreasury.burgher_pledge_fund ? SStreasury.burgher_pledge_fund.balance : 0
 		data["pledge_active_players"] = get_active_player_count()
 		data["pledge_available"] = SStreasury.burgher_pledge_fund ? TRUE : FALSE
@@ -178,6 +182,8 @@
 	if("towner" in dynamic_roles)
 		data["towner_purse_balance"] = SStreasury?.discretionary_fund?.balance || 0
 		data["towner_company_balance"] = SStreasury?.merchant_fund?.balance || 0
+		data["towner_pledge_balance"] = SStreasury?.burgher_pledge_fund?.balance || 0
+		data["towner_can_pledge"] = user_can_pledge_towner(user)
 		data["towner_active_postings"] = count_active_towner_postings(user)
 	return data
 
@@ -237,6 +243,11 @@ GLOBAL_LIST_INIT(crown_authority_roles, list(
 	"Prince",
 ))
 
+GLOBAL_LIST_INIT(commission_full_roles, list(
+	"Steward",
+	"Grand Duke",
+))
+
 GLOBAL_LIST_INIT(contract_proxy_officials, list(
 	"Steward",
 	"Clerk",
@@ -248,15 +259,36 @@ GLOBAL_LIST_INIT(contract_issuer_roles, list(
 	"Innkeeper",
 ))
 
-/obj/structure/roguemachine/contractledger/proc/can_commission(mob/user)
+/obj/structure/roguemachine/contractledger/proc/commission_access(mob/user)
 	if(!user)
-		return FALSE
-	if(user.job in GLOB.crown_authority_roles)
-		return TRUE
-	if(SSticker?.regentmob == user)
-		return TRUE
+		return null
+	if((user.job in GLOB.commission_full_roles) || SSticker?.regentmob == user)
+		return COMMISSION_ACCESS_FULL
+	if(holds_commission_key(user))
+		return COMMISSION_ACCESS_KEY
 	if(SScity_assembly?.is_alderman(user) && SScity_assembly.current_warrant?.defense_remaining > 0)
-		return TRUE
+		return COMMISSION_ACCESS_ALDERMAN
+	return null
+
+/obj/structure/roguemachine/contractledger/proc/can_commission(mob/user)
+	return !!commission_access(user)
+
+/obj/structure/roguemachine/contractledger/proc/holds_commission_key(mob/living/user)
+	if(!istype(user))
+		return FALSE
+	for(var/obj/item/I as anything in user.held_items + user.get_equipped_items())
+		if(is_commission_key(I))
+			return TRUE
+	return FALSE
+
+/obj/structure/roguemachine/contractledger/proc/is_commission_key(obj/item/I)
+	if(istype(I, /obj/item/roguekey))
+		var/obj/item/roguekey/K = I
+		return K.lockid == commission_keyid
+	if(istype(I, /obj/item/storage/keyring))
+		for(var/obj/item/inner in I.contents)
+			if(is_commission_key(inner))
+				return TRUE
 	return FALSE
 
 /obj/structure/roguemachine/contractledger/proc/resolve_dynamic_roles(mob/user)
@@ -514,7 +546,7 @@ GLOBAL_LIST_INIT(contract_issuer_roles, list(
 		if(QUEST_SOURCE_RUMOR)
 			return (user.job in GLOB.tavern_positions)
 		if(QUEST_SOURCE_DEFENSE, QUEST_SOURCE_BLOCKADE)
-			return can_commission(user)
+			return commission_access(user) == COMMISSION_ACCESS_FULL
 	return FALSE
 
 /obj/structure/roguemachine/contractledger/proc/build_issued_listing(mob/user)

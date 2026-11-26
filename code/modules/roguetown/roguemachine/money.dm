@@ -121,6 +121,12 @@ GLOBAL_VAR(moneymaster)
 							budget -= 1
 		update_icon()
 
+/proc/refund_pouch(budget, mob/user, specify, putinhands = TRUE, custom_turf = FALSE)
+	var/whole = floor(mammon_round(budget))
+	if(whole > 0)
+		budget2change(whole, user, specify, putinhands, custom_turf)
+	return mammon_round(budget - whole)
+
 /proc/budget2change(budget, mob/user, specify, putinhands = TRUE, custom_turf = FALSE)
 	var/turf/T
 	if(!ismob(user) && !custom_turf)
@@ -147,7 +153,7 @@ GLOBAL_VAR(moneymaster)
 				type_to_put = /obj/item/roguecoin/copper
 			if("MARQUE")
 				zenars_to_put = budget
-				type_to_put = /obj/item/roguecoin/marque
+				type_to_put = /obj/item/roguecoin/inqcoin
 	else
 		var/highest_found = FALSE
 		var/zenars = floor(budget/10)

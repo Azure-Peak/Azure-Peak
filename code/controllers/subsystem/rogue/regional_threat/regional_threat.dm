@@ -189,10 +189,6 @@ SUBSYSTEM_DEF(regionthreat)
 	return threat_region_displays
 
 /datum/controller/subsystem/regionthreat/proc/build_scout_region_rows()
-	var/list/blockade_by_threat_name = list()
-	for(var/datum/blockade/B as anything in GLOB.active_blockades)
-		if(B.threat_region_name)
-			blockade_by_threat_name[B.threat_region_name] = B
 	var/list/rows = list()
 	for(var/datum/threat_region/TR as anything in threat_regions)
 		var/list/row = list()
@@ -200,20 +196,31 @@ SUBSYSTEM_DEF(regionthreat)
 		row["danger_level"] = TR.get_danger_level()
 		row["danger_color"] = TR.get_danger_color()
 		row["ic_descriptions"] = TR.get_ic_description()
-		var/datum/blockade/B = blockade_by_threat_name[TR.region_name]
-		if(B)
+		var/list/blockades = list()
+		for(var/datum/blockade/B as anything in GLOB.active_blockades)
+			if(B.threat_region_name != TR.region_name)
+				continue
 			var/datum/quest_faction/F = B.get_faction()
-			var/datum/economic_region/ER = B.get_region()
-			row["blockaded"] = TRUE
-			row["blockade_writ_out"] = B.has_active_scroll() ? TRUE : FALSE
-			row["blockade_faction_label"] = F ? "[F.group_word] of [F.name_plural]" : (B.faction_id || "")
-			row["blockade_region_label"] = ER ? ER.name : (B.region_id || "")
-			row["blockade_days_active"] = max(0, GLOB.dayspassed - B.day_started)
-		else
-			row["blockaded"] = FALSE
-			row["blockade_writ_out"] = FALSE
-			row["blockade_faction_label"] = ""
-			row["blockade_region_label"] = ""
-			row["blockade_days_active"] = 0
+			blockades += list(list(
+				"gathering" = FALSE,
+				"writ_out" = B.has_active_scroll() ? TRUE : FALSE,
+				"faction_label" = F ? "[F.group_word] of [F.name_plural]" : (B.faction_id || ""),
+				"region_label" = B.get_region_names(),
+				"days_active" = max(0, ECONOMY_DAY - B.day_started),
+			))
+		for(var/subroute in SSeconomy?.gathering_blockades)
+			if(get_subroute_threat_region(subroute) != TR.region_name)
+				continue
+			var/faction_id = SSeconomy.gathering_blockades[subroute]
+			var/datum/quest_faction/F = get_quest_faction(faction_id)
+			blockades += list(list(
+				"gathering" = TRUE,
+				"writ_out" = FALSE,
+				"faction_label" = F ? "[F.group_word] of [F.name_plural]" : (faction_id || ""),
+				"region_label" = get_subroute_region_names(subroute),
+				"days_active" = 0,
+			))
+		row["blockaded"] = length(blockades) ? TRUE : FALSE
+		row["blockades"] = blockades
 		rows += list(row)
 	return rows

@@ -4,7 +4,6 @@
 #define TREASURY_FLOW_TRANSFER "Treasury Transfer"
 #define TREASURY_FLOW_STOCKPILE "Stockpile Purchases"
 #define TREASURY_FLOW_IMPORT "Crown Import"
-#define TREASURY_FLOW_AUTOIMPORT "Autoimport"
 #define TREASURY_FLOW_SUBSIDY "Royal Subsidy"
 #define TREASURY_FLOW_CONTRACT "Contract Commissions"
 #define TREASURY_FLOW_TITHE "Church Tithe"
@@ -20,7 +19,6 @@ GLOBAL_LIST_INIT(treasury_flow_order, list(
 	TREASURY_FLOW_TRANSFER,
 	TREASURY_FLOW_STOCKPILE,
 	TREASURY_FLOW_IMPORT,
-	TREASURY_FLOW_AUTOIMPORT,
 	TREASURY_FLOW_SUBSIDY,
 	TREASURY_FLOW_CONTRACT,
 	TREASURY_FLOW_TITHE,
@@ -46,16 +44,6 @@ GLOBAL_LIST_EMPTY(treasury_expense_ledger)
 		for(var/role in by_role)
 			total += by_role[role]
 	return total
-
-/proc/treasury_flow_total(mechanism)
-	var/total = 0
-	var/list/by_role = GLOB.treasury_expense_ledger[mechanism]
-	for(var/role in by_role)
-		total += by_role[role]
-	return total
-
-/proc/crown_import_spending()
-	return treasury_flow_total(TREASURY_FLOW_IMPORT) + treasury_flow_total(TREASURY_FLOW_AUTOIMPORT) + treasury_flow_total(TREASURY_FLOW_SUBSIDY)
 
 /proc/cmp_treasury_role_desc(list/a, list/b)
 	return b["amount"] - a["amount"]
