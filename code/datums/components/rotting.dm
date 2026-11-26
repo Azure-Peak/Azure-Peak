@@ -92,11 +92,20 @@
 		return
 
 	if(amount > DEAD_TO_ZOMBIE_TIME)
+		//players use the default deaditing logic
 		if(is_zombie)
 			var/datum/antagonist/zombie/Z = C.mind.has_antag_datum(/datum/antagonist/zombie)
 			if(Z && !Z.has_turned && !Z.revived && C.stat == DEAD)
 				C.infected = TRUE
 				wake_zombie(C, infected_wake = TRUE, converted = FALSE)
+		//NPCs use a different logic which is handled in NPC procs
+		if(!C.mind) //firstly, are we an NPC? don't even bother w/ other checks if we are a player.
+			var/chance_of_deadite_npc_reanimation = 25	// 25% chance of reanimation for NPC deadites
+			if(has_world_trait(/datum/world_trait/zizo_defilement))
+				chance_of_deadite_npc_reanimation = 100	// 100% chance of reanimation for NPC deadites during Zizo's Defilement event
+			if(!HAS_TRAIT(C, TRAIT_DNR) && !HAS_TRAIT(C, TRAIT_DEADITE))
+				if(prob[chance_of_deadite_npc_reanimation])
+					addtimer(CALLBACK(C, TYPE_PROC_REF(/mob/living/carbon/human, do_deadite_npc_reanimation)), 0.1 SECONDS)
 
 	var/findonerotten = FALSE
 	var/shouldupdate = FALSE
