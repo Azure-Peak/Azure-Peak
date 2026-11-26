@@ -146,6 +146,13 @@
 	L.travel_z_with_riders(newtarg)
 	if(L.loc != newtarg)
 		return
+	if(L.mind && !isanimal(L) && L.is_in_combat())
+		var/last = L.mob_timers[MT_STAIRS]
+		if(last && world.time < last + 5 SECONDS)
+			L.OffBalance(2 SECONDS)
+			L.mob_timers[MT_STUMBLE] = world.time + 2 SECONDS
+			to_chat(L, span_warning("I stumble on the stairs!"))
+		L.mob_timers[MT_STAIRS] = world.time
 	if(pulling && !(pulling in L.buckled_mobs))
 		if(cord)
 			L.stop_pulling()

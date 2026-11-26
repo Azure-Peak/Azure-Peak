@@ -283,6 +283,9 @@
 		if(dualwield_penalty)
 			prob2defend = max(prob2defend - 5, 0)
 
+		if(world.time < mob_timers[MT_STUMBLE])
+			prob2defend = round(prob2defend * 0.5)
+
 		if(src.client?.prefs.showrolls)
 			var/text = "Roll to dodge... [HAS_TRAIT(user, TRAIT_DECEIVING_MEEKNESS) ? "???" : prob2defend]%"
 

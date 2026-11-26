@@ -227,6 +227,9 @@
 	if(has_status_effect(/datum/status_effect/swingdelay/penalty))
 		prob2defend = clamp(prob2defend - 50, 5, 90)
 
+	if(world.time < mob_timers[MT_STUMBLE])
+		prob2defend = round(prob2defend * 0.5)
+
 	if(HAS_TRAIT(src, TRAIT_NODEF))
 		prob2defend = 0
 
