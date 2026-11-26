@@ -189,6 +189,11 @@
 
 	data["hingot_type"] = hingot?.type
 
+	var/datum/recipe_pins/pinned = user?.get_recipe_pins()
+	data["pins"] = pinned ? pinned.pins[RECIPE_PIN_MENU_ANVIL] : list()
+	data["pins_imported"] = pinned ? !!pinned.imported[RECIPE_PIN_MENU_ANVIL] : FALSE
+	data["pin_key"] = pinned?.pin_key
+
 	return data
 
 /obj/machinery/anvil/ui_static_data(mob/user)
@@ -201,10 +206,11 @@
 	for(var/datum/anvil_recipe/R in GLOB.anvil_recipes)
 		UNTYPED_LIST_ADD(recipes, list(
 			"name" = R.name,
-			"category" = R.i_type,
+			"category" = R.display_category || ITEM_CAT_SMITHING_MISC,
 			"req_bar" = R.req_bar,
 			"ref" = REF(R),
-			"icon" = spritesheet.icon_class_name(sanitize_css_class_name("recipe_[REF(R)]"))
+			"path" = "[R.type]",
+			"icon" = spritesheet.icon_class_name(sanitize_css_class_name("recipe_[R.type]"))
 		))
 
 	data["recipes"] = recipes
@@ -219,6 +225,16 @@
 	var/mob/user = ui.user
 
 	switch(action)
+		if("cycle_pin")
+			var/datum/recipe_pins/pinned = user.get_recipe_pins()
+			pinned?.cycle(user, RECIPE_PIN_MENU_ANVIL, params["path"])
+			return TRUE
+
+		if("import_pins")
+			var/datum/recipe_pins/pinned = user.get_recipe_pins()
+			pinned?.import_saved(RECIPE_PIN_MENU_ANVIL, params["paths"])
+			return TRUE
+
 		if("choose_recipe")
 			var/datum/anvil_recipe/recipe = locate(params["ref"])
 			if(!istype(recipe))
