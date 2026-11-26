@@ -16183,9 +16183,9 @@
 /turf/open/floor/rogue/grasscold,
 /area/rogue/outdoors/mountains)
 "cMq" = (
-/mob/living/carbon/human/species/lizardfolk/psy_vault_guard,
+/mob/living/carbon/human/species/lizardfolk/psy_vault_guard/archer,
 /turf/open/floor/rogue/cobble,
-/area/rogue/under/cave/his_vault/puzzle)
+/area/rogue/under/cave/his_vault)
 "cMs" = (
 /obj/machinery/light/rogue/candle/blue{
 	pixel_y = -30;
@@ -28547,13 +28547,6 @@
 /obj/item/clothing/ring/jade,
 /turf/open/floor/rogue/churchbrick,
 /area/rogue/outdoors/exposed/bath/vault)
-"eRR" = (
-/obj/effect/decal/cobbleedge{
-	dir = 5
-	},
-/mob/living/carbon/human/species/npc/deadite,
-/turf/open/floor/rogue/cobblerock,
-/area/rogue/under/cave/his_vault)
 "eRS" = (
 /obj/effect/decal/edge_corner{
 	color = "#3f3f3f";
@@ -30626,13 +30619,6 @@
 "fii" = (
 /turf/closed/mineral/random/rogue/med,
 /area/rogue/outdoors/rtfield)
-"fil" = (
-/obj/structure/fluff/walldeco/church/line{
-	dir = 4
-	},
-/mob/living/carbon/human/species/lizardfolk/psy_vault_guard,
-/turf/open/floor/rogue/cobble,
-/area/rogue/under/cave/his_vault/puzzle)
 "fit" = (
 /obj/effect/decal/cobbleedge{
 	dir = 1;
@@ -37415,7 +37401,7 @@
 /turf/closed/mineral/random/rogue,
 /area/rogue/outdoors/woods/south)
 "gqx" = (
-/mob/living/simple_animal/hostile/rogue/zardman_jailer_mage,
+/mob/living/carbon/human/species/lizardfolk/psy_vault_guard/caster,
 /turf/open/floor/rogue/cobble,
 /area/rogue/under/cave/his_vault/four)
 "gqy" = (
@@ -37932,10 +37918,6 @@
 /obj/structure/flora/ausbushes/brflowers,
 /turf/open/floor/rogue/grass,
 /area/rogue/indoors/inq)
-"guJ" = (
-/mob/living/carbon/human/species/lizardfolk/psy_vault_guard,
-/turf/open/floor/rogue/cobble,
-/area/rogue/under/cave/his_vault/one)
 "guK" = (
 /obj/structure/table/wood/large_table/south_west,
 /turf/open/floor/carpet/royalblack,
@@ -38268,7 +38250,6 @@
 	icon_state = "cobbleedge-w"
 	},
 /obj/structure/flora/roguegrass,
-/mob/living/carbon/human/species/lizardfolk/psy_vault_guard,
 /turf/open/floor/rogue/cobble/mossy,
 /area/rogue/under/cave/his_vault/one)
 "gxo" = (
@@ -48021,10 +48002,10 @@
 	dir = 9
 	},
 /obj/structure/flora/roguegrass,
-/mob/living/simple_animal/hostile/rogue/zardman_jailer_mage,
 /obj/structure/dungeontool/mover{
 	dir = 8
 	},
+/mob/living/carbon/human/species/lizardfolk/psy_vault_guard/magemonk,
 /turf/open/floor/rogue/cobble/mossy,
 /area/rogue/under/cave/his_vault/four)
 "iiy" = (
@@ -71369,7 +71350,7 @@
 /area/rogue/outdoors/beach/forest/south)
 "lYJ" = (
 /obj/structure/bars/grille,
-/mob/living/simple_animal/hostile/rogue/zardman_jailer_mage,
+/mob/living/carbon/human/species/lizardfolk/psy_vault_guard/magemonk_entry,
 /turf/open/floor/rogue/concrete,
 /area/rogue/under/cave/his_vault)
 "lYK" = (
@@ -73588,13 +73569,6 @@
 /obj/machinery/light/rogue/smelter,
 /turf/open/floor/rogue/cobble,
 /area/rogue/under/cave/orcdungeon)
-"mrv" = (
-/obj/effect/decal/cobbleedge{
-	icon_state = "cobbleedge-sread"
-	},
-/mob/living/carbon/human/species/npc/deadite,
-/turf/open/floor/rogue/naturalstone,
-/area/rogue/under/cave/his_vault)
 "mrw" = (
 /obj/machinery/light/small/broken{
 	dir = 4
@@ -76219,7 +76193,7 @@
 /area/rogue/under/underdark/south)
 "mPS" = (
 /obj/structure/bars/grille,
-/mob/living/simple_animal/hostile/rogue/zardman_jailer_mage,
+/mob/living/carbon/human/species/lizardfolk/psy_vault_guard/magemonk_entry,
 /turf/open/floor/rogue/concrete,
 /area/rogue/under/cave/his_vault/puzzle)
 "mPW" = (
@@ -77429,10 +77403,10 @@
 /obj/effect/decal/cobbleedge{
 	dir = 6
 	},
-/mob/living/simple_animal/hostile/rogue/zardman_jailer_mage,
 /obj/structure/dungeontool/mover{
 	dir = 4
 	},
+/mob/living/carbon/human/species/lizardfolk/psy_vault_guard/magemonk,
 /turf/open/floor/rogue/cobble/mossy,
 /area/rogue/under/cave/his_vault/four)
 "nbw" = (
@@ -82140,7 +82114,7 @@
 /turf/open/floor/rogue/blocks,
 /area/rogue/outdoors/mountains/decap/gunduzirak)
 "nSy" = (
-/mob/living/simple_animal/hostile/rogue/zardman_jailer_mage,
+/mob/living/carbon/human/species/lizardfolk/psy_vault_guard/magemonk,
 /turf/open/floor/rogue/cobble/mossy,
 /area/rogue/under/cave/his_vault)
 "nSC" = (
@@ -96591,6 +96565,7 @@
 	pixel_x = 9;
 	pixel_y = -10
 	},
+/mob/living/carbon/human/species/lizardfolk/psy_vault_guard/archer,
 /turf/open/floor/rogue/cobble/mossy,
 /area/rogue/under/cave/his_vault)
 "qjh" = (
@@ -98487,7 +98462,6 @@
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town/magician)
 "qAx" = (
-/mob/living/simple_animal/hostile/rogue/zardman_jailer_mage,
 /obj/effect/decal/cobbleedge{
 	dir = 10;
 	icon_state = "cobbleedge-w"
@@ -98495,6 +98469,7 @@
 /obj/effect/decal/cobbleedge{
 	icon_state = "cobbleedge-sread"
 	},
+/mob/living/carbon/human/species/lizardfolk/psy_vault_guard/magemonk,
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/under/cave/his_vault)
 "qAz" = (
@@ -102706,10 +102681,10 @@
 	pixel_x = 1;
 	pixel_y = 2
 	},
-/mob/living/simple_animal/hostile/rogue/zardman_jailer_mage,
 /obj/structure/dungeontool/mover{
 	dir = 4
 	},
+/mob/living/carbon/human/species/lizardfolk/psy_vault_guard/magemonk,
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/under/cave/his_vault/four)
 "rlV" = (
@@ -105978,7 +105953,7 @@
 /obj/structure/fluff/walldeco/church/line{
 	dir = 4
 	},
-/mob/living/simple_animal/hostile/rogue/zardman_jailer_mage,
+/mob/living/carbon/human/species/lizardfolk/psy_vault_guard/magemonk,
 /turf/open/floor/rogue/cobble,
 /area/rogue/under/cave/his_vault/two)
 "rNn" = (
@@ -112122,8 +112097,8 @@
 /turf/open/floor/rogue/blocks/green,
 /area/rogue/under/town/sewer)
 "sMV" = (
-/mob/living/simple_animal/hostile/rogue/zardman_jailer_mage,
 /obj/structure/chair/stool/rogue,
+/mob/living/carbon/human/species/lizardfolk/psy_vault_guard/magemonk,
 /turf/open/floor/rogue/cobble,
 /area/rogue/under/cave/his_vault)
 "sNb" = (
@@ -125237,8 +125212,8 @@
 /turf/open/floor/rogue/cobble,
 /area/rogue/outdoors/town)
 "uWw" = (
-/mob/living/simple_animal/hostile/rogue/zardman_jailer_mage,
 /obj/structure/dungeontool/mover,
+/mob/living/carbon/human/species/lizardfolk/psy_vault_guard/archer,
 /turf/open/floor/rogue/cobble,
 /area/rogue/under/cave/his_vault/four)
 "uWz" = (
@@ -128124,7 +128099,7 @@
 /obj/effect/decal/cobbleedge{
 	dir = 5
 	},
-/mob/living/simple_animal/hostile/rogue/zardman_jailer_mage,
+/mob/living/carbon/human/species/lizardfolk/psy_vault_guard/magemonk,
 /turf/open/floor/rogue/cobble/mossy,
 /area/rogue/under/cave/his_vault)
 "vvU" = (
@@ -135375,7 +135350,7 @@
 	dir = 10;
 	icon_state = "cobbleedge-e"
 	},
-/mob/living/simple_animal/hostile/rogue/zardman_jailer_mage,
+/mob/living/carbon/human/species/lizardfolk/psy_vault_guard/magemonk,
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/under/cave/his_vault)
 "wHS" = (
@@ -137141,7 +137116,7 @@
 /turf/closed/wall/mineral/rogue/decostone,
 /area/rogue/indoors/town/manor)
 "wWs" = (
-/mob/living/simple_animal/hostile/rogue/zardman_jailer_mage,
+/mob/living/carbon/human/species/lizardfolk/psy_vault_guard/magemonk,
 /turf/open/floor/rogue/cobble,
 /area/rogue/under/cave/his_vault)
 "wWt" = (
@@ -144404,10 +144379,10 @@
 /obj/effect/decal/cobbleedge{
 	dir = 10
 	},
-/mob/living/simple_animal/hostile/rogue/zardman_jailer_mage,
 /obj/structure/dungeontool/mover{
 	dir = 8
 	},
+/mob/living/carbon/human/species/lizardfolk/psy_vault_guard/magemonk,
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/under/cave/his_vault/four)
 "yir" = (
@@ -273108,7 +273083,7 @@ kFW
 kFW
 ezf
 xFN
-byI
+xFN
 kFW
 kFW
 oZu
@@ -275367,7 +275342,7 @@ kFW
 bLn
 bLn
 bLn
-mrv
+mcF
 xFN
 ihY
 byI
@@ -276242,7 +276217,7 @@ pgO
 pgO
 sia
 mPb
-cMq
+ixl
 aKh
 jjm
 hRp
@@ -277176,7 +277151,7 @@ xFN
 xoV
 xFN
 xFN
-eRR
+vjd
 ihY
 byI
 kFW
@@ -277579,7 +277554,7 @@ ujm
 ujm
 uTh
 sVU
-fil
+sVU
 euv
 bLR
 imj
@@ -284813,7 +284788,7 @@ xHd
 mdb
 mdb
 mdb
-guJ
+bKR
 bhq
 xFN
 xFN
@@ -286214,7 +286189,7 @@ hLd
 kFW
 iJq
 xFN
-xFN
+cMq
 oyo
 iJq
 kFW
@@ -287114,7 +287089,7 @@ oZu
 rYm
 ozO
 xFN
-xFN
+dXh
 xFN
 uHf
 dOB
