@@ -310,6 +310,7 @@ GLOBAL_LIST_INIT(zombie_aggro, list(
 	",w Die...",
 	",w Flesh...",
 	",w Find...",
+	",w Hungry...",
 	"*scream",
 	"*scream",
 	"*groan",
@@ -468,11 +469,3 @@ GLOBAL_LIST_INIT(zombie_aggro, list(
 	zombie.visible_message(span_danger("[zombie] [pick("stands back up!","shambles upright!","lumbers to [zombie.p_their()] feet!","rises from [zombie.p_their()] shallow grave!","snaps to [zombie.p_their()] feet!","reanimates onto [zombie.p_their()] feet!")]")) //On par with deadite animals reanimating.
 	zombie.emote("rage") // This is where the fun begins
 	playsound(get_turf(zombie), 'sound/magic/woundheal_crunch.ogg', 80, FALSE, -1) //More horrible noises
-
-	if(QDELETED(zombie) || QDELETED(zombie) || zombie.stat != DEAD)
-		return
-	var/obj/item/bodypart/head = zombie.get_bodypart(BODY_ZONE_HEAD)
-	if(!head || HAS_TRAIT(zombie, TRAIT_DNR) || HAS_TRAIT(zombie, TRAIT_DEADITE))
-		return
-	if(istype(zombie.loc, /obj/structure/closet/dirthole) || istype(zombie.loc, /obj/structure/closet/crate/coffin))
-		return
