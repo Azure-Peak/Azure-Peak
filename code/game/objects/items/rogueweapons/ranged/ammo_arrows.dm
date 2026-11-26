@@ -392,7 +392,8 @@
 	var/turf/below_turf = GET_TURF_BELOW(open_space)
 	if(!below_turf || locate(/obj/structure/rope_ladder) in below_turf)
 		return
-	new /obj/structure/rope_ladder(below_turf)
+	var/obj/structure/rope_ladder/rope = new(below_turf)
+	rope.climb_target = source_projection
 
 /obj/item/ammo_casing/caseless/rogue/arrow/water
 	name = "water arrow"

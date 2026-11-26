@@ -205,6 +205,7 @@
 	obj_flags = BLOCK_Z_OUT_DOWN
 	max_integrity = 50
 	blade_dulling = DULLING_BASHCHOP
+	var/turf/climb_target
 
 /obj/structure/rope_ladder/attack_hand(mob/user) //no idea why this wasnt a feature before, but ok
 	. = ..()
@@ -213,14 +214,10 @@
 	var/mob/living/living_user = user
 	if(!in_range(src, living_user) || living_user.buckled) //no climbing buckled
 		return
-	var/turf/above_turf = GET_TURF_ABOVE(get_turf(src)) //get the turf above the rope
-	var/turf/landing_turf //the turf on which we actually end up climbing on.
-	for(var/turf/adjacent_turf in get_adjacent_turfs(above_turf)) //get adjacent turfs
-		if(!istype(adjacent_turf, /turf/open/floor) || adjacent_turf.is_blocked_turf(source_atom = living_user))
-			continue //if its blocked or if it isnt a floor on which we can stand do nothing
-		landing_turf = adjacent_turf //otherwise set adjacent turf as landing turf.
-		break //if we have multiple adjacent climbable turfs, it picks the first one, this might cause some funky climbing, I dont see this happening often, and if it does happen other than looking weird, i dont see a situation where it causes an issue.
-	if(!landing_turf) //no climbable turf, no climbing.
+	var/turf/landing_turf = climb_target
+	if(!landing_turf)
+		landing_turf = GET_TURF_ABOVE(get_turf(living_user))
+	if(!istype(landing_turf, /turf/open/floor) || landing_turf.is_blocked_turf(source_atom = living_user))
 		to_chat(living_user, span_warning("I am unable to climb up."))
 		return
 	playsound(src, 'sound/foley/noose_idle.ogg', 100, FALSE) //noise used for hanging mobs, but its the one used for rope assisted climbing of walls.
