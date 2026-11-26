@@ -50,6 +50,7 @@
 		TRAIT_ZOMBIE_SPEECH,
 		TRAIT_ZOMBIE_IMMUNE,
 		TRAIT_ROTMAN,
+		TRAIT_STRONGBITE, //needed to infect people easier
 		//TRAIT_NORUN, re-add if zombies become too problematic
 		TRAIT_SILVER_WEAK,
 		TRAIT_DEADITE,
