@@ -7,22 +7,22 @@
 	var/random_form = FALSE
 
 	var/static/list/possible_forms = list(
-		"Wolf" = /mob/living/carbon/human/species/wildshape/night_volf,
-		"Vernard" = /mob/living/carbon/human/species/wildshape/night_fox,
-		"Saiga" = /mob/living/carbon/human/species/wildshape/night_saiga,
-		"Cat" = /mob/living/carbon/human/species/wildshape/night_cat,
-		"Spider" = /mob/living/carbon/human/species/wildshape/night_spider,
-		"Direvolf" = /mob/living/carbon/human/species/wildshape/night_direvolf,
-		"Direbear" = /mob/living/carbon/human/species/wildshape/night_bear)
+		"Wolf" = /mob/living/carbon/human/species/wildshape/volf/accursed,
+		"Vernard" = /mob/living/carbon/human/species/wildshape/fox/accursed,
+		"Saiga" = /mob/living/carbon/human/species/wildshape/saiga/accursed,
+		"Cat" = /mob/living/carbon/human/species/wildshape/cat/accursed,
+		"Spider" = /mob/living/carbon/human/species/wildshape/spider/accursed,
+		"Direvolf" = /mob/living/carbon/human/species/wildshape/direvolf/accursed,
+		"Direbear" = /mob/living/carbon/human/species/wildshape/bear/accursed)
 
 	var/static/list/form_paths = list(
-		/mob/living/carbon/human/species/wildshape/night_volf,
-		/mob/living/carbon/human/species/wildshape/night_fox,
-		/mob/living/carbon/human/species/wildshape/night_saiga,
-		/mob/living/carbon/human/species/wildshape/night_cat,
-		/mob/living/carbon/human/species/wildshape/night_spider,
-		/mob/living/carbon/human/species/wildshape/night_direvolf,
-		/mob/living/carbon/human/species/wildshape/night_bear
+		/mob/living/carbon/human/species/wildshape/volf/accursed,
+		/mob/living/carbon/human/species/wildshape/fox/accursed,
+		/mob/living/carbon/human/species/wildshape/saiga/accursed,
+		/mob/living/carbon/human/species/wildshape/cat/accursed,
+		/mob/living/carbon/human/species/wildshape/spider/accursed,
+		/mob/living/carbon/human/species/wildshape/direvolf/accursed,
+		/mob/living/carbon/human/species/wildshape/bear/accursed
 	)
 
 /datum/component/night_form/Initialize(mapload)
