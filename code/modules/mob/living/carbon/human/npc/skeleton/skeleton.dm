@@ -9,7 +9,7 @@ GLOBAL_LIST_INIT(skeleton_aggro, list(
 	"*rage",
 )) //Single Words or noises, feral and empty of mind. Doesn't need a file.
 
-GLOBAL_LIST_INIT(smartskeleton_aggro, world.file2list("strings/rt/smartskeletonaggrolines.txt")) //smarter skeletons have more lines
+GLOBAL_LIST_INIT(smartskeleton_aggro, world.file2list("strings/rt/smartskeletonaggrolines.txt")) //smarter skeletons have more lines... They're still going feral though and visibly (audably?) show signs of it.
 
 /mob/living/carbon/human/species/skeleton
 	name = "skeleton"
@@ -98,13 +98,13 @@ GLOBAL_LIST_INIT(smartskeleton_aggro, world.file2list("strings/rt/smartskeletona
 
 // Casters - keep these in dungeons or contracts only, maybe something else down the line but definitely do not spam these.
 
-/mob/living/carbon/human/species/skeleton/npc/caster/after_creation()
-	..()
-	SEND_SIGNAL(src, COMSIG_MOB_MODIFY_AGGRO_LINES, GLOB.smartskeleton_aggro, TRUE)
-
 /mob/living/carbon/human/species/skeleton/npc/caster
 	threat_point = THREAT_DANGEROUS
 	npc_archetype = /datum/npc_archetype/skeleton/caster/mixed
+
+/mob/living/carbon/human/species/skeleton/npc/caster/after_creation()
+	..()
+	SEND_SIGNAL(src, COMSIG_MOB_MODIFY_AGGRO_LINES, GLOB.smartskeleton_aggro, TRUE)
 
 /mob/living/carbon/human/species/skeleton/npc/caster/pyromancer
 	npc_archetype = /datum/npc_archetype/skeleton/caster/pyromancer

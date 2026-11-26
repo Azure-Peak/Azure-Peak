@@ -614,8 +614,8 @@
 
 /datum/npc_loadout/kit/random_zizo_skele_belt
 	belt = list(
-		/obj/item/storage/belt/rogue/leather
-		/obj/item/storage/belt/rogue/leather/black
+		list(/obj/item/storage/belt/rogue/leather),
+		list(/obj/item/storage/belt/rogue/leather/black),
 	)
 
 //** WEAPONS **//
