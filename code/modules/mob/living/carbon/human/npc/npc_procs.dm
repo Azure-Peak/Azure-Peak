@@ -350,7 +350,7 @@ GLOBAL_LIST_INIT(zombie_aggro, list(
 	update_a_intents()
 
 	//join zombies/undead factions
-	faction = ("zombie", "undead")
+	faction = list("zombie","undead")
 
 	//Give ourselves the deadite voicepack
 	src.dna.species.soundpack_m = GLOB.voice_packs[/datum/voicepack/zombie/m]
