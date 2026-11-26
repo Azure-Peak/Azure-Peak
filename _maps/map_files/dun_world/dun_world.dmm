@@ -18872,10 +18872,6 @@
 "dlW" = (
 /turf/closed/wall/mineral/rogue/stone/moss,
 /area/rogue/indoors)
-"dlY" = (
-/obj/structure/roguemachine/stockpile,
-/turf/open/floor/rogue/wood,
-/area/rogue/indoors/town/shop)
 "dlZ" = (
 /turf/closed/wall/mineral/rogue/pipe/corners/four,
 /area/rogue/outdoors/mountains/decap/stepbelow)
@@ -304888,7 +304884,7 @@ fIQ
 ukL
 exD
 mPk
-dlY
+oti
 oti
 oti
 dyJ
