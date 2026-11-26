@@ -100,7 +100,7 @@
 				C.infected = TRUE
 				wake_zombie(C, infected_wake = TRUE, converted = FALSE)
 		//NPCs use a different logic which is handled in NPC procs
-		if(!C.mind && C.stat == DEAD) //firstly, are we an NPC? don't even bother w/ other checks if we are a player.
+		if(!C.mind && C.stat == DEAD && !tried_to_deadite_NPC) //firstly, are we an NPC? don't even bother w/ other checks if we are a player.
 			if(!HAS_TRAIT(C, TRAIT_DNR) && !HAS_TRAIT(C, TRAIT_DEADITE)) //DNRs and aleady deadites don't get reanimated, obviously.
 				if(has_world_trait(/datum/world_trait/zizo_defilement))
 					addtimer(CALLBACK(C, TYPE_PROC_REF(/mob/living/carbon/human, do_deadite_npc_reanimation)), 3 SECONDS) //always revives

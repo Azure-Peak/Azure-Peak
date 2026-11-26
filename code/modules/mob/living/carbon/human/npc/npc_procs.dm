@@ -292,12 +292,14 @@
 //Is this a bad place to put it. yes, but I want you know where these lines are called, so it goes above our make_deadite() Proc
 //Anything that isn't in zizocant (,w) is automatically translated to RGGGHH, UHHHH, GRRRGHH
 GLOBAL_LIST_INIT(zombie_aggro, list(
-	"I feel quite hungry!",
-	"I feel quite hungry!",
-	"I feel quite hungry!",
-	"I feel quite hungry!",
-	"I feel quite hungry!",
-	"I feel quite hungry!",
+	"I feel quite hungry.",
+	"I feel quite hungry.",
+	"I feel quite hungry.",
+	"I feel quite hungry.",
+	"I feel quite hungry.",
+	"I feel quite hungry.",
+	"I feel quite hungry.",
+	"I feel quite hungry.",
 	",w Kill...",
 	",w Consume...",
 	",w Cold...",
@@ -306,8 +308,11 @@ GLOBAL_LIST_INIT(zombie_aggro, list(
 	",w Flesh...",
 	",w Brains...",
 	",w Die...",
+	",w Flesh...",
+	",w Find...",
 	"*scream",
 	"*scream",
+	"*groan",
 	"*groan",
 	"*groan",
 	"*groan",
@@ -397,7 +402,7 @@ GLOBAL_LIST_INIT(zombie_aggro, list(
 	//deadite statline - intentionally uniform
 	src.STASTR = 13 //melee with unarmed only
 	src.STASPD = 5
-	src.STACON = 9 //tankier because we stupid af
+	src.STACON = 8 //we're gonna rise in droves, even with broken limbs and gear
 	src.STAWIL = 13
 	src.STAINT = 1 //on par w/ skeletons
 	src.STAPER = 12 //unlike a player we're not smart with where we aim
