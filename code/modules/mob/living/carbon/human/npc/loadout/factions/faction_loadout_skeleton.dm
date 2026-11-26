@@ -263,6 +263,8 @@
 		/datum/npc_loadout/weapon/lich_knight,
 	)
 
+//avantyne clad skeletons that will be used for adminbus + maybe a future dungeon, we'll see
+
 /datum/npc_archetype/skeleton/zizo
 	name = "Avantyne Skeleton Warrior"
 	statpack = /datum/npc_statpack/line/t3 //on par w/ dwarf skeletons

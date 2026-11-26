@@ -351,18 +351,23 @@ GLOBAL_LIST_INIT(skeleton_aggro, list(
 
 //*!*!* Avantyne clad skeletons and high-level gear we do NOT want in the hands of regular players below here *!*!*//
 
+/mob/living/carbon/human/species/skeleton/unstrippable_npc
+	ambush_faction = "undead"
+	ai_controller = /datum/ai_controller/human_npc/melee
+	skel_fragile = TRUE
+	blood_toll_bucket = STATS_KILLED_DEADITES
+	d_intent = INTENT_PARRY
+	ambushable = FALSE
+
 /mob/living/carbon/human/species/skeleton/unstrippable_npc/after_creation()
 	..()
-	ai_controller = /datum/ai_controller/human_npc
-	skel_fragile = TRUE
-
 	AddComponent(/datum/component/ai_aggro_system)
 
 	ADD_TRAIT(src, TRAIT_NPC_EXAMINE, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_DUSTABLE, TRAIT_GENERIC) //nessessary
 	ADD_TRAIT(src, TRAIT_DUST_DELETE_GEAR, TRAIT_GENERIC)
 
-	ADD_TRAIT(src, TRAIT_NOZIZORECRUIT, TRAIT_GENERIC) //Ask the Zizite cleric for a gravemark, sire.
+	ADD_TRAIT(src, TRAIT_NOZIZORECRUIT, TRAIT_GENERIC) //No cheesing these with tame undead
 
 	for(var/obj/item/equipped_item in get_equipped_items() + held_items)
 		equipped_item.AddComponent(/datum/component/item_on_drop/dust)
@@ -370,9 +375,9 @@ GLOBAL_LIST_INIT(skeleton_aggro, list(
 		ADD_TRAIT(held_item, TRAIT_NODROP, TRAIT_GENERIC)
 
 /mob/living/carbon/human/species/skeleton/unstrippable_npc/zizo
-	threat_point = THREAT_DANGEROUS_PLUS
+	threat_point = THREAT_DANGEROUS_PLUS //above hard
 	npc_archetype = /datum/npc_archetype/skeleton/zizo
 
 /mob/living/carbon/human/species/skeleton/unstrippable_npc/zizo_heavy
-	threat_point = THREAT_ELITE
+	threat_point = THREAT_ELITE //above the prior b.c fullplate
 	npc_archetype = /datum/npc_archetype/skeleton/zizo_heavy
