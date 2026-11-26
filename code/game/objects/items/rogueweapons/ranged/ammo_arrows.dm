@@ -374,7 +374,7 @@
 /obj/item/ammo_casing/caseless/rogue/arrow/rope
 	name = "rope arrow"
 	desc = "An arrow attached to a length of rope, made to leave a climbing line when fired upward."
-	projectile_type = /obj/projectile/bullet/reusable/arrow/rope
+	projectile_type = /obj/projectile/bullet/arrow/rope
 
 /obj/projectile/bullet/arrow/rope
 	name = "rope arrow"
@@ -393,7 +393,7 @@
 	if(!below_turf || locate(/obj/structure/rope_ladder) in below_turf)
 		return
 	var/obj/structure/rope_ladder/rope = new(below_turf)
-	rope.climb_target = source_projection
+	rope.climb_target = hit_turf
 
 /obj/item/ammo_casing/caseless/rogue/arrow/water
 	name = "water arrow"

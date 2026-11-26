@@ -349,6 +349,7 @@ GLOBAL_DATUM_INIT(openspace_backdrop_one_for_all, /atom/movable/openspace_backdr
 				to_chat(living_user, span_warning("There's nowhere to tie the rope here."))
 				return
 			var/obj/structure/rope_ladder/rope = new(target)
+			rope.climb_target = get_turf(living_user)
 			if(living_user.wallpressed)
 				rope.dir = living_user.dir
 			else
