@@ -1,0 +1,4 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - rscadd: "You can only take one notorious at a time and if you somehow get two, you should no longer get trapped in between them."
