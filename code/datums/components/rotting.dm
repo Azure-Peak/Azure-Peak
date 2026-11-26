@@ -97,6 +97,8 @@
 			if(Z && !Z.has_turned && !Z.revived && C.stat == DEAD)
 				C.infected = TRUE
 				wake_zombie(C, infected_wake = TRUE, converted = FALSE)
+		if(!mind && !HAS_TRAIT(src, TRAIT_ZOMBIE_IMMUNE))
+			reanimate_npc_deadite()
 
 	var/findonerotten = FALSE
 	var/shouldupdate = FALSE

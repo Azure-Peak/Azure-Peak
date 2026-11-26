@@ -295,6 +295,9 @@ GLOBAL_LIST_INIT(zombie_aggro, list(
 	"I feel quite hungry!",
 	"I feel quite hungry!",
 	"I feel quite hungry!",
+	"I feel quite hungry!",
+	"I feel quite hungry!",
+	"I feel quite hungry!",
 	",w Kill...",
 	",w Consume...",
 	",w Cold...",
@@ -347,10 +350,7 @@ GLOBAL_LIST_INIT(zombie_aggro, list(
 	update_a_intents()
 
 	//join zombies/undead factions
-	faction += "zombie"
-	faction += "undead"
-	faction -= "neutral"
-	faction -= "station"
+	faction = ("zombie", "undead")
 
 	//Give ourselves the deadite voicepack
 	src.dna.species.soundpack_m = GLOB.voice_packs[/datum/voicepack/zombie/m]
@@ -395,12 +395,12 @@ GLOBAL_LIST_INIT(zombie_aggro, list(
 	ADD_TRAIT(src, TRAIT_INFINITE_STAMINA, TRAIT_GENERIC) //Nessessary hack because the AI loves to exhaust itself disturbingly fast w/unarmed
 
 	//deadite statline - intentionally uniform
-	src.STASTR = 14
+	src.STASTR = 13 //melee with unarmed only
 	src.STASPD = 5
-	src.STACON = 9 //3 less than players
+	src.STACON = 9 //tankier because we stupid af
 	src.STAWIL = 13
-	src.STAINT = 1
-	src.STAPER = 12 //1 less than players
+	src.STAINT = 1 //on par w/ skeletons
+	src.STAPER = 12 //unlike a player we're not smart with where we aim
 
 	//Give the body deadite AI - Override the AI too.
 	QDEL_NULL(ai_controller) //upgrade_ai_controller would keep subtypes like archer
@@ -410,4 +410,63 @@ GLOBAL_LIST_INIT(zombie_aggro, list(
 
 	//lastly, nessessity for ALL NPCs -> our examine trait
 	ADD_TRAIT(src, TRAIT_NPC_EXAMINE, TRAIT_GENERIC)
-	SEND_SIGNAL(src, COMSIG_MOB_MODIFY_AGGRO_LINES, GLOB.skeleton_aggro, TRUE)
+	SEND_SIGNAL(src, COMSIG_MOB_MODIFY_AGGRO_LINES, GLOB.zombie_aggro, TRUE)
+
+/mob/living/carbon/human/proc/reanimate_npc_deadite()
+	var/mob/living/carbon/human/zombie = src
+	var/obj/item/bodypart/head = zombie.get_bodypart(BODY_ZONE_HEAD)
+	if(!head || HAS_TRAIT(zombie, TRAIT_DNR) || HAS_TRAIT(zombie, TRAIT_DEADITE))
+		return
+	if(istype(zombie.loc, /obj/structure/closet/dirthole) || istype(zombie.loc, /obj/structure/closet/crate/coffin))
+		return
+
+	make_deadite() //now we zombify
+
+	zombie.blood_volume = BLOOD_VOLUME_NORMAL
+	zombie.setOxyLoss(0, updating_health = FALSE, forced = TRUE)
+	zombie.setToxLoss(0, updating_health = FALSE, forced = TRUE)
+
+	zombie.adjustBruteLoss(-INFINITY, updating_health = FALSE, forced = TRUE)
+	zombie.adjustFireLoss(-INFINITY, updating_health = FALSE, forced = TRUE)
+	zombie.heal_wounds(INFINITY)
+	zombie.stat = UNCONSCIOUS
+	zombie.updatehealth()
+	zombie.update_mobility()
+	zombie.handle_blood()
+	zombie.refresh_blood_debuffs()
+
+	var/static/list/removed_slots = list(
+		SLOT_MOUTH,
+	)
+	for(var/slot in removed_slots)
+		zombie.dropItemToGround(zombie.get_item_by_slot(slot), TRUE)
+	//spit out any cloth, don't bother trying this dumbass
+
+	//now we're good to do the funny brains thing
+
+	record_round_statistic(STATS_DEADITES_WOKEN_UP) //Turning into a deadite in-general raises this now. ZIZO. ZIZO. ZIZO.
+
+	//small cutscene now we are a zombie, phew! lets make it a little dramatic. This can probably be done in a far better way but whatever.
+	sleep(0.1) //Quickly make sure we already cleared our stuns and stuff before applying more, we want to be lightning quick.
+	zombie.Knockdown(33)
+	zombie.Immobilize(33) //Don't want to move during this
+	zombie.Stun(33)
+	zombie.Jitter(15) //Convulse a bit.
+	zombie.emote("idle") // First audio warning to nearby players on top of the above message
+	zombie.drop_all_held_items()
+	zombie.Unconscious(15) //Brief Knockout
+	zombie.flash_fullscreen("redflash3")
+	zombie.visible_message(span_warning("[zombie] convulses on the floor momentarily, skin rotting away unnaturally fast..."))
+	sleep(2 SECONDS) //Second message, another small gap to notice something is very fucking wrong if the previous que wasn't enough.
+	zombie.visible_message(span_warning("[zombie]'s lyfeless eyes begin to light up anew with an eerie glow."))
+	zombie.vomit(1, blood = TRUE, stun = FALSE)
+	playsound(get_turf(zombie), 'sound/magic/woundheal_crunch.ogg', 80, FALSE, -1) //Horrible noises
+	sleep(2 SECONDS) //now get them up to go fight and die
+	if(zombie.resting)
+		zombie.set_resting(FALSE, FALSE) //GET UP, KILL, CONSUME.
+	zombie.visible_message(span_danger("[zombie] [pick("stands back up!","shambles upright!","lumbers to [zombie.p_their()] feet!","rises from [zombie.p_their()] shallow grave!","snaps to [zombie.p_their()] feet!","reanimates onto [zombie.p_their()] feet!")]")) //On par with deadite animals reanimating.
+	zombie.emote("rage") // This is where the fun begins
+	playsound(get_turf(zombie), 'sound/magic/woundheal_crunch.ogg', 80, FALSE, -1) //More horrible noises
+	zombie.set_blurriness(0) //Unblind us so we aren't blurred forever
+	if(!zombie.cmode)	//Turns on combat mode if its not on, so you're immedately ready to do your thing
+		zombie.toggle_cmode()
