@@ -101,16 +101,13 @@
 	if(!src || stat >= DEAD)
 		return FALSE
 
-	if(!can_bite()) //if we can't bite, we can't bite.
-		return FALSE
-
 	var/obj/item/grabbing/bite/bite = get_item_by_slot(SLOT_MOUTH)
 	if(istype(bite))
 		var/prone_player = victim?.mind && !(victim.mobility_flags & MOBILITY_STAND)
 		if(prone_player && bite.grabbed != victim)
 			qdel(bite) // let go of whoever else we have and go for them
-		// 50% chance to continue biting if already started, unless they're down
-		else if(prone_player || prob(50))
+		// 30% chance to continue biting if already started, unless they're down
+		else if(prone_player || prob(30))
 			bite.bitelimb(src)
 			return TRUE
 		else
@@ -125,6 +122,16 @@
 			victim = human
 
 	if(!victim) // still no one to bite
+		return FALSE
+
+	if(!can_bite()) //if we can't bite, we can't bite.
+		return FALSE
+
+	if(!get_location_accessible(src, BODY_ZONE_PRECISE_MOUTH, grabs="other"))
+		if(!HAS_TRAIT(src, TRAIT_BITERHELM)) //if we can't bite, we can't bite.
+			return FALSE
+
+	if(HAS_TRAIT(src, TRAIT_NO_BITE)) //if we CAN'T bite, we CAN'T bite.
 		return FALSE
 
 	victim.onbite(src)

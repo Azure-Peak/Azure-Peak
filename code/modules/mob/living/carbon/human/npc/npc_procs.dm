@@ -309,7 +309,6 @@ GLOBAL_LIST_INIT(zombie_aggro, list(
 	",w Brains...",
 	",w Die...",
 	",w Flesh...",
-	",w Find...",
 	",w Hungry...",
 	"*scream",
 	"*scream",
@@ -405,7 +404,7 @@ GLOBAL_LIST_INIT(zombie_aggro, list(
 	//deadite statline - intentionally uniform
 	src.STASTR = 13 //melee with unarmed only
 	src.STASPD = 5 //we're slow, but we can still jump you with strong bite and claw attacks
-	src.STACON = 8 //we're pretty common and not always a trash mob, even with broken limbs and gear
+	src.STACON = 7 //we're pretty common and not always a trash mob, even with broken limbs and gear + regenerate our injuries
 	src.STAWIL = 13
 	src.STAINT = 1
 	src.STAPER = 12
