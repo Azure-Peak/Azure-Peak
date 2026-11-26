@@ -399,15 +399,15 @@ GLOBAL_LIST_INIT(zombie_aggro, list(
 
 	ADD_TRAIT(src, TRAIT_INFINITE_STAMINA, TRAIT_GENERIC) //Nessessary hack because the AI loves to exhaust itself disturbingly fast w/unarmed
 	if(HAS_TRAIT(src, TRAIT_CRITICAL_RESISTANCE))
-		REMOVE_TRAIT(src, TRAIT_CRITICAL_RESISTANCE) //Prevents Psytomb being insanely fucked when the monks reanimate from death.
+		REMOVE_TRAIT(src, TRAIT_CRITICAL_RESISTANCE, TRAIT_GENERIC) //Prevents Psytomb being insanely fucked when the monks reanimate from death.
 
 	//deadite statline - intentionally uniform
 	src.STASTR = 13 //melee with unarmed only
 	src.STASPD = 5
 	src.STACON = 8 //we're gonna rise in droves, even with broken limbs and gear
-	src.STAWIL = 13
+	src.STAWIL = 6 //sunders knock us down to pain reilably
 	src.STAINT = 1 //on par w/ skeletons
-	src.STAPER = 12 //unlike a player we're not smart with where we aim
+	src.STAPER = 12 //unlike a player we're not smart with where we aim + unarmed penalties so we can cheat a bit
 
 	//Give the body deadite AI - Override the AI too.
 	QDEL_NULL(ai_controller) //upgrade_ai_controller would keep subtypes like archer
@@ -456,7 +456,6 @@ GLOBAL_LIST_INIT(zombie_aggro, list(
 	zombie.emote("idle") // First audio warning to nearby players on top of the above message
 	zombie.drop_all_held_items()
 	zombie.Unconscious(15) //Brief Knockout
-	zombie.flash_fullscreen("redflash3")
 	zombie.visible_message(span_warning("[zombie] convulses on the floor momentarily, skin rotting away unnaturally fast..."))
 	sleep(2 SECONDS) //Second message, another small gap to notice something is very fucking wrong if the previous que wasn't enough.
 	zombie.visible_message(span_warning("[zombie]'s lyfeless eyes begin to light up anew with an eerie glow."))
@@ -468,9 +467,6 @@ GLOBAL_LIST_INIT(zombie_aggro, list(
 	zombie.visible_message(span_danger("[zombie] [pick("stands back up!","shambles upright!","lumbers to [zombie.p_their()] feet!","rises from [zombie.p_their()] shallow grave!","snaps to [zombie.p_their()] feet!","reanimates onto [zombie.p_their()] feet!")]")) //On par with deadite animals reanimating.
 	zombie.emote("rage") // This is where the fun begins
 	playsound(get_turf(zombie), 'sound/magic/woundheal_crunch.ogg', 80, FALSE, -1) //More horrible noises
-	zombie.set_blurriness(0) //Unblind us so we aren't blurred forever
-	if(!zombie.cmode)	//Turns on combat mode if its not on, so you're immedately ready to do your thing
-		zombie.toggle_cmode()
 
 	if(QDELETED(zombie) || QDELETED(zombie) || zombie.stat != DEAD)
 		return
