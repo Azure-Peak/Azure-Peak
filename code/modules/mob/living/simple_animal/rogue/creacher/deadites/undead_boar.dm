@@ -64,6 +64,7 @@
 		TRAIT_DEATHLESS,
 		TRAIT_BLOOD_RESISTANCE,
 		TRAIT_BADTRAINER,
+		TRAIT_ZOMBIE_IMMUNE, //it would be fucked up if this NPC could deadite twice lmao.
 	)
 	no_equip = list(SLOT_SHIRT, SLOT_HEAD, SLOT_ARMOR, SLOT_WEAR_MASK, SLOT_GLOVES, SLOT_SHOES, SLOT_PANTS, SLOT_CLOAK, SLOT_BELT)
 	nojumpsuit = TRUE

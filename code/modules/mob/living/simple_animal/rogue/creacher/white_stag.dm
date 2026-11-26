@@ -18,6 +18,7 @@
 		TRAIT_NOBREATH,
 		TRAIT_DEATHLESS,
 		TRAIT_BLOOD_RESISTANCE,
+		TRAIT_ZOMBIE_IMMUNE,
 		// We do not need people farming this for master skills
 		TRAIT_BADTRAINER,
 	)
