@@ -398,8 +398,9 @@ SUBSYSTEM_DEF(questpool)
 		return null
 	if(B.has_active_scroll())
 		return null
+	var/datum/economic_region/ER = B.get_region()
 	var/datum/threat_region/TR = B.get_threat_region()
-	if(!TR)
+	if(!ER || !TR)
 		return null
 	var/datum/quest/kill/blockade_defense/Q = create_issued_quest(QUEST_BLOCKADE_DEFENSE, QUEST_SOURCE_BLOCKADE, steward)
 	if(!Q)
@@ -412,7 +413,7 @@ SUBSYSTEM_DEF(questpool)
 	B.active_scroll_ref = WEAKREF(scroll)
 	B.active_quest_ref = WEAKREF(Q)
 	record_issued(Q)
-	log_event("generate", "blockade-defense in-hand for [B.get_name()] (faction [Q.faction_id], reward [Q.reward_amount])")
+	log_event("generate", "blockade-defense in-hand for [ER.name] (faction [Q.faction_id], reward [Q.reward_amount])")
 	return Q
 
 /// Hoard Recovery: a writ against a region's brigands to reclaim the banditry hoard.

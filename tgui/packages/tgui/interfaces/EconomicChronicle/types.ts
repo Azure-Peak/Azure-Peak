@@ -53,6 +53,7 @@ export type TreasurySnapshot = {
   royal: RoyalSnapshot;
   exempt: ExemptSnapshot;
   fines_income: number;
+  stockpile_exports: number;
   stockpile_revenue: number;
   stockpile_direct_imports: number;
   standing: StandingSnapshot;
@@ -70,6 +71,7 @@ export type TreasurySnapshot = {
   other_income: number;
   unattributed_expenses: number;
   net_treasury: number;
+  trade_balance: number;
   foreign_trade_volume: number;
   effective_tax_rate: number | null;
   exemption_share: number | null;

@@ -135,7 +135,7 @@ GLOBAL_LIST_EMPTY(escrow_machines)
 		/obj/item/roguegear,
 	)
 	var/list/excluded_materials = list(
-		/obj/item/ingot/aalloy,
+		/obj/item/ingot/decrepit,
 		/obj/item/ingot/drow,
 	)
 	var/list/excluded_material_parents = list()
@@ -146,7 +146,7 @@ GLOBAL_LIST_EMPTY(escrow_machines)
 		/obj/item/ingot/silverblessed/bullion,
 		/obj/item/ingot/steelholy,
 		/obj/item/ingot/lithmyc,
-		/obj/item/ingot/purifiedaalloy,
+		/obj/item/ingot/ancient,
 	)
 	var/list/disabled_materials = list()
 	var/list/allowed_categories = list(
@@ -962,7 +962,7 @@ GLOBAL_LIST_EMPTY(escrow_machines)
 		return
 	var/total = manifest_total(user)
 	if(account.balance < total)
-		to_chat(user, span_warning("Not enough balance. You need [total]m and have [format_mammon(account.balance)]m."))
+		to_chat(user, span_warning("Not enough balance. You need [total]m and have [account.balance]m."))
 		return
 	var/datum/escrow_order/O = new()
 	O.commissioner_name = key

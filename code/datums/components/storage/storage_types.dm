@@ -107,6 +107,11 @@
 /datum/component/storage/concrete/roguetown/cloak/lord
 	max_w_class = WEIGHT_CLASS_BULKY
 
+/datum/component/storage/concrete/roguetown/mailmaster
+	max_w_class = WEIGHT_CLASS_HUGE
+	screen_max_rows = 10
+	screen_max_columns = 10
+
 /datum/component/storage/concrete/roguetown/bin
 	max_w_class = WEIGHT_CLASS_HUGE
 	screen_max_rows = 8

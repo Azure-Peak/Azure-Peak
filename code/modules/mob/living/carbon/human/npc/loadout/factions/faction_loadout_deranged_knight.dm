@@ -280,9 +280,9 @@
 	)
 	id = list(
 		/obj/item/clothing/neck/roguetown/psicross/inhumen = 25,
-		/obj/item/clothing/neck/roguetown/psicross/inhumen/aalloy = 25,
+		/obj/item/clothing/neck/roguetown/psicross/inhumen/ancient/decrepit = 25,
 		/obj/item/clothing/neck/roguetown/psicross/inhumen/g = 1,
-		/obj/item/clothing/neck/roguetown/psicross/inhumen/paalloy = 10,
+		/obj/item/clothing/neck/roguetown/psicross/inhumen/ancient = 10,
 		/obj/item/clothing/neck/roguetown/psicross/inhumen/bronze = 15,
 	)
 	belt = list(
@@ -353,16 +353,16 @@
 		list(/obj/item/rogueweapon/halberd/blacksteel), //BUT I'M NOT DONE YET
 		list(/obj/item/rogueweapon/eaglebeak/blacksteel),
 		list(/obj/item/rogueweapon/greataxe/blacksteel),
-		list(/obj/item/rogueweapon/mace/blacksteel, /obj/item/rogueweapon/shield/tower/metal/blacksteel, 50), //50% of two-handed
-		list(/obj/item/rogueweapon/sword/long/blacksteel, /obj/item/rogueweapon/shield/tower/metal/blacksteel, 50), //50% of two-handed
-		list(/obj/item/rogueweapon/sword/blacksteel, /obj/item/rogueweapon/shield/tower/metal/blacksteel, 100),
-		list(/obj/item/rogueweapon/mace/warhammer/blacksteel, /obj/item/rogueweapon/shield/tower/metal/blacksteel, 100),
+		list(/obj/item/rogueweapon/mace/blacksteel, /obj/item/rogueweapon/shield/kite/blacksteel, 50), //50% of two-handed
+		list(/obj/item/rogueweapon/sword/long/blacksteel, /obj/item/rogueweapon/shield/kite/blacksteel, 50), //50% of two-handed
+		list(/obj/item/rogueweapon/sword/blacksteel, /obj/item/rogueweapon/shield/kite/blacksteel, 100),
+		list(/obj/item/rogueweapon/mace/warhammer/blacksteel, /obj/item/rogueweapon/shield/kite/blacksteel, 100),
 	)
 
 /// Zizo Sets
 /datum/npc_loadout/weapon/zizo
 	weapons = list(
-		list(/obj/item/rogueweapon/sword/zizo, /obj/item/rogueweapon/shield/tower/metal/zizo, 100),
+		list(/obj/item/rogueweapon/sword/zizo, /obj/item/rogueweapon/shield/kite/zizo, 100),
 	)
 
 /datum/npc_loadout/weapon/zizo_heavy
@@ -384,7 +384,7 @@
 /// Matthios Sets
 /datum/npc_loadout/weapon/matthios_heavy
 	weapons = list(
-		list(/obj/item/rogueweapon/flail/peasantwarflail/matthios),
+		list(/obj/item/rogueweapon/flail/great/matthios),
 	)
 
 /// Baotha Sets

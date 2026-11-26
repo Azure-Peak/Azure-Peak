@@ -2,13 +2,13 @@
 //Javelins - Basically spears, but to get them working as proper javelins and able to fit in a bag, they are 'ammo'. (Maybe make an atlatl later?)
 //Only ammo casing, no 'projectiles'. You throw the casing, as weird as it is.
 /obj/item/ammo_casing/caseless/rogue/javelin
+	name = "iron javelin"
+	desc = "A tool used for centuries, as early as recorded history. This one is tipped with a iron head; standard among militiamen and irregulars alike."
+	icon_state = "ijavelin"
 	force = 14
 	throw_speed = 4
 	ammo_weight = 5 // Javelins are bulky — 5 weight each in a javelinbag
 	flags_ai_inventory = AI_ITEM_THROWING
-	name = "iron javelin"
-	desc = "A tool used for centuries, as early as recorded history. This one is tipped with a iron head; standard among militiamen and irregulars alike."
-	icon_state = "ijavelin"
 	wlength = WLENGTH_NORMAL
 	w_class = WEIGHT_CLASS_BULKY
 	armor_penetration = PEN_MEDIUM			//Redfined because.. it's not a weapon, it's an 'arrow' basically.
@@ -34,7 +34,7 @@
 			if("onbelt")
 				return list("shrink" = 0.3,"sx" = -2,"sy" = -5,"nx" = 4,"ny" = -5,"wx" = 0,"wy" = -5,"ex" = 2,"ey" = -5,"nturn" = 0,"sturn" = 0,"wturn" = 0,"eturn" = 0,"nflip" = 0,"sflip" = 0,"wflip" = 0,"eflip" = 0,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0)
 
-/obj/item/ammo_casing/caseless/rogue/javelin/aalloy
+/obj/item/ammo_casing/caseless/rogue/javelin/ancient/decrepit
 	name = "decrepit javelin"
 	desc = "A missile of rotted metal. Before you is your weapon; that which rose Man out of the mud, and brought the Beasts of Old Syon to heel. When were you last aware of any other part of you? Do you recall seeing the world in any other way?"
 	icon_state = "ajavelin"
@@ -57,22 +57,29 @@
 	smeltresult = null // 1 Ingot = 2 Javelins
 
 /obj/item/ammo_casing/caseless/rogue/javelin/steel
-	force = 16
-	armor_penetration = PEN_HEAVY
 	name = "steel javelin"
 	desc = "A tool used for centuries, as early as recorded history. This one is tipped with a steel head; perfect for piercing armor!"
 	icon_state = "javelin"
+	force = 16
+	armor_penetration = PEN_HEAVY
 	max_integrity = 100						//In-line with other stabbing weapons.
 	throwforce = 28							//Equal to steel knife BUT this has peircing damage type so..
 	thrown_bclass = BCLASS_PICK				//Bypasses crit protection better than stabbing. Makes it better against heavy-targets.
 	embedding = list("embedded_pain_multiplier" = 4, "embed_chance" = 45, "embedded_fall_chance" = 10) //Better than steel throwing knife by 10%
 	smeltresult = null // 1 Ingot = 2 Javelins
 
-/obj/item/ammo_casing/caseless/rogue/javelin/steel/paalloy
+/obj/item/ammo_casing/caseless/rogue/javelin/ancient
 	name = "ancient javelin"
 	desc = "A missile of polished gilbranze. Old Syon had drowned beneath His tears, and Her ascension had brought forth this world's end - so that You, with the killing blow, could become God."
 	icon_state = "ajavelin"
 	smeltresult = null // 1 Ingots = 2 Javelins
+	force = 16
+	armor_penetration = PEN_HEAVY
+	max_integrity = 100						//In-line with other stabbing weapons.
+	throwforce = 28							//Equal to steel knife BUT this has peircing damage type so..
+	thrown_bclass = BCLASS_PICK				//Bypasses crit protection better than stabbing. Makes it better against heavy-targets.
+	embedding = list("embedded_pain_multiplier" = 4, "embed_chance" = 45, "embedded_fall_chance" = 10) //Better than steel throwing knife by 10%
+	smeltresult = null // 1 Ingot = 2 Javelins
 
 /obj/item/ammo_casing/caseless/rogue/javelin/silver
 	name = "silver javelin"

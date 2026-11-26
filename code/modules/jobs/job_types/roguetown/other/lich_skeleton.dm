@@ -57,21 +57,21 @@ LICH SKELETONS
 	H.adjust_skillrank(/datum/skill/craft/crafting, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/craft/sewing, 2, TRUE)
 
-	head = /obj/item/clothing/head/roguetown/helmet/heavy/paalloy
-	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/paalloy
-	pants = /obj/item/clothing/under/roguetown/chainlegs/kilt/paalloy
+	head = /obj/item/clothing/head/roguetown/helmet/heavy/ancient
+	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/ancient
+	pants = /obj/item/clothing/under/roguetown/chainlegs/kilt/ancient
 	armor = /obj/item/clothing/suit/roguetown/armor/leather/studded
-	wrists = /obj/item/clothing/wrists/roguetown/bracers/paalloy
-	neck = /obj/item/clothing/neck/roguetown/chaincoif/paalloy
-	shoes = /obj/item/clothing/shoes/roguetown/sandals/paalloy
-	gloves = /obj/item/clothing/gloves/roguetown/chain/paalloy
+	wrists = /obj/item/clothing/wrists/roguetown/bracers/ancient
+	neck = /obj/item/clothing/neck/roguetown/chaincoif/ancient
+	shoes = /obj/item/clothing/shoes/roguetown/sandals/ancient
+	gloves = /obj/item/clothing/gloves/roguetown/chain/ancient
 	belt = /obj/item/storage/belt/rogue/leather/black
 
 	backl = /obj/item/storage/backpack/rogue/satchel
 
 	backpack_contents = list(
 		/obj/item/natural/feather = 1, //For your helm
-		/obj/item/storage/belt/rogue/pouch/coins/aalloy = 1 //Hilarious
+		/obj/item/storage/belt/rogue/pouch/coins/psila = 1 //Hilarious
 	)
 
 	H.adjust_blindness(-3)
@@ -80,37 +80,37 @@ LICH SKELETONS
 	H.set_blindness(0)
 	switch(weapon_choice)
 		if("Gladius")
-			beltr = /obj/item/rogueweapon/sword/short/gladius/pagladius
+			beltr = /obj/item/rogueweapon/sword/short/gladius/ancient
 			H.adjust_skillrank(/datum/skill/combat/swords, 1, TRUE)
 		if("Khopesh")
-			beltr = /obj/item/rogueweapon/sword/sabre/palloy
+			beltr = /obj/item/rogueweapon/sword/sabre/ancient
 			H.adjust_skillrank(/datum/skill/combat/swords, 1, TRUE)
 		if("Shortsword")
-			beltr = /obj/item/rogueweapon/sword/short/pashortsword
+			beltr = /obj/item/rogueweapon/sword/short/ancient
 			H.adjust_skillrank(/datum/skill/combat/swords, 1, TRUE)
 		if("Axe")
-			beltr = /obj/item/rogueweapon/stoneaxe/woodcut/steel/paaxe
+			beltr = /obj/item/rogueweapon/stoneaxe/woodcut/ancient
 			H.adjust_skillrank(/datum/skill/combat/axes, 1, TRUE)
 		if("Flail")
-			beltr = /obj/item/rogueweapon/flail/sflail/paflail
+			beltr = /obj/item/rogueweapon/flail/ancient
 			H.adjust_skillrank(/datum/skill/combat/whipsflails, 1, TRUE)
 	var/legionnairesidearm = list("A Javelin's Bag + Ancient Shield", "A Throwing Net + Ancient Shield", "A Sling With Decrepit Pellets + Wooden Shield", "An Ancient Dagger + Ancient Shield")
 	var/legionnairesidearm_choice = input(H, "Choose your SYDEARM.", "RAGE AGAINST THE LYVING.") as anything in legionnairesidearm
 	switch(legionnairesidearm_choice)
 		if("A Javelin's Bag + Ancient Shield")
-			beltl = /obj/item/quiver/javelin/paalloy
-			backr = /obj/item/rogueweapon/shield/bronze/paalloy
+			beltl = /obj/item/quiver/javelin/ancient
+			backr = /obj/item/rogueweapon/shield/bronze/ancient
 		if("A Throwing Net + Ancient Shield")
 			beltl = /obj/item/net
-			backr = /obj/item/rogueweapon/shield/bronze/paalloy
+			backr = /obj/item/rogueweapon/shield/bronze/ancient
 		if("A Sling With Decrepit Pellets + Wooden Shield")
 			H.adjust_skillrank_up_to(/datum/skill/combat/slings, 2, TRUE) //Only apprentice, enough to be annoying
 			l_hand = /obj/item/gun/ballistic/revolver/grenadelauncher/sling
-			beltl = /obj/item/quiver/sling/aalloy //Decrepit vs ballistaires, weak but good for harrassment
+			beltl = /obj/item/quiver/sling/decrepit //Decrepit vs ballistaires, weak but good for harrassment
 			backr = /obj/item/rogueweapon/shield/wood //Weaker, go ballistaire for a good shield w/this
 		if("An Ancient Dagger + Ancient Shield")
-			beltl = /obj/item/rogueweapon/huntingknife/idagger/steel/padagger
-			backr = /obj/item/rogueweapon/shield/bronze/paalloy
+			beltl = /obj/item/rogueweapon/huntingknife/idagger/ancient
+			backr = /obj/item/rogueweapon/shield/bronze/ancient
 	var/tabards = list("Black Jupon", "Black Tabard", "Black Cloak + Greathood", "Black Toga")
 	var/tabard_choice = input(H, "Choose your CLOAK.", "BEAR YOUR MASTER'S HERALDRY.") as anything in tabards
 	switch(tabard_choice)
@@ -162,14 +162,14 @@ LICH SKELETONS
 	H.adjust_skillrank(/datum/skill/craft/crafting, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/craft/sewing, 2, TRUE)
 
-	head = /obj/item/clothing/head/roguetown/helmet/kettle/paalloy
-	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/paalloy
-	pants = /obj/item/clothing/under/roguetown/chainlegs/kilt/paalloy
+	head = /obj/item/clothing/head/roguetown/helmet/kettle/ancient
+	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/ancient
+	pants = /obj/item/clothing/under/roguetown/chainlegs/kilt/ancient
 	armor = /obj/item/clothing/suit/roguetown/armor/leather/studded
-	wrists = /obj/item/clothing/wrists/roguetown/bracers/paalloy
-	neck = /obj/item/clothing/neck/roguetown/chaincoif/paalloy
-	shoes = /obj/item/clothing/shoes/roguetown/sandals/paalloy
-	beltr = /obj/item/rogueweapon/huntingknife/idagger/steel/padagger
+	wrists = /obj/item/clothing/wrists/roguetown/bracers/ancient
+	neck = /obj/item/clothing/neck/roguetown/chaincoif/ancient
+	shoes = /obj/item/clothing/shoes/roguetown/sandals/ancient
+	beltr = /obj/item/rogueweapon/huntingknife/idagger/ancient
 	gloves = /obj/item/clothing/gloves/roguetown/angle
 	belt = /obj/item/storage/belt/rogue/leather/black
 
@@ -177,7 +177,7 @@ LICH SKELETONS
 
 	backpack_contents = list(
 		/obj/item/natural/cloth = 1, //For your helm
-		/obj/item/storage/belt/rogue/pouch/coins/aalloy = 1 //Hilarious
+		/obj/item/storage/belt/rogue/pouch/coins/psila = 1 //Hilarious
 	)
 	H.adjust_blindness(-3)
 	var/weapons = list("Bow & 24 Arrows", "Bow & 24 Broadheads", "Longbow & 24 Arrows", "Longbow & 24 Broadheads", "Crossbow & 16 Bolts", "Sling + Ancient Shield")
@@ -186,30 +186,30 @@ LICH SKELETONS
 	switch(weapon_choice)
 		if("Bow & 24 Arrows")
 			l_hand = /obj/item/gun/ballistic/revolver/grenadelauncher/bow
-			beltl = /obj/item/quiver/paalloy
+			beltl = /obj/item/quiver/ancient
 			H.adjust_skillrank(/datum/skill/combat/bows, 1, TRUE)
 		if("Bow & 24 Broadheads")
 			l_hand = /obj/item/gun/ballistic/revolver/grenadelauncher/bow
-			beltl = /obj/item/quiver/broadhead_aalloy
+			beltl = /obj/item/quiver/decrepit
 			H.adjust_skillrank(/datum/skill/combat/bows, 1, TRUE)
 		if("Longbow & 24 Arrows")
 			l_hand = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/longbow
-			beltl = /obj/item/quiver/paalloy
+			beltl = /obj/item/quiver/ancient
 			H.adjust_skillrank(/datum/skill/combat/bows, 1, TRUE)
 		if("Longbow & 24 Broadheads")
 			l_hand = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/longbow
-			beltl = /obj/item/quiver/broadhead_aalloy
+			beltl = /obj/item/quiver/decrepit
 			H.adjust_skillrank(/datum/skill/combat/bows, 1, TRUE)
 		if("Crossbow & 16 Bolts")
-			l_hand = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow/aalloy
-			beltl = /obj/item/quiver/bolt/paalloy
+			l_hand = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow/ancient
+			beltl = /obj/item/quiver/bolt/ancient
 			H.adjust_skillrank(/datum/skill/combat/crossbows, 1, TRUE)
 		if("Sling + Ancient Shield")
 			l_hand = /obj/item/gun/ballistic/revolver/grenadelauncher/sling
-			beltl = /obj/item/quiver/sling/paalloy
+			beltl = /obj/item/quiver/sling/ancient
 			H.adjust_skillrank(/datum/skill/combat/slings, 1, TRUE)
 			H.adjust_skillrank(/datum/skill/combat/shields, 2, TRUE) //Not enough to do shield specials w/knifepick or stabs, go legionnaire for that.
-			backr = /obj/item/rogueweapon/shield/bronze/paalloy // the midground for less damage output w/more defensive value vs ranged in turn. Yes you can use the sling with it.
+			backr = /obj/item/rogueweapon/shield/bronze/ancient // the midground for less damage output w/more defensive value vs ranged in turn. Yes you can use the sling with it.
 	var/tabards = list("Black Cloak + Greathood", "Black Jupon", "Black Tabard", "Black Toga")
 	var/tabard_choice = input(H, "Choose your CLOAK.", "BEAR YOUR MASTER'S HERALDRY.") as anything in tabards
 	switch(tabard_choice)
@@ -262,20 +262,20 @@ LICH SKELETONS
 	H.adjust_skillrank(/datum/skill/craft/crafting, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/craft/sewing, 2, TRUE)
 
-	head = /obj/item/clothing/head/roguetown/helmet/heavy/guard/paalloy
-	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/paalloy
-	pants = /obj/item/clothing/under/roguetown/chainlegs/kilt/paalloy //Intended as non-plate, stands out from knights this way.
-	armor = /obj/item/clothing/suit/roguetown/armor/plate/cuirass/paalloy
-	neck = /obj/item/clothing/neck/roguetown/gorget/paalloy
-	shoes = /obj/item/clothing/shoes/roguetown/boots/paalloy
-	gloves = /obj/item/clothing/gloves/roguetown/chain/paalloy
+	head = /obj/item/clothing/head/roguetown/helmet/heavy/guard/ancient
+	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/ancient
+	pants = /obj/item/clothing/under/roguetown/chainlegs/kilt/ancient //Intended as non-plate, stands out from knights this way.
+	armor = /obj/item/clothing/suit/roguetown/armor/plate/cuirass/ancient
+	neck = /obj/item/clothing/neck/roguetown/gorget/ancient
+	shoes = /obj/item/clothing/shoes/roguetown/boots/ancient
+	gloves = /obj/item/clothing/gloves/roguetown/chain/ancient
 	belt = /obj/item/storage/belt/rogue/leather/black
 
 	backl = /obj/item/storage/backpack/rogue/satchel
 
 	backpack_contents = list(
 		/obj/item/natural/feather = 1, //For your helm
-		/obj/item/storage/belt/rogue/pouch/coins/aalloy = 1 //Hilarious
+		/obj/item/storage/belt/rogue/pouch/coins/psila = 1 //Hilarious
 	)
 
 	H.adjust_blindness(-3)
@@ -284,35 +284,35 @@ LICH SKELETONS
 	H.set_blindness(0)
 	switch(weapon_choice)
 		if("Greatweapon - Greatsword, -2 CON / +2 STR / -1 SPD") //Nasty Special, decent strength, slower, lower con.
-			r_hand = /obj/item/rogueweapon/greatsword/paalloy
+			r_hand = /obj/item/rogueweapon/greatsword/ancient
 			H.adjust_skillrank(/datum/skill/combat/swords, 1, TRUE) //Tradeoff is no expert shield skill + -2 CON
 			H.change_stat(STATKEY_CON, -2)
 			H.change_stat(STATKEY_STR, 2)
 			H.change_stat(STATKEY_SPD, -1)
 		if("Greatweapon - Grand Mace, -3 CON / +2 STR / -1 SPD") //Hurts your stamina, bad. decent strength, slower, lowest con.
-			r_hand = /obj/item/rogueweapon/mace/goden/steel/paalloy
+			r_hand = /obj/item/rogueweapon/mace/goden/ancient
 			H.adjust_skillrank(/datum/skill/combat/maces, 1, TRUE) //Tradeoff is no expert shield skill + -3 CON
 			H.change_stat(STATKEY_CON, -3)
 			H.change_stat(STATKEY_STR, 2)
 			H.change_stat(STATKEY_SPD, -1)
 		if("Pikeman - Spear, +1 STR") //Pikeman is the inbetween of picks, slightly faster.
-			r_hand = /obj/item/rogueweapon/spear/paalloy
+			r_hand = /obj/item/rogueweapon/spear/ancient
 			H.adjust_skillrank(/datum/skill/combat/polearms, 1, TRUE)
 			H.change_stat(STATKEY_STR, 1)
 		if("Pikeman - Bardiche, +1 STR")
-			r_hand = /obj/item/rogueweapon/halberd/bardiche/paalloy
+			r_hand = /obj/item/rogueweapon/halberd/bardiche/ancient
 			H.adjust_skillrank(/datum/skill/combat/polearms, 1, TRUE)
 			H.change_stat(STATKEY_STR, 1)
 		if("Shieldbearer - Mace + Shield, +3 WIL / -1 SPD") //Bulwark in the name, these guys are harder than legionarries to tire but they don't do as much damage and are much slower.
-			r_hand = /obj/item/rogueweapon/mace/steel/palloy
-			l_hand = /obj/item/rogueweapon/shield/tower/metal/palloy
+			r_hand = /obj/item/rogueweapon/mace/ancient
+			l_hand = /obj/item/rogueweapon/shield/tower/ancient
 			H.adjust_skillrank(/datum/skill/combat/maces, 1, TRUE)
 			H.adjust_skillrank(/datum/skill/combat/shields, 2, TRUE) //Upto expert
 			H.change_stat(STATKEY_WIL, 3)
 			H.change_stat(STATKEY_SPD, -1)
 		if("Shieldbearer - Warhammer + Shield, +3 WIL / -1 SPD")
-			r_hand = /obj/item/rogueweapon/mace/warhammer/steel/paalloy
-			l_hand = /obj/item/rogueweapon/shield/tower/metal/palloy
+			r_hand = /obj/item/rogueweapon/mace/warhammer/ancient
+			l_hand = /obj/item/rogueweapon/shield/tower/ancient
 			H.adjust_skillrank(/datum/skill/combat/maces, 1, TRUE)
 			H.adjust_skillrank(/datum/skill/combat/shields, 2, TRUE) //Upto expert
 			H.change_stat(STATKEY_WIL, 3)
@@ -321,15 +321,15 @@ LICH SKELETONS
 	var/armor_choice = input(H, "Choose your PLATE.", "SHRUG OFF THINE BLOWS.") as anything in armors
 	switch(armor_choice)
 		if("Sayovard + Cuirass & Hauberk")
-			head = /obj/item/clothing/head/roguetown/helmet/heavy/guard/paalloy
-			shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/paalloy
-			wrists = /obj/item/clothing/wrists/roguetown/bracers/paalloy
-			armor = /obj/item/clothing/suit/roguetown/armor/plate/cuirass/paalloy
+			head = /obj/item/clothing/head/roguetown/helmet/heavy/guard/ancient
+			shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/ancient
+			wrists = /obj/item/clothing/wrists/roguetown/bracers/ancient
+			armor = /obj/item/clothing/suit/roguetown/armor/plate/cuirass/ancient
 		if("Bascinet + Heavy Hauberk")
-			head = /obj/item/clothing/head/roguetown/helmet/heavy/knight/paalloy
-			wrists = /obj/item/clothing/wrists/roguetown/bracers/paalloy/chain
+			head = /obj/item/clothing/head/roguetown/helmet/heavy/knight/ancient
+			wrists = /obj/item/clothing/wrists/roguetown/bracers/ancient/chain
 			shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/light
-			armor = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/paalloy/heavy
+			armor = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/ancient/heavy
 	var/tabards = list("Black Tabard", "Black Jupon", "Black Cloak + Greathood", "Black Toga")
 	var/tabard_choice = input(H, "Choose your CLOAK.", "BEAR YOUR MASTER'S HERALDRY.") as anything in tabards
 	switch(tabard_choice)
@@ -406,23 +406,23 @@ LICH SKELETONS
 	pants = /obj/item/clothing/under/roguetown/trou/artipants/lich
 	armor = /obj/item/clothing/suit/roguetown/armor/leather/jacket/artijacket/lich
 	gloves = /obj/item/clothing/gloves/roguetown/angle/grenzelgloves/blacksmith/lich
-	neck = /obj/item/clothing/neck/roguetown/chaincoif/paalloy
-	shoes = /obj/item/clothing/shoes/roguetown/sandals/paalloy
+	neck = /obj/item/clothing/neck/roguetown/chaincoif/ancient
+	shoes = /obj/item/clothing/shoes/roguetown/sandals/ancient
 	belt = /obj/item/storage/belt/rogue/leather //regular looks nicer
 
 	backl = /obj/item/storage/backpack/rogue/backpack
 	backpack_contents = list(
-		/obj/item/rogueweapon/hammer/paalloy = 1,
-		/obj/item/rogueweapon/tongs/paalloy = 1,
+		/obj/item/rogueweapon/hammer/ancient = 1,
+		/obj/item/rogueweapon/tongs/ancient = 1,
 		/obj/item/rogueweapon/hammer/wood = 1,
-		/obj/item/storage/belt/rogue/pouch/coins/aalloy = 1, //Hilarious
+		/obj/item/storage/belt/rogue/pouch/coins/psila = 1, //Hilarious
 		/obj/item/rogueweapon/chisel/bronze = 1,
 		/obj/item/rogueweapon/handsaw/bronze = 1,
 		/obj/item/dye_brush = 1
 	)
 
-	beltr = /obj/item/rogueweapon/stoneaxe/woodcut/steel/paaxe
-	beltl = /obj/item/rogueweapon/pick/paalloy
+	beltr = /obj/item/rogueweapon/stoneaxe/woodcut/ancient
+	beltl = /obj/item/rogueweapon/pick/ancient
 
 	H.adjust_blindness(-3)
 	var/tabards = list("Black Cloak", "Black Jupon", "Black Tabard", "Black Toga")
@@ -489,24 +489,24 @@ LICH SKELETONS
 	H.adjust_skillrank(/datum/skill/craft/crafting, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/craft/sewing, 2, TRUE)
 
-	head = /obj/item/clothing/head/roguetown/helmet/kettle/paalloy
-	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/paalloy
-	pants = /obj/item/clothing/under/roguetown/chainlegs/kilt/paalloy
+	head = /obj/item/clothing/head/roguetown/helmet/kettle/ancient
+	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/ancient
+	pants = /obj/item/clothing/under/roguetown/chainlegs/kilt/ancient
 	armor = /obj/item/clothing/suit/roguetown/armor/leather/studded
-	wrists = /obj/item/clothing/wrists/roguetown/bracers/paalloy
-	neck = /obj/item/clothing/neck/roguetown/chaincoif/paalloy
-	shoes = /obj/item/clothing/shoes/roguetown/sandals/paalloy
-	gloves = /obj/item/clothing/gloves/roguetown/chain/paalloy
+	wrists = /obj/item/clothing/wrists/roguetown/bracers/ancient
+	neck = /obj/item/clothing/neck/roguetown/chaincoif/ancient
+	shoes = /obj/item/clothing/shoes/roguetown/sandals/ancient
+	gloves = /obj/item/clothing/gloves/roguetown/chain/ancient
 	belt = /obj/item/storage/belt/rogue/leather/black
 
 	backl = /obj/item/storage/backpack/rogue/satchel
 
-	l_hand = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow/heavy/paalloy
-	beltl = /obj/item/quiver/bolt/heavy/paalloy
+	l_hand = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow/heavy/ancient
+	beltl = /obj/item/quiver/bolt/heavy/ancient
 
 	backpack_contents = list(
 		/obj/item/natural/cloth = 1, //For your helm
-		/obj/item/storage/belt/rogue/pouch/coins/aalloy/mid = 1 //Hilarious
+		/obj/item/storage/belt/rogue/pouch/coins/psila/mid = 1 //Hilarious
 	)
 
 	H.adjust_blindness(-3)
@@ -515,10 +515,10 @@ LICH SKELETONS
 	H.set_blindness(0)
 	switch(weapon_choice)
 		if("Gladius")
-			beltr = /obj/item/rogueweapon/sword/short/gladius/pagladius
+			beltr = /obj/item/rogueweapon/sword/short/gladius/ancient
 			H.adjust_skillrank(/datum/skill/combat/swords, 1, TRUE)
 		if("Dagger")
-			beltr = /obj/item/rogueweapon/huntingknife/idagger/steel/padagger
+			beltr = /obj/item/rogueweapon/huntingknife/idagger/ancient
 			H.adjust_skillrank(/datum/skill/combat/knives, 1, TRUE)
 	var/tabards = list("Black Cloak + Greathood", "Black Jupon", "Black Toga")
 	var/tabard_choice = input(H, "Choose your CLOAK.", "BEAR YOUR MASTER'S HERALDRY.") as anything in tabards
@@ -572,22 +572,22 @@ LICH SKELETONS
 	H.adjust_skillrank(/datum/skill/craft/crafting, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/craft/sewing, 2, TRUE)
 
-	head = /obj/item/clothing/head/roguetown/helmet/heavy/knight/paalloy
+	head = /obj/item/clothing/head/roguetown/helmet/heavy/knight/ancient
 	mask = /obj/item/clothing/head/roguetown/roguehood/shalal/hijab/lich //Felt sovlful
-	armor = /obj/item/clothing/suit/roguetown/armor/plate/paalloy
+	armor = /obj/item/clothing/suit/roguetown/armor/plate/ancient
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy //So you can't just shatter them with a mace + fients super quickly, aim for the head
-	wrists = /obj/item/clothing/wrists/roguetown/bracers/paalloy
-	pants = /obj/item/clothing/under/roguetown/platelegs/paalloy
-	gloves = /obj/item/clothing/gloves/roguetown/plate/paalloy
-	neck = /obj/item/clothing/neck/roguetown/gorget/paalloy
-	shoes = /obj/item/clothing/shoes/roguetown/boots/paalloy
+	wrists = /obj/item/clothing/wrists/roguetown/bracers/ancient
+	pants = /obj/item/clothing/under/roguetown/platelegs/ancient
+	gloves = /obj/item/clothing/gloves/roguetown/plate/ancient
+	neck = /obj/item/clothing/neck/roguetown/gorget/ancient
+	shoes = /obj/item/clothing/shoes/roguetown/boots/ancient
 	belt = /obj/item/storage/belt/rogue/leather/black
 
 	backl = /obj/item/storage/backpack/rogue/satchel/black
 
 	backpack_contents = list(
 		/obj/item/natural/feather = 1, //For your helm
-		/obj/item/storage/belt/rogue/pouch/coins/aalloy/rich = 1 //Hilarious
+		/obj/item/storage/belt/rogue/pouch/coins/psila/rich = 1 //Hilarious
 	)
 
 	H.adjust_blindness(-3)
@@ -596,12 +596,12 @@ LICH SKELETONS
 	H.set_blindness(0)
 	switch(weapon_choice)
 		if("Flamberge")
-			r_hand = /obj/item/rogueweapon/greatsword/grenz/flamberge/paalloy //Distance and damage as well as crowd control with high strength.
+			r_hand = /obj/item/rogueweapon/greatsword/grenz/flamberge/ancient //Distance and damage as well as crowd control with high strength.
 			backr = /obj/item/rogueweapon/scabbard/gwstrap
 			H.adjust_skillrank(/datum/skill/combat/swords, 1, TRUE)
 		if("Flail + Greatshield")
-			r_hand = /obj/item/rogueweapon/flail/sflail/paflail
-			l_hand = /obj/item/rogueweapon/shield/bronze/great/paalloy //study, range resistance vs range to tradeoff for no reach + sweep.
+			r_hand = /obj/item/rogueweapon/flail/ancient
+			l_hand = /obj/item/rogueweapon/shield/bronze/great/ancient //study, range resistance vs range to tradeoff for no reach + sweep.
 			H.adjust_skillrank(/datum/skill/combat/whipsflails, 1, TRUE)
 			H.adjust_skillrank(/datum/skill/combat/shields, 1, TRUE)
 	var/tabards = list("Black Tabard", "Black Jupon", "Black Toga")
@@ -658,23 +658,23 @@ LICH SKELETONS
 	H.adjust_skillrank(/datum/skill/craft/crafting, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/craft/sewing, 2, TRUE)
 
-	head = /obj/item/clothing/head/roguetown/helmet/heavy/paalloy
+	head = /obj/item/clothing/head/roguetown/helmet/heavy/ancient
 	mask = /obj/item/clothing/head/roguetown/roguehood/shalal/hijab/lich //Stands out
-	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/paalloy
-	pants = /obj/item/clothing/under/roguetown/chainlegs/kilt/paalloy
+	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/ancient
+	pants = /obj/item/clothing/under/roguetown/chainlegs/kilt/ancient
 	armor = /obj/item/clothing/suit/roguetown/armor/leather/studded
-	wrists = /obj/item/clothing/wrists/roguetown/bracers/paalloy/chain
-	neck = /obj/item/clothing/neck/roguetown/chaincoif/paalloy
-	shoes = /obj/item/clothing/shoes/roguetown/sandals/paalloy
-	gloves = /obj/item/clothing/gloves/roguetown/chain/paalloy
-	backr = /obj/item/rogueweapon/shield/bronze/paalloy
+	wrists = /obj/item/clothing/wrists/roguetown/bracers/ancient/chain
+	neck = /obj/item/clothing/neck/roguetown/chaincoif/ancient
+	shoes = /obj/item/clothing/shoes/roguetown/sandals/ancient
+	gloves = /obj/item/clothing/gloves/roguetown/chain/ancient
+	backr = /obj/item/rogueweapon/shield/bronze/ancient
 	belt = /obj/item/storage/belt/rogue/leather/black
 
 	backl = /obj/item/storage/backpack/rogue/satchel
 
 	backpack_contents = list(
 		/obj/item/natural/feather = 1, //For your helm
-		/obj/item/storage/belt/rogue/pouch/coins/aalloy/rich = 1 //Hilarious
+		/obj/item/storage/belt/rogue/pouch/coins/psila/rich = 1 //Hilarious
 	)
 
 
@@ -697,34 +697,34 @@ LICH SKELETONS
 			var/weapon_choice = input(H, "Choose your BLADE.", "RAGE AGAINST THE LYVING.") as anything in weapons
 			switch(weapon_choice)
 				if("Ancient Khopesh")
-					beltr = granted_weapon = /obj/item/rogueweapon/sword/sabre/palloy
+					beltr = granted_weapon = /obj/item/rogueweapon/sword/sabre/ancient
 				if("Ancient Longsword")
-					beltr = granted_weapon = /obj/item/rogueweapon/sword/long/palloy //role unique
+					beltr = granted_weapon = /obj/item/rogueweapon/sword/long/ancient //role unique
 				if("Ancient Dagger")
-					beltr = granted_weapon = /obj/item/rogueweapon/huntingknife/idagger/steel/padagger
+					beltr = granted_weapon = /obj/item/rogueweapon/huntingknife/idagger/ancient
 		if("phalangite")
 			var/weapons = list("Ancient Spear", "Ancient Bardiche")
 			var/weapon_choice = input(H, "Choose your SPEAR.", "RAGE AGAINST THE LYVING.") as anything in weapons
 			switch(weapon_choice)
 				if("Ancient Spear")
-					r_hand = granted_weapon = /obj/item/rogueweapon/spear/paalloy
+					r_hand = granted_weapon = /obj/item/rogueweapon/spear/ancient
 					backr = /obj/item/rogueweapon/scabbard/gwstrap
 				if("Ancient Bardiche")
-					r_hand = granted_weapon = /obj/item/rogueweapon/halberd/bardiche/paalloy
+					r_hand = granted_weapon = /obj/item/rogueweapon/halberd/bardiche/ancient
 					backr = /obj/item/rogueweapon/scabbard/gwstrap
 		if("macebearer")
 			var/weapons = list("Ancient Mace", "Ancient Warhammer", "Ancient Grand Mace", "Ancient Alloy Axe", "Steel Greataxe")
 			var/weapon_choice = input(H, "Choose your WEAPON.", "RAGE AGAINST THE LYVING.") as anything in weapons
 			switch(weapon_choice)
 				if("Ancient Mace")
-					beltr = granted_weapon = /obj/item/rogueweapon/mace/steel/palloy
+					beltr = granted_weapon = /obj/item/rogueweapon/mace/ancient
 				if("Ancient Warhammer")
-					beltr = granted_weapon = /obj/item/rogueweapon/mace/warhammer/steel/paalloy
+					beltr = granted_weapon = /obj/item/rogueweapon/mace/warhammer/ancient
 				if("Ancient Grand Mace")
-					r_hand = granted_weapon = /obj/item/rogueweapon/mace/goden/steel/paalloy
+					r_hand = granted_weapon = /obj/item/rogueweapon/mace/goden/ancient
 					backr = /obj/item/rogueweapon/scabbard/gwstrap
 				if("Ancient Alloy Axe")
-					beltr = granted_weapon = /obj/item/rogueweapon/stoneaxe/woodcut/steel/paaxe
+					beltr = granted_weapon = /obj/item/rogueweapon/stoneaxe/woodcut/ancient
 				if("Steel Greataxe")
 					r_hand = granted_weapon = /obj/item/rogueweapon/greataxe/steel
 					backr = /obj/item/rogueweapon/scabbard/gwstrap
@@ -809,15 +809,15 @@ LICH SKELETONS
 	H.adjust_skillrank(/datum/skill/craft/sewing, 2, TRUE)
 
 	head = /obj/item/clothing/head/roguetown/roguehood/lich_sectarian
-	mask = /obj/item/clothing/mask/rogue/facemask/steel/paalloy //Face protection
+	mask = /obj/item/clothing/mask/rogue/facemask/ancient //Face protection
 	shirt = /obj/item/clothing/suit/roguetown/armor/vestments_padded/lich //Extra obvious herecy + better goes with the fit
 	armor = /obj/item/clothing/suit/roguetown/armor/leather/studded
 	cloak = /obj/item/clothing/cloak/tabard/toga/lich //Goes with the fit, so you get no choice of picks
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/cloth/lich
-	neck = /obj/item/clothing/neck/roguetown/chaincoif/paalloy
-	shoes = /obj/item/clothing/shoes/roguetown/sandals/paalloy
+	neck = /obj/item/clothing/neck/roguetown/chaincoif/ancient
+	shoes = /obj/item/clothing/shoes/roguetown/sandals/ancient
 	gloves = /obj/item/clothing/gloves/roguetown/bandages/weighted/lich //Second weak spot, hands.
-	id = /obj/item/clothing/neck/roguetown/psicross/inhumen/paalloy //UP THE Z
+	id = /obj/item/clothing/neck/roguetown/psicross/inhumen/ancient //UP THE Z
 	belt = /obj/item/storage/belt/rogue/leather/rope/upgraded/dark
 	pants = /obj/item/clothing/under/roguetown/trou/leather/mourning
 
@@ -827,8 +827,8 @@ LICH SKELETONS
 	backr = /obj/item/rogueweapon/woodstaff/quarterstaff/iron //replace w/ gilbranze once ancient ver added (its literally +3 force w/ steel grade staff vs iron anyway)
 
 	backpack_contents = list(
-		/obj/item/storage/belt/rogue/pouch/coins/aalloy/mid = 1, //Hilarious
-		/obj/item/clothing/neck/roguetown/psicross/inhumen/aalloy = 4 //SPREAD HER INFLUENCE. ZIZO. ZIZO. ZIZO. (or just wear them all to aurafarm on the Psydonites, IDK)
+		/obj/item/storage/belt/rogue/pouch/coins/psila/mid = 1, //Hilarious
+		/obj/item/clothing/neck/roguetown/psicross/inhumen/ancient/decrepit = 4 //SPREAD HER INFLUENCE. ZIZO. ZIZO. ZIZO. (or just wear them all to aurafarm on the Psydonites, IDK)
 	)
 
 	H.adjust_blindness(-3)
@@ -879,9 +879,6 @@ LICH SKELETONS
 	color = "#5c5a55"
 
 /obj/item/clothing/gloves/roguetown/bandages/weighted/lich
-	color = "#5c5a55"
-
-/obj/item/clothing/gloves/roguetown/bandages/lich
 	color = "#5c5a55"
 
 /obj/item/clothing/head/roguetown/roguehood/lich_sectarian
@@ -1014,7 +1011,7 @@ LICH SKELETONS
 	item_state = "guard_hood"
 	body_parts_covered = CHEST
 
-/obj/item/rogueweapon/greatsword/grenz/flamberge/aalloy
+/obj/item/rogueweapon/greatsword/grenz/flamberge/ancient/decrepit
 	name = "decrepit flamberge"
 	desc = "Rotted metal and decaying bogleather, meticulously woven together to fashion a flame-bladed swan song for Psydonia's final descendants. </br>'Oh, how valiant His sacrifice was! But now He lies, sleeping and witless to the world-anew.' </br>'And now, He sleeps. And now, He weeps.'"
 	icon_state = "ancientflamb"
@@ -1027,63 +1024,8 @@ LICH SKELETONS
 	smeltresult = /obj/item/ingot/aaslag
 	anvilrepair = null
 
-/obj/item/rogueweapon/greatsword/grenz/flamberge/paalloy
+/obj/item/rogueweapon/greatsword/grenz/flamberge/ancient
 	name = "ancient flamberge"
 	desc = "Polished gilbranze and velvety saigaleather, masterfully bound together to hewn a greatsword of archaic opulence. One must remember that even the undying aren't consigned to the Archdevil's grasp; for those of true faith and nobleheartedness can persist in penitence."
 	icon_state = "ancientflamb"
 	smeltresult = /obj/item/ingot/aaslag
-
-/obj/item/rogueweapon/shield/tower/metal/great/getonmobprop(tag)
-	. = ..()
-	if(tag)
-		switch(tag)
-			if("gen")
-				return list("shrink" = 0.6,"sx" = -5,"sy" = -1,"nx" = 6,"ny" = -1,"wx" = 0,"wy" = -2,"ex" = 0,"ey" = -2,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = 0,"sturn" = 0,"wturn" = 0,"eturn" = 0,"nflip" = 0,"sflip" = 0,"wflip" = 0,"eflip" = 0)
-			if("onback")
-				return list("shrink" = 0.6,"sx" = 1,"sy" = 4,"nx" = 1,"ny" = 2,"wx" = 3,"wy" = 3,"ex" = -3,"ey" = 3,"nturn" = 0,"sturn" = 0,"wturn" = 0,"eturn" = 0,"nflip" = 8,"sflip" = 0,"wflip" = 0,"eflip" = 0,"northabove" = 1,"southabove" = 0,"eastabove" = 0,"westabove" = 0)
-
-/obj/item/rogueweapon/shield/bronze/great/paalloy
-	name = "ancient greatshield"
-	desc = "A heavy venerable shield, taller and thicker than most of their contemporaries, yet masterfully crafted O' so much more as well, rebuking arrow and bolt alyke \
-	and yet it serves in a twisted change against its old purpose to preserve lyfe, it shall serve as a bulwark to herald the march of Her legionarries to end lyfe."
-	icon_state = "ancientgreatshield"
-	item_state = "ancientgreatshield"
-	max_integrity = 400 //High integrity and passive projectile-blocking as a difficult to obtain usually role exclusive shield.
-	force = 30
-	smeltresult = /obj/item/ingot/aaslag
-
-/obj/item/rogueweapon/shield/bronze/great/aalloy
-	name = "decrepit greatshield"
-	desc = "A tarnished heavy once-venerable shield of fraying bronze. It has survived unspeakable calamities and eons, once rebuking arrow and bolt alyke; yet now its no better than \
-	a battered hunk of metal with dents threatening to rip open. It failed its former owner and it won't be long until its own frail husk is reduced to nothing."
-	icon_state = "ancientgreatshield"
-	item_state = "ancientgreatshield"
-	max_integrity = 180 //Generous integrity and passive projectile-blocking for a decrepit shield.
-	force = 18
-	coverage = 60
-	blade_dulling = DULLING_SHAFT_CONJURED
-	color = "#bb9696"
-	minstr = 13 //Requires a hefty natural +STR modifier and statpack/potions to double as a melee weapon (not you'd want to use it as one), for most classes. Note that it has a heavier charge time and active stamina drain, too, as.. well, it's quite heavy.
-	smeltresult = /obj/item/ingot/aaslag
-
-/obj/item/rogueweapon/shield/bronze/paalloy
-	name = "ancient hoplon shield"
-	desc = "The finest companion to a javelin and gladius, in Her name; a deceptively thin-yet-sturdy shield of gilbranze. This alloy even this thin, used to once surpass steel yet despite aeon's grip being lyfted, it never will regain its former strength."
-	icon_state = "ancientlegionshield"
-	force = 15
-	throwforce = 25 // DO NOT GIVE ANYTHING; BUT TAKE FROM THEM.. EVERYTHING!
-	minstr = 9 //Decently heavy to use as a melee weapon. But lighter due to thinner material.
-	max_integrity = 180 //Intended to be weaker than the bronze shield, for balance reasonings but its cheaper than an iron shield ingot wise
-	//for lore's sake its thinner than steel shields since it used to work as well since gilbranze was once stronger than steel, now its sort of worn its former durability away.
-
-/obj/item/rogueweapon/shield/bronze/aalloy
-	name = "decrepit hoplon shield"
-	desc = "A near-paradoxically thin-yet-somehow-intact shield of fraying bronze, impossibly remaining barely intact; yet in spite of this, a mere press of the thumb alone will bend a dent into it irreversibly."
-	icon_state = "ancientlegionshield"
-	force = 10
-	throwforce = 8 // Its basically a chunk of crumbling metal
-	blade_dulling = DULLING_SHAFT_CONJURED
-	color = "#bb9696"
-	coverage = 25
-	minstr = 8 //Barely anything left of it sire.
-	max_integrity = 60

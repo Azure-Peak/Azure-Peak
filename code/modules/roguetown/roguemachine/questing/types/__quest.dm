@@ -509,7 +509,7 @@ GLOBAL_LIST_INIT(quest_prototypes, build_quest_prototypes())
 		if(fallback)
 			.[fallback] = amount
 		return
-	var/share = mammon_round(floor(round(amount * 100 / length(fellowship_roster), MAMMON_PRECISION)) / 100)
+	var/share = FLOOR(amount / length(fellowship_roster), 1)
 	for(var/mob/living/M as anything in payees)
 		.[M] = share
 
@@ -697,7 +697,7 @@ GLOBAL_LIST_INIT(quest_prototypes, build_quest_prototypes())
 	var/list/parts = list()
 	for(var/list/source as anything in funding_sources)
 		var/datum/fund/fund = source["fund"]
-		var/amount = mammon_round(source["amount"] * fraction)
+		var/amount = round(source["amount"] * fraction)
 		if(amount > 0)
 			parts += "[amount]m to [fund.name]"
 	var/rumor_points = round(funding_rumor_points * fraction, 0.1)
@@ -713,7 +713,7 @@ GLOBAL_LIST_INIT(quest_prototypes, build_quest_prototypes())
 	var/label = get_title() || quest_type
 	for(var/list/source as anything in funding_sources)
 		var/datum/fund/fund = source["fund"]
-		var/amount = mammon_round(source["amount"] * fraction)
+		var/amount = round(source["amount"] * fraction)
 		if(amount <= 0)
 			continue
 		SStreasury.mint(fund, amount, "[reason] - [label]", null, SStreasury.commitment_account(fund))

@@ -206,9 +206,7 @@ GLOBAL_LIST_INIT(familiarbindingrituallist, generate_familiarbinding_rituallist(
 		return FALSE
 
 	for(var/result in result_atoms)
-		var/obj/item/made = new result(loc)
-		if(istype(made))
-			made.was_crafted = TRUE
+		new result(loc)
 	return TRUE
 
 /datum/runeritual/proc/parse_required_item(atom/item_path, number_of_things)

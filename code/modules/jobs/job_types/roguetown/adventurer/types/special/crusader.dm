@@ -50,7 +50,7 @@
 	armor = /obj/item/clothing/cloak/tabard/stabard/crusader
 	cloak = /obj/item/clothing/cloak/cape/crusader
 	gloves = /obj/item/clothing/gloves/roguetown/chain
-	backr = /obj/item/rogueweapon/shield/tower/metal
+	backr = /obj/item/rogueweapon/shield/kite
 	backl = /obj/item/storage/backpack/rogue/satchel
 	beltr = /obj/item/rogueweapon/scabbard/sword
 	r_hand = /obj/item/rogueweapon/sword/decorated

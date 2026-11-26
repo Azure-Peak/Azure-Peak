@@ -13,7 +13,6 @@ import {
   sectionHeaderStyle,
 } from '../../common/parchment';
 import type { FundLogEntry, HarborData } from '../types';
-import { formatMammon } from '../../common/format';
 
 const labelStyle = {
   fontFamily: SERIF,
@@ -58,7 +57,7 @@ const BalanceCard = (props: { balance: number }) => (
         color: INK,
       }}
     >
-      {formatMammon(props.balance)}m
+      {props.balance}m
     </span>
   </div>
 );
@@ -106,7 +105,7 @@ const FundLogRow = (props: { entry: FundLogEntry }) => {
       </span>
       <span style={{ textAlign: 'right', color, fontWeight: 'bold' }}>
         {sign}
-        {formatMammon(entry.amount)}m
+        {entry.amount}m
       </span>
     </div>
   );
@@ -152,17 +151,17 @@ export const LedgerTab = (props: { harbor?: HarborData }) => {
         >
           <StatRow
             label="Merchant's levy collected"
-            value={`+${formatMammon(ledger.levy_collected)}m`}
+            value={`+${ledger.levy_collected}m`}
             tone={SEAL_GREEN}
           />
           <StatRow
             label="Crown duty paid on levy"
-            value={`-${formatMammon(ledger.levy_taxed)}m`}
+            value={`-${ledger.levy_taxed}m`}
             tone={SEAL_RED}
           />
           <StatRow
             label="Company Gnomes margin"
-            value={`+${formatMammon(ledger.gnome_margin_collected)}m`}
+            value={`+${ledger.gnome_margin_collected}m`}
             tone={SEAL_GREEN}
           />
         </div>

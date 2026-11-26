@@ -90,7 +90,7 @@
 /atom/movable/screen/alert/status_effect/buff/featherfall
 	name = "Featherfall"
 	desc = "I am somewhat protected against falling from heights."
-	icon_state = "featherbuff"
+	icon_state = "buff"
 
 /datum/status_effect/buff/featherfall
 	id = "featherfall"

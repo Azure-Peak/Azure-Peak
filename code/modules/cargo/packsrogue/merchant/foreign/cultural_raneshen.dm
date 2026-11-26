@@ -223,7 +223,7 @@
 /datum/supply_pack/rogue/raneshen/bronze_warclub
 	name = "Bronze Warclub"
 	cost = 85
-	contains = list(/obj/item/rogueweapon/mace/warhammer/bronze)
+	contains = list(/obj/item/rogueweapon/mace/warclub)
 	ship_qty_min = 1
 	ship_qty_max = 3
 

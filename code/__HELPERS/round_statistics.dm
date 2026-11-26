@@ -189,8 +189,6 @@ GLOBAL_LIST_EMPTY(patron_follower_counts)
 #define FEATURED_STATS_ORIGINS	"origins"
 #define FEATURED_STATS_STATPACKS "statpacks"
 #define FEATURED_STATS_VICES	"vices"
-#define FEATURED_STATS_ESTATES "estates"
-#define FEATURED_STATS_POLITICAL_FACTIONS "political_factions"
 
 // Featured objects stats
 #define FEATURED_STATS_CRAFTED_ITEMS "crafted_items"
@@ -299,18 +297,6 @@ GLOBAL_LIST_INIT(featured_stats, list(
 	FEATURED_STATS_ORIGINS = list(
 		"name" = "TOP Origins",
 		"color" = "#602d91",
-		"entries" = list(),
-		"object_stat" = TRUE,
-	),
-	FEATURED_STATS_ESTATES = list(
-		"name" = "TOP Estates",
-		"color" = "#b8963e",
-		"entries" = list(),
-		"object_stat" = TRUE,
-	),
-	FEATURED_STATS_POLITICAL_FACTIONS = list(
-		"name" = "TOP Political Factions",
-		"color" = "#4a78d4",
 		"entries" = list(),
 		"object_stat" = TRUE,
 	),

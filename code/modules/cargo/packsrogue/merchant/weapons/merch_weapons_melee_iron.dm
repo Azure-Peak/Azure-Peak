@@ -100,15 +100,20 @@
 
 /datum/supply_pack/rogue/iron_weapons/greatflail
 	name = "Greatflail"
-	contains = list(/obj/item/rogueweapon/flail/peasantwarflail/iron)
+	contains = list(/obj/item/rogueweapon/flail/great/iron)
 
 /datum/supply_pack/rogue/iron_weapons/longswordiron
 	name = "Bastard Sword"
 	contains = list(/obj/item/rogueweapon/sword/long/iron)
 
 /datum/supply_pack/rogue/iron_weapons/lucerne
-	name = "Lucerne Hammer"
+	name = "Polehammer, Lucerne"
 	contains = list(/obj/item/rogueweapon/eaglebeak/lucerne)
+
+/datum/supply_pack/rogue/iron_weapons/ibardiche
+	name = "Bardiche"
+	cost = 45 // 2 Iron Ingot, 1 Small Log
+	contains = list(/obj/item/rogueweapon/halberd/bardiche/iron)
 
 /datum/supply_pack/rogue/iron_weapons/goedendag
 	name = "Goedendag"
@@ -149,4 +154,4 @@
 
 /datum/supply_pack/rogue/iron_weapons/tower
 	name = "Shield, Kite"
-	contains = list(/obj/item/rogueweapon/shield/tower/metal)
+	contains = list(/obj/item/rogueweapon/shield/kite)

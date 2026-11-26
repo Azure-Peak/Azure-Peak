@@ -143,8 +143,8 @@
 //	armor =
 	//Head Gear
 	head = /obj/item/clothing/head/roguetown/roguehood/shroudwhite/evil_ah_ah
-	mask = /obj/item/clothing/mask/rogue/facemask/steel/paalloy
-	neck = /obj/item/clothing/neck/roguetown/psicross/inhumen/aalloy
+	mask = /obj/item/clothing/mask/rogue/facemask/ancient
+	neck = /obj/item/clothing/neck/roguetown/psicross/inhumen/ancient
 	//wrist Gear
 	wrists = /obj/item/clothing/wrists/roguetown/allwrappings/scarlet
 	gloves = /obj/item/clothing/gloves/roguetown/leather
@@ -156,5 +156,5 @@
 	add_random_fiend_beltr_stuff(H)
 	add_random_fiend_beltl_stuff(H)
 	//Weapons
-	r_hand = /obj/item/rogueweapon/huntingknife/idagger/steel/padagger
+	r_hand = /obj/item/rogueweapon/huntingknife/idagger/ancient
 //	l_hand =

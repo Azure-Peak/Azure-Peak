@@ -6,7 +6,6 @@ import {
   SERIF,
 } from '../common/parchment';
 import type { ActFn } from './types';
-import { formatMammon } from '../common/format';
 
 type Props = {
   budget: number;
@@ -27,7 +26,7 @@ export const MammonRow = (props: Props) => {
       >
         Mammon Loaded
       </div>
-      <div style={{ ...fieldValueStyle, fontWeight: 'bold' }}>{formatMammon(budget)}m</div>
+      <div style={{ ...fieldValueStyle, fontWeight: 'bold' }}>{budget}m</div>
       <button
         type="button"
         style={inkButtonStyle({ disabled: budget <= 0 })}

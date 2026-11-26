@@ -33,7 +33,7 @@
 	. = ..()
 	. += span_info("Middle click to adjust whether the ring is layered above or below your character's sleeves. This is an experimental feature, and might require some fidgeting to get working.")
 
-/obj/item/clothing/ring/aalloy
+/obj/item/clothing/ring/decrepit
 	name = "decrepit ring"
 	desc = "A coil of rotted metal."
 	icon_state = "ring_a"
@@ -375,14 +375,14 @@
 	desc = "A resilient wedding band of bronze, ornately decorated with the engravings of a lover's name."
 	icon_state = "b_ring_wedding"
 
-/obj/item/clothing/ring/band/aalloy
+/obj/item/clothing/ring/band/ancient/decrepit
 	name = "decrepit wedding band"
 	desc = "A decaying wedding band of rotted metal, ornately decorated with the engravings of a lover's name."
 	icon_state = "a_ring_wedding"
 	color = "#bb9696"
 	anvilrepair = null
 
-/obj/item/clothing/ring/band/paalloy
+/obj/item/clothing/ring/band/ancient
 	name = "ancient wedding band"
 	desc = "An enchanting wedding band of polished gilbranze, ornately decorated with the engravings of a lover's name."
 	icon_state = "a_ring_wedding"

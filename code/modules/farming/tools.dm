@@ -1,8 +1,4 @@
 /obj/item/rogueweapon/thresher
-	force = 10
-	force_wielded = 15
-	possible_item_intents = list(MACE_STRIKE)
-	gripped_intents = list(/datum/intent/flail/thresh, /datum/intent/flail/smash, MACE_STRIKE)
 	name = "thresher"
 	desc = "A soilson's lyfeline, chiseled into a studded halflog that's tethered to a staff. It crushes produce into seeds, turns stalks into food, and melds the skulls of thieves into powdery debris."
 	icon_state = "flail"
@@ -10,6 +6,10 @@
 	item_state = "mace_greyscale"
 	lefthand_file = 'icons/mob/inhands/weapons/melee_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/weapons/melee_righthand.dmi'
+	force = 10
+	force_wielded = 15
+	possible_item_intents = list(MACE_STRIKE)
+	gripped_intents = list(/datum/intent/flail/thresh, /datum/intent/flail/smash, MACE_STRIKE)
 	sharpness = IS_BLUNT
 	//dropshrink = 0.8
 	slot_flags = ITEM_SLOT_BACK
@@ -59,13 +59,13 @@
 			return
 	..()
 
-/obj/item/rogueweapon/thresher/aalloy
+/obj/item/rogueweapon/thresher/decrepit
 	name = "decrepit thresher"
 	desc = "A thresher of rotted metal; from when the wheat was plentiful, and when Man wasn't burdened with the weight of sin."
 	force = 5
 	force_wielded = 7
 	icon_state = "athresh"
-	smeltresult = /obj/item/ingot/aalloy
+	smeltresult = /obj/item/ingot/decrepit
 	color = "#bb9696"
 
 /obj/item/rogueweapon/thresher/bronze
@@ -87,11 +87,11 @@
 	max_integrity = 500
 
 /obj/item/rogueweapon/sickle
-	force = 10
-	possible_item_intents = list(DAGGER_CUT)
 	name = "sickle"
 	desc = "Rusted blade, worn handle, symbol of toil."
 	icon_state = "sickle"
+	force = 10
+	possible_item_intents = list(DAGGER_CUT)
 	icon = 'icons/roguetown/weapons/tools.dmi'
 	item_state = "crysknife"
 	lefthand_file = 'icons/mob/inhands/weapons/swords_lefthand.dmi'
@@ -115,7 +115,7 @@
 			if("gen") return list("shrink" = 0.6,"sx" = -9,"sy" = 1,"nx" = 12,"ny" = 1,"wx" = -5,"wy" = 1,"ex" = 4,"ey" = 1,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = 0,"sturn" = 0,"wturn" = 0,"eturn" = 0,"nflip" = 0,"sflip" = 8,"wflip" = 8,"eflip" = 0)
 			if("onbelt") return list("shrink" = 0.5,"sx" = -2,"sy" = -3,"nx" = 3,"ny" = -3,"wx" = -2,"wy" = -3,"ex" = 3,"ey" = -2,"nturn" = 0,"sturn" = 0,"wturn" = 0,"eturn" = 0,"nflip" = 8,"sflip" = 0,"wflip" = 8,"eflip" = 0,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0)
 
-/obj/item/rogueweapon/sickle/aalloy
+/obj/item/rogueweapon/sickle/decrepit
 	name = "decrepit sickle"
 	desc = "Her thought was simple; to separate the wheat from the chaff. By removing the limitations set upon one's spirit by lyfe, only then could divinity be obtained. She was correct - yet Her ascension had gone terribly awry, all-the-same."
 	icon_state = "asickle"
@@ -145,13 +145,13 @@
 	max_blade_int = 450
 
 /obj/item/rogueweapon/hoe
+	name = "hoe"
+	desc = "A humble tool for humble tillage. Would you be more concerned if it wasn't dirty and worn?"
+	icon_state = "hoe"
 	force = 10
 	force_wielded = 15
 	possible_item_intents = list(/datum/intent/pick)
 	gripped_intents = list(TILL_INTENT, /datum/intent/pick, SPEAR_BASH)
-	name = "hoe"
-	desc = "A humble tool for humble tillage. Would you be more concerned if it wasn't dirty and worn?"
-	icon_state = "hoe"
 	slot_flags = ITEM_SLOT_BACK
 	icon = 'icons/roguetown/weapons/tools.dmi'
 	item_state = "pitchfork"
@@ -166,11 +166,11 @@
 	work_time = 3 SECONDS // the time it takes to make new soil or till soil
 	is_tool = TRUE
 
-/obj/item/rogueweapon/hoe/aalloy
+/obj/item/rogueweapon/hoe/decrepit
 	name = "decrepit hoe"
 	desc = "Food is what cultivates lyfe; and without lyfe, there would be nothing left. At least, that is what His children would want you to believe."
 	icon_state = "ahoe"
-	smeltresult = /obj/item/ingot/aalloy
+	smeltresult = /obj/item/ingot/decrepit
 	color = "#bb9696"
 
 /obj/item/rogueweapon/hoe/copper
@@ -179,29 +179,29 @@
 	smeltresult = /obj/item/ingot/copper
 
 /obj/item/rogueweapon/hoe/bronze
-	force = 15
-	force_wielded = 20
 	name = "bronze hoe"
 	desc = "Till the soil, so that it may receive your seed. Alongside the sickle and thresher, it forms the holy trinity of agriculturality. Don't ask about the pitchfork."
 	icon_state = "bronzehoe"
+	force = 15
+	force_wielded = 20
 	smeltresult = /obj/item/ingot/bronze
 	max_integrity = 300
 
 /obj/item/rogueweapon/hoe/blacksteel
-	force = 20
-	force_wielded = 25
 	name = "blacksteel hoe"
 	desc = "Wasting such valuable alloys on a dirty hoe? Shame, shame, shame! At least it can till the soil like a dagger-through-butter."
 	icon_state = "blacksteelhoe"
+	force = 20
+	force_wielded = 25
 	smeltresult = /obj/item/ingot/blacksteel
 	max_integrity = 500
 
 /obj/item/rogueweapon/hoe/stone
-	force = 7
-	force_wielded = 12
 	name = "stone hoe"
 	desc = "A makeshift hoe made out of stone, aeons late to the art of cultivation."
 	icon_state = "stonehoe"
+	force = 7
+	force_wielded = 12
 	//dropshrink = 0.8
 	smeltresult = null
 	anvilrepair = null
@@ -366,28 +366,28 @@
 			if("wielded") return list("shrink" = 0.8,"sx" = 7,"sy" = -3,"nx" = -6,"ny" = -2,"wx" = -3,"wy" = -2,"ex" = 7,"ey" = -2,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = -38,"sturn" = 39,"wturn" = -35,"eturn" = 27,"nflip" = 8,"sflip" = 0,"wflip" = 8,"eflip" = 0)
 			if("onback") return list("shrink" = 0.7,"sx" = 1,"sy" = 3,"nx" = -1,"ny" = 3,"wx" = 4,"wy" = 3,"ex" = -3,"ey" = 3,"nturn" = 0,"sturn" = 0,"wturn" = 0,"eturn" = 0,"nflip" = 8,"sflip" = 0,"wflip" = 0,"eflip" = 8,"northabove" = 1,"southabove" = 0,"eastabove" = 0,"westabove" = 0)
 
-/obj/item/rogueweapon/pitchfork/aalloy
+/obj/item/rogueweapon/pitchfork/decrepit
 	name = "decrepit pitchfork"
 	desc = "Do not fault the layman for fearing Her disciples, nor for driving them out of the villages with pitchforks-and-torches. They, too, will come to see the blessings of Zizo, all in due tyme."
 	icon_state = "apitchfork"
-	smeltresult = /obj/item/ingot/aalloy
+	smeltresult = /obj/item/ingot/decrepit
 	color = "#bb9696"
 
 /obj/item/rogueweapon/pitchfork/bronze
-	force = 15
-	force_wielded = 20
 	name = "bronze pitchfork"
 	desc = "'Ah, there you are! I tell you, the others simply do not appreciate the labors I pull to keep their hands clean. I'd like to see a hoe try to scoop a whole cart's worth of wheat on its own - see how that fares!'"
 	icon_state = "bronzepitchfork"
+	force = 15
+	force_wielded = 20
 	smeltresult = /obj/item/ingot/bronze
 	max_integrity = 300
 
 /obj/item/rogueweapon/pitchfork/blacksteel
-	force = 20
-	force_wielded = 25
 	name = "blacksteel pitchfork"
 	desc = "You're either the richest peasant in all of Psydonia, or the poorest noble."
 	icon_state = "blacksteelpitchfork"
+	force = 20
+	force_wielded = 25
 	smeltresult = /obj/item/ingot/blacksteel
 	max_integrity = 500
 

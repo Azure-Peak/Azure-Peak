@@ -1,7 +1,6 @@
 import { memo, useMemo, useState } from 'react';
 import { Box, Section, Stack } from 'tgui-core/components';
 
-import { IncrementalList } from './common/IncrementalList';
 import {
   INK_SOFT,
   inkButtonStyle,
@@ -24,23 +23,6 @@ type Props = {
   onSelectRecipe: (path: string) => void;
   onBack: () => void;
 };
-
-const SidebarEntry = memo(
-  (props: {
-    recipe: RecipeEntry;
-    active: boolean;
-    onSelect: (path: string) => void;
-  }) => (
-    <button
-      type="button"
-      className="toc-link"
-      style={tocLinkStyle(props.active)}
-      onClick={() => props.onSelect(props.recipe.path)}
-    >
-      {props.recipe.name}
-    </button>
-  ),
-);
 
 export const RecipeBookSidebar = memo((props: Props) => {
   const {
@@ -122,16 +104,20 @@ export const RecipeBookSidebar = memo((props: Props) => {
                   No matching entries found.
                 </Box>
               ) : (
-                <IncrementalList key={category}>
-                  {filtered.map((recipe) => (
-                    <SidebarEntry
+                filtered.map((recipe) => {
+                  const active = selectedRecipe === recipe.path;
+                  return (
+                    <button
                       key={recipe.path}
-                      recipe={recipe}
-                      active={selectedRecipe === recipe.path}
-                      onSelect={onSelectRecipe}
-                    />
-                  ))}
-                </IncrementalList>
+                      type="button"
+                      className="toc-link"
+                      style={tocLinkStyle(active)}
+                      onClick={() => onSelectRecipe(recipe.path)}
+                    >
+                      {recipe.name}
+                    </button>
+                  );
+                })
               )}
             </Section>
           </Stack.Item>

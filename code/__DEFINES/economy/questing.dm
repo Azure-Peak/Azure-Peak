@@ -63,7 +63,6 @@
 #define TOWNER_FUNDER_PERSONAL "personal"
 #define TOWNER_FUNDER_CROWN "crown"
 #define TOWNER_FUNDER_COMPANY "company"
-#define TOWNER_FUNDER_PLEDGE "pledge"
 
 #define TOWNER_MAX_ACTIVE_POSTINGS 5
 

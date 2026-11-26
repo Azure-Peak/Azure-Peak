@@ -16,7 +16,7 @@
 	advclass_cat_rolls = list(CTAG_ROYALGUARD = 20)
 	job_traits = list(TRAIT_NOBLE, TRAIT_STEELHEARTED, TRAIT_GUARDSMAN, TRAIT_EXPERT_HUNTER)
 	give_bank_account = TRUE
-	noble_rank = NOBLE_RANK_GENTRY
+	noble_income = 15
 	min_pq = 8
 	max_pq = null
 	round_contrib_points = 2
@@ -232,7 +232,7 @@
 				beltl = /obj/item/rogueweapon/scabbard/sword/noble
 				l_hand = /obj/item/rogueweapon/sword/long
 			if("Flail")
-				beltr = /obj/item/rogueweapon/flail/sflail
+				beltr = /obj/item/rogueweapon/flail/steel
 			if ("Warhammer")
 				beltr = /obj/item/rogueweapon/mace/warhammer/steel //This is one-handed and pairs well with shields, there are many better weapons w/ specials/reach now.
 			if("Sabre")
@@ -241,7 +241,7 @@
 
 	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail
 	pants = /obj/item/clothing/under/roguetown/chainlegs
-	backl = /obj/item/rogueweapon/shield/tower/metal
+	backl = /obj/item/rogueweapon/shield/kite
 	if(H.mind)
 		var/helmets = list(
 			"Pigface Bascinet"	= /obj/item/clothing/head/roguetown/helmet/bascinet/pigface,
@@ -373,7 +373,7 @@
 				beltl = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve
 			if("Lance + Kite Shield")
 				r_hand = /obj/item/rogueweapon/spear/lance
-				backl = /obj/item/rogueweapon/shield/tower/metal
+				backl = /obj/item/rogueweapon/shield/kite
 				H.adjust_skillrank_up_to(/datum/skill/combat/shields, 2, TRUE) // Let them skip dummy hitting
 
 	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail
@@ -578,7 +578,6 @@
 	traits_applied = list(TRAIT_HEAVYARMOR)
 
 	subclass_stashed_items = list("Ducal Caparison" = /obj/item/caparison/azure)
-	subclass_languages = list(/datum/language/oldazurian)
 	extra_context = "This class gains Master skill in their weapon of choice. Receives Azurean Caparison in its stash."
 
 	subclass_stats = list(
@@ -636,7 +635,6 @@
 	H.dna.species.soundpack_m = GLOB.voice_packs[/datum/voicepack/male/knight]
 
 	add_verb(H, /mob/proc/haltyell)
-	add_verb(H, /mob/living/carbon/human/proc/remember_ruler_title)
 
 	SStreasury.grant_savings(ECONOMIC_RICH, H)
 
@@ -690,7 +688,7 @@
 			beltr = /obj/item/rogueweapon/scabbard/sword/royal
 		if("Flail")
 			H.adjust_skillrank_up_to(/datum/skill/combat/whipsflails, SKILL_LEVEL_MASTER, TRUE)
-			beltr = /obj/item/rogueweapon/flail/sflail
+			beltr = /obj/item/rogueweapon/flail/steel
 		if("Sabre")
 			H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_MASTER, TRUE)
 			beltr = /obj/item/rogueweapon/scabbard/sword/royal
@@ -707,7 +705,7 @@
 		var/secondary_choice = input(H, "Choose your secondary.", "TAKE UP ARMS") as anything in secondary
 		switch(secondary_choice)
 			if("Kite Shield")
-				backl = /obj/item/rogueweapon/shield/tower/metal
+				backl = /obj/item/rogueweapon/shield/kite
 			if("Crossbow")
 				H.adjust_skillrank_up_to(/datum/skill/combat/crossbows, 4, TRUE)
 				backl = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow

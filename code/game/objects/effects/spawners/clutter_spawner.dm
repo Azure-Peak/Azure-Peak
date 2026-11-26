@@ -24,7 +24,7 @@
 		/obj/item/needle = 1,
 		/obj/item/needle/thorn = 1,
 		/obj/item/roguestatue/steel = 1,
-		/obj/item/roguestatue/aalloy = 1,
+		/obj/item/roguestatue/decrepit = 1,
 		/obj/item/roguestatue/iron = 1,
 		/obj/item/repair_kit/bad = 1,
 		/obj/item/repair_kit/metal/bad = 1,
@@ -47,6 +47,7 @@
 		/obj/item/roguestatue/gold/loot = 1,
 		/obj/item/roguestatue/silver = 1,
 		/obj/item/roguestatue/steel = 1,
+		/obj/item/roguestatue/ancient = 1,
 		/obj/item/rogueweapon/hammer/steel = 1,
 		/obj/item/repair_kit = 1,
 	)
@@ -120,9 +121,9 @@
 	loot_value = LOOT_VALUE_CHEAP_JEWELRY
 	junk_loot = list(/obj/item/natural/glass_shard = 5, /obj/item/natural/ash = 5)
 	loot = list(
-		/obj/item/clothing/ring/aalloy = 6,
+		/obj/item/clothing/ring/decrepit = 6,
 		/obj/item/clothing/neck/roguetown/psicross = 2,
-		/obj/item/clothing/neck/roguetown/psicross/aalloy = 2,
+		/obj/item/clothing/neck/roguetown/psicross/ancient/decrepit = 2,
 		/obj/item/clothing/neck/roguetown/psicross/astrata = 6,
 		/obj/item/clothing/neck/roguetown/psicross/noc = 6,
 		/obj/item/clothing/neck/roguetown/psicross/abyssor = 6,

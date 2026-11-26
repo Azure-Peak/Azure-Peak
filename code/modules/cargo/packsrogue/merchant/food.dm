@@ -35,6 +35,20 @@
 					/obj/item/reagent_containers/food/snacks/rogue/raisinbread,
 				)
 
+/datum/supply_pack/rogue/food/eggs
+	name = "Egg"
+	cost = 20
+	contains = list(
+					/obj/item/reagent_containers/food/snacks/rogue/egg,
+					/obj/item/reagent_containers/food/snacks/rogue/egg,
+					/obj/item/reagent_containers/food/snacks/rogue/egg,
+					/obj/item/reagent_containers/food/snacks/rogue/egg,
+					/obj/item/reagent_containers/food/snacks/rogue/egg,
+					/obj/item/reagent_containers/food/snacks/rogue/egg,
+					/obj/item/reagent_containers/food/snacks/rogue/egg,
+					/obj/item/reagent_containers/food/snacks/rogue/egg,
+				)
+
 /datum/supply_pack/rogue/food/coffee
 	name = "Coffee Beans"
 	cost = 25
@@ -82,6 +96,24 @@
 	cost = 30
 	contains = list(/obj/item/reagent_containers/peppermill)
 
+/datum/supply_pack/rogue/food/butter
+	name = "Butter"
+	cost = 35
+	contains = list(
+					/obj/item/reagent_containers/food/snacks/butter,
+					/obj/item/reagent_containers/food/snacks/butter,
+					/obj/item/reagent_containers/food/snacks/butter,
+				)
+
+/datum/supply_pack/rogue/food/honey
+	name = "Honey"
+	cost = 30
+	contains = list(
+					/obj/item/reagent_containers/food/snacks/rogue/honey,
+					/obj/item/reagent_containers/food/snacks/rogue/honey,
+					/obj/item/reagent_containers/food/snacks/rogue/honey,
+				)
+
 /datum/supply_pack/rogue/food/spiderhoney
 	name = "Spider Honey"
 	cost = 40
@@ -124,6 +156,24 @@
 	cost = 40
 	contains = list(
 					/obj/item/reagent_containers/food/snacks/chocolate,
+				)
+
+/datum/supply_pack/rogue/food/eel
+	name = "Eel"
+	cost = 20
+	contains = list(
+					/obj/item/reagent_containers/food/snacks/fish/eel,
+					/obj/item/reagent_containers/food/snacks/fish/eel,
+					/obj/item/reagent_containers/food/snacks/fish/eel,
+				)
+
+/datum/supply_pack/rogue/food/carp
+	name = "Carp"
+	cost = 40
+	contains = list(
+					/obj/item/reagent_containers/food/snacks/fish/carp,
+					/obj/item/reagent_containers/food/snacks/fish/carp,
+					/obj/item/reagent_containers/food/snacks/fish/carp,
 				)
 
 /datum/supply_pack/rogue/food/angler

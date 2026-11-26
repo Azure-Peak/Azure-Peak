@@ -390,16 +390,13 @@
 	if(!L)
 		say("No active loan on record.")
 		return
-	var/pay_amt = text2num("[params["amount"]]")
-	if(isnull(pay_amt))
-		return
-	pay_amt = mammon_round(pay_amt)
-	if(pay_amt <= 0)
+	var/pay_amt = round(text2num("[params["amount"]]"))
+	if(isnull(pay_amt) || pay_amt < 1)
 		return
 	var/outstanding = L.get_remaining_due()
 	var/balance = SStreasury.get_balance(H)
-	pay_amt = mammon_round(min(pay_amt, outstanding, balance))
-	if(pay_amt <= 0)
+	pay_amt = min(pay_amt, outstanding, balance)
+	if(pay_amt < 1)
 		say("Nothing to repay with.")
 		playsound(src, 'sound/misc/machineno.ogg', 100, FALSE, -1)
 		return
@@ -410,10 +407,10 @@
 		return
 	playsound(src, 'sound/misc/coininsert.ogg', 100, FALSE, -1)
 	if(!SStreasury.get_loan_for(H))
-		say("Loan repaid in full. [format_mammon(paid)]m transferred.")
+		say("Loan repaid in full. [paid]m transferred.")
 	else
 		var/datum/loan/still = SStreasury.get_loan_for(H)
-		say("[format_mammon(paid)]m transferred. [format_mammon(still.get_remaining_due())]m remains.")
+		say("[paid]m transferred. [still.get_remaining_due()]m remains.")
 
 /obj/structure/roguemachine/atm/proc/handle_withdraw_institutional(mob/living/carbon/human/H, list/params)
 	var/fund_id = "[params["fund_id"]]"

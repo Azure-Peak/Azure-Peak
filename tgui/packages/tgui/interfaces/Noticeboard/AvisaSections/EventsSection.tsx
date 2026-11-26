@@ -35,17 +35,8 @@ export const EventsSection = ({ data }: { data: NoticeboardData }) => {
   );
 };
 
-const GoodsLine = (props: { label: string; goods: string[] }) =>
-  props.goods.length > 0 ? (
-    <div style={{ marginTop: 6, fontSize: FONT_BODY, color: INK }}>
-      <span style={{ color: INK_SOFT, marginRight: 6 }}>{props.label}</span>
-      {props.goods.join(', ')}
-    </div>
-  ) : null;
-
 const EventCard = ({ event }: { event: EconomicEvent }) => {
-  const scarce = event.shortage_goods ?? [];
-  const cheap = event.glut_goods ?? [];
+  const isShortage = event.event_type === 'shortage';
   return (
     <div style={{ ...cardStyle, marginBottom: 0, minHeight: 120 }}>
       <div
@@ -56,10 +47,9 @@ const EventCard = ({ event }: { event: EconomicEvent }) => {
           gap: 8,
         }}
       >
-        {scarce.length > 0 && (
+        {isShortage ? (
           <span style={badgeStyle(SEAL_RED)}>SHORTAGE</span>
-        )}
-        {cheap.length > 0 && (
+        ) : (
           <span style={badgeStyle(SEAL_GREEN)}>GLUT</span>
         )}
         <span
@@ -94,8 +84,19 @@ const EventCard = ({ event }: { event: EconomicEvent }) => {
           {event.description}
         </div>
       )}
-      <GoodsLine label="Scarce:" goods={scarce} />
-      <GoodsLine label="Cheap:" goods={cheap} />
+      {event.affected_goods.length > 0 && (
+        <div style={{ marginTop: 6, fontSize: FONT_BODY, color: INK }}>
+          <span
+            style={{
+              color: INK_SOFT,
+              marginRight: 6,
+            }}
+          >
+            Affected goods:
+          </span>
+          {event.affected_goods.join(', ')}
+        </div>
+      )}
     </div>
   );
 };

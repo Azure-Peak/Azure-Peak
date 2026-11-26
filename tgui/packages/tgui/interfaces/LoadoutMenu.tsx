@@ -13,7 +13,6 @@ import {
 
 import { useBackend } from '../backend';
 import { Window } from '../layouts';
-import { useIncrementalLimit } from './common/IncrementalList';
 
 type PreviewLayer = {
   icon: string;
@@ -437,11 +436,6 @@ const LoadoutDisplay = () => {
     })
     .sort((a, b) => a.name.localeCompare(b.name));
 
-  const { limit, sentinel } = useIncrementalLimit(
-    filteredItems.length,
-    `${currentCategory}|${search}`,
-  );
-
   const tintKeys = compact
     ? []
     : Array.from(
@@ -523,7 +517,7 @@ const LoadoutDisplay = () => {
                 </Table.Cell>
                 <Table.Cell>Description</Table.Cell>
               </Table.Row>
-              {filteredItems.slice(0, limit).map((item) => {
+              {filteredItems.map((item) => {
                 const isSelected = selectedNames.has(item.name);
                 const meta = selectedMap.get(item.name);
 
@@ -602,7 +596,6 @@ const LoadoutDisplay = () => {
               })}
             </Table>
           )}
-          {sentinel}
         </Section>
       </Stack.Item>
 

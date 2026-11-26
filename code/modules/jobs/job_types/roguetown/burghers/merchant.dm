@@ -1,6 +1,5 @@
 /datum/job/roguetown/merchant
 	title = "Merchant"
-	political_faction = POLITICAL_FACTION_ROSAWOOD
 	flag = MERCHANT
 	department_flag = ATC
 	faction = "Station"

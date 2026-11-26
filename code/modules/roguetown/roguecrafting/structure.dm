@@ -822,25 +822,6 @@
 	verbage = "constructs"
 	ontile = TRUE
 
-/datum/crafting_recipe/roguetown/structure/ladder
-	name = "ladder"
-	category = "Stairs"
-	result = /obj/structure/ladder
-	reqs = list(/obj/item/grown/log/tree/small = 2, /obj/item/grown/log/tree/stick = 3)
-	skillcraft = /datum/skill/craft/carpentry
-	craftdiff = 2
-	verbage_simple = "construct"
-	verbage = "constructs"
-
-/datum/crafting_recipe/roguetown/structure/ladder/TurfCheck(mob/user, turf/T)
-	if(istype(T, /turf/open/water) || istype(T, /turf/open/transparent/openspace) || istype(T, /turf/open/lava))
-		to_chat(user, span_warning("I can't craft this here."))
-		return FALSE
-	if(locate(/obj/structure/ladder) in T)
-		to_chat(user, span_warning("There is already a ladder here."))
-		return FALSE
-	return TRUE
-
 /datum/crafting_recipe/roguetown/structure/stairsd/TurfCheck(mob/user, turf/T)
 	var/turf/checking = get_step(T, user.dir)
 	if(!checking)

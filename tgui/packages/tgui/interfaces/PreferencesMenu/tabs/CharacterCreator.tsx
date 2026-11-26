@@ -16,7 +16,6 @@ import { SubtabAppearance } from './CharacterCreator/subtabs/Appearance';
 import { SubtabClass } from './CharacterCreator/subtabs/Class';
 import { SubtabDescriptors } from './CharacterCreator/subtabs/Descriptors';
 import { SubtabIdentity } from './CharacterCreator/subtabs/Identity';
-import { SubtabPolitics } from './CharacterCreator/subtabs/Politics';
 import { SubtabVillain } from './CharacterCreator/subtabs/Villains';
 
 enum Subtab {
@@ -25,7 +24,6 @@ enum Subtab {
   DESCRIPTORS = 2,
   CLASS = 3,
   VILLAIN = 4,
-  POLITICS = 5,
 }
 
 export const CharacterCreator = () => {
@@ -68,13 +66,6 @@ export const CharacterCreator = () => {
                 onClick={() => setSubtab(Subtab.CLASS)}
               >
                 Class
-              </Tabs.Tab>
-              <Tabs.Tab
-                icon="landmark"
-                selected={subtab === Subtab.POLITICS}
-                onClick={() => setSubtab(Subtab.POLITICS)}
-              >
-                Politics
               </Tabs.Tab>
               <Tabs.Tab
                 icon="skull"
@@ -342,7 +333,5 @@ const CharacterCreatorSubtab = (props: { subtab: Subtab }) => {
       return <SubtabClass />;
     case Subtab.VILLAIN:
       return <SubtabVillain />;
-    case Subtab.POLITICS:
-      return <SubtabPolitics />;
   }
 };

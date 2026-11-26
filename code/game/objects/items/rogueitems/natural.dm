@@ -20,9 +20,6 @@
 			return
 		var/obj/item/natural/bundle/B = W
 		if(istype(src, B.stacktype))
-			if(!seals_match(B))
-				to_chat(user, span_warning("Marked goods will not bundle with unmarked ones."))
-				return
 			if(B.amount < B.maxamount)
 				B.amount++
 				B.update_bundle()
@@ -34,11 +31,7 @@
 	else if(istype(W, /obj/item/natural/))
 		var/obj/item/natural/B = W
 		if(B.bundletype == src.bundletype && src.bundletype != null)
-			if(!seals_match(B))
-				to_chat(user, span_warning("Marked goods will not bundle with unmarked ones."))
-				return
 			var/obj/item/natural/bundle/N = new bundletype(src.loc)
-			N.copy_seals(src)
 			to_chat(user, span_info("You tie the [N.stackname] into a bundle."))
 			qdel(B)
 			qdel(src)
@@ -61,7 +54,7 @@
 		var/list/bundle_jutsu = list()
 		// search for items of the stacktype in the src turf.
 		for(var/obj/item/natural/N in get_turf(src))
-			if(istype(N, bundletype) && seals_match(N))
+			if(istype(N, bundletype))
 				bundle_jutsu += N
 		// bundlecount is now = bundle_jutsu.len for easy counting purposes.
 		var/bundlecount = bundle_jutsu.len
@@ -72,7 +65,6 @@
 				bundlecount--
 			else if(bundlecount >= 2)
 				var/obj/item/natural/bundle/B = new src.bundletype(get_turf(user))
-				B.copy_seals(src)
 				var/add_amount_clamped = clamp(bundlecount, 2, B.maxamount)
 				B.amount = add_amount_clamped
 				B.update_bundle()
@@ -107,11 +99,6 @@
 	. = ..()
 	update_bundle()
 
-/obj/item/natural/bundle/proc/spawn_single(atom/where)
-	var/obj/item/single = new stacktype(where)
-	single.copy_seals(src)
-	return single
-
 /obj/item/natural/bundle/burn()
 	. = ..(amount)
 
@@ -128,9 +115,6 @@
 	if(istype(W, /obj/item/natural/bundle))
 		var/obj/item/natural/bundle/B = W
 		if(src.stacktype == B.stacktype)
-			if(!seals_match(B))
-				to_chat(user, span_warning("Marked goods will not bundle with unmarked ones."))
-				return
 			if(src.amount + B.amount > maxamount)
 				B.amount = (src.amount + B.amount) - maxamount
 				src.amount = maxamount
@@ -138,7 +122,7 @@
 				B.update_bundle()
 				to_chat(user, span_warning("There's not enough space in [src]."))
 				if(B.amount == 1)
-					var/obj/H = spawn_single(src.loc)
+					var/obj/H = new stacktype(src.loc)
 					user.put_in_hands(H)
 					qdel(B)
 			else
@@ -148,9 +132,6 @@
 				qdel(B)
 	else if(istype(W, stacktype))
 		if(item_flags & IN_STORAGE)
-			return
-		if(!seals_match(W))
-			to_chat(user, span_warning("Marked goods will not bundle with unmarked ones."))
 			return
 		if(src.amount < src.maxamount)
 			to_chat(user, span_info("I add the [W.name] to the [src.name]."))
@@ -169,8 +150,9 @@
 		switch(src.amount)
 			if(1)
 				var/atom/old_loc = loc
-				var/obj/item/single = spawn_single(old_loc)
+				var/single_type = stacktype
 				qdel(src)
+				var/obj/item/single = new single_type(old_loc)
 				if(ismob(old_loc))
 					var/mob/holder = old_loc
 					holder.put_in_hands(single)
@@ -186,8 +168,8 @@
 	var/mob/living/carbon/human/H = user
 	switch(amount)
 		if(2)
-			var/obj/F = spawn_single(src.loc)
-			var/obj/I = spawn_single(src.loc)
+			var/obj/F = new stacktype(src.loc)
+			var/obj/I = new stacktype(src.loc)
 			H.put_in_hands(F)
 			H.put_in_hands(I)
 			qdel(src)
@@ -196,21 +178,21 @@
 			// bandaid. if it's 1 it shouldnt be a bundle. if its 0 or below it DEFINITELY shouldnt be a bundle.
 			if(amount <= 1)
 				// this SHOULD stop at 1 so we'll still give you the one back.
-				var/obj/I = spawn_single(src.loc)
+				var/obj/I = new stacktype(src.loc)
 				log_runtime("BUNDLE: [src] somehow had [src.amount] items in it when [user.name] ([user.real_name] - [user.client.ckey]) tried to retrieve [src.stacktype]!")
 				H.put_in_hands(I)
 				qdel(src)
 				return
 			amount -= 1
-			var/obj/F = spawn_single(src.loc)
+			var/obj/F = new stacktype(src.loc)
 			H.put_in_hands(F)
 			user.visible_message(span_info("[user] removes [F] from [src]."), span_info("I remove [F] from [src]."))
 	update_bundle()
 
 /obj/item/natural/bundle/attack_turf(turf/T, mob/living/user)
 	var/list/obj/item/stackables = list()
-	for(var/obj/item/I in T.contents)
-		if(I.type == stacktype && seals_match(I))
+	for(var/obj/I in T.contents)
+		if(I.type == stacktype)
 			stackables += I
 	if(stackables.len)
 		if(amount >= maxamount)

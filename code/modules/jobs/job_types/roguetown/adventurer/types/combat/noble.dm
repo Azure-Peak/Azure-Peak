@@ -5,7 +5,7 @@
 	forbidden_races = list(RACES_CONSTRUCT RACES_DESPISED)
 	outfit = /datum/outfit/job/roguetown/adventurer/noble
 	traits_applied = list(TRAIT_NOBLE, TRAIT_NUTCRACKER)
-	noble_rank = NOBLE_RANK_GENTRY
+	noble_income = 15
 	class_select_category = CLASS_CAT_NOBLE
 	category_tags = list(CTAG_ADVENTURER, CTAG_COURTAGENT, CTAG_LICKER_WRETCH)
 
@@ -409,7 +409,7 @@
 	tutorial = "You are a knight from a distant land, a scion of a noble house visiting Azuria for one reason or another."
 	outfit = /datum/outfit/job/roguetown/adventurer/knighte
 	traits_applied = list(TRAIT_NOBLE, TRAIT_HEAVYARMOR, TRAIT_STEELHEARTED)
-	noble_rank = NOBLE_RANK_GENTRY
+	noble_income = 15
 	subclass_stats = list(
 		STATKEY_STR = 2,
 		STATKEY_CON = 1,
@@ -506,25 +506,25 @@
 				H.adjust_skillrank_up_to(/datum/skill/combat/shields, SKILL_LEVEL_JOURNEYMAN, TRUE)
 				beltr = /obj/item/rogueweapon/sword
 				r_hand = /obj/item/rogueweapon/scabbard/sword/noble
-				backr = /obj/item/rogueweapon/shield/tower/metal
+				backr = /obj/item/rogueweapon/shield/kite
 			if("Mace + Shield")
 				H.adjust_skillrank_up_to(/datum/skill/combat/maces, SKILL_LEVEL_JOURNEYMAN, TRUE)
 				H.adjust_skillrank_up_to(/datum/skill/combat/shields, SKILL_LEVEL_JOURNEYMAN, TRUE)
 				beltr = /obj/item/rogueweapon/mace
-				backr = /obj/item/rogueweapon/shield/tower/metal
+				backr = /obj/item/rogueweapon/shield/kite
 			if("Flail + Shield")
 				H.adjust_skillrank_up_to(/datum/skill/combat/whipsflails, SKILL_LEVEL_JOURNEYMAN, TRUE)
 				H.adjust_skillrank_up_to(/datum/skill/combat/shields, SKILL_LEVEL_JOURNEYMAN, TRUE)
 				beltr = /obj/item/rogueweapon/flail
-				backr = /obj/item/rogueweapon/shield/tower/metal
+				backr = /obj/item/rogueweapon/shield/kite
 			if("Lance + Shield")
 				H.adjust_skillrank_up_to(/datum/skill/combat/polearms, SKILL_LEVEL_JOURNEYMAN, TRUE)
 				H.adjust_skillrank_up_to(/datum/skill/combat/shields, SKILL_LEVEL_JOURNEYMAN, TRUE)
 				r_hand = /obj/item/rogueweapon/spear/lance
-				backr = /obj/item/rogueweapon/shield/tower/metal
+				backr = /obj/item/rogueweapon/shield/kite
 			if("Greatflail")
 				H.adjust_skillrank_up_to(/datum/skill/combat/whipsflails, SKILL_LEVEL_JOURNEYMAN, TRUE)
-				r_hand = /obj/item/rogueweapon/flail/peasantwarflail/iron
+				r_hand = /obj/item/rogueweapon/flail/great/iron
 				backr = /obj/item/rogueweapon/scabbard/gwstrap
 			if("Billhook")
 				H.adjust_skillrank_up_to(/datum/skill/combat/polearms, SKILL_LEVEL_JOURNEYMAN, TRUE)

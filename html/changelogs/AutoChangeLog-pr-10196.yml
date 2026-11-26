@@ -1,0 +1,4 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - rscadd: "Makes Doppelganger copies their target's skills and combat traits (Except pacifism etc.), instead of being fixed Expert, which was causing them to obliterate journeyman or towner easily. If not player controlled, they will have a 1 skill penalty and small stat penalty. They copy quivers and scabbarded weapons properly now and switch over to archer AI if they copy an archer\n- Doppel heart is now a 1x1 item, now sells for 60 instead of 100."

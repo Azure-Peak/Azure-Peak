@@ -213,7 +213,7 @@
 	beltl = /obj/item/rogueweapon/scabbard/sword
 	beltr = /obj/item/roguekey/veteran
 	backr = /obj/item/storage/backpack/rogue/satchel/black
-	backl = /obj/item/rogueweapon/shield/tower/metal
+	backl = /obj/item/rogueweapon/shield/kite
 	r_hand = /obj/item/rogueweapon/spear/billhook
 	belt = /obj/item/storage/belt/rogue/leather/black
 	cloak = /obj/item/clothing/cloak/half/vet
@@ -274,7 +274,7 @@
 
 	category_tags = list(CTAG_VETERAN)
 	traits_applied = list(TRAIT_HEAVYARMOR, TRAIT_MEDIUMARMOR, TRAIT_STEELHEARTED, TRAIT_NOBLE)
-	noble_rank = NOBLE_RANK_GENTRY
+	noble_income = 15
 	subclass_stats = list(
 		STATKEY_CON = 2,
 		STATKEY_WIL = 2,
@@ -350,7 +350,7 @@
 
 			if ("Spear + Shield")
 				r_hand = /obj/item/rogueweapon/spear
-				backl = /obj/item/rogueweapon/shield/tower/metal
+				backl = /obj/item/rogueweapon/shield/kite
 		var/retirement = list("Pursue Homesteading", "Dabble in Artisan Smithing", "Write an autobiography", "Keep up with your old regimen")
 		var/retirement_choice = input(H, "During your retirement, you decided to...", "PICK A HOBBY.") as anything in retirement
 		switch(retirement_choice)

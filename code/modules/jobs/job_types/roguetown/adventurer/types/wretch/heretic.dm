@@ -87,9 +87,9 @@
 			if("Flail")
 				H.adjust_skillrank_up_to(/datum/skill/combat/whipsflails, SKILL_LEVEL_EXPERT, TRUE)
 				if(HAS_TRAIT(H, TRAIT_PSYDONIAN_GRIT))
-					beltr = /obj/item/rogueweapon/flail/sflail/silver/psy
+					beltr = /obj/item/rogueweapon/flail/silver/psy
 				else
-					beltr = /obj/item/rogueweapon/flail/sflail
+					beltr = /obj/item/rogueweapon/flail/steel
 			if("Steel Axe")
 				H.adjust_skillrank_up_to(/datum/skill/combat/axes, SKILL_LEVEL_EXPERT, TRUE)
 				beltr = /obj/item/rogueweapon/stoneaxe/woodcut/steel
@@ -119,7 +119,7 @@
 	neck = /obj/item/clothing/neck/roguetown/gorget
 	pants = /obj/item/clothing/under/roguetown/chainlegs
 	backl = /obj/item/storage/backpack/rogue/satchel
-	backr = /obj/item/rogueweapon/shield/tower/metal
+	backr = /obj/item/rogueweapon/shield/kite
 	belt = /obj/item/storage/belt/rogue/leather
 	beltl = /obj/item/rogueweapon/huntingknife
 	backpack_contents = list(

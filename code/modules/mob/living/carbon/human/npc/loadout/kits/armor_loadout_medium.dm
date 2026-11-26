@@ -48,33 +48,33 @@
 
 //** DECREPIT ALLOY - SKELETONS **//
 
-/datum/npc_loadout/armor/medium/aalloy
-	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/aalloy
-	pants = /obj/item/clothing/under/roguetown/chainlegs/kilt/aalloy
-	shoes = /obj/item/clothing/shoes/roguetown/sandals/aalloy //Legionnaire look
+/datum/npc_loadout/armor/medium/decrepit
+	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/ancient/decrepit
+	pants = /obj/item/clothing/under/roguetown/chainlegs/kilt/ancient/decrepit
+	shoes = /obj/item/clothing/shoes/roguetown/sandals/ancient/decrepit //Legionnaire look
 	gloves = /obj/item/clothing/gloves/roguetown/fingerless_leather
 
-/datum/npc_loadout/armor/medium/aalloy_helm
-	head = /obj/item/clothing/head/roguetown/helmet/kettle/aalloy
-	neck = /obj/item/clothing/neck/roguetown/chaincoif/iron/aalloy
+/datum/npc_loadout/armor/medium/decrepit_helm
+	head = /obj/item/clothing/head/roguetown/helmet/kettle/ancient/decrepit
+	neck = /obj/item/clothing/neck/roguetown/chaincoif/ancient/decrepit
 
-/datum/npc_loadout/armor/medium/aalloy_soldier
-	head = /obj/item/clothing/head/roguetown/helmet/heavy/aalloy
-	armor = /obj/item/clothing/suit/roguetown/armor/plate/cuirass/aalloy
-	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/aalloy
-	pants = /obj/item/clothing/under/roguetown/chainlegs/kilt/aalloy
-	neck = /obj/item/clothing/neck/roguetown/chaincoif/iron/aalloy
-	gloves = /obj/item/clothing/gloves/roguetown/chain/aalloy
-	wrists = /obj/item/clothing/wrists/roguetown/bracers/aalloy
+/datum/npc_loadout/armor/medium/decrepit_soldier
+	head = /obj/item/clothing/head/roguetown/helmet/heavy/ancient/decrepit
+	armor = /obj/item/clothing/suit/roguetown/armor/plate/cuirass/ancient/decrepit
+	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/ancient/decrepit
+	pants = /obj/item/clothing/under/roguetown/chainlegs/kilt/ancient/decrepit
+	neck = /obj/item/clothing/neck/roguetown/chaincoif/ancient/decrepit
+	gloves = /obj/item/clothing/gloves/roguetown/chain/ancient/decrepit
+	wrists = /obj/item/clothing/wrists/roguetown/bracers/ancient/decrepit
 
-/datum/npc_loadout/armor/medium/aalloy_archer
-	head = /obj/item/clothing/head/roguetown/helmet/kettle/aalloy
-	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/aalloy
-	pants = /obj/item/clothing/under/roguetown/chainlegs/kilt/aalloy
-	neck = /obj/item/clothing/neck/roguetown/chaincoif/iron/aalloy
-	gloves = /obj/item/clothing/gloves/roguetown/chain/aalloy
-	wrists = /obj/item/clothing/wrists/roguetown/bracers/aalloy
-	shoes = /obj/item/clothing/shoes/roguetown/boots/aalloy
+/datum/npc_loadout/armor/medium/decrepit_archer
+	head = /obj/item/clothing/head/roguetown/helmet/kettle/ancient/decrepit
+	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/ancient/decrepit
+	pants = /obj/item/clothing/under/roguetown/chainlegs/kilt/ancient/decrepit
+	neck = /obj/item/clothing/neck/roguetown/chaincoif/ancient/decrepit
+	gloves = /obj/item/clothing/gloves/roguetown/chain/ancient/decrepit
+	wrists = /obj/item/clothing/wrists/roguetown/bracers/ancient/decrepit
+	shoes = /obj/item/clothing/shoes/roguetown/boots/ancient/decrepit
 
 //** IRON CHAIN **//
 
@@ -153,56 +153,3 @@
 		/obj/item/clothing/suit/roguetown/armor/chainmail/iron = 45,
 	)
 	pants = /obj/item/clothing/under/roguetown/chainlegs/iron/kilt
-
-//** PSYVAULT **//
-
-/datum/npc_loadout/armor/medium/psy_vault_guard //Otavan themed
-	wrists = list(
-		/obj/item/clothing/wrists/roguetown/bracers/psythorns = 25,
-		/obj/item/clothing/wrists/roguetown/bracers/chain = 30,
-		/obj/item/clothing/neck/roguetown/psicross = 20,
-		/obj/item/clothing/neck/roguetown/psicross/silver = 5,
-	)
-	head = list(
-		/obj/item/clothing/head/roguetown/helmet/blacksteel/psythorns = 40,
-		/obj/item/clothing/head/roguetown/roguehood/psydon = 40,
-		NPC_NOTHING = 10, //ENDVRE AS HE DOES
-	)
-	mask = list(
-		/obj/item/clothing/mask/rogue/sack = 30,
-		/obj/item/clothing/mask/rogue/sack/psy = 30,
-		NPC_NOTHING = 15,
-	)
-	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk
-	armor = /obj/item/clothing/suit/roguetown/armor/vestments_padded
-	neck = /obj/item/clothing/neck/roguetown/gorget/steel
-	pants = /obj/item/clothing/under/roguetown/chainlegs/kilt
-	shoes = /obj/item/clothing/shoes/roguetown/boots/psydonboots
-	gloves = /obj/item/clothing/gloves/roguetown/chain/psydon
-
-/datum/npc_loadout/armor/medium/psy_vault_lighter //Otavan themed
-	wrists = list(
-		/obj/item/clothing/neck/roguetown/psicross = 65,
-		/obj/item/clothing/neck/roguetown/psicross/silver = 35,
-	)
-	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail
-	armor = /obj/item/clothing/suit/roguetown/armor/vestments_padded
-	head = /obj/item/clothing/head/roguetown/roguehood/psydon
-	neck = /obj/item/clothing/neck/roguetown/coif/padded
-	pants = /obj/item/clothing/under/roguetown/trou/leather
-	shoes = /obj/item/clothing/shoes/roguetown/sandals
-	gloves = /obj/item/clothing/gloves/roguetown/otavan/psygloves
-
-/datum/npc_loadout/armor/medium/psy_vault_mage //Naledi themed
-	wrists = list(
-		/obj/item/clothing/wrists/roguetown/bracers/cloth/naledi = 75,
-		/obj/item/clothing/neck/roguetown/psicross/g = 25,
-	)
-	mask = /obj/item/clothing/mask/rogue/lordmask/naledi/lesser //no merc exclusive one please, intended to be the weaker varient
-	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail
-	armor = /obj/item/clothing/suit/roguetown/armor/vestments_padded
-	head = /obj/item/clothing/head/roguetown/headband/monk/psy_vault_guard
-	neck = /obj/item/clothing/neck/roguetown/coif
-	pants = /obj/item/clothing/under/roguetown/trou/leather
-	shoes = /obj/item/clothing/shoes/roguetown/sandals
-	gloves = /obj/item/clothing/gloves/roguetown/bandages

@@ -51,13 +51,13 @@
 	shooters will."
 	projectile_type = /obj/projectile/bullet/reusable/arrow/iron
 
-/obj/item/ammo_casing/caseless/rogue/arrow/iron/aalloy
+/obj/item/ammo_casing/caseless/rogue/arrow/ancient/decrepit
 	name = "decrepit broadhead arrow"
 	desc = "An arrow; one end, tipped with flattened and rotted metal - the other, \
 	inlaid with decayed feathers. The alloy's decrepity forces it to burst into \
 	shrapnel upon impact, shredding flesh."
 	icon_state = "ancientarrow"
-	projectile_type = /obj/projectile/bullet/reusable/arrow/iron/aalloy
+	projectile_type = /obj/projectile/bullet/reusable/arrow/ancient/decrepit
 	color = "#bb9696"
 
 /obj/item/ammo_casing/caseless/rogue/arrow/steel
@@ -67,13 +67,13 @@
 	to steel-heads on another. Crafted for more well-prepared targets."
 	projectile_type = /obj/projectile/bullet/reusable/arrow/steel
 
-/obj/item/ammo_casing/caseless/rogue/arrow/steel/paalloy
+/obj/item/ammo_casing/caseless/rogue/arrow/ancient
 	name = "ancient bodkin arrow"
 	desc = "An arrow; one end, tipped with a sharpened rod of polished gilbranze - \
 	the other, inlaid with feathers. The razor-thin tip resembles a sabot; an alloyed \
 	sliver that can punch straight through steel."
 	icon_state = "ancientarrow"
-	projectile_type = /obj/projectile/bullet/reusable/arrow/steel/paalloy
+	projectile_type = /obj/projectile/bullet/reusable/arrow/ancient
 
 /obj/projectile/bullet/reusable/arrow
 	name = "arrow"
@@ -133,14 +133,14 @@
 	flag = "piercing"
 	embedchance = 30
 
-
-/obj/projectile/bullet/reusable/arrow/iron/aalloy
+/obj/projectile/bullet/reusable/arrow/ancient/decrepit
 	name = "decrepit broadhead arrow"
-	ammo_type = /obj/item/ammo_casing/caseless/rogue/arrow/iron/aalloy
+	ammo_type = /obj/item/ammo_casing/caseless/rogue/arrow/ancient/decrepit
 	icon_state = "ancientarrow_proj"
 	damage = 35
 	armor_penetration = PEN_LIGHT
 	flag = "piercing"
+	embedchance = 30
 
 // Bodkins should penetrate essentially any armour in the game with decent perception, as
 // recompense for their very low damage. Better for lower perception characters without
@@ -154,9 +154,9 @@
 
 // Significantly worse armour-piercing, slightly more damage. Should still penetrate most things.
 // Note that it's pretty likely the skeleton using these has a longbow, which penetrates more stuff.
-/obj/projectile/bullet/reusable/arrow/steel/paalloy
+/obj/projectile/bullet/reusable/arrow/ancient
 	name = "ancient bodkin arrow"
-	ammo_type = /obj/item/ammo_casing/caseless/rogue/arrow/steel/paalloy
+	ammo_type = /obj/item/ammo_casing/caseless/rogue/arrow/ancient
 	icon_state = "ancientarrow_proj"
 	damage = 30
 	armor_penetration = PEN_HEAVY

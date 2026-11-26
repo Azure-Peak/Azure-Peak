@@ -23,6 +23,8 @@ import {
 } from './common/parchment';
 
 type Warrant = {
+  trade_cap: number;
+  trade_remaining: number;
   defense_cap: number;
   defense_remaining: number;
 };
@@ -66,6 +68,7 @@ type ElectionTally = {
 
 type Tallies = {
   election?: ElectionTally;
+  trade_auth?: BracketTally;
   defense_auth?: BracketTally;
   recall?: YaeNayTally;
   censure?: YaeNayTally;
@@ -88,6 +91,7 @@ type Data = {
   candidates: Candidate[];
   tallies: Tallies;
   history: HistoryEntry[];
+  trade_brackets: number[];
   defense_brackets: number[];
   quorum_voters: number;
   recall_threshold_pct: number;
@@ -95,6 +99,7 @@ type Data = {
   nae_veto_pct: number;
 };
 
+const MOTION_TRADE = 'trade_auth';
 const MOTION_DEFENSE = 'defense_auth';
 const MOTION_RECALL = 'recall';
 const MOTION_CENSURE = 'censure';
@@ -278,6 +283,7 @@ export const CityAssembly = () => {
             <AldermanStrip
               warrant={data.warrant}
               onResign={() => act('resign_alderman')}
+              onTrade={() => act('alderman_trade')}
             />
           ) : null}
 
@@ -298,6 +304,17 @@ export const CityAssembly = () => {
               setStandOpen(false);
             }}
             onWithdraw={() => act('withdraw_candidacy')}
+          />
+
+          <BracketRow
+            label="Trade"
+            hint="Set the Alderman's daily Crown spending cap. (Taken from the Crowns' Purse, not the Burgher's Pledge.)"
+            motion={MOTION_TRADE}
+            brackets={data.trade_brackets}
+            suffix="m"
+            myVote={data.my_votes?.[MOTION_TRADE]}
+            tally={data.tallies?.trade_auth}
+            disabled={!canVote}
           />
 
           <BracketRow
@@ -346,7 +363,12 @@ export const CityAssembly = () => {
   );
 };
 
-const AldermanStrip = (props: { warrant: Warrant; onResign: () => void }) => {
+const AldermanStrip = (props: {
+  warrant: Warrant;
+  onResign: () => void;
+  onTrade: () => void;
+}) => {
+  const canTrade = props.warrant.trade_remaining > 0;
   return (
     <div style={aldermanPanelStyle}>
       <div
@@ -357,6 +379,13 @@ const AldermanStrip = (props: { warrant: Warrant; onResign: () => void }) => {
         }}
       >
         Alderman&apos;s Writ
+      </div>
+      <div style={aldermanRowStyle}>
+        <span>Trade warrant</span>
+        <span>
+          <b>{props.warrant.trade_remaining}m</b> of {props.warrant.trade_cap}m
+          remaining today
+        </span>
       </div>
       <div style={aldermanRowStyle}>
         <span>Defense warrant</span>
@@ -373,6 +402,22 @@ const AldermanStrip = (props: { warrant: Warrant; onResign: () => void }) => {
           flexWrap: 'wrap',
         }}
       >
+        <button
+          type="button"
+          style={inkButtonStyle({
+            color: canTrade ? SEAL_AMBER : INK_FAINT,
+            disabled: !canTrade,
+          })}
+          disabled={!canTrade}
+          onClick={props.onTrade}
+          title={
+            canTrade
+              ? "Open the Nerve Master's trade panel under the Alderman's writ. Draws from the trade warrant, not the Crown's Purse."
+              : 'The Commons have set no trade warrant for you, or its coin is spent for the day.'
+          }
+        >
+          Alderman — Trade
+        </button>
         <button
           type="button"
           style={inkButtonStyle({ color: SEAL_RED })}

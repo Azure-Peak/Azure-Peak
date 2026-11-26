@@ -1,10 +1,4 @@
-import {
-  type CSSProperties,
-  useCallback,
-  useEffect,
-  useMemo,
-  useState,
-} from 'react';
+import { type CSSProperties, useEffect, useMemo, useState } from 'react';
 import { Box, Section, Stack } from 'tgui-core/components';
 
 import { useBackend } from '../backend';
@@ -237,12 +231,6 @@ const BookPage = () => {
     return arr;
   }, [recipes]);
 
-  const onSelectRecipe = useCallback(
-    (path: string) => act('view_recipe', { path }),
-    [act],
-  );
-  const onBack = useCallback(() => act('back_to_library'), [act]);
-
   return (
     <Stack fill>
       <Stack.Item basis="30%">
@@ -252,8 +240,8 @@ const BookPage = () => {
           category={category}
           selectedRecipe={data.current_recipe}
           onCategoryChange={setCategory}
-          onSelectRecipe={onSelectRecipe}
-          onBack={onBack}
+          onSelectRecipe={(path) => act('view_recipe', { path })}
+          onBack={() => act('back_to_library')}
         />
       </Stack.Item>
       <Stack.Item grow basis={0}>

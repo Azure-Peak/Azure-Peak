@@ -36,7 +36,7 @@
 
 /datum/renegade_boons/ui_status(mob/user, datum/ui_state/state)
 	var/mob/living/carbon/human/H = user
-	if(H != owner?.owner?.current || !istype(H.mouth, /obj/item/roguecoin/aalloy) || !in_reach(H))
+	if(H != owner?.owner?.current || !istype(H.mouth, /obj/item/roguecoin/psila) || !in_reach(H))
 		return UI_CLOSE
 	return ..()
 
@@ -56,7 +56,7 @@
 		ui.open()
 
 /datum/renegade_boons/ui_data(mob/living/carbon/human/user)
-	var/obj/item/roguecoin/aalloy/P = user.mouth
+	var/obj/item/roguecoin/psila/P = user.mouth
 	var/list/items = list()
 	if(category || search)
 		var/list/rows = list()
@@ -104,7 +104,7 @@
 			return TRUE
 
 /datum/renegade_boons/proc/buy(mob/living/carbon/human/H, path)
-	var/obj/item/roguecoin/aalloy/P = H.mouth
+	var/obj/item/roguecoin/psila/P = H.mouth
 	var/name
 	var/price
 	var/list/contents

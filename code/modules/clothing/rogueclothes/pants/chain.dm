@@ -224,7 +224,7 @@
 	sleeved = 'icons/roguetown/clothing/onmob/helpers/sleeves_pants.dmi'
 	alternate_worn_layer = (SHIRT_LAYER)
 
-/obj/item/clothing/under/roguetown/chainlegs/kilt/aalloy
+/obj/item/clothing/under/roguetown/chainlegs/kilt/ancient/decrepit
 	name = "decrepit chain kilt"
 	desc = "Rotted metal rings, linked together with bindings of rotting leather to form a waist's drape. The maille jingles with every step, singing the hymn to a cadence once savored by marching legionnaires."
 	icon_state = "achainkilt"
@@ -236,7 +236,7 @@
 	smeltresult = /obj/item/ingot/aaslag
 	anvilrepair = null
 
-/obj/item/clothing/under/roguetown/chainlegs/kilt/paalloy
+/obj/item/clothing/under/roguetown/chainlegs/kilt/ancient
 	name = "ancient chain kilt"
 	desc = "Polished gilbranze rings, linked together with bindings of silk to form a waist's vestment. These undying legionnaires once marched for Vheslyn, and again for Zizo; but now, they are utterly beholden to the whims of their resurrector."
 	icon_state = "achainkilt"

@@ -150,7 +150,7 @@ GLOBAL_LIST_EMPTY(inqsupplies)
 
 /datum/inqports/bataille/flail
 	name = "1 Steel Flail"
-	item_type = /obj/item/rogueweapon/flail/sflail
+	item_type = /obj/item/rogueweapon/flail/steel
 	marquescost = 2
 
 /datum/inqports/bataille/billhook
@@ -374,7 +374,7 @@ GLOBAL_LIST_EMPTY(inqsupplies)
 /datum/inqports/supplies/tntsatchel
 	name = "1 Blastpowder Satchel"
 	item_type = /obj/item/explosive/fused/powder/satchel
-	marquescost = 8 
+	marquescost = 8
 	maximum = 3
 
 // ✤ ARTICLES ✤ RIGHT HERE! THAT'S RIGHT!

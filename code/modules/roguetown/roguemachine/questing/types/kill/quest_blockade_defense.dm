@@ -30,7 +30,9 @@
 /datum/quest/kill/blockade_defense/get_defense_regions()
 	. = list()
 	for(var/datum/blockade/B as anything in GLOB.active_blockades)
-		. += B.get_name()
+		var/datum/economic_region/ER = B.get_region()
+		if(ER)
+			. += ER.name
 
 /datum/quest/kill/blockade_defense/get_scroll_type()
 	return /obj/item/quest_writ/blockade
@@ -58,8 +60,9 @@
 	if(title)
 		return title
 	var/datum/blockade/B = blockade_ref?.resolve()
-	if(B)
-		return "Break the blockade of [B.get_region_names()]"
+	var/datum/economic_region/ER = B?.get_region()
+	if(ER)
+		return "Break the blockade of [ER.name]"
 	if(region)
 		return "Blockade Defense: [region]"
 	return "Break a trade blockade"
@@ -346,21 +349,22 @@
 
 /datum/quest/kill/blockade_defense/on_issuer_withdrawn(mob/withdrawer)
 	var/datum/blockade/B = blockade_ref?.resolve()
+	var/datum/economic_region/ER = B?.get_region()
 	if(B)
 		B.active_scroll_ref = null
 		B.active_quest_ref = null
-	scom_announce("The [B ? "blockade" : "hoard recovery"] scroll for [B ? B.get_region_names() : region] has been withdrawn.")
+	scom_announce("The [B ? "blockade" : "hoard recovery"] scroll for [ER ? ER.name : region] has been withdrawn.")
 
 /datum/quest/kill/blockade_defense/mark_complete()
 	..()
 	clear_wave_timers()
 	var/datum/blockade/B = blockade_ref?.resolve()
 	if(B)
-		var/blockade_name = B.get_name()
+		var/datum/economic_region/ER = B.get_region()
 		B.active_scroll_ref = null
 		B.active_quest_ref = null
 		SSeconomy.clear_blockade(B, "cleared")
-		award_defender_triumphs(blockade_name)
+		award_defender_triumphs(ER ? ER.name : region)
 	var/mob/lead = quest_receiver_reference?.resolve()
 	var/payout = reward_amount
 	record_completion_stats(payout)
@@ -379,9 +383,9 @@
 			paid += share - share_tax
 			paid_out += share
 			if(fellowship_split_payout)
-				to_chat(payee, span_notice("The final wave breaks. Your share of the reward has been paid to your account. Gross: [format_mammon(share)]m. Tax: [format_mammon(share_tax)]m. Net: [format_mammon(share - share_tax)]m."))
+				to_chat(payee, span_notice("The final wave breaks. Your share of the reward has been paid to your account. Gross: [share]m. Tax: [share_tax]m. Net: [share - share_tax]m."))
 			else
-				announce_to_bearer("The final wave breaks. Your reward has been paid to your account. Gross: [format_mammon(share)]m. Tax: [format_mammon(share_tax)]m. Net: [format_mammon(share - share_tax)]m.")
+				announce_to_bearer("The final wave breaks. Your reward has been paid to your account. Gross: [share]m. Tax: [share_tax]m. Net: [share - share_tax]m.")
 		pay_merc_contract_bonuses(src, shares)
 		var/leftover = payout - paid_out
 		var/mob/living/sink = fellowship_leftover_sink(shares, lead)

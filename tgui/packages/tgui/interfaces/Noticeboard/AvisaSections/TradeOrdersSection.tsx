@@ -4,6 +4,7 @@ import {
   badgeStyle,
   cardStyle,
   FONT_BODY,
+  FONT_TITLE,
   INK,
   INK_FAINT,
   INK_SOFT,
@@ -20,14 +21,15 @@ const PETITION_PURPLE = '#7a3aa6';
 
 const orderGridStyle: React.CSSProperties = {
   display: 'grid',
-  gridTemplateColumns: 'repeat(auto-fill, minmax(230px, 1fr))',
-  gap: 8,
+  gridTemplateColumns: '1fr 1fr',
+  gap: 10,
   alignItems: 'start',
 };
 
 const orderBucket = (o: TradeOrder): number => {
-  if (o.blockaded) return 1;
-  return 0;
+  if (o.blockaded) return 2;
+  if (o.urgent) return 0;
+  return 1;
 };
 
 export const TradeOrdersSection = ({ data }: { data: NoticeboardData }) => {
@@ -60,7 +62,7 @@ export const TradeOrdersSection = ({ data }: { data: NoticeboardData }) => {
         >
           {helpOpen ? 'Hide About Trade Orders' : 'About Trade Orders'}
         </button>
-        {helpOpen && <HelpPanel />}
+        {helpOpen && <HelpPanel data={data} />}
       </div>
 
       {orders.length === 0 ? (
@@ -78,10 +80,11 @@ export const TradeOrdersSection = ({ data }: { data: NoticeboardData }) => {
 
 const OrderCard = ({ order }: { order: TradeOrder }) => {
   return (
-    <div style={{ ...cardStyle, marginBottom: 0, padding: '6px 10px' }}>
+    <div style={{ ...cardStyle, marginBottom: 0, minHeight: 280 }}>
       <div
         style={{ display: 'flex', alignItems: 'baseline', flexWrap: 'wrap' }}
       >
+        {!!order.urgent && <span style={badgeStyle(SEAL_RED)}>URGENT</span>}
         {!!order.blockaded && (
           <span style={badgeStyle(SEAL_RED)}>BLOCKADED</span>
         )}
@@ -100,16 +103,23 @@ const OrderCard = ({ order }: { order: TradeOrder }) => {
 
       <div
         style={{
+          fontSize: FONT_TITLE,
           fontWeight: 'bold',
           color: INK,
           fontFamily: SERIF,
-          marginTop: 4,
+          marginTop: 6,
         }}
       >
         {order.name}
       </div>
-      <div style={{ color: INK_SOFT, fontSize: FONT_BODY }}>
-        {order.days_left}d remaining
+      <div
+        style={{
+          color: INK_SOFT,
+          fontSize: FONT_BODY,
+          marginTop: 2,
+        }}
+      >
+        {order.region_label} &middot; {order.days_left}d remaining
       </div>
 
       {!!order.description && (
@@ -117,7 +127,7 @@ const OrderCard = ({ order }: { order: TradeOrder }) => {
           style={{
             color: INK,
             fontSize: FONT_BODY,
-            marginTop: 4,
+            marginTop: 6,
             whiteSpace: 'pre-wrap',
           }}
         >
@@ -125,16 +135,9 @@ const OrderCard = ({ order }: { order: TradeOrder }) => {
         </div>
       )}
 
-      <div
-        style={{
-          marginTop: 4,
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'baseline',
-          gap: 8,
-        }}
-      >
-        <span style={{ color: INK }}>
+      <div style={{ marginTop: 8 }}>
+        <div style={fieldLabelStyle}>Required</div>
+        <div style={{ marginTop: 2, color: INK }}>
           {order.requirements.length === 0 ? (
             <span style={{ color: INK_FAINT, fontStyle: 'italic' }}>
               - nothing on record -
@@ -142,8 +145,25 @@ const OrderCard = ({ order }: { order: TradeOrder }) => {
           ) : (
             order.requirements.map((r) => `${r.quantity} ${r.label}`).join(', ')
           )}
-        </span>
-        <span style={{ color: SEAL_AMBER, fontWeight: 'bold' }}>
+        </div>
+      </div>
+
+      <div
+        style={{
+          marginTop: 8,
+          display: 'flex',
+          alignItems: 'baseline',
+          gap: 8,
+        }}
+      >
+        <span style={fieldLabelStyle}>Payout</span>
+        <span
+          style={{
+            color: SEAL_AMBER,
+            fontWeight: 'bold',
+            fontSize: FONT_BODY,
+          }}
+        >
           {order.total_payout}m
         </span>
       </div>
@@ -151,6 +171,10 @@ const OrderCard = ({ order }: { order: TradeOrder }) => {
   );
 };
 
+const fieldLabelStyle: React.CSSProperties = {
+  color: SEAL_AMBER,
+  fontSize: FONT_BODY,
+};
 
 const EmptyMessage = ({ text }: { text: string }) => (
   <div
@@ -164,7 +188,7 @@ const EmptyMessage = ({ text }: { text: string }) => (
   </div>
 );
 
-const HelpPanel = () => (
+const HelpPanel = ({ data }: { data: NoticeboardData }) => (
   <div
     style={{
       marginTop: 8,
@@ -177,8 +201,9 @@ const HelpPanel = () => (
     }}
   >
     <p style={{ margin: '0 0 6px 0' }}>
-      Standing orders are demands posted by the realm&apos;s regions. The
-      Steward fills them by caravan from the Nerve Master.
+      Standing orders are demands posted by the realm&apos;s stockpiles and
+      merchants. Speak with the Steward or Clerk at the Nerve Master to fulfill
+      a stockpile order.
     </p>
     <p style={{ margin: '0 0 6px 0' }}>
       <b>WAREHOUSE</b>-tagged orders require finished goods to be left at the
@@ -186,8 +211,9 @@ const HelpPanel = () => (
       still be delivered to the stockpile.
     </p>
     <p style={{ margin: '0 0 6px 0' }}>
-      Orders can be delivered in parts. Each unit is paid in full, and the
-      rest stays open until the order expires.
+      Once you have at least {data.partial_threshold_pct}% of an order's goods
+      by value, you can send them early. They pay {data.partial_payout_pct}% of
+      their value.
     </p>
     <p style={{ margin: 0 }}>
       <b>BLOCKADED</b> regions cannot be reached by trade caravans until the

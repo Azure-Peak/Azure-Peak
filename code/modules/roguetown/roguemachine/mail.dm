@@ -65,22 +65,20 @@
 	if(SSroguemachine.hermailermaster && ishuman(user))
 		var/obj/item/roguemachine/mastermail/M = SSroguemachine.hermailermaster
 		var/mob/living/carbon/human/H = user
-		var/list/held = M.mail_for(H.real_name)
-		var/list/missing = M.collect_missing(H.real_name)
-		var/list/taken = list()
-		for(var/obj/item/I as anything in held)
-			taken += mail_label(I)
-			I.forceMove(get_turf(H))
-			H.put_in_hands(I)
-		if(length(taken))
-			to_chat(user, span_notice("I take [english_list(taken)] out of [src]."))
-		for(var/label in missing)
-			to_chat(user, span_warning("[capitalize(label)] is missing."))
-		if(length(held))
-			SStgui.update_uis(M)
-		else if(!length(missing) && H.has_status_effect(/datum/status_effect/ugotmail)) // we apparently got mail, but never got mail (hint: it was stolen by someone with access to the master mailer)
-			to_chat(user, span_notice("I look inside the machine and find nothing, how strange."))
-		H.remove_status_effect(/datum/status_effect/ugotmail)
+		var/addl_mail = FALSE
+		for(var/obj/item/I in M.contents)
+			if(I.mailedto == H.real_name)
+				if(!addl_mail)
+					I.forceMove(src.loc)
+					user.put_in_hands(I)
+					addl_mail = TRUE
+				else
+					say("You have additional mail available.")
+					break
+		if(!any_additional_mail(M, H.real_name))
+			if(!addl_mail && H.has_status_effect(/datum/status_effect/ugotmail)) // we apparently got mail, but never got mail (hint: it was stolen by someone with access to the master mailer)
+				to_chat(user, span_notice("I look inside the machine and find no letter, how strange."))
+			H.remove_status_effect(/datum/status_effect/ugotmail)
 	if(!ishuman(user))
 		return
 	if(claim_daily_supply(user, TRAIT_EXPLOSIVE_SUPPLY))
@@ -412,9 +410,12 @@
 	if(!master)
 		return FALSE
 	stamp_mail(I, destination, sender)
-	master.receive_mail(I)
-	var/noun = istype(I, /obj/item/paper) ? "letter" : "parcel"
-	send_ooc_note(sender == MAILER_ANONYMOUS ? "A new [noun] has arrived for you." : "New [noun] from <b>[sender]</b>.", name = destination)
+	I.forceMove(master.loc)
+	var/datum/component/storage/STR = master.GetComponent(/datum/component/storage)
+	STR.handle_item_insertion(I, prevent_warning = TRUE)
+	master.new_mail = TRUE
+	master.update_icon()
+	send_ooc_note(sender == MAILER_ANONYMOUS ? "A new letter has arrived for you." : "New letter from <b>[sender]</b>.", name = destination)
 	if(H)
 		H.apply_status_effect(/datum/status_effect/ugotmail)
 		H.playsound_local(H, 'sound/misc/mail.ogg', 100, FALSE, -1)
@@ -859,10 +860,10 @@
 			playsound(loc, 'sound/misc/disposalflush.ogg', 100, FALSE, -1)
 			return
 
-	if(istype(P, /obj/item/roguecoin/aalloy))
+	if(istype(P, /obj/item/roguecoin/psila))
 		return
 
-	if(istype(P, /obj/item/roguecoin/inqcoin))
+	if(istype(P, /obj/item/roguecoin/marque))
 		if(HAS_TRAIT(user, TRAIT_INQUISITION))
 			if(coin_loaded && !inqcoins)
 				return
@@ -943,12 +944,11 @@
 	anchored = TRUE
 	w_class = WEIGHT_CLASS_GIGANTIC
 	var/new_mail
-	var/list/arrivals = list()
 
 /obj/item/roguemachine/mastermail/get_mechanics_examine(mob/user)
 	. = ..()
-	. += span_info("All mail sent through the HERMES is stored here until collected. Opening it will allow one to intercept letters.")
-	. += span_info("Any letters removed and read can be re-sealed by clicking this machine with them, which will put them back.")
+	. += span_info("All mail sent through the HERMES is stored here until collected. Opening its storage will allow one to intercept letters.")
+	. += span_info("Any letters removed and read can be re-sealed by clicking this machine with them, which will put them back into storage.")
 	. += span_info("If this is done before the recipient tries to withdraw the mail, they will never know.")
 
 /obj/item/roguemachine/mastermail/update_icon()
@@ -959,96 +959,18 @@
 		icon_state = "mailspecial"
 	set_light(1, 1, 1, l_color = "#ff0d0d")
 
-/obj/item/roguemachine/mastermail/attack_hand(mob/user)
-	if(new_mail)
-		new_mail = FALSE
-		update_icon()
-	ui_interact(user)
-	return TRUE
-
-/obj/item/roguemachine/mastermail/proc/receive_mail(obj/item/I, notify = TRUE)
-	I.forceMove(src)
-	if(notify)
-		record_arrival(I)
-		new_mail = TRUE
-		update_icon()
-	SStgui.update_uis(src)
-
-/obj/item/roguemachine/mastermail/proc/record_arrival(obj/item/I)
-	if(!I.mailedto)
-		return
-	var/list/recorded = arrivals[I.mailedto]
-	if(!recorded)
-		recorded = list()
-		arrivals[I.mailedto] = recorded
-	recorded[WEAKREF(I)] = mail_label(I)
-
-/obj/item/roguemachine/mastermail/proc/collect_missing(name)
-	. = list()
-	var/list/recorded = arrivals[name]
-	if(!recorded)
-		return
-	arrivals -= name
-	for(var/datum/weakref/ref as anything in recorded)
-		var/obj/item/I = ref.resolve()
-		if(!I || I.loc != src)
-			. += recorded[ref]
-
-/obj/item/roguemachine/mastermail/proc/mail_for(name)
-	. = list()
-	for(var/obj/item/I in contents)
-		if(I.mailedto == name)
-			. += I
-
-/proc/mail_label(obj/item/I)
-	var/label = istype(I, /obj/item/paper) ? "a letter" : "\a [I.name]"
-	if(I.mailer && I.mailer != MAILER_ANONYMOUS)
-		label += " from [I.mailer]"
-	return label
-
-/obj/item/roguemachine/mastermail/attack_ghost(mob/dead/observer/user)
-	if(..())
-		return TRUE
-	ui_interact(user)
-	return TRUE
-
-/obj/item/roguemachine/mastermail/ui_state(mob/user)
-	if(isobserver(user))
-		return GLOB.observer_state
-	return GLOB.human_adjacent_state
-
-/obj/item/roguemachine/mastermail/ui_interact(mob/user, datum/tgui/ui)
-	ui = SStgui.try_update_ui(user, src, ui)
-	if(!ui)
-		ui = new(user, src, "MasterOfMails", name)
-		ui.open()
-
-/obj/item/roguemachine/mastermail/ui_data(mob/user)
-	var/list/held = list()
-	for(var/obj/item/I in contents)
-		held += list(list(
-			"ref" = REF(I),
-			"name" = I.name,
-			"recipient" = I.mailedto,
-			"sender" = I.mailer,
-		))
-	return list(
-		"mail" = held,
-		"can_take" = isliving(user),
-	)
-
-/obj/item/roguemachine/mastermail/ui_act(action, list/params, datum/tgui/ui, datum/ui_state/state)
+/obj/item/roguemachine/mastermail/ComponentInitialize()
 	. = ..()
-	if(. || action != "take")
-		return
-	var/obj/item/I = locate(params["ref"]) in contents
-	var/mob/living/user = usr
-	if(!I || !istype(user))
-		return
-	user.log_message("took [I.name] addressed to [I.mailedto || "no one"] from [I.mailer || "no sender"] out of [src]", LOG_GAME)
-	I.forceMove(get_turf(user))
-	user.put_in_hands(I)
-	return TRUE
+	AddComponent(/datum/component/storage/concrete/roguetown/mailmaster)
+
+/obj/item/roguemachine/mastermail/attack_hand(mob/user)
+	var/datum/component/storage/CP = GetComponent(/datum/component/storage)
+	if(CP)
+		if(new_mail)
+			new_mail = FALSE
+			update_icon()
+		CP.rmb_show(user)
+		return TRUE
 
 /obj/item/roguemachine/mastermail/Initialize(mapload)
 	. = ..()
@@ -1065,21 +987,30 @@
 			PA.cached_mailedto = null
 			PA.update_icon()
 			to_chat(user, span_warning("I carefully re-seal the letter and place it back in the machine, no one will know."))
-	if(!P.mailer || !P.mailedto)
-		return ..()
-	for(var/mob/living/carbon/human/H in GLOB.human_list)
-		if(H.real_name == P.mailedto && !H.has_status_effect(/datum/status_effect/ugotmail)) // quietly readd the status if they tried to check their mail while the letter was being spied on
-			H.apply_status_effect(/datum/status_effect/ugotmail)
-	if(user.transferItemToLoc(P, src))
-		receive_mail(P, FALSE)
+		if(PA.mailer && PA.mailedto)
+			for(var/mob/living/carbon/human/H in GLOB.human_list)
+				if(H.real_name == PA.mailedto && !H.has_status_effect(/datum/status_effect/ugotmail)) // quietly readd the status if they tried to check their mail while the letter was being spied on
+					H.apply_status_effect(/datum/status_effect/ugotmail)
+		P.forceMove(loc)
+		var/datum/component/storage/STR = GetComponent(/datum/component/storage)
+		STR.handle_item_insertion(P, prevent_warning=TRUE)
+	..()
 
 /obj/item/roguemachine/mastermail/Destroy()
 	set_light(0)
 	SSroguemachine.hermailers -= src
-	var/turf/T = get_turf(src)
-	for(var/obj/item/I in contents)
-		I.forceMove(T)
+	var/datum/component/storage/STR = GetComponent(/datum/component/storage)
+	if(STR)
+		var/list/things = STR.contents()
+		for(var/obj/item/I in things)
+			STR.remove_from_storage(I, get_turf(src))
 	return ..()
+
+/obj/structure/roguemachine/mail/proc/any_additional_mail(obj/item/roguemachine/mastermail/M, name)
+	for(var/obj/item/I in M.contents)
+		if(I.mailedto == name)
+			return TRUE
+	return FALSE
 
 
 /*

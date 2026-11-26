@@ -152,9 +152,9 @@
 	return TRUE
 
 /obj/structure/roguemachine/potionseller/attackby(obj/item/P, mob/user, params)
-	if(istype(P, /obj/item/roguecoin/aalloy))
+	if(istype(P, /obj/item/roguecoin/psila))
 		return
-	if(istype(P, /obj/item/roguecoin/inqcoin))
+	if(istype(P, /obj/item/roguecoin/marque))
 		return
 	if(istype(P, /obj/item/roguecoin))
 		budget += P.get_real_price()
@@ -342,7 +342,8 @@
 		if(!usr.canUseTopic(src, BE_CLOSE) || !locked)
 			return
 		if(ishuman(usr) && budget > 0)
-			budget = refund_pouch(budget, usr)
+			budget2change(budget, usr)
+			budget = 0
 
 	if(href_list["withdrawgain"])
 		if(!usr.canUseTopic(src, BE_CLOSE) || locked)

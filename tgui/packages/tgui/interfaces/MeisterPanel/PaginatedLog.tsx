@@ -10,7 +10,6 @@ import {
   SEAL_RED,
 } from '../common/parchment';
 import type { LogEntry } from './types';
-import { formatMammon } from '../common/format';
 
 const PAGE_SIZE = 20;
 
@@ -74,7 +73,7 @@ export const PaginatedLog = ({
           <div key={start + i} style={logRowStyle}>
             <div style={logAmountStyle(color)}>
               {sign}
-              {formatMammon(entry.amount)}m
+              {entry.amount}m
             </div>
             <div style={logBodyStyle} title={entry.reason}>
               {!!entry.counterparty && (

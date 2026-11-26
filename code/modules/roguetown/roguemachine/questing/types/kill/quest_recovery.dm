@@ -14,7 +14,7 @@ GLOBAL_LIST_INIT(quest_recovery_shipments, list(
 		list("name" = "blue elven wine", "item" = /obj/item/reagent_containers/glass/bottle/rogue/elfblue, "min" = 1, "max" = 2),
 		list("name" = "a bundle of parchment", "item" = /obj/item/paper, "min" = 8, "max" = 14),
 		list("name" = "the grand magos' special request", "item" = /obj/item/reagent_containers/powder/spice, "min" = 2, "max" = 4),
-		list("name" = "Mount Decapitation study materials", "item" = /obj/item/roguecoin/aalloy/pile, "min" = 1, "max" = 1),
+		list("name" = "Mount Decapitation study materials", "item" = /obj/item/roguecoin/psila/pile, "min" = 1, "max" = 1),
 		list("name" = "the grand magos' other request", "item" = /obj/item/reagent_containers/food/snacks/grown/rogue/swampweeddry, "min" = 2, "max" = 4),
 		list("name" = "abandoned hats from the south", "item" = /obj/item/clothing/head/roguetown/wizhat/random, "min" = 4, "max" = 6),
 	),

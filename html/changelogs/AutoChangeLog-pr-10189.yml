@@ -1,0 +1,7 @@
+author: "Quinalion"
+delete-after: True
+changes:
+  - rscadd: "Added 67 hairstyle options to the shared character customizer."
+  - bugfix: "Fixed Archivist's missing sprite."
+  - rscdel: "Removed 20 duplicate hairstyle options and 2 blank entries."
+  - qol: "Sorted the hairstyle lists alphabetically."

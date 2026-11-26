@@ -3,8 +3,8 @@
 	H.set_species(/datum/species/human/northern) // Prevent fake test failures from missing organs
 	H.mind_initialize()
 
-	var/obj/item/roguecoin/aalloy/stack = allocate(/obj/item/roguecoin/aalloy, run_loc_floor_bottom_left, 5)
-	var/obj/item/roguecoin/aalloy/single = allocate(/obj/item/roguecoin/aalloy, run_loc_floor_bottom_left, 1)
+	var/obj/item/roguecoin/psila/stack = allocate(/obj/item/roguecoin/psila, run_loc_floor_bottom_left, 5)
+	var/obj/item/roguecoin/psila/single = allocate(/obj/item/roguecoin/psila, run_loc_floor_bottom_left, 1)
 	TEST_ASSERT(!stack.mob_can_equip(H, null, SLOT_MOUTH, TRUE, TRUE), "A non-Renegade fit a psila stack in their mouth")
 	TEST_ASSERT(single.mob_can_equip(H, null, SLOT_MOUTH, TRUE, TRUE), "A non-Renegade could not mouth a single psilen")
 	TEST_ASSERT(!findtext(jointext(single.examine(H), ""), "Flip the coin"), "A non-Renegade saw the Renegade psila examine")
@@ -23,7 +23,7 @@
 			if(item in vheslie_items)
 				dupes |= "[B.name] ([item])"
 	TEST_ASSERT(!length(dupes), "Renegade boons duplicate Vheslie goods: [english_list(dupes)]")
-	var/obj/item/roguecoin/aalloy/purse = locate() in H.held_items
+	var/obj/item/roguecoin/psila/purse = locate() in H.held_items
 	TEST_ASSERT_NOTNULL(purse, "Renegade was not handed a starting purse")
 	TEST_ASSERT_EQUAL(purse.quantity, RENEGADE_STARTING_PSILA, "Starting purse holds the wrong amount")
 	TEST_ASSERT(stack.mob_can_equip(H, null, SLOT_MOUTH, TRUE, TRUE), "A Renegade could not mouth a psila stack")

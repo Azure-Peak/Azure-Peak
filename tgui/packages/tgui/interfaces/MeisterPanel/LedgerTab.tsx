@@ -1,4 +1,3 @@
-import { formatMammon } from '../common/format';
 import {
   cardStyle,
   fieldLabelStyle,
@@ -24,8 +23,8 @@ export const LedgerTab = ({ data }: TabProps) => {
         <div style={fieldRowStyle}>
           <div style={fieldLabelStyle}>{personal.creditor}</div>
           <div style={fieldValueStyle}>
-            {formatMammon(personal.remaining)}m of {personal.principal}m
-            at {personal.interest_pct}%/day
+            {personal.remaining}m of {personal.principal}m at{' '}
+            {personal.interest_pct}%/day
             {personal.defaulted ? (
               <span
                 style={{
@@ -64,8 +63,7 @@ export const LedgerTab = ({ data }: TabProps) => {
                 Loan to <b>{loan.debtor || 'unknown'}</b>:{' '}
               </>
             )}
-            {formatMammon(loan.remaining)}m of {loan.principal}m at{' '}
-            {loan.interest_pct}%/day
+            {loan.remaining}m of {loan.principal}m at {loan.interest_pct}%/day
             {loan.defaulted ? (
               <span
                 style={{

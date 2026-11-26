@@ -312,10 +312,6 @@ SUBSYSTEM_DEF(migrants)
 
 	var/mob/living/character = newplayer.create_character(TRUE)	//creates the human and transfers vars and mind
 
-	if(role.political_faction && ishuman(character))
-		var/mob/living/carbon/human/faction_human = character
-		faction_human.political_faction = role.political_faction
-
 	character.islatejoin = TRUE
 	SSjob.EquipRank(character, rank, TRUE)
 	// We don't want latejoiner to get hit by poll levies when they haven't participated in the round, which feels unfair

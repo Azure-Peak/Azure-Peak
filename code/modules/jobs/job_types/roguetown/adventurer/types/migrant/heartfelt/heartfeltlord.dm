@@ -9,8 +9,7 @@
 	total_positions = 1
 	spawn_positions = 0
 	job_traits = list(TRAIT_NOBLE, TRAIT_HEAVYARMOR, TRAIT_HEARTFELT)
-	noble_rank = NOBLE_RANK_PEER
-	estate_pay_rank = NOBLE_RANK_ROYAL
+	noble_income = 50
 	advclass_cat_rolls = list(CTAG_HFT_COUNT)
 	job_subclasses = list(
 		/datum/advclass/heartfelt/count/count,

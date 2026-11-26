@@ -1,0 +1,4 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - rscadd: "Notorious tweaks: Additional members no longer scale the amount of NPC like crazy, it is now limited to 40 TP. Leashing mechanics now work on both the hunted and the hunters, to prevent either side from doing overly scummy behavior. Lowered the leash range to 21 tiles from 40. The location of the boss is whispered to everyone in the fellowship instead of just the leader. Made it so that the leashing mechanics no longer TELEPORT you back to the center, but move you away from the nearest tile. If you win you still get revived, I want to lower the risk and give more enjoyable content. Madeit  z level insensitive to avoid cases like that bog tower just teleporting and yanking everyone"

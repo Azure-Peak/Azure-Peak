@@ -75,16 +75,16 @@
 /// both route through here so a mid-session edict rate change can never desync the
 /// quoted price from the charged price.
 /obj/structure/roguemachine/bathvend/proc/compute_pack_price(datum/supply_pack/PA)
-	var/cost = whole_mammon(PA.cost + PA.cost * extra_fee)
+	var/cost = PA.cost + PA.cost * extra_fee
 	if(!(upgrade_flags & UPGRADE_NOTAX))
 		cost += compute_pack_tax(PA)
-	return cost
+	return round(cost)
 
 /obj/structure/roguemachine/bathvend/proc/compute_pack_tax(datum/supply_pack/PA)
-	return whole_mammon(SStreasury.get_tax_rate(TAX_CATEGORY_IMPORT_TARIFF) * PA.cost)
+	return round(SStreasury.get_tax_rate(TAX_CATEGORY_IMPORT_TARIFF) * PA.cost)
 
 /obj/structure/roguemachine/bathvend/proc/serialize_pack(datum/supply_pack/PA, tariff_active)
-	var/base = whole_mammon(PA.cost + PA.cost * extra_fee)
+	var/base = round(PA.cost + PA.cost * extra_fee)
 	var/tariff = tariff_active ? compute_pack_tax(PA) : 0
 	return list(
 		"ref" = "[PA.type]",
@@ -140,9 +140,9 @@
 		if(!right_key)
 			to_chat(user, span_warning("Wrong key."))
 		return
-	if(istype(P, /obj/item/roguecoin/aalloy))
+	if(istype(P, /obj/item/roguecoin/psila))
 		return
-	if(istype(P, /obj/item/roguecoin/inqcoin))
+	if(istype(P, /obj/item/roguecoin/marque))
 		return
 	if(istype(P, /obj/item/roguecoin))
 		budget += P.get_real_price()
@@ -213,19 +213,31 @@
 	var/tariff_active = !(upgrade_flags & UPGRADE_NOTAX)
 	if(search_query != "")
 		var/needle = LOWER_TEXT(search_query)
-		for(var/datum/supply_pack/PA as anything in SSmerchant.sorted_supply_packs)
+		var/list/matches = list()
+		for(var/pack in SSmerchant.supply_packs)
+			var/datum/supply_pack/PA = SSmerchant.supply_packs[pack]
 			if(!pack_visible_to(PA, can_see_contraband))
 				continue
-			if(!findtext(LOWER_TEXT(PA.name), needle) && !findtext(LOWER_TEXT(PA.group), needle))
-				continue
-			total_matches++
-			if(total_matches <= search_result_cap)
-				packs_data += list(serialize_pack(PA, tariff_active))
+			if(findtext(LOWER_TEXT(PA.name), needle) || findtext(LOWER_TEXT(PA.group), needle))
+				matches += PA
+		total_matches = length(matches)
+		var/shown = 0
+		for(var/datum/supply_pack/PA in sortNames(matches))
+			if(shown >= search_result_cap)
+				break
+			shown++
+			packs_data += list(serialize_pack(PA, tariff_active))
 	else if(current_cat)
-		for(var/datum/supply_pack/PA as anything in SSmerchant.supply_packs_by_group[current_cat])
+		var/list/pax = list()
+		for(var/pack in SSmerchant.supply_packs)
+			var/datum/supply_pack/PA = SSmerchant.supply_packs[pack]
+			if(PA.group != current_cat)
+				continue
 			if(!pack_visible_to(PA, can_see_contraband))
 				continue
-			total_matches++
+			pax += PA
+		total_matches = length(pax)
+		for(var/datum/supply_pack/PA in sortNames(pax))
 			packs_data += list(serialize_pack(PA, tariff_active))
 	data["packs"] = packs_data
 	data["total_matches"] = total_matches
@@ -268,7 +280,8 @@
 			return TRUE
 		if("change")
 			if(budget > 0)
-				budget = refund_pouch(budget, usr)
+				budget2change(budget, usr)
+				budget = 0
 			return TRUE
 		if("buy")
 			return handle_buy(H, params)

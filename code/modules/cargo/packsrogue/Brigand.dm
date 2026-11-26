@@ -171,7 +171,7 @@
 /datum/supply_pack/rogue/Brigand/steelflail
 	name = "Steel Flail"
 	cost = 60
-	contains =	list(/obj/item/rogueweapon/flail/sflail)
+	contains =	list(/obj/item/rogueweapon/flail/steel)
 
 /datum/supply_pack/rogue/Brigand/axe
 	name = "Steel Axe"
@@ -220,4 +220,4 @@
 /datum/supply_pack/rogue/Brigand/kiteshield
 	name = "Kite Shield"
 	cost = 60
-	contains = list(/obj/item/rogueweapon/shield/tower/metal)
+	contains = list(/obj/item/rogueweapon/shield/kite)

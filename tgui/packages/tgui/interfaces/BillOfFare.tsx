@@ -75,13 +75,11 @@ type Data = {
   notes: string;
   can_edit: boolean;
   rows: Record<string, Row[]>;
-  headings: Record<string, string>;
   columns: ColumnInfo[];
   cup: { icon: string; icon_state: string; fill_state: string };
   max_price: number;
   title_len: number;
   line_len: number;
-  heading_len: number;
   notes_len: number;
   pen_name_len: number;
   import_len: number;
@@ -111,9 +109,6 @@ const faintHintStyle: CSSProperties = {
 const emptyNoteStyle: CSSProperties = { color: INK_FAINT, fontStyle: 'italic' };
 
 const rowsFor = (data: Data, key: string) => data.rows[key] || [];
-
-const headingFor = (data: Data, info: ColumnInfo) =>
-  data.headings?.[info.key] || info.label;
 
 const iconUrl = (icon: string, state: string) => {
   const ref = Byond.iconRefMap?.[icon];
@@ -337,7 +332,6 @@ const Picker = () => {
     return null;
   }
 
-  const heading = headingFor(data, info);
   const full = rowsFor(data, info.key).length >= info.cap;
   const typed = query.trim();
   const needle = typed.toLowerCase();
@@ -364,7 +358,7 @@ const Picker = () => {
             style={tabStyle(c.key === info.key)}
             onClick={() => setTab(c.key)}
           >
-            {headingFor(data, c)} {rowsFor(data, c.key).length}/{c.cap}
+            {c.label} {rowsFor(data, c.key).length}/{c.cap}
           </div>
         ))}
       </div>
@@ -374,7 +368,7 @@ const Picker = () => {
         type="text"
         value={query}
         maxLength={data.line_len}
-        placeholder={`Search ${heading.toLowerCase()}...`}
+        placeholder={`Search ${info.label.toLowerCase()}...`}
         style={{ ...inkInputStyle, width: '100%', boxSizing: 'border-box' }}
         onChange={(e) => setQuery(e.target.value)}
         onKeyDown={(e) => {
@@ -397,7 +391,7 @@ const Picker = () => {
       </div>
 
       {full ? (
-        <div style={emptyNoteStyle}>The {heading} list is full.</div>
+        <div style={emptyNoteStyle}>The {info.label} list is full.</div>
       ) : (
         <div
           style={{
@@ -474,33 +468,14 @@ const WriterRow = (props: { row: Row; column: string }) => {
 };
 
 const WriterList = (props: { info: ColumnInfo }) => {
-  const { act, data } = useBackend<Data>();
+  const { data } = useBackend<Data>();
   const { key, label, cap } = props.info;
   const rows = rowsFor(data, key);
   return (
     <div>
-      <div
-        style={{
-          ...sectionHeaderStyle,
-          display: 'flex',
-          alignItems: 'center',
-          gap: '8px',
-        }}
-      >
-        <CommitInput
-          value={data.headings?.[key] || ''}
-          maxLength={data.heading_len}
-          placeholder={label}
-          style={{
-            flex: 1,
-            minWidth: 0,
-            fontSize: 'inherit',
-            fontWeight: 'inherit',
-            color: 'inherit',
-          }}
-          onCommit={(text) => act('set_heading', { column: key, text })}
-        />
-        <span style={{ ...faintHintStyle, fontWeight: 'normal' }}>
+      <div style={sectionHeaderStyle}>
+        {label}
+        <span style={{ ...faintHintStyle, float: 'right', fontWeight: 'normal' }}>
           {rows.length} / {cap}
         </span>
       </div>
@@ -790,14 +765,14 @@ const ReaderRow = (props: { row: Row }) => {
 
 const ReaderColumn = (props: { info: ColumnInfo }) => {
   const { data } = useBackend<Data>();
-  const { key } = props.info;
+  const { key, label } = props.info;
   const rows = rowsFor(data, key);
   if (rows.length === 0) {
     return null;
   }
   return (
     <div style={{ flex: '1 1 240px', minWidth: 0 }}>
-      <div style={sectionHeaderStyle}>{headingFor(data, props.info)}</div>
+      <div style={sectionHeaderStyle}>{label}</div>
       {rows.map((row) => (
         <ReaderRow key={row.uid} row={row} />
       ))}

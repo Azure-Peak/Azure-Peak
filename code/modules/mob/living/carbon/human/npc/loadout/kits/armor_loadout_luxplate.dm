@@ -15,6 +15,11 @@
 	head = /obj/item/clothing/head/roguetown/helmet/heavy/graggar
 	neck = /obj/item/clothing/neck/roguetown/gorget/steel/graggar
 	cloak = /obj/item/clothing/cloak/graggar
+	belt = list(
+		/obj/item/storage/belt/rogue/leather/steel/tasset,
+		/obj/item/storage/belt/rogue/leather,
+		/obj/item/storage/belt/rogue/leather/black,
+	)
 
 //** GRAGGAR HEAVY **//
 
@@ -29,6 +34,11 @@
 	mask = /obj/item/clothing/mask/rogue/facemask/steel/graggar
 	neck = /obj/item/clothing/neck/roguetown/gorget/steel/graggar
 	cloak = /obj/item/clothing/cloak/graggar/heavy
+	belt = list(
+		/obj/item/storage/belt/rogue/leather/steel/tasset,
+		/obj/item/storage/belt/rogue/leather,
+		/obj/item/storage/belt/rogue/leather/black,
+	)
 
 //** ZIZO **//
 
@@ -46,6 +56,7 @@
 
 /datum/npc_loadout/armor/luxplate/zizo_heavy
 	armor = /obj/item/clothing/suit/roguetown/armor/plate/full/zizo
+	belt = /obj/item/storage/belt/rogue/leather/steel/tasset
 	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/zizo
 	pants = /obj/item/clothing/under/roguetown/platelegs/zizo/heavy
 	shoes = /obj/item/clothing/shoes/roguetown/boots/armor/zizo
@@ -70,11 +81,18 @@
 	gloves = /obj/item/clothing/gloves/roguetown/plate/matthios
 	head = /obj/item/clothing/head/roguetown/helmet/heavy/matthios
 	neck = /obj/item/clothing/neck/roguetown/chaincoif/chainmantle/matthios
+	belt = list(
+		/obj/item/storage/belt/rogue/leather/plaquegold,
+		/obj/item/storage/belt/rogue/leather/plaquegold/noble,
+		/obj/item/storage/belt/rogue/leather,
+		/obj/item/storage/belt/rogue/leather/black,
+	)
 
 //** BAOTHA **//
 
 /datum/npc_loadout/armor/luxplate/baotha
 	traits = list(TRAIT_DODGEEXPERT, TRAIT_NOPAIN) // 1:1 w/ the ritual
+	belt = /obj/item/storage/belt/rogue/leather/plaquegold/noble
 	head = /obj/item/clothing/head/roguetown/helmet/baotha
 	armor = /obj/item/clothing/suit/roguetown/armor/plate/fluted/baotha
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/baotha

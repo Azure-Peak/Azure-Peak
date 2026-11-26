@@ -10,6 +10,3 @@ export const withPct = (value: number | string, pct: number | null) =>
 export const formatSigned = (n: number) => (n >= 0 ? `+${n}` : `${n}`);
 
 export const signColor = (n: number) => (n >= 0 ? SEAL_GREEN : SEAL_RED);
-
-export const formatMammon = (n: number | null | undefined) =>
-  `${Math.round((n || 0) * 100) / 100}`;

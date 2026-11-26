@@ -1,5 +1,4 @@
 /obj/item/reagent_containers/glass/bucket/pot
-	force = 10
 	name = "pot"
 	desc = "A pot made out of iron. It can hold a lot of liquid."
 	icon = 'modular/Neu_Food/icons/cookware/pot.dmi'
@@ -16,6 +15,7 @@
 	throwforce = 10
 	dropshrink = 1 // Override for bucket
 	volume = 240
+	force = 10
 
 /obj/item/reagent_containers/glass/bucket/pot/Initialize()
 	. = ..()
@@ -72,7 +72,7 @@
 		return TRUE
 	. = ..()
 
-/obj/item/reagent_containers/glass/bucket/pot/aalloy
+/obj/item/reagent_containers/glass/bucket/pot/decrepit
 	name = "decrepit pot"
 	desc = "A kettle of rotted metal. One could only imagine what the stews of millennia prior must've tasted like; do you suppose they knew of seasonings-and-spices, too?"
 	icon_state = "apote"

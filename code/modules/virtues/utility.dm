@@ -48,7 +48,9 @@ GLOBAL_LIST_EMPTY(fey_vessels)
 			recipient.mind?.special_items[choice] = extra_choices[choice]
 	if(HAS_TRAIT(recipient, TRAIT_OUTLAW))
 		return
-	SSeconomy.register_estate(recipient, NOBLE_RANK_GENTRY)
+	var/already_has_income = !isnull(SStreasury.noble_incomes[recipient])
+	SStreasury.noble_incomes[recipient] = (SStreasury.noble_incomes[recipient] || 0) + 15
+	SStreasury.grant_estate_income(recipient, 15, !already_has_income)
 
 #define NOTABLE_RESIDENCY "Residency"
 #define NOTABLE_SHREWD "Shrewd Lyfestyle"

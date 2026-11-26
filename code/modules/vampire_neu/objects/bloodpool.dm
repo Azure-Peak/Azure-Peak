@@ -973,13 +973,13 @@ GLOBAL_LIST_EMPTY(crimson_crucible_personal_servant_summons)
 
 /datum/vampire_project/armor_crafting/on_complete(atom/movable/creation_point)
 	new /obj/item/clothing/under/roguetown/platelegs/vampire (bloodpool.loc)
-	new /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/paalloy/vampire (bloodpool.loc)
+	new /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/ancient/vampire (bloodpool.loc)
 	new /obj/item/clothing/suit/roguetown/armor/plate/vampire (bloodpool.loc)
 	new /obj/item/clothing/shoes/roguetown/boots/armor/vampire (bloodpool.loc)
 	new /obj/item/clothing/head/roguetown/helmet/heavy/vampire (bloodpool.loc)
 	new /obj/item/clothing/gloves/roguetown/chain/vampire (bloodpool.loc)
-	new /obj/item/clothing/wrists/roguetown/bracers/paalloy/vampire (bloodpool.loc)
-	new /obj/item/clothing/neck/roguetown/gorget/paalloy/vampire (bloodpool.loc)
+	new /obj/item/clothing/wrists/roguetown/bracers/ancient/vampire (bloodpool.loc)
+	new /obj/item/clothing/neck/roguetown/gorget/ancient/vampire (bloodpool.loc)
 	creation_point.visible_message(span_notice("A complete set of plate armor materializes from the crimson crucible."))
 
 	bloodpool.available_project_types -= /datum/vampire_project/armor_crafting //ONE TIME RITUAL ONLY, we do not want this handed out en-mass.

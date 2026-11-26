@@ -9,7 +9,7 @@ import {
   INK_FAINT,
   INK_SOFT,
   inkButtonStyle,
-  ParchmentProgressBar,
+  PARCHMENT_SHADOW,
   pageStyle,
   rulerStyle,
   SEAL_AMBER,
@@ -331,6 +331,30 @@ const FormingCard = (props: {
   );
 };
 
+const ProgressBar = (props: { value: number; max: number; color: string }) => {
+  const { value, max, color } = props;
+  const pct = Math.min((value / max) * 100, 100);
+  return (
+    <div
+      style={{
+        background: PARCHMENT_SHADOW,
+        height: '6px',
+        borderRadius: '2px',
+        margin: '2px 0',
+      }}
+    >
+      <div
+        style={{
+          background: color,
+          width: `${pct}%`,
+          height: '100%',
+          borderRadius: '2px',
+        }}
+      />
+    </div>
+  );
+};
+
 const PurchaseCard = (props: { wave: WaveInfo; now: number; act: ActFn }) => {
   const { wave, now, act } = props;
   const ready = wave.triumph_total >= wave.triumph_threshold;
@@ -376,7 +400,7 @@ const PurchaseCard = (props: { wave: WaveInfo; now: number; act: ActFn }) => {
       <div style={{ minHeight: '32px' }}>
         <StaticRoleLine roles={wave.roles} />
       </div>
-      <ParchmentProgressBar
+      <ProgressBar
         value={wave.triumph_total}
         max={wave.triumph_threshold}
         color={ready ? SEAL_AMBER : SEAL_BLUE}

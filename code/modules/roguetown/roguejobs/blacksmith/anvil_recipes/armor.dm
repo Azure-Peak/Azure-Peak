@@ -4,12 +4,12 @@
 	i_type = "Armor"
 
 // Material parent classes - same skill level as weapons
-/datum/anvil_recipe/armor/aalloy
-	abstract_type = /datum/anvil_recipe/armor/aalloy
+/datum/anvil_recipe/armor/decrepit
+	abstract_type = /datum/anvil_recipe/armor/decrepit
 	craftdiff = SKILL_LEVEL_NOVICE
 
-/datum/anvil_recipe/armor/paalloy
-	abstract_type = /datum/anvil_recipe/armor/paalloy
+/datum/anvil_recipe/armor/ancient
+	abstract_type = /datum/anvil_recipe/armor/ancient
 	craftdiff = SKILL_LEVEL_JOURNEYMAN
 
 /datum/anvil_recipe/armor/copper
@@ -116,268 +116,268 @@
 
 // DECREPIT/ANCIENT ALLOY
 
-/datum/anvil_recipe/armor/aalloy/barbute
+/datum/anvil_recipe/armor/decrepit/barbute
 	name = "Barbute, Decrepit (+1 Alloy)"
 	category = "Decrepit Alloy"
-	req_bar = /obj/item/ingot/aalloy
-	additional_items = list(/obj/item/ingot/aalloy)
-	created_item = /obj/item/clothing/head/roguetown/helmet/heavy/aalloy
+	req_bar = /obj/item/ingot/decrepit
+	additional_items = list(/obj/item/ingot/decrepit)
+	created_item = /obj/item/clothing/head/roguetown/helmet/heavy/ancient/decrepit
 	display_category = ITEM_CAT_ARMOR_HELMETS
 
-/datum/anvil_recipe/armor/paalloy/barbute
+/datum/anvil_recipe/armor/ancient/barbute
 	name = "Barbute, Ancient (+1 Purified Alloy)"
 	category = "Ancient Alloy"
-	req_bar = /obj/item/ingot/purifiedaalloy
-	created_item = /obj/item/clothing/head/roguetown/helmet/heavy/paalloy
+	req_bar = /obj/item/ingot/ancient
+	created_item = /obj/item/clothing/head/roguetown/helmet/heavy/ancient
 	display_category = ITEM_CAT_ARMOR_HELMETS
-	additional_items = list(/obj/item/ingot/purifiedaalloy)
+	additional_items = list(/obj/item/ingot/ancient)
 
-/datum/anvil_recipe/armor/aalloy/savoyard
+/datum/anvil_recipe/armor/decrepit/savoyard
 	name = "Savoyard, Decrepit"
 	category = "Decrepit Alloy"
-	req_bar = /obj/item/ingot/aalloy
-	created_item = /obj/item/clothing/head/roguetown/helmet/heavy/guard/aalloy
+	req_bar = /obj/item/ingot/decrepit
+	created_item = /obj/item/clothing/head/roguetown/helmet/heavy/guard/ancient/decrepit
 	display_category = ITEM_CAT_ARMOR_HELMETS
 
-/datum/anvil_recipe/armor/aalloy/bascinet
+/datum/anvil_recipe/armor/decrepit/bascinet
 	name = "Bascinet, Decrepit"
 	category = "Decrepit Alloy"
-	req_bar = /obj/item/ingot/aalloy
-	created_item = /obj/item/clothing/head/roguetown/helmet/heavy/knight/aalloy
+	req_bar = /obj/item/ingot/decrepit
+	created_item = /obj/item/clothing/head/roguetown/helmet/heavy/knight/ancient/decrepit
 	display_category = ITEM_CAT_ARMOR_HELMETS
 
-/datum/anvil_recipe/armor/paalloy/savoyard
+/datum/anvil_recipe/armor/ancient/savoyard
 	name = "Savoyard, Ancient (+1 Purified Alloy)"
 	category = "Ancient Alloy"
-	req_bar = /obj/item/ingot/purifiedaalloy
-	created_item = /obj/item/clothing/head/roguetown/helmet/heavy/guard/paalloy
+	req_bar = /obj/item/ingot/ancient
+	created_item = /obj/item/clothing/head/roguetown/helmet/heavy/guard/ancient
 	display_category = ITEM_CAT_ARMOR_HELMETS
-	additional_items = list(/obj/item/ingot/purifiedaalloy)
+	additional_items = list(/obj/item/ingot/ancient)
 
-/datum/anvil_recipe/armor/paalloy/bascinet
+/datum/anvil_recipe/armor/ancient/bascinet
 	name = "Bascinet, Ancient (+1 Purified Alloy)"
 	category = "Ancient Alloy"
-	req_bar = /obj/item/ingot/purifiedaalloy
-	created_item = /obj/item/clothing/head/roguetown/helmet/heavy/knight/paalloy
+	req_bar = /obj/item/ingot/ancient
+	created_item = /obj/item/clothing/head/roguetown/helmet/heavy/knight/ancient
 	display_category = ITEM_CAT_ARMOR_HELMETS
-	additional_items = list(/obj/item/ingot/purifiedaalloy)
+	additional_items = list(/obj/item/ingot/ancient)
 
-/datum/anvil_recipe/armor/aalloy/mask
+/datum/anvil_recipe/armor/decrepit/mask
 	name = "Mask, Decrepit"
 	category = "Decrepit Alloy"
-	req_bar = /obj/item/ingot/aalloy
-	created_item = /obj/item/clothing/mask/rogue/facemask/aalloy
+	req_bar = /obj/item/ingot/decrepit
+	created_item = /obj/item/clothing/mask/rogue/facemask/ancient/decrepit
 	display_category = ITEM_CAT_ARMOR_MASKS
 
-/datum/anvil_recipe/armor/paalloy/mask
+/datum/anvil_recipe/armor/ancient/mask
 	name = "Mask, Ancient"
 	category = "Ancient Alloy"
-	req_bar = /obj/item/ingot/purifiedaalloy
-	created_item = /obj/item/clothing/mask/rogue/facemask/steel/paalloy
+	req_bar = /obj/item/ingot/ancient
+	created_item = /obj/item/clothing/mask/rogue/facemask/ancient
 	display_category = ITEM_CAT_ARMOR_MASKS
 
-/datum/anvil_recipe/armor/aalloy/coif
+/datum/anvil_recipe/armor/decrepit/coif
 	name = "Coif, Decrepit"
 	category = "Decrepit Alloy"
-	req_bar = /obj/item/ingot/aalloy
-	created_item = /obj/item/clothing/neck/roguetown/chaincoif/iron/aalloy
+	req_bar = /obj/item/ingot/decrepit
+	created_item = /obj/item/clothing/neck/roguetown/chaincoif/ancient/decrepit
 	display_category = ITEM_CAT_ARMOR_NECK
 
-/datum/anvil_recipe/armor/paalloy/coif
+/datum/anvil_recipe/armor/ancient/coif
 	name = "Coif, Ancient"
 	category = "Ancient Alloy"
-	req_bar = /obj/item/ingot/purifiedaalloy
-	created_item = /obj/item/clothing/neck/roguetown/chaincoif/paalloy
+	req_bar = /obj/item/ingot/ancient
+	created_item = /obj/item/clothing/neck/roguetown/chaincoif/ancient
 	display_category = ITEM_CAT_ARMOR_NECK
 
-/datum/anvil_recipe/armor/aalloy/gorget
+/datum/anvil_recipe/armor/decrepit/gorget
 	name = "Gorget, Decrepit"
 	category = "Decrepit Alloy"
-	req_bar = /obj/item/ingot/aalloy
-	created_item = /obj/item/clothing/neck/roguetown/gorget/aalloy
+	req_bar = /obj/item/ingot/decrepit
+	created_item = /obj/item/clothing/neck/roguetown/gorget/ancient/decrepit
 	display_category = ITEM_CAT_ARMOR_NECK
 
-/datum/anvil_recipe/armor/paalloy/gorget
+/datum/anvil_recipe/armor/ancient/gorget
 	name = "Gorget, Ancient"
 	category = "Ancient Alloy"
-	req_bar = /obj/item/ingot/purifiedaalloy
-	created_item = /obj/item/clothing/neck/roguetown/gorget/paalloy
+	req_bar = /obj/item/ingot/ancient
+	created_item = /obj/item/clothing/neck/roguetown/gorget/ancient
 	display_category = ITEM_CAT_ARMOR_NECK
 
-/datum/anvil_recipe/armor/aalloy/cuirass
+/datum/anvil_recipe/armor/decrepit/cuirass
 	name = "Cuirass, Decrepit (+1 Alloy)"
 	category = "Decrepit Alloy"
-	req_bar = /obj/item/ingot/aalloy
-	additional_items = list(/obj/item/ingot/aalloy)
-	created_item = /obj/item/clothing/suit/roguetown/armor/plate/cuirass/aalloy
+	req_bar = /obj/item/ingot/decrepit
+	additional_items = list(/obj/item/ingot/decrepit)
+	created_item = /obj/item/clothing/suit/roguetown/armor/plate/cuirass/ancient/decrepit
 	display_category = ITEM_CAT_ARMOR_CHESTPIECES
 
-/datum/anvil_recipe/armor/paalloy/cuirass
+/datum/anvil_recipe/armor/ancient/cuirass
 	name = "Cuirass, Ancient (+1 Purified Alloy)"
 	category = "Ancient Alloy"
-	req_bar = /obj/item/ingot/purifiedaalloy
-	additional_items = list(/obj/item/ingot/purifiedaalloy)
-	created_item = /obj/item/clothing/suit/roguetown/armor/plate/cuirass/paalloy
+	req_bar = /obj/item/ingot/ancient
+	additional_items = list(/obj/item/ingot/ancient)
+	created_item = /obj/item/clothing/suit/roguetown/armor/plate/cuirass/ancient
 	display_category = ITEM_CAT_ARMOR_CHESTPIECES
 
-/datum/anvil_recipe/armor/aalloy/halfplate
+/datum/anvil_recipe/armor/decrepit/halfplate
 	name = "Half-Plate, Decrepit (+2 Alloy, +1 Cured Leather)"
 	category = "Decrepit Alloy"
-	req_bar = /obj/item/ingot/aalloy
-	additional_items = list(/obj/item/ingot/aalloy,/obj/item/ingot/aalloy,/obj/item/natural/hide/cured)
-	created_item = /obj/item/clothing/suit/roguetown/armor/plate/aalloy
+	req_bar = /obj/item/ingot/decrepit
+	additional_items = list(/obj/item/ingot/decrepit,/obj/item/ingot/decrepit,/obj/item/natural/hide/cured)
+	created_item = /obj/item/clothing/suit/roguetown/armor/plate/ancient/decrepit
 	display_category = ITEM_CAT_ARMOR_CHESTPIECES
 
-/datum/anvil_recipe/armor/paalloy/halfplate
+/datum/anvil_recipe/armor/ancient/halfplate
 	name = "Half-Plate, Ancient (+2 Purified Alloy, +1 Cured Leather)"
 	category = "Ancient Alloy"
-	req_bar = /obj/item/ingot/purifiedaalloy
-	additional_items = list(/obj/item/ingot/purifiedaalloy,/obj/item/ingot/purifiedaalloy,/obj/item/natural/hide/cured)
-	created_item = /obj/item/clothing/suit/roguetown/armor/plate/paalloy
+	req_bar = /obj/item/ingot/ancient
+	additional_items = list(/obj/item/ingot/ancient,/obj/item/ingot/ancient,/obj/item/natural/hide/cured)
+	created_item = /obj/item/clothing/suit/roguetown/armor/plate/ancient
 	display_category = ITEM_CAT_ARMOR_CHESTPIECES
 
-/datum/anvil_recipe/armor/aalloy/chainmail
+/datum/anvil_recipe/armor/decrepit/chainmail
 	name = "Chainmail, Decrepit"
 	category = "Decrepit Alloy"
-	req_bar = /obj/item/ingot/aalloy
-	created_item = /obj/item/clothing/suit/roguetown/armor/chainmail/aalloy
+	req_bar = /obj/item/ingot/decrepit
+	created_item = /obj/item/clothing/suit/roguetown/armor/chainmail/ancient/decrepit
 	display_category = ITEM_CAT_ARMOR_CHESTPIECES
 
-/datum/anvil_recipe/armor/paalloy/chainmail
+/datum/anvil_recipe/armor/ancient/chainmail
 	name = "Chainmail, Ancient"
 	category = "Ancient Alloy"
-	req_bar = /obj/item/ingot/purifiedaalloy
-	created_item = /obj/item/clothing/suit/roguetown/armor/chainmail/paalloy
+	req_bar = /obj/item/ingot/ancient
+	created_item = /obj/item/clothing/suit/roguetown/armor/chainmail/ancient
 	display_category = ITEM_CAT_ARMOR_CHESTPIECES
 
-/datum/anvil_recipe/armor/aalloy/hauberk
+/datum/anvil_recipe/armor/decrepit/hauberk
 	name = "Hauberk, Decrepit (+1 Alloy)"
 	category = "Decrepit Alloy"
-	req_bar = /obj/item/ingot/aalloy
-	created_item = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/aalloy
+	req_bar = /obj/item/ingot/decrepit
+	created_item = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/ancient/decrepit
 	display_category = ITEM_CAT_ARMOR_CHESTPIECES
-	additional_items = list(/obj/item/ingot/aalloy)
+	additional_items = list(/obj/item/ingot/decrepit)
 
-/datum/anvil_recipe/armor/paalloy/hauberk
+/datum/anvil_recipe/armor/ancient/hauberk
 	name = "Hauberk, Ancient (+1 Purified Alloy)"
 	category = "Ancient Alloy"
-	req_bar = /obj/item/ingot/purifiedaalloy
-	created_item = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/paalloy
+	req_bar = /obj/item/ingot/ancient
+	created_item = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/ancient
 	display_category = ITEM_CAT_ARMOR_CHESTPIECES
-	additional_items = list(/obj/item/ingot/purifiedaalloy)
+	additional_items = list(/obj/item/ingot/ancient)
 
-/datum/anvil_recipe/armor/aalloy/bracers
+/datum/anvil_recipe/armor/decrepit/bracers
 	name = "Bracers, Decrepit"
 	category = "Decrepit Alloy"
-	req_bar = /obj/item/ingot/aalloy
-	created_item = /obj/item/clothing/wrists/roguetown/bracers/aalloy
+	req_bar = /obj/item/ingot/decrepit
+	created_item = /obj/item/clothing/wrists/roguetown/bracers/ancient/decrepit
 	display_category = ITEM_CAT_ARMOR_BRACERS
 
-/datum/anvil_recipe/armor/paalloy/bracers
+/datum/anvil_recipe/armor/ancient/bracers
 	name = "Bracers, Ancient"
 	category = "Ancient Alloy"
-	req_bar = /obj/item/ingot/purifiedaalloy
-	created_item = /obj/item/clothing/wrists/roguetown/bracers/paalloy
+	req_bar = /obj/item/ingot/ancient
+	created_item = /obj/item/clothing/wrists/roguetown/bracers/ancient
 	display_category = ITEM_CAT_ARMOR_BRACERS
 
-/datum/anvil_recipe/armor/aalloy/chainsleeves
+/datum/anvil_recipe/armor/decrepit/chainsleeves
 	name = "Chainsleeves, Decrepit"
 	category = "Decrepit Alloy"
-	req_bar = /obj/item/ingot/aalloy
-	created_item = /obj/item/clothing/wrists/roguetown/bracers/aalloy/chain
+	req_bar = /obj/item/ingot/decrepit
+	created_item = /obj/item/clothing/wrists/roguetown/bracers/ancient/decrepit/chain
 	display_category = ITEM_CAT_ARMOR_BRACERS
 
-/datum/anvil_recipe/armor/paalloy/chainsleeves
+/datum/anvil_recipe/armor/ancient/chainsleeves
 	name = "Chainsleeves, Ancient"
 	category = "Ancient Alloy"
-	req_bar = /obj/item/ingot/purifiedaalloy
-	created_item = /obj/item/clothing/wrists/roguetown/bracers/paalloy/chain
+	req_bar = /obj/item/ingot/ancient
+	created_item = /obj/item/clothing/wrists/roguetown/bracers/ancient/chain
 	display_category = ITEM_CAT_ARMOR_BRACERS
 
-/datum/anvil_recipe/armor/aalloy/sandals
+/datum/anvil_recipe/armor/decrepit/sandals
 	name = "Sandals, Decrepit"
 	category = "Decrepit Alloy"
-	req_bar = /obj/item/ingot/aalloy
-	created_item = /obj/item/clothing/shoes/roguetown/sandals/aalloy
+	req_bar = /obj/item/ingot/decrepit
+	created_item = /obj/item/clothing/shoes/roguetown/sandals/ancient/decrepit
 	display_category = ITEM_CAT_SMITHING_MISC
 
-/datum/anvil_recipe/armor/paalloy/sandals
+/datum/anvil_recipe/armor/ancient/sandals
 	name = "Sandals, Ancient"
 	category = "Ancient Alloy"
-	req_bar = /obj/item/ingot/purifiedaalloy
-	created_item = /obj/item/clothing/shoes/roguetown/sandals/paalloy
+	req_bar = /obj/item/ingot/ancient
+	created_item = /obj/item/clothing/shoes/roguetown/sandals/ancient
 	display_category = ITEM_CAT_SMITHING_MISC
 
-/datum/anvil_recipe/armor/aalloy/boots
+/datum/anvil_recipe/armor/decrepit/boots
 	name = "Plated Boots, Decrepit"
 	category = "Decrepit Alloy"
-	req_bar = /obj/item/ingot/aalloy
-	created_item = /obj/item/clothing/shoes/roguetown/boots/aalloy
+	req_bar = /obj/item/ingot/decrepit
+	created_item = /obj/item/clothing/shoes/roguetown/boots/ancient/decrepit
 	display_category = ITEM_CAT_ARMOR_BOOTS
 
-/datum/anvil_recipe/armor/paalloy/boots
+/datum/anvil_recipe/armor/ancient/boots
 	name = "Plated Boots, Ancient"
 	category = "Ancient Alloy"
-	req_bar = /obj/item/ingot/purifiedaalloy
-	created_item = /obj/item/clothing/shoes/roguetown/boots/paalloy
+	req_bar = /obj/item/ingot/ancient
+	created_item = /obj/item/clothing/shoes/roguetown/boots/ancient
 	display_category = ITEM_CAT_ARMOR_BOOTS
 
-/datum/anvil_recipe/armor/aalloy/chaingaunts
+/datum/anvil_recipe/armor/decrepit/chaingaunts
 	name = "Chain Gauntlets, Decrepit"
 	category = "Decrepit Alloy"
-	req_bar = /obj/item/ingot/aalloy
-	created_item = /obj/item/clothing/gloves/roguetown/chain/aalloy
+	req_bar = /obj/item/ingot/decrepit
+	created_item = /obj/item/clothing/gloves/roguetown/chain/ancient/decrepit
 	display_category = ITEM_CAT_ARMOR_GLOVES
 
-/datum/anvil_recipe/armor/paalloy/chaingaunts
+/datum/anvil_recipe/armor/ancient/chaingaunts
 	name = "Chain Gauntlets, Ancient"
 	category = "Ancient Alloy"
-	req_bar = /obj/item/ingot/purifiedaalloy
-	created_item = /obj/item/clothing/gloves/roguetown/chain/paalloy
+	req_bar = /obj/item/ingot/ancient
+	created_item = /obj/item/clothing/gloves/roguetown/chain/ancient
 	display_category = ITEM_CAT_ARMOR_GLOVES
 
-/datum/anvil_recipe/armor/aalloy/plategaunts
+/datum/anvil_recipe/armor/decrepit/plategaunts
 	name = "Plate Gauntlets, Decrepit"
 	category = "Decrepit Alloy"
-	req_bar = /obj/item/ingot/aalloy
-	created_item = /obj/item/clothing/gloves/roguetown/plate/aalloy
+	req_bar = /obj/item/ingot/decrepit
+	created_item = /obj/item/clothing/gloves/roguetown/plate/ancient/decrepit
 	display_category = ITEM_CAT_ARMOR_GLOVES
 
-/datum/anvil_recipe/armor/paalloy/plategaunts
+/datum/anvil_recipe/armor/ancient/plategaunts
 	name = "Plate Gauntlets, Ancient"
 	category = "Ancient Alloy"
-	req_bar = /obj/item/ingot/purifiedaalloy
-	created_item = /obj/item/clothing/gloves/roguetown/plate/paalloy
+	req_bar = /obj/item/ingot/ancient
+	created_item = /obj/item/clothing/gloves/roguetown/plate/ancient
 	display_category = ITEM_CAT_ARMOR_GLOVES
 
-/datum/anvil_recipe/armor/aalloy/chainkilt
+/datum/anvil_recipe/armor/decrepit/chainkilt
 	name = "Chainkilt, Decrepit"
 	category = "Decrepit Alloy"
-	req_bar = /obj/item/ingot/aalloy
-	created_item = /obj/item/clothing/under/roguetown/chainlegs/kilt/aalloy
+	req_bar = /obj/item/ingot/decrepit
+	created_item = /obj/item/clothing/under/roguetown/chainlegs/kilt/ancient/decrepit
 	display_category = ITEM_CAT_ARMOR_LEGS
 
-/datum/anvil_recipe/armor/paalloy/chainkilt
+/datum/anvil_recipe/armor/ancient/chainkilt
 	name = "Chainkilt, Ancient"
 	category = "Ancient Alloy"
-	req_bar = /obj/item/ingot/purifiedaalloy
-	created_item = /obj/item/clothing/under/roguetown/chainlegs/kilt/paalloy
+	req_bar = /obj/item/ingot/ancient
+	created_item = /obj/item/clothing/under/roguetown/chainlegs/kilt/ancient
 	display_category = ITEM_CAT_ARMOR_LEGS
 
-/datum/anvil_recipe/armor/aalloy/platelegs
+/datum/anvil_recipe/armor/decrepit/platelegs
 	name = "Plated Chausses, Decrepit (+1 Alloy)"
 	category = "Decrepit Alloy"
-	req_bar = /obj/item/ingot/aalloy
-	additional_items = list(/obj/item/ingot/aalloy)
-	created_item = /obj/item/clothing/under/roguetown/platelegs/aalloy
+	req_bar = /obj/item/ingot/decrepit
+	additional_items = list(/obj/item/ingot/decrepit)
+	created_item = /obj/item/clothing/under/roguetown/platelegs/ancient/decrepit
 	display_category = ITEM_CAT_ARMOR_LEGS
 
-/datum/anvil_recipe/armor/paalloy/platelegs
+/datum/anvil_recipe/armor/ancient/platelegs
 	name = "Plated Chausses, Ancient (+1 Purified Alloy)"
 	category = "Ancient Alloy"
-	req_bar = /obj/item/ingot/purifiedaalloy
-	additional_items = list(/obj/item/ingot/purifiedaalloy)
-	created_item = /obj/item/clothing/under/roguetown/platelegs/paalloy
+	req_bar = /obj/item/ingot/ancient
+	additional_items = list(/obj/item/ingot/ancient)
+	created_item = /obj/item/clothing/under/roguetown/platelegs/ancient
 	display_category = ITEM_CAT_ARMOR_LEGS
 
 // BRONZE

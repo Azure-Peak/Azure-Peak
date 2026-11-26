@@ -1,20 +1,15 @@
-import { memo, useMemo } from 'react';
-import { Box, DmIcon, Stack } from 'tgui-core/components';
+import { type Dispatch, type SetStateAction, useState } from 'react';
+import {
+  Box,
+  Button,
+  DmIcon,
+  Input,
+  Section,
+  Stack,
+} from 'tgui-core/components';
 
 import { useBackend } from '../backend';
 import { Window } from '../layouts';
-import {
-  FONT_BODY,
-  INK,
-  INK_FAINT,
-  inkButtonStyle,
-  PARCHMENT_SHADOW,
-  SEAL_AMBER,
-  SERIF,
-} from './common/parchment';
-import { type PinData, pinGlyph, pinTitle, usePinSync } from './common/pins';
-import { RecipeBrowser } from './common/RecipeBrowser';
-import { SMITHING_GROUP_ORDER } from './common/RecipeRail';
 
 type Recipe = {
   name: string;
@@ -22,13 +17,10 @@ type Recipe = {
   req_bar: string;
   req_blade: string;
   ref: string;
-  path: string;
   icon: string;
 };
 
-type ActFn = (action: string, params?: Record<string, unknown>) => void;
-
-type Data = PinData & {
+type Data = {
   hingot_type?: string | null;
   recipes: Recipe[];
 };
@@ -38,7 +30,7 @@ export const Anvil = () => {
 
   if (!data.hingot_type) {
     return (
-      <Window width={400} height={400} theme="parchment">
+      <Window width={400} height={400}>
         <Window.Content>
           <LonelyAnvil />
         </Window.Content>
@@ -47,7 +39,7 @@ export const Anvil = () => {
   }
 
   return (
-    <Window width={640} height={540} theme="parchment">
+    <Window width={600} height={400}>
       <Window.Content>
         <RecipeDisplay />
       </Window.Content>
@@ -75,87 +67,61 @@ export const LonelyAnvil = () => {
   );
 };
 
-const AnvilRecipe = memo((props: {
-  recipe: Recipe;
-  pin?: string;
-  act: ActFn;
-  cyclePin: (path: string) => void;
+export const SearchBar = (props: {
+  search: string;
+  setSearch: Dispatch<SetStateAction<string>>;
 }) => {
-  const { recipe, pin, act, cyclePin } = props;
-  return (
-    <div
-      style={{
-        display: 'flex',
-        alignItems: 'center',
-        gap: '8px',
-        padding: '3px 4px',
-        borderBottom: `1px dashed ${PARCHMENT_SHADOW}`,
-      }}
-    >
-      <button
-        type="button"
-        style={inkButtonStyle({ color: pin ? SEAL_AMBER : INK_FAINT })}
-        title={pinTitle(pin)}
-        onClick={() => cyclePin(recipe.path)}
-      >
-        {pinGlyph(pin)}
-      </button>
-      <button
-        type="button"
-        className="toc-link"
-        style={{
-          flex: 1,
-          display: 'flex',
-          alignItems: 'center',
-          gap: '8px',
-          textAlign: 'left',
-          background: 'transparent',
-          border: 'none',
-          fontFamily: SERIF,
-          fontSize: FONT_BODY,
-          color: INK,
-          cursor: 'pointer',
-          padding: '2px 0',
-        }}
-        onClick={() => act('choose_recipe', { ref: recipe.ref })}
-      >
-        <Box className={recipe.icon} inline />
-        {recipe.name}
-      </button>
-    </div>
-  );
-});
+  const { search, setSearch } = props;
+  return <Input value={search} onChange={setSearch} fluid />;
+};
 
 export const RecipeDisplay = () => {
-  const { act, data } = useBackend<Data>();
-  const { recipes, hingot_type } = data;
-  const pins = data.pins || {};
-  const cyclePin = usePinSync(act, 'anvil', data);
+  const [search, setSearch] = useState('');
 
-  const available = useMemo(
-    () =>
-      recipes.filter(
-        (recipe) =>
-          recipe.req_bar === hingot_type || recipe.req_blade === hingot_type,
-      ),
-    [recipes, hingot_type],
-  );
+  const { act, data } = useBackend<Data>();
+
+  const { recipes, hingot_type } = data;
+
+  const availableRecipes = recipes
+    .filter((recipe) => {
+      return recipe.req_bar === hingot_type || recipe.req_blade === hingot_type;
+    })
+    .filter((recipe) => {
+      if (search) {
+        return recipe.name.toLowerCase().includes(search.toLowerCase());
+      } else {
+        return true;
+      }
+    })
+    .sort(
+      (a, b) =>
+        (a.category || '').localeCompare(b.category || '') ||
+        (a.name || '').localeCompare(b.name || ''),
+    );
 
   return (
-    <RecipeBrowser
-      menu="anvil"
-      recipes={available}
-      pins={pins}
-      pinsReady={!!data.pins_imported}
-      groupOrder={SMITHING_GROUP_ORDER}
-      renderRow={(recipe) => (
-        <AnvilRecipe
-          recipe={recipe}
-          pin={pins[recipe.path]}
-          act={act}
-          cyclePin={cyclePin}
-        />
-      )}
-    />
+    <Section
+      title="Recipes"
+      fill
+      scrollable
+      buttons={<SearchBar search={search} setSearch={setSearch} />}
+    >
+      {availableRecipes.map((recipe) => (
+        <Button
+          key={recipe.ref}
+          fluid
+          onClick={() => act('choose_recipe', { ref: recipe.ref })}
+        >
+          <Stack align="center">
+            <Stack.Item>
+              <Box className={recipe.icon} mr={2} inline />
+            </Stack.Item>
+            <Stack.Item>
+              {recipe.category} - {recipe.name}
+            </Stack.Item>
+          </Stack>
+        </Button>
+      ))}
+    </Section>
   );
 };

@@ -22,21 +22,16 @@ export type Posting = {
   can_authority_remove: boolean;
 };
 
-export type ScoutBlockade = {
-  gathering: boolean;
-  writ_out: boolean;
-  faction_label: string;
-  region_label: string;
-  days_active: number;
-};
-
 export type ScoutRegion = {
   region_name: string;
   danger_level: string;
   danger_color: string;
   ic_descriptions: string[];
   blockaded: boolean;
-  blockades: ScoutBlockade[];
+  blockade_writ_out: boolean;
+  blockade_faction_label: string;
+  blockade_region_label: string;
+  blockade_days_active: number;
 };
 
 export type TradeOrderRequirement = {
@@ -50,6 +45,7 @@ export type TradeOrder = {
   description: string;
   days_left: number;
   total_payout: number;
+  urgent: boolean;
   blockaded: boolean;
   warehouse: boolean;
   stockpile: boolean;
@@ -93,9 +89,9 @@ export type Charter = {
 export type EconomicEvent = {
   name: string;
   description: string;
+  event_type: string;
   days_left: number;
-  shortage_goods: string[];
-  glut_goods: string[];
+  affected_goods: string[];
 };
 
 export type MercenaryEntry = {
@@ -152,6 +148,8 @@ export type NoticeboardData = {
   mercenary_roster: MercenaryRoster;
   market_data: MarketData;
   market_refresh_cooldown: number;
+  partial_threshold_pct: number;
+  partial_payout_pct: number;
   can_post_listing: boolean;
   can_authority_remove: boolean;
   user_real_name: string;
