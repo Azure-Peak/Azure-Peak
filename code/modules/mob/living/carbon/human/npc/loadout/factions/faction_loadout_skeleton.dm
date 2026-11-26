@@ -264,6 +264,7 @@
 	)
 
 //avantyne clad skeletons that will be used for adminbus + maybe a future dungeon, we'll see
+//please, for the love of all that is (un?)holy, do not make this gear on luxplate skeles strippable, we do not need free ritual gear
 
 /datum/npc_archetype/skeleton/zizo
 	name = "Avantyne Skeleton Warrior"
@@ -275,6 +276,7 @@
 	armor_training = ARMOR_CLASS_MEDIUM
 	loadouts = list(
 		/datum/npc_loadout/armor/luxplate/zizo,
+		/datum/npc_loadout/kit/random_zizo_skele_belt,
 		/datum/npc_loadout/kit/skeleton_amulet,
 		/datum/npc_loadout/kit/skeleton_tabard,
 		/datum/npc_loadout/weapon/zizo,
@@ -290,6 +292,7 @@
 	armor_training = ARMOR_CLASS_HEAVY
 	loadouts = list(
 		/datum/npc_loadout/armor/luxplate/zizo_heavy,
+		/datum/npc_loadout/kit/random_zizo_skele_belt,
 		/datum/npc_loadout/kit/skeleton_amulet,
 		/datum/npc_loadout/kit/skeleton_tabard,
 		/datum/npc_loadout/weapon/zizo_heavy,
@@ -607,6 +610,12 @@
 	beltl = list(
 		/obj/item/repair_kit/bad = 20,
 		NPC_NOTHING = 80,
+	)
+
+/datum/npc_loadout/kit/random_zizo_skele_belt
+	belt = list(
+		/obj/item/storage/belt/rogue/leather
+		/obj/item/storage/belt/rogue/leather/black
 	)
 
 //** WEAPONS **//

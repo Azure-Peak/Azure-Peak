@@ -96,34 +96,32 @@ GLOBAL_LIST_INIT(smartskeleton_aggro, world.file2list("strings/rt/smartskeletona
 	threat_point = THREAT_TOUGH
 	npc_archetype = /datum/npc_archetype/skeleton/hardspread
 
-// Casters - currently for a unique dungeon, maybe they'll see use later
+// Casters - keep these in dungeons or contracts only, maybe something else down the line but definitely do not spam these.
 
-/mob/living/carbon/human/species/skeleton/npc/caster_mixed
+/mob/living/carbon/human/species/skeleton/npc/caster/after_creation()
+	..()
+	SEND_SIGNAL(src, COMSIG_MOB_MODIFY_AGGRO_LINES, GLOB.smartskeleton_aggro, TRUE)
+
+/mob/living/carbon/human/species/skeleton/npc/caster
 	threat_point = THREAT_DANGEROUS
 	npc_archetype = /datum/npc_archetype/skeleton/caster/mixed
 
-/mob/living/carbon/human/species/skeleton/npc/caster_pyromancer
-	threat_point = THREAT_DANGEROUS
+/mob/living/carbon/human/species/skeleton/npc/caster/pyromancer
 	npc_archetype = /datum/npc_archetype/skeleton/caster/pyromancer
 
-/mob/living/carbon/human/species/skeleton/npc/caster_cryomancer
-	threat_point = THREAT_DANGEROUS
+/mob/living/carbon/human/species/skeleton/npc/caster/cryomancer
 	npc_archetype = /datum/npc_archetype/skeleton/caster/cryomancer
 
-/mob/living/carbon/human/species/skeleton/npc/caster_fulgarmancer
-	threat_point = THREAT_DANGEROUS
+/mob/living/carbon/human/species/skeleton/npc/caster/fulgarmancer
 	npc_archetype = /datum/npc_archetype/skeleton/caster/fulgarmancer
 
-/mob/living/carbon/human/species/skeleton/npc/caster_telomancer
-	threat_point = THREAT_DANGEROUS
+/mob/living/carbon/human/species/skeleton/npc/caster/telomancer
 	npc_archetype = /datum/npc_archetype/skeleton/caster/telomancer
 
-/mob/living/carbon/human/species/skeleton/npc/caster_ferramancer
-	threat_point = THREAT_DANGEROUS
+/mob/living/carbon/human/species/skeleton/npc/caster/ferramancer
 	npc_archetype = /datum/npc_archetype/skeleton/caster/ferramancer
 
-/mob/living/carbon/human/species/skeleton/npc/caster_geomancer
-	threat_point = THREAT_DANGEROUS
+/mob/living/carbon/human/species/skeleton/npc/caster/geomancer
 	npc_archetype = /datum/npc_archetype/skeleton/caster/geomancer
 
 //unique duke NPC
