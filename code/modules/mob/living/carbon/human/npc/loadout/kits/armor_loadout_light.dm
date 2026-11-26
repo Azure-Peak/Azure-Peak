@@ -76,7 +76,7 @@
 
 /datum/npc_loadout/armor/light/skeleton_caster
 	head = /obj/item/clothing/head/roguetown/roguehood/black
-	mask = /obj/item/clothing/mask/rogue/facemask/ancient/decrepit //Face protection
+	mask = /obj/item/clothing/mask/rogue/facemask/ancient/decrepit //face protection
 	shirt = /obj/item/clothing/suit/roguetown/armor/vestments_padded
 	neck = /obj/item/clothing/neck/roguetown/chaincoif/ancient/decrepit
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/cloth/lich

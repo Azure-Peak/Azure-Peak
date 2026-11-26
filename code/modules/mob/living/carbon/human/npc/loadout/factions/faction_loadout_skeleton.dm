@@ -36,7 +36,7 @@
 		/datum/npc_loadout/kit/skeleton_amulet,
 		/datum/npc_loadout/kit/skeleton_tabard,
 		list( //50% chance of a decrepit helm w/coif
-			/datum/npc_loadout/armor/medium/aalloy_helm = 1,
+			/datum/npc_loadout/armor/medium/decrepit_helm = 1,
 			NPC_NOTHING = 1,
 		),
 		/datum/npc_loadout/weapon/skeleton_footsoldier,
@@ -605,7 +605,7 @@
 	backl = /obj/item/storage/backpack/rogue/satchel/short/black
 	backpack_contents = list(
 		/obj/item/clothing/head/roguetown/crown/fakecrown = 1,
-		/obj/item/storage/belt/rogue/pouch/coins/aalloy/rich = 1, //funny
+		/obj/item/storage/belt/rogue/pouch/coins/psila/rich = 1, //funny
 		/obj/item/roguegem/diamond = 1,
 	)
 	beltl = list(
@@ -630,7 +630,7 @@
 		list(/obj/item/rogueweapon/stoneaxe/woodcut/aaxe),
 		list(/obj/item/rogueweapon/sword/short/ashort),
 		list(/obj/item/rogueweapon/spear/ancient/decrepit),
-		list(/obj/item/rogueweapon/mace/alloy),
+		list(/obj/item/rogueweapon/mace/ancient/decrepit),
 		list(/obj/item/rogueweapon/mace/woodclub),
 	)
 
@@ -639,7 +639,7 @@
 		list(/obj/item/rogueweapon/stoneaxe/woodcut/aaxe),
 		list(/obj/item/rogueweapon/sword/short/ashort),
 		list(/obj/item/rogueweapon/spear/ancient/decrepit),
-		list(/obj/item/rogueweapon/mace/alloy),
+		list(/obj/item/rogueweapon/mace/ancient/decrepit),
 	)
 
 /datum/npc_loadout/weapon/skeleton_pirate_knives
@@ -648,12 +648,12 @@
 	traits = list(TRAIT_DUALWIELDER) //Rapid knives build
 
 /datum/npc_loadout/weapon/skeleton_pirate_sabre
-	r_hand = /obj/item/rogueweapon/sword/sabre/alloy //Its the closet thing to an ancient cutlass, matie
+	r_hand = /obj/item/rogueweapon/sword/sabre/ancient/decrepit //Its the closet thing to an ancient cutlass, matie
 
 /datum/npc_loadout/weapon/skeleton_soldier_sandals
 	shoes = /obj/item/clothing/shoes/roguetown/sandals/ancient/decrepit //Legionnarie look
 	weapons = list(
-		list(/obj/item/rogueweapon/stoneaxe/woodcut/aaxe, /obj/item/rogueweapon/shield/tower/metal/alloy, 20),
+		list(/obj/item/rogueweapon/stoneaxe/woodcut/aaxe, /obj/item/rogueweapon/shield/tower/ancient/decrepit, 20),
 		list(/obj/item/rogueweapon/sword/short/gladius/agladius, /obj/item/rogueweapon/shield/bronze/ancient/decrepit, 45), // ave
 		list(/obj/item/rogueweapon/flail/ancient/decrepit, /obj/item/rogueweapon/shield/bronze/ancient/decrepit, 65),
 	)
@@ -661,13 +661,13 @@
 /datum/npc_loadout/weapon/skeleton_soldier_boots
 	shoes = /obj/item/clothing/shoes/roguetown/boots/ancient/decrepit //Bulwark look
 	weapons = list(
-		list(/obj/item/rogueweapon/mace/warhammer/alloy, /obj/item/rogueweapon/shield/tower/metal/alloy, 40), //Nastier for MAA skele
+		list(/obj/item/rogueweapon/mace/warhammer/ancient/decrepit, /obj/item/rogueweapon/shield/tower/ancient/decrepit, 40), //Nastier for MAA skele
 		list(/obj/item/rogueweapon/halberd/bardiche/ancient/decrepit),
 	)
 
 /datum/npc_loadout/weapon/skeleton_khopesh
-	r_hand = /obj/item/rogueweapon/sword/sabre/alloy
-	l_hand = /obj/item/rogueweapon/sword/sabre/alloy
+	r_hand = /obj/item/rogueweapon/sword/sabre/ancient/decrepit
+	l_hand = /obj/item/rogueweapon/sword/sabre/ancient/decrepit
 	traits = list(TRAIT_DUALWIELDER) //Parity slightly with deadlier dreadknight + swift on heavy armor no longer being cracked
 
 /datum/npc_loadout/weapon/skeleton_withered
@@ -679,7 +679,7 @@
 	)
 
 /datum/npc_loadout/weapon/skeleton_archer
-	r_hand = /obj/item/rogueweapon/mace/alloy
+	r_hand = /obj/item/rogueweapon/mace/ancient/decrepit
 	backr = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve
 	backl = /obj/item/quiver/randomfill/skeleton
 
@@ -699,7 +699,7 @@
 
 /datum/npc_loadout/weapon/fallen_duke
 	r_hand = /obj/item/rogueweapon/sword/rapier/lord
-	l_hand = /obj/item/rogueweapon/shield/tower/metal/alloy
+	l_hand = /obj/item/rogueweapon/shield/tower/ancient/decrepit
 
 /datum/npc_loadout/weapon/lich_knight
 	weapons = list(
