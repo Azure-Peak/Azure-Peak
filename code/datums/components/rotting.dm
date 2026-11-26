@@ -82,8 +82,8 @@
 		return
 
 	var/area/A = get_area(C)
-	if (istype(A, /area/rogue/indoors/town))	//Stops rotting inside town buildings; will stop your zombification such as at church or appothocary.
-		return
+	if (istype(A, /area/rogue/indoors/town) && !has_world_trait(/datum/world_trait/zizo_defilement))	//Stops rotting inside town buildings; will stop your zombification such as at church or appothocary.
+		return																							//Except during Zizo's defilement, which is a world trait that allows zombification to occur in town.
 	if (istype(A, /area/rogue/indoors/deathsedge))	//Stops rotting inside Death's Edge (Death's Door spell area)
 		return
 
@@ -99,13 +99,13 @@
 				C.infected = TRUE
 				wake_zombie(C, infected_wake = TRUE, converted = FALSE)
 		//NPCs use a different logic which is handled in NPC procs
-		if(!C.mind) //firstly, are we an NPC? don't even bother w/ other checks if we are a player.
-			var/chance_of_deadite_npc_reanimation = 25	// 25% chance of reanimation for NPC deadites
-			if(has_world_trait(/datum/world_trait/zizo_defilement))
-				chance_of_deadite_npc_reanimation = 100	// 100% chance of reanimation for NPC deadites during Zizo's Defilement event
-			if(!HAS_TRAIT(C, TRAIT_DNR) && !HAS_TRAIT(C, TRAIT_DEADITE))
-				if(prob([chance_of_deadite_npc_reanimation]))
-					addtimer(CALLBACK(C, TYPE_PROC_REF(/mob/living/carbon/human, do_deadite_npc_reanimation)), 0.1 SECONDS) //I THINK THIS IS THE ONLY WAY, ITS PROBABLY NOT GOOD BUT WHATEVER
+		if(!C.mind && C.stat == DEAD) //firstly, are we an NPC? don't even bother w/ other checks if we are a player.
+			if(!HAS_TRAIT(C, TRAIT_DNR) && !HAS_TRAIT(C, TRAIT_DEADITE)) //DNRs and aleady deadites don't get reanimated, obviously.
+				if(has_world_trait(/datum/world_trait/zizo_defilement))
+					addtimer(CALLBACK(C, TYPE_PROC_REF(/mob/living/carbon/human, do_deadite_npc_reanimation)), 3 SECONDS) //always revives
+				if(prob(25))	// 25% chance of reanimation for NPC deadites
+					addtimer(CALLBACK(C, TYPE_PROC_REF(/mob/living/carbon/human, do_deadite_npc_reanimation)), 3 SECONDS) //25% of revival
+		//this is such genuine shitcode if there's a better way, please tell me
 
 	var/findonerotten = FALSE
 	var/shouldupdate = FALSE
