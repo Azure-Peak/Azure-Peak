@@ -733,6 +733,7 @@
 		/datum/magic_aspect/ferramancy,
 		/datum/magic_aspect/aegiscraft,
 	)
+	r_hand = null
 
 /datum/npc_loadout/kit/caster_skele_cryomancer
 	magic_aspects = list(
