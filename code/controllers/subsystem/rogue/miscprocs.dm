@@ -286,6 +286,29 @@ GLOBAL_LIST_EMPTY(miracle_tiers)
 		ADD_TRAIT(src, TRAIT_DECEIVING_MEEKNESS, TRAIT_VIRTUE)
 	to_chat(src, "I have [HAS_TRAIT(src, TRAIT_DECEIVING_MEEKNESS) ? "raised" : "lowered"] my guard around others.")
 
+/mob/living/carbon/human/proc/toggle_dual_wielder()
+	set name = "Toggle Dual Wielder"
+	set category = "RoleUnique.Virtue"
+
+	if(dualwield_processing)
+		to_chat(src, span_notice("I must finish my attack first."))
+		return
+
+	if(!HAS_TRAIT_FROM(src, TRAIT_DUALWIELDER, TRAIT_VIRTUE))
+		ADD_TRAIT(src, TRAIT_DUALWIELDER, TRAIT_VIRTUE)
+		to_chat(src, span_notice("I resume dual wielding."))
+		return
+
+	REMOVE_TRAIT(src, TRAIT_DUALWIELDER, TRAIT_VIRTUE)
+	if(HAS_TRAIT(src, TRAIT_DUALWIELDER))
+		to_chat(src, span_notice("My other training still lets me dual wield."))
+		return
+
+	dualwield_attack_count = 0
+	dualwield_finisher = FALSE
+	dualwield_resets_in = 0
+	to_chat(src, span_notice("I stop dual wielding."))
+
 /mob/living/carbon/human/proc/toggle_light_steps()
 	set name = "Toggle Light Steps"
 	set category = "RoleUnique.Virtue"

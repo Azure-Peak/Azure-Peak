@@ -536,7 +536,6 @@
 	color = CLOTHING_BROWN
 
 /obj/item/clothing/head/roguetown/roguehood/studded/retinue //For skirmisher
-	name = "guard studded hood"
 	desc = "A padded hood splinted across creating a cocoon for whoever wears it - won't protect your face however. This one bears the heraldry of the local lord."
 	detail_tag = "_detail"
 	color = CLOTHING_AZURE
@@ -551,7 +550,7 @@
 /obj/item/clothing/head/roguetown/roguehood/studded/retinue/update_icon()
 	cut_overlays()
 	if(get_detail_tag())
-		var/mutable_appearance/pic = mutable_appearance(icon(icon, "[get_detail_state(icon_state)][detail_tag]"))
+		var/mutable_appearance/pic = mutable_appearance(icon(icon, "[icon_state][detail_tag]"))
 		pic.appearance_flags = RESET_COLOR
 		if(get_detail_color())
 			pic.color = get_detail_color()
@@ -569,7 +568,7 @@
 	update_icon()
 	if(ismob(loc))
 		var/mob/L = loc
-		L.update_inv_armor()
+		L.update_inv_head()
 
 /obj/item/clothing/head/roguetown/roguehood/studded/retinue/Destroy()
 	GLOB.lordcolor -= src

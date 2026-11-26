@@ -1,15 +1,21 @@
 GLOBAL_LIST_EMPTY(active_blockades)
 
 /datum/blockade
-	var/region_id
+	var/subroute
 	var/threat_region_name
 	var/faction_id
 	var/day_started = 0
 	var/datum/weakref/active_scroll_ref
 	var/datum/weakref/active_quest_ref
 
-/datum/blockade/proc/get_region()
-	return GLOB.economic_regions[region_id]
+/datum/blockade/proc/get_regions()
+	return get_subroute_regions(subroute)
+
+/datum/blockade/proc/get_name()
+	return get_subroute_name(subroute)
+
+/datum/blockade/proc/get_region_names()
+	return get_subroute_region_names(subroute)
 
 /datum/blockade/proc/get_threat_region()
 	if(!threat_region_name)

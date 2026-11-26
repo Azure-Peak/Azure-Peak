@@ -8,7 +8,7 @@
 	class_select_category = CLASS_CAT_OTAVA
 	category_tags = list(CTAG_MERCENARY, CTAG_MERCPARTY_VANGUARD)
 	traits_applied = list(TRAIT_HEAVYARMOR, TRAIT_NOBLE)
-	noble_income = 15
+	noble_rank = NOBLE_RANK_GENTRY
 	cmode_music = 'sound/music/combat_routier.ogg'
 	subclass_stats = list(
 		STATKEY_CON = 4,
@@ -50,7 +50,7 @@
 				H.adjust_skillrank_up_to(/datum/skill/combat/swords, 4, TRUE)
 				beltl = /obj/item/rogueweapon/scabbard/sword
 				l_hand = /obj/item/rogueweapon/sword/short/falchion
-				backl = /obj/item/rogueweapon/shield/kite
+				backl = /obj/item/rogueweapon/shield/tower/metal
 			if("Longswordsman")
 				H.adjust_skillrank_up_to(/datum/skill/combat/swords, 4, TRUE)
 				beltl = /obj/item/rogueweapon/scabbard/sword
@@ -62,11 +62,11 @@
 			if("Macebearer")
 				H.adjust_skillrank_up_to(/datum/skill/combat/maces, 4, TRUE)
 				beltl = /obj/item/rogueweapon/mace/steel/morningstar
-				backl = /obj/item/rogueweapon/shield/kite
+				backl = /obj/item/rogueweapon/shield/tower/metal
 			if("Flailman")
 				H.adjust_skillrank_up_to(/datum/skill/combat/whipsflails, 4, TRUE)
-				beltl = /obj/item/rogueweapon/flail/steel
-				backl = /obj/item/rogueweapon/shield/kite
+				beltl = /obj/item/rogueweapon/flail/sflail
+				backl = /obj/item/rogueweapon/shield/tower/metal
 			if("Foot Lancer")
 				H.adjust_skillrank_up_to(/datum/skill/combat/polearms, 4, TRUE)
 				r_hand = /obj/item/rogueweapon/halberd

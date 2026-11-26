@@ -244,6 +244,11 @@
 	path = /obj/item/clothing/cloak/half/duelcape
 	sort_category = "Cloaks"
 
+/datum/loadout_item/duelistscloak_alt
+	name = "Duelist's Cape (alt)"
+	path = /obj/item/clothing/cloak/half/duelcape_alt
+	sort_category = "Cloaks"
+
 /datum/loadout_item/toga
 	name = "Toga, Robed"
 	path = /obj/item/clothing/cloak/tabard/toga

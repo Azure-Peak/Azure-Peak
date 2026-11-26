@@ -94,7 +94,7 @@
 	body_parts_covered = HEAD|HAIR|EARS
 	armor = ARMOR_PLATE
 
-/obj/item/clothing/head/roguetown/helmet/kettle/ancient/decrepit
+/obj/item/clothing/head/roguetown/helmet/kettle/aalloy
 	name = "decrepit kettle helmet"
 	desc = "A rotted metal helmet which protects the top and sides of the head. Atop a resurrected levyman's scalp, it's a sign that forces-most-foul are soon to besiege; and atop a fleshless ballistaeman's skull, it's a sign that you should probably duck."
 	icon_state = "ancientkettle"
@@ -106,7 +106,7 @@
 	anvilrepair = null
 	max_integrity = ARMOR_INT_HELMET_HEAVY_DECREPIT
 
-/obj/item/clothing/head/roguetown/helmet/kettle/ancient
+/obj/item/clothing/head/roguetown/helmet/kettle/paalloy
 	name = "ancient kettle helmet"
 	desc = "A polished gilbranze helmet which protects the top and sides of the head. Zizo's glare mustn't be interceded, when matters of unholy war are at hand. Undead ballistaemen practice a curious method of tying dyed cloth around its rim; can they, too, think and associate?"
 	icon_state = "ancientkettle"

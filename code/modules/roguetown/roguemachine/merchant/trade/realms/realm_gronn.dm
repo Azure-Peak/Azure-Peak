@@ -72,7 +72,7 @@
 		list("recipe" = /datum/brewing_recipe/fermentedcrab),
 	)
 	cultural_stock_pool = list(
-		/datum/supply_pack/rogue/food/honey,
+		/datum/supply_pack/rogue/gronn/honey,
 		/datum/supply_pack/rogue/merc_weapons/beardedaxe,
 		/datum/supply_pack/rogue/merc_weapons/handclaw_iron,
 		/datum/supply_pack/rogue/merc_weapons/handclaw_steel,

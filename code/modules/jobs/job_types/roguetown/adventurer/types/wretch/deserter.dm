@@ -89,13 +89,13 @@
 			if("Longsword + Shield")
 				beltr = /obj/item/rogueweapon/scabbard/sword
 				r_hand = /obj/item/rogueweapon/sword/long
-				backr = /obj/item/rogueweapon/shield/kite
+				backr = /obj/item/rogueweapon/shield/tower/metal
 			if("Mace + Shield")
 				beltr = /obj/item/rogueweapon/mace/steel
-				backr = /obj/item/rogueweapon/shield/kite
+				backr = /obj/item/rogueweapon/shield/tower/metal
 			if("Flail + Shield")
-				beltr = /obj/item/rogueweapon/flail/steel
-				backr = /obj/item/rogueweapon/shield/kite
+				beltr = /obj/item/rogueweapon/flail/sflail
+				backr = /obj/item/rogueweapon/shield/tower/metal
 			if("Lucerne")
 				r_hand = /obj/item/rogueweapon/eaglebeak/lucerne
 				backr = /obj/item/rogueweapon/scabbard/gwstrap
@@ -103,7 +103,7 @@
 				backr = /obj/item/rogueweapon/stoneaxe/battle
 			if("Lance + Kite Shield")
 				r_hand = /obj/item/rogueweapon/spear/lance
-				backr = /obj/item/rogueweapon/shield/kite
+				backr = /obj/item/rogueweapon/shield/tower/metal
 			if("Samshir")
 				r_hand = /obj/item/rogueweapon/sword/sabre/shamshir
 				beltr = /obj/item/rogueweapon/scabbard/sword

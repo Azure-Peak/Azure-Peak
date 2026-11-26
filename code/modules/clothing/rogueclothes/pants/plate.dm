@@ -35,7 +35,7 @@
 	max_integrity = ARMOR_INT_LEG_IRON_PLATE
 	smeltresult = /obj/item/ingot/iron
 
-/obj/item/clothing/under/roguetown/platelegs/ancient/decrepit
+/obj/item/clothing/under/roguetown/platelegs/aalloy
 	name = "decrepit plate chausses"
 	desc = "Rotted metal plates, shingled over chausses of rotting leather-and-maille. Voided bowels are all that remains of its former legionnaire."
 	icon_state = "ancientpants"
@@ -46,7 +46,7 @@
 	smeltresult = /obj/item/ingot/aaslag
 	anvilrepair = null
 
-/obj/item/clothing/under/roguetown/platelegs/ancient
+/obj/item/clothing/under/roguetown/platelegs/paalloy
 	name = "ancient plate chausses"
 	desc = "Polished gilbranze plates, layered atop silken chausses. Only the few who had embraced undeath were spared from Zizo's ascension; now, they command the undying \
 	legionnaires who march forth to sunder creation in Her name."

@@ -216,6 +216,10 @@
 	icon_state = "cheesekey"
 	lockid = "steward"
 
+/obj/item/roguekey/steward/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Carry it to issue defense scrolls at the Contract Ledger, paid from the Burgher Pledge only.")
+
 /obj/item/roguekey/archive
 	name = "archive key"
 	desc = "This key opens the university archive."

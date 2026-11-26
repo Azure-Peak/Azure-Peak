@@ -1,25 +1,32 @@
-import {
-  FONT_BODY,
-  INK,
-  INK_FAINT,
-  INK_SOFT,
-  SERIF,
-} from '../common/parchment';
+import { FONT_BODY, INK, INK_FAINT, INK_SOFT, SERIF } from '../common/parchment';
 import type { TabKey } from './types';
+
+const TABS: { key: TabKey; label: string }[] = [
+  { key: 'caravans', label: 'Caravans' },
+  { key: 'commissions', label: 'Commission' },
+  { key: 'market', label: 'Market' },
+  { key: 'regions', label: 'Regions' },
+  { key: 'petition', label: 'Petition' },
+];
 
 const tabBarStyle = {
   display: 'flex',
   flexWrap: 'wrap' as const,
   gap: '4px',
-  margin: '8px 0 4px 0',
+  margin: '8px 0 0 0',
+  paddingBottom: '6px',
+  borderBottom: `1px solid ${INK_FAINT}`,
 };
 
 const tabStyle = (active: boolean) => ({
+  display: 'inline-flex',
+  alignItems: 'center',
+  gap: '6px',
   fontFamily: SERIF,
   fontSize: FONT_BODY,
-  padding: '2px 8px',
+  padding: '2px 10px',
   color: active ? INK : INK_FAINT,
-  background: active ? 'rgba(200,170,100,0.25)' : 'transparent',
+  background: active ? 'var(--p-tab-active-bg)' : 'transparent',
   border: `1px solid ${active ? INK_SOFT : 'transparent'}`,
   borderRadius: '2px',
   cursor: 'pointer',
@@ -34,54 +41,15 @@ export const TabBar = (props: {
   const { tab, onSwitch } = props;
   return (
     <div style={tabBarStyle}>
-      <div
-        style={tabStyle(tab === 'orders')}
-        onClick={() => onSwitch('orders')}
-      >
-        Standing Orders
-      </div>
-      <div
-        style={tabStyle(tab === 'market')}
-        onClick={() => onSwitch('market')}
-      >
-        Market
-      </div>
-      <div
-        style={tabStyle(tab === 'ledger')}
-        onClick={() => onSwitch('ledger')}
-      >
-        Ledger
-      </div>
-      <div
-        style={tabStyle(tab === 'regions')}
-        onClick={() => onSwitch('regions')}
-      >
-        Regions
-      </div>
-      <div
-        style={tabStyle(tab === 'auto_import')}
-        onClick={() => onSwitch('auto_import')}
-      >
-        Autoimport
-      </div>
-      <div
-        style={tabStyle(tab === 'petition')}
-        onClick={() => onSwitch('petition')}
-      >
-        Petition
-      </div>
-      <div
-        style={tabStyle(tab === 'royal_custom')}
-        onClick={() => onSwitch('royal_custom')}
-      >
-        Royal Custom
-      </div>
-      <div
-        style={tabStyle(tab === 'advanced')}
-        onClick={() => onSwitch('advanced')}
-      >
-        Advanced
-      </div>
+      {TABS.map((t) => (
+        <div
+          key={t.key}
+          style={tabStyle(tab === t.key)}
+          onClick={() => onSwitch(t.key)}
+        >
+          {t.label}
+        </div>
+      ))}
     </div>
   );
 };

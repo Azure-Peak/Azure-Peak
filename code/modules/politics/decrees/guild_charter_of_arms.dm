@@ -7,14 +7,14 @@
 
 The Crown commandeth no oath of service from the Guild, and oweth it no service in return. The Crown shall not intervene in the contracts the Guild undertaketh, and shall protect its adherents' right to bear arms and to intervene in private warfare as they see fit, so long as the peace of the Realm be not disturbed thereby, and so long as they undertake no contracts of piracy, brigandry, nor such as directly threaten the Crown's interests.
 
-In recognition of this standing, the Guild's treasury, collected from amongst its members as a fee, shall remit a daily tribute unto the Burgher Pledge as a gesture of good will and contribution toward the common wealth of the Realm, as bearers of arms and agents of Ravox for the dispensation of justice therein. And should an outlaw be found wearing the Guild's colours, the Guild answereth for none of it, and the Crown's justice against that individual proceedeth unimpeded.
+In recognition of this standing, the Guild's treasury, collected from amongst its members as a fee, shall remit a daily tribute unto the Burgher Pledge as a gesture of good will and contribution toward the common wealth of the Realm, as bearers of arms and agents of Ravox for the dispensation of justice therein. And should an outlaw be found wearing the Guild's colours, the Guild answereth for none of it.
 
 Yeven under the seal of the Crown and the mark of the Guild."}
 	revoke_text = "The %RULER% has suspended the Guild Charter of Arms. The mercenaries of Azuria now bear the Crown's common levy in full - and the Guild's tribute to the Pledge ceases until the compact is renewed."
 	restore_text = "The %RULER% has affirmed the Guild Charter of Arms. The Guild's recognition is restored, and its tribute to the Pledge resumes."
 
 /datum/decree/guild_charter_of_arms/roll_initial_year()
-	return CALENDAR_EPOCH_YEAR - rand(30, 80)
+	return 1424
 
 /// Returns TRUE if the payer is a chartered mercenary under this charter.
 /datum/decree/guild_charter_of_arms/proc/is_protected(mob/living/payer)

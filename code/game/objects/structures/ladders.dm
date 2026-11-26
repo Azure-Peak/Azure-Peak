@@ -8,8 +8,9 @@
 	anchored = TRUE
 	var/obj/structure/ladder/down	//the ladder below this one
 	var/obj/structure/ladder/up		//the ladder above this one
-	obj_flags = BLOCK_Z_OUT_DOWN
-	max_integrity = 0
+	obj_flags = CAN_BE_HIT | BLOCK_Z_OUT_DOWN
+	max_integrity = 400
+	blade_dulling = DULLING_BASHCHOP
 
 /obj/structure/ladder/Initialize(mapload, obj/structure/ladder/up, obj/structure/ladder/down)
 	..()
@@ -68,8 +69,8 @@
 	else if(down)
 		icon_state = "ladder01"
 
-	else	//wtf make your ladders properly assholes
-		icon_state = "ladder00"
+	else
+		icon_state = initial(icon_state)
 
 /obj/structure/ladder/proc/travel(going_up, mob/user, is_ghost, obj/structure/ladder/ladder)
 	if(is_ghost)
@@ -79,6 +80,9 @@
 		playsound(src, 'sound/foley/ladder.ogg', 100, FALSE)
 		if(!do_after(user, 30, TRUE, src))
 			return
+
+	if(QDELETED(src) || QDELETED(ladder))
+		return
 
 	if(!is_ghost)
 		show_fluff_message(going_up, user)
@@ -121,7 +125,14 @@
 	use(user)
 
 /obj/structure/ladder/attackby(obj/item/W, mob/user, params)
+	if(user.cmode)
+		return ..()
 	return use(user)
+
+/obj/structure/ladder/get_mechanics_examine(mob/user)
+	. = ..()
+	if(!(resistance_flags & INDESTRUCTIBLE))
+		. += "This ladder can be attacked with a weapon in combat mode."
 
 //ATTACK GHOST IGNORING PARENT RETURN VALUE
 /obj/structure/ladder/attack_ghost(mob/dead/observer/user)
@@ -135,47 +146,11 @@
 		user.visible_message("<span class='notice'>[user] climbs down [src].</span>", "<span class='notice'>I climb down [src].</span>")
 
 
-// Indestructible away mission ladders which link based on a mapped ID and height value rather than X/Y/Z.
 /obj/structure/ladder/unbreakable
 	name = "sturdy ladder"
-	desc = ""
+	desc = "This ladder looks sturdier than most."
 	resistance_flags = INDESTRUCTIBLE
-	var/id
-	var/height = 0	// higher numbers are considered physically higher
-
-/obj/structure/ladder/unbreakable/Initialize(mapload)
-	GLOB.ladders += src
-	return ..()
-
-/obj/structure/ladder/unbreakable/Destroy()
-	. = ..()
-	if (. != QDEL_HINT_LETMELIVE)
-		GLOB.ladders -= src
-
-/obj/structure/ladder/unbreakable/LateInitialize()
-	// Override the parent to find ladders based on being height-linked
-	if (!id || (up && down))
-		update_icon()
-		return
-
-	for (var/O in GLOB.ladders)
-		var/obj/structure/ladder/unbreakable/L = O
-		if (L.id != id)
-			continue	// not one of our pals
-		if (!down && L.height == height - 1)
-			down = L
-			L.up = src
-			L.update_icon()
-			if (up)
-				break	// break if both our connections are filled
-		else if (!up && L.height == height + 1)
-			up = L
-			L.down = src
-			L.update_icon()
-			if (down)
-				break	// break if both our connections are filled
-
-	update_icon()
+	max_integrity = 0
 
 /obj/structure/ladder/earth
 	icon_state = "ladderearth"
@@ -190,8 +165,8 @@
 	else if(down)
 		icon_state = "ladderearth"
 
-	else	//wtf make your ladders properly assholes
-		icon_state = "ladder00"
+	else
+		icon_state = initial(icon_state)
 
 /obj/structure/wallladder
 	name = "wall ladder"

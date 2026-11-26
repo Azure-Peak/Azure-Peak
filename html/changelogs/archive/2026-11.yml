@@ -1092,3 +1092,87 @@
       to no longer kill w/ facial disfigurement.
   - balance: unique weapons + heretic stuff + amulets + mad duke's rapier is no longer
       scavenged-marked
+2026-11-26:
+  BobProductive:
+  - bugfix: Fixes runtime when examining the properties of javelins
+  - rscadd: Added an alternative duelist cape, available in the loadout
+  OrbisAnima:
+  - code_imp: Expands the cloak storage system so that individual items can be given
+      its own storage system instead of forcing the same compoinent to all of them.
+  - balance: Nerfs the martyr cloak to have no storage.
+  - balance: Reverts Bandolier to a regular cloak stats, ie, it will fit in bags and
+      be sized 2x2
+  Quinalion:
+  - rscadd: Added 67 hairstyle options to the shared character customizer.
+  - bugfix: Fixed Archivist's missing sprite.
+  - rscdel: Removed 20 duplicate hairstyle options and 2 blank entries.
+  - qol: Sorted the hairstyle lists alphabetically.
+  Ryan180602:
+  - balance: Reintroduce chain exploding for impacts.
+  - balance: Halve the shrapnel count on impacts.
+  - balance: Impacts now do blunt damage to armour without the integ mod. They also
+      do far lesser damage now.
+  - balance: Impacts chaining off do most of the raw damage on the spot. Shrapnel
+      spreads out all the same tho some can be caught by the suicide bomber.
+  - balance: Impacts are now 2x2 inventory space.
+  - balance: Blaststick damage was nearly halved.
+  - balance: Blaststicks are 2x1.
+  - rscdel: Remove belchers.
+  - balance: Mounts need to ride in a direction to get up to top speed.
+  - balance: Mounts turning 90* kills some speed (only on gallop), and 180* kills
+      all of it (on gallop or otherwise).
+  - balance: People who's saddleborn mounts were killed and cull the debuff by bonding
+      with another.
+  - balance: Riding unbonded mounts gives an apprentice riding skill cap.
+  - balance: People can parry on mounts once more.
+  - balance: Under Journeyman and without galloping, there's a chance for the rider
+      to be dehorsed depending on force of the damage + rider skill.
+  - bugfix: Only the rider gains XP on riding. Not the passenger.
+  - bugfix: Hitting the mount when galloping will also dehorse the rider.
+  - bugfix: Some mount related layering issues.
+  - qol: Mounting an incap/bound person only mounts them to the passenger slot now.
+      So you don't need another to do it for you.
+  WeNeedMorePhoron:
+  - rscadd: Merchant is now ATC category in orbit menu
+  - rscadd: You can only take one notorious at a time and if you somehow get two,
+      you should no longer get trapped in between them.
+  - rscdel: Reverted quarterstaff state to the balance before November 11 to preserve
+      their viability
+  - rscadd: Add skill hardcap to virtues. Pilgrim now adjust knives and athletic up
+      to Apprentice or by +1, and cannot exceed and therefore give you +1 Athletic
+      or +1 Knives on a combat role and give you Master / Legendary knives BS.
+  - rscadd: 'Makes Doppelganger copies their target''s skills and combat traits (Except
+      pacifism etc.), instead of being fixed Expert, which was causing them to obliterate
+      journeyman or towner easily. If not player controlled, they will have a 1 skill
+      penalty and small stat penalty. They copy quivers and scabbarded weapons properly
+      now and switch over to archer AI if they copy an archer
+
+      - Doppel heart is now a 1x1 item, now sells for 60 instead of 100.'
+  - rscadd: Renamed the variant of gloomy medium hairstyle to gloomy (medium alt)
+      instead of duplicated name of gloomy long
+  - rscadd: 'Notorious tweaks: Additional members no longer scale the amount of NPC
+      like crazy, it is now limited to 40 TP. Leashing mechanics now work on both
+      the hunted and the hunters, to prevent either side from doing overly scummy
+      behavior. Lowered the leash range to 21 tiles from 40. The location of the boss
+      is whispered to everyone in the fellowship instead of just the leader. Made
+      it so that the leashing mechanics no longer TELEPORT you back to the center,
+      but move you away from the nearest tile. If you win you still get revived, I
+      want to lower the risk and give more enjoyable content. Madeit  z level insensitive
+      to avoid cases like that bog tower just teleporting and yanking everyone'
+  - rscadd: Arsonist and Dust Runner virtue's delivery should now works as described
+      and intended whether or not you've slept or not.
+  - rscadd: Wax putty recipes no longer give sneaking xp
+  - rscadd: Ported Ratwood's smoother, more performant animated energy / stamina bar.
+  changelingonberry:
+  - rscadd: The Marquette Inquisition shop has a new TGUI interface.
+  - balance: Changed many marques prices, added a bataille category for steel weapons
+      etc.
+  - bugfix: Tallowpots are no longer infinite.
+  - rscadd: Added inqport area to roguetest for testing.
+  dopamiin0:
+  - bugfix: custom emotes ending in bold/italic/underlined text no longer get extra
+      periods added to them
+  mumblemancer:
+  - bugfix: infernal familiars should accurately report their numbers now
+  - qol: familiar-summoning rituals now say theyre binding familiars and not a lesser
+      [x]

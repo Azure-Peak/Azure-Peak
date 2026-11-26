@@ -162,11 +162,11 @@
 		if("Longsword")
 			beltl = /obj/item/rogueweapon/scabbard/sword
 			l_hand = /obj/item/rogueweapon/sword/long
-			backl = /obj/item/rogueweapon/shield/kite
+			backl = /obj/item/rogueweapon/shield/tower/metal
 			H.adjust_skillrank(/datum/skill/combat/swords, 1, TRUE)
 		if ("Warhammer")
 			beltr = /obj/item/rogueweapon/mace/warhammer/steel
-			backl = /obj/item/rogueweapon/shield/kite
+			backl = /obj/item/rogueweapon/shield/tower/metal
 			H.adjust_skillrank(/datum/skill/combat/maces, 1, TRUE)
 		if("Halberd")
 			backl = /obj/item/rogueweapon/scabbard/gwstrap

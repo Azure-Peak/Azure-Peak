@@ -215,14 +215,22 @@ GLOBAL_LIST_EMPTY(redstone_objs)
 	name = "bookcase"
 	desc = "Refuge for few, an irrelevance to most."
 	icon_state = "booklever0"
+	var/levertype = "inquisition"
+
+/obj/structure/lever/bookcase/bathhouse
+	levertype = "bathhouse"
 
 /obj/structure/lever/bookcase/examine(mob/user)
 	. = ..()
+	var/mob/living/L = user
 	if(!isliving(user))
 		return
-	var/mob/living/L = user
-	if(HAS_TRAIT(L, TRAIT_INQUISITION))
-		. += span_notice("You recognize the subtle signs of a concealed mechanism, hidden in plain sight.")
+	if(levertype == "inquisition")
+		if(HAS_TRAIT(L, TRAIT_INQUISITION))
+			. += span_notice("You recognize the subtle signs of a concealed mechanism, hidden in plain sight.")
+	if(levertype == "bathhouse")
+		if(HAS_TRAIT(L, TRAIT_BATHHOUSE) || HAS_TRAIT(L, TRAIT_AGENT_BATHHOUSE))
+			. += span_notice("You recognize the subtle signs of a concealed mechanism, hidden in plain sight.")
 	else if(L.STAPER >= 15)
 		. += span_notice("There may be more to this shelf than meets the eye.")
 		L.emote("huh")
@@ -234,17 +242,31 @@ GLOBAL_LIST_EMPTY(redstone_objs)
 /obj/structure/lever/bookcase/attack_hand(mob/user)
 	if(isliving(user))
 		var/mob/living/L = user
-		if(HAS_TRAIT(L, TRAIT_INQUISITION) || L.STAPER >= 15)
-			L.changeNext_move(CLICK_CD_MELEE)
-			var/used_time = 100 - (L.STASTR * 10)
-			user.visible_message(span_warning("[user] pulls the book out of place."))
-			log_game("[key_name(user)] pulled the lever with redstone id \"[redstone_id]\"")
-			if(do_after(user, used_time, target = user))
-				for(var/obj/structure/O in redstone_attached)
-					spawn(0) O.redstone_triggered()
-				toggled = !toggled
-				icon_state = "booklever[toggled]"
-				playsound(src, 'sound/foley/lever.ogg', 100, extrarange = 3)
+		if(levertype == "inquisition")
+			if(HAS_TRAIT(L, TRAIT_INQUISITION) || L.STAPER >= 15)
+				L.changeNext_move(CLICK_CD_MELEE)
+				var/used_time = 0 // Lighter and more subtle mechanism.
+				user.visible_message(span_warning("[user] pulls the book out of place."))
+				log_game("[key_name(user)] pulled the lever with redstone id \"[redstone_id]\"")
+				if(do_after(user, used_time, target = user))
+					for(var/obj/structure/O in redstone_attached)
+						spawn(0) O.redstone_triggered()
+					toggled = !toggled
+					icon_state = "booklever[toggled]"
+					playsound(src, 'sound/foley/lever.ogg', 100, extrarange = 3)
+
+		if(levertype == "bathhouse")
+			if(HAS_TRAIT(L, TRAIT_BATHHOUSE) || HAS_TRAIT(L, TRAIT_AGENT_BATHHOUSE) || L.STAPER >= 15)
+				L.changeNext_move(CLICK_CD_MELEE)
+				var/used_time = 0 // Lighter and more subtle mechanism.
+				user.visible_message(span_warning("[user] pulls the book out of place."))
+				log_game("[key_name(user)] pulled the lever with redstone id \"[redstone_id]\"")
+				if(do_after(user, used_time, target = user))
+					for(var/obj/structure/O in redstone_attached)
+						spawn(0) O.redstone_triggered()
+					toggled = !toggled
+					icon_state = "booklever[toggled]"
+					playsound(src, 'sound/foley/lever.ogg', 100, extrarange = 3)
 
 /obj/structure/lever/bookcase/onkick(mob/user)
 	return

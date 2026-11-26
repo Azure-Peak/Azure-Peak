@@ -1,3 +1,27 @@
+/proc/mammon_round(amount)
+	return round(amount, MAMMON_PRECISION)
+
+/proc/whole_mammon(amount)
+	return round(amount, 1)
+
+/proc/format_mammon(amount)
+	amount = mammon_round(amount)
+	var/negative = amount < 0
+	amount = abs(amount)
+	var/whole = floor(amount)
+	var/cents = round((amount - whole) * 100, 1)
+	if(cents >= 100)
+		whole += 1
+		cents = 0
+	var/text = num2text(whole, 12)
+	if(cents && cents % 10 == 0)
+		text += ".[cents / 10]"
+	else if(cents && cents < 10)
+		text += ".0[cents]"
+	else if(cents)
+		text += ".[cents]"
+	return negative ? "-[text]" : text
+
 /datum/controller/subsystem/treasury/proc/log_fund_entry(datum/treasury_entry/entry)
 	if(!entry)
 		return
@@ -105,7 +129,7 @@
 	if(amount <= 0 || banditry_debt <= 0 || to_fund != discretionary_fund)
 		return amount
 	// Only a fraction skims toward debt - the rest visibly lands in the purse.
-	var/skim = min(round(amount * BANDITRY_DEBT_SKIM_RATE), banditry_debt)
+	var/skim = mammon_round(min(amount * BANDITRY_DEBT_SKIM_RATE, banditry_debt))
 	banditry_debt -= skim
 	GLOB.azure_round_stats[STATS_BANDITRY_DEBT_OUTSTANDING] = banditry_debt
 	if(skim > 0)
@@ -133,54 +157,29 @@
 /// income_acct classifies where the money came from: a ledger account id, or an assoc list of
 /// account id -> amount for split receipts. Unclassified receipts land in the book's suspense account.
 /datum/controller/subsystem/treasury/proc/mint(datum/fund/to_fund, amount, reason, from_label, income_acct)
+	amount = mammon_round(amount)
 	if(!to_fund || amount <= 0)
 		return FALSE
 	var/list/debt_legs = list()
 	var/credited = skim_for_banditry_debt(to_fund, amount, debt_legs)
-	credited = skim_for_treasury_debt(to_fund, credited, debt_legs)
+	credited = mammon_round(skim_for_treasury_debt(to_fund, credited, debt_legs))
 	if(credited > 0)
-		to_fund.balance += credited
+		to_fund.balance = mammon_round(to_fund.balance + credited)
 	if(credited > 0 || length(debt_legs))
 		var/datum/treasury_entry/entry = new("mint", null, to_fund, credited, reason, from_label)
 		entry.legs = ledger_in_legs(to_fund, credited, amount, income_acct, debt_legs)
 		log_fund_entry(entry)
 	return TRUE
 
-/datum/controller/subsystem/treasury/proc/mint_fractional(datum/fund/to_fund, amount, reason, datum/fund/source_fund, income_acct)
-	if(!to_fund || amount <= 0)
-		return 0
-	to_fund.pending_micro += list(list(
-		"amount" = amount,
-		"source" = source_fund ? WEAKREF(source_fund) : null,
-		"reason" = reason,
-	))
-	var/total = 0
-	for(var/list/entry as anything in to_fund.pending_micro)
-		total += entry["amount"]
-	if(total < 1)
-		return 0
-	var/whole = round(total)
-	var/remainder = total - whole
-	var/contributors = length(to_fund.pending_micro)
-	for(var/list/entry as anything in to_fund.pending_micro)
-		var/datum/weakref/source_ref = entry["source"]
-		var/datum/fund/source = source_ref?.resolve()
-		// Memo line only: the combined mint below is the posting.
-		log_fund_entry(new /datum/treasury_entry("micro", source, to_fund, entry["amount"], entry["reason"]))
-	to_fund.pending_micro = list()
-	if(remainder > 0)
-		to_fund.pending_micro += list(list("amount" = remainder, "source" = null, "reason" = "carryover"))
-	mint(to_fund, whole, "Small payments combined ([whole]m from [contributors] payments)", null, income_acct)
-	return whole
-
 /// expense_acct classifies where the money went: a ledger account id, or an assoc list of
 /// account id -> amount. Unclassified disbursements land in the book's suspense account.
 /datum/controller/subsystem/treasury/proc/burn(datum/fund/from_fund, amount, reason, expense_acct)
+	amount = mammon_round(amount)
 	if(!from_fund || amount <= 0)
 		return FALSE
-	if(from_fund.balance < amount)
+	if(mammon_round(from_fund.balance) < amount)
 		return FALSE
-	from_fund.balance -= amount
+	from_fund.balance = mammon_round(from_fund.balance - amount)
 	var/datum/treasury_entry/entry = new("burn", from_fund, null, amount, reason)
 	entry.legs = ledger_out_legs(from_fund, amount, expense_acct)
 	log_fund_entry(entry)
@@ -189,18 +188,19 @@
 /// expense_acct is the payer's side of the posting, income_acct the receiver's. Each side is
 /// balanced inside its own book, so a transfer between two institutions posts four legs.
 /datum/controller/subsystem/treasury/proc/transfer(datum/fund/from_fund, datum/fund/to_fund, amount, reason, expense_acct, income_acct)
+	amount = mammon_round(amount)
 	if(!from_fund || !to_fund || amount <= 0)
 		return FALSE
 	if(from_fund.currency != to_fund.currency)
 		stack_trace("Treasury transfer with mismatched currencies: [from_fund.currency] -> [to_fund.currency] ([reason])")
 		return FALSE
-	if(from_fund.balance < amount)
+	if(mammon_round(from_fund.balance) < amount)
 		return FALSE
-	from_fund.balance -= amount
+	from_fund.balance = mammon_round(from_fund.balance - amount)
 	var/list/debt_legs = list()
 	var/credited = skim_for_banditry_debt(to_fund, amount, debt_legs)
-	credited = skim_for_treasury_debt(to_fund, credited, debt_legs)
-	to_fund.balance += credited
+	credited = mammon_round(skim_for_treasury_debt(to_fund, credited, debt_legs))
+	to_fund.balance = mammon_round(to_fund.balance + credited)
 	var/datum/treasury_entry/entry = new("transfer", from_fund, to_fund, amount, reason)
 	entry.legs = ledger_out_legs(from_fund, amount, expense_acct) + ledger_in_legs(to_fund, credited, amount, income_acct, debt_legs)
 	log_fund_entry(entry)
@@ -242,7 +242,7 @@
 	var/mob/living/owner = payer.get_owner()
 	var/base_rate = get_tax_rate(tax_category)
 	if(owner && is_tax_exempt(owner, tax_category))
-		record_tax_exemption(tax_category, FLOOR(base_amount * base_rate, 1))
+		record_tax_exemption(tax_category, mammon_round(base_amount * base_rate))
 		return 0
 	var/rate = base_rate
 	if(owner)
@@ -250,14 +250,14 @@
 	if(rate <= 0)
 		return 0
 	if(rate < base_rate)
-		record_tax_exemption(tax_category, FLOOR(base_amount * (base_rate - rate), 1))
+		record_tax_exemption(tax_category, mammon_round(base_amount * (base_rate - rate)))
 	payer.tax_debt += base_amount * rate
-	var/due = FLOOR(payer.tax_debt, 1)
+	var/due = mammon_round(payer.tax_debt)
 	if(due <= 0)
 		return 0
 	if(!transfer(payer, discretionary_fund, due, "[tax_category] ([reason])", (payer.ledger_book == LEDGER_BOOK_CITIZENS ? LEDGER_CITIZEN_TAXES : null), tax_revenue_account(tax_category)))
 		return 0
-	payer.tax_debt -= due
+	payer.tax_debt = max(0, payer.tax_debt - due)
 	apply_concordat_tithe(base_amount, tax_category, reason)
 	switch(tax_category)
 		if(TAX_CATEGORY_CONTRACT_LEVY)
@@ -300,11 +300,11 @@
 	if(!church_fund || !discretionary_fund)
 		return
 	concordat_tithe_debt += base_amount * CONCORDAT_TITHE_RATE
-	var/skim = FLOOR(concordat_tithe_debt, 1)
+	var/skim = mammon_round(concordat_tithe_debt)
 	if(skim <= 0)
 		return
 	if(transfer(discretionary_fund, church_fund, skim, "Concordat tithe ([tax_category])", LEDGER_CROWN_EXP_TITHE, LEDGER_CHURCH_TITHE_IN))
-		concordat_tithe_debt -= skim
+		concordat_tithe_debt = max(0, concordat_tithe_debt - skim)
 		record_treasury_expense(TREASURY_FLOW_TITHE, "Church", skim)
 
 /datum/controller/subsystem/treasury/proc/compute_bathhouse_tithe(base_amount, rate)
@@ -315,10 +315,10 @@
 	if(!church_fund)
 		return 0
 	bathhouse_tithe_debt += base_amount * rate
-	var/skim = FLOOR(bathhouse_tithe_debt, 1)
+	var/skim = mammon_round(bathhouse_tithe_debt)
 	if(skim <= 0)
 		return 0
-	bathhouse_tithe_debt -= skim
+	bathhouse_tithe_debt = max(0, bathhouse_tithe_debt - skim)
 	round_bathhouse_tithe_total += skim
 	return skim
 
