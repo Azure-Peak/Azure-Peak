@@ -74,7 +74,7 @@
 	if(drilling)
 		return
 	var/datum/fund/F = get_linked_fund()
-	if(!F || !F.balance)
+	if(!F || F.balance < 1)
 		icon_state = "[initial(icon_state)]_empty"
 	else
 		icon_state = initial(icon_state)
@@ -248,7 +248,7 @@
 		playsound(src, 'sound/misc/DrillDone.ogg', 70, TRUE)
 		icon_state = "[initial(icon_state)]_empty"
 		var/turf/T = get_turf(src)
-		var/full_drain = F.balance
+		var/full_drain = floor(mammon_round(F.balance))
 		budget2change(full_drain, custom_turf = T)
 		SStreasury.burn(F, full_drain, "Jawbank critical damage", ledger_acct(F.ledger_book, LEDGER_KEY_EXPENSE))
 		playsound(src, 'sound/misc/jawbankhit.ogg', 70, TRUE)
@@ -260,7 +260,7 @@
 		drilltime = 0 // Reset the timer, they broke it open.
 		return
 	var/doneness = round(drilltime / drillgoal * 100)
-	if(F.balance == 0)
+	if(F.balance < 1)
 		drilltime = drillgoal
 		drill(src)
 	loc.visible_message(span_warning("A horrible scraping sound emanates from the Crown as it does its work... (<b>[doneness]%</b>)"))
@@ -282,7 +282,7 @@
 		var/datum/fund/F2 = get_linked_fund()
 		if(!F2)
 			return
-		var/taken = min(rand(5, 20), F2.balance)
+		var/taken = min(rand(5, 20), floor(mammon_round(F2.balance)))
 		anguish()
 		var/turf/T = get_turf(src)
 		budget2change(taken, custom_turf = T)
@@ -362,7 +362,7 @@
 
 	addtimer(CALLBACK(src, PROC_REF(resetlump)), 1 MINUTES, TIMER_UNIQUE | TIMER_OVERRIDE)
 
-	var/bashable = max(0, F.balance - bash_floor)
+	var/bashable = max(0, floor(mammon_round(F.balance - bash_floor)))
 	if(bashable <= 0)
 		playsound(src, 'sound/misc/machineno.ogg', 70, TRUE)
 		src.say("YOU'VE TAKEN ENOUGH.")
@@ -385,7 +385,7 @@
 
 	if(hits_since_lump >= lump_hit_threshold)
 		hits_since_lump = 0
-		var/post_hit_bashable = max(0, F.balance - bash_floor)
+		var/post_hit_bashable = max(0, floor(mammon_round(F.balance - bash_floor)))
 		if(post_hit_bashable <= 0)
 			return
 		var/lumpsum = min(lump_payout, post_hit_bashable)
@@ -405,7 +405,7 @@
 	var/datum/fund/F = get_linked_fund()
 	if(F)
 		if(Adjacent(user))
-			. += span_notice("[F.name] holds [F.balance] mammon.")
+			. += span_notice("[F.name] holds [format_mammon(F.balance)] mammon.")
 		else
 			. += span_notice("[F.name]'s balance is sealed from afar. Step closer to count the coin.")
 	else
@@ -643,7 +643,7 @@
 	contract.term_days = term
 	contract.interest_rate = rate
 	contract.principal_due_on_day = GLOB.dayspassed + term
-	contract.total_due = FLOOR(amount * (1 + (rate * term)), 1)
+	contract.total_due = mammon_round(amount * (1 + (rate * term)))
 	contract.source_fund_id = get_fund_id()
 	QDEL_IN(contract, 2 MINUTES)
 	playsound(get_turf(user), 'sound/misc/coindispense.ogg', 60, FALSE, -1)
@@ -703,7 +703,7 @@
 	contract.term_days = term
 	contract.interest_rate = rate
 	contract.principal_due_on_day = GLOB.dayspassed + term
-	contract.total_due = FLOOR(amount * (1 + (rate * term)), 1)
+	contract.total_due = mammon_round(amount * (1 + (rate * term)))
 	contract.source_fund_id = get_fund_id()
 	contract.target_fund_id = target_id
 	QDEL_IN(contract, 2 MINUTES)

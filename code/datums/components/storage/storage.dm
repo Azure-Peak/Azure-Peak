@@ -482,6 +482,7 @@
 	return master._removal_reset(thing)
 
 /datum/component/storage/proc/_remove_and_refresh(datum/source, atom/movable/thing)
+	grid_remove_item(thing)
 	_removal_reset(thing)
 	refresh_mob_views()
 

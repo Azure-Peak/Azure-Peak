@@ -32,7 +32,7 @@
 /datum/decree/proc/get_display_name()
 	return "[name] of [year]"
 
-/// flavor_text with %RULER% / %RULER_NAME% filled in. Safe for all decrees - if the
+/// flavor_text with %RULER% / %RULER_NAME% / %RULER_STYLE% filled in. Safe for all decrees - if the
 /// template has no placeholders, the replacetext calls are no-ops.
 /datum/decree/proc/get_display_flavor_text()
 	if(!flavor_text)
@@ -40,7 +40,8 @@
 	var/ruler_type = SSticker?.rulertype || "Lord"
 	var/mob/living/ruler_mob = SSticker?.rulermob
 	var/ruler_name = (ruler_mob && !QDELETED(ruler_mob)) ? ruler_mob.real_name : "the Lord"
-	var/text = replacetext(flavor_text, "%RULER%", ruler_type)
+	var/text = replacetext(flavor_text, "%RULER_STYLE%", ruler_styling(ruler_mob))
+	text = replacetext(text, "%RULER%", ruler_type)
 	text = replacetext(text, "%RULER_NAME%", ruler_name)
 	return text
 
@@ -93,7 +94,8 @@
 	var/ruler_type = SSticker?.rulertype || "Lord"
 	var/mob/living/ruler_mob = SSticker?.rulermob
 	var/ruler_name = (ruler_mob && !QDELETED(ruler_mob)) ? ruler_mob.real_name : "the Lord"
-	var/body = replacetext(template, "%RULER%", ruler_type)
+	var/body = replacetext(template, "%RULER_STYLE%", ruler_styling(ruler_mob))
+	body = replacetext(body, "%RULER%", ruler_type)
 	body = replacetext(body, "%RULER_NAME%", ruler_name)
 	var/title = active ? "BY LORDLY MERCY" : "BY LORDLY DECREE"
 	priority_announce(body, title, pick('sound/misc/royal_decree.ogg', 'sound/misc/royal_decree2.ogg'), "Captain", strip_html = FALSE)

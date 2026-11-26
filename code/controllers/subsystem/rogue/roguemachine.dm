@@ -47,10 +47,7 @@ PROCESSING_SUBSYSTEM_DEF(roguemachine)
 					P.mailedto = "steward of roguetown"
 					P.update_icon()
 					P.info = I
-					var/datum/component/storage/STR = X.GetComponent(/datum/component/storage)
-					STR.handle_item_insertion(P, prevent_warning=TRUE)
-					X.new_mail=TRUE
-					X.update_icon()
+					X.receive_mail(P)
 				playsound(X, 'sound/misc/hiss.ogg', 100, FALSE, -1)
 				var/the_track = 'sound/misc/cas1.ogg'
 				if(death_queue.len >= 2)

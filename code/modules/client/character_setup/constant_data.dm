@@ -27,6 +27,9 @@
 		"faiths" = get_faiths(),
 		"markings_by_zone" = get_markings_by_zone(),
 		"patrons" = get_patrons(),
+		"political_factions" = get_political_factions(),
+		"estate_routes" = get_estate_routes(),
+		"estate_realms" = get_estate_realms(),
 		"preview_backgrounds" = get_preview_bgs(),
 		"species" = get_species(),
 		"sprite_accessories" = get_sprite_accessories(),
@@ -41,6 +44,68 @@
 	)
 
 	return data
+
+/datum/asset/json/preferences/proc/get_political_factions()
+	. = list()
+	for(var/faction_id in GLOB.political_factions)
+		var/datum/political_faction/faction = GLOB.political_factions[faction_id]
+		var/list/forced_by = list()
+		for(var/datum/job/job_type as anything in subtypesof(/datum/job))
+			if(initial(job_type.political_faction) == faction.id)
+				forced_by |= initial(job_type.title)
+		. += list(list(
+			"id" = faction.id,
+			"name" = faction.name,
+			"color_name" = faction.color_name,
+			"color" = faction.color,
+			"motto" = faction.motto,
+			"description" = faction.description,
+			"members" = faction.members,
+			"goals" = faction.goals,
+			"has_wiki" = !!faction.wiki_url,
+			"psydonite_only" = faction.psydonite_only,
+			"forced_by" = forced_by,
+		))
+
+/datum/asset/json/preferences/proc/get_estate_routes()
+	. = list()
+	for(var/route in subtypesof(/datum/trade_route))
+		var/list/subroutes = list()
+		for(var/datum/trade_subroute/subroute as anything in subtypesof(/datum/trade_subroute))
+			if(initial(subroute.route) != route)
+				continue
+			var/list/regions = list()
+			for(var/datum/economic_region/region as anything in get_subroute_regions(subroute))
+				regions += list(list(
+					"id" = region.region_id,
+					"name" = region.name,
+					"description" = region.description,
+					"parcels" = estate_good_names(region.estate_goods, ESTATE_GOOD_REGULAR),
+					"occasional" = estate_good_names(region.estate_goods, ESTATE_GOOD_OCCASIONAL),
+					"gifts" = gift_names(region.gifts),
+				))
+			subroutes += list(list(
+				"name" = initial(subroute.name),
+				"regions" = regions,
+			))
+		. += list(list(
+			"name" = get_route_name(route),
+			"subroutes" = subroutes,
+		))
+
+/datum/asset/json/preferences/proc/get_estate_realms()
+	. = list()
+	for(var/realm_id in GLOB.estate_realms)
+		var/datum/estate_realm/realm = GLOB.estate_realms[realm_id]
+		. += list(list(
+			"id" = realm.id,
+			"name" = realm.name,
+			"description" = realm.description,
+			"parcels" = estate_good_names(realm.estate_goods, ESTATE_GOOD_REGULAR),
+			"occasional" = estate_good_names(realm.estate_goods, ESTATE_GOOD_OCCASIONAL),
+			"gifts" = gift_names(realm.gifts),
+			"carrier" = realm.carrier,
+		))
 
 /* INSTRUCTIONS FOR DOWNSTREAM:
 Add a new override in your modular folder that looks like this:

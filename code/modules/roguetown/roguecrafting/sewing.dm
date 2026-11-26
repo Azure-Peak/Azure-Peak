@@ -2133,7 +2133,7 @@
 /datum/crafting_recipe/roguetown/sewing/standardcarpet
 	name = "Standard Carpet (6 use)"
 	category = "Misc"
-	display_category = ITEM_CAT_DECORATION
+	display_category = ITEM_CAT_TAILOR_MISC
 	result = list(/obj/item/carpet/standard)
 	reqs = list(
 		/obj/item/natural/cloth = 2,
@@ -2145,7 +2145,7 @@
 /datum/crafting_recipe/roguetown/sewing/exoticcarpet
 	name = "Exotic Carpet (1 use)"
 	category = "Misc"
-	display_category = ITEM_CAT_DECORATION
+	display_category = ITEM_CAT_TAILOR_MISC
 	result = list(/obj/item/carpet/exotic)
 	reqs = list(/obj/item/natural/silk = 4)
 	skillcraft = /datum/skill/craft/sewing

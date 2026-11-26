@@ -7,6 +7,7 @@ import {
 } from '../common/parchment';
 import type { ActFn } from './types';
 import { starsIfIlliterate } from './util';
+import { formatMammon } from '../common/format';
 
 type Props = {
   budget: number;
@@ -30,7 +31,7 @@ export const MammonRow = (props: Props) => {
       >
         Mammon Loaded
       </div>
-      <div style={{ ...fieldValueStyle, fontWeight: 'bold' }}>{budget}m</div>
+      <div style={{ ...fieldValueStyle, fontWeight: 'bold' }}>{formatMammon(budget)}m</div>
       <div style={{ display: 'flex', gap: '6px' }}>
         <button
           type="button"

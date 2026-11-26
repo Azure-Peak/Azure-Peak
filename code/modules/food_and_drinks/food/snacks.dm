@@ -754,7 +754,7 @@ GLOBAL_LIST_INIT(food_preserving_locs, typecacheof(list(
 			bitecount++
 			L.taste(reagents) // why should carbons get all the fun?
 			if(bitecount >= 5)
-				var/sattisfaction_text = pick("burps from enjoyment", "yaps for more", "woofs twice", "looks at the area where \the [src] was")
+				var/sattisfaction_text = pick("burps from enjoyment.", "yaps for more.", "woofs twice.", "looks at the area where \the [src] was.")
 				if(sattisfaction_text)
 					M.emote("me", 1, "[sattisfaction_text]")
 				qdel(src)

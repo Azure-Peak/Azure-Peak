@@ -85,6 +85,48 @@
 	source_region_id = TRADE_REGION_KINGSFIELD
 	item_type = /obj/item/reagent_containers/food/snacks/tallow
 
+/datum/trade_good/animal_fresh/lesser_meat
+	id = TRADE_GOOD_LESSER_MEAT
+	name = "Lesser Meat"
+	base_price = SELLPRICE_LESSER_MEAT
+	item_type = /obj/item/reagent_containers/food/snacks/rogue/meat/rat
+
+/datum/trade_good/animal_fresh/bogmeat
+	id = TRADE_GOOD_BOGMEAT
+	name = "Bogmeat"
+	base_price = SELLPRICE_BOGMEAT
+	item_type = /obj/item/reagent_containers/food/snacks/rogue/meat/spider
+
+/datum/trade_good/animal_fresh/bushmeat
+	id = TRADE_GOOD_BUSHMEAT
+	name = "Bushmeat"
+	base_price = SELLPRICE_BUSHMEAT
+	item_type = /obj/item/reagent_containers/food/snacks/rogue/meat/wolf
+
+/datum/trade_good/animal_fresh/greater_bushmeat
+	id = TRADE_GOOD_GREATER_BUSHMEAT
+	name = "Greater Bushmeat"
+	base_price = SELLPRICE_GREATER_BUSHMEAT
+	item_type = /obj/item/reagent_containers/food/snacks/rogue/meat/bear
+
+/datum/trade_good/animal_fresh/venison
+	id = TRADE_GOOD_VENISON
+	name = "Venison"
+	base_price = SELLPRICE_VENISON
+	item_type = /obj/item/reagent_containers/food/snacks/rogue/meat/saiga
+
+/datum/trade_good/animal_fresh/venison_ribs
+	id = TRADE_GOOD_VENISON_RIBS
+	name = "Venison Ribs"
+	base_price = SELLPRICE_VENISON_RIBS
+	item_type = /obj/item/reagent_containers/food/snacks/rogue/meat/saiga_ribs
+
+/datum/trade_good/animal_fresh/boar_ham
+	id = TRADE_GOOD_BOAR_HAM
+	name = "Boar Ham"
+	base_price = SELLPRICE_BOAR_HAM
+	item_type = /obj/item/reagent_containers/food/snacks/rogue/meat/ham/boar
+
 /datum/trade_good/animal_preserved
 	category = TRADE_CATEGORY_ANIMAL
 	behavior = TRADE_BEHAVIOR_RAW
@@ -111,3 +153,15 @@
 	base_price = SELLPRICE_DRIED_FISH
 	source_region_id = TRADE_REGION_SALTWICK
 	item_type = /obj/item/reagent_containers/food/snacks/rogue/meat/driedfishfilet
+
+/datum/trade_good/animal_preserved/honey
+	id = TRADE_GOOD_HONEY
+	name = "Honey"
+	base_price = SELLPRICE_HONEY
+	item_type = /obj/item/reagent_containers/food/snacks/rogue/honey
+
+/datum/trade_good/animal_preserved/spider_honey
+	id = TRADE_GOOD_SPIDER_HONEY
+	name = "Spider Honey"
+	base_price = SELLPRICE_SPIDER_HONEY
+	item_type = /obj/item/reagent_containers/food/snacks/rogue/honey/spider

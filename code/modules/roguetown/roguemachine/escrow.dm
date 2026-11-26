@@ -962,7 +962,7 @@ GLOBAL_LIST_EMPTY(escrow_machines)
 		return
 	var/total = manifest_total(user)
 	if(account.balance < total)
-		to_chat(user, span_warning("Not enough balance. You need [total]m and have [account.balance]m."))
+		to_chat(user, span_warning("Not enough balance. You need [total]m and have [format_mammon(account.balance)]m."))
 		return
 	var/datum/escrow_order/O = new()
 	O.commissioner_name = key
