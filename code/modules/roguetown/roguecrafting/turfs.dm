@@ -395,7 +395,7 @@
 	display_category = ITEM_CAT_ENG_CONSTRUCTION
 	result = /obj/structure/roguewindow/openclose
 	reqs = list(
-		/obj/item/grown/log/tree/small = 2,
+		/obj/item/natural/wood/plank = 2,
 		/obj/item/natural/stone = 1,
 		/obj/item/natural/glass = 1,
 		/obj/item/natural/dirtclod = 1,
@@ -413,7 +413,7 @@
 	display_category = ITEM_CAT_ENG_CONSTRUCTION
 	result = /obj/structure/roguewindow/openclose/reinforced
 	reqs = list(
-		/obj/item/grown/log/tree/small = 2,
+		/obj/item/natural/wood/plank = 2,
 		/obj/item/ingot/iron = 1,
 		/obj/item/natural/glass = 1,
 		/obj/item/natural/dirtclod = 1,
@@ -587,7 +587,7 @@
 	name = "reinforced glass window"
 	display_category = ITEM_CAT_ENG_CONSTRUCTION
 	result = /obj/structure/roguewindow/openclose/reinforced
-	reqs = list(/obj/item/grown/log/tree/small = 2, /obj/item/natural/glass = 1, /obj/item/ingot/iron = 1)
+	reqs = list(/obj/item/natural/wood/plank = 2, /obj/item/natural/glass = 1, /obj/item/ingot/iron = 1)
 	craftdiff = 3
 	adminlog = TRUE
 	category = "Windows"

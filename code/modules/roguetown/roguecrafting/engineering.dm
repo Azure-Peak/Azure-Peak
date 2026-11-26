@@ -21,7 +21,7 @@
 	display_category = ITEM_CAT_ENG_MACHINERY
 	result = /obj/structure/table/cooling
 	reqs = list(
-		/obj/item/grown/log/tree/small = 1,
+		/obj/item/natural/wood/plank = 2,
 		/obj/item/ingot/iron = 1,
 		/obj/item/roguegear = 1,
 	)
@@ -36,7 +36,7 @@
 	display_category = ITEM_CAT_ENG_MACHINERY
 	result = /obj/structure/roguemachine/potionseller/crafted
 	reqs = list(
-		/obj/item/grown/log/tree/small = 1,
+		/obj/item/natural/wood/plank = 2,
 		/obj/item/ingot/iron = 1,
 		/obj/item/natural/glass = 1,
 		/obj/item/roguegear = 1,
@@ -52,7 +52,7 @@
 	category = "Machines"
 	result = /obj/structure/roguemachine/vendor/mobile
 	reqs = list(
-		/obj/item/grown/log/tree/small = 1,
+		/obj/item/natural/wood/plank = 2,
 		/obj/item/ingot/iron = 1,
 		/obj/item/natural/glass = 1,
 		/obj/item/roguegear = 2,
@@ -76,7 +76,7 @@
 	display_category = ITEM_CAT_ENG_CONSTRUCTION
 	result = /obj/structure/floordoor
 	reqs = list(
-		/obj/item/grown/log/tree/small = 1,
+		/obj/item/natural/wood/plank = 1,
 		/obj/item/roguegear = 1,
 	)
 	verbage_simple = "engineer"
@@ -765,7 +765,7 @@
 	category = "Rotational"
 	display_category = ITEM_CAT_ENG_MACHINERY
 	result = list(/obj/item/rotation_contraption/shaft)
-	reqs = list(/obj/item/grown/log/tree/stick = 2)
+	reqs = list(/obj/item/grown/log/tree/stick/dowel = 2)
 	verbage_simple = "engineer"
 	verbage = "engineers"
 	skillcraft = /datum/skill/craft/engineering
@@ -785,9 +785,9 @@
 		/obj/item/rotation_contraption/cog,
 	)
 	reqs = list(
-		/obj/item/grown/log/tree/small = 1,
+		/obj/item/natural/wood/plank = 1,
 		/obj/item/roguegear = 2,
-		/obj/item/grown/log/tree/stick = 2,
+		/obj/item/grown/log/tree/stick/dowel = 2,
 	)
 	verbage_simple = "engineer"
 	verbage = "engineers"
@@ -806,7 +806,7 @@
 	)
 	reqs = list(
 		/obj/item/natural/wood/plank = 3,
-		/obj/item/grown/log/tree/stick = 2,
+		/obj/item/grown/log/tree/stick/dowel = 2,
 	)
 	verbage_simple = "engineer"
 	verbage = "engineers"
@@ -822,7 +822,7 @@
 	reqs = list(
 		/obj/item/natural/wood/plank = 4,
 		/obj/item/natural/cloth = 2,
-		/obj/item/grown/log/tree/stick = 2,
+		/obj/item/grown/log/tree/stick/dowel = 2,
 	)
 	verbage_simple = "engineer"
 	verbage = "engineers"
@@ -840,9 +840,9 @@
 		/obj/item/rotation_contraption/large_cog,
 	)
 	reqs = list(
-		/obj/item/grown/log/tree/small = 1,
+		/obj/item/natural/wood/plank = 1,
 		/obj/item/ingot/bronze = 1,
-		/obj/item/grown/log/tree/stick = 1,
+		/obj/item/grown/log/tree/stick/dowel = 1,
 	)
 	verbage_simple = "engineer"
 	verbage = "engineers"
@@ -861,7 +861,7 @@
 	reqs = list(
 		/obj/item/roguegear = 2,
 		/obj/item/natural/stoneblock = 2,
-		/obj/item/grown/log/tree/stick = 2,
+		/obj/item/grown/log/tree/stick/dowel = 2,
 	)
 	verbage_simple = "engineer"
 	verbage = "engineers"
@@ -879,7 +879,7 @@
 	reqs = list(
 		/obj/item/roguegear = 2,
 		/obj/item/natural/stoneblock = 2,
-		/obj/item/grown/log/tree/stick = 2,
+		/obj/item/grown/log/tree/stick/dowel = 2,
 	)
 	verbage_simple = "engineer"
 	verbage = "engineers"
@@ -956,9 +956,9 @@
 	display_category = ITEM_CAT_ENG_CONSTRUCTION
 	result = /obj/structure/closet/crate/miningcar
 	reqs = list(
-		/obj/item/grown/log/tree/small = 1,
+		/obj/item/natural/wood/plank = 1,
 		/obj/item/ingot/iron = 1,
-		/obj/item/grown/log/tree/stick = 4,
+		/obj/item/grown/log/tree/stick/dowel = 4,
 		/obj/item/roguegear = 2,
 	)
 	verbage_simple = "engineer"
@@ -978,7 +978,7 @@
 	)
 	reqs = list(
 		/obj/item/natural/hide/cured = 2,
-		/obj/item/grown/log/tree/stick = 4,
+		/obj/item/grown/log/tree/stick/dowel = 4,
 		/obj/item/roguegear = 2,
 	)
 	verbage_simple = "engineer"
