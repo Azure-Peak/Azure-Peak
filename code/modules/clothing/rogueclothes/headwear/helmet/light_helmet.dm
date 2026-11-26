@@ -230,6 +230,7 @@
 	item_state = "easthat"
 	armor = ARMOR_LEATHER
 	max_integrity = ARMOR_INT_HELMET_LEATHER
+	adjustable = CAN_CADJUST
 	blocksound = SOFTHIT
 	sewrepair = TRUE
 	flags_inv = HIDEEARS
@@ -239,6 +240,7 @@
 /obj/item/clothing/head/roguetown/mentorhat/ComponentInitialize()
 	AddComponent(/datum/component/armour_filtering/positive, TRAIT_FENCERDEXTERITY)
 	AddComponent(/datum/component/armour_filtering/positive, TRAIT_HONORBOUND)
+	AddComponent(/datum/component/adjustable_clothing, (HEAD|HAIR|EARS|NOSE|EYES), null, null, 'sound/foley/cloth_wipe (1).ogg', null, UPD_HEAD)
 
 /obj/item/clothing/head/roguetown/mentorhat/loadout
 	name = "aesthetic worn bamboo hat"

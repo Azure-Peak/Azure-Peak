@@ -173,28 +173,16 @@
 		<p>Economic events last [ECON_EVENT_DURATION] day(s) and are posted on the noticeboard under <b>Economic Events</b>.</p>
 
 		<ul>
-			<li><b>Shortage</b> - affected goods spike in price. One urgent standing
-			order is posted against the afflicted region, <b>provided fewer than
-			[STANDING_ORDERS_MAX_URGENT] urgent orders are already standing</b>. Past
-			that limit, prices still spike. No urgent order is posted and regular
-			standing orders keep their slots.</li> <li><b>Oversupply</b> - affected goods
-			drop in price.</li>
+			<li><b>Shortage</b> - affected goods spike in price.</li>
+			<li><b>Glut</b> - affected goods drop in price.</li>
+			<li><b>Both</b> - some events make one set of goods scarce and another cheap.</li>
 		</ul>
 
-		<h3>Ending a Shortage Early</h3> <p>A shortage does not have to run its full
-		course of [ECON_EVENT_DURATION] days. The realm can <b>end it</b> early by
-		supplying the goods. Every unit of an affected good counts toward relief when
-		the Crown <b>exports</b> it to a region that demands it or delivers it to a
-		standing order.</p>
+		<h3>Ending a Shortage Early</h3> <p>A shortage ends early once enough of the
+		affected goods are sold to the market, counted by value. Every sale to the
+		market counts, and the shortage badge shows how much is still needed. When it ends, prices return to normal and SCOM announces the end of the shortage.</p>
 
-		<p>The urgent order stays up when a shortage ends early.</p>
-
-		<p>Once cumulative deliveries cross <b>[round(ECON_EVENT_SATURATION_MULT * 100)]% of the average stockpile limit across the affected goods</b>, the
-		shortage ends immediately: prices return to normal and SCOM announces the
-		relief. The target is for the whole realm. Any mix of the affected goods
-		counts.</p>
-
-		<p>The <b>Market Scroll</b> at the Nerve Master shows live buy/sell prices for every good in every region.</p>
+		<p>The <b>Market Scroll</b> at the Nerve Master shows live market prices.</p>
 		</div>
 	"}
 
@@ -547,12 +535,11 @@
 		Burgher to 2.</p>
 
 		<h3>Motions</h3>
-		<p>Six motions stand before every session. All are optional. A silent voter is
+		<p>Four motions stand before every session. All are optional. A silent voter is
 		not counted toward that motion's weight.</p>
 		<ul>
 			<li><b>Election</b> - any subject who can hold office may stand. The eligible
 			candidate with the highest weight takes the seat.</li>
-			<li><b>Trade Authority</b> - a bracket vote setting the Alderman's daily trade warrant. Brackets: [jointext(ASSEMBLY_TRADE_BRACKETS, "m, ")]m.</li>
 			<li><b>Defense Authority</b> - a bracket vote setting the Alderman's daily defense warrant, denominated in Pledge. Brackets: [jointext(ASSEMBLY_DEFENSE_BRACKETS, "p, ")]p.</li>
 			<li><b>Recall</b> - removes a sitting Alderman. Passes on [ASSEMBLY_RECALL_THRESHOLD_PCT]% YAE of cast weight.</li>
 			<li><b>Censure</b> - bars a subject from holding office or wielding warrants for the rest of the round. Passes on [ASSEMBLY_CENSURE_THRESHOLD_PCT]% YAE of cast weight.</li>
@@ -566,17 +553,14 @@
 		<p>A session is valid only if at least [ASSEMBLY_QUORUM_VOTERS] distinct voters have cast a ballot across any of its motions. Below that, the session dissolves and all caps and officers hold as they were.</p>
 
 		<h3>The Alderman</h3>
-		<p>The Alderman holds two daily authorisation ceilings:</p>
+		<p>The Alderman holds a daily authorisation ceiling:</p>
 		<ul>
-			<li><b>Trade</b> - imports and exports spend from the Treasury. The trade
-			warrant caps them each day. The Alderman accesses the Trade Scroll through
-			the Assembly noticeboard's <i>Alderman - Trade</i> button without standing at
-			the Nerve Master.</li> <li><b>Defense</b> - defense contracts and blockade
+			<li><b>Defense</b> - defense contracts and blockade
 			scrolls use the Burgher Pledge at the Contract Ledger. The defense warrant caps
 			them each day. The Alderman can't spend the Treasury on defense and may not
 			issue Requests.</li>
 		</ul>
-		<p>Both ceilings refresh at each session's resolution. Unspent authorisation does not carry over.</p>
+		<p>The ceiling refreshes at each session's resolution. Unspent authorisation does not carry over.</p>
 
 		<h3>Censure</h3>
 		<p>A censured subject cannot stand for Alderman, cannot wield a warrant they hold, and cannot be granted one. The mark lasts the round.</p>

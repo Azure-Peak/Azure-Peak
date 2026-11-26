@@ -1,0 +1,4 @@
+author: "Quinalion"
+delete-after: True
+changes:
+  - qol: "Players can now turn Dual Wielder on and off whenever they want."

@@ -15,7 +15,7 @@
 
 	display_order = JDO_SUITOR
 	give_bank_account = 40
-	noble_income = 20
+	noble_rank = NOBLE_RANK_GENTRY
 	min_pq = 5
 	max_pq = null
 	round_contrib_points = 3

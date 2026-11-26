@@ -964,7 +964,7 @@
 	custom_design = TRUE
 	body_parts_covered = CHEST
 	slot_flags = ITEM_SLOT_HEAD | ITEM_SLOT_CLOAK
-	storage = FALSE
+	storage = null
 	grid_width = 32
 	grid_height = 32
 

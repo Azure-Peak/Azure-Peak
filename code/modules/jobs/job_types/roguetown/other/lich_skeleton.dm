@@ -881,6 +881,9 @@ LICH SKELETONS
 /obj/item/clothing/gloves/roguetown/bandages/weighted/lich
 	color = "#5c5a55"
 
+/obj/item/clothing/gloves/roguetown/bandages/lich
+	color = "#5c5a55"
+
 /obj/item/clothing/head/roguetown/roguehood/lich_sectarian
 	name = "decrepit unholy hood"
 	desc = "A padded and reinforced hood of roughspun fabrics, silks and worn leather from beyond your lyfetime, splinted across creating a cocoon to shroud the face. It bares the sigil of the inverted Psycross upon its crest in defiance to the world.</br></br>‎<font color='FF0000'>..Should you stare too long into it, you could almost glimpse something staring back with eternal malice..</font>"

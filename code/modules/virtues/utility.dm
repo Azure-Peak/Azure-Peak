@@ -48,9 +48,7 @@ GLOBAL_LIST_EMPTY(fey_vessels)
 			recipient.mind?.special_items[choice] = extra_choices[choice]
 	if(HAS_TRAIT(recipient, TRAIT_OUTLAW))
 		return
-	var/already_has_income = !isnull(SStreasury.noble_incomes[recipient])
-	SStreasury.noble_incomes[recipient] = (SStreasury.noble_incomes[recipient] || 0) + 15
-	SStreasury.grant_estate_income(recipient, 15, !already_has_income)
+	SSeconomy.register_estate(recipient, NOBLE_RANK_GENTRY)
 
 #define NOTABLE_RESIDENCY "Residency"
 #define NOTABLE_SHREWD "Shrewd Lyfestyle"
@@ -375,6 +373,7 @@ GLOBAL_LIST_EMPTY(fey_vessels)
 	name = "Pilgrim (-3 TRI)"
 	added_traits = list(TRAIT_HOMESTEAD_EXPERT)
 	softcap = TRUE
+	hardcapped_skills = list(/datum/skill/misc/athletics, /datum/skill/combat/knives)
 	desc= "As they say, 'hearth is where the heart is'. You are intimately familiar with the labors of lyfe, and have stowed away everything necessary to start anew: a hunting dagger, your trusty hoe, and a sack of assorted supplies."
 	ui_fa_icon = "house-fire"
 	triumph_cost = 3

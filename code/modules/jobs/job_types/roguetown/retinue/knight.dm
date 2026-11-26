@@ -16,7 +16,7 @@
 	advclass_cat_rolls = list(CTAG_ROYALGUARD = 20)
 	job_traits = list(TRAIT_NOBLE, TRAIT_STEELHEARTED, TRAIT_GUARDSMAN, TRAIT_EXPERT_HUNTER)
 	give_bank_account = TRUE
-	noble_income = 15
+	noble_rank = NOBLE_RANK_GENTRY
 	min_pq = 8
 	max_pq = null
 	round_contrib_points = 2
@@ -578,6 +578,7 @@
 	traits_applied = list(TRAIT_HEAVYARMOR)
 
 	subclass_stashed_items = list("Ducal Caparison" = /obj/item/caparison/azure)
+	subclass_languages = list(/datum/language/oldazurian)
 	extra_context = "This class gains Master skill in their weapon of choice. Receives Azurean Caparison in its stash."
 
 	subclass_stats = list(
@@ -635,6 +636,7 @@
 	H.dna.species.soundpack_m = GLOB.voice_packs[/datum/voicepack/male/knight]
 
 	add_verb(H, /mob/proc/haltyell)
+	add_verb(H, /mob/living/carbon/human/proc/remember_ruler_title)
 
 	SStreasury.grant_savings(ECONOMIC_RICH, H)
 

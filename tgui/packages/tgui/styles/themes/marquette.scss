@@ -1,0 +1,110 @@
+@use 'azure_base' as *;
+
+// Black and red, matching the old HTML MARQUETTE (html/browser/common.css).
+.theme-marquette:root {
+  @include azure-theme((
+    'base':            #000000,
+    'base-light':      #0d0808,
+    'base-dark':       #000000,
+    'section':         rgba(123, 83, 83, 0.15),
+    'section-title':   #ae3636,
+    'text':            #eac0b9,
+    'label':           #897472,
+    'accent':          rgba(123, 83, 83, 0.35),
+    'accent-bright':   rgba(174, 54, 54, 0.55),
+    'border':          rgba(123, 83, 83, 0.45),
+    'btn-text':        #eac0b9,
+    'btn-selected':    rgba(174, 54, 54, 0.45),
+    'btn-disabled':    #5e5959,
+    'scrollbar-thumb': rgba(123, 83, 83, 0.55),
+    'glow':            rgba(174, 54, 54, 0.15),
+    'link':            #7b5353,
+    'link-visited':    #7b5353,
+    'link-hover':      #eac0b9,
+  ), '../assets/azure_default/topbar_red.svg');
+
+  --font-family: 'Lora', Georgia, serif;
+
+  --p-font-tiny: 12px;
+  --p-font-small: 12px;
+  --p-font-body: 13px;
+  --p-font-lead: 13px;
+  --p-font-title: 14px;
+  --p-font-head: 15px;
+
+  --p-title: #ae3636;
+  --p-title-font: 'MedievalSharp', Georgia, serif;
+
+  --p-bg: #000000;
+  --p-bg-deep: #0d0808;
+  --p-bg-shadow: #3a2020;
+  --p-ink: #eac0b9;
+  --p-ink-soft: #897472;
+  --p-ink-faint: #5e5959;
+  --p-seal-red: #d04545;
+  --p-seal-red-soft: #ae3636;
+  --p-seal-green: #6a9560;
+  --p-seal-blue: #5a7ca8;
+  --p-seal-amber: #ae3636;
+  --p-button-bg: rgba(123, 83, 83, 0.20);
+  --p-tab-active-bg: rgba(174, 54, 54, 0.40);
+  --p-card-bg: rgba(123, 83, 83, 0.12);
+  --p-card-shadow: rgba(0, 0, 0, 0.60);
+  --p-banner-bg: rgba(174, 54, 54, 0.22);
+  --p-banner-bg-soft: rgba(174, 54, 54, 0.12);
+  --p-badge-text: #eac0b9;
+
+  &, * {
+    scrollbar-color: auto;
+  }
+
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: rgba(123, 83, 83, 0.55);
+    border-radius: 4px;
+
+    &:hover {
+      background: rgba(174, 54, 54, 0.70);
+    }
+  }
+
+  &, .Window, .Layout, .Layout__content, .Window__rest, .Window__content,
+  .Window__contentPadding {
+    background: #000000 !important;
+    background-image: none !important;
+  }
+
+  .Window__contentPadding {
+    margin: 0;
+    height: 100%;
+  }
+
+  .TitleBar {
+    background-color: #000000;
+    border-bottom: 1px solid rgba(174, 54, 54, 0.50);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.60);
+  }
+
+  .TitleBar__title {
+    color: var(--p-title);
+    font-size: 14px;
+    letter-spacing: 1px;
+    font-weight: bold;
+  }
+
+  .TitleBar__close {
+    color: rgba(234, 192, 185, 0.55);
+
+    &:hover {
+      color: rgba(234, 120, 120, 0.95);
+      background-color: rgba(174, 54, 54, 0.25);
+    }
+  }
+}

@@ -8,7 +8,6 @@
 #define MATERIAL_SOURCE_COMMISSIONER "Commissioner"
 #define MATERIAL_SOURCE_SMELTING "Smelted Down"
 #define MATERIAL_SOURCE_STANDING_ORDER "Standing Order"
-#define MATERIAL_SOURCE_LOCAL_EXPORT "Local Export"
 #define MATERIAL_SOURCE_FOREIGN_EXPORT "Foreign Export"
 #define MATERIAL_SOURCE_BLACK_MARKET "Black Market"
 
@@ -20,7 +19,6 @@ GLOBAL_LIST_INIT(material_flow_columns, list(
 	list("code" = "CMS", "label" = MATERIAL_SOURCE_COMMISSIONER, "dir" = MATERIAL_FLOW_OUT),
 	list("code" = "SMT", "label" = MATERIAL_SOURCE_SMELTING, "dir" = MATERIAL_FLOW_OUT),
 	list("code" = "STO", "label" = MATERIAL_SOURCE_STANDING_ORDER, "dir" = MATERIAL_FLOW_OUT),
-	list("code" = "LXP", "label" = MATERIAL_SOURCE_LOCAL_EXPORT, "dir" = MATERIAL_FLOW_OUT),
 	list("code" = "EXP", "label" = MATERIAL_SOURCE_FOREIGN_EXPORT, "dir" = MATERIAL_FLOW_OUT),
 	list("code" = "BM", "label" = MATERIAL_SOURCE_BLACK_MARKET, "dir" = MATERIAL_FLOW_OUT),
 ))

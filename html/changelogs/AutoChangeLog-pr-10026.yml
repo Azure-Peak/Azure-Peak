@@ -1,0 +1,17 @@
+author: "Ollanius"
+delete-after: True
+changes:
+  - rscdel: "Removes lance.dm, templar_knives.dm, and axe.dm - the one that just stored a single Dreamwalker-related weapon. All of these weapons're now stored in the appropriately-matching .dms."
+  - refactor: "All instances of 'paalloy' and 'aalloy' have been replaced by 'ancient' and 'ancient/decrepit' in the code, respectively. Psila are now under 'roguecoin/psila', Marques are now under 'roguecoin/marque' (instead of inqcoin), Kite Shields are now under `shield/kite`, Warclubs are now distinct from Warhammers in pathing, and Flails + Greatflails have had their filepaths tidied up."
+  - refactor: "Completely overhauls all melee weapon-specific .dms in the \"rogueweapon/melee\" folder, cleaning up a bunch of leftover formatting- and organizational errors."
+  - refactor: "Melee weapon-specific .dms are now stored in one of six folders; 'axes', 'bludgeon', 'knife', 'polearm', 'sword', and 'unique'. Whips and flails're stored in 'bludgeon', if you're curious."
+  - refactor: "Melee weapon-specific intents, likewise, are now stored in seperate .dms that're paired to each weapon class's (class'?) subfolder. For the sake of simplicity, there's just one `_intents.dm` for each subfolder / weapon class."
+  - code_imp: "A lot of intents and weapons've been moved around and moved to a more proper location. This should have next-to-no player-facing impacts; in the off-chance something screwed up happens, however, make sure to contact @Dongwaiver on the 'cord."
+  - code_imp: "Doubleheaded axes and alloytipped whips no longer have 'triumph_' in their path, as they can be obtained ingame without the need for spending TRI."
+  - code_imp: "Certain legacy-styled items now have 'old' instead of 'triumph_' as their subpath; the 'Valorian axes' and original daggers (made by Kavrick), specifically."
+  - code_imp: "Cleans up loadout-specific paths, including renaming Zizoite Amulets from 'Zcross / Inverted Psycross' to just 'Amulets of Zizo'. If you have an iron or decrepit zsicross, I'd suggest checking your loadout just to be sure they aren't swapped."
+  - code_imp: "Fixes some errant instances of capitalization."
+  - qol: "Adds disclaimer in modkit-specific .dms on how to properly assemble modkits with multiple item paths (from the highest amount of paths per item to the lowest), to avoid glitches. Thanks to Eiren for originally discovering this!"
+  - rscadd: "Ancient statues. These can be smithed and rarely found in either coffins or middling-level loot spawners, and - like their decrepit variants - are one of the only gilbranze-era items that can be smelted into a whole ingot."
+  - rscadd: "Steel greatflails and iron bardiches. Slightly increased- and decreased durability, respectively."
+  - bugfix: "Imbued longswords should now properly render their skins upon use."

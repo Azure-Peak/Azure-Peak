@@ -24,6 +24,9 @@ export type ConstantData = {
   faiths: Record<Path, ConstantFaith>;
   markings_by_zone: Record<string, ConstantMarking[]>;
   patrons: Record<Path, ConstantPatron>;
+  political_factions: ConstantPoliticalFaction[];
+  estate_routes: ConstantEstateRoute[];
+  estate_realms: ConstantEstateRegion[];
   preview_backgrounds: string[];
   species: ConstantSpecies[];
   sprite_accessories: Record<Path, ConstantSpriteAccessory>;
@@ -35,6 +38,40 @@ export type ConstantData = {
   voicepacks: string[];
   // other data
   lore_primer: TrustedHTML;
+};
+
+/** {@link ConstantData.political_factions} */
+export type ConstantPoliticalFaction = {
+  id: string;
+  name: string;
+  color_name: string | null;
+  color: string;
+  motto: string | null;
+  description: string | null;
+  members: string | null;
+  goals: string | null;
+  has_wiki: BooleanLike;
+  psydonite_only: BooleanLike;
+  forced_by: string[];
+};
+
+/** {@link ConstantData.estate_routes} */
+export type ConstantEstateRoute = {
+  name: string;
+  subroutes: {
+    name: string;
+    regions: ConstantEstateRegion[];
+  }[];
+};
+
+export type ConstantEstateRegion = {
+  id: string;
+  name: string;
+  description: string;
+  parcels: string[];
+  occasional: string[];
+  gifts: string[];
+  carrier?: string;
 };
 
 /** {@link ConstantData.charflaws} */
@@ -317,6 +354,7 @@ export type Skill = {
   name: string;
   level: number;
   max_level: string;
+  hardcap: BooleanLike;
 };
 
 export type Trait = {

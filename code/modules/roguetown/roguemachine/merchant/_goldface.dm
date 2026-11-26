@@ -184,19 +184,21 @@
 		return round(PA.cost * PA.silverface_markup)
 	return PA.cost
 
-/obj/structure/roguemachine/goldface/proc/compute_pack_price(datum/supply_pack/PA, mob/living/carbon/human/H)
+/obj/structure/roguemachine/goldface/proc/compute_pack_base(datum/supply_pack/PA)
 	var/pack_cost = get_pack_cost(PA)
-	var/cost = pack_cost + pack_cost * get_effective_fee()
+	return whole_mammon(pack_cost + pack_cost * get_effective_fee())
+
+/obj/structure/roguemachine/goldface/proc/compute_pack_price(datum/supply_pack/PA, mob/living/carbon/human/H)
+	var/cost = compute_pack_base(PA)
 	if(!is_tax_exempt(H))
 		cost += compute_pack_tax(PA)
-	return round(cost)
+	return cost
 
 /obj/structure/roguemachine/goldface/proc/compute_pack_tax(datum/supply_pack/PA)
-	return round(SStreasury.get_tax_rate(TAX_CATEGORY_IMPORT_TARIFF) * get_pack_cost(PA))
+	return whole_mammon(SStreasury.get_tax_rate(TAX_CATEGORY_IMPORT_TARIFF) * get_pack_cost(PA))
 
 /obj/structure/roguemachine/goldface/proc/serialize_pack(datum/supply_pack/PA, tariff_active)
-	var/pack_cost = get_pack_cost(PA)
-	var/base = round(pack_cost + pack_cost * get_effective_fee())
+	var/base = compute_pack_base(PA)
 	var/tariff = tariff_active ? compute_pack_tax(PA) : 0
 	return list(
 		"ref" = "[PA.type]",
@@ -336,32 +338,21 @@
 	var/tariff_active = !is_tax_exempt(H)
 	if(search_query != "")
 		var/needle = LOWER_TEXT(search_query)
-		var/list/matches = list()
-		for(var/pack in SSmerchant.supply_packs)
-			var/datum/supply_pack/PA = SSmerchant.supply_packs[pack]
+		for(var/datum/supply_pack/PA as anything in SSmerchant.sorted_supply_packs)
 			if(PA.not_in_public && is_public)
 				continue
 			if(!(PA.group in all_cats))
 				continue
-			if(findtext(LOWER_TEXT(PA.name), needle) || findtext(LOWER_TEXT(PA.group), needle))
-				matches += PA
-		total_matches = length(matches)
-		var/shown = 0
-		for(var/datum/supply_pack/PA in sortNames(matches))
-			if(shown >= search_result_cap)
-				break
-			shown++
-			packs_data += list(serialize_pack(PA, tariff_active))
+			if(!findtext(LOWER_TEXT(PA.name), needle) && !findtext(LOWER_TEXT(PA.group), needle))
+				continue
+			total_matches++
+			if(total_matches <= search_result_cap)
+				packs_data += list(serialize_pack(PA, tariff_active))
 	else if(current_cat)
-		var/list/pax = list()
-		for(var/pack in SSmerchant.supply_packs)
-			var/datum/supply_pack/PA = SSmerchant.supply_packs[pack]
+		for(var/datum/supply_pack/PA as anything in SSmerchant.supply_packs_by_group[current_cat])
 			if(PA.not_in_public && is_public)
 				continue
-			if(PA.group == current_cat)
-				pax += PA
-		total_matches = length(pax)
-		for(var/datum/supply_pack/PA in sortNames(pax))
+			total_matches++
 			packs_data += list(serialize_pack(PA, tariff_active))
 	data["packs"] = packs_data
 	data["total_matches"] = total_matches
@@ -472,7 +463,8 @@
 		"dock_spots_max" = SSmerchant_trade.get_dock_spots_max(),
 		"cultural_stock" = build_cultural_stock_data(viewer),
 		"catalogs" = build_catalog_data(viewer),
-		"merchant_levy_percent" = SSmerchant_trade.merchant_levy_percent,
+		"navigator_levy_percent" = SSmerchant_trade.navigator_levy_percent,
+		"fulfillment_levy_percent" = SSmerchant_trade.fulfillment_levy_percent,
 		"merchant_levy_cap" = TRADE_MERCHANT_LEVY_CAP_PERCENT,
 		"merchant_levy_collected" = SSmerchant_trade.merchant_levy_collected,
 		"merchant_levy_taxed" = SSmerchant_trade.merchant_levy_taxed,
@@ -561,6 +553,10 @@
 		"gnome_unlocked" = SSmerchant_trade.gnome_automation_unlocked,
 		"pier_cost" = ADDITIONAL_PIER_FAVOR,
 		"pier_rented" = SSmerchant_trade.extra_pier_rented,
+		"licence_cost" = EXPORT_LICENCE_FAVOR,
+		"licence_extended" = SSmerchant_trade.export_licence_extended,
+		"licence_left" = SSmerchant_trade.export_licence_left(),
+		"licence_total" = SSmerchant_trade.export_licence_allowance(),
 		"auto_hailer_cost" = AUTO_HAILER_FAVOR,
 		"auto_hailer_unlocked" = SSmerchant_trade.auto_hailer_unlocked,
 		"auto_hailer_on" = SSmerchant_trade.auto_hailer_on,
@@ -720,8 +716,7 @@
 			return TRUE
 		if("change")
 			if(budget > 0)
-				budget2change(budget, usr)
-				budget = 0
+				budget = refund_pouch(budget, usr)
 			return TRUE
 		if("secrets")
 			if(!(H.job in profit_id) || is_public)
@@ -857,7 +852,7 @@
 			if(!SSmerchant_trade.consume_cultural_stock(source_ship, path))
 				to_chat(H, span_warning("That stock is no longer available."))
 				return TRUE
-			budget -= total_cost
+			budget = mammon_round(budget - total_cost)
 			record_round_statistic(value_record_key, total_cost)
 			record_round_statistic(STATS_TRADE_VALUE_IMPORTED, total_cost)
 			if(!is_tax_exempt(H))
@@ -975,26 +970,26 @@
 					gross = kin_unit * qty
 					kin_saving = pre_kin - gross
 			var/tariff_active = !is_tax_exempt(H)
-			var/tariff_float = SStreasury.get_tax_rate(TAX_CATEGORY_IMPORT_TARIFF) * gross
-			var/total_cost = gross + (tariff_active ? round(tariff_float) : 0)
+			var/tariff = mammon_round(SStreasury.get_tax_rate(TAX_CATEGORY_IMPORT_TARIFF) * gross)
+			var/total_cost = gross + (tariff_active ? tariff : 0)
 			if(budget < total_cost)
 				say("Not enough!")
 				return TRUE
 			line["qty_fulfilled"] += qty
-			budget -= total_cost
+			budget = mammon_round(budget - total_cost)
 			record_round_statistic(value_record_key, total_cost)
 			record_round_statistic(STATS_TRADE_VALUE_IMPORTED, total_cost)
 			if(tariff_active)
-				if(tariff_float > 0)
-					SStreasury.mint_fractional(SStreasury.discretionary_fund, tariff_float, "[TAX_CATEGORY_IMPORT_TARIFF] (bulk import: [TG.name] x[qty])", null, LEDGER_CROWN_REV_IMPORT_TARIFF)
+				if(tariff > 0)
+					SStreasury.mint(SStreasury.discretionary_fund, tariff, "[TAX_CATEGORY_IMPORT_TARIFF] (bulk import: [TG.name] x[qty])", null, LEDGER_CROWN_REV_IMPORT_TARIFF)
 					SStreasury.apply_concordat_tithe(gross, TAX_CATEGORY_IMPORT_TARIFF, "bulk import")
-					record_featured_stat(FEATURED_STATS_TAX_PAYERS, H, round(tariff_float))
-					record_round_statistic(STATS_TAXES_COLLECTED, round(tariff_float))
-					record_round_statistic(STATS_REVENUE_IMPORT_TARIFF, round(tariff_float))
-					tariff_collected_here += round(tariff_float)
+					record_featured_stat(FEATURED_STATS_TAX_PAYERS, H, tariff)
+					record_round_statistic(STATS_TAXES_COLLECTED, tariff)
+					record_round_statistic(STATS_REVENUE_IMPORT_TARIFF, tariff)
+					tariff_collected_here += tariff
 			else
-				record_round_statistic(STATS_TAXES_EVADED, round(tariff_float))
-				tariff_evaded_here += round(tariff_float)
+				record_round_statistic(STATS_TAXES_EVADED, tariff)
+				tariff_evaded_here += tariff
 			var/turf/T = get_turf(src)
 			record_material_flow(MATERIAL_FLOW_IN, MATERIAL_SOURCE_MERCHANT_IMPORT, TG.item_type, qty, total_cost)
 			for(var/i in 1 to qty)
@@ -1003,7 +998,7 @@
 					spawned.atc_sealed = TRUE
 			source_ship.add_favor(gross)
 			playsound(loc, 'sound/misc/gold_misc.ogg', 70, FALSE, -1)
-			to_chat(H, span_notice("You buy [qty] [TG.name] from [source_ship.ship_name] for [total_cost]m[tariff_active && tariff_float > 0 ? " (incl. [round(tariff_float)]m import tariff)" : ""][kin_saving > 0 ? " (Kinship saved [kin_saving]m)" : ""]."))
+			to_chat(H, span_notice("You buy [qty] [TG.name] from [source_ship.ship_name] for [format_mammon(total_cost)]m[tariff_active && tariff > 0 ? " (incl. [format_mammon(tariff)]m import tariff)" : ""][kin_saving > 0 ? " (Kinship saved [kin_saving]m)" : ""]."))
 			return TRUE
 		if("set_levy")
 			if(!is_command_center || !(H.job in profit_id) || !SSmerchant_trade)
@@ -1011,8 +1006,18 @@
 			var/requested = text2num(params["percent"])
 			if(isnull(requested))
 				return TRUE
-			var/applied = SSmerchant_trade.set_merchant_levy(requested)
-			to_chat(H, span_notice("Merchant's levy set to <b>[applied]%</b>."))
+			var/applied
+			var/levy_label
+			switch(params["kind"])
+				if("navigator")
+					applied = SSmerchant_trade.set_navigator_levy(requested)
+					levy_label = "Navigator sales"
+				if("fulfillment")
+					applied = SSmerchant_trade.set_fulfillment_levy(requested)
+					levy_label = "ship exports"
+				else
+					return TRUE
+			to_chat(H, span_notice("Merchant's levy on [levy_label] set to <b>[applied]%</b>."))
 			playsound(loc, 'sound/misc/gold_misc.ogg', 70, FALSE, -1)
 			return TRUE
 		if("set_gnome_margin")
@@ -1040,6 +1045,12 @@
 				if(SSmerchant_trade.rent_extra_pier())
 					scom_announce("The ATC has rented the fishermen's pier for the week.")
 					to_chat(H, span_notice("The extra pier is yours. The harbor can now hold one more vessel at a time."))
+					playsound(loc, 'sound/misc/gold_misc.ogg', 70, FALSE, -1)
+			return TRUE
+		if("extend_export_licence")
+			if(try_favor_unlock(H, SSmerchant_trade?.export_licence_extended, EXPORT_LICENCE_FAVOR, "The ATC's monopoly rights on export are already expanded for the week.", "Not enough favor with the ATC to petition for more monopoly rights."))
+				if(SSmerchant_trade.extend_export_licence())
+					to_chat(H, span_notice("The petition is granted. The ATC's monopoly rights on export are expanded, and the daily allowance is doubled."))
 					playsound(loc, 'sound/misc/gold_misc.ogg', 70, FALSE, -1)
 			return TRUE
 		if("unlock_auto_hailer")
