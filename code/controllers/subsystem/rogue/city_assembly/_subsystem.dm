@@ -88,10 +88,6 @@ SUBSYSTEM_DEF(city_assembly)
 	var/list/election_result = resolve_election(S)
 	summary["results"]["election"] = election_result
 
-	var/list/trade_result = resolve_bracket_motion(S, ASSEMBLY_MOTION_TRADE_AUTH, ASSEMBLY_TRADE_BRACKETS)
-	summary["results"]["trade_auth"] = trade_result
-	apply_trade_authorization(trade_result)
-
 	var/list/defense_result = resolve_bracket_motion(S, ASSEMBLY_MOTION_DEFENSE_AUTH, ASSEMBLY_DEFENSE_BRACKETS)
 	summary["results"]["defense_auth"] = defense_result
 	apply_defense_authorization(defense_result)
@@ -190,8 +186,6 @@ SUBSYSTEM_DEF(city_assembly)
 				if(REF(wr) == choice)
 					return TRUE
 			return FALSE
-		if(ASSEMBLY_MOTION_TRADE_AUTH)
-			return validate_bracket_choice(choice, ASSEMBLY_TRADE_BRACKETS)
 		if(ASSEMBLY_MOTION_DEFENSE_AUTH)
 			return validate_bracket_choice(choice, ASSEMBLY_DEFENSE_BRACKETS)
 		if(ASSEMBLY_MOTION_RECALL, ASSEMBLY_MOTION_CENSURE)
@@ -307,19 +301,6 @@ SUBSYSTEM_DEF(city_assembly)
 		current_warrant.reset()
 		return
 	current_warrant.refresh_for_day()
-
-/datum/controller/subsystem/city_assembly/proc/can_consume_trade(amount)
-	var/mob/alderman = resolve_get_alderman()
-	if(!alderman || !current_warrant)
-		return FALSE
-	return current_warrant.trade_remaining >= amount
-
-/datum/controller/subsystem/city_assembly/proc/consume_trade(amount, mob/actor, reason = "")
-	if(!can_consume_trade(amount))
-		return FALSE
-	current_warrant.trade_remaining -= amount
-	log_game("CITY ASSEMBLY WARRANT: trade -[amount]m by [key_name(actor)] ([reason]). Remaining: [current_warrant.trade_remaining]m.")
-	return TRUE
 
 /datum/controller/subsystem/city_assembly/proc/can_consume_defense(amount)
 	var/mob/alderman = resolve_get_alderman()

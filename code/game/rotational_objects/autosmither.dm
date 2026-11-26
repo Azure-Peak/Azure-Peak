@@ -127,9 +127,9 @@
 		var/list/requirements = recipe_req_data(recipe)
 		UNTYPED_LIST_ADD(recipes, list(
 			"name" = recipe.name,
-			"category" = recipe.i_type || recipe.category,
+			"category" = recipe.display_category || ITEM_CAT_SMITHING_MISC,
 			"ref" = REF(recipe),
-			"icon" = spritesheet.icon_class_name(sanitize_css_class_name("recipe_[REF(recipe)]")),
+			"icon" = spritesheet.icon_class_name(sanitize_css_class_name("recipe_[recipe.type]")),
 			"icon_file" = "[initial(recipe.created_item:icon)]",
 			"icon_state" = "[initial(recipe.created_item:icon_state)]",
 			"created_num" = recipe.createditem_num,
@@ -153,9 +153,10 @@
 		UNTYPED_LIST_ADD(current_recipes, list(
 			"id" = queue_entry.id,
 			"index" = i,
+			"ref" = REF(recipe),
 			"name" = recipe.name,
-			"category" = recipe.i_type || recipe.category,
-			"icon" = spritesheet.icon_class_name(sanitize_css_class_name("recipe_[REF(recipe)]")),
+			"category" = recipe.display_category || ITEM_CAT_SMITHING_MISC,
+			"icon" = spritesheet.icon_class_name(sanitize_css_class_name("recipe_[recipe.type]")),
 			"created_num" = recipe.createditem_num,
 			"active" = (queue_entry.id == current_queue_id)
 		))
@@ -174,6 +175,8 @@
 	data["current_recipe_ref"] = current ? REF(current) : null
 	data["progress"] = progress
 	data["needed_progress"] = needed_progress
+	data["steps_done"] = length(step_list)
+	data["steps_total"] = length(working ? post_start_list : pre_start_list)
 	return data
 
 /obj/structure/autosmither/ui_act(action, list/params, datum/tgui/ui, datum/ui_state/state)
@@ -194,6 +197,9 @@
 			if(!queue_id)
 				return TRUE
 			if(queue_id == current_queue_id)
+				if(!params["cancel_active"])
+					to_chat(ui.user, span_warning("That recipe has already started."))
+					return TRUE
 				clear_current_recipe()
 			remove_entry_id(queue_id)
 			update_animation_effect()
@@ -597,6 +603,10 @@
 		if(length(step_list) == length(pre_start_list))
 			if(hopper?.opened)
 				to_chat(user, span_warning("The anvil refuses to operate, for [hopper] is open."))
+				step_list = list()
+				return
+			if(!has_power_flow())
+				to_chat(user, span_warning("The anvil refuses to operate without power."))
 				step_list = list()
 				return
 			working = TRUE

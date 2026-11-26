@@ -76,14 +76,14 @@
 
 /datum/npc_loadout/armor/light/skeleton_caster
 	head = /obj/item/clothing/head/roguetown/roguehood/black
-	mask = /obj/item/clothing/mask/rogue/facemask/ancient/decrepit //face protection
+	mask = /obj/item/clothing/mask/rogue/facemask/aalloy //Face protection
 	shirt = /obj/item/clothing/suit/roguetown/armor/vestments_padded
-	neck = /obj/item/clothing/neck/roguetown/chaincoif/ancient/decrepit
+	neck = /obj/item/clothing/neck/roguetown/chaincoif/iron/aalloy
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/cloth/lich
-	gloves = /obj/item/clothing/gloves/roguetown/bandages //shittier version used for this
+	gloves = /obj/item/clothing/gloves/roguetown/bandages/lich //shittier version used for this
 	belt = /obj/item/storage/belt/rogue/leather/rope/upgraded/dark
 	pants = /obj/item/clothing/under/roguetown/trou/leather
-	shoes = /obj/item/clothing/shoes/roguetown/sandals/ancient/decrepit
+	shoes = /obj/item/clothing/shoes/roguetown/sandals/aalloy
 
 //** BANDIT LIGHT **//
 

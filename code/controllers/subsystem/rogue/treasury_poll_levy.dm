@@ -94,7 +94,7 @@
 				continue
 			if(get_poll_levy_exempting_charter(category))
 				continue
-			var/amount = CLAMP(round(text2num("[entry["amount"]]")), 0, CHARGE_CAP_FLAT)
+			var/amount = CLAMP(mammon_round(text2num("[entry["amount"]]")), 0, CHARGE_CAP_FLAT)
 			if(amount > 0)
 				amounts[category] = amount
 	if(!length(amounts))

@@ -49,7 +49,7 @@
 /datum/trade_good/equipment/crafted/flail
 	id = TRADE_GOOD_STEEL_FLAIL
 	name = "steel flail"
-	item_type = /obj/item/rogueweapon/flail/steel
+	item_type = /obj/item/rogueweapon/flail/sflail
 
 // ============================================================================
 // WEAPONS - STEEL (2-ingot tier)

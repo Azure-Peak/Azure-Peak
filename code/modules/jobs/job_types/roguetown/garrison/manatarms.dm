@@ -317,7 +317,7 @@
 				backl = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow
 				beltr = /obj/item/quiver/bolt/standard
 			if("Flail & Shield")
-				beltr = /obj/item/rogueweapon/flail/steel
+				beltr = /obj/item/rogueweapon/flail/sflail
 				backl = /obj/item/rogueweapon/shield/tower
 			if("Lucerne & Whip")
 				r_hand = /obj/item/rogueweapon/eaglebeak/lucerne

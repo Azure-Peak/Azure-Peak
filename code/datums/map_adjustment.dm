@@ -13,6 +13,9 @@
 	var/map_file_name
 	/// Name of the realm/location for announcements (e.g., "Azure Peak", "Azure Bleak", etc.)
 	var/realm_name = "Azure Peak"
+	var/ruler_domain
+	var/list/ruler_styles
+	var/list/ruler_old_styles
 	/// Jobs that this map won't use
 	var/list/blacklist
 	/// Jobs that have slots changed /datum/job = num

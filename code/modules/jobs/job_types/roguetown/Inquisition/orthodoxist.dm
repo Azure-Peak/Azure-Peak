@@ -1,5 +1,6 @@
 /datum/job/roguetown/orthodoxist
 	title = "Orthodoxist"
+	political_faction = POLITICAL_FACTION_BENEDICTUS
 	flag = ORTHODOXIST
 	department_flag = INQUISITION
 	faction = "Station"

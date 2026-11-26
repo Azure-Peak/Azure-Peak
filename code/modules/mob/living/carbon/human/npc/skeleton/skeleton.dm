@@ -7,7 +7,9 @@ GLOBAL_LIST_INIT(skeleton_aggro, list(
 	"*rage",
 	"*rage",
 	"*rage",
-)) //Single Words or noises, feral and empty of mind.
+)) //Single Words or noises, feral and empty of mind. Doesn't need a file.
+
+GLOBAL_LIST_INIT(smartskeleton_aggro, world.file2list("strings/rt/smartskeletonaggrolines.txt")) //smarter skeletons have more lines... They're still going feral though and visibly (audably?) show signs of it.
 
 /mob/living/carbon/human/species/skeleton
 	name = "skeleton"
@@ -93,6 +95,36 @@ GLOBAL_LIST_INIT(skeleton_aggro, list(
 /mob/living/carbon/human/species/skeleton/npc/hardspread
 	threat_point = THREAT_TOUGH
 	npc_archetype = /datum/npc_archetype/skeleton/hardspread
+
+// Casters - keep these in dungeons or contracts only, maybe something else down the line but definitely do not spam these.
+
+/mob/living/carbon/human/species/skeleton/npc/caster
+	threat_point = THREAT_DANGEROUS
+	npc_archetype = /datum/npc_archetype/skeleton/caster/mixed
+
+/mob/living/carbon/human/species/skeleton/npc/caster/after_creation()
+	..()
+	SEND_SIGNAL(src, COMSIG_MOB_MODIFY_AGGRO_LINES, GLOB.smartskeleton_aggro, TRUE)
+
+/mob/living/carbon/human/species/skeleton/npc/caster/pyromancer
+	npc_archetype = /datum/npc_archetype/skeleton/caster/pyromancer
+
+/mob/living/carbon/human/species/skeleton/npc/caster/cryomancer
+	npc_archetype = /datum/npc_archetype/skeleton/caster/cryomancer
+
+/mob/living/carbon/human/species/skeleton/npc/caster/fulgarmancer
+	npc_archetype = /datum/npc_archetype/skeleton/caster/fulgarmancer
+
+/mob/living/carbon/human/species/skeleton/npc/caster/telomancer
+	npc_archetype = /datum/npc_archetype/skeleton/caster/telomancer
+
+/mob/living/carbon/human/species/skeleton/npc/caster/ferramancer
+	npc_archetype = /datum/npc_archetype/skeleton/caster/ferramancer
+
+/mob/living/carbon/human/species/skeleton/npc/caster/geomancer
+	npc_archetype = /datum/npc_archetype/skeleton/caster/geomancer
+
+//unique duke NPC
 
 /mob/living/carbon/human/species/skeleton/npc/fallenduke
 	threat_point = THREAT_ELITE
@@ -312,13 +344,13 @@ GLOBAL_LIST_INIT(skeleton_aggro, list(
 
 /datum/outfit/job/roguetown/conjured_skeleton/sword_shield/pre_equip(mob/living/carbon/human/H, visualsOnly)
 	. = ..()
-	r_hand = /obj/item/rogueweapon/sword/sabre/ancient
-	l_hand = /obj/item/rogueweapon/shield/tower/ancient
+	r_hand = /obj/item/rogueweapon/sword/sabre/palloy
+	l_hand = /obj/item/rogueweapon/shield/tower/metal/palloy
 	shoes = /obj/item/clothing/shoes/roguetown/boots/leather
 	gloves = /obj/item/clothing/gloves/roguetown/leather
 	neck = /obj/item/clothing/neck/roguetown/gorget/copper
 	head = /obj/item/clothing/head/roguetown/headband/bloodied
-	mask = /obj/item/clothing/mask/rogue/facemask/ancient/decrepit
+	mask = /obj/item/clothing/mask/rogue/facemask/aalloy
 	pants = /obj/item/clothing/under/roguetown/heavy_leather_pants/bronzeskirt
 	shirt = /obj/item/clothing/suit/roguetown/armor/leather/studded/cuirbouilli
 	armor = /obj/item/clothing/suit/roguetown/armor/plate/cuirass/copper
@@ -326,7 +358,7 @@ GLOBAL_LIST_INIT(skeleton_aggro, list(
 
 /datum/outfit/job/roguetown/conjured_skeleton/spear/pre_equip(mob/living/carbon/human/H, visualsOnly)
 	. = ..()
-	r_hand = /obj/item/rogueweapon/spear/ancient
+	r_hand = /obj/item/rogueweapon/spear/paalloy
 	shoes = /obj/item/clothing/shoes/roguetown/boots/leather
 	gloves = /obj/item/clothing/gloves/roguetown/leather
 	neck = /obj/item/clothing/neck/roguetown/gorget/copper
@@ -338,8 +370,8 @@ GLOBAL_LIST_INIT(skeleton_aggro, list(
 
 /datum/outfit/job/roguetown/conjured_skeleton/dual_daggers/pre_equip(mob/living/carbon/human/H, visualsOnly)
 	. = ..()
-	r_hand = /obj/item/rogueweapon/huntingknife/idagger/ancient
-	l_hand = /obj/item/rogueweapon/huntingknife/idagger/ancient
+	r_hand = /obj/item/rogueweapon/huntingknife/idagger/steel/padagger
+	l_hand = /obj/item/rogueweapon/huntingknife/idagger/steel/padagger
 	shoes = /obj/item/clothing/shoes/roguetown/boots/leather
 	gloves = /obj/item/clothing/gloves/roguetown/leather
 	neck = /obj/item/clothing/neck/roguetown/gorget/copper
@@ -348,3 +380,58 @@ GLOBAL_LIST_INIT(skeleton_aggro, list(
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/light
 	armor = /obj/item/clothing/suit/roguetown/armor/plate/cuirass/copper
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/copper
+
+//*!*!*// Avantyne clad skeletons and high-level gear we do NOT want in the hands of regular players below here //*!*!*//
+
+/mob/living/carbon/human/species/skeleton/unstrippable_npc
+	ambush_faction = "undead"
+	ai_controller = /datum/ai_controller/human_npc/melee
+	skel_fragile = TRUE
+	blood_toll_bucket = STATS_KILLED_DEADITES
+	d_intent = INTENT_PARRY
+	ambushable = FALSE
+
+/mob/living/carbon/human/species/skeleton/unstrippable_npc/death(gibbed, nocutscene = FALSE)
+	. = ..()
+	if(!gibbed)
+		dust(FALSE, FALSE, TRUE)
+
+/mob/living/carbon/human/species/skeleton/unstrippable_npc/after_creation()
+	..()
+	AddComponent(/datum/component/ai_aggro_system)
+
+	gender = pick(MALE, FEMALE)
+	dna.species.handle_body(src)
+	update_body()
+	src.grant_language(/datum/language/undead)
+	SEND_SIGNAL(src, COMSIG_MOB_MODIFY_AGGRO_LINES, GLOB.skeleton_aggro, TRUE)
+	src.regenerate_icons() //Fixes the weird body with random genders for NPCs.
+
+	ADD_TRAIT(src, TRAIT_NPC_EXAMINE, TRAIT_GENERIC)
+	ADD_TRAIT(src, TRAIT_DUSTABLE, TRAIT_GENERIC) //nessessary
+	ADD_TRAIT(src, TRAIT_DUST_DELETE_GEAR, TRAIT_GENERIC)
+
+	ADD_TRAIT(src, TRAIT_NOZIZORECRUIT, TRAIT_GENERIC) //No cheesing these with tame undead
+
+	for(var/obj/item/equipped_item in get_equipped_items() + held_items)
+		equipped_item.AddComponent(/datum/component/item_on_drop/dust)
+	for(var/obj/item/held_item in held_items)
+		ADD_TRAIT(held_item, TRAIT_NODROP, TRAIT_GENERIC)
+
+///*!*!*!*/// begin our loadouts ///*!*!*!*///
+
+/mob/living/carbon/human/species/skeleton/unstrippable_npc/zizo
+	threat_point = THREAT_DANGEROUS_PLUS //above hard
+	npc_archetype = /datum/npc_archetype/skeleton/zizo
+
+/mob/living/carbon/human/species/skeleton/unstrippable_npc/zizo/after_creation()
+	..()
+	SEND_SIGNAL(src, COMSIG_MOB_MODIFY_AGGRO_LINES, GLOB.smartskeleton_aggro, TRUE)
+
+/mob/living/carbon/human/species/skeleton/unstrippable_npc/zizo_heavy
+	threat_point = THREAT_ELITE //above the prior b.c fullplate
+	npc_archetype = /datum/npc_archetype/skeleton/zizo_heavy
+
+/mob/living/carbon/human/species/skeleton/unstrippable_npc/zizo_heavy/after_creation()
+	..()
+	SEND_SIGNAL(src, COMSIG_MOB_MODIFY_AGGRO_LINES, GLOB.smartskeleton_aggro, TRUE)

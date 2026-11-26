@@ -139,7 +139,7 @@
 	name = "Guarded"
 	desc = "I have long kept my true capabilities and vices a secret. Sometimes being deceptively weak can save one's lyfe."
 	ui_fa_icon = "user-secret"
-	custom_text = "Obfuscates information about you from all sorts of effects, including patron abilities & passives, combat information, Assess and other virtues."
+	custom_text = "Obfuscates information about you from all sorts of effects, including patron abilities & passives, combat information, Assess and other virtues. Hides your political faction."
 	added_traits = list(TRAIT_DECEIVING_MEEKNESS)
 
 /datum/virtue/combat/guarded/apply_to_human(mob/living/carbon/human/recipient)
@@ -180,9 +180,17 @@
 /datum/virtue/combat/dualwielder
 	name = "Dual Wielder"
 	desc = "A weapon in each hand, a threat from every angle. Through solitary practice or under the tutelage of masters, I've honed my skill in wielding two weapons at once."
-	custom_text = "You can perform these attacks unarmed as well, though their finishers work a little differently. Journeyman proficiency or higher is still required. Being knocked down or leaving combat mode will reset your combo."
+	custom_text = "You can perform these attacks unarmed as well, though their \
+		finishers work a little differently. Journeyman proficiency or higher \
+		is still required. Being knocked down or leaving combat mode will reset \
+		your combo. You can toggle dual wielding in the Virtue tab and still \
+		use either hand at full strength."
 	ui_fa_icon = "2"
-	added_traits = list(TRAIT_DUALWIELDER)
+	added_traits = list(TRAIT_DUALWIELDER, TRAIT_AMBIDEXTROUS)
+
+/datum/virtue/combat/dualwielder/apply_to_human(mob/living/carbon/human/recipient)
+	. = ..()
+	add_verb(recipient, /mob/living/carbon/human/proc/toggle_dual_wielder)
 
 /datum/virtue/combat/sharp
 	name = "Sentinel of Wits"

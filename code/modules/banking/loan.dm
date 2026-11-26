@@ -44,15 +44,15 @@
 	return TRAIT_DEBTOR_CROWN
 
 /datum/loan/proc/compute_total_due()
-	return FLOOR(principal * (1 + (interest_rate * max(1, days_total))), 1)
+	return mammon_round(principal * (1 + (interest_rate * max(1, days_total))))
 
 /datum/loan/proc/get_remaining_due()
 	var/elapsed_days = max(1, GLOB.dayspassed - issued_on_day)
-	var/accrued_interest = FLOOR(principal * interest_rate * elapsed_days, 1)
+	var/accrued_interest = mammon_round(principal * interest_rate * elapsed_days)
 	var/current_owed = principal + accrued_interest
 	if(current_owed > total_due)
 		current_owed = total_due
-	return max(current_owed - repaid_so_far, 0)
+	return max(mammon_round(current_owed - repaid_so_far), 0)
 
 /datum/loan/proc/days_until_due()
 	return max(due_on_day - GLOB.dayspassed, 0)
@@ -60,8 +60,8 @@
 /datum/loan/proc/format()
 	var/pct = round(interest_rate * 100)
 	if(defaulted)
-		return "[debtor_name]: [principal]m principal @ [pct]%/day over [days_total] day\s - [get_remaining_due()]m outstanding (DEFAULTED day [due_on_day])"
-	return "[debtor_name]: [principal]m principal @ [pct]%/day over [days_total] day\s - [get_remaining_due()]m due (day [due_on_day], [days_until_due()] day\s left)"
+		return "[debtor_name]: [principal]m principal @ [pct]%/day over [days_total] day\s - [format_mammon(get_remaining_due())]m outstanding (DEFAULTED day [due_on_day])"
+	return "[debtor_name]: [principal]m principal @ [pct]%/day over [days_total] day\s - [format_mammon(get_remaining_due())]m due (day [due_on_day], [days_until_due()] day\s left)"
 
 /datum/loan/proc/get_debtor_mob()
 	if(!debtor_ref)

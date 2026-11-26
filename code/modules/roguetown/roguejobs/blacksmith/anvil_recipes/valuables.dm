@@ -27,20 +27,12 @@
 	created_item = /obj/item/roguestatue/iron
 	display_category = ITEM_CAT_DECORATION
 
-/datum/anvil_recipe/valuables/decrepit
-	name = "Statue, Decrepit"
+/datum/anvil_recipe/valuables/aalloy
+	name = "Statue, Decrepit" // decrepit
 	category = "Decrepit Alloy"
-	req_bar = /obj/item/ingot/decrepit
-	created_item = /obj/item/roguestatue/decrepit
+	req_bar = /obj/item/ingot/aalloy
+	created_item = /obj/item/roguestatue/aalloy
 	display_category = ITEM_CAT_DECORATION
-
-/datum/anvil_recipe/valuables/ancient
-	name = "Statue, Ancient"
-	category = "Ancient Alloy"
-	req_bar = /obj/item/ingot/ancient
-	created_item = /obj/item/roguestatue/ancient
-	display_category = ITEM_CAT_DECORATION
-	craftdiff = SKILL_LEVEL_EXPERT
 
 //
 
@@ -217,51 +209,51 @@
 
 //
 
-/datum/anvil_recipe/valuables/noccrossdecrepit
+/datum/anvil_recipe/valuables/noccrossaalloy
 	name = "Amulet of Knowledge, Decrepit"
 	category = "Decrepit Alloy"
-	req_bar = /obj/item/ingot/decrepit
-	created_item = /obj/item/clothing/neck/roguetown/psicross/noc/ancient/decrepit
+	req_bar = /obj/item/ingot/aalloy
+	created_item = /obj/item/clothing/neck/roguetown/psicross/noc/aalloy
 	display_category = ITEM_CAT_VALUABLES_HOLY
 	craftdiff = 3
 
-/datum/anvil_recipe/valuables/noccrossancient
+/datum/anvil_recipe/valuables/noccrosspaalloy
 	name = "Amulet of Knowledge, Ancient"
 	category = "Ancient Alloy"
-	req_bar = /obj/item/ingot/ancient
-	created_item = /obj/item/clothing/neck/roguetown/psicross/noc/ancient
+	req_bar = /obj/item/ingot/purifiedaalloy
+	created_item = /obj/item/clothing/neck/roguetown/psicross/noc/paalloy
 	display_category = ITEM_CAT_VALUABLES_HOLY
 	craftdiff = 3
 
-/datum/anvil_recipe/valuables/psycrossdecrepit
+/datum/anvil_recipe/valuables/psycrossaalloy
 	name = "Amulet of Psydonia, Decrepit"
 	category = "Decrepit Alloy"
-	req_bar = /obj/item/ingot/decrepit
-	created_item = /obj/item/clothing/neck/roguetown/psicross/ancient/decrepit
+	req_bar = /obj/item/ingot/aalloy
+	created_item = /obj/item/clothing/neck/roguetown/psicross/aalloy
 	display_category = ITEM_CAT_VALUABLES_HOLY
 	craftdiff = 3
 
-/datum/anvil_recipe/valuables/psycrossancient
+/datum/anvil_recipe/valuables/psycrosspaalloy
 	name = "Amulet of Psydonia, Ancient"
 	category = "Ancient Alloy"
-	req_bar = /obj/item/ingot/ancient
-	created_item = /obj/item/clothing/neck/roguetown/psicross/ancient
+	req_bar = /obj/item/ingot/purifiedaalloy
+	created_item = /obj/item/clothing/neck/roguetown/psicross/paalloy
 	display_category = ITEM_CAT_VALUABLES_HOLY
 	craftdiff = 3
 
-/datum/anvil_recipe/valuables/zcrossdecrepit
+/datum/anvil_recipe/valuables/zcrossaalloy
 	name = "Amulet of Ascension, Decrepit"
 	category = "Decrepit Alloy"
-	req_bar = /obj/item/ingot/decrepit
-	created_item = /obj/item/clothing/neck/roguetown/psicross/inhumen/ancient/decrepit
+	req_bar = /obj/item/ingot/aalloy
+	created_item = /obj/item/clothing/neck/roguetown/psicross/inhumen/aalloy
 	display_category = ITEM_CAT_VALUABLES_HOLY
 	craftdiff = 3
 
-/datum/anvil_recipe/valuables/zcrossancient
+/datum/anvil_recipe/valuables/zcrosspaalloy
 	name = "Amulet of Ascension, Ancient"
 	category = "Ancient Alloy"
-	req_bar = /obj/item/ingot/ancient
-	created_item = /obj/item/clothing/neck/roguetown/psicross/inhumen/ancient
+	req_bar = /obj/item/ingot/purifiedaalloy
+	created_item = /obj/item/clothing/neck/roguetown/psicross/inhumen/paalloy
 	display_category = ITEM_CAT_VALUABLES_HOLY
 	craftdiff = 3
 
@@ -436,11 +428,11 @@
 	craftdiff = SKILL_LEVEL_EXPERT
 	createditem_num = 3
 
-/datum/anvil_recipe/valuables/ringd
+/datum/anvil_recipe/valuables/ringa
 	name = "Rings, Decrepit (x3)"
 	category = "Decrepit Alloy"
-	req_bar = /obj/item/ingot/decrepit
-	created_item = /obj/item/clothing/ring/decrepit
+	req_bar = /obj/item/ingot/aalloy
+	created_item = /obj/item/clothing/ring/aalloy
 	display_category = ITEM_CAT_VALUABLES_RINGS
 	createditem_num = 3
 
@@ -485,11 +477,11 @@
 	display_category = ITEM_CAT_VALUABLES_RINGS
 	createditem_num = 2
 
-/datum/anvil_recipe/valuables/weddingringa
+/datum/anvil_recipe/valuables/weddingringp
 	name = "Weddingbands, Ancient (x2)"
 	category = "Ancient Alloy"
-	req_bar = /obj/item/ingot/ancient
-	created_item = /obj/item/clothing/ring/band/ancient
+	req_bar = /obj/item/ingot/purifiedaalloy
+	created_item = /obj/item/clothing/ring/band/paalloy
 	display_category = ITEM_CAT_VALUABLES_RINGS
 	createditem_num = 2
 
@@ -734,7 +726,7 @@
 	category = "Silver"
 	req_bar = /obj/item/ingot/silver
 	hides_from_books = TRUE //Note to self - adding more than five additional items to a crafting recipe might result in unintended consequences.
-	additional_items = list(/obj/item/rogueweapon/sword/long/exe/berserk/gnoll, /obj/item/rogueweapon/greatsword/ancient, /obj/item/ingot/draconic, /obj/item/ingot/weeping, /obj/item/riddleofsteel)
+	additional_items = list(/obj/item/rogueweapon/sword/long/exe/berserk/gnoll, /obj/item/rogueweapon/greatsword/paalloy, /obj/item/ingot/draconic, /obj/item/ingot/weeping, /obj/item/riddleofsteel)
 	created_item = /obj/item/rogueweapon/sword/long/exe/berserk/dragonslayer
 	display_category = ITEM_CAT_WEAPONS_SWORDS
 	appro_skill = /datum/skill/craft/weaponsmithing

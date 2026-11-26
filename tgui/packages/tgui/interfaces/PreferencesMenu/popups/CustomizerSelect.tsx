@@ -7,6 +7,7 @@ import {
   usePopupBackend,
   usePopupContext,
 } from 'pm/popups';
+import { IncrementalList } from 'tgui/interfaces/common/IncrementalList';
 import { Box, Button, Input, Section, Stack } from 'tgui-core/components';
 import { useFuzzySearch } from 'tgui-core/fuzzysearch';
 
@@ -166,26 +167,28 @@ const AccessoryChoice = (props: {
         <Stack.Item grow>
           <Section fill scrollable>
             <Box className="PreferencesMenu__Grid PreferencesMenu__FiveColumn__ImageButton">
-              {(query.length ? results : spriteAccessories).map((sa) => (
-                <SpriteAccessoryImageButton
-                  key={sa.path}
-                  iconRef={sa.icon}
-                  iconStates={sa.preview_states}
-                  offsetX={sa.pixel_x}
-                  imageSize={128}
-                  selected={entry.accessory_type === sa.path}
-                  tooltip={`${sa.name} ${entry.accessory_type === sa.path ? ' (Already Taken)' : ''}`}
-                  onClick={() => {
-                    act('change_customizer_popup', {
-                      customizer: customizer,
-                      task: 'change_accessory',
-                      acc: sa.path,
-                    });
-                  }}
-                >
-                  {sa.name}
-                </SpriteAccessoryImageButton>
-              ))}
+              <IncrementalList>
+                {(query.length ? results : spriteAccessories).map((sa) => (
+                  <SpriteAccessoryImageButton
+                    key={sa.path}
+                    iconRef={sa.icon}
+                    iconStates={sa.preview_states}
+                    offsetX={sa.pixel_x}
+                    imageSize={128}
+                    selected={entry.accessory_type === sa.path}
+                    tooltip={`${sa.name} ${entry.accessory_type === sa.path ? ' (Already Taken)' : ''}`}
+                    onClick={() => {
+                      act('change_customizer_popup', {
+                        customizer: customizer,
+                        task: 'change_accessory',
+                        acc: sa.path,
+                      });
+                    }}
+                  >
+                    {sa.name}
+                  </SpriteAccessoryImageButton>
+                ))}
+              </IncrementalList>
             </Box>
           </Section>
         </Stack.Item>

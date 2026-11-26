@@ -79,7 +79,7 @@
 
 /datum/supply_pack/rogue/steel_weapons/flail
 	name = "Flail"
-	contains = list(/obj/item/rogueweapon/flail/steel)
+	contains = list(/obj/item/rogueweapon/flail/sflail)
 
 /datum/supply_pack/rogue/steel_weapons/warhammer
 	name = "Warhammer"
@@ -146,13 +146,8 @@
 	contains = list(/obj/item/rogueweapon/halberd/bardiche)
 
 /datum/supply_pack/rogue/steel_weapons/eaglebeak
-	name = "Polehammer, Eagle's Beak"
+	name = "Eagle's Beak"
 	contains = list(/obj/item/rogueweapon/eaglebeak)
-
-/datum/supply_pack/rogue/steel_weapons/greatflail
-	name = "Greatflail"
-	cost = 85 // 2 Steel Ingots, 1 Small Log, 1 Chain.
-	contains = list(/obj/item/rogueweapon/flail/great/steel)
 
 /datum/supply_pack/rogue/steel_weapons/grandmace
 	name = "Grand Mace"

@@ -104,7 +104,7 @@ What it does:
 
 	update_icon()
 
-/obj/item/cooking/platter/decrepit
+/obj/item/cooking/platter/aalloy
 	name = "decrepit platter"
 	desc = "Rotted metal, flattened to serve. The edge remains wet with red; spilled merlot, meaty juices, or blood?"
 	icon_state = "aplatter"

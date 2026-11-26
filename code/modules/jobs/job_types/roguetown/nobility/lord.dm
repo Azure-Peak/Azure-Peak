@@ -103,6 +103,7 @@ GLOBAL_LIST_EMPTY(lord_titles)
 		SSticker.set_ruler_mob(L)
 		var/realm = SSticker.realm_name || "Azure Peak"
 		to_world("<b><span class='notice'><span class='big'>[L.real_name] is [SSticker.rulertype] of [realm].</span></span></b>")
+		announce_ruling_faction(L)
 		if(istype(SSticker.regentmob, /mob/living/carbon/human))
 			var/mob/living/carbon/human/regentbuddy = SSticker.regentmob
 			to_chat(L, span_notice("Word reached me on the approach that [regentbuddy.real_name], the [regentbuddy.job], served as regent in my absence."))

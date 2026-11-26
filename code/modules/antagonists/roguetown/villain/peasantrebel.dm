@@ -563,7 +563,7 @@
 				hand_items += /obj/item/rogueweapon/woodstaff/militia
 				H.adjust_skillrank_up_to(/datum/skill/combat/polearms, SKILL_LEVEL_JOURNEYMAN, TRUE)
 			if("Thresher")
-				hand_items += /obj/item/rogueweapon/flail/great
+				hand_items += /obj/item/rogueweapon/flail/peasantwarflail
 				H.adjust_skillrank_up_to(/datum/skill/combat/whipsflails, SKILL_LEVEL_JOURNEYMAN, TRUE)
 			if("Scythe")
 				hand_items += /obj/item/rogueweapon/scythe/militia

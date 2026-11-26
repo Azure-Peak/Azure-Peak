@@ -273,46 +273,46 @@
 		if(!SEND_SIGNAL(src, COMSIG_TRY_STORAGE_INSERT, H, null, TRUE, TRUE))
 			SSwardrobe.recycle_object(H)
 
-/obj/item/storage/belt/rogue/pouch/coins/psila
+/obj/item/storage/belt/rogue/pouch/coins/aalloy
 
-/obj/item/storage/belt/rogue/pouch/coins/psila/get_types_to_preload()
+/obj/item/storage/belt/rogue/pouch/coins/aalloy/get_types_to_preload()
 	var/list/to_preload = list()
-	to_preload += /obj/item/roguecoin/psila/pile
+	to_preload += /obj/item/roguecoin/aalloy/pile
 	return to_preload
 
-/obj/item/storage/belt/rogue/pouch/coins/psila/PopulateContents()
+/obj/item/storage/belt/rogue/pouch/coins/aalloy/PopulateContents()
 	. = ..()
-	var/obj/item/roguecoin/psila/pile/A = SSwardrobe.provide_type(/obj/item/roguecoin/psila/pile, loc)
+	var/obj/item/roguecoin/aalloy/pile/A = SSwardrobe.provide_type(/obj/item/roguecoin/aalloy/pile, loc)
 	if(istype(A))
 		if(!SEND_SIGNAL(src, COMSIG_TRY_STORAGE_INSERT, A, null, TRUE, TRUE))
 			SSwardrobe.recycle_object(A)
 
-/obj/item/storage/belt/rogue/pouch/coins/psila/mid
+/obj/item/storage/belt/rogue/pouch/coins/aalloy/mid
 
-/obj/item/storage/belt/rogue/pouch/coins/psila/mid/get_types_to_preload()
+/obj/item/storage/belt/rogue/pouch/coins/aalloy/mid/get_types_to_preload()
 	var/list/to_preload = list()
-	to_preload += /obj/item/roguecoin/psila/pile
+	to_preload += /obj/item/roguecoin/aalloy/pile
 	return to_preload
 
-/obj/item/storage/belt/rogue/pouch/coins/psila/mid/PopulateContents()
+/obj/item/storage/belt/rogue/pouch/coins/aalloy/mid/PopulateContents()
 	. = ..()
 	for(var/i in 1 to 2) //hilarious
-		var/obj/item/roguecoin/psila/pile/A = SSwardrobe.provide_type(/obj/item/roguecoin/psila/pile, loc)
+		var/obj/item/roguecoin/aalloy/pile/A = SSwardrobe.provide_type(/obj/item/roguecoin/aalloy/pile, loc)
 		if(istype(A))
 			if(!SEND_SIGNAL(src, COMSIG_TRY_STORAGE_INSERT, A, null, TRUE, TRUE))
 				SSwardrobe.recycle_object(A)
 
-/obj/item/storage/belt/rogue/pouch/coins/psila/rich
+/obj/item/storage/belt/rogue/pouch/coins/aalloy/rich
 
-/obj/item/storage/belt/rogue/pouch/coins/psila/rich/get_types_to_preload()
+/obj/item/storage/belt/rogue/pouch/coins/aalloy/rich/get_types_to_preload()
 	var/list/to_preload = list()
-	to_preload += /obj/item/roguecoin/psila/pile
+	to_preload += /obj/item/roguecoin/aalloy/pile
 	return to_preload
 
-/obj/item/storage/belt/rogue/pouch/coins/psila/rich/PopulateContents()
+/obj/item/storage/belt/rogue/pouch/coins/aalloy/rich/PopulateContents()
 	. = ..()
 	for(var/i in 1 to 3) //hilarious
-		var/obj/item/roguecoin/psila/pile/A = SSwardrobe.provide_type(/obj/item/roguecoin/psila/pile, loc)
+		var/obj/item/roguecoin/aalloy/pile/A = SSwardrobe.provide_type(/obj/item/roguecoin/aalloy/pile, loc)
 		if(istype(A))
 			if(!SEND_SIGNAL(src, COMSIG_TRY_STORAGE_INSERT, A, null, TRUE, TRUE))
 				SSwardrobe.recycle_object(A)
