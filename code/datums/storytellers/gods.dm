@@ -245,7 +245,7 @@
 			STATS_CLERGY_DEATHS = list("name" = "Clergy killed:", "points" = 12, "capacity" = 70),
 		),
 		"Set 2" = list(
-			STATS_DEADITES_WOKEN_UP = list("name" = "Deadites woken up:", "points" = 4, "capacity" = 85),
+			STATS_DEADITES_WOKEN_UP = list("name" = "Deadites woken up:", "points" = 0.5, "capacity" = 85), //todo, balance this.
 		),
 		"Set 3" = list(
 			STATS_DEADITES_ALIVE = list("name" = "Deadites alive:", "points" = 1, "capacity" = 40),

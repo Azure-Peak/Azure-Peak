@@ -113,6 +113,8 @@
 	addtimer(CALLBACK(target, TYPE_PROC_REF(/mob/living/carbon/human, choose_pronouns_and_body)), 7 SECONDS)
 	addtimer(CALLBACK(target, TYPE_PROC_REF(/mob/living/carbon/human, select_skeleton_features)), 7 SECONDS)
 
+	record_round_statistic(STATS_DEADITES_WOKEN_UP) //Zizo score goes up per skeleton raised.
+
 	if(current_charges <= 0)
 		to_chat(user, span_notice("The crystal dims, its power spent."))
 	else
