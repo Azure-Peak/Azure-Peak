@@ -80,7 +80,7 @@
 	shirt = /obj/item/clothing/suit/roguetown/armor/vestments_padded
 	neck = /obj/item/clothing/neck/roguetown/chaincoif/ancient/decrepit
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/cloth/lich
-	gloves = /obj/item/clothing/gloves/roguetown/bandages/lich //shittier version used for this
+	gloves = /obj/item/clothing/gloves/roguetown/bandages //shittier version used for this
 	belt = /obj/item/storage/belt/rogue/leather/rope/upgraded/dark
 	pants = /obj/item/clothing/under/roguetown/trou/leather
 	shoes = /obj/item/clothing/shoes/roguetown/sandals/ancient/decrepit

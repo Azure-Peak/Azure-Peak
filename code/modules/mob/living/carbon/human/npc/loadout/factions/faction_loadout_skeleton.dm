@@ -477,7 +477,7 @@
 	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/ancient/decrepit
 	pants = /obj/item/clothing/under/roguetown/tights/sailor
 	shoes = /obj/item/clothing/shoes/roguetown/sandals/ancient/decrepit
-	gloves = /obj/item/clothing/gloves/roguetown/knuckles/decrepit
+	gloves = /obj/item/clothing/gloves/roguetown/knuckles/ancient/decrepit
 	wrists = list(
 		/obj/item/clothing/wrists/roguetown/bracers/ancient/decrepit/chain = 20, //DO WHAT YOU WANT BECAUSE A PIRATE IS FREE
 		/obj/item/clothing/wrists/roguetown/bracers/ancient/decrepit = 80,
@@ -627,8 +627,8 @@
 
 /datum/npc_loadout/weapon/skeleton_scavenged
 	weapons = list(
-		list(/obj/item/rogueweapon/stoneaxe/woodcut/aaxe),
-		list(/obj/item/rogueweapon/sword/short/ashort),
+		list(/obj/item/rogueweapon/stoneaxe/woodcut/ancient/decrepit),
+		list(/obj/item/rogueweapon/sword/short/ancient/decrepit),
 		list(/obj/item/rogueweapon/spear/ancient/decrepit),
 		list(/obj/item/rogueweapon/mace/ancient/decrepit),
 		list(/obj/item/rogueweapon/mace/woodclub),
@@ -636,15 +636,15 @@
 
 /datum/npc_loadout/weapon/skeleton_footsoldier
 	weapons = list(
-		list(/obj/item/rogueweapon/stoneaxe/woodcut/aaxe),
-		list(/obj/item/rogueweapon/sword/short/ashort),
+		list(/obj/item/rogueweapon/stoneaxe/woodcut/ancient/decrepit),
+		list(/obj/item/rogueweapon/sword/short/ancient/decrepit),
 		list(/obj/item/rogueweapon/spear/ancient/decrepit),
 		list(/obj/item/rogueweapon/mace/ancient/decrepit),
 	)
 
 /datum/npc_loadout/weapon/skeleton_pirate_knives
-	r_hand = /obj/item/rogueweapon/huntingknife/idagger/adagger
-	l_hand = /obj/item/rogueweapon/huntingknife/idagger/adagger
+	r_hand = /obj/item/rogueweapon/huntingknife/idagger/ancient/decrepit
+	l_hand = /obj/item/rogueweapon/huntingknife/idagger/ancient/decrepit
 	traits = list(TRAIT_DUALWIELDER) //Rapid knives build
 
 /datum/npc_loadout/weapon/skeleton_pirate_sabre
@@ -653,8 +653,8 @@
 /datum/npc_loadout/weapon/skeleton_soldier_sandals
 	shoes = /obj/item/clothing/shoes/roguetown/sandals/ancient/decrepit //Legionnarie look
 	weapons = list(
-		list(/obj/item/rogueweapon/stoneaxe/woodcut/aaxe, /obj/item/rogueweapon/shield/tower/ancient/decrepit, 20),
-		list(/obj/item/rogueweapon/sword/short/gladius/agladius, /obj/item/rogueweapon/shield/bronze/ancient/decrepit, 45), // ave
+		list(/obj/item/rogueweapon/stoneaxe/woodcut/ancient/decrepit, /obj/item/rogueweapon/shield/tower/ancient/decrepit, 20),
+		list(/obj/item/rogueweapon/sword/short/gladius/ancient/decrepit, /obj/item/rogueweapon/shield/bronze/ancient/decrepit, 45), // ave
 		list(/obj/item/rogueweapon/flail/ancient/decrepit, /obj/item/rogueweapon/shield/bronze/ancient/decrepit, 65),
 	)
 
