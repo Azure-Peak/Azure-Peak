@@ -64,6 +64,8 @@ GLOBAL_LIST_INIT(dwarfskeleton_aggro, world.file2list("strings/rt/dskeletonaggro
 	ADD_TRAIT(src, TRAIT_NPC_EXAMINE, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_ZOMBIE_IMMUNE, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_NOZIZORECRUIT, TRAIT_GENERIC) //High-End Loot Dungeon - So no Taming these.
+
+	ADD_TRAIT(src, TRAIT_NPC_NO_POINT, TRAIT_GENERIC) //no pointing, just like old times
 	update_body()
 
 /mob/living/carbon/human/species/dwarfskeleton/ambush/knight

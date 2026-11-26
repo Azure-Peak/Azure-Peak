@@ -398,6 +398,8 @@ GLOBAL_LIST_INIT(zombie_aggro, list(
 	ADD_TRAIT(src, TRAIT_SILVER_WEAK, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_DEADITE, TRAIT_GENERIC)
 
+	ADD_TRAIT(src, TRAIT_NPC_NO_POINT, TRAIT_GENERIC) //No pointing, spooky
+
 	if(HAS_TRAIT(src, TRAIT_CRITICAL_RESISTANCE))
 		REMOVE_TRAIT(src, TRAIT_CRITICAL_RESISTANCE, TRAIT_GENERIC) //Prevents Psytomb being insanely fucked when the monks reanimate from death.
 

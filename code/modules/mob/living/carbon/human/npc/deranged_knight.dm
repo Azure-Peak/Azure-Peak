@@ -42,6 +42,8 @@ GLOBAL_LIST_INIT(hedgeknight_aggro, world.file2list("strings/rt/hedgeknightaggro
 	ADD_TRAIT(src, TRAIT_LEECHIMMUNE, INNATE_TRAIT)
 	ADD_TRAIT(src, TRAIT_BREADY, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_NPC_EXAMINE, TRAIT_GENERIC)
+
+	ADD_TRAIT(src, TRAIT_NPC_NO_POINT, TRAIT_GENERIC) //unique for these. works well with Zizo light snuff.
 	var/list/aggro_lines
 	switch(preset_lines)
 		if("graggar")

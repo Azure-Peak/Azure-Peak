@@ -52,7 +52,7 @@
 	if(!target)
 		return
 	source.say(pick(aggro_lines))
-	if(!HAS_TRAIT(source, TRAIT_ZOMBIE_IMMUNE)) //non-deadite immune (most, point at who they're fighting, skeletons, zombies and constructs don't)
+	if(!HAS_TRAIT(source, TRAIT_NPC_NO_POINT)) //certain NPCs do not point on aggro
 		source.linepoint(target)
 	COOLDOWN_START(src, last_bark, bark_cooldown)
 
