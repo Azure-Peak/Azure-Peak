@@ -25,26 +25,31 @@
 	var/unsent_gifts = 0
 
 /datum/noble_estate/proc/daily_income()
-	if(coin_override)
-		return coin_override
-	switch(max(rank, pay_rank))
-		if(NOBLE_RANK_ROYAL)
-			return ESTATE_COIN_ROYAL
-		if(NOBLE_RANK_PEER)
-			return ESTATE_COIN_PEER
-		if(NOBLE_RANK_GENTRY)
-			return ESTATE_COIN_GENTRY
-	return 0
+	var/coin = coin_override
+	if(!coin)
+		switch(max(rank, pay_rank))
+			if(NOBLE_RANK_ROYAL)
+				coin = ESTATE_COIN_ROYAL
+			if(NOBLE_RANK_PEER)
+				coin = ESTATE_COIN_PEER
+			if(NOBLE_RANK_GENTRY)
+				coin = ESTATE_COIN_GENTRY
+	if(get_realm())
+		coin = whole_mammon(coin * (1 - ESTATE_FOREIGN_ATC_FEE))
+	return coin
 
 /datum/noble_estate/proc/parcels_per_day()
+	var/parcels = 0
 	switch(max(rank, pay_rank))
 		if(NOBLE_RANK_ROYAL)
-			return ESTATE_PARCELS_ROYAL
+			parcels = ESTATE_PARCELS_ROYAL
 		if(NOBLE_RANK_PEER)
-			return ESTATE_PARCELS_PEER
+			parcels = ESTATE_PARCELS_PEER
 		if(NOBLE_RANK_GENTRY)
-			return ESTATE_PARCELS_GENTRY
-	return 0
+			parcels = ESTATE_PARCELS_GENTRY
+	if(get_realm())
+		parcels *= 1 - ESTATE_FOREIGN_ATC_FEE
+	return parcels
 
 /datum/noble_estate/proc/get_region()
 	if(max(rank, pay_rank) == NOBLE_RANK_NONE || region_id == ESTATE_LANDLESS || GLOB.estate_realms[region_id])
@@ -120,11 +125,9 @@
 			continue
 		if(region.is_region_blockaded)
 			E.undelivered_days++
-			if(gift_today)
-				E.undelivered_gifts++
-			send_ooc_note("<b>MEISTER:</b> [region.name] is raided. Your estate income will not be delivered.", name = H.real_name)
+			send_ooc_note("<b>MEISTER:</b> The route to your estate is blockaded, the parcel is lost and income will be held until it is cleared.", name = H.real_name)
 			continue
-		deliver_estate(H, E, 1 + E.undelivered_days, (gift_today ? 1 : 0) + E.undelivered_gifts)
+		deliver_estate(H, E, 1 + E.undelivered_days, gift_today ? 1 : 0, 1)
 
 /datum/controller/subsystem/economy/proc/release_estate_backlogs()
 	for(var/mob/living/H as anything in estates)
@@ -134,7 +137,7 @@
 		var/datum/economic_region/region = E.get_region()
 		if(!region || region.is_region_blockaded)
 			continue
-		deliver_estate(H, E, E.undelivered_days, E.undelivered_gifts)
+		deliver_estate(H, E, E.undelivered_days, 0, 0)
 
 /datum/controller/subsystem/economy/proc/estate_parcel(list/estate_goods)
 	var/list/goods = list()
@@ -152,13 +155,14 @@
 	goods[tg.item_type] = max(1, whole + prob((count - whole) * 100))
 	return goods
 
-/datum/controller/subsystem/economy/proc/deliver_estate(mob/living/H, datum/noble_estate/E, days, gifts)
+/datum/controller/subsystem/economy/proc/deliver_estate(mob/living/H, datum/noble_estate/E, days, gifts, parcel_days = days)
 	E.undelivered_days = 0
 	E.undelivered_gifts = 0
 	var/datum/economic_region/region = E.get_region()
 	var/datum/estate_realm/realm = E.get_realm()
 	SStreasury.grant_estate_income(H, E.daily_income() * days)
-	var/parcels = E.parcels_per_day() * days + E.unsent_parcels
+	var/parcel_count = E.parcels_per_day() * parcel_days
+	var/parcels = round(parcel_count) + prob((parcel_count - round(parcel_count)) * 100) + E.unsent_parcels
 	gifts += E.unsent_gifts
 	var/obj/item/roguemachine/mastermail/hermes = SSroguemachine.hermailermaster
 	if(QDELETED(hermes))

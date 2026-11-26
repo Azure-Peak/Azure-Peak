@@ -322,8 +322,8 @@ const EstateSection = (props: { constantData: ConstantData }) => {
               ) : null}
               <Box mt={0.5} color="average">
                 {found.raid
-                  ? `A raid on ${found.raid} holds back estate income until it is cleared.`
-                  : `Rent from foreign estates are handled by ${found.region.carrier} who remit it every other dae. They are immune to blockades. Each delivery carries the income, goods and gifts owed since the last.`}
+                  ? `A raid on ${found.raid} will hold back estate income, and you will lose the parcel every dae it is not cleared.`
+                  : `Rent from foreign estates are handled by ${found.region.carrier} who remit it every other dae. Foreign Estates are immune to blockade, but the ATC will collect a third of the rent due to you as their fee for paying you by proxy. Each delivery carries the income, goods and gifts owed since the last.`}
               </Box>
               {found.region.description ? (
                 <Box mt={1}>{found.region.description}</Box>
