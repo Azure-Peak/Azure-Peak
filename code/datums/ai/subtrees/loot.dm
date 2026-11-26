@@ -78,7 +78,7 @@
 		return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_FAILED
 
 	var/mob/living/carbon/human/pawn = controller.pawn
-	if(HAS_TRAIT(pawn, TRAIT_DEADITE)) //...deadites don't loot, they can't physically put items into their inventory.
+	if(HAS_TRAIT(pawn, TRAIT_DEADITE)) //deadites don't loot, they can't physically put items into their inventory.
 		return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_FAILED
 
 	if(pawn.incapacitated())
