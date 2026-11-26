@@ -425,6 +425,13 @@ GLOBAL_LIST_INIT(zombie_aggro, list(
 /mob/living/carbon/human/proc/do_deadite_npc_reanimation()
 	var/mob/living/carbon/human/zombie = src
 
+	//failsafes to ensure we don't rise under certain conditions
+	var/obj/item/bodypart/head = zombie.get_bodypart(BODY_ZONE_HEAD)
+	if(!head || HAS_TRAIT(zombie, TRAIT_DNR) || HAS_TRAIT(zombie, TRAIT_ZOMBIE_IMMUNE))
+		return
+	if(istype(zombie.loc, /obj/structure/closet/dirthole) || istype(zombie.loc, /obj/structure/closet/crate/coffin))
+		return
+
 	make_deadite()
 	zombie.blood_volume = BLOOD_VOLUME_NORMAL
 	zombie.setOxyLoss(0, updating_health = FALSE, forced = TRUE)

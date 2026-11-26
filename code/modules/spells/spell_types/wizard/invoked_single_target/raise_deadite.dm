@@ -1,6 +1,7 @@
 /datum/action/cooldown/spell/raise_deadite
 	name = "Raise Deadite"
-	desc = "Infuse the target with quick acting Rot, raising them as a deadite. They will not be friendly to you."
+	desc = "Infuse the target with quick acting Rot, raising them as a deadite. They will not be friendly to you.\n\
+	This will not work on animals and certain kinds of mindless corpses, such as skeletons or already deadited corpses."
 	background_icon = 'icons/mob/actions/zizomiracles.dmi'
 	button_icon = 'icons/mob/actions/zizomiracles.dmi'
 	button_icon_state = "raise_deadite"
@@ -59,6 +60,16 @@
 			if(Z)
 				Z.wake_zombie(TRUE)
 			M.emote("scream")
+			return TRUE
+	else if(!HAS_TRAIT(M, TRAIT_ZOMBIE_IMMUNE) && !HAS_TRAIT(M, TRAIT_DNR) && !M.mind && M.iscarbon) //NPCs
+		if(M.stat < DEAD && !M.InCritical())
+			to_chat(owner, span_notice("They aren't dead enough yet!"))
+			reset_spell_cooldown()
+			return FALSE
+		else
+			playsound(get_turf(M), 'sound/magic/magnet.ogg', 80, TRUE, soundping = TRUE)
+			owner.visible_message("[owner] mutters an incantation and [M] twitches with unnatural life!")
+			addtimer(CALLBACK(C, TYPE_PROC_REF(/mob/living/carbon/human, do_deadite_npc_reanimation)), 1 SECONDS)
 			return TRUE
 	else
 		to_chat(owner, span_notice("They can not be risen!"))

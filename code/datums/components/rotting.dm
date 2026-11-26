@@ -102,11 +102,11 @@
 		//NPCs use a different logic which is handled in NPC procs
 		if(!C.mind && !tried_to_deadite_NPC) //firstly, are we an NPC? don't even bother w/ other checks if we are a player. Then, we check if we tried to deadite the NPC.
 			var/datum/ai_controller/controller = C.ai_controller
-			if(!HAS_TRAIT(C, TRAIT_DNR) && !HAS_TRAIT(C, TRAIT_DEADITE) && !HAS_TRAIT(C, TRAIT_ZOMBIE_IMMUNE) && C.stat == DEAD && controller) //make sure this is an applicable NPC
+			if(C.stat == DEAD && controller && !HAS_TRAIT(C, TRAIT_DEADITE)) //make sure this is an applicable NPC
 				if(has_world_trait(/datum/world_trait/zizo_defilement))
-					addtimer(CALLBACK(C, TYPE_PROC_REF(/mob/living/carbon/human, do_deadite_npc_reanimation)), 1 SECONDS) //always revives
+					addtimer(CALLBACK(C, TYPE_PROC_REF(/mob/living/carbon/human, do_deadite_npc_reanimation)), 1 SECONDS) //always tries to revive
 				else if(prob(20))	// 20% chance of reanimation for NPC deadites
-					addtimer(CALLBACK(C, TYPE_PROC_REF(/mob/living/carbon/human, do_deadite_npc_reanimation)), 1 SECONDS) //20% of revival
+					addtimer(CALLBACK(C, TYPE_PROC_REF(/mob/living/carbon/human, do_deadite_npc_reanimation)), 1 SECONDS) //20% of revival try
 				tried_to_deadite_NPC = TRUE
 			else
 				tried_to_deadite_NPC = TRUE //in case we fail the above check to avoid looping.

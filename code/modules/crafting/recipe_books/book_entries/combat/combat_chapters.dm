@@ -678,24 +678,46 @@
 		<p>Sometimes, your friend or helpful strangers will retrieve you for revival at the town or other places, othertime, or even during a revival, you will turn into a deadite - this settings equivalence of zombie (Do not refer to them as zombie IC), largely thought to be brought about by the disaster caused by Zizo's ascension causing the dead to walk again.</p>
 
 		<h3>Deadite</h3>
-		<p>After dying and if you are not decapitated, a timer starts as your body rots, and after [DEAD_TO_ZOMBIE_TIME / 600] minutes, your character will rise from the death as a deadite, effectively becoming a zombie you are in control of. This is a mechanic to allow you to return back to town or wherever you can be revived.</p>
+		<p>After dying and if you are not decapitated, a timer starts as your body rots, and after [DEAD_TO_ZOMBIE_TIME / 600] minutes, your character will rise from the death as a deadite, effectively becoming a zombie you are in control of. This is a mechanic to allow you to return back to town or wherever you can be revived as well as spark up some light antagonism along the way.</p>
 
-		<p>That timer does not tick at all while your body is indoors in town. Certain traits or races also make it impossible.</p>
+		<p>That timer does not tick at all while your body is indoors in town, or on the precipice of Necra's realm; except during bad omens, which can cause bodies to decay and turn for a short period. Certain traits or races also make it impossible.</p>
 
-		<p>As a deadite, you are a mindless beast with a hunger for flesh, though as a deadite, you still must follows the escalation rules that is common to the server before initiating an attack. You can victimize strangers or challenge passing by adventurers - with the goal of putting up a proper fight before being promptly restrained and taken back to be revived.</p>
+		<p>As a deadite, you are a mindless beast with a hunger for flesh, though as a deadite, </b>you still must follow the escalation rules</b> that is common to the server before initiating an attack. You can victimize strangers or challenge passing by adventurers - </b>with the goal of putting up a fight and sparking some conflict</b> before being promptly restrained and taken back to be revived.</p>
 
-		<p>In general, it is highly frowned upon if not outright disallowed to simply walk back to a revival place and then just lie down without a fight, putting up an earnest fight - which you do not need to put all your efforts into unless you want to, is a minimum requirement.</p>
+		<p>In general, </b>it is highly frowned upon if not outright disallowed</b> to simply walk back to a revival place and then just lie down without a fight, putting up an earnest fight - which you do not need to put all your efforts into unless you want to, </b>is a minimum requirement.</b></p>
 
-		<p>Becoming a deadite makes you unable to feint or use any special actions or weapons, but make you able to regenerate. You also suffer a crippling STAT debuff.</p>
+		<p>Becoming a deadite makes you unable to feint or use any special actions or weapons, but make you able to regenerate. You also suffer a crippling mild debuff, you can examine and identify fellow undead on sight as well as infectable targets.</p>
 
-		<p>After you are restrained, a surgeon can then open your chest up to burn the rot from your body, thus removing the deadite status.</p>
+		<p>Deadites are neutral towards skeletons, liches and vampires, you do not need to attack them unless provoked and they are usually neutral or sometimes even friendly towards you as well. You can also identify them on sight.</p>
+
+		<p>Lastly, if you are ever stuck on where to go as a deadite to cause antagonism and potentally get revived; you can cast </b>Seek the Lyving</b> on the bottom of your screen, a 'spell' that deadites get to allow them to track the nearest player.</p>
+
+		<p>After you are restrained, a surgeon can then open your chest up to burn the rot from your body, thus removing the deadite status and allowing you to be revived.</p>
+
+		<h3>Infection, Omens and Control</h3>
+
+		<p>NPCs and animals are also capable of reanimating as deadites, albeit they work rather differently to players.</p>
+
+		<p>Becoming a deadite is also possible if you are bitten by one, although animals and NPCs are less likely to infect you with Zizo's plague of undeath. Both are immune to being infected but they do reanimate on death.</p>
+
+		<p>If you are </b>infected</b> by a deadite's attack you'll see a status effect on your UI, by the bottom right; it is recommended to see a physician or cleric if you are, as untreated you will turn into a deadite.</p>
+
+		<p>NPCs and animals are also capable of sometimes rising up as deadites when left unattended in the game, depending on the type of body you may have to intervene.</p>
+		<ul>
+			<li><b>Animals</b>: When left unattended are capable of reanimating into undeath; certain animals have different kinds of abilities as Deadites they do not in life.</li>
+			<li><b>Butcher your dead</b>: In order to prevent animals from reanimating as a deadite you'll want to find a knife or axe and MMB the corpse to butcher it.</li>
+			<li><b>NPCs</b>: When left to rot can also reanimate into feral deadites, similar to players they use the same slashing attacks, can only dodge, claw and bite. In order to kill them you will want to cripple their legs and decapitate them.</li>
+			<li><b>How to prevent rising</b>: Craft a stake by using a knife on a stick and <b>stake</b> their heart by using it on them, you can also decapitate them or bury them.</li>
+			<li><b>Bad omens</b>: Certain kinds of bad omens also change how the dead will rise, sometimes bodies will reanimate in town and NPCs will start to always reanimate for a short period of time. Sometimes animals rise up faster and begin to reanimate more often; such events are accompanied by an announcement and sickly mist.</li>
+		</ul>
 
 		<h3>Revival Methods</h3>
 		<p>Three primary revival methods exists in the game. Two of them will leave a revival penalty.</p>
 		<ul>
 			<li><b>Lux Tranfusion</b>: Lux extracted from someone and then purified can be transplanted into someone and then used to revive them.</li>
+			<li><b>Leechticks<b>: Where a doctor lacks lux, often in place a leechtick is used, which can be aquired by specialised baits and fed on a living host, then transplated into someone, this comes with heftier penalties.</li>
 			<li><b>FULMENOR Chair</b>: The Fulmenor Chair is exclusively accessed by the Clinic and some wretches, and can revive someone with lux with better efficiency and without any penalty.</li>
-			<li><b>Revival Rituals</b>: The Church, with access to certain materials can also revive someone from the death, though they take a normal penalty.</li>
+			<li><b>Revival Rituals</b>: The Church, with access to certain materials can also revive someone from death, though they take a patron-based penalty. Certain antagonists such as heretics also have access to their own rites of ritual revivals.</li>
 		</ul>
 
 		<p>After non-chair revival, you gain Revival Sickness - [REVIVED_DEBUFF_DURATION / 600] minutes of -1 to every single stat you have. It stacks with the rot debuff if your body had begun to turn, so naturally rotting instead of becoming revived, followed by a ritual revival will hit you with a significant amount of debuff. You are encouraged to take it easy for a while and seek non combat roleplay after.</p>

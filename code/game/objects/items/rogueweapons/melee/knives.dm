@@ -888,6 +888,7 @@
 	. = ..()
 	. += span_info("Driving a stake through the heart of an incapacitated revenant is one of the few ways to put them down for the week. Sharper stakes, and ones made of silver, are better at this.")
 	. += span_info("Staking also works to kill many other types of undead - generally, anyone you can't kill with bloodloss can be staked.")
+	. += span_info("On mindless corpses of fallen mortal enemies, such as highwaymen, orcs and raiders, staking can be used to prevent their reanimation into deadites, this won't work on animals which require butchering.")
 
 /obj/item/rogueweapon/huntingknife/idagger/steel/silver/stake
 	name = "silver-tipped stake"

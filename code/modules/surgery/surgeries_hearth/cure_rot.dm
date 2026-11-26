@@ -53,6 +53,9 @@
 	if(remove_rot(target = target, user = user, method = "surgery", damage = burndam,
 		success_message = "You burn away the rot inside of [target].",
 		fail_message = "The surgery fails to remove the rot."))
+		if(!target.mind)
+			ADD_TRAIT(target, TRAIT_ZOMBIE_IMMUNE, TRAIT_GENERIC) //prevents zombie reanimation on dead NPC corpses that are cured of rot.
+			ADD_TRAIT(target, TRAIT_DNR, TRAIT_GENERIC) //obviously staying down at an examine's glance
 		target.remove_status_effect(/datum/status_effect/debuff/rotted_zombie)	//Removes the rotted-zombie debuff if they have it. (It's perma for zombies, NEEDS to be removed on de-zombify)
 		if(stinky)
 			target.apply_status_effect(/datum/status_effect/debuff/rotted)			//Temp debuff, needs cure - adds this on surgery.
