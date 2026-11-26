@@ -31,13 +31,10 @@
 #define ASSEMBLY_BRACKET_NAE "NAE"
 #define ASSEMBLY_BRACKET_ABSTAIN "ABSTAIN"
 
-// Trade authority brackets, in mammon/day.
-#define ASSEMBLY_TRADE_BRACKETS list(0, 150, 300, 450, 600, 750, 900)
 // Defense authority brackets, in burgher pledge equivalent/day.
 #define ASSEMBLY_DEFENSE_BRACKETS list(0, 250, 500, 750, 1000)
 // Motion ids.
 #define ASSEMBLY_MOTION_ELECTION "election"
-#define ASSEMBLY_MOTION_TRADE_AUTH "trade_auth"
 #define ASSEMBLY_MOTION_DEFENSE_AUTH "defense_auth"
 #define ASSEMBLY_MOTION_RECALL "recall"
 #define ASSEMBLY_MOTION_CENSURE "censure"

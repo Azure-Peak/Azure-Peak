@@ -25,6 +25,21 @@ GLOBAL_LIST_INIT(time_change_quotes, world.file2list("strings/rt/timechangequote
 /proc/station_time_timestamp(format = "hh:mm:ss", wtime)
 	return time2text(station_time(TRUE, wtime), format)
 
+/proc/seconds_until_dawn()
+	if(!SSnightshift || !SSticker)
+		return 0
+	var/current_station_time = station_time()
+	var/dawn_at = SSnightshift.nightshift_dawn_start
+	var/game_ds_until_dawn
+	if(current_station_time < dawn_at)
+		game_ds_until_dawn = dawn_at - current_station_time
+	else
+		game_ds_until_dawn = (864000 - current_station_time) + dawn_at
+	var/rate = SSticker.station_time_rate_multiplier || 1
+	if(rate <= 0)
+		rate = 1
+	return round((game_ds_until_dawn / rate) / 10)
+
 GLOBAL_VAR_INIT(tod, FALSE)
 GLOBAL_VAR_INIT(forecast, FALSE)
 GLOBAL_VAR_INIT(todoverride, FALSE)
@@ -155,12 +170,14 @@ GLOBAL_VAR_INIT(date_override_offset, 0)
 			scom_announce_new_dawn()
 			if(SStreasury?.initialized)
 				SStreasury.tick_rural_tax()
-				SStreasury.distribute_estate_incomes()
+				SSeconomy?.pay_estates()
 				SStreasury.distribute_daily_payments()
+				SSeconomy?.daily_tick()
 				SStreasury.tick_burgher_pledge()
 				SStreasury.tick_rumor_points()
 				SStreasury.tick_loans()
 				SStreasury.tick_poll_levy_arrears()
+				SStreasury.royal_subsidy_spent = list()
 			SScity_assembly?.on_day_tick()
 		for(var/mob/living/player in GLOB.mob_list)
 			if(player.stat != DEAD && player.client)
@@ -179,6 +196,10 @@ GLOBAL_VAR_INIT(date_override_offset, 0)
 	if(!mind)
 		return
 	if(GLOB.tod == "dawn")
+		if(HAS_TRAIT(src, TRAIT_EXPLOSIVE_SUPPLY))
+			to_chat(src, span_smallnotice("I need to check on HERMES. I think a new package has arrived."))
+		if(HAS_TRAIT(src, TRAIT_DRUG_SUPPLY))
+			to_chat(src, span_smallnotice("The Guild left something for me. I should check HERMES for my delivery."))
 		var/weekday_line
 		var/day_number = get_current_day_of_week()
 		switch(day_number)

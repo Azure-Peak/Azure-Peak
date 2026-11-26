@@ -280,6 +280,7 @@
 	var/realm = SSticker.realm_name || "Azure Peak"
 	// Imitate the text whenever a new Duke joins the game
 	to_world("<b><span class='notice'><span class='big'>[invoker.get_unmasked_name()] is [SSticker.rulertype] of [realm].</span></span></b>")
+	announce_ruling_faction(invoker)
 
 /datum/usurpation_rite/proc/fail(reason)
 	on_fail(reason)

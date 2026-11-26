@@ -102,8 +102,6 @@
 	data["realm_name"] = SSticker.realm_name
 	data["market_data"] = build_market_data()
 	data["market_refresh_cooldown"] = MARKET_REFRESH_COOLDOWN / (1 SECONDS)
-	data["partial_threshold_pct"] = round(STANDING_ORDER_PARTIAL_THRESHOLD * 100)
-	data["partial_payout_pct"] = round(STANDING_ORDER_PARTIAL_PAYOUT_MULT * 100)
 	return data
 
 /obj/structure/roguemachine/noticeboard/ui_data(mob/user)
@@ -158,9 +156,8 @@
 		row["name"] = O.name
 		row["region_label"] = region ? region.name : O.region_id
 		row["description"] = O.description || ""
-		row["days_left"] = max(0, O.day_expires - GLOB.dayspassed)
+		row["days_left"] = max(0, O.day_expires - ECONOMY_DAY)
 		row["total_payout"] = O.total_payout
-		row["urgent"] = istype(O, /datum/standing_order/urgent) ? TRUE : FALSE
 		row["blockaded"] = (region?.is_region_blockaded) ? TRUE : FALSE
 		row["petitioned"] = O.petitioned ? TRUE : FALSE
 		var/has_warehouse = FALSE
@@ -247,16 +244,12 @@
 /obj/structure/roguemachine/noticeboard/proc/build_economic_events()
 	var/list/rows = list()
 	for(var/datum/economic_event/E as anything in GLOB.active_economic_events)
-		var/list/affected = list()
-		for(var/good_id in E.affected_goods)
-			var/datum/trade_good/tg = GLOB.trade_goods[good_id]
-			affected += (tg ? tg.name : good_id)
 		rows += list(list(
 			"name" = E.name,
 			"description" = E.description || "",
-			"event_type" = E.event_type,
-			"days_left" = max(0, E.day_expires - GLOB.dayspassed),
-			"affected_goods" = affected,
+			"days_left" = max(0, E.day_expires - ECONOMY_DAY),
+			"shortage_goods" = trade_good_names(E.shortage_goods),
+			"glut_goods" = trade_good_names(E.glut_goods),
 		))
 	return rows
 

@@ -7,7 +7,8 @@ SUBSYSTEM_DEF(merchant_trade)
 	var/list/datum/trade_ship/all_ships = list()
 	var/hails_remaining = 0
 	var/list/active_conditions = list()
-	var/merchant_levy_percent = TRADE_MERCHANT_LEVY_DEFAULT_PERCENT
+	var/navigator_levy_percent = TRADE_MERCHANT_LEVY_DEFAULT_PERCENT
+	var/fulfillment_levy_percent = TRADE_MERCHANT_LEVY_DEFAULT_PERCENT
 	var/merchant_levy_collected = 0
 	var/merchant_levy_taxed = 0
 	var/list/pool_capacity = list()
@@ -37,6 +38,8 @@ SUBSYSTEM_DEF(merchant_trade)
 	var/gnome_automation_unlocked = FALSE
 	var/extra_pier_rented = FALSE
 	var/auto_hailer_unlocked = FALSE
+	var/export_licence_extended = FALSE
+	var/export_licence_spent = 0
 	var/list/datum/merchant_catalog/catalogs = list()
 	var/list/unlocked_catalogs = list()
 	var/list/catalog_stock = list()
@@ -53,10 +56,13 @@ SUBSYSTEM_DEF(merchant_trade)
 	var/current_kinship_realm = null
 	var/current_kinship_origin_name = null
 
-/datum/controller/subsystem/merchant_trade/proc/set_merchant_levy(new_percent)
-	new_percent = clamp(round(new_percent), 0, TRADE_MERCHANT_LEVY_CAP_PERCENT)
-	merchant_levy_percent = new_percent
-	return merchant_levy_percent
+/datum/controller/subsystem/merchant_trade/proc/set_navigator_levy(new_percent)
+	navigator_levy_percent = clamp(round(new_percent), 0, TRADE_MERCHANT_LEVY_CAP_PERCENT)
+	return navigator_levy_percent
+
+/datum/controller/subsystem/merchant_trade/proc/set_fulfillment_levy(new_percent)
+	fulfillment_levy_percent = clamp(round(new_percent), 0, TRADE_MERCHANT_LEVY_CAP_PERCENT)
+	return fulfillment_levy_percent
 
 /datum/controller/subsystem/merchant_trade/proc/set_silverface_margin(new_percent)
 	new_percent = clamp(round(new_percent), 0, 100)
@@ -339,6 +345,7 @@ SUBSYSTEM_DEF(merchant_trade)
 		return
 	last_processed_day = GLOB.dayspassed
 	hails_remaining = TRADE_SHIPS_HAIL_PER_DAY
+	export_licence_spent = 0
 	restock_catalogs()
 	expire_undocked_ships()
 	roll_daily_pool()
@@ -562,6 +569,24 @@ SUBSYSTEM_DEF(merchant_trade)
 		return FALSE
 	extra_pier_rented = TRUE
 	return TRUE
+
+/datum/controller/subsystem/merchant_trade/proc/extend_export_licence()
+	if(export_licence_extended)
+		return FALSE
+	if(!spend_merchant_favor(EXPORT_LICENCE_FAVOR))
+		return FALSE
+	export_licence_extended = TRUE
+	return TRUE
+
+/datum/controller/subsystem/merchant_trade/proc/export_licence_allowance()
+	var/progress = (SSeconomy.get_effective_player_count() - EXPORT_LICENCE_POP_SCALE_START) / (EXPORT_LICENCE_POP_SCALE_FULL - EXPORT_LICENCE_POP_SCALE_START)
+	var/allowance = EXPORT_LICENCE_BASE * (1 + clamp(progress, 0, 1) * (EXPORT_LICENCE_POP_MAX_MULT - 1))
+	if(export_licence_extended)
+		allowance *= EXPORT_LICENCE_EXTENDED_MULT
+	return round(allowance)
+
+/datum/controller/subsystem/merchant_trade/proc/export_licence_left()
+	return max(0, export_licence_allowance() - export_licence_spent)
 
 /datum/controller/subsystem/merchant_trade/proc/unlock_auto_hailer()
 	if(auto_hailer_unlocked)

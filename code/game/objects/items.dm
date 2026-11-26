@@ -312,6 +312,7 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 	var/is_important = FALSE
 	var/unmintable = FALSE
 	var/atc_sealed = FALSE
+	var/stockpile_stamped = FALSE
 	var/was_crafted = FALSE
 	var/is_carved = FALSE
 	/// does this item/weapon circumvent two-stage death during dismemberment? (do not add this to anything but ultra rare shit)
@@ -345,6 +346,12 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 		max_integrity += (max_integrity * 0.11142857143)	// don't ask
 		obj_integrity = max_integrity
 
+/obj/item/proc/seals_match(obj/item/other)
+	return atc_sealed == other.atc_sealed && stockpile_stamped == other.stockpile_stamped
+
+/obj/item/proc/copy_seals(obj/item/from)
+	atc_sealed = from.atc_sealed
+	stockpile_stamped = from.stockpile_stamped
 
 /obj/item/proc/update_transform()
 	transform = null
@@ -719,17 +726,18 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 
 		if(istype(src, /obj/item/ammo_casing/caseless/rogue))
 			var/obj/item/ammo_casing/caseless/rogue/rog_ammo = src
-			if(rog_ammo.BB.damage)
-				inspec += "\n<b>PROJECTILE DAMAGE:</b> [rog_ammo.BB.damage]"
-			inspec += "\n<b>Armor Penetration:</b> [rog_ammo.BB.armor_penetration > PEN_NONE ? colorgrade_rating(uppertext(rog_ammo.BB.flag), rog_ammo.BB.armor_penetration) : "<font color='#808080'>NONE</font>"]"
-			if(rog_ammo.BB.min_range)
-				inspec += "\n<b>MINIMUM EFFECTIVE RANGE:</b> [rog_ammo.BB.min_range] tile(s)"
-			if(rog_ammo.BB.max_range)
-				inspec += "\n<b>MAXIMUM EFFECTIVE RANGE:</b> [rog_ammo.BB.max_range] tile(s)"
-			if(rog_ammo.BB.dam_falloff_factor)
-				inspec += "\n<b>DAMAGE FALLOFF:</b> [get_falloff_string(rog_ammo.BB.dam_falloff_factor)]"
-			if(rog_ammo.BB.antibeast_factor != 1)
-				inspec += "\n<b>ANTI-BEAST MODIFIER:</b> [rog_ammo.BB.antibeast_factor * 100]% <span class='info'><a href='?src=[REF(src)];explainantibeast=1'>{?}</a></span>"
+			if(rog_ammo.BB) //javelins are in the same path but have no projectile variables, causing a runtime when you exmaine them, lets check if there are actual projectile attributes first
+				if(rog_ammo.BB.damage)
+					inspec += "\n<b>PROJECTILE DAMAGE:</b> [rog_ammo.BB.damage]"
+				inspec += "\n<b>Armor Penetration:</b> [rog_ammo.BB.armor_penetration > PEN_NONE ? colorgrade_rating(uppertext(rog_ammo.BB.flag), rog_ammo.BB.armor_penetration) : "<font color='#808080'>NONE</font>"]"
+				if(rog_ammo.BB.min_range)
+					inspec += "\n<b>MINIMUM EFFECTIVE RANGE:</b> [rog_ammo.BB.min_range] tile(s)"
+				if(rog_ammo.BB.max_range)
+					inspec += "\n<b>MAXIMUM EFFECTIVE RANGE:</b> [rog_ammo.BB.max_range] tile(s)"
+				if(rog_ammo.BB.dam_falloff_factor)
+					inspec += "\n<b>DAMAGE FALLOFF:</b> [get_falloff_string(rog_ammo.BB.dam_falloff_factor)]"
+				if(rog_ammo.BB.antibeast_factor != 1)
+					inspec += "\n<b>ANTI-BEAST MODIFIER:</b> [rog_ammo.BB.antibeast_factor * 100]% <span class='info'><a href='?src=[REF(src)];explainantibeast=1'>{?}</a></span>"
 
 //**** CLOTHING STUFF
 
@@ -1862,6 +1870,10 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 	worn_out = TRUE
 	has_item_quality = TRUE
 	item_quality = ITEM_QUALITY_WORN
+
+/obj/item/proc/mark_as_gift()
+	has_item_quality = TRUE
+	item_quality = ITEM_QUALITY_GIFT
 
 /obj/item/proc/unmark_as_worn()
 	if(!worn_out)

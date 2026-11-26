@@ -151,6 +151,7 @@
 	"Church" = JCOLOR_CHURCH,\
 	"Inquisition" = JCOLOR_INQUISITION,\
 	"Burghers" = JCOLOR_BURGHER,\
+	"Azurian Trading Company" = JCOLOR_ATC,\
 	"Guildsmen" = JCOLOR_GUILD,\
 	"Peasants" = JCOLOR_PEASANT,\
 	"Sidefolk" = JCOLOR_SIDEFOLK,\

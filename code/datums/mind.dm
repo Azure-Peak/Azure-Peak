@@ -136,9 +136,6 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 	/// List of personal objectives not tied to the antag roles.
 	var/list/personal_objectives = list()
 
-	var/has_bomb = FALSE
-	var/has_drug_delivery = FALSE
-
 	/// Triumph discount for donators
 	var/triumph_discount_remaining = 0
 

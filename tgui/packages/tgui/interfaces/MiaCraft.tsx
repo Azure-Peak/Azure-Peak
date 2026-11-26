@@ -1,29 +1,21 @@
-import {
-  type CSSProperties,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react';
+import { type CSSProperties, memo, useMemo, useState } from 'react';
 
 import { useBackend } from '../backend';
 import { Window } from '../layouts';
 import {
   FONT_BODY,
-  FONT_LEAD,
   FONT_SMALL,
   INK,
   INK_FAINT,
   INK_SOFT,
   inkButtonStyle,
-  inkInputStyle,
   PARCHMENT_SHADOW,
-  pageStyle,
   SEAL_AMBER,
   SEAL_GREEN,
   SERIF,
-  TITLE,
 } from './common/parchment';
+import { type PinData, pinGlyph, pinTitle, usePinSync } from './common/pins';
+import { RecipeBrowser } from './common/RecipeBrowser';
 
 type Recipe = {
   name: string;
@@ -37,19 +29,16 @@ type Recipe = {
   has_item_quality: number;
 };
 
-type Craftability = [string, number][];
+type CraftEntry = Recipe & { category: string };
 
 type ActFn = (action: string, params?: Record<string, unknown>) => void;
 
-type Data = {
+type Data = PinData & {
   busy: number;
   showonlycraftable: number;
   craftability: Record<string, number>;
   crafting_recipes: Record<string, Record<string, Recipe>>;
 };
-
-const isCraftable = (craftability: Craftability, name: string): boolean =>
-  craftability.some((entry) => entry[0] === name && entry[1] === 1);
 
 const labelStyle: CSSProperties = {
   flex: '0 0 130px',
@@ -79,12 +68,14 @@ const CRAFT_AMOUNTS: { label: string; params: Record<string, unknown> }[] = [
   { label: '∞', params: { auto: true } },
 ];
 
-const CraftingRecipe = (props: {
+const CraftingRecipe = memo((props: {
   recipe: Recipe;
   craftable: boolean;
+  pin?: string;
   act: ActFn;
+  cyclePin: (path: string) => void;
 }) => {
-  const { recipe, craftable, act } = props;
+  const { recipe, craftable, pin, act, cyclePin } = props;
   const [open, setOpen] = useState(false);
 
   const craft = (extra: Record<string, unknown>) =>
@@ -112,6 +103,14 @@ const CraftingRecipe = (props: {
           onClick={() => craft({})}
         >
           &#128296;
+        </button>
+        <button
+          type="button"
+          style={inkButtonStyle({ color: pin ? SEAL_AMBER : INK_FAINT })}
+          title={pinTitle(pin)}
+          onClick={() => cyclePin(recipe.path)}
+        >
+          {pinGlyph(pin)}
         </button>
         <button
           type="button"
@@ -191,129 +190,49 @@ const CraftingRecipe = (props: {
       )}
     </div>
   );
-};
-
-const CraftingCategory = (props: {
-  title: string;
-  recipes: Record<string, Recipe>;
-  onlyCraftable: boolean;
-  craftability: Craftability;
-  searchText: string;
-  act: ActFn;
-}) => {
-  const { title, recipes, onlyCraftable, craftability, searchText, act } =
-    props;
-  const [open, setOpen] = useState(false);
-
-  const visible = useMemo(
-    () =>
-      Object.values(recipes)
-        .filter(
-          (recipe) => !onlyCraftable || isCraftable(craftability, recipe.name),
-        )
-        .filter(
-          (recipe) =>
-            recipe.name.toLowerCase().includes(searchText) ||
-            recipe.aliases.toLowerCase().includes(searchText),
-        )
-        .sort((a, b) => String(a.name).localeCompare(String(b.name))),
-    [recipes, onlyCraftable, craftability, searchText],
-  );
-
-  if (visible.length === 0) {
-    return null;
-  }
-
-  return (
-    <div style={{ marginBottom: '6px' }}>
-      <button
-        type="button"
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          width: '100%',
-          textAlign: 'left',
-          fontFamily: SERIF,
-          fontSize: FONT_LEAD,
-          fontWeight: 'bold',
-          color: TITLE,
-          background: 'var(--p-card-bg)',
-          border: `1px solid ${INK_FAINT}`,
-          borderRadius: '2px',
-          padding: '7px 12px',
-          cursor: 'pointer',
-        }}
-        onClick={() => setOpen(!open)}
-      >
-        <span style={{ color: INK_SOFT, marginRight: '10px' }}>
-          {open ? '▼' : '▶'}
-        </span>
-        {title}
-        <span
-          style={{ color: INK_SOFT, fontWeight: 'normal', marginLeft: '6px' }}
-        >
-          ({visible.length})
-        </span>
-      </button>
-      {open && (
-        <div style={{ padding: '2px 4px 4px 4px' }}>
-          {visible.map((recipe) => (
-            <CraftingRecipe
-              key={recipe.path}
-              recipe={recipe}
-              craftable={isCraftable(craftability, recipe.name)}
-              act={act}
-            />
-          ))}
-        </div>
-      )}
-    </div>
-  );
-};
+});
 
 export const MiaCraft = () => {
   const { act, data } = useBackend<Data>();
-  const craftability: Craftability = Object.entries(data.craftability);
   const onlyCraftable = !!data.showonlycraftable;
-  const [searchText, setSearchText] = useState('');
-  const searchRef = useRef<HTMLInputElement>(null);
+  const pins = data.pins || {};
+  const cyclePin = usePinSync(act, 'crafting', data);
+  const craftable = (name: string) => data.craftability[name] === 1;
 
-  useEffect(() => {
-    searchRef.current?.focus();
-  }, []);
-
-  const categories = useMemo(
-    () =>
-      Object.entries(data.crafting_recipes).sort(([a], [b]) =>
-        String(a).localeCompare(String(b)),
-      ),
-    [data.crafting_recipes],
-  );
+  const entries = useMemo(() => {
+    const out: CraftEntry[] = [];
+    for (const [category, recipes] of Object.entries(data.crafting_recipes)) {
+      for (const recipe of Object.values(recipes)) {
+        out.push({ ...recipe, category });
+      }
+    }
+    return out;
+  }, [data.crafting_recipes]);
 
   return (
-    <Window width={560} height={760} theme="parchment" title="Crafting">
-      <Window.Content scrollable>
-        <div style={pageStyle}>
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '8px',
-              position: 'sticky',
-              top: 0,
-              zIndex: 1,
-              background: 'var(--p-bg)',
-              padding: '6px 0 8px 0',
-              marginBottom: '4px',
-            }}
-          >
-            <input
-              ref={searchRef}
-              style={{ ...inkInputStyle, flex: 1 }}
-              placeholder="Search..."
-              value={searchText}
-              onChange={(e) => setSearchText(e.target.value.toLowerCase())}
+    <Window width={720} height={760} theme="parchment" title="Crafting">
+      <Window.Content>
+        <RecipeBrowser
+          menu="crafting"
+          recipes={entries}
+          pins={pins}
+          pinsReady={!!data.pins_imported}
+          autoFocusSearch
+          listed={(recipe) => !onlyCraftable || craftable(recipe.name)}
+          matches={(recipe, needle) =>
+            recipe.name.toLowerCase().includes(needle) ||
+            recipe.aliases.toLowerCase().includes(needle)
+          }
+          renderRow={(recipe) => (
+            <CraftingRecipe
+              recipe={recipe}
+              craftable={craftable(recipe.name)}
+              pin={pins[recipe.path]}
+              act={act}
+              cyclePin={cyclePin}
             />
+          )}
+          headerExtra={
             <button
               type="button"
               style={{
@@ -340,20 +259,8 @@ export const MiaCraft = () => {
               </span>
               Craftable only
             </button>
-          </div>
-
-          {categories.map(([title, recipes]) => (
-            <CraftingCategory
-              key={title}
-              title={title}
-              recipes={recipes}
-              onlyCraftable={onlyCraftable}
-              craftability={craftability}
-              searchText={searchText}
-              act={act}
-            />
-          ))}
-        </div>
+          }
+        />
       </Window.Content>
     </Window>
   );

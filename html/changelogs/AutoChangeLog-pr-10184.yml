@@ -1,0 +1,4 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - rscadd: "Overhauled the autosmither, crafting and smithing UI. Improved performance on multiple UI that uses long lists."
