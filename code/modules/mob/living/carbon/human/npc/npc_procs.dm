@@ -380,7 +380,7 @@ GLOBAL_LIST_INIT(zombie_aggro, list(
 	//now we take every trait an actual deadite has and apply it.
 	ADD_TRAIT(src, TRAIT_LIMBATTACHMENT, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_BREADY, TRAIT_GENERIC)
-	//ADD_TRAIT(src, TRAIT_STRONGBITE, TRAIT_GENERIC) //excluded for now, because holy shit deadites are too evil as NPCs with this, genuinely.
+	ADD_TRAIT(src, TRAIT_STRONGBITE, TRAIT_GENERIC) //they are deadly if they surround you, but not smart enough to move like a player can or jump like one.
 	ADD_TRAIT(src, TRAIT_NOMOOD, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_NOHUNGER, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_EASYDISMEMBER, TRAIT_GENERIC)
@@ -399,17 +399,16 @@ GLOBAL_LIST_INIT(zombie_aggro, list(
 	ADD_TRAIT(src, TRAIT_SILVER_WEAK, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_DEADITE, TRAIT_GENERIC)
 
-	ADD_TRAIT(src, TRAIT_INFINITE_STAMINA, TRAIT_GENERIC) //Nessessary hack because the AI loves to exhaust itself disturbingly fast w/unarmed
 	if(HAS_TRAIT(src, TRAIT_CRITICAL_RESISTANCE))
 		REMOVE_TRAIT(src, TRAIT_CRITICAL_RESISTANCE, TRAIT_GENERIC) //Prevents Psytomb being insanely fucked when the monks reanimate from death.
 
 	//deadite statline - intentionally uniform
 	src.STASTR = 13 //melee with unarmed only
-	src.STASPD = 5
-	src.STACON = 8 //we're gonna rise in droves, even with broken limbs and gear
-	src.STAWIL = 6 //sunders knock us down to pain reilably
-	src.STAINT = 1 //on par w/ skeletons
-	src.STAPER = 12 //unlike a player we're not smart with where we aim + unarmed penalties so we can cheat a bit
+	src.STASPD = 5 //we're slow, but we can still jump you with strong bite and claw attacks
+	src.STACON = 8 //we're pretty common and not always a trash mob, even with broken limbs and gear
+	src.STAWIL = 13
+	src.STAINT = 1
+	src.STAPER = 12
 
 	//Give the body deadite AI - Override the AI too.
 	QDEL_NULL(ai_controller) //upgrade_ai_controller would keep subtypes like archer
