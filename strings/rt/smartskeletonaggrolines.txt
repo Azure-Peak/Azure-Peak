@@ -1,8 +1,7 @@
 ,w Slay... The ignorant!
 ,w To... Arms!
-,w Slay the... Lyving!
+,w Slay the... Living!
 ,w Death to... The living!
-,w In her name!
 ,w No cost... Too great!
 ,w Another to... Remake in her name!
 ,w Kill them... In her name!
@@ -10,7 +9,6 @@
 ,w No surrender... Only... Forwards!
 ,w Slay... Them all!
 ,w Spill their blood... Oil the way forwards!
-,w Slay the... Insolent!
 You will... Hhh... Die!
 Hhhhh... Die... Die...
 You... Will die for... +Her+...
