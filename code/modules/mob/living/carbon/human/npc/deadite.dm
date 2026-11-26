@@ -109,8 +109,8 @@
 		var/prone_player = victim?.mind && !(victim.mobility_flags & MOBILITY_STAND)
 		if(prone_player && bite.grabbed != victim)
 			qdel(bite) // let go of whoever else we have and go for them
-		// 30% chance to continue biting if already started, unless they're down
-		else if(prone_player || prob(30))
+		// 50% chance to continue biting if already started, unless they're down
+		else if(prone_player || prob(50))
 			bite.bitelimb(src)
 			return TRUE
 		else
