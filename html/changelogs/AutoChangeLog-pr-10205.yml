@@ -1,0 +1,4 @@
+author: "BobProductive"
+delete-after: True
+changes:
+  - rscadd: "Added an alternative duelist cape, available in the loadout"
