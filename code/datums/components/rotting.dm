@@ -104,8 +104,8 @@
 			if(has_world_trait(/datum/world_trait/zizo_defilement))
 				chance_of_deadite_npc_reanimation = 100	// 100% chance of reanimation for NPC deadites during Zizo's Defilement event
 			if(!HAS_TRAIT(C, TRAIT_DNR) && !HAS_TRAIT(C, TRAIT_DEADITE))
-				if(prob[chance_of_deadite_npc_reanimation])
-					addtimer(CALLBACK(C, TYPE_PROC_REF(/mob/living/carbon/human, do_deadite_npc_reanimation)), 0.1 SECONDS)
+				if(prob([chance_of_deadite_npc_reanimation]))
+					addtimer(CALLBACK(C, TYPE_PROC_REF(/mob/living/carbon/human, do_deadite_npc_reanimation)), 0.1 SECONDS) //I THINK THIS IS THE ONLY WAY, ITS PROBABLY NOT GOOD BUT WHATEVER
 
 	var/findonerotten = FALSE
 	var/shouldupdate = FALSE
