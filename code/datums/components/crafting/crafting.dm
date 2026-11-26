@@ -553,14 +553,13 @@
 						found_bundle = TRUE
 						surroundings -= B
 						if(B.amount > amt)
-							var/stacktype = B.stacktype
 							B.amount -= amt
 							B.update_bundle()
 							switch(B.amount)
 								if(1)
 									var/atom/old_loc = B.loc
+									var/obj/item/new_item = B.spawn_single(old_loc)
 									qdel(B)
-									var/obj/item/new_item = new stacktype(old_loc)
 									if(ishuman(old_loc))
 										var/mob/living/carbon/human/H = old_loc
 										H.put_in_hands(new_item)

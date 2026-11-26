@@ -9,7 +9,6 @@
 	w_class = WEIGHT_CLASS_SMALL
 	resistance_flags = FLAMMABLE
 	drop_sound = 'sound/foley/dropsound/cloth_drop.ogg'
-	sellprice = 8
 	dropshrink = 0.9
 	materia = list(/datum/materia_aspect/animal)
 

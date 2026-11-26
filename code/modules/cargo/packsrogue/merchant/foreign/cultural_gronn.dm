@@ -111,6 +111,15 @@
 	ship_qty_min = 1
 	ship_qty_max = 1
 
+/datum/supply_pack/rogue/gronn/honey
+	name = "Honey"
+	cost = 30
+	contains = list(
+		/obj/item/reagent_containers/food/snacks/rogue/honey,
+		/obj/item/reagent_containers/food/snacks/rogue/honey,
+		/obj/item/reagent_containers/food/snacks/rogue/honey,
+	)
+
 /datum/supply_pack/rogue/gronn/spider_honey
 	name = "Dreamer's Honey"
 	cost = 60

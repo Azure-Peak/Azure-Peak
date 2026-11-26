@@ -312,6 +312,7 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 	var/is_important = FALSE
 	var/unmintable = FALSE
 	var/atc_sealed = FALSE
+	var/stockpile_stamped = FALSE
 	var/was_crafted = FALSE
 	var/is_carved = FALSE
 	/// does this item/weapon circumvent two-stage death during dismemberment? (do not add this to anything but ultra rare shit)
@@ -345,6 +346,12 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 		max_integrity += (max_integrity * 0.11142857143)	// don't ask
 		obj_integrity = max_integrity
 
+/obj/item/proc/seals_match(obj/item/other)
+	return atc_sealed == other.atc_sealed && stockpile_stamped == other.stockpile_stamped
+
+/obj/item/proc/copy_seals(obj/item/from)
+	atc_sealed = from.atc_sealed
+	stockpile_stamped = from.stockpile_stamped
 
 /obj/item/proc/update_transform()
 	transform = null
@@ -1863,6 +1870,10 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 	worn_out = TRUE
 	has_item_quality = TRUE
 	item_quality = ITEM_QUALITY_WORN
+
+/obj/item/proc/mark_as_gift()
+	has_item_quality = TRUE
+	item_quality = ITEM_QUALITY_GIFT
 
 /obj/item/proc/unmark_as_worn()
 	if(!worn_out)

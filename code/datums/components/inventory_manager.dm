@@ -311,7 +311,7 @@
 			return null
 
 		var/turf/T = get_turf(H)
-		var/obj/item/extracted = new bundle.stacktype(T)
+		var/obj/item/extracted = bundle.spawn_single(T)
 
 		if(!H.put_in_active_hand(extracted))
 			qdel(extracted)

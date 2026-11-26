@@ -26,6 +26,7 @@ import {
   TrialBalancePanel,
 } from './LedgerReports';
 import type { Data, LedgerEntry, LedgerView as LedgerViewName } from './types';
+import { formatMammon } from '../common/format';
 
 const VIEWS: { id: LedgerViewName; label: string }[] = [
   { id: 'journal', label: 'Journal' },
@@ -89,7 +90,7 @@ const LedgerRow = (props: { entry: LedgerEntry }) => {
           }}
         >
           {prefix}
-          {entry.amount}m
+          {formatMammon(entry.amount)}m
         </div>
       </div>
       {!!entry.actor && (
