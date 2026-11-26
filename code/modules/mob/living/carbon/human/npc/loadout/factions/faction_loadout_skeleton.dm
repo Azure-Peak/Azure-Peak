@@ -36,7 +36,7 @@
 		/datum/npc_loadout/kit/skeleton_amulet,
 		/datum/npc_loadout/kit/skeleton_tabard,
 		list( //50% chance of a decrepit helm w/coif
-			/datum/npc_loadout/armor/medium/decrepit_helm = 1,
+			/datum/npc_loadout/armor/medium/aalloy_helm = 1,
 			NPC_NOTHING = 1,
 		),
 		/datum/npc_loadout/weapon/skeleton_footsoldier,
@@ -263,6 +263,118 @@
 		/datum/npc_loadout/weapon/lich_knight,
 	)
 
+//avantyne clad skeletons that will be used for adminbus + maybe a future dungeon, we'll see
+//please, for the love of all that is (un?)holy, do not make this gear on luxplate skeles strippable, we do not need free ritual gear
+
+/datum/npc_archetype/skeleton/zizo
+	name = "Avantyne Skeleton Warrior"
+	statpack = /datum/npc_statpack/line/t3 //on par w/ dwarf skeletons
+	stat_modifiers = null
+	patron = /datum/patron/inhumen/zizo
+	melee = SKILL_LEVEL_EXPERT
+	brawl = SKILL_LEVEL_EXPERT //needed so you can't tacklepin them
+	survival = SKILL_LEVEL_APPRENTICE
+	armor_training = ARMOR_CLASS_MEDIUM
+	loadouts = list(
+		/datum/npc_loadout/armor/luxplate/zizo,
+		/datum/npc_loadout/kit/zizo_skele_avantyne_flavor,
+		/datum/npc_loadout/kit/skeleton_tabard,
+		/datum/npc_loadout/weapon/zizo,
+	)
+
+/datum/npc_archetype/skeleton/zizo_heavy
+	name = "Avantyne Skeleton Bulwark"
+	statpack = /datum/npc_statpack/line/t3 //on par w/ dwarf skeletons
+	stat_modifiers = null
+	patron = /datum/patron/inhumen/zizo
+	melee = SKILL_LEVEL_EXPERT
+	brawl = SKILL_LEVEL_EXPERT //needed so you can't tacklepin them
+	survival = SKILL_LEVEL_APPRENTICE
+	armor_training = ARMOR_CLASS_HEAVY
+	loadouts = list(
+		/datum/npc_loadout/armor/luxplate/zizo_heavy,
+		/datum/npc_loadout/kit/zizo_skele_avantyne_flavor,
+		/datum/npc_loadout/kit/skeleton_tabard,
+		/datum/npc_loadout/weapon/zizo_heavy,
+	)
+
+//caster skeletons
+
+/datum/npc_archetype/skeleton/caster
+	abstract_type = /datum/npc_archetype/skeleton/caster
+	statpack = /datum/npc_statpack/caster/t2 //decent but not high-end
+	stat_modifiers = null
+	ai_controller = /datum/ai_controller/human_npc/caster
+	patron = /datum/patron/inhumen/zizo
+	magic = SKILL_LEVEL_JOURNEYMAN
+	melee = SKILL_LEVEL_JOURNEYMAN
+	brawl = SKILL_LEVEL_APPRENTICE //intended to be weak vs tackles
+
+/datum/npc_archetype/skeleton/caster/mixed
+	name = "Skeleton Mage"
+	variants = list(
+		/datum/npc_archetype/skeleton/caster/fulgarmancer = 1,
+		/datum/npc_archetype/skeleton/caster/geomancer = 1,
+		/datum/npc_archetype/skeleton/caster/telomancer = 1,
+		/datum/npc_archetype/skeleton/caster/ferramancer = 1,
+		/datum/npc_archetype/skeleton/caster/cryomancer = 1,
+		/datum/npc_archetype/skeleton/caster/pyromancer = 1,
+	)
+
+/datum/npc_archetype/skeleton/caster/fulgarmancer
+	name = "Skeleton Fulgarmancer"
+	loadouts = list(
+		/datum/npc_loadout/armor/light/skeleton_caster,
+		/datum/npc_loadout/kit/skeleton_amulet,
+		/datum/npc_loadout/kit/caster_skele_fulgurmancer,
+		/datum/npc_loadout/kit/skeleton_tabard,
+	)
+
+/datum/npc_archetype/skeleton/caster/geomancer
+	name = "Skeleton Geomancer"
+	loadouts = list(
+		/datum/npc_loadout/armor/light/skeleton_caster,
+		/datum/npc_loadout/kit/skeleton_amulet,
+		/datum/npc_loadout/kit/caster_skele_geomancer,
+		/datum/npc_loadout/kit/skeleton_tabard,
+	)
+
+/datum/npc_archetype/skeleton/caster/telomancer
+	name = "Skeleton Telomancer"
+	loadouts = list(
+		/datum/npc_loadout/armor/light/skeleton_caster,
+		/datum/npc_loadout/kit/skeleton_amulet,
+		/datum/npc_loadout/kit/caster_skele_telomancer,
+		/datum/npc_loadout/kit/skeleton_tabard,
+	)
+
+/datum/npc_archetype/skeleton/caster/ferramancer
+	name = "Skeleton Ferramancer"
+	loadouts = list(
+		/datum/npc_loadout/armor/light/skeleton_caster,
+		/datum/npc_loadout/kit/skeleton_amulet,
+		/datum/npc_loadout/kit/caster_skele_ferramancer,
+		/datum/npc_loadout/kit/skeleton_tabard,
+	)
+
+/datum/npc_archetype/skeleton/caster/cryomancer
+	name = "Skeleton Cryomancer"
+	loadouts = list(
+		/datum/npc_loadout/armor/light/skeleton_caster,
+		/datum/npc_loadout/kit/skeleton_amulet,
+		/datum/npc_loadout/kit/caster_skele_cryomancer,
+		/datum/npc_loadout/kit/skeleton_tabard,
+	)
+
+/datum/npc_archetype/skeleton/caster/pyromancer
+	name = "Skeleton Pyromancer"
+	loadouts = list(
+		/datum/npc_loadout/armor/light/skeleton_caster,
+		/datum/npc_loadout/kit/skeleton_amulet,
+		/datum/npc_loadout/kit/caster_skele_pyromancer,
+		/datum/npc_loadout/kit/skeleton_tabard,
+	)
+
 //** STATS **//
 
 
@@ -293,7 +405,6 @@
 	willpower = 20
 	perception = 20
 	intelligence = 1
-
 
 //** FLAVOR **//
 
@@ -366,7 +477,7 @@
 	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/ancient/decrepit
 	pants = /obj/item/clothing/under/roguetown/tights/sailor
 	shoes = /obj/item/clothing/shoes/roguetown/sandals/ancient/decrepit
-	gloves = /obj/item/clothing/gloves/roguetown/knuckles/ancient/decrepit
+	gloves = /obj/item/clothing/gloves/roguetown/knuckles/decrepit
 	wrists = list(
 		/obj/item/clothing/wrists/roguetown/bracers/ancient/decrepit/chain = 20, //DO WHAT YOU WANT BECAUSE A PIRATE IS FREE
 		/obj/item/clothing/wrists/roguetown/bracers/ancient/decrepit = 80,
@@ -494,7 +605,7 @@
 	backl = /obj/item/storage/backpack/rogue/satchel/short/black
 	backpack_contents = list(
 		/obj/item/clothing/head/roguetown/crown/fakecrown = 1,
-		/obj/item/storage/belt/rogue/pouch/coins/psila/rich = 1, //funny
+		/obj/item/storage/belt/rogue/pouch/coins/aalloy/rich = 1, //funny
 		/obj/item/roguegem/diamond = 1,
 	)
 	beltl = list(
@@ -502,51 +613,61 @@
 		NPC_NOTHING = 80,
 	)
 
+/datum/npc_loadout/kit/zizo_skele_avantyne_flavor
+	belt = list(
+		/obj/item/storage/belt/rogue/leather = 1,
+		/obj/item/storage/belt/rogue/leather/black = 1,
+	)
+	id = list(
+		/obj/item/clothing/neck/roguetown/psicross/inhumen/ancient/decrepit = 1, //ZIZO. ZIZO. ZIZO.
+		NPC_NOTHING = 5,
+	)
+
 //** WEAPONS **//
 
 /datum/npc_loadout/weapon/skeleton_scavenged
 	weapons = list(
-		list(/obj/item/rogueweapon/stoneaxe/woodcut/ancient/decrepit),
-		list(/obj/item/rogueweapon/sword/short/ancient/decrepit),
+		list(/obj/item/rogueweapon/stoneaxe/woodcut/aaxe),
+		list(/obj/item/rogueweapon/sword/short/ashort),
 		list(/obj/item/rogueweapon/spear/ancient/decrepit),
-		list(/obj/item/rogueweapon/mace/ancient/decrepit),
+		list(/obj/item/rogueweapon/mace/alloy),
 		list(/obj/item/rogueweapon/mace/woodclub),
 	)
 
 /datum/npc_loadout/weapon/skeleton_footsoldier
 	weapons = list(
-		list(/obj/item/rogueweapon/stoneaxe/woodcut/ancient/decrepit),
-		list(/obj/item/rogueweapon/sword/short/ancient/decrepit),
+		list(/obj/item/rogueweapon/stoneaxe/woodcut/aaxe),
+		list(/obj/item/rogueweapon/sword/short/ashort),
 		list(/obj/item/rogueweapon/spear/ancient/decrepit),
-		list(/obj/item/rogueweapon/mace/ancient/decrepit),
+		list(/obj/item/rogueweapon/mace/alloy),
 	)
 
 /datum/npc_loadout/weapon/skeleton_pirate_knives
-	r_hand = /obj/item/rogueweapon/huntingknife/idagger/ancient/decrepit
-	l_hand = /obj/item/rogueweapon/huntingknife/idagger/ancient/decrepit
+	r_hand = /obj/item/rogueweapon/huntingknife/idagger/adagger
+	l_hand = /obj/item/rogueweapon/huntingknife/idagger/adagger
 	traits = list(TRAIT_DUALWIELDER) //Rapid knives build
 
 /datum/npc_loadout/weapon/skeleton_pirate_sabre
-	r_hand = /obj/item/rogueweapon/sword/sabre/ancient/decrepit //Its the closet thing to an ancient cutlass, matie
+	r_hand = /obj/item/rogueweapon/sword/sabre/alloy //Its the closet thing to an ancient cutlass, matie
 
 /datum/npc_loadout/weapon/skeleton_soldier_sandals
 	shoes = /obj/item/clothing/shoes/roguetown/sandals/ancient/decrepit //Legionnarie look
 	weapons = list(
-		list(/obj/item/rogueweapon/stoneaxe/woodcut/ancient/decrepit, /obj/item/rogueweapon/shield/tower/ancient/decrepit, 20),
-		list(/obj/item/rogueweapon/sword/short/gladius/ancient/decrepit, /obj/item/rogueweapon/shield/bronze/ancient/decrepit, 45), // ave
+		list(/obj/item/rogueweapon/stoneaxe/woodcut/aaxe, /obj/item/rogueweapon/shield/tower/metal/alloy, 20),
+		list(/obj/item/rogueweapon/sword/short/gladius/agladius, /obj/item/rogueweapon/shield/bronze/ancient/decrepit, 45), // ave
 		list(/obj/item/rogueweapon/flail/ancient/decrepit, /obj/item/rogueweapon/shield/bronze/ancient/decrepit, 65),
 	)
 
 /datum/npc_loadout/weapon/skeleton_soldier_boots
 	shoes = /obj/item/clothing/shoes/roguetown/boots/ancient/decrepit //Bulwark look
 	weapons = list(
-		list(/obj/item/rogueweapon/mace/warhammer/ancient/decrepit, /obj/item/rogueweapon/shield/tower/ancient/decrepit, 40), //Nastier for MAA skele
+		list(/obj/item/rogueweapon/mace/warhammer/alloy, /obj/item/rogueweapon/shield/tower/metal/alloy, 40), //Nastier for MAA skele
 		list(/obj/item/rogueweapon/halberd/bardiche/ancient/decrepit),
 	)
 
 /datum/npc_loadout/weapon/skeleton_khopesh
-	r_hand = /obj/item/rogueweapon/sword/sabre/ancient/decrepit
-	l_hand = /obj/item/rogueweapon/sword/sabre/ancient/decrepit
+	r_hand = /obj/item/rogueweapon/sword/sabre/alloy
+	l_hand = /obj/item/rogueweapon/sword/sabre/alloy
 	traits = list(TRAIT_DUALWIELDER) //Parity slightly with deadlier dreadknight + swift on heavy armor no longer being cracked
 
 /datum/npc_loadout/weapon/skeleton_withered
@@ -558,7 +679,7 @@
 	)
 
 /datum/npc_loadout/weapon/skeleton_archer
-	r_hand = /obj/item/rogueweapon/mace/ancient/decrepit
+	r_hand = /obj/item/rogueweapon/mace/alloy
 	backr = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve
 	backl = /obj/item/quiver/randomfill/skeleton
 
@@ -578,10 +699,50 @@
 
 /datum/npc_loadout/weapon/fallen_duke
 	r_hand = /obj/item/rogueweapon/sword/rapier/lord
-	l_hand = /obj/item/rogueweapon/shield/tower/ancient/decrepit
+	l_hand = /obj/item/rogueweapon/shield/tower/metal/alloy
 
 /datum/npc_loadout/weapon/lich_knight
 	weapons = list(
 		list(/obj/item/rogueweapon/eaglebeak/lucerne),
 		list(/obj/item/rogueweapon/greatsword/zwei),
 	)
+
+//casters
+
+/datum/npc_loadout/kit/caster_skele_fulgurmancer
+	magic_aspects = list(
+		/datum/magic_aspect/fulgurmancy,
+	)
+	r_hand = /obj/item/rogueweapon/woodstaff/implement/amethyst
+
+/datum/npc_loadout/kit/caster_skele_geomancer
+	magic_aspects = list(
+		/datum/magic_aspect/geomancy,
+	)
+	r_hand = /obj/item/rogueweapon/woodstaff/implement/amethyst
+
+/datum/npc_loadout/kit/caster_skele_telomancer
+	magic_aspects = list(
+		/datum/magic_aspect/telomancy,
+	)
+	r_hand = /obj/item/rogueweapon/woodstaff/implement/amethyst
+
+/datum/npc_loadout/kit/caster_skele_ferramancer
+	armor = /obj/item/clothing/suit/roguetown/armor/leather/studded //otherwise they'll die too fast
+	magic_aspects = list(
+		/datum/magic_aspect/ferramancy,
+		/datum/magic_aspect/aegiscraft,
+	)
+	r_hand = null
+
+/datum/npc_loadout/kit/caster_skele_cryomancer
+	magic_aspects = list(
+		/datum/magic_aspect/cryomancy,
+	)
+	r_hand = /obj/item/rogueweapon/woodstaff/implement/amethyst
+
+/datum/npc_loadout/kit/caster_skele_pyromancer
+	magic_aspects = list(
+		/datum/magic_aspect/pyromancy,
+	)
+	r_hand = /obj/item/rogueweapon/woodstaff/implement/amethyst
