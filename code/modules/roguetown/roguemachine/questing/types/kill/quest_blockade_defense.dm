@@ -2,6 +2,7 @@
 	quest_type = QUEST_BLOCKADE_DEFENSE
 	chronicle_order = QUEST_CHRONICLE_ORDER_BLOCKADE_DEFENSE
 	defense_cost = BLOCKADE_SCROLL_PLEDGE_COST
+	veteran_allowed = FALSE
 	guild_cut_rate = 0
 	charges_deposit = FALSE
 	shows_commission_seal = TRUE
@@ -29,9 +30,7 @@
 /datum/quest/kill/blockade_defense/get_defense_regions()
 	. = list()
 	for(var/datum/blockade/B as anything in GLOB.active_blockades)
-		var/datum/economic_region/ER = B.get_region()
-		if(ER)
-			. += ER.name
+		. += B.get_name()
 
 /datum/quest/kill/blockade_defense/get_scroll_type()
 	return /obj/item/quest_writ/blockade
@@ -59,9 +58,8 @@
 	if(title)
 		return title
 	var/datum/blockade/B = blockade_ref?.resolve()
-	var/datum/economic_region/ER = B?.get_region()
-	if(ER)
-		return "Break the blockade of [ER.name]"
+	if(B)
+		return "Break the blockade of [B.get_region_names()]"
 	if(region)
 		return "Blockade Defense: [region]"
 	return "Break a trade blockade"
@@ -181,15 +179,8 @@
 	total_spawned_tp += initial_threat_point(boss.type)
 	progress_required += 1
 	if(faction.boss_name_file)
-		wave_boss_name = faction.generate_boss_name()
-		addtimer(CALLBACK(src, PROC_REF(apply_wave_boss_name), WEAKREF(boss), wave_boss_name), QUEST_BOSS_RENAME_DELAY)
-
-/datum/quest/kill/blockade_defense/proc/apply_wave_boss_name(datum/weakref/boss_ref, boss_name)
-	var/mob/living/boss = boss_ref?.resolve()
-	if(QDELETED(boss) || !boss_name)
-		return
-	boss.real_name = boss_name
-	boss.name = boss_name
+		wave_boss_name = faction.generate_boss_name(boss_type)
+		addtimer(CALLBACK(src, PROC_REF(rename_quest_boss), WEAKREF(boss), wave_boss_name), QUEST_BOSS_RENAME_DELAY)
 
 /datum/quest/kill/blockade_defense/proc/spawn_wave(wave_num)
 	if(failed || complete)
@@ -355,22 +346,21 @@
 
 /datum/quest/kill/blockade_defense/on_issuer_withdrawn(mob/withdrawer)
 	var/datum/blockade/B = blockade_ref?.resolve()
-	var/datum/economic_region/ER = B?.get_region()
 	if(B)
 		B.active_scroll_ref = null
 		B.active_quest_ref = null
-	scom_announce("The [B ? "blockade" : "hoard recovery"] scroll for [ER ? ER.name : region] has been withdrawn.")
+	scom_announce("The [B ? "blockade" : "hoard recovery"] scroll for [B ? B.get_region_names() : region] has been withdrawn.")
 
 /datum/quest/kill/blockade_defense/mark_complete()
 	..()
 	clear_wave_timers()
 	var/datum/blockade/B = blockade_ref?.resolve()
 	if(B)
-		var/datum/economic_region/ER = B.get_region()
+		var/blockade_name = B.get_name()
 		B.active_scroll_ref = null
 		B.active_quest_ref = null
 		SSeconomy.clear_blockade(B, "cleared")
-		award_defender_triumphs(ER ? ER.name : region)
+		award_defender_triumphs(blockade_name)
 	var/mob/lead = quest_receiver_reference?.resolve()
 	var/payout = reward_amount
 	record_completion_stats(payout)
@@ -389,9 +379,9 @@
 			paid += share - share_tax
 			paid_out += share
 			if(fellowship_split_payout)
-				to_chat(payee, span_notice("The final wave breaks. Your share of the reward has been paid to your account. Gross: [share]m. Tax: [share_tax]m. Net: [share - share_tax]m."))
+				to_chat(payee, span_notice("The final wave breaks. Your share of the reward has been paid to your account. Gross: [format_mammon(share)]m. Tax: [format_mammon(share_tax)]m. Net: [format_mammon(share - share_tax)]m."))
 			else
-				announce_to_bearer("The final wave breaks. Your reward has been paid to your account. Gross: [share]m. Tax: [share_tax]m. Net: [share - share_tax]m.")
+				announce_to_bearer("The final wave breaks. Your reward has been paid to your account. Gross: [format_mammon(share)]m. Tax: [format_mammon(share_tax)]m. Net: [format_mammon(share - share_tax)]m.")
 		pay_merc_contract_bonuses(src, shares)
 		var/leftover = payout - paid_out
 		var/mob/living/sink = fellowship_leftover_sink(shares, lead)

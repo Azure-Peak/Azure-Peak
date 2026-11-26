@@ -336,8 +336,8 @@
 	cuisine = CUISINE_NORTH_IMPERIAL
 	dish_type = DISH_BREAD|DISH_MEAT|DISH_FRUIT
 	name = "marmaladed crossbun"
-	desc = "A particularly favorite treat amonst the papacies of Grenzelhoft and Etruscea, especially during the \
-	holidaes that pay reverance to Astrata. The marmalade is said to represent the Sun's blessed light and warming \
+	desc = "A particularly favorite treat amongst the clergies of Grenzelhoft and Etrusca, especially during the \
+	holidaes that pay reverence to Astrata. The marmalade is said to represent the Sun's blessed light and warming \
 	radiance, though the spiritual implication tends to be lost on more eager-minded children."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_baked.dmi'
 	icon_state = "crossbun_marmalade"
@@ -366,7 +366,7 @@
 	cuisine = CUISINE_OTAVAIS
 	dish_type = DISH_BREAD|DISH_MEAT|DISH_FRUIT
 	name = "jamtallowed psycrossbun"
-	desc = "A particularly favorite treat amonst the papacies of Otava and Rockhill, especially during the \
+	desc = "A particularly favorite treat amongst the Otavan, especially during the \
 	holidaes that pay reverance to Psydon's sacrifice. The jamtallow is said to represent the Weeping God's \
 	tears, though the spiritual implication tends to be lost on more eager-minded children."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_baked.dmi'
@@ -534,7 +534,7 @@
 	cuisine = CUISINE_RANESHENI
 	dish_type = DISH_BREAD|DISH_FRUIT
 	name = "raisin loaf"
-	desc = "A popular dessert amongst the peasantry, this loaf of sweetbread's speckled with fruity surprises. In recent years, it has more palettes amongst the papacy: t'was Rockhill's abbey that christened a variant, glazed with a sugary veneer."
+	desc = "A popular dessert amongst the peasantry, this loaf of sweetbread's speckled with fruity surprises. In recent years, it has more palates amongst the clergy: t'was Rockhill's abbey that christened a variant, glazed with a sugary veneer."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_baked.dmi'
 	icon_state = "raisinbread6"
 	bitesize = 8

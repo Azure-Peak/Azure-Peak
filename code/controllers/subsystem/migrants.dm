@@ -312,6 +312,10 @@ SUBSYSTEM_DEF(migrants)
 
 	var/mob/living/character = newplayer.create_character(TRUE)	//creates the human and transfers vars and mind
 
+	if(role.political_faction && ishuman(character))
+		var/mob/living/carbon/human/faction_human = character
+		faction_human.political_faction = role.political_faction
+
 	character.islatejoin = TRUE
 	SSjob.EquipRank(character, rank, TRUE)
 	// We don't want latejoiner to get hit by poll levies when they haven't participated in the round, which feels unfair
@@ -375,7 +379,8 @@ SUBSYSTEM_DEF(migrants)
 		character.mind.add_antag_datum(role.antag_datum)
 
 	// Adding antag datums can move your character to places, so here's a bandaid
-	if(spawn_on_location)
+	// Skipped for Forlorne, which already relocated them during outfit equip
+	if(spawn_on_location && !character.has_flaw(/datum/charflaw/forlorne))
 		character.forceMove(assignment.spawn_location)
 
 	if(role.grant_lit_torch)

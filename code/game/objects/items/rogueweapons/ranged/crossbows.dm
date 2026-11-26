@@ -416,14 +416,14 @@
 	name = "ancient siegebow"
 	desc = "A heavier weight crossbow from another tyme - the basis of a mounted ballista, made fit for handheld \
 	usage. Integrated just beneath the stock is a windlass mechanism, necessary to surmount the siegebow's titanic \
-	draw-strength. It loads heavier, full-length bolts; purpose-made to pulverize. </br>'Rudmarsch's walls broke \
+	draw-strength. It loads heavier, full-length bolts; purpose-made to pulverize. </br>'The Earii's walls broke \
 	beneath the volley, and Her sickness petered through the cracks..'"
 	item_state = "ancientheavybow"
 
 /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow/heavy/relic
 	name = "\"Providence\""
-	desc = "In the hands of Saint Augustere, this specially-hewn siegebow felled the traitorous Archbishop of Rockhill; \
-	mere moments before the completion of a terrible ritual. Decades later, it has been called into action once more \
+	desc = "In the hands of Saint Augustere, this specially-hewn siegebow felled the Zizite exarch in the Battle of the Hamlet; \
+	mere moments before the completion of a terrible ritual. Yils later, it has been called into action once more \
 	to destroy those who'd seek to sacrifice His greatest works. May thy aim be true, childe o' God - and thy judgement, unfettered."
 	minstr = 10 //X STR. Intended for use by the Inquisitor, or as a purchased alternative.
 	max_integrity = 200

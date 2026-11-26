@@ -175,9 +175,9 @@
 	if(!mailer)
 		. += "<a href='?src=[REF(src)];read=1'>Read</a> (<a href='?src=[REF(src)];Help=1'>Help</a>)"
 	else if(mailer == MAILER_ANONYMOUS)
-		. += "It's a sealed letter, addressed to [mailedto]."
+		. += span_small("It's a sealed letter, addressed to [mailedto].")
 	else
-		. += "It's from [mailer], addressed to [mailedto].</a>"
+		. += span_small("It's from [mailer], addressed to [mailedto].")
 
 /obj/item/paper/proc/read(mob/user)
 //	var/datum/asset/assets = get_asset_datum(/datum/asset/spritesheet/simple/paper)
@@ -614,9 +614,9 @@
 			. += "There's a [note.name] attached to it..."
 			. += note.examine(user)
 	if(mailer == MAILER_ANONYMOUS)
-		. += "It's addressed to [mailedto]."
+		. += span_small("It's addressed to [mailedto].")
 	else if(mailer)
-		. += "It's from [mailer], addressed to [mailedto].</a>"
+		. += span_small("It's from [mailer], addressed to [mailedto].")
 
 /obj/item/smallDelivery/attackby(obj/item/W, mob/user, params)
 	if(istype(W, /obj/item/natural/feather))

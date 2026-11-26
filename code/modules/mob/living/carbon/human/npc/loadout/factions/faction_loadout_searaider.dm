@@ -65,7 +65,7 @@
 	traits = list(TRAIT_BADTRAINER)
 	brawl = SKILL_LEVEL_EXPERT
 	skills = list(
-		/datum/skill/combat/swords = SKILL_LEVEL_MASTER,
+		/datum/skill/combat/swords = SKILL_LEVEL_EXPERT,
 		/datum/skill/combat/axes = SKILL_LEVEL_EXPERT,
 	)
 	loadouts = list(
@@ -165,6 +165,10 @@
 	shoes = list(
 		/obj/item/clothing/shoes/roguetown/boots/leather/reinforced = 70,
 		/obj/item/clothing/shoes/roguetown/boots/furlinedboots = 30,
+	)
+	mask = list(
+		/obj/item/clothing/mask/rogue/skullmask = 1,
+		/obj/item/clothing/mask/rogue/facemask/padded/shoddy = 1,
 	)
 
 /datum/npc_loadout/kit/searaider_flavor/archer

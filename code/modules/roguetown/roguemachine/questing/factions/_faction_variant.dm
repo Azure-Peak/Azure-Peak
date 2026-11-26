@@ -4,7 +4,7 @@
 	var/group_word
 	var/list/mob_types
 	var/list/boss_mob_types
-	var/list/boss_title_templates
+	var/pickable = TRUE
 
 /datum/quest_faction_variant/proc/make_faction(datum/quest_faction/base)
 	var/datum/quest_faction/variant = new base.type()
@@ -19,6 +19,4 @@
 		variant.mob_types = mob_types.Copy()
 	if(length(boss_mob_types))
 		variant.boss_mob_types = boss_mob_types.Copy()
-	if(length(boss_title_templates))
-		variant.boss_title_templates = boss_title_templates.Copy()
 	return variant

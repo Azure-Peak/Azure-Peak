@@ -706,6 +706,7 @@
 /obj/item/reagent_containers/food/snacks/grown/berries/rogue/poison,
 /obj/item/reagent_containers/food/snacks/grown/berries/rogue/poison,
 /obj/item/reagent_containers/food/snacks/grown/berries/rogue/poison,
+/obj/item/cooking/pan/aalloy,
 /obj/structure/closet/crate/chest/crate,
 /obj/machinery/light/rogue/candle,
 /turf/open/floor/rogue/cobble,
@@ -1234,7 +1235,7 @@
 /area/rogue/indoors/lich_start)
 "nz" = (
 /obj/machinery/light/rogue/hearth,
-/obj/item/reagent_containers/glass/bucket/pot,
+/obj/item/reagent_containers/glass/bucket/pot/aalloy,
 /turf/open/floor/rogue/cobble,
 /area/rogue/indoors/shelter/bog_hag)
 "nF" = (
@@ -2779,6 +2780,10 @@
 	},
 /turf/open/floor/rogue/churchbrick,
 /area/rogue/indoors/lich_start/lich_lair)
+"Pc" = (
+/obj/structure/flora/roguegrass/herb/valeriana,
+/turf/open/floor/rogue/dirt/road,
+/area/rogue/indoors/shelter/bog_hag)
 "Pe" = (
 /obj/structure/glowshroom,
 /turf/open/floor/rogue/naturalstone,
@@ -8682,7 +8687,7 @@ ql
 ur
 gd
 Af
-tK
+Pc
 jL
 tK
 xq

@@ -100,7 +100,6 @@
 		/datum/supply_pack/rogue/etrusca/coppiette,
 		/datum/supply_pack/rogue/etrusca/salami,
 		/datum/supply_pack/rogue/etrusca/cheese,
-		/datum/supply_pack/rogue/etrusca/vaquero_ring,
 		/datum/supply_pack/rogue/alcohol/limoncello,
 		/datum/supply_pack/rogue/alcohol/winevalorred,
 		/datum/supply_pack/rogue/alcohol/winevalorwhite,

@@ -482,6 +482,7 @@
 	return master._removal_reset(thing)
 
 /datum/component/storage/proc/_remove_and_refresh(datum/source, atom/movable/thing)
+	grid_remove_item(thing)
 	_removal_reset(thing)
 	refresh_mob_views()
 
@@ -679,15 +680,15 @@
 		if(!stop_messages)
 			to_chat(M, span_warning("[host] is full, make some space!"))
 		return FALSE //Storage item is full
+	if(is_type_in_typecache(I, cant_hold)) //Check for specific items which this container can't hold.
+		if(!stop_messages)
+			to_chat(M, span_warning("[host] cannot hold [I]!"))
+		return FALSE
 	if(length(can_hold))
 		if(!is_type_in_typecache(I, can_hold))
 			if(!stop_messages)
 				to_chat(M, span_warning("[host] cannot hold [I]!"))
 			return FALSE
-	if(is_type_in_typecache(I, cant_hold)) //Check for specific items which this container can't hold.
-		if(!stop_messages)
-			to_chat(M, span_warning("[host] cannot hold [I]!"))
-		return FALSE
 	if(I.w_class > max_w_class && !is_type_in_typecache(I, exception_hold))
 		if(!stop_messages)
 			to_chat(M, span_warning("[I] is too big for [host]!"))
@@ -742,7 +743,7 @@
 /datum/component/storage/proc/mob_item_insertion_feedback(mob/user, mob/M, obj/item/I, override = FALSE)
 	if(!length(is_using))
 		SEND_SIGNAL(parent, COMSIG_STORAGE_CLOSED, M)
-	if(silent && !override)
+	if((silent && !override) || (I.item_flags & INHANDS_INVISIBLE))
 		return
 	if(rustle_sound)
 		playsound(parent, "rustle", 50, TRUE, -5)

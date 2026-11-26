@@ -81,6 +81,10 @@
 		STATKEY_PER = 1,
 		STATKEY_WIL = 1,
 	)
+	subclass_stashed_items = list(
+		"Wax Putty I" = /obj/item/waxputty,
+		"Wax Putty II" = /obj/item/waxputty
+	)
 	subclass_skills = list(
 		/datum/skill/misc/climbing = SKILL_LEVEL_EXPERT,
 		/datum/skill/misc/tracking = SKILL_LEVEL_EXPERT,
@@ -704,15 +708,15 @@
 
 /datum/advclass/foreigner/lesserblackoak
 	name = "Azurian Grovewalker"
-	tutorial = "Autumn's grace trails you as a guardian-errant of the Black Oaks; an irregular militia that \
-	fights for the ancestral elven homelands of Azuria. Nature's call manifests along your blossoming bark, \
+	tutorial = "Autumn's grace trails you as a guardian-errant of the Black Oaks; the warriors that \
+	fight for the Rossans of Azuria. Nature's call manifests along your blossoming bark, \
 	and you shall answer. Whether through blade or bow, you shall ensure that those who dare to disrespect \
 	Azuria's supple forests will learn to regret it."
-	extra_context = "This class is restricted to the Elf, Half-Elf, and Dark Elf species."
+	extra_context = "This class is restricted to the Elf and Half-Elf species."
 	class_select_category = CLASS_CAT_RACIAL
 	allowed_sexes = list(MALE, FEMALE)
 	forbidden_races = list(RACES_BLACKOAK)
-	traits_applied = list(TRAIT_OUTDOORSMAN, TRAIT_BLACKOAK, TRAIT_DODGEEXPERT, TRAIT_WOODWALKER)
+	traits_applied = list(TRAIT_OUTDOORSMAN, TRAIT_DODGEEXPERT, TRAIT_WOODWALKER)
 	outfit = /datum/outfit/job/roguetown/adventurer/lesserblackoak
 	subclass_languages = list(/datum/language/oldazurian)
 	cmode_music = 'sound/music/combat_blackoak.ogg'
@@ -741,7 +745,7 @@
 
 /datum/outfit/job/roguetown/adventurer/lesserblackoak/pre_equip(mob/living/carbon/human/H)
 	..()
-	to_chat(H, span_warning("Whether through merit or heritage, you've earned the right of tutelage under the Black Oaks; an irregular militia that fights for the ancestral elven homelands of Azuria. Jaunt through the underbrush and oppress the oppressors with both blade-and-bow."))
+	to_chat(H, span_warning("Whether through merit or heritage, you've earned the right of tutelage under the Black Oaks; the warriors that fight for the Rossans of Azuria. Jaunt through the underbrush and slay your foes with both blade and bow."))
 	H.set_blindness(0)
 	if(H.mind)
 		var/weapons = list("Autumned Longsword","Autumned Glaive","Autumned Bow")

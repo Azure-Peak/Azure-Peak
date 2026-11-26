@@ -17,6 +17,9 @@
 	character.dna.features = features.Copy()
 	character.gender = gender
 	character.set_species(chosen_species, icon_update = FALSE, pref_load = src)
+	var/datum/component/ooze_color_shift/color_shift = character.GetComponent(/datum/component/ooze_color_shift)
+	if(color_shift)
+		color_shift.apply_preferences(src)
 	character.dna.update_body_size()
 
 	if(roundstart_checks)
@@ -48,6 +51,8 @@
 	character.vampire_hair = vampire_hair
 	character.vampire_ears = vampire_ears
 	character.set_patron(selected_patron)
+	var/datum/political_faction/faction = GLOB.political_factions[political_faction]
+	character.political_faction = faction?.allows_patron(selected_patron) ? faction.id : POLITICAL_FACTION_NEUTRAL
 
 	// done in two loops just in case it matters
 	character.charflaws.Cut()

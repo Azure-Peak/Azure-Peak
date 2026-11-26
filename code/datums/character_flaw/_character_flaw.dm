@@ -28,7 +28,6 @@ GLOBAL_LIST_INIT(averse_factions, list(
 	var/ui_fa_icon = null // FontAwesome icon to use in the pref menu, null gives a question mark
 	var/ephemeral = FALSE // This flaw is currently disabled and will not process
 	var/needs_extra_vice = FALSE
-	var/relocates_owner = FALSE
 	/// For voyeur vice examines only. Format is "[name] is " + this + "...", leave blank to use the flaw's name.
 	/// Intended for addiction types only.
 	var/voyeur_descriptor
@@ -215,7 +214,7 @@ GLOBAL_LIST_INIT(averse_factions, list(
 	if(!H.wear_mask)
 		H.equip_to_slot_or_del(new glasses_type(H), SLOT_WEAR_MASK)
 	else
-		new glasses_type(get_turf(H))
+		H.put_in_hands(new glasses_type(H))
 
 /datum/charflaw/proc/get_nearby_humans(mob/user, range)
 	. = list()
@@ -426,8 +425,8 @@ GLOBAL_LIST_INIT(averse_factions, list(
 /datum/charflaw/hunted
 	name = "Hunted"
 	desc = "Something in my past has made me a target. I'm always looking over my shoulder.	\
-	\nTHIS IS A DIFFICULT FLAW, YOU WILL BE HUNTED BY GNOLLS. \
-	EXPECT A MORE DIFFICULT EXPERIENCE. PLAY AT YOUR OWN RISK. IT REQUIRES AN EXTRA VICE."
+	\nTHIS IS A DIFFICULT FLAW, Gnolls DO-NOT NEED to ESCALATE against you if you have this vice. To reiterate: please expect \
+	random attacks and-or potential round removal, even if not permanent."
 	ui_fa_icon = "tooth"
 	needs_extra_vice = TRUE
 	var/logged = FALSE
@@ -649,7 +648,7 @@ GLOBAL_LIST_INIT(averse_factions, list(
 
 /datum/charflaw/sleepless
 	name = "Sleepless"
-	desc = "I do not sleep. I cannot sleep. I've tried everything."
+	desc = "I do not sleep. I cannot sleep. Only potent alchemical creations can grant me any rest."
 	ui_fa_icon = "face-tired"
 	var/drugged_up = FALSE
 	var/dream_prob = 1000
@@ -658,7 +657,7 @@ GLOBAL_LIST_INIT(averse_factions, list(
 	ADD_TRAIT(user, TRAIT_NOSLEEP, TRAIT_GENERIC)
 
 /proc/sleepless_drug_up(mob/living/living)
-	var/datum/charflaw/sleepless/sleeper = living.get_flaw()
+	var/datum/charflaw/sleepless/sleeper = living.get_flaw(/datum/charflaw/sleepless)
 	if (!istype(sleeper, /datum/charflaw/sleepless))
 		return
 	sleeper.drugged_up = TRUE
@@ -771,7 +770,7 @@ GLOBAL_LIST_INIT(averse_factions, list(
 			send_ooc_note("<b>MEISTER:</b> [alimony]m was taken in debts owed.", name = deadbeat.real_name)
 	else
 		if(bankamt > 0 && SStreasury.burn(account, bankamt, "Defaulted Debts"))
-			send_ooc_note("<b>MEISTER:</b> [bankamt]m was taken in defaulted debts.", name = deadbeat.real_name)
+			send_ooc_note("<b>MEISTER:</b> [format_mammon(bankamt)]m was taken in defaulted debts.", name = deadbeat.real_name)
 		deadbeat.add_stress(/datum/stressevent/debt)
 		if(!bounty_added)
 			if(ishuman(deadbeat))
@@ -931,7 +930,6 @@ GLOBAL_LIST_INIT(averse_factions, list(
 	\nNO HEALS WILL BE GIVEN OUT FOR UNLUCKY SPAWNS. USE AT YOUR OWN PERIL."
 	ui_fa_icon = "map-location-dot"
 	needs_extra_vice = TRUE
-	relocates_owner = TRUE
 	var/turf/origin_turf
 	var/turf/forlorne_turf
 	var/triumph_given = FALSE
@@ -940,20 +938,28 @@ GLOBAL_LIST_INIT(averse_factions, list(
 	. = ..()
 	user.adjust_triumphs(1)
 	triumph_given = TRUE
-	origin_turf = get_turf(user)
+	send_away(user)
+	if(!forlorne_turf)
+		return
+	ADD_TRAIT(user, TRAIT_NO_AMBUSH, "forlorne")
+	addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(___TraitRemove), user, TRAIT_NO_AMBUSH, "forlorne"), 30 SECONDS)
+	to_chat(user, span_userdanger("I am lost..."))
+	to_chat(user, span_warning("No heals will be given out for unlucky spawns."))
+
+/// Called before the outfit is equipped so nothing dropped during equipping is left behind at the original spawn.
+/datum/charflaw/forlorne/proc/send_away(mob/user)
+	if(forlorne_turf)
+		return
 	var/list/spots = list()
 	for(var/obj/effect/landmark/forlorne/L as anything in GLOB.forlorne_landmarks)
 		if(isturf(L.loc))
 			spots += L.loc
 	if(!length(spots))
 		return
+	origin_turf = get_turf(user)
 	forlorne_turf = pick(spots)
 	user.forceMove(forlorne_turf)
 	new /obj/item/flashlight/flare/light/forlorne(forlorne_turf)
-	ADD_TRAIT(user, TRAIT_NO_AMBUSH, "forlorne")
-	addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(___TraitRemove), user, TRAIT_NO_AMBUSH, "forlorne"), 30 SECONDS)
-	to_chat(user, span_userdanger("I am lost..."))
-	to_chat(user, span_warning("No heals will be given out for unlucky spawns."))
 
 /// Becoming certain antagonists cancels this vice: the triumph is refunded and, if they haven't moved yet, they go back to where they would have spawned.
 /datum/charflaw/forlorne/proc/antag_override(mob/living/carbon/human/user)

@@ -8,7 +8,7 @@
 	category_tags = list(CTAG_WRETCH)
 	traits_applied = list(TRAIT_CICERONE, TRAIT_NOSTINK, TRAIT_MEDICINE_EXPERT, TRAIT_ALCHEMY_EXPERT)
 	maximum_possible_slots = 2
-	extra_context = "This subclass gets a set of poisonable daggers, and a bow with poison arrows."
+	extra_context = "This subclass gets a set of poisoned daggers, and a bow with poison arrows."
 	subclass_stats = list(
 		STATKEY_INT = 2,
 		STATKEY_PER = 3,

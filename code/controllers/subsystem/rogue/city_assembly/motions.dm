@@ -176,22 +176,6 @@
 		out["passed"] = TRUE
 	return out
 
-/datum/controller/subsystem/city_assembly/proc/apply_trade_authorization(list/result)
-	if(!current_warrant)
-		return
-	// No participation preserves the existing cap - silence is not withdrawal.
-	if(result["total_weight"] <= 0)
-		return
-	// Active veto zeroes the cap - that IS a decision, not indecision.
-	if(result["vetoed"])
-		current_warrant.set_trade_cap(0)
-		return
-	// Votes cast but no bracket carried a majority - keep status quo. Scattered votes across
-	// brackets shouldn't strip a cap the Commons previously authorized.
-	if(isnull(result["winning_bracket"]))
-		return
-	current_warrant.set_trade_cap(result["winning_bracket"])
-
 /datum/controller/subsystem/city_assembly/proc/apply_defense_authorization(list/result)
 	if(!current_warrant)
 		return
@@ -229,15 +213,6 @@
 			lines += "<b>Alderman:</b> [winner_label] retains the seat[skip_note]."
 		else
 			lines += "<b>Alderman:</b> no candidate carried; the seat remains as it was[skip_note]."
-
-	var/list/trade = summary["results"]?["trade_auth"]
-	if(trade)
-		if(trade["vetoed"])
-			lines += "<b>Trade warrant:</b> DENIED by the Commons (NAE >= 50%)."
-		else if(!isnull(trade["winning_bracket"]))
-			lines += "<b>Trade warrant:</b> [trade["winning_bracket"]]m/day authorized."
-		else
-			lines += "<b>Trade warrant:</b> no bracket carried a majority."
 
 	var/list/defense = summary["results"]?["defense_auth"]
 	if(defense)
@@ -293,7 +268,6 @@
 	)
 
 	var/list/brackets_by_motion = list(
-		ASSEMBLY_MOTION_TRADE_AUTH = ASSEMBLY_TRADE_BRACKETS,
 		ASSEMBLY_MOTION_DEFENSE_AUTH = ASSEMBLY_DEFENSE_BRACKETS,
 	)
 	for(var/motion_id in brackets_by_motion)

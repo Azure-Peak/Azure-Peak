@@ -311,7 +311,7 @@
 						counts[3]++
 					if(prefs.familiar_names["void"])
 						counts[4]++
-			var/message = "The leylines pulse beneath your feet... a new familiar strains against the veil, seeking to be summoned! (You can summon most familiars at no cost by drawing a binding rune; it doesn't need to be near a leyline. There are currently [counts[1]] fae spirits, [counts[1]] infernal spirits, [counts[3]] elemental spirits, and [counts[4]] void spirits waiting to be summoned.)"
+			var/message = "The leylines pulse beneath your feet... a new familiar strains against the veil, seeking to be summoned! (You can summon most familiars at no cost by drawing a binding rune; it doesn't need to be near a leyline. There are currently [counts[1]] fae spirits, [counts[2]] infernal spirits, [counts[3]] elemental spirits, and [counts[4]] void spirits waiting to be summoned.)"
 			for(var/mob/living/carbon/human/advertisee in GLOB.alive_mob_list)
 				if(!advertisee.client)
 					continue

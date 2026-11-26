@@ -52,6 +52,8 @@ GLOBAL_LIST_EMPTY(chosen_names)
 	var/titles_pref = TITLES_M
 	var/clothes_pref = CLOTHES_M
 	var/voice_pack = VOICE_PACK_DEFAULT
+	var/estate_region = TRADE_REGION_KINGSFIELD
+	var/political_faction = POLITICAL_FACTION_NEUTRAL
 	var/voice_type = VOICE_TYPE_MASC	// LETHALSTONE EDIT: the type of soundpack the mob should use
 	var/datum/statpack/statpack	= new /datum/statpack/wildcard/fated // LETHALSTONE EDIT: the statpack we're giving our char instead of racial bonuses
 	var/datum/virtue/virtue = new /datum/virtue/none // LETHALSTONE EDIT: the virtue we get for not picking a statpack
@@ -136,6 +138,7 @@ GLOBAL_LIST_EMPTY(chosen_names)
 	var/list/customizer_entries = list()
 	var/list/list/body_markings = list()
 	var/update_mutant_colors = TRUE // if TRUE, resets accessory and marking colors when mutant colors change
+	var/ooze_color_shifting = TRUE
 
 	///direct link to a headshot image on a whitelisted site. it would rather these 3 fields be a list, but that's actually less efficient at runtime
 	var/headshot_link

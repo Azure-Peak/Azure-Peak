@@ -55,7 +55,7 @@ GLOBAL_LIST_EMPTY(heretical_players)
 	name = "Bishop"
 	tutorial = "The Divine is all that matters in a world of the immoral. \
 	The Weeping God abandoned us, and in his stead the TEN rule over us mortals--and you will preach their wisdom to any who still heed their will. The faithless are growing in number. \
-	It is up to you to shepherd them toward a Gods-fearing future; for you are a Bishop of the Holy See."
+	It is up to you to shepherd them toward a Gods-fearing future; for you are the Bishop of Azuria, the leader of the faithful."
 	outfit = /datum/outfit/job/roguetown/priest/basic
 	subclass_languages = list(/datum/language/grenzelhoftian)
 	category_tags = list(CTAG_BISHOP)
@@ -247,6 +247,7 @@ GLOBAL_LIST_EMPTY(heretical_players)
 		removeomen(OMEN_NOLORD)
 		say("By the authority of the gods, I pronounce you [ruler_title] of [realm]!")
 		priority_announce("[real_name] the [dispjob] has named [HU.real_name] the [ruler_title] of [realm]!", title = "Long Live [HU.real_name]!", sound = 'sound/misc/bell.ogg')
+		announce_ruling_faction(HU)
 		var/datum/job/roguetown/nomoredukes = SSjob.GetJob("Grand Duke")
 		if(nomoredukes)
 			nomoredukes.total_positions = -1000 //We got what we got now.

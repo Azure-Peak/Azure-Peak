@@ -63,6 +63,7 @@
 #define TOWNER_FUNDER_PERSONAL "personal"
 #define TOWNER_FUNDER_CROWN "crown"
 #define TOWNER_FUNDER_COMPANY "company"
+#define TOWNER_FUNDER_PLEDGE "pledge"
 
 #define TOWNER_MAX_ACTIVE_POSTINGS 5
 
@@ -149,7 +150,7 @@
 #define QUEST_BANDS_INCURSION 5
 #define QUEST_BANDS_BOUNTY 4
 #define QUEST_BANDS_RECOVERY 2
-#define QUEST_BANDS_BLOCKADE 6
+#define QUEST_BANDS_BLOCKADE 8
 
 #define QUEST_REWARD_GLOBAL_MULT 1
 
@@ -220,6 +221,11 @@
 #define QUEST_POOL_ROUNDSTART_JITTER (30 MINUTES)
 #define QUEST_POOL_LANDMARK_RESERVE 2
 
+#define QUEST_POOL_SCARCE_MULT 0.5
+#define QUEST_POOL_SCARCITY_TIME (90 MINUTES)
+#define QUEST_POOL_SUPPLY_RAMP (60 MINUTES)
+#define QUEST_POOL_THREAT_MIN_WEIGHT 0.25
+
 #define MIN_TIME_BEFORE_CANCEL_TAKEN_QUEST (30 MINUTES)
 
 #define REFUND_ON_FAILURE 0.5
@@ -247,12 +253,15 @@
 #define QUEST_GUARDIAN_LEASH_GRACE (2 MINUTES)
 #define QUEST_GUARDIAN_LEASH_TICK (10 SECONDS)
 #define QUEST_GUARDIAN_LEASH_WATCH_RANGE 9
+#define QUEST_TRIGGER_BLOCK_RANGE 15
+#define QUEST_TRIGGER_BLOCK_WARN_COOLDOWN (20 SECONDS)
 // Measured as the time deducted from the timer
 #define QUEST_KILL_HUNT_WARN_EARLY (2 MINUTES)
 #define QUEST_KILL_HUNT_WARN_FINAL (30 SECONDS)
 #define QUEST_MOB_FRESHSPAWN_TIME (60 SECONDS)
 // Rename after a delay so subtype after_creation() timers don't override it.
 #define QUEST_BOSS_RENAME_DELAY (2 SECONDS)
+#define QUEST_RINGLEADER_MAX_BUDGET_SHARE 0.5
 
 #define QUEST_LANDMARK_MAX_LOCK_DURATION (60 MINUTES)
 
@@ -263,24 +272,56 @@
 #define NOTORIOUS_BOUNTY_PROX_RANGE 35
 
 #define NOTORIOUS_BOUNTY_HUNT_TIMER (12 MINUTES)
-#define NOTORIOUS_BOUNTY_LEASH_RANGE 40
+#define NOTORIOUS_BOUNTY_LEASH_RANGE 21 // 3 screens
+#define NOTORIOUS_BOUNTY_DRAW_IN_RANGE (NOTORIOUS_BOUNTY_LEASH_RANGE + 9)
+#define NOTORIOUS_BOUNTY_GROUND_TICK (2 SECONDS)
+#define BATTLEGROUND_LEASH_MESSAGE_COOLDOWN (3 SECONDS)
 #define NOTORIOUS_BOUNTY_HUNT_TICK (10 SECONDS)
 #define NOTORIOUS_BOUNTY_PARTY_DOWN_GRACE (20 SECONDS)
 #define NOTORIOUS_BOUNTY_GOON_CAP 3
+#define NOTORIOUS_BOUNTY_ESCORT_TP_PER_EXTRA 40
+#define NOTORIOUS_BOUNTY_ESCORT_CAP_PER_EXTRA 1
 // Extra goons compensate when no ghost answers the poll and the boss stays an NPC.
 #define NOTORIOUS_BOUNTY_REINFORCE_TP 140
 #define NOTORIOUS_BOUNTY_REINFORCE_CAP 7
+#define NOTORIOUS_BOUNTY_REINFORCE_TP_SOLO 70
+#define NOTORIOUS_BOUNTY_REINFORCE_CAP_SOLO 4
 // Flat mammon bump when a player assumes the boss - the hunt got harder, the pay follows.
 #define NOTORIOUS_BOUNTY_PLAYER_BONUS 250
 #define NOTORIOUS_BOUNTY_NPC_BONUS 60
+#define NOTORIOUS_BOUNTY_SOLO_SHARE 0.4
+#define NOTORIOUS_BOUNTY_PLAYER_BONUS_SOLO round(NOTORIOUS_BOUNTY_PLAYER_BONUS * NOTORIOUS_BOUNTY_SOLO_SHARE, 1)
+#define NOTORIOUS_BOUNTY_NPC_BONUS_SOLO round(NOTORIOUS_BOUNTY_NPC_BONUS * NOTORIOUS_BOUNTY_SOLO_SHARE, 1)
 
 #define NOTORIOUS_BOUNTY_PLAYER_STAT_CAP 13
 #define NOTORIOUS_BOUNTY_PLAYER_COMBAT_SKILL_CAP SKILL_LEVEL_EXPERT
 #define NOTORIOUS_BOUNTY_PLAYER_SHIELD_SKILL_CAP SKILL_LEVEL_JOURNEYMAN
 #define NOTORIOUS_BOUNTY_PLAYER_BRAWL_SKILL_CAP SKILL_LEVEL_JOURNEYMAN
+#define NOTORIOUS_BOUNTY_PLAYER_MAGIC_SKILL_CAP SKILL_LEVEL_EXPERT
 
-#define NOTORIOUS_BOUNTY_SURVIVAL_TRIUMPH 1
+#define BOSS_CLASS_TANK "tank"
+#define BOSS_CLASS_DUELIST "duelist"
+#define BOSS_CLASS_RANGER "ranger"
+#define BOSS_CLASS_PYROMANCER "pyromancer"
+#define BOSS_CLASS_FULGURMANCER "fulgurmancer"
+#define BOSS_CLASS_GEOMANCER "geomancer"
+#define BOSS_CLASS_TELOMANCER "telomancer"
+#define BOSS_CLASS_CRYOMANCER "cryomancer"
+#define BOSS_CLASS_SPELLBLADE "spellblade"
+#define BOSS_CLASS_PHALANGITE "phalangite"
+#define BOSS_CLASS_MACEBEARER "macebearer"
+#define BOSS_CLASS_SPELLFIST "spellfist"
+#define BOSS_CLASS_GOBLIN_CHIEF "goblin_chief"
+#define BOSS_CLASS_MOON_GOBLIN_CHIEF "moon_goblin_chief"
+#define BOSS_CLASS_HELL_GOBLIN_CHIEF "hell_goblin_chief"
+#define BOSS_CLASS_WARLORD "warlord"
+#define BOSS_CLASS_SCOURGE "scourge"
+#define BOSS_CLASS_LICH "lich"
+#define BOSS_CLASS_WATCHER "watcher"
+
+#define NOTORIOUS_BOUNTY_TRIUMPH 1
 #define NOTORIOUS_BOUNTY_ENGAGE_RANGE 10
+#define NOTORIOUS_BOUNTY_ENGAGED_TICKS 3
 // Grace period between the boss dying and the player being released to a ghost.
 #define NOTORIOUS_BOUNTY_DEATH_RELEASE (5 SECONDS)
 
@@ -353,11 +394,11 @@
 
 // Incentivizes Mercenary to be hired out by others to complete contracts
 #define MERC_CONTRACT_SHARE_BONUS 0.25
+#define MERC_CONTRACT_SHARE_BONUS_LINE "You will get a +[round(MERC_CONTRACT_SHARE_BONUS * 100)]% bonus from your share of any contracts completed by anyone in the fellowship that isn't yourself."
 
 #define MERC_CONTRACT_MEDAL_DAYS 2
 #define MERC_CONTRACT_MEDAL_TRIUMPHS 3
 
-// Cuts out the most egregious case of a Mercenary abusing contract with stipended role to print free money, by requiring them to be present with their hirer for 1/3 of the day to receive the stipend.
-#define MERC_CONTRACT_PRESENCE_INTERVAL (30 SECONDS)
-#define MERC_CONTRACT_PRESENCE_RANGE 14
-#define MERC_CONTRACT_PRESENCE_SHARE (1/3)
+#define MERC_CONTRACT_HOLD_RETRY_INTERVAL (30 SECONDS)
+
+#define MERC_CONTRACT_OOC_NOTE_LINE "OOC Note: Abusing this, such as making phony contracts with a friend and then not doing anything actually for them but just to benefit from the free stipend, will result in actions including but not limited to jobban."

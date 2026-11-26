@@ -1,4 +1,4 @@
-import { bannerStyle, FONT_BODY, SEAL_RED } from '../common/parchment';
+import { bannerStyle, FONT_BODY, INK, SEAL_RED } from '../common/parchment';
 import type { SequestrationState } from './types';
 
 export const SequestrationBanner = (props: {
@@ -12,40 +12,25 @@ export const SequestrationBanner = (props: {
     <div
       style={{
         ...bannerStyle(SEAL_RED),
-        position: 'relative',
+        display: 'flex',
+        alignItems: 'baseline',
+        gap: '10px',
+        textAlign: 'left',
         fontSize: FONT_BODY,
-        padding: '12px 16px',
+        margin: '8px 0 0 0',
       }}
     >
-      <div
-        style={{
-          position: 'absolute',
-          top: '4px',
-          right: '8px',
-          fontSize: FONT_BODY,
-          fontStyle: 'italic',
-          fontVariant: 'normal',
-          color: SEAL_RED,
-          opacity: 0.7,
-        }}
-      >
-        sealed under the ATC&apos;s mark
-      </div>
-      <div
-        style={{
-          fontSize: '18px',
-          fontWeight: 'bold',
-          marginBottom: '4px',
-        }}
+      <span
+        title="Sealed under the ATC's mark"
+        style={{ flex: '0 0 auto', letterSpacing: '0.06em' }}
       >
         SEQUESTRATION DECLARED
-      </div>
-      <div style={{ fontVariant: 'normal' }}>
+      </span>
+      <span style={{ fontWeight: 'normal', color: INK }}>
         The Crown defaulted, so the ATC now collects the realm&apos;s revenues
-        until the {sequestration.debt}m debt is repaid. You can&apos;t change
-        trade settings or stockpile prices until then. Petitions, taxes and
-        fines still work.
-      </div>
+        until the {sequestration.debt}m debt is repaid. You can&apos;t trade
+        with the market until then. Petitions, taxes and fines still work.
+      </span>
     </div>
   );
 };

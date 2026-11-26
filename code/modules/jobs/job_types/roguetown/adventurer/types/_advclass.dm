@@ -23,6 +23,8 @@
 	var/cmode_music
 
 	var/noble_income = FALSE //Passive income every day from noble estate
+	var/noble_rank = NOBLE_RANK_NONE
+	var/estate_pay_rank = NOBLE_RANK_NONE
 
 	/// This class is immune to species-based swapped gender locks
 	var/immune_to_genderswap = FALSE
@@ -110,10 +112,8 @@
 	for(var/trait in traits_applied)
 		ADD_TRAIT(H, trait, JOB_TRAIT)
 
-	if(noble_income)
-		var/already_has_income = !isnull(SStreasury.noble_incomes[H])
-		SStreasury.noble_incomes[H] = noble_income
-		SStreasury.grant_estate_income(H, noble_income, !already_has_income)
+	if(noble_rank || noble_income)
+		SSeconomy.register_estate(H, noble_rank, noble_income, pay_rank = estate_pay_rank)
 
 	if(adaptive_name)
 		H.adaptive_name = TRUE
@@ -165,7 +165,7 @@
 			var/mob/horse_mob = new horse(TU)
 			if(istype(horse_mob, /mob/living/simple_animal/hostile/retaliate/rogue))
 				var/mob/living/simple_animal/hostile/retaliate/rogue/rogue_animal = horse_mob
-				rogue_animal.owner = H
+				rogue_animal.claim(H)
 				rogue_animal.friends |= H
 	H.set_advsetup(FALSE)
 	H.mind?.refresh_spell_buttons()

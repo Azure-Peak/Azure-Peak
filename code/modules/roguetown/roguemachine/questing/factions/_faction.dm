@@ -8,7 +8,6 @@ GLOBAL_LIST_EMPTY(quest_factions)
 	var/faction_tag
 	var/list/mob_types = list()
 	var/list/boss_mob_types = list()
-	var/list/boss_title_templates = list()
 	var/boss_name_file
 	var/notorious_bounty_amount = 0
 	var/can_blockade = FALSE
@@ -17,6 +16,8 @@ GLOBAL_LIST_EMPTY(quest_factions)
 	var/progress_noun = "malefactors"
 	var/list/variant_chances
 	var/list/variant_factions
+	var/cached_average_tp
+	var/cached_max_tp
 
 /datum/quest_faction/New()
 	if(!id)
@@ -56,8 +57,11 @@ GLOBAL_LIST_EMPTY(quest_factions)
 		return null
 	return pick(names)
 
-/datum/quest_faction/proc/generate_boss_name()
-	var/template = length(boss_title_templates) ? pick(boss_title_templates) : "%N"
+/datum/quest_faction/proc/generate_boss_name(boss_type)
+	var/list/templates = get_boss_class_titles(boss_type)
+	if(!length(templates))
+		templates = get_boss_class_titles(pick_boss_mob_type())
+	var/template = length(templates) ? pick(templates) : "%N"
 	var/name = pick_boss_name()
 	if(!name)
 		return "a notorious [name_singular]"
@@ -74,20 +78,23 @@ GLOBAL_LIST_EMPTY(quest_factions)
 	return pickweight(mob_types)
 
 /datum/quest_faction/proc/average_threat_point()
+	if(!isnull(cached_average_tp))
+		return cached_average_tp
 	var/total_weight = 0
 	var/weighted_tp = 0
 	for(var/mob_path in mob_types)
 		var/weight = mob_types[mob_path]
 		total_weight += weight
 		weighted_tp += weight * initial_threat_point(mob_path)
-	if(total_weight <= 0 || weighted_tp <= 0)
-		return 0
-	return weighted_tp / total_weight
+	cached_average_tp = (total_weight > 0 && weighted_tp > 0) ? weighted_tp / total_weight : 0
+	return cached_average_tp
 
 /datum/quest_faction/proc/max_threat_point()
-	. = 0
-	for(var/mob_path in mob_types)
-		. = max(., initial_threat_point(mob_path))
+	if(isnull(cached_max_tp))
+		cached_max_tp = 0
+		for(var/mob_path in mob_types)
+			cached_max_tp = max(cached_max_tp, initial_threat_point(mob_path))
+	return cached_max_tp
 
 /datum/quest_faction/proc/pick_crimes(count = 3)
 	if(!length(crime_weights) || count <= 0)

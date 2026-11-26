@@ -4,6 +4,8 @@
 /datum/ai_controller/human_npc
 	max_target_distance = 13
 	ai_movement = /datum/ai_movement/hybrid_pathing
+	climb_windup = 1 SECONDS
+	climb_interval = 3 SECONDS
 	blackboard = list(
 		BB_WEAPON_TYPE = /obj/item/rogueweapon,
 		BB_ARMOR_CLASS = 2,
@@ -48,12 +50,19 @@
 /datum/ai_controller/human_npc/TryPossessPawn(atom/new_pawn)
 	. = ..()
 	new_pawn.AddComponent(/datum/component/ai_inventory_manager)
-	new_pawn.AddElement(/datum/element/interrupt_on_damage)
 	new_pawn.AddComponent(/datum/component/combat_vocalizer)
+	force_cmode(new_pawn)
+
+/datum/ai_controller/human_npc/SelectBehaviors(delta_time)
+	force_cmode(pawn)
+	return ..()
+
+/datum/ai_controller/human_npc/proc/force_cmode(mob/living/living_pawn)
+	if(istype(living_pawn) && !living_pawn.client && !living_pawn.cmode)
+		living_pawn.cmode = TRUE
 
 /datum/ai_controller/human_npc/UnpossessPawn(destroy)
 	var/mob/living/living_pawn = pawn
-	living_pawn.RemoveElement(/datum/element/interrupt_on_damage)
 	qdel(living_pawn.GetComponent(/datum/component/ai_inventory_manager))
 	qdel(living_pawn.GetComponent(/datum/component/combat_vocalizer))
 	return ..()
@@ -80,6 +89,30 @@
 
 /// Melee-only human NPC. Same as base — the base class is already melee-focused since it
 /datum/ai_controller/human_npc/melee
+
+/datum/ai_controller/human_npc/melee/abilities
+	planning_subtrees = list(
+		/datum/ai_planning_subtree/being_a_minion,
+		/datum/ai_planning_subtree/call_for_help,
+		/datum/ai_planning_subtree/generic_break_restraints,
+		/datum/ai_planning_subtree/use_throwable,
+		/datum/ai_planning_subtree/generic_wield,
+		/datum/ai_planning_subtree/kick_attack,
+		/datum/ai_planning_subtree/generic_resist,
+		/datum/ai_planning_subtree/generic_stand,
+		/datum/ai_planning_subtree/flee_target,
+		/datum/ai_planning_subtree/tree_climb,
+		/datum/ai_planning_subtree/tree_descend,
+		/datum/ai_planning_subtree/aggro_find_target,
+		/datum/ai_planning_subtree/spell_rotation,
+		/datum/ai_planning_subtree/stamina_disengage,
+		/datum/ai_planning_subtree/attack_obstacle_in_path,
+		/datum/ai_planning_subtree/leap_attack,
+		/datum/ai_planning_subtree/basic_melee_attack_subtree/human_npc,
+		/datum/ai_planning_subtree/find_weapon,
+		/datum/ai_planning_subtree/equip_item,
+		/datum/ai_planning_subtree/loot,
+	)
 
 /// Archer human NPC. Adds archer-specific planning subtrees and blackboard keys on top of
 /// the base. Uses the same melee subtree as a fallback when out of ammo / in melee range.

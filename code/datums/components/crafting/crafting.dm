@@ -56,7 +56,7 @@
 			var/needed_amount = R.reqs[A]
 			for(var/B in contents)
 				if(ispath(B, A))
-					if(!R.subtype_reqs && (B in subtypesof(A)))
+					if(!R.subtype_reqs && B != A)
 						continue
 					if (R.blacklist.Find(B))
 
@@ -503,7 +503,7 @@
 				if(!I.can_craft_with())
 					surroundings -= I
 			for(var/atom/movable/IS in surroundings)
-				if(!R.subtype_reqs && (IS.type in subtypesof(A)))
+				if(!R.subtype_reqs && IS.type != A && ispath(IS.type, A))
 					surroundings.Remove(IS)
 			surroundings -= Deletion
 			if(ispath(A, /datum/reagent))
@@ -546,21 +546,20 @@
 					for(var/obj/item/natural/bundle/B in surroundings)
 						if(!B.stacktype || !ispath(B.stacktype, A))
 							continue
-						if(!R.subtype_reqs && (B.stacktype in subtypesof(A)))
+						if(!R.subtype_reqs && B.stacktype != A)
 							continue
 						if(R.blacklist.Find(B.stacktype))
 							continue
 						found_bundle = TRUE
 						surroundings -= B
 						if(B.amount > amt)
-							var/stacktype = B.stacktype
 							B.amount -= amt
 							B.update_bundle()
 							switch(B.amount)
 								if(1)
 									var/atom/old_loc = B.loc
+									var/obj/item/new_item = B.spawn_single(old_loc)
 									qdel(B)
-									var/obj/item/new_item = new stacktype(old_loc)
 									if(ishuman(old_loc))
 										var/mob/living/carbon/human/H = old_loc
 										H.put_in_hands(new_item)
@@ -664,6 +663,10 @@
 	var/list/data = list()
 	data["busy"] = busy
 	data["showonlycraftable"] = showonlycraftable
+	var/datum/recipe_pins/pinned = user?.get_recipe_pins()
+	data["pins"] = pinned ? pinned.pins[RECIPE_PIN_MENU_CRAFTING] : list()
+	data["pins_imported"] = pinned ? !!pinned.imported[RECIPE_PIN_MENU_CRAFTING] : FALSE
+	data["pin_key"] = pinned?.pin_key
 
 	var/list/surroundings = get_surroundings(user)
 	var/new_hash = list2params(surroundings["other"])
@@ -741,6 +744,14 @@
 			usr.mind.lastrecipe = recipe
 		if("checkboxonlycraftable")
 			showonlycraftable = params["state"]
+		if("cycle_pin")
+			var/datum/recipe_pins/pinned = usr.get_recipe_pins()
+			pinned?.cycle(usr, RECIPE_PIN_MENU_CRAFTING, params["path"])
+			return TRUE
+		if("import_pins")
+			var/datum/recipe_pins/pinned = usr.get_recipe_pins()
+			pinned?.import_saved(RECIPE_PIN_MENU_CRAFTING, params["paths"])
+			return TRUE
 
 
 

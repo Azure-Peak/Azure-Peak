@@ -128,12 +128,12 @@ GLOBAL_LIST_EMPTY(explosions)
 			soundin = pick(shitty)
 		var/sound/explosion_sound = sound(soundin)
 		var/sound/far_explosion_sound = sound(pick('sound/misc/explode/explosionfar (1).ogg','sound/misc/explode/explosionfar (2).ogg','sound/misc/explode/explosionfar (3).ogg'))
+		var/turf/E_turf = get_turf(epicenter)
 
 		for(var/mob/M in GLOB.player_list)
 			// Double check for client
 			var/turf/M_turf = get_turf(M)
-			var/turf/E_turf = get_turf(epicenter)
-			if(is_in_zweb(M_turf.z,E_turf.z))
+			if(M_turf && is_in_zweb(M_turf.z, E_turf.z))
 				var/dist = get_dist(M_turf, epicenter)
 				var/baseshakeamount
 				if(orig_max_distance - dist > 0)
@@ -188,7 +188,7 @@ GLOBAL_LIST_EMPTY(explosions)
 			burn = rand(100,250) / 5
 			for(var/i in 1 to 5)
 				var/zone = pick(BODY_ZONE_HEAD, BODY_ZONE_CHEST, BODY_ZONE_L_ARM, BODY_ZONE_R_ARM, BODY_ZONE_L_LEG, BODY_ZONE_R_LEG)
-				arcyne_strike(L, L, null, brute, zone, BCLASS_BLUNT, PEN_BSTEEL, "extreme concussive impact", TRUE, TRUE, FALSE, BRUTE, null, TRUE)
+				arcyne_strike(L, L, null, brute, zone, BCLASS_BLUNT, PEN_BSTEEL, "extreme concussive impact", TRUE, TRUE, FALSE, BRUTE, 1, TRUE)
 				arcyne_strike(L, L, null, burn, zone, BCLASS_BURN, PEN_BSTEEL, "extreme concussive blast", TRUE, TRUE, FALSE, BURN, null, TRUE)
 
 	if(!isnull(heavy_impact_range))
@@ -202,7 +202,7 @@ GLOBAL_LIST_EMPTY(explosions)
 			burn = rand(50,180) / 5
 			for(var/i in 1 to 5)
 				var/zone = pick(BODY_ZONE_HEAD,	BODY_ZONE_CHEST, BODY_ZONE_L_ARM, BODY_ZONE_R_ARM, BODY_ZONE_L_LEG, BODY_ZONE_R_LEG)
-				arcyne_strike(L, L, null, brute, zone, BCLASS_BLUNT, PEN_HEAVY, "heavy concussive impact", TRUE, TRUE, FALSE, BRUTE, null, TRUE)
+				arcyne_strike(L, L, null, brute, zone, BCLASS_BLUNT, PEN_HEAVY, "heavy concussive impact", TRUE, TRUE, FALSE, BRUTE, 1, TRUE)
 				arcyne_strike(L, L, null, burn, zone, BCLASS_BURN, PEN_HEAVY, "heavy concussive blast", TRUE, TRUE, FALSE, BURN, null, TRUE)
 
 	if(!isnull(light_impact_range))
@@ -216,7 +216,7 @@ GLOBAL_LIST_EMPTY(explosions)
 			burn = rand(25,90) / 5
 			for(var/i in 1 to 5)
 				var/zone = pick(BODY_ZONE_HEAD, BODY_ZONE_CHEST, BODY_ZONE_L_ARM, BODY_ZONE_R_ARM, BODY_ZONE_L_LEG, BODY_ZONE_R_LEG)
-				arcyne_strike(L, L, null, brute, zone, BCLASS_BLUNT, PEN_NONE, "concussive impact", TRUE, TRUE, FALSE, BRUTE, null, TRUE)
+				arcyne_strike(L, L, null, brute, zone, BCLASS_BLUNT, PEN_NONE, "concussive impact", TRUE, TRUE, FALSE, BRUTE, 1, TRUE)
 				arcyne_strike(L, L, null, burn, zone, BCLASS_BURN, PEN_NONE, "concussive blast", TRUE, TRUE, FALSE, BURN, null, TRUE)
 
 	EX_PREPROCESS_CHECK_TICK

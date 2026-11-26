@@ -1,4 +1,27 @@
 
+/mob/living/carbon/human/proc/get_missing_organs()
+	var/list/missing_organs = list()
+	var/datum/species/species = dna?.species
+	if(!species)
+		return missing_organs
+	var/list/expected_organs = species.organs.Copy()
+	for(var/slot in dna.organ_dna)
+		var/datum/organ_dna/organ_dna = dna.organ_dna[slot]
+		if(organ_dna)
+			expected_organs[slot] = organ_dna.can_create_organ() ? organ_dna.organ_type : null
+	var/list/detached_head_slots = list()
+	var/datum/species/dullahan/dullahan = species
+	if(istype(dullahan) && dullahan.headless && !QDELETED(dullahan.my_head))
+		for(var/obj/item/organ/organ in dullahan.my_head.contents)
+			detached_head_slots[organ.slot] = TRUE
+	for(var/slot in expected_organs)
+		if(getorganslot(slot) || detached_head_slots[slot] || !species.is_organ_slot_allowed(src, slot))
+			continue
+		var/obj/item/organ/organ_type = expected_organs[slot]
+		if(organ_type)
+			missing_organs += initial(organ_type.name)
+	return missing_organs
+
 /mob/living/carbon/human/proc/change_name(new_name)
 	for(var/mob/living/carbon/human/H in GLOB.player_list)
 		var/datum/mind/M = H.mind
@@ -73,6 +96,9 @@
 	var/obj/item/bodypart/O = get_bodypart(BODY_ZONE_HEAD)
 	if( !O || (HAS_TRAIT(src, TRAIT_DISFIGURED)) || !real_name || (O.skeletonized && !HAS_TRAIT(src, TRAIT_FACELESS_KNOWN) && !mind?.has_antag_datum(/datum/antagonist/lich)))	//disfigured. use id-name if possible
 		return if_no_face
+	var/datum/component/hag_name/ID = GetComponent(/datum/component/hag_name)
+	if(ID)
+		return ID.identity.name
 	return real_name
 
 /// Checks whether a viewer belongs to a Secret audience.

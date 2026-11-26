@@ -274,7 +274,7 @@
 
 	category_tags = list(CTAG_VETERAN)
 	traits_applied = list(TRAIT_HEAVYARMOR, TRAIT_MEDIUMARMOR, TRAIT_STEELHEARTED, TRAIT_NOBLE)
-	noble_income = 15
+	noble_rank = NOBLE_RANK_GENTRY
 	subclass_stats = list(
 		STATKEY_CON = 2,
 		STATKEY_WIL = 2,
@@ -524,6 +524,9 @@
 		STATKEY_SPD = 1,// You get -2 speed from being old.
 		STATKEY_STR = -1
 	)
+	subclass_stashed_items = list(
+		"Wax Putty" = /obj/item/waxputty,
+	)
 	age_mod = /datum/class_age_mod/veteran/scout
 	subclass_skills = list(
 		/datum/skill/combat/swords = SKILL_LEVEL_EXPERT,
@@ -639,6 +642,9 @@
 		STATKEY_CON = 1,
 		STATKEY_SPD = 1,
 		STATKEY_STR = -2
+	)
+	subclass_stashed_items = list(
+		"Wax Putty" = /obj/item/waxputty,
 	)
 	age_mod = /datum/class_age_mod/veteran/spy
 	subclass_skills = list(

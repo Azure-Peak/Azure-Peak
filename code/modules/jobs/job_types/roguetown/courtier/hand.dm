@@ -14,7 +14,7 @@
 	tutorial = "You owe everything to your liege. Once, you were just a humble friend--now you are one of the most important people within the duchy itself. You have played spymaster and confidant to the Noble-Family for so long that you are a veritable vault of intrigue, something you exploit with potent conviction at every opportunity. Let no man ever forget into whose ear you whisper. You've killed more men with those lips than any blademaster could ever claim to."
 	whitelist_req = TRUE
 	give_bank_account = TRUE
-	noble_income = 22
+	noble_rank = NOBLE_RANK_PEER
 	min_pq = 9 //The second most powerful person in the realm...
 	max_pq = null
 	round_contrib_points = 3
@@ -312,12 +312,9 @@
 		if(!agent || !istype(agent) || !agent.mind)
 			to_chat(user, span_warning("Invalid agent. This is a bug."))
 			return
-		var/list/agent_prefs = agent.mind.job_subprefs["Court Agent"]
-		if(!length(agent_prefs))
-			to_chat(user, span_warning("Invalid agent prefs. This is a bug."))
-			return
-		var/codename = agent_prefs["codename"]
-		var/hand_notes_html = agent_prefs["hand_file_notes"]
+		var/list/agent_prefs = agent.mind.job_subprefs?["Court Agent"]
+		var/codename = agent_prefs?["codename"]
+		var/hand_notes_html = agent_prefs?["hand_file_notes"]
 
 		var/list/d_list = agent.get_mob_descriptors()
 		var/trait_desc = "[capitalize(build_coalesce_description_nofluff(d_list, agent, list(MOB_DESCRIPTOR_SLOT_TRAIT), "%DESC1%"))]"

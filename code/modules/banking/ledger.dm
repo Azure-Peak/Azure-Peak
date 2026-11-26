@@ -112,7 +112,6 @@ GLOBAL_LIST_INIT(ledger_class_order, list(
 	add_ledger_account(LEDGER_CROWN_REV_SPOILS, "Recovered Spoils", LEDGER_BOOK_CROWN, LEDGER_CLASS_REVENUE)
 	add_ledger_account(LEDGER_CROWN_REV_FINES, "Fines", LEDGER_BOOK_CROWN, LEDGER_CLASS_REVENUE)
 	add_ledger_account(LEDGER_CROWN_REV_POLL_LEVY, "Poll Levy", LEDGER_BOOK_CROWN, LEDGER_CLASS_REVENUE)
-	add_ledger_account(LEDGER_CROWN_REV_EXPORT_SALES, "Export Sales", LEDGER_BOOK_CROWN, LEDGER_CLASS_REVENUE)
 	add_ledger_account(LEDGER_CROWN_REV_STANDING_ORDERS, "Standing Order Sales", LEDGER_BOOK_CROWN, LEDGER_CLASS_REVENUE)
 	add_ledger_account(LEDGER_CROWN_REV_STOCKPILE_SALES, "Stockpile Sales", LEDGER_BOOK_CROWN, LEDGER_CLASS_REVENUE)
 	add_ledger_account(LEDGER_CROWN_REV_QUALITY, "Quality Premiums", LEDGER_BOOK_CROWN, LEDGER_CLASS_REVENUE)
@@ -120,10 +119,13 @@ GLOBAL_LIST_INIT(ledger_class_order, list(
 	add_ledger_account(LEDGER_CROWN_REV_BLOCKADE, "Blockade Defense Rewards", LEDGER_BOOK_CROWN, LEDGER_CLASS_REVENUE)
 	add_ledger_account(LEDGER_CROWN_REV_MAIL, "Mail Income", LEDGER_BOOK_CROWN, LEDGER_CLASS_REVENUE)
 	add_ledger_account(LEDGER_CROWN_REV_REFUNDS, "Refunds Received", LEDGER_BOOK_CROWN, LEDGER_CLASS_REVENUE)
+	add_ledger_account(LEDGER_CROWN_REV_RENTALS, "Caravan Rentals", LEDGER_BOOK_CROWN, LEDGER_CLASS_REVENUE)
 	// Crown expenses
 	add_ledger_account(LEDGER_CROWN_EXP_WAGES, "Wages", LEDGER_BOOK_CROWN, LEDGER_CLASS_EXPENSE)
 	add_ledger_account(LEDGER_CROWN_EXP_IMPORTS, "Imports & Purchases", LEDGER_BOOK_CROWN, LEDGER_CLASS_EXPENSE)
 	add_ledger_account(LEDGER_CROWN_EXP_BANDITRY, "Brigand Losses", LEDGER_BOOK_CROWN, LEDGER_CLASS_EXPENSE)
+	add_ledger_account(LEDGER_CROWN_EXP_ESCORTS, "Caravan Escorts", LEDGER_BOOK_CROWN, LEDGER_CLASS_EXPENSE)
+	add_ledger_account(LEDGER_CROWN_EXP_COMMISSIONS, "Royal Commissions", LEDGER_BOOK_CROWN, LEDGER_CLASS_EXPENSE)
 	add_ledger_account(LEDGER_CROWN_EXP_CONTRACTS, "Contract Outlay", LEDGER_BOOK_CROWN, LEDGER_CLASS_EXPENSE)
 	add_ledger_account(LEDGER_CROWN_EXP_TITHE, "Church Tithe", LEDGER_BOOK_CROWN, LEDGER_CLASS_EXPENSE)
 	add_ledger_account(LEDGER_CROWN_EXP_WITHDRAWALS, "Treasury Withdrawals", LEDGER_BOOK_CROWN, LEDGER_CLASS_EXPENSE)
@@ -430,7 +432,7 @@ GLOBAL_LIST_INIT(ledger_class_order, list(
 /// Interest earned to date under the same day-count get_remaining_due() uses.
 /datum/loan/proc/get_interest_earned()
 	var/elapsed_days = max(1, GLOB.dayspassed - issued_on_day)
-	var/owed = min(total_due, principal + FLOOR(principal * interest_rate * elapsed_days, 1))
+	var/owed = min(total_due, principal + mammon_round(principal * interest_rate * elapsed_days))
 	return max(0, owed - principal)
 
 /// Books newly earned interest on a Crown loan as income and a receivable. Other lenders' loans
@@ -470,8 +472,8 @@ GLOBAL_LIST_INIT(ledger_class_order, list(
 /datum/controller/subsystem/treasury/proc/get_stockpile_valuation()
 	var/total = 0
 	for(var/datum/roguestock/D as anything in stockpile_datums)
-		total += max(0, D.stockpile_amount) * D.payout_price
-	return total
+		total += max(0, D.royal_stock) * D.payout_price
+	return round(total, 0.01)
 
 /// Periodic inventory method: purchases are expensed as they happen, and this brings the asset up
 /// (or down) to what is actually in the stockpile, with the difference going to "Change in Stockpile

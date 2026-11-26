@@ -1,4 +1,4 @@
-///Component specifically for explosion sensetive things, currently only applies to heat based explosions but can later perhaps be used for things that are dangerous to handle carelessly like nitroglycerin.
+///Component specifically for explosion sensitive things, currently only applies to heat based explosions but can later perhaps be used for things that are dangerous to handle carelessly like nitroglycerin.
 /datum/component/explodable
 	var/extreme_impact_range = 0
 	var/heavy_impact_range = 0

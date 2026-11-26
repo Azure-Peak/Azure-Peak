@@ -18,14 +18,14 @@
 /obj/item/loan_contract/Initialize(mapload)
 	. = ..()
 	if(!total_due && principal)
-		total_due = FLOOR(principal * (1 + (interest_rate * term_days)), 1)
+		total_due = mammon_round(principal * (1 + (interest_rate * term_days)))
 
 /obj/item/loan_contract/examine(mob/user)
 	. = ..()
 	var/signature = issuer_name || "the Nerve Master"
 	var/year = issuer_year || CALENDAR_EPOCH_YEAR
 	var/pct = round(interest_rate * 100)
-	. += span_info("The contract reads: <i>\"Be it known that the bearer doth receive of the Crown the sum of [principal] mammon, to be repaid in full on the [ordinal(term_days)] dae after the acceptance of this loan, at the rate of [pct] per centum per dae of simple interest, totaling [total_due] mammon due.\"</i>")
+	. += span_info("The contract reads: <i>\"Be it known that the bearer doth receive of the Crown the sum of [principal] mammon, to be repaid in full on the [ordinal(term_days)] dae after the acceptance of this loan, at the rate of [pct] per centum per dae of simple interest, totaling [format_mammon(total_due)] mammon due.\"</i>")
 	. += span_info("<i>Signed in the year [year], [signature].</i>")
 	. += span_notice("Left-click in hand to accept or decline its terms.")
 
@@ -62,7 +62,7 @@
 	var/datum/fund/preview_fund = SStreasury.resolve_fund_by_id(source_fund_id)
 	var/preview_label = preview_fund ? SStreasury.indenture_faction_label(preview_fund) : "an unknown lender"
 	var/pct = round(interest_rate * 100)
-	var/choice = alert(user, "Accept a loan of [principal]m from [preview_label], due in [term_days] day\s at [pct]%/day simple interest? Total due: [total_due]m.", "Loan from [preview_label]", "Accept", "Decline")
+	var/choice = alert(user, "Accept a loan of [principal]m from [preview_label], due in [term_days] day\s at [pct]%/day simple interest? Total due: [format_mammon(total_due)]m.", "Loan from [preview_label]", "Accept", "Decline")
 	if(choice != "Accept")
 		to_chat(user, span_notice("I set the contract aside, unsigned."))
 		return
@@ -95,9 +95,9 @@
 	record_round_statistic(STATS_LOANS_ISSUED, 1)
 	var/lender_label = SStreasury.indenture_faction_label(issuing_fund)
 	user.visible_message(span_notice("[user] signs the loan contract and pockets [lender_label]'s coin."), \
-		span_notice("I accept the loan of [principal]m from [lender_label], repayable in [term_days] day\s at [pct]%/day. Total due: [total_due]m."))
+		span_notice("I accept the loan of [principal]m from [lender_label], repayable in [term_days] day\s at [pct]%/day. Total due: [format_mammon(total_due)]m."))
 	playsound(get_turf(user), 'sound/misc/gold_license.ogg', 60, FALSE, -1)
-	send_ooc_note("<b>MEISTER:</b> Loan of [principal]m received from [lender_label]. [total_due]m will be collected on day [L.due_on_day].", name = user.real_name)
+	send_ooc_note("<b>MEISTER:</b> Loan of [principal]m received from [lender_label]. [format_mammon(total_due)]m will be collected on day [L.due_on_day].", name = user.real_name)
 	qdel(src)
 
 /obj/item/loan_contract/indenture
@@ -132,7 +132,7 @@
 			to_chat(user, span_warning("[SStreasury.indenture_faction_label(target_fund)] already holds an outstanding indenture."))
 			return
 	var/pct = round(interest_rate * 100)
-	var/choice = alert(user, "On behalf of [SStreasury.indenture_faction_label(target_fund)], accept an indenture of [principal]m from [issuing_fund.name], due in [term_days] day\s at [pct]%/day? Total due: [total_due]m. THIS WILL BE PUBLICLY PROCLAIMED.", "Writ of Indenture", "Seal", "Decline")
+	var/choice = alert(user, "On behalf of [SStreasury.indenture_faction_label(target_fund)], accept an indenture of [principal]m from [issuing_fund.name], due in [term_days] day\s at [pct]%/day? Total due: [format_mammon(total_due)]m. THIS WILL BE PUBLICLY PROCLAIMED.", "Writ of Indenture", "Seal", "Decline")
 	if(choice != "Seal")
 		to_chat(user, span_notice("I set the indenture aside, unsealed."))
 		return

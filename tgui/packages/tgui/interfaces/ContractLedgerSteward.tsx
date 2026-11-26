@@ -34,11 +34,14 @@ type StewardData = {
   directives_per_day: number;
   directives_issued_today: number;
   is_alderman_acting: number | boolean;
+  pledge_only: number | boolean;
   hoard_recovery_fellowship_min: number;
   blockade_defender_min: number;
   blockade_defender_max: number;
   blockade_extra_defender_pct: number;
   blockade_extra_threat_pct: number;
+  veteran_types: string[];
+  veteran_threat_pct: number;
 };
 
 type FundingSource = 'pledge' | 'crown' | 'directive';
@@ -151,27 +154,27 @@ const ModeRadio = (props: {
 );
 
 const LevyStampRow = (props: {
-  aldermanActing: boolean;
+  restrictedAs: string | null;
   levyExempt: boolean;
   onChange: (v: boolean) => void;
 }) => (
   <FormRow label="Levy Stamp">
     <label
       style={
-        props.aldermanActing
+        props.restrictedAs
           ? { textDecoration: 'line-through', color: '#8a7250' }
           : undefined
       }
       title={
-        props.aldermanActing
-          ? "As Alderman, you can't waive the levy."
+        props.restrictedAs
+          ? `${props.restrictedAs}, you can't waive the levy.`
           : undefined
       }
     >
       <input
         type="checkbox"
         checked={props.levyExempt}
-        disabled={props.aldermanActing}
+        disabled={!!props.restrictedAs}
         onChange={(e) => props.onChange(e.target.checked)}
       />
       &nbsp;Stamp as LEVY EXEMPT (waive Crown&apos;s Contract Levy)
@@ -191,14 +194,25 @@ const ComposeView = () => {
   const [bonusPayLevel, setBonusPayLevel] = useState<0 | 1 | 2>(0);
   const [funding, setFunding] = useState<FundingSource>('pledge');
   const [crownTopup, setCrownTopup] = useState<boolean>(false);
+  const [veteran, setVeteran] = useState<boolean>(false);
   const [inflight, setInflight] = useState<boolean>(false);
 
-  const aldermanActing = !!data.is_alderman_acting;
+  const pledgeOnly = !!data.pledge_only;
+  const restrictedAs = !pledgeOnly
+    ? null
+    : data.is_alderman_acting
+      ? 'As Alderman'
+      : "With the Steward's key";
   const regionsForType = data.defense_regions_by_type?.[type] || [];
   const cost = data.defense_costs?.[type] ?? 0;
   const isBlockade = type === BLOCKADE_TYPE;
   const isHoardRecovery = type === HOARD_RECOVERY_TYPE;
   const isWrit = isBlockade || isHoardRecovery;
+  const canVeteran =
+    !isWrit &&
+    funding !== 'directive' &&
+    (data.veteran_types || []).includes(type);
+  const useVeteran = canVeteran && veteran;
   const regionHasActiveWrit =
     isWrit && !!region && (data.active_writ_regions || []).includes(region);
   const directivesRemaining =
@@ -218,7 +232,7 @@ const ComposeView = () => {
   const scaledCost = effectiveLevel !== 0 ? Math.round(cost * bonusMult) : cost;
   const effectiveCost = funding === 'directive' ? 0 : scaledCost;
   const pledgeShortfall =
-    funding === 'pledge' && !aldermanActing
+    funding === 'pledge' && !pledgeOnly
       ? Math.max(0, scaledCost - data.pledge_balance)
       : 0;
   const topupActive = pledgeShortfall > 0 && crownTopup;
@@ -233,12 +247,12 @@ const ComposeView = () => {
   if (funding === 'directive' && directivesRemaining <= 0) {
     setFunding(pledgeAvailable ? 'pledge' : 'crown');
   }
-  // Aldermen are restricted to the Pledge - if they wandered onto another source via stale state,
+  // Pledge-only issuers are restricted to the Pledge - if they wandered onto another source via stale state,
   // snap them back. Server enforces this independently; the UI just keeps the state coherent.
-  if (aldermanActing && funding !== 'pledge') {
+  if (pledgeOnly && funding !== 'pledge') {
     setFunding('pledge');
   }
-  if (aldermanActing && levyExempt) {
+  if (pledgeOnly && levyExempt) {
     setLevyExempt(false);
   }
 
@@ -288,6 +302,7 @@ const ComposeView = () => {
       bonus_pay_level: effectiveLevel,
       funding,
       crown_topup: topupActive ? 1 : 0,
+      veteran: useVeteran ? 1 : 0,
     });
     setTimeout(() => setInflight(false), DISPATCH_DEBOUNCE_MS);
   };
@@ -297,6 +312,14 @@ const ComposeView = () => {
       <div className="ContractLedger__InnkeeperFlavor">
         Commission adventurers against the Realm's enemies.
       </div>
+      {restrictedAs && (
+        <div
+          className="ContractLedger__InnkeeperFlavor"
+          style={{ color: '#7a5616', fontWeight: 'bold' }}
+        >
+          {restrictedAs}, you can only pay from the Burgher Pledge.
+        </div>
+      )}
 
       <FormRow label="Contract Type">
         <select
@@ -391,13 +414,13 @@ const ComposeView = () => {
           </label>
           <label
             style={
-              aldermanActing
+              restrictedAs
                 ? { textDecoration: 'line-through', color: '#8a7250' }
                 : undefined
             }
             title={
-              aldermanActing
-                ? "As Alderman, you can't pay from the Treasury."
+              restrictedAs
+                ? `${restrictedAs}, you can't pay from the Treasury.`
                 : undefined
             }
           >
@@ -405,20 +428,20 @@ const ComposeView = () => {
               type="radio"
               name="fundingSource"
               checked={funding === 'crown'}
-              disabled={aldermanActing}
+              disabled={pledgeOnly}
               onChange={() => setFunding('crown')}
             />
             &nbsp;Treasury ({coin(data.crown_purse_balance)})
           </label>
           <label
             style={
-              aldermanActing
+              restrictedAs
                 ? { textDecoration: 'line-through', color: '#8a7250' }
                 : undefined
             }
             title={
-              aldermanActing
-                ? "As Alderman, you can't issue Requests."
+              restrictedAs
+                ? `${restrictedAs}, you can't issue Requests.`
                 : undefined
             }
           >
@@ -426,7 +449,7 @@ const ComposeView = () => {
               type="radio"
               name="fundingSource"
               checked={funding === 'directive'}
-              disabled={aldermanActing || directivesRemaining <= 0}
+              disabled={pledgeOnly || directivesRemaining <= 0}
               onChange={() => setFunding('directive')}
             />
             &nbsp;Request ({directivesRemaining}/{data.directives_per_day ?? 0}{' '}
@@ -482,6 +505,20 @@ const ComposeView = () => {
         </FormRow>
       )}
 
+      {canVeteran && (
+        <FormRow label="Veteran">
+          <label>
+            <input
+              type="checkbox"
+              checked={veteran}
+              onChange={(e) => setVeteran(e.target.checked)}
+            />
+            &nbsp;Increases threat by {data.veteran_threat_pct}% and rewards by
+            that proportionally.
+          </label>
+        </FormRow>
+      )}
+
       {!isWrit && funding !== 'directive' && (
         <FormRow label="Deliver As">
           <div className="ContractLedger__InnkeeperModeRow">
@@ -503,7 +540,7 @@ const ComposeView = () => {
 
       {funding !== 'directive' && (
         <LevyStampRow
-          aldermanActing={aldermanActing}
+          restrictedAs={restrictedAs}
           levyExempt={levyExempt}
           onChange={setLevyExempt}
         />

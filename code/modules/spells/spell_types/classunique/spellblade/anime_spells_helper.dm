@@ -2,7 +2,7 @@
 These mirror the species.dm melee attack flow (armor check -> apply_damage -> bodypart_attacked_by)
 without going through the click pipeline, so spells can deliver weapon-style strikes. */
 
-/proc/arcyne_strike(mob/living/user, mob/living/target, obj/item/weapon, damage, def_zone, blade_class_override, armor_penetration = 0, spell_name = "Arcyne Strike", skip_animation = FALSE, skip_message = FALSE, allow_shield_check = FALSE, damage_type = BRUTE, intdamage_factor, exact_zone = FALSE, intdamage_mult = 1)
+/proc/arcyne_strike(mob/living/user, mob/living/target, obj/item/weapon, damage, def_zone, blade_class_override, armor_penetration = 0, spell_name = "Arcyne Strike", skip_animation = FALSE, skip_message = FALSE, allow_shield_check = FALSE, damage_type = BRUTE, intdamage_factor, exact_zone = FALSE, intdamage_mult = 1, no_crit = FALSE)
 	if(!user || !target || QDELETED(user) || QDELETED(target))
 		return FALSE
 
@@ -109,8 +109,8 @@ without going through the click pipeline, so spells can deliver weapon-style str
 				var/mob/living/carbon/C = target
 				var/obj/item/bodypart/affecting = C.get_bodypart(check_zone(def_zone))
 				if(affecting)
-					affecting.bodypart_attacked_by(blade_class, wound_damage, user, def_zone, crit_message = TRUE, weapon = weapon, no_debuff = TRUE)
-					var/dismember_chance = affecting.get_spell_dismemberment_chance(damage, blade_class, def_zone)
+					affecting.bodypart_attacked_by(blade_class, wound_damage, user, def_zone, crit_message = TRUE, weapon = weapon, no_crit = no_crit, no_debuff = TRUE)
+					var/dismember_chance = !no_crit && affecting.get_spell_dismemberment_chance(damage, blade_class, def_zone)
 					if(dismember_chance && prob(dismember_chance))
 						affecting.dismember(damage_type, blade_class, user, def_zone)
 			else

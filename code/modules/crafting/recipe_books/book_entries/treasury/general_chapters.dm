@@ -173,28 +173,16 @@
 		<p>Economic events last [ECON_EVENT_DURATION] day(s) and are posted on the noticeboard under <b>Economic Events</b>.</p>
 
 		<ul>
-			<li><b>Shortage</b> - affected goods spike in price. One urgent standing
-			order is posted against the afflicted region, <b>provided fewer than
-			[STANDING_ORDERS_MAX_URGENT] urgent orders are already standing</b>. Past
-			that limit, prices still spike. No urgent order is posted and regular
-			standing orders keep their slots.</li> <li><b>Oversupply</b> - affected goods
-			drop in price.</li>
+			<li><b>Shortage</b> - affected goods spike in price.</li>
+			<li><b>Glut</b> - affected goods drop in price.</li>
+			<li><b>Both</b> - some events make one set of goods scarce and another cheap.</li>
 		</ul>
 
-		<h3>Ending a Shortage Early</h3> <p>A shortage does not have to run its full
-		course of [ECON_EVENT_DURATION] days. The realm can <b>end it</b> early by
-		supplying the goods. Every unit of an affected good counts toward relief when
-		the Crown <b>exports</b> it to a region that demands it or delivers it to a
-		standing order.</p>
+		<h3>Ending a Shortage Early</h3> <p>A shortage ends early once enough of the
+		affected goods are sold to the market, counted by value. Every sale to the
+		market counts, and the shortage badge shows how much is still needed. When it ends, prices return to normal and SCOM announces the end of the shortage.</p>
 
-		<p>The urgent order stays up when a shortage ends early.</p>
-
-		<p>Once cumulative deliveries cross <b>[round(ECON_EVENT_SATURATION_MULT * 100)]% of the average stockpile limit across the affected goods</b>, the
-		shortage ends immediately: prices return to normal and SCOM announces the
-		relief. The target is for the whole realm. Any mix of the affected goods
-		counts.</p>
-
-		<p>The <b>Market Scroll</b> at the Nerve Master shows live buy/sell prices for every good in every region.</p>
+		<p>The <b>Market Scroll</b> at the Nerve Master shows live market prices.</p>
 		</div>
 	"}
 
@@ -346,17 +334,9 @@
 		contracts, and the Innkeeper's rumors.
 		</p>
 
-		<h3>Guild Contracts</h3> <p>Guild contracts regenerate every
-		[QUEST_POOL_REGEN_INTERVAL / 600] minutes. Each time, up to
-		[QUEST_KILL_REGEN_PER_TICK] new kill contracts are posted in the regions that
+		<h3>Guild Contracts</h3> <p>New kill contracts are posted in the regions that
 		need them most. Evergreen contracts (Retrieval, Courier) top up independently
-		to a flat target in each region. The pool starts at
-		[QUEST_POOL_ROUNDSTART_MULT * 100]% of its usual size at roundstart. The extra
-		contracts are not replaced once they lapse.</p>
-
-		<p>Each region has its own kill target scaled to the number of active people.
-		The pool routes new kill contracts to whichever region is furthest below its
-		target. Blockaded or high threat regions accumulate more work as a result.</p>
+		to a flat target in each region.</p>
 
 		<p>All guild contracts must pay the Guild referral fee and contract levy. A
 		Steward can stamp a contract with their Signet ring after the fact to make it
@@ -497,7 +477,7 @@
 		<h3>Mercenary Contracts</h3>
 		<p>A Mercenary spawns with a "Mercenary Contract", which can be set to 1 to [MERC_CONTRACT_MAX_DAYS] days. They can hand it over to someone who is a leader of a fellowship, and become hired that way. This forces the Mercenary to join their fellowship, forces the fellowship to split contracts proceeds, and make the Mercenary impossible to boot out. A Mercenary is bound by the signing alone limit of one contract every [QUEST_SOLO_SIGN_COOLDOWN / 600] minutes even when leading a fellowship. When a Mercenary leading a fellowship signs this way, every other Mercenary in it waits as well. For a Mercenary only towner postings do not count toward this. The limit is lifted during lowpop.</p>
 
-		<p>Contract provides two types of benefits. A Mercenary under contract will gets a flat +25% bonus from their share of any contracts completed by the fellowship leader. And if they are hired to certain roles (Inquisition, Outlaws, the University, and Burghers and Peasants except the Innkeeper, Tapster and Cook), they will receive a stipend that is deposited to their account or sent to mail by an off-map faction. The stipend is received daily. To receive your stipend from stipended role, you must spend at least [round(MERC_CONTRACT_PRESENCE_SHARE * 100)]% of the preceding day close to them or a member of their fellowship. Specifically, within [MERC_CONTRACT_PRESENCE_RANGE] tiles (not counting z level differences). The hirer's daily rate and the Guild's share bonus are always paid no matter where you spend the day. Any pay negotiated outside of the contract is also unaffected by the presence requirements. Only the stipend are. A contract can be ended early by the hirer.
+		<p>Contract provides two types of benefits. [MERC_CONTRACT_SHARE_BONUS_LINE] And if they are hired to certain roles (Inquisition, Outlaws, the University, and Burghers and Peasants except the Innkeeper, Tapster and Cook), they will receive a stipend that is deposited to their account or sent to mail by an off-map faction. The stipend is received daily. <b>[MERC_CONTRACT_OOC_NOTE_LINE]</b> A contract can be ended early by the hirer.
 		The hirer can only do so once the first day has passed. A Mercenary let go
 		early must wait a day before they can be hired again.</p>
 
@@ -555,12 +535,11 @@
 		Burgher to 2.</p>
 
 		<h3>Motions</h3>
-		<p>Six motions stand before every session. All are optional. A silent voter is
+		<p>Four motions stand before every session. All are optional. A silent voter is
 		not counted toward that motion's weight.</p>
 		<ul>
 			<li><b>Election</b> - any subject who can hold office may stand. The eligible
 			candidate with the highest weight takes the seat.</li>
-			<li><b>Trade Authority</b> - a bracket vote setting the Alderman's daily trade warrant. Brackets: [jointext(ASSEMBLY_TRADE_BRACKETS, "m, ")]m.</li>
 			<li><b>Defense Authority</b> - a bracket vote setting the Alderman's daily defense warrant, denominated in Pledge. Brackets: [jointext(ASSEMBLY_DEFENSE_BRACKETS, "p, ")]p.</li>
 			<li><b>Recall</b> - removes a sitting Alderman. Passes on [ASSEMBLY_RECALL_THRESHOLD_PCT]% YAE of cast weight.</li>
 			<li><b>Censure</b> - bars a subject from holding office or wielding warrants for the rest of the round. Passes on [ASSEMBLY_CENSURE_THRESHOLD_PCT]% YAE of cast weight.</li>
@@ -574,17 +553,14 @@
 		<p>A session is valid only if at least [ASSEMBLY_QUORUM_VOTERS] distinct voters have cast a ballot across any of its motions. Below that, the session dissolves and all caps and officers hold as they were.</p>
 
 		<h3>The Alderman</h3>
-		<p>The Alderman holds two daily authorisation ceilings:</p>
+		<p>The Alderman holds a daily authorisation ceiling:</p>
 		<ul>
-			<li><b>Trade</b> - imports and exports spend from the Treasury. The trade
-			warrant caps them each day. The Alderman accesses the Trade Scroll through
-			the Assembly noticeboard's <i>Alderman - Trade</i> button without standing at
-			the Nerve Master.</li> <li><b>Defense</b> - defense contracts and blockade
+			<li><b>Defense</b> - defense contracts and blockade
 			scrolls use the Burgher Pledge at the Contract Ledger. The defense warrant caps
 			them each day. The Alderman can't spend the Treasury on defense and may not
 			issue Requests.</li>
 		</ul>
-		<p>Both ceilings refresh at each session's resolution. Unspent authorisation does not carry over.</p>
+		<p>The ceiling refreshes at each session's resolution. Unspent authorisation does not carry over.</p>
 
 		<h3>Censure</h3>
 		<p>A censured subject cannot stand for Alderman, cannot wield a warrant they hold, and cannot be granted one. The mark lasts the round.</p>

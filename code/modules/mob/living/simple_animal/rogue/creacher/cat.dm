@@ -41,7 +41,7 @@
 	dodgetime = 10
 
 	//new ai, old ai off
-	ai_controller = /datum/ai_controller/generic
+	ai_controller = /datum/ai_controller/generic/cat
 	move_base_delay = MOVEMENT_DELAY_LUMBERING
 
 	// Loot

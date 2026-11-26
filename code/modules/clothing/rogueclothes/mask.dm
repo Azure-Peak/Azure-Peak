@@ -454,6 +454,7 @@
 	block2add = null
 	body_parts_covered = MOUTH|NOSE
 	flags_inv = HIDEFACE|HIDESNOUT
+	no_loot_taint = TRUE //heretic stuff, in case it somehow ends up on a skele/NPC or w/e
 
 /obj/item/clothing/mask/rogue/facemask/steel/graggar/ComponentInitialize()
 	AddComponent(/datum/component/cursed_item, TRAIT_HORDE, "ARMOR", "RENDERED ASUNDER")
@@ -934,6 +935,11 @@
 /obj/item/clothing/mask/rogue/facemask/padded/ComponentInitialize()
 	AddComponent(/datum/component/armour_filtering/positive, TRAIT_FENCERDEXTERITY)
 	AddComponent(/datum/component/adjustable_clothing, NECK, null, null, 'sound/foley/equip/rummaging-03.ogg', null, (UPD_HEAD|UPD_MASK))	//Standard mask
+
+// for NPC
+/obj/item/clothing/mask/rogue/facemask/padded/shoddy
+	name = "shoddy padded mask"
+	max_integrity = 75
 
 /obj/item/clothing/mask/rogue/facemask/leather
 	name = "padded leather mask"

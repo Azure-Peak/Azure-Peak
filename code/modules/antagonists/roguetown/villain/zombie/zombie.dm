@@ -97,6 +97,7 @@
 	base_species_blood_color = zombie.dna.species.blood_color
 
 	cmode_music = zombie.cmode_music
+	disable_vessel(zombie)
 
 	//Special because deadite status is latent as opposed to the others.
 	if(admin_granted)
@@ -160,6 +161,8 @@
 			zombie_part.update_disabled()
 			zombie_part.update_limb()
 		zombie.update_body()
+		if(zombie in GLOB.fey_vessels) // re-enable their toggling when they're cured
+			add_verb(zombie, /mob/living/carbon/human/proc/toggle_vessel)
 	// Bandaid to fix the zombie ghostizing not allowing you to re-enter
 	if(zombie)
 		var/mob/dead/observer/ghost = zombie.get_ghost(TRUE)

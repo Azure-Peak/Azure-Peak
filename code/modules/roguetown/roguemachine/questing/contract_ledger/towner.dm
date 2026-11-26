@@ -24,6 +24,11 @@
 		return TRUE
 	return FALSE
 
+/proc/user_can_pledge_towner(mob/user)
+	if(!user || !SStreasury.burgher_pledge_fund)
+		return FALSE
+	return (user.job in GLOB.commission_full_roles) || SSticker?.regentmob == user
+
 /proc/user_can_post_company_towner(mob/user)
 	if(!user)
 		return FALSE
@@ -43,7 +48,7 @@
 /proc/towner_posting_cost(tier, funder)
 	var/base = get_towner_tier_term(tier, "cost")
 	switch(funder)
-		if(TOWNER_FUNDER_CROWN)
+		if(TOWNER_FUNDER_CROWN, TOWNER_FUNDER_PLEDGE)
 			return round(base * TOWNER_POSTING_CROWN_COST_MULT)
 		if(TOWNER_FUNDER_COMPANY)
 			return round(base * TOWNER_POSTING_COMPANY_COST_MULT)
@@ -55,6 +60,8 @@
 			return SStreasury.discretionary_fund
 		if(TOWNER_FUNDER_COMPANY)
 			return SStreasury.merchant_fund
+		if(TOWNER_FUNDER_PLEDGE)
+			return SStreasury.burgher_pledge_fund
 		if(TOWNER_FUNDER_PERSONAL)
 			return SStreasury.get_account(user)
 	return null
@@ -65,6 +72,8 @@
 			return "the Treasury"
 		if(TOWNER_FUNDER_COMPANY)
 			return "the ATC"
+		if(TOWNER_FUNDER_PLEDGE)
+			return "the Burgher Pledge"
 	return "your account"
 
 /proc/towner_funder_log_label(funder)
@@ -73,6 +82,8 @@
 			return "crown purse"
 		if(TOWNER_FUNDER_COMPANY)
 			return "ATC coffers"
+		if(TOWNER_FUNDER_PLEDGE)
+			return "burgher pledge"
 	return "personal"
 
 /proc/count_active_towner_postings(mob/user)
@@ -121,6 +132,9 @@
 	return english_list(parts)
 
 /proc/towner_variety_listing(posting_type)
+	var/static/list/cache = list()
+	if(cache[posting_type])
+		return cache[posting_type]
 	var/datum/quest/kill/recovery/towner/proto = get_towner_prototype(posting_type)
 	var/list/vtable = proto?.varieties
 	if(!length(vtable))
@@ -138,6 +152,7 @@
 			"blurb" = meta["blurb"],
 			"poster_summaries" = poster_summaries,
 		))
+	cache[posting_type] = out
 	return out
 
 /proc/build_towner_posting_listing(mob/user)
@@ -184,6 +199,8 @@
 	if(!funder)
 		to_chat(poster, span_warning("Your trade does not post that contract."))
 		return
+	if(funder == TOWNER_FUNDER_CROWN && params["funding"] == "pledge" && user_can_pledge_towner(poster))
+		funder = TOWNER_FUNDER_PLEDGE
 
 	if(count_active_towner_postings(poster) >= TOWNER_MAX_ACTIVE_POSTINGS)
 		to_chat(poster, span_warning("You already have [TOWNER_MAX_ACTIVE_POSTINGS] postings out. Withdraw one or wait for one to be fulfilled."))
@@ -213,6 +230,8 @@
 				to_chat(poster, span_warning("The Treasury isn't ready yet."))
 			if(TOWNER_FUNDER_COMPANY)
 				to_chat(poster, span_warning("The ATC's treasury is not ready yet."))
+			if(TOWNER_FUNDER_PLEDGE)
+				to_chat(poster, span_warning("The Burgher Pledge isn't ready yet."))
 			else
 				to_chat(poster, span_warning("You have no bank account."))
 		return
@@ -220,7 +239,7 @@
 		if(funder == TOWNER_FUNDER_PERSONAL)
 			to_chat(poster, span_warning("You need [cost] mammon in your account to post this."))
 		else
-			to_chat(poster, span_warning("[capitalize(towner_funder_label(funder))] can't afford this. Need [cost]m, have [paying_fund.balance]m."))
+			to_chat(poster, span_warning("[capitalize(towner_funder_label(funder))] can't afford this. Need [cost]m, have [format_mammon(paying_fund.balance)]m."))
 		return
 	var/burn_reason
 	switch(funder)
@@ -228,6 +247,8 @@
 			burn_reason = "Crown townsfolk contract ([chosen_type])"
 		if(TOWNER_FUNDER_COMPANY)
 			burn_reason = "ATC townsfolk contract ([chosen_type])"
+		if(TOWNER_FUNDER_PLEDGE)
+			burn_reason = "Pledge townsfolk contract ([chosen_type])"
 		else
 			burn_reason = "townsfolk contract posting ([chosen_type])"
 	if(!SStreasury.burn(paying_fund, cost, burn_reason, SStreasury.commitment_account(paying_fund)))
@@ -235,11 +256,15 @@
 		return
 	if(funder == TOWNER_FUNDER_CROWN)
 		record_treasury_expense(TREASURY_FLOW_CONTRACT, treasury_role_of(poster), cost)
+	if(funder == TOWNER_FUNDER_PLEDGE)
+		record_round_statistic(STATS_PLEDGE_CONSUMED, cost)
 
 	var/to_hand = (params["delivery"] == "hand")
 	var/datum/quest/dispatched = SSquestpool.issue_towner_quest(chosen_type, poster, tier, to_hand, variety)
 	if(!dispatched)
 		SStreasury.mint(paying_fund, cost, "townsfolk contract posting refund (issue failure)", null, SStreasury.commitment_account(paying_fund))
+		if(funder == TOWNER_FUNDER_PLEDGE)
+			record_round_statistic(STATS_PLEDGE_CONSUMED, -cost)
 		to_chat(poster, span_warning("No landmark could take that contract. Your funds are refunded."))
 		return
 

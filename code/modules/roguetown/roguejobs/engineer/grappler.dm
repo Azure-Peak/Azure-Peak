@@ -224,9 +224,9 @@ Reel teleports the attached atom to the grabbed turf.
 				grabber.start_pulling(grabby, supress_message = TRUE)
 				if(grapple_buckled)
 					if(grabby.mobility_flags & MOBILITY_STAND)	// piggyback carry
-						grabber.buckle_mob(grabby, TRUE, TRUE, FALSE, 0, 0)
+						grabber.buckle_mob(grabby, TRUE, TRUE, FALSE)
 					else				// fireman carry
-						grabber.buckle_mob(grabby, TRUE, TRUE, 90, 0, 0)
+						grabber.buckle_mob(grabby, TRUE, TRUE, 90)
 			playsound(attached, 'sound/misc/grapple_reel.ogg', 100, FALSE)
 			playsound(grappled_turf, 'sound/misc/grapple_reel.ogg', 100, FALSE)
 			destroy_eligible_objects()

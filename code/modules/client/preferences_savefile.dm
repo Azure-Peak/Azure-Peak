@@ -540,6 +540,8 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	S["clothes_pref"]		>> clothes_pref
 	S["voice_type"]			>> voice_type
 	S["voice_pack"]			>> voice_pack
+	S["estate_region"]		>> estate_region
+	S["political_faction"]	>> political_faction
 	S["nickname"]			>> nickname
 	S["highlight_color"]	>> highlight_color
 	S["taur_type"]			>> taur_type
@@ -622,6 +624,8 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 		char_toggles = legacy_dnr ? CHAR_TOGGLE_DNR : NONE
 
 	S["update_mutant_colors"] >> update_mutant_colors
+	ooze_color_shifting = null
+	S["ooze_color_shifting"] >> ooze_color_shifting
 
 	S["headshot_link"]						>> headshot_link
 	S["headshot_artist_credit"]				>> headshot_artist_credit
@@ -749,6 +753,9 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	clothes_pref	= sanitize_inlist(clothes_pref, GLOB.clothespref_list, CLOTHES_M)
 	voice_type		= sanitize_inlist(voice_type, GLOB.voice_types_list, VOICE_TYPE_MASC)
 	voice_pack		= sanitize_inlist(voice_pack, GLOB.voice_packs_list, VOICE_PACK_DEFAULT)
+	if(!estate_choice_name(estate_region))
+		estate_region	= TRADE_REGION_KINGSFIELD
+	political_faction	= sanitize_inlist(political_faction, GLOB.political_factions, POLITICAL_FACTION_NEUTRAL)
 	race_bonus		= sanitize_inlist_no_pick(race_bonus, pref_species.custom_selection, initial(race_bonus))
 	examine_theme	= sanitize_inlist_no_pick(examine_theme, GLOB.tgui_themes, initial(examine_theme))
 	taur_type		= sanitize_inlist_no_pick(taur_type, pref_species.get_taur_list(), null)
@@ -775,6 +782,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	// complex/other stuff
 	preset_bounty_enabled = sanitize_bool(preset_bounty_enabled, initial(preset_bounty_enabled))
 	update_mutant_colors = sanitize_bool(update_mutant_colors, initial(update_mutant_colors))
+	ooze_color_shifting = sanitize_bool(ooze_color_shifting, initial(ooze_color_shifting))
 
 	body_markings = SANITIZE_LIST(body_markings)
 	validate_body_markings()
@@ -863,6 +871,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	WRITE_FILE(S["gender"]				, gender)
 	WRITE_FILE(S["domhand"]				, domhand)
 	WRITE_FILE(S["age"]					, age)
+	WRITE_FILE(S["ooze_color_shifting"]	, ooze_color_shifting)
 	WRITE_FILE(S["vampire_skin"]		, vampire_skin)
 	WRITE_FILE(S["vampire_hair"]		, vampire_hair)
 	WRITE_FILE(S["vampire_eyes"]		, vampire_eyes)
@@ -954,6 +963,8 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	WRITE_FILE(S["examine_theme"] , examine_theme)
 	WRITE_FILE(S["voice_type"] , voice_type)
 	WRITE_FILE(S["voice_pack"] , voice_pack)
+	WRITE_FILE(S["estate_region"] , estate_region)
+	WRITE_FILE(S["political_faction"] , political_faction)
 	WRITE_FILE(S["pronouns"] , pronouns)
 	WRITE_FILE(S["titles_pref"] , titles_pref)
 	WRITE_FILE(S["clothes_pref"] , clothes_pref)

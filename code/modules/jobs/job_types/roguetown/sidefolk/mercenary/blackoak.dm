@@ -1,16 +1,16 @@
 // Elven unique mercenary type; should be scary in a way solo but easy to kill with a group or bow.
 /datum/advclass/mercenary/blackoak
 	name = "Black Oaken Guardian"
-	tutorial = "A shady guardian of the Black Oaks. Half mercenary band, half irregular militia fighting for control of their ancestral elven homeland of the Peaks. Thankfully, you are not here today to shed the blood of the Duke's men — unless someone pays you to..."
+	tutorial = "A guardian of the Black Oaks. The legendary warriors of the Rossans, who gained this legendary nickname for fighting on despite their burning groves over four and a half centuries ago. Now, most of the living Oaks have no memories of that time, mere younglings of a century or two old. The lines of Eadric and Morvan have faded, if they ever existed, and so few Oaks find common cause with them nowadays. And so, the destitute and dispossessed, those not fortunate enough to be born in a grove full of fattened hogs and abundant nut trees, sell their services to the petty, squabbling humen of this land for coins. One dae, your cause will prevail. You have time, after all."
 	allowed_sexes = list(MALE, FEMALE)
 	forbidden_races = list(RACES_BLACKOAK)
 	outfit = /datum/outfit/job/roguetown/mercenary/blackoak
 	class_select_category = CLASS_CAT_RACIAL
 	category_tags = list(CTAG_MERCENARY, CTAG_MERCPARTY_VANGUARD)
 	cmode_music = 'sound/music/combat_blackoak.ogg'
-	extra_context = "This class is restricted to the Elf, Half-Elf, and Dark Elf species."
+	extra_context = "This class is restricted to the Elf and Half-Elf species."
 	subclass_languages = list(/datum/language/oldazurian)
-	traits_applied = list(TRAIT_AZURENATIVE, TRAIT_OUTDOORSMAN, TRAIT_BLACKOAK, TRAIT_MEDIUMARMOR, TRAIT_WOODWALKER)
+	traits_applied = list(TRAIT_AZURENATIVE, TRAIT_OUTDOORSMAN, TRAIT_MEDIUMARMOR, TRAIT_WOODWALKER)
 	subclass_stats = list(
 		STATKEY_STR = 3,
 		STATKEY_WIL = 2,
@@ -79,7 +79,7 @@
 
 /datum/advclass/mercenary/blackoak_ranger
 	name = "Black Oaken Ranger"
-	tutorial = "A shady ranger of the Black Oaks. Half mercenary band, half irregular militia fighting for control of their ancestral elven homeland of the Peaks. Thankfully, you are not here today to shed the blood of the Duke's men — unless someone pays you to..."
+	tutorial = "A ranger of the Black Oaks. The legendary warriors of the Rossans, who gained this legendary nickname for fighting on despite their burning groves over four and a half centuries ago. Now, most of the living Oaks have no memories of that time, mere younglings of a century or two old. The lines of Eadric and Morvan have faded, if they ever existed, and so few Oaks find common cause with them nowadays. And so, the destitute and dispossessed, those not fortunate enough to be born in a grove full of fattened hogs and abundant nut trees, sell their services to the petty, squabbling humen of this land for coins. One dae, your cause will prevail. You have time, after all."
 	allowed_sexes = list(MALE, FEMALE)
 	forbidden_races = list(RACES_BLACKOAK)
 	outfit = /datum/outfit/job/roguetown/mercenary/blackoak_ranger
@@ -87,12 +87,15 @@
 	category_tags = list(CTAG_MERCENARY, CTAG_MERCPARTY_MARKSMAN)
 	cmode_music = 'sound/music/combat_blackoak.ogg'
 	subclass_languages = list(/datum/language/oldazurian)
-	traits_applied = list(TRAIT_AZURENATIVE, TRAIT_OUTDOORSMAN, TRAIT_BLACKOAK, TRAIT_DODGEEXPERT, TRAIT_WOODWALKER)
+	traits_applied = list(TRAIT_AZURENATIVE, TRAIT_OUTDOORSMAN, TRAIT_DODGEEXPERT, TRAIT_WOODWALKER)
 	subclass_stats = list(
 		STATKEY_SPD = 3,
 		STATKEY_WIL = 2,
 		STATKEY_PER = 2,
 		STATKEY_CON = -1
+	)
+	subclass_stashed_items = list(
+		"Wax Putty" = /obj/item/waxputty,
 	)
 	subclass_skills = list(
 		/datum/skill/combat/bows = SKILL_LEVEL_MASTER,
@@ -171,7 +174,7 @@
 
 /datum/advclass/mercenary/blackoak_adept
 	name = "Black Oaken Adept"
-	tutorial = "A spellblade of the Black Oaks. Half mercenary band, half irregular militia fighting for control of their ancestral elven homeland of the Peaks. You have honed the ancient Azurean art of spellbladery - an art that is yours and your people's alone. Thankfully, you are not here today to shed the blood of the Duke's men - unless someone pays you to..."
+	tutorial = "A spellblade of the Black Oaks. The legendary warriors of the Rossans, who gained this legendary nickname for fighting on despite their burning groves over four and a half centuries ago. Now, most of the living Oaks have no memories of that time, mere younglings of a century or two old. The lines of Eadric and Morvan have faded, if they ever existed, and so few Oaks find common cause with them nowadays. And so, the destitute and dispossessed, those not fortunate enough to be born in a grove full of fattened hogs and abundant nut trees, sell their services to the petty, squabbling humen of this land for coins. You have honed the ancient Azurean art of spellbladery - an art that is yours and your people's alone. One dae, your cause will prevail. You have time, after all."
 	allowed_sexes = list(MALE, FEMALE)
 	forbidden_races = list(RACES_BLACKOAK)
 	outfit = /datum/outfit/job/roguetown/mercenary/blackoak_adept
@@ -180,7 +183,7 @@
 	cmode_music = 'sound/music/combat_blackoak.ogg'
 	subclass_languages = list(/datum/language/oldazurian)
 	class_select_category = CLASS_CAT_RACIAL
-	traits_applied = list(TRAIT_AZURENATIVE, TRAIT_OUTDOORSMAN, TRAIT_BLACKOAK, TRAIT_ARCYNE, TRAIT_MEDIUMARMOR)
+	traits_applied = list(TRAIT_AZURENATIVE, TRAIT_OUTDOORSMAN, TRAIT_ARCYNE, TRAIT_MEDIUMARMOR)
 	subclass_stats = list(
 		STATKEY_INT = 1,
 		STATKEY_PER = 1,

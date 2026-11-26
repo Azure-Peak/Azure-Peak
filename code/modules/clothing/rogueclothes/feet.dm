@@ -239,6 +239,11 @@
 	icon_state = "albootsb"
 	item_state = "albootsb"
 
+// For NPC usage
+/obj/item/clothing/shoes/roguetown/boots/leather/reinforced/shoddy
+	name = "shoddy hardened leather boots"
+	max_integrity = 75
+
 /obj/item/clothing/shoes/roguetown/boots/otavan
 	name = "otavan leather boots"
 	desc = "Boots of outstanding craft, your fragile feet have never felt so protected and comfortable before."
@@ -460,6 +465,7 @@
 	icon_state = "graggarplateboots"
 	smeltresult = /obj/item/ingot/component/graggar
 	unenchantable = TRUE
+	no_loot_taint = TRUE //heretic stuff, in case it somehow ends up on a skele/NPC or w/e
 
 /obj/item/clothing/shoes/roguetown/boots/armor/graggar/Initialize(mapload)
 	. = ..()
@@ -476,6 +482,7 @@
 	armor = ARMOR_PLATE_BSTEEL
 	smeltresult = /obj/item/ingot/component/matthios
 	unenchantable = TRUE
+	no_loot_taint = TRUE //heretic stuff, in case it somehow ends up on a skele/NPC or w/e
 
 /obj/item/clothing/shoes/roguetown/boots/armor/matthios/get_examine_highlight_status()
 	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_MATTHIOS_ARMOR)
@@ -501,6 +508,7 @@
 	armor_class = ARMOR_CLASS_MEDIUM
 	smeltresult = /obj/item/ingot/component/zizo
 	unenchantable = TRUE
+	no_loot_taint = TRUE //heretic stuff, in case it somehow ends up on a skele/NPC or w/e
 
 /obj/item/clothing/shoes/roguetown/boots/armor/zizo/Initialize(mapload)
 	. = ..()
@@ -533,6 +541,7 @@
 	max_integrity = ARMOR_INT_SIDE_ANTAG - 250
 	armor_class = ARMOR_CLASS_LIGHT
 	smeltresult = /obj/item/ingot/component/baotha
+	no_loot_taint = TRUE //heretic stuff, in case it somehow ends up on a skele/NPC or w/e
 
 /obj/item/clothing/shoes/roguetown/boots/armor/baotha/Initialize(mapload)
 	. = ..()

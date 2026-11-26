@@ -4,7 +4,7 @@ import type { BooleanLike } from 'tgui-core/react';
 
 import { useBackend } from '../backend';
 import { Window } from '../layouts';
-import { formatRatioPct } from './common/format';
+import { formatMammon, formatRatioPct } from './common/format';
 import { InnkeeperRumorPanel } from './ContractLedgerInnkeeper';
 import {
   type IssuedContract,
@@ -19,6 +19,19 @@ type SizeRow = {
   reward: number;
   short: BooleanLike;
 };
+
+type SizeTableData = {
+  reward: number[];
+  threat_pct: number[];
+};
+
+const toSizeRows = (table: SizeTableData, requiredSize: number): SizeRow[] =>
+  table.reward.map((reward, i) => ({
+    size: i + 1,
+    threat_pct: table.threat_pct[i],
+    reward,
+    short: i + 1 < requiredSize,
+  }));
 
 const SizeTable = (props: {
   rows: SizeRow[];
@@ -75,6 +88,14 @@ const SizeTable = (props: {
   );
 };
 
+type FoeOption = {
+  key: string;
+  label: string;
+  title?: string;
+  objective?: string;
+  veteran_objective?: string | null;
+};
+
 type Contract = {
   ref: string;
   title: string;
@@ -83,8 +104,9 @@ type Contract = {
   reward: number;
   projected_reward: number;
   fellowship_reward_rate: number;
-  size_table: SizeRow[] | null;
-  veteran_size_table: SizeRow[] | null;
+  solo_pay_share: number | null;
+  size_table: SizeTableData | null;
+  veteran_size_table: SizeTableData | null;
   deposit: number;
   area: string;
   region: string;
@@ -101,8 +123,11 @@ type Contract = {
   required_fellowship_size: number;
   lapse_minutes: number | null;
   can_veteran: BooleanLike;
+  veteran: BooleanLike;
   veteran_reward: number | null;
   veteran_objective: string | null;
+  foes: string | null;
+  foe_options: FoeOption[] | null;
 };
 
 type ActiveContract = {
@@ -125,16 +150,21 @@ type HoardRecoveryRegion = {
   active: BooleanLike;
 };
 
+type ScoutBlockade = {
+  gathering: BooleanLike;
+  writ_out: BooleanLike;
+  faction_label: string;
+  region_label: string;
+  days_active: number;
+};
+
 type ScoutRegion = {
   region_name: string;
   danger_level: string;
   danger_color: string;
   ic_descriptions: string[];
   blockaded: BooleanLike;
-  blockade_writ_out: BooleanLike;
-  blockade_faction_label: string;
-  blockade_region_label: string;
-  blockade_days_active: number;
+  blockades: ScoutBlockade[];
 };
 
 type ContractLedgerData = {
@@ -525,28 +555,37 @@ const ScoutsPanel = () => {
               </td>
               <td style={scoutCellStyle}>
                 {r.blockaded ? (
-                  <>
-                    <div style={{ color: '#8b1a1a', fontWeight: 'bold' }}>
-                      {r.blockade_faction_label || 'unknown raiders'}
-                      <span
-                        style={{
-                          marginLeft: 6,
-                          fontWeight: 'normal',
-                          color: '#7a6a4a',
-                        }}
-                      >
-                        {r.blockade_days_active}d
-                      </span>
-                    </div>
-                    {!!r.blockade_region_label && (
-                      <div style={{ color: '#7a6a4a' }}>
-                        blocking {r.blockade_region_label}
+                  r.blockades.map((b, i) => (
+                    <div key={i} style={{ marginTop: i === 0 ? 0 : 6 }}>
+                      <div style={{ color: '#8b1a1a', fontWeight: 'bold' }}>
+                        {b.faction_label || 'unknown raiders'}
+                        {!b.gathering && (
+                          <span
+                            style={{
+                              marginLeft: 6,
+                              fontWeight: 'normal',
+                              color: '#7a6a4a',
+                            }}
+                          >
+                            {b.days_active}d
+                          </span>
+                        )}
                       </div>
-                    )}
-                    <div style={{ color: '#a06000' }}>
-                      {r.blockade_writ_out ? 'Scroll out' : 'Awaiting scroll'}
+                      {!!b.region_label && (
+                        <div style={{ color: '#7a6a4a' }}>
+                          {b.gathering ? 'massing on the road to' : 'blocking'}{' '}
+                          {b.region_label}
+                        </div>
+                      )}
+                      {b.gathering ? (
+                        <div style={{ color: '#8b1a1a' }}>Strikes at dawn</div>
+                      ) : (
+                        <div style={{ color: '#a06000' }}>
+                          {b.writ_out ? 'Scroll out' : 'Awaiting scroll'}
+                        </div>
+                      )}
                     </div>
-                  </>
+                  ))
                 ) : (
                   <span style={{ color: '#7a6a4a' }}>-</span>
                 )}
@@ -601,13 +640,23 @@ const ContractCard = (props: { contract: Contract }) => {
     fellowshipShort ||
     notLeader;
   const [veteran, setVeteran] = useState(false);
+  const [foes, setFoes] = useState<string | null>(null);
   const useVeteran = veteran && !!c.can_veteran;
+  const foeOptions = c.foe_options || [];
+  const pickedFoes = foeOptions.find(
+    (o) => o.key === (foes ?? c.foes),
+  );
+  const cycleFoes = (step: number) => {
+    const count = foeOptions.length;
+    const index = pickedFoes ? foeOptions.indexOf(pickedFoes) : 0;
+    setFoes(foeOptions[(index + step + count) % count].key);
+  };
   const payout = useVeteran
     ? (c.veteran_reward ?? c.reward)
     : (c.projected_reward ?? c.reward);
   const objective = useVeteran
-    ? c.veteran_objective || c.objective
-    : c.objective;
+    ? pickedFoes?.veteran_objective || c.veteran_objective || c.objective
+    : pickedFoes?.objective || c.objective;
   const title = noAccount
     ? 'No bank account. Register with a Meister first.'
     : claimBarred
@@ -653,7 +702,7 @@ const ContractCard = (props: { contract: Contract }) => {
         className="ContractLedger__CardTitle"
         style={{ marginTop: `${contentTopPad}px` }}
       >
-        {c.title}
+        {pickedFoes?.title || c.title}
       </div>
       <div className="ContractLedger__CardRow">
         <span className="ContractLedger__CardLabel">Locale</span>
@@ -703,7 +752,27 @@ const ContractCard = (props: { contract: Contract }) => {
           )}
         </span>
       </div>
-      {!!c.can_veteran && (
+      {foeOptions.length > 0 && (
+        <div className="ContractLedger__CardRow">
+          <span className="ContractLedger__CardLabel">Foes</span>
+          <span className="ContractLedger__CardValue">
+            <span
+              className="ContractLedger__FoesArrow"
+              onClick={() => cycleFoes(-1)}
+            >
+              <Icon name="chevron-left" />
+            </span>
+            {pickedFoes?.label}
+            <span
+              className="ContractLedger__FoesArrow"
+              onClick={() => cycleFoes(1)}
+            >
+              <Icon name="chevron-right" />
+            </span>
+          </span>
+        </div>
+      )}
+      {(!!c.can_veteran || !!c.veteran) && (
         <div className="ContractLedger__CardRow">
           <span className="ContractLedger__CardLabel">
             Veteran
@@ -715,13 +784,17 @@ const ContractCard = (props: { contract: Contract }) => {
             </Tooltip>
           </span>
           <span className="ContractLedger__CardValue">
-            <Button.Checkbox
-              compact
-              checked={veteran}
-              onClick={() => setVeteran(!veteran)}
-            >
-              {veteran ? 'On' : 'Off'}
-            </Button.Checkbox>
+            {c.veteran ? (
+              'On'
+            ) : (
+              <Button.Checkbox
+                compact
+                checked={veteran}
+                onClick={() => setVeteran(!veteran)}
+              >
+                {veteran ? 'On' : 'Off'}
+              </Button.Checkbox>
+            )}
           </span>
         </div>
       )}
@@ -731,8 +804,11 @@ const ContractCard = (props: { contract: Contract }) => {
         const levy = Math.round(payout * levyRate);
         const guild = Math.round(payout * guildRate);
         const purse = payout - levy - guild;
-        const sizeRows =
+        const sizeTable =
           (useVeteran && c.veteran_size_table) || c.size_table;
+        const sizeRows = sizeTable
+          ? toSizeRows(sizeTable, c.required_fellowship_size)
+          : null;
         const mySize = Math.min(
           Math.max(data.user_fellowship_size || 1, 1),
           sizeRows?.length || 1,
@@ -760,9 +836,11 @@ const ContractCard = (props: { contract: Contract }) => {
                   </Tooltip>
                 </span>
                 <span className="ContractLedger__CardValue">
-                  {c.fellowship_reward_rate > 0
-                    ? `+${formatRatioPct(c.fellowship_reward_rate)} per member`
-                    : 'Cut if short'}
+                  {c.solo_pay_share
+                    ? `Solo ${formatRatioPct(c.solo_pay_share)}. +${formatRatioPct(c.fellowship_reward_rate)} per member past two`
+                    : c.fellowship_reward_rate > 0
+                      ? `+${formatRatioPct(c.fellowship_reward_rate)} per member`
+                      : 'Cut if short'}
                 </span>
               </div>
             )}
@@ -836,7 +914,11 @@ const ContractCard = (props: { contract: Contract }) => {
           disabled={disabled}
           title={title}
           onClick={() =>
-            act('sign', { ref: c.ref, veteran: useVeteran ? 1 : 0 })
+            act('sign', {
+              ref: c.ref,
+              veteran: useVeteran ? 1 : 0,
+              foes: pickedFoes?.key,
+            })
           }
         >
           Sign
@@ -936,7 +1018,7 @@ const ActiveStrip = (props: {
             </>
           )}
         </span>
-        <span>Balance: {props.balance} mammon</span>
+        <span>Balance: {formatMammon(props.balance)} mammon</span>
       </div>
       {showFellowshipHelp && (
         <Dialog

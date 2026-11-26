@@ -11,21 +11,8 @@
 	var/inqonly = FALSE // Has the Inquisitor locked Marque-spending for lessers?
 	var/keycontrol = "puritan"
 	var/static/list/last_free_send = list()
-	var/cat_current = "1"
-	var/list/all_category = list(
-		"✤ RELIQUARY ✤",
-		"✤ SUPPLIES ✤",
-		"✤ ARTICLES ✤",
-		"✤ EQUIPMENT ✤",
-		"✤ WARDROBE ✤"
-	)
-	var/list/category = list(
-		"✤ SUPPLIES ✤",
-		"✤ ARTICLES ✤",
-		"✤ EQUIPMENT ✤",
-		"✤ WARDROBE ✤"
-	)
-	var/list/inq_category = list("✤ RELIQUARY ✤")
+	var/static/list/daily_supply_claims = list()
+	var/datum/marquette_panel/marquette
 	var/ournum
 	var/mailtag
 	var/obfuscated = FALSE
@@ -40,6 +27,7 @@
 /obj/structure/roguemachine/mail/Destroy()
 	set_light(0)
 	SSroguemachine.hermailers -= src
+	QDEL_NULL(marquette)
 	return ..()
 
 /obj/structure/roguemachine/mail/proc/free_send_ready(mob/user)
@@ -64,35 +52,42 @@
 		return
 	last_free_send[user.ckey] = world.time
 
+/obj/structure/roguemachine/mail/proc/claim_daily_supply(mob/user, trait)
+	if(!user?.ckey || !HAS_TRAIT(user, trait))
+		return FALSE
+	var/claim_key = "[trait]|[user.ckey]"
+	if(daily_supply_claims[claim_key] == GLOB.dayspassed)
+		return FALSE
+	daily_supply_claims[claim_key] = GLOB.dayspassed
+	return TRUE
+
 /obj/structure/roguemachine/mail/attack_hand(mob/user)
 	if(SSroguemachine.hermailermaster && ishuman(user))
 		var/obj/item/roguemachine/mastermail/M = SSroguemachine.hermailermaster
 		var/mob/living/carbon/human/H = user
-		var/addl_mail = FALSE
-		for(var/obj/item/I in M.contents)
-			if(I.mailedto == H.real_name)
-				if(!addl_mail)
-					I.forceMove(src.loc)
-					user.put_in_hands(I)
-					addl_mail = TRUE
-				else
-					say("You have additional mail available.")
-					break
-		if(!any_additional_mail(M, H.real_name))
-			if(!addl_mail && H.has_status_effect(/datum/status_effect/ugotmail)) // we apparently got mail, but never got mail (hint: it was stolen by someone with access to the master mailer)
-				to_chat(user, span_notice("I look inside the machine and find no letter, how strange."))
-			H.remove_status_effect(/datum/status_effect/ugotmail)
+		var/list/held = M.mail_for(H.real_name)
+		var/list/missing = M.collect_missing(H.real_name)
+		var/list/taken = list()
+		for(var/obj/item/I as anything in held)
+			taken += mail_label(I)
+			I.forceMove(get_turf(H))
+			H.put_in_hands(I)
+		if(length(taken))
+			to_chat(user, span_notice("I take [english_list(taken)] out of [src]."))
+		for(var/label in missing)
+			to_chat(user, span_warning("[capitalize(label)] is missing."))
+		if(length(held))
+			SStgui.update_uis(M)
+		else if(!length(missing) && H.has_status_effect(/datum/status_effect/ugotmail)) // we apparently got mail, but never got mail (hint: it was stolen by someone with access to the master mailer)
+			to_chat(user, span_notice("I look inside the machine and find nothing, how strange."))
+		H.remove_status_effect(/datum/status_effect/ugotmail)
 	if(!ishuman(user))
 		return
-	if (user.mind?.has_bomb) //for TRAIT_EXPLOSIVE_SUPPLY. One bomb per one day.
+	if(claim_daily_supply(user, TRAIT_EXPLOSIVE_SUPPLY))
 		var/mob/living/carbon/human/H = user
-		H.mind?.has_bomb = FALSE
 		var/bomb_type
 		var/static/list/bomb_type_list = list(/obj/item/explosive/fused/powder/stick,
 		/obj/item/explosive/impact/shrapnel,
-		/obj/item/explosive/impact/smoke/poison_gas,
-		/obj/item/explosive/impact/smoke/fire_gas,
-		/obj/item/explosive/impact/smoke/healing_gas,
 		)
 		var/bonus = 0
 		if(H.STALUC > 10)
@@ -108,9 +103,8 @@
 			bomb_type = pick(bomb_type_list)
 			var/obj/item/B = new bomb_type(get_turf(H))
 			H.put_in_hands(B)
-	if(user.mind?.has_drug_delivery) //for TRAIT_DRUG_SUPPLY. One delivery per day.
+	if(claim_daily_supply(user, TRAIT_DRUG_SUPPLY))
 		var/mob/living/carbon/human/H = user
-		H.mind.has_drug_delivery = FALSE
 		var/static/list/common_drug_list = list(
 			/obj/item/reagent_containers/powder/spice,
 			/obj/item/reagent_containers/powder/moondust,
@@ -141,7 +135,7 @@
 	. += span_info("Left click with a paper or package to send a prewritten letter for free.")
 	. += span_info("You can wrap an item in paper to create a mailable package.")
 	if(HAS_TRAIT(user, TRAIT_INQUISITION))
-		. += span_info("<br>The MARQUETTE can be accessed via a secret compartment fitted within the HERMES. Load a Marque to access it.")
+		. += span_info("The MARQUETTE can be accessed via a secret compartment fitted within the HERMES. Load a Marque to access it.")
 		. += span_info("You can send arrival slips, accusation slips, fully loaded INDEXERs or confessions here.")
 		. += span_info("Properly sign them. Include an INDEXER where needed. Stamp them for two additional Marques.")
 
@@ -418,12 +412,9 @@
 	if(!master)
 		return FALSE
 	stamp_mail(I, destination, sender)
-	I.forceMove(master.loc)
-	var/datum/component/storage/STR = master.GetComponent(/datum/component/storage)
-	STR.handle_item_insertion(I, prevent_warning = TRUE)
-	master.new_mail = TRUE
-	master.update_icon()
-	send_ooc_note(sender == MAILER_ANONYMOUS ? "A new letter has arrived for you." : "New letter from <b>[sender]</b>.", name = destination)
+	master.receive_mail(I)
+	var/noun = istype(I, /obj/item/paper) ? "letter" : "parcel"
+	send_ooc_note(sender == MAILER_ANONYMOUS ? "A new [noun] has arrived for you." : "New [noun] from <b>[sender]</b>.", name = destination)
 	if(H)
 		H.apply_status_effect(/datum/status_effect/ugotmail)
 		H.playsound_local(H, 'sound/misc/mail.ogg', 100, FALSE, -1)
@@ -952,11 +943,12 @@
 	anchored = TRUE
 	w_class = WEIGHT_CLASS_GIGANTIC
 	var/new_mail
+	var/list/arrivals = list()
 
 /obj/item/roguemachine/mastermail/get_mechanics_examine(mob/user)
 	. = ..()
-	. += span_info("All mail sent through the HERMES is stored here until collected. Opening its storage will allow one to intercept letters.")
-	. += span_info("Any letters removed and read can be re-sealed by clicking this machine with them, which will put them back into storage.")
+	. += span_info("All mail sent through the HERMES is stored here until collected. Opening it will allow one to intercept letters.")
+	. += span_info("Any letters removed and read can be re-sealed by clicking this machine with them, which will put them back.")
 	. += span_info("If this is done before the recipient tries to withdraw the mail, they will never know.")
 
 /obj/item/roguemachine/mastermail/update_icon()
@@ -967,18 +959,96 @@
 		icon_state = "mailspecial"
 	set_light(1, 1, 1, l_color = "#ff0d0d")
 
-/obj/item/roguemachine/mastermail/ComponentInitialize()
-	. = ..()
-	AddComponent(/datum/component/storage/concrete/roguetown/mailmaster)
-
 /obj/item/roguemachine/mastermail/attack_hand(mob/user)
-	var/datum/component/storage/CP = GetComponent(/datum/component/storage)
-	if(CP)
-		if(new_mail)
-			new_mail = FALSE
-			update_icon()
-		CP.rmb_show(user)
+	if(new_mail)
+		new_mail = FALSE
+		update_icon()
+	ui_interact(user)
+	return TRUE
+
+/obj/item/roguemachine/mastermail/proc/receive_mail(obj/item/I, notify = TRUE)
+	I.forceMove(src)
+	if(notify)
+		record_arrival(I)
+		new_mail = TRUE
+		update_icon()
+	SStgui.update_uis(src)
+
+/obj/item/roguemachine/mastermail/proc/record_arrival(obj/item/I)
+	if(!I.mailedto)
+		return
+	var/list/recorded = arrivals[I.mailedto]
+	if(!recorded)
+		recorded = list()
+		arrivals[I.mailedto] = recorded
+	recorded[WEAKREF(I)] = mail_label(I)
+
+/obj/item/roguemachine/mastermail/proc/collect_missing(name)
+	. = list()
+	var/list/recorded = arrivals[name]
+	if(!recorded)
+		return
+	arrivals -= name
+	for(var/datum/weakref/ref as anything in recorded)
+		var/obj/item/I = ref.resolve()
+		if(!I || I.loc != src)
+			. += recorded[ref]
+
+/obj/item/roguemachine/mastermail/proc/mail_for(name)
+	. = list()
+	for(var/obj/item/I in contents)
+		if(I.mailedto == name)
+			. += I
+
+/proc/mail_label(obj/item/I)
+	var/label = istype(I, /obj/item/paper) ? "a letter" : "\a [I.name]"
+	if(I.mailer && I.mailer != MAILER_ANONYMOUS)
+		label += " from [I.mailer]"
+	return label
+
+/obj/item/roguemachine/mastermail/attack_ghost(mob/dead/observer/user)
+	if(..())
 		return TRUE
+	ui_interact(user)
+	return TRUE
+
+/obj/item/roguemachine/mastermail/ui_state(mob/user)
+	if(isobserver(user))
+		return GLOB.observer_state
+	return GLOB.human_adjacent_state
+
+/obj/item/roguemachine/mastermail/ui_interact(mob/user, datum/tgui/ui)
+	ui = SStgui.try_update_ui(user, src, ui)
+	if(!ui)
+		ui = new(user, src, "MasterOfMails", name)
+		ui.open()
+
+/obj/item/roguemachine/mastermail/ui_data(mob/user)
+	var/list/held = list()
+	for(var/obj/item/I in contents)
+		held += list(list(
+			"ref" = REF(I),
+			"name" = I.name,
+			"recipient" = I.mailedto,
+			"sender" = I.mailer,
+		))
+	return list(
+		"mail" = held,
+		"can_take" = isliving(user),
+	)
+
+/obj/item/roguemachine/mastermail/ui_act(action, list/params, datum/tgui/ui, datum/ui_state/state)
+	. = ..()
+	if(. || action != "take")
+		return
+	var/obj/item/I = locate(params["ref"]) in contents
+	var/mob/living/user = usr
+	if(!I || !istype(user))
+		return
+	user.log_message("took [I.name] addressed to [I.mailedto || "no one"] from [I.mailer || "no sender"] out of [src]", LOG_GAME)
+	I.forceMove(get_turf(user))
+	user.put_in_hands(I)
+	return TRUE
 
 /obj/item/roguemachine/mastermail/Initialize(mapload)
 	. = ..()
@@ -995,30 +1065,21 @@
 			PA.cached_mailedto = null
 			PA.update_icon()
 			to_chat(user, span_warning("I carefully re-seal the letter and place it back in the machine, no one will know."))
-		if(PA.mailer && PA.mailedto)
-			for(var/mob/living/carbon/human/H in GLOB.human_list)
-				if(H.real_name == PA.mailedto && !H.has_status_effect(/datum/status_effect/ugotmail)) // quietly readd the status if they tried to check their mail while the letter was being spied on
-					H.apply_status_effect(/datum/status_effect/ugotmail)
-		P.forceMove(loc)
-		var/datum/component/storage/STR = GetComponent(/datum/component/storage)
-		STR.handle_item_insertion(P, prevent_warning=TRUE)
-	..()
+	if(!P.mailer || !P.mailedto)
+		return ..()
+	for(var/mob/living/carbon/human/H in GLOB.human_list)
+		if(H.real_name == P.mailedto && !H.has_status_effect(/datum/status_effect/ugotmail)) // quietly readd the status if they tried to check their mail while the letter was being spied on
+			H.apply_status_effect(/datum/status_effect/ugotmail)
+	if(user.transferItemToLoc(P, src))
+		receive_mail(P, FALSE)
 
 /obj/item/roguemachine/mastermail/Destroy()
 	set_light(0)
 	SSroguemachine.hermailers -= src
-	var/datum/component/storage/STR = GetComponent(/datum/component/storage)
-	if(STR)
-		var/list/things = STR.contents()
-		for(var/obj/item/I in things)
-			STR.remove_from_storage(I, get_turf(src))
+	var/turf/T = get_turf(src)
+	for(var/obj/item/I in contents)
+		I.forceMove(T)
 	return ..()
-
-/obj/structure/roguemachine/mail/proc/any_additional_mail(obj/item/roguemachine/mastermail/M, name)
-	for(var/obj/item/I in M.contents)
-		if(I.mailedto == name)
-			return TRUE
-	return FALSE
 
 
 /*
@@ -1028,65 +1089,12 @@
 /obj/structure/roguemachine/mail/proc/inqlock()
 	inqonly = !inqonly
 
-/obj/structure/roguemachine/mail/proc/decreaseremaining(datum/inqports/PA)
-	PA.remaining -= 1
-	PA.name = "[initial(PA.name)] ([PA.remaining]/[PA.maximum]) - ᛉ [PA.marquescost] ᛉ"
-	if(!PA.remaining)
-		PA.name = "[initial(PA.name)] (OUT OF STOCK) - ᛉ [PA.marquescost] ᛉ"
-	return
-
 /obj/structure/roguemachine/mail/proc/display_marquette(mob/user)
-	var/contents
-	contents = "<center>✤ ── L'INQUISITION MARQUETTE D'OTAVA ── ✤<BR>"
-	contents += "POUR L'ÉRADICATION DE L'HÉRÉSIE, TANT QUE PSYDON ENDURE.<BR>"
-	if(HAS_TRAIT(user, TRAIT_PURITAN))
-		contents += "✤ ── <a href='?src=[REF(src)];locktoggle=1]'> PURITAN'S LOCK: [inqonly ? "OUI":"NON"]</a> ── ✤<BR>"
-	else
-		contents += "✤ ── PURITAN'S LOCK: [inqonly ? "OUI":"NON"] ── ✤<BR>"
-	contents += "ᛉ <a href='?src=[REF(src)];eject=1'>MARQUES LOADED: [inqcoins]</a>ᛉ<BR>"
-
-	if(cat_current == "1")
-		contents += "<BR> <table style='width: 100%' line-height: 40px;'>"
-/*		if(HAS_TRAIT(user, TRAIT_PURITAN))
-			for(var/i = 1, i <= inq_category.len, i++)
-				contents += "<tr>"
-				contents += "<td style='width: 100%; text-align: center;'>\
-					<a href='?src=[REF(src)];changecat=[inq_category[i]]'>[inq_category[i]]</a>\
-					</td>"
-				contents += "</tr>"*/
-		for(var/i = 1, i <= category.len, i++)
-			contents += "<tr>"
-			contents += "<td style='width: 100%; text-align: center;'>\
-				<a href='?src=[REF(src)];changecat=[category[i]]'>[category[i]]</a>\
-				</td>"
-			contents += "</tr>"
-		contents += "</table>"
-	else
-		contents += "<center>[cat_current]<BR></center>"
-		contents += "<center><a href='?src=[REF(src)];changecat=1'>\[RETURN\]</a><BR><BR></center>"
-		contents += "<center>"
-		var/list/items = list()
-		for(var/pack in GLOB.inqsupplies)
-			var/datum/inqports/PA = pack
-			if(all_category[PA.category] == cat_current && PA.name)
-				items += GLOB.inqsupplies[pack]
-				if(PA.name == "Seizing Garrote" && !HAS_TRAIT(user, TRAIT_BLACKBAGGER))
-					items -= GLOB.inqsupplies[pack]
-		for(var/pack in sortNames(items, order=0))
-			var/datum/inqports/PA = pack
-			var/name = uppertext(PA.name)
-			if(inqonly && !HAS_TRAIT(user, TRAIT_PURITAN) || (PA.maximum && !PA.remaining) || inqcoins < PA.marquescost)
-				contents += "[name]<BR>"
-			else
-				contents += "<a href='?src=[REF(src)];buy=[PA.type]'>[name]</a><BR>"
-		contents += "</center>"
-	var/datum/browser/popup = new(user, "VENDORTHING", "", 500, 600)
-	popup.set_content(contents)
-	if(inqcoins == 0)
-		popup.close()
+	if(!inqcoins)
 		return
-	else
-		popup.open()
+	if(!marquette)
+		marquette = new(src)
+	marquette.ui_interact(user)
 
 /obj/structure/roguemachine/mail/Topic(href, href_list)
 	..()
@@ -1094,47 +1102,126 @@
 		return
 	if(href_list["directory"])
 		view_directory(usr)
-		return
-	if(href_list["eject"])
-		if(inqcoins <= 0)
-			return
-		coin_loaded = FALSE
-		update_icon()
-		budget2change(inqcoins, usr, "MARQUE")
-		inqcoins = 0
 
-	if(href_list["changecat"])
-		cat_current = href_list["changecat"]
+/// The MARQUETTE gets its own tgui datum since the HERMES itself already hosts the letter UI.
+/datum/marquette_panel
+	var/obj/structure/roguemachine/mail/host
 
-	if(href_list["locktoggle"])
-		playsound(loc, 'sound/misc/beep.ogg', 100, FALSE, -1)
-		for(var/obj/structure/roguemachine/mail/everyhermes in SSroguemachine.hermailers)
-			everyhermes.inqlock()
+/datum/marquette_panel/New(obj/structure/roguemachine/mail/host)
+	src.host = host
 
-	if(href_list["buy"])
-		var/path = text2path(href_list["buy"])
+/datum/marquette_panel/Destroy()
+	SStgui.close_uis(src)
+	host = null
+	return ..()
+
+/datum/marquette_panel/ui_host(mob/user)
+	return host
+
+/datum/marquette_panel/ui_state(mob/user)
+	return GLOB.human_adjacent_state
+
+/datum/marquette_panel/ui_interact(mob/user, datum/tgui/ui)
+	ui = SStgui.try_update_ui(user, src, ui)
+	if(!ui)
+		ui = new(user, src, "Marquette", "MARQUETTE")
+		ui.open()
+
+/datum/marquette_panel/ui_static_data(mob/user)
+	var/list/categories = list()
+	var/list/contents = list()
+	for(var/path in GLOB.inqsupplies)
 		var/datum/inqports/PA = GLOB.inqsupplies[path]
+		if(!PA.name)
+			continue
+		categories |= PA.category
+		var/list/lines = list()
+		if(PA.content_desc)
+			lines += PA.content_desc
+		else if(PA.contains)
+			for(var/atom/item_path as anything in PA.contains)
+				lines += "[PA.contains[item_path]]x [capitalize(initial(item_path.name))]"
+		else
+			var/atom/item_path = PA.item_type
+			lines += capitalize(initial(item_path.name))
+		contents["[path]"] = lines
+	return list("categories" = categories, "contents" = contents)
 
-		inqcoins -= PA.marquescost
-		if(PA.maximum)
-			decreaseremaining(PA)
-		visible_message(span_warning("[usr] sends something."))
-		if(!inqcoins)
-			coin_loaded = FALSE
-			update_icon()
-		playsound(loc, 'sound/misc/disposalflush.ogg', 100, FALSE, -1)
-		var/area/A = GLOB.areas_by_type[/area/rogue/indoors/inq/import]
-		if(!A)
-			return
-		var/list/turfs = list()
-		for(var/turf/T in A)
-			turfs += T
-		var/turf/T = pick(turfs)
-		var/pathi = pick(PA.item_type)
-		playsound(T, 'sound/misc/disposalflush.ogg', 100, FALSE, -1)
-		new pathi(get_turf(T))
+/// Items keep their declaration order from inqshop.dm.
+/datum/marquette_panel/ui_data(mob/user)
+	var/list/items_data = list()
+	for(var/path in GLOB.inqsupplies)
+		var/datum/inqports/PA = GLOB.inqsupplies[path]
+		if(!PA.name)
+			continue
+		if(istype(PA, /datum/inqports/equipment/garrote) && !HAS_TRAIT(user, TRAIT_BLACKBAGGER))
+			continue
+		items_data += list(list(
+			"ref" = "[PA.type]",
+			"name" = PA.name,
+			"category" = PA.category,
+			"cost" = PA.marquescost,
+			"remaining" = PA.remaining,
+			"maximum" = PA.maximum,
+		))
+	return list(
+		"marques" = host.inqcoins,
+		"locked" = host.inqonly,
+		"is_puritan" = HAS_TRAIT(user, TRAIT_PURITAN),
+		"items" = items_data,
+	)
 
-	return display_marquette(usr)
+/datum/marquette_panel/ui_act(action, list/params, datum/tgui/ui, datum/ui_state/state)
+	if(..())
+		return TRUE
+	var/mob/user = usr
+	if(!HAS_TRAIT(user, TRAIT_INQUISITION))
+		return TRUE
+	switch(action)
+		if("eject")
+			if(host.inqcoins <= 0)
+				return TRUE
+			host.coin_loaded = FALSE
+			host.update_icon()
+			budget2change(host.inqcoins, user, "MARQUE")
+			host.inqcoins = 0
+			ui.close()
+			return TRUE
+		if("toggle_lock")
+			if(!HAS_TRAIT(user, TRAIT_PURITAN))
+				return TRUE
+			playsound(host.loc, 'sound/misc/beep.ogg', 100, FALSE, -1)
+			for(var/obj/structure/roguemachine/mail/everyhermes in SSroguemachine.hermailers)
+				everyhermes.inqlock()
+			return TRUE
+		if("buy")
+			var/datum/inqports/PA = GLOB.inqsupplies[text2path(params["ref"])]
+			if(!PA || host.inqcoins < PA.marquescost || (PA.maximum && !PA.remaining))
+				return TRUE
+			if(host.inqonly && !HAS_TRAIT(user, TRAIT_PURITAN))
+				return TRUE
+			var/area/A = GLOB.areas_by_type[/area/rogue/indoors/inq/import]
+			if(!A)
+				return TRUE
+			var/list/turfs = list()
+			for(var/turf/T in A)
+				turfs += T
+			host.inqcoins -= PA.marquescost
+			if(PA.maximum)
+				PA.remaining--
+			host.visible_message(span_warning("[user] sends something."))
+			playsound(host.loc, 'sound/misc/disposalflush.ogg', 100, FALSE, -1)
+			var/turf/T = pick(turfs)
+			playsound(T, 'sound/misc/disposalflush.ogg', 100, FALSE, -1)
+			var/atom/delivery = new PA.item_type(T)
+			for(var/item_path in PA.contains)
+				for(var/i in 1 to PA.contains[item_path])
+					new item_path(delivery)
+			if(!host.inqcoins)
+				host.coin_loaded = FALSE
+				host.update_icon()
+				ui.close()
+			return TRUE
 
 /*
 	INQUISITION INTERACTIONS - END

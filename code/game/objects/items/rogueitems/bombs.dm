@@ -43,13 +43,15 @@
 	grid_height = 32
 	abstract_type = /obj/item/explosive
 	var/mob/thrower
-	var/PVE_damage = 40
+	/// Direct blast damage to every mob caught, players included
+	var/blastdmg = 40
 	var/tripcrit = 0
 	var/exploding = FALSE
 	/// Goes off when it lands after being thrown
 	var/fragile = FALSE
 	/// Chance a thrown fragile explosive fails to go off
 	var/prob2fail = 0
+	var/explodes_in_sacks = FALSE
 
 /obj/item/explosive/proc/stowed()
 	for(var/atom/A = loc; A; A = A.loc)
@@ -83,7 +85,7 @@
 		if(owner)
 			E.thrower = owner
 			E.tripcrit = 100
-		E.detonate(TRUE)
+		addtimer(CALLBACK(E, PROC_REF(detonate), TRUE), rand(1, 3), TIMER_UNIQUE|TIMER_NO_HASH_WAIT)
 
 	qdel(src)
 	return TRUE
@@ -95,9 +97,11 @@
 		target.gib(TRUE, TRUE, FALSE, TRUE)
 		return
 	target.visible_message(span_crit("<b>Critical hit!</b> The explosive deals devastating damage!"))
-	target.apply_damage(PVE_damage, damtype, BODY_ZONE_CHEST, armor)
+	target.apply_damage(blastdmg, damtype, BODY_ZONE_CHEST, armor)
 
 /obj/item/explosive/ex_act()
+	if(isobj(loc) && !explodes_in_sacks)
+		return
 	if(!stowed())
 		detonate(TRUE)
 
@@ -162,6 +166,7 @@
 	throw_speed = 0.5
 	grid_height = 64
 	abstract_type = /obj/item/explosive/fused
+	explodes_in_sacks = TRUE
 	var/fuze = 50
 	var/lit = FALSE
 
@@ -189,6 +194,8 @@
 		M.update_inv_hands()
 
 /obj/item/explosive/fused/fire_act()
+	if(isobj(loc) && !explodes_in_sacks)
+		return
 	if(!stowed())
 		light()
 
@@ -243,8 +250,8 @@
 			embed_bomb_shrapnel(target, /obj/item/natural/glass_shard/shrapnel)
 
 		var/scorched = get_scorch_stacks(target)
-		var/armor = target.run_armor_check(BODY_ZONE_CHEST, "fire", blade_dulling = BCLASS_BURN, damage = PVE_damage, no_debuff = TRUE)
-		target.apply_damage(PVE_damage, BURN, BODY_ZONE_CHEST, armor)
+		var/armor = target.run_armor_check(BODY_ZONE_CHEST, "fire", blade_dulling = BCLASS_BURN, damage = blastdmg, no_debuff = TRUE)
+		target.apply_damage(blastdmg, BURN, BODY_ZONE_CHEST, armor)
 		target.apply_status_effect(/datum/status_effect/debuff/staggered)
 
 		if(can_crit && !target.mind && ((target.stat != CONSCIOUS && target.can_be_gibbed()) || (scorched && prob(critbang))))
@@ -264,10 +271,11 @@
 
 /obj/item/explosive/fused/powder
 	abstract_type = /obj/item/explosive/fused/powder
-	PVE_damage = 120
+	blastdmg = 120
 	/// Radius in which mobs take blast damage, falling off with distance
 	var/blastrange = 3
 	/// Structures in the blast radius take damage too
+	explodes_in_sacks = TRUE
 	var/razes = FALSE
 	var/devrange = 0
 	var/heavyrange = 1
@@ -282,13 +290,13 @@
 		var/falloff = 1 - get_dist(A, T) / (blastrange + 1)
 		if(isliving(A))
 			var/mob/living/L = A
-			var/dmg = PVE_damage * falloff
+			var/dmg = blastdmg * falloff
 			var/armor = L.run_armor_check(BODY_ZONE_CHEST, "blunt", blade_dulling = BCLASS_BLUNT, damage = dmg, no_debuff = TRUE)
 			L.apply_damage(dmg, BRUTE, BODY_ZONE_CHEST, armor)
 			L.apply_status_effect(/datum/status_effect/debuff/staggered)
 		else if(razes && isstructure(A))
 			var/obj/structure/S = A
-			S.take_damage(PVE_damage * 2 * falloff, BRUTE, "blunt", FALSE)
+			S.take_damage(blastdmg * 2 * falloff, BRUTE, "blunt", FALSE)
 	//IMPORTANT!! go into walls /turf/closed/wall/ and see /turf/closed/wall/ex_act. Its bounded with /proc/explosion. Same for /obj/structure and /obj/structure/ex_act because if you going to fuck intergity or whatever this shit called players will skin you alive for breaking their equipment and keys
 	//also /turf/open/floor/ex_act for comment above
 	explosion(T, extreme_impact_range = devrange, heavy_impact_range = heavyrange, light_impact_range = lightrange, ignorecap = ignorecap, flame_range = flamerange, smoke = TRUE, soundin = BOMB_SOUND)
@@ -297,6 +305,10 @@
 	name = "blastpowder stick"
 	desc = "A bewicked vessel, filled to the brim with explosive powder. Ignition begets eruption; a dizzying shockwave which pulverizes stone, wood, and flesh alike with little discrimination."
 	icon_state = "tnt_stick"
+	grid_width = 64
+	grid_height = 32
+	blastdmg = 60
+	heavyrange = 0
 
 /obj/item/explosive/fused/powder/satchel
 	name = "blastpowder satchel"
@@ -309,7 +321,7 @@
 	throw_speed = 0.3
 	grid_width = 256
 	grid_height = 256
-	PVE_damage = 250
+	blastdmg = 250
 	blastrange = 6
 	razes = TRUE
 	devrange = 3
@@ -325,7 +337,7 @@
 	</br> <font color='FF0000'>IF YOU SEE A LIT WICK, YOU BEST RUN AWAY QUICK!</font>"
 	dropshrink = 5
 	throw_range = 1
-	PVE_damage = 800
+	blastdmg = 800
 	blastrange = 10
 	devrange = 10
 	heavyrange = 15
@@ -435,7 +447,7 @@
 	playsound(victim, 'sound/items/knife_open.ogg', 100, TRUE)
 	victim.visible_message(span_warningbig("[victim] steps on [src]!"),
 		span_warningbig("I feel the snapping of twine under my boot!"))
-	victim.Slowdown(5)
+	victim.apply_slowdown(9 SECONDS)
 	if(victim.STAINT <= 10 || victim.STAPER <= 10 || !victim.mind)
 		victim.Immobilize(5)
 		victim.emote(pick("huh","whimper","fwhine","gasp"))
@@ -461,8 +473,12 @@
 	detonate()
 
 /obj/item/explosive/impact/shrapnel
+	grid_width = 64
+	grid_height = 64
+	blastdmg = 80
+	explodes_in_sacks = TRUE
 	/// Number of shrapnel fragments flung outwards on detonation
-	var/shards = 10
+	var/shards = 5
 
 /obj/item/explosive/impact/shrapnel/blast(turf/T, forced)
 	var/critbang = 0
@@ -479,9 +495,10 @@
 			continue
 		target.mob_timers[MT_BOMB_HIT] = world.time
 
-		var/armor = target.run_armor_check(BODY_ZONE_CHEST, "blunt", blade_dulling = BCLASS_BLUNT, damage = PVE_damage, no_debuff = TRUE)
-		target.apply_damage(PVE_damage, BRUTE, BODY_ZONE_CHEST, armor)
+		var/armor = target.run_armor_check(BODY_ZONE_CHEST, "blunt", blade_dulling = BCLASS_BLUNT, damage = blastdmg, no_debuff = TRUE)
+		target.apply_damage(blastdmg, BRUTE, BODY_ZONE_CHEST, armor)
 		target.apply_status_effect(/datum/status_effect/debuff/staggered)
+		embed_bomb_shrapnel(target, /obj/item/bomb_shrapnel, 2)
 
 		if(can_crit && !target.mind && prob(critbang + (target.stat != CONSCIOUS ? 50 : 0)))
 			crit(target, BRUTE, armor)
@@ -492,7 +509,8 @@
 			P.firer = thrower
 		P.fire(i * 360 / shards + rand(-10, 10))
 
-	explosion(T, heavy_impact_range = 1, light_impact_range = 4, smoke = (tripcrit > 0), adminlog = FALSE, soundin = BOMB_SOUND, bomb_owner = thrower)
+	playsound(T, BOMB_SOUND, 100)
+	explosion(T, smoke = (tripcrit > 0), adminlog = FALSE, silent = TRUE, bomb_owner = thrower)
 
 /obj/projectile/bullet/bombshard
 	name = "shrapnel"
@@ -508,66 +526,16 @@
 	if(isliving(target) && prob(50))
 		embed_bomb_shrapnel(target, /obj/item/bomb_shrapnel, 1)
 
-/obj/item/smokeshell
-	name = "gas belcher shell"
-	desc = "A vented canister, bereft of its noxious payload. How long can you hold your breath?"
-	dropshrink = 0.6
-	icon_state = "smokeshell_blank"
-	icon = 'icons/roguetown/items/misc.dmi'
-	w_class = WEIGHT_CLASS_SMALL
-	throwforce = 0
-	throw_speed = 1
-	grid_width = 32
-	grid_height = 32
-
 /obj/item/explosive/impact/smoke
-	name = "gas belcher"
-	desc = "A vented canister, filled with an obfuscating payload. Wisps of charsmoke occasionally escape from its ported maw."
-	icon_state = "smokeshell_blue"
+	abstract_type = /obj/item/explosive/impact/smoke
 	cautious = FALSE
-	var/datum/effect_system/smoke_spread/smoke_type = /datum/effect_system/smoke_spread
-	var/smokerange = 2
-	/// Left behind once the payload is spent
-	var/residue = /obj/item/smokeshell
-	var/smokesound = 'sound/misc/explode/incendiary (1).ogg'
-	var/smokevol = 100
 
 /obj/item/explosive/impact/smoke/blast(turf/T, forced)
-	playsound(T, smokesound, smokevol)
-	var/datum/effect_system/smoke_spread/smoke = new smoke_type
-	smoke.set_up(smokerange, T)
+	playsound(T, 'sound/items/smokebomb.ogg', 50)
+	var/datum/effect_system/smoke_spread/smoke = new
+	smoke.set_up(3, T)
 	smoke.start()
-	new residue(T)
-
-/obj/item/explosive/impact/smoke/poison_gas
-	name = "poison gas belcher"
-	desc = "A vented canister, filled with a noxious payload. Even a mere whiff of its verdant surprise threatens to choke you apart."
-	icon_state = "smokeshell_green"
-	smoke_type = /datum/effect_system/smoke_spread/poison_gas
-
-/obj/item/explosive/impact/smoke/healing_gas
-	name = "healing gas belcher"
-	desc = "A vented canister, filled with a medicinal payload. The crimson smoke tickles your lips; a taste not unlike sweetened lifeblood."
-	icon_state = "smokeshell_red"
-	smoke_type = /datum/effect_system/smoke_spread/healing_gas
-
-/obj/item/explosive/impact/smoke/fire_gas
-	name = "burning gas belcher"
-	desc = "A vented canister, filled with a fiery payload. It feels uncomfortably hot in your palm, and carries a curious scent - not unlike roasted frybirds."
-	icon_state = "smokeshell_orange"
-	smoke_type = /datum/effect_system/smoke_spread/fire_gas
-
-/obj/item/explosive/impact/smoke/blind_gas
-	name = "blinding gas belcher"
-	desc = "A vented canister, filled with an irritating payload. Your eyes are already watering from its ebbed fumes, and the numbness threatens to shutter your lids without resistance."
-	icon_state = "smokeshell_blue"
-	smoke_type = /datum/effect_system/smoke_spread/blind_gas
-
-/obj/item/explosive/impact/smoke/mute_gas
-	name = "silent gas belcher"
-	desc = "A vented canister, filled with a numbing payload. A strange prickling sensation graces your mind and throat, not unlike the 'pins and needles' of a sleeping limb."
-	icon_state = "smokeshell_purple"
-	smoke_type = /datum/effect_system/smoke_spread/mute_gas
+	new /obj/item/natural/ash(T)
 
 /obj/item/explosive/impact/smoke/bomb
 	name = "smoke bomb"
@@ -578,10 +546,6 @@
 	throw_speed = 0.5
 	grid_height = 64
 	flags_ai_inventory = AI_ITEM_THROWING
-	smokerange = 3
-	residue = /obj/item/natural/ash
-	smokesound = 'sound/items/smokebomb.ogg'
-	smokevol = 50
 
 /obj/item/natural/glass_shard/shrapnel
 	name = "jagged shard"

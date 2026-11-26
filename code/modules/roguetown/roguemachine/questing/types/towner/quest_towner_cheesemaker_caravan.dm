@@ -8,6 +8,7 @@
 		/datum/advclass/cook,
 		/datum/advclass/masterchef,
 		/datum/advclass/innkeeper,
+		/datum/advclass/homesteader,
 	)
 	eligible_regions = list(
 		THREAT_REGION_AZURE_GROVE,

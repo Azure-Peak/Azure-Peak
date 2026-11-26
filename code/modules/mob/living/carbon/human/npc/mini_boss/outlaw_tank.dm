@@ -22,6 +22,7 @@ GLOBAL_LIST_INIT(tank_aggro, list(
 	dodgetime = 40
 	d_intent = INTENT_PARRY
 	threat_point = THREAT_ELITE
+	boss_class = BOSS_CLASS_TANK
 
 /mob/living/carbon/human/species/human/northern/outlaw_tank/Initialize(mapload)
 	. = ..()

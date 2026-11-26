@@ -212,7 +212,7 @@
 	for(var/mob/living/carbon/human/H in view(7, holder))
 		if(H == holder)
 			continue
-		if(H.current_fellowship)
+		if(H.current_fellowship || HAS_TRAIT(H, TRAIT_CONJURED_SUMMON))
 			continue
 		if(F.has_member(H))
 			continue

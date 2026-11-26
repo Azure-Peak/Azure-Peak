@@ -24,7 +24,7 @@
 	strike_sound = null
 	detonate_sound = null
 	hit_sound = list('sound/combat/sidesweep_hit.ogg')
-	var/victim_slowdown = 2
+	var/victim_slowdown = 3 SECONDS
 	/// Damage multiplier per band. Bands past the end reuse the last entry.
 	var/list/band_damage_mult = list(1, 1.5, 2)
 	/// Unpenetrating follow-up on the last band, as a fraction of damage.
@@ -56,7 +56,7 @@
 /datum/action/cooldown/spell/telegraphed_strike/mob_ability/minotaur_sweep/on_hit_target(mob/living/H, mob/living/L, facing)
 	L.visible_message(span_userdanger("[H]'s swing catches [L]!"))
 	if(victim_slowdown)
-		L.Slowdown(victim_slowdown)
+		L.apply_slowdown(victim_slowdown)
 	if(final_band_bonus && band_index >= length(band_damage_mult))
 		arcyne_strike(H, L, null, damage * final_band_bonus, H.zone_selected || BODY_ZONE_CHEST, blade_class, spell_name = name, damage_type = strike_damage_type, skip_animation = TRUE, skip_message = TRUE)
 

@@ -101,6 +101,9 @@
 	var/announce_latejoin = TRUE
 	var/give_bank_account = FALSE
 	var/noble_income = FALSE //Passive income every day from noble estate
+	var/noble_rank = NOBLE_RANK_NONE
+	var/estate_pay_rank = NOBLE_RANK_NONE
+	var/political_faction
 
 	var/can_random = TRUE
 
@@ -223,7 +226,7 @@
 	if(winexists(usr, "[JOB_SUBPREFS_WINDOW_ID]"))
 		winset(usr, "[JOB_SUBPREFS_WINDOW_ID]", "focus=true")
 
-/proc/is_quest_claim_barred(mob/user, datum/quest/Q)
+/proc/is_quest_claim_barred(mob/user, towner_posting = FALSE)
 	if(!user?.mind)
 		return FALSE
 	var/datum/job/J = user.job ? SSjob.GetJob(user.job) : null
@@ -233,7 +236,7 @@
 		return FALSE
 	if(J.quest_claim_lowpop_allowed && quest_claim_lowpop_active())
 		return FALSE
-	if(J.quest_claim_towner_allowed && Q?.source == QUEST_SOURCE_TOWNER)
+	if(J.quest_claim_towner_allowed && towner_posting)
 		return FALSE
 	return TRUE
 
@@ -243,18 +246,18 @@
 	var/datum/job/J = user.job ? SSjob.GetJob(user.job) : null
 	return J?.quest_claim_barred && J.quest_claim_solo_allowed
 
-/proc/quest_claim_uses_solo_allowance(mob/user, datum/quest/Q)
+/proc/quest_claim_uses_solo_allowance(mob/user, towner_posting = FALSE)
 	if(!user?.mind)
-		return FALSE
-	if(quest_claim_lowpop_active())
 		return FALSE
 	var/datum/job/J = user.job ? SSjob.GetJob(user.job) : null
 	if(!J?.quest_claim_barred || !J.quest_claim_solo_allowed)
 		return FALSE
-	return !(J.quest_claim_towner_allowed && Q?.source == QUEST_SOURCE_TOWNER)
+	if(quest_claim_lowpop_active())
+		return FALSE
+	return !(J.quest_claim_towner_allowed && towner_posting)
 
-/proc/is_quest_solo_limited(mob/user, datum/quest/Q)
-	return quest_claim_uses_solo_allowance(user, Q) && !SSquestpool.is_solo_sign_ready(user)
+/proc/is_quest_solo_limited(mob/user, towner_posting = FALSE)
+	return quest_claim_uses_solo_allowance(user, towner_posting) && !SSquestpool.is_solo_sign_ready(user)
 
 /proc/quest_solo_limit_reason(mob/user)
 	var/still_open = "Towner postings are still open to you, or you can hire yourself out."
@@ -372,10 +375,6 @@
 				H.mind.i_know_person(MF)
 
 	// Ready up bonus
-	if(H.mind)
-		if (HAS_TRAIT(H, TRAIT_EXPLOSIVE_SUPPLY))
-			H.mind.has_bomb = TRUE
-
 	if(!H.islatejoin)
 		H.adjust_triumphs(1)
 		H.apply_status_effect(/datum/status_effect/buff/mealbuff)
@@ -403,9 +402,16 @@
 		else
 			SStreasury.create_bank_account(H)
 
-		if(noble_income)
-			SStreasury.noble_incomes[H] = noble_income
-			SStreasury.grant_estate_income(H, noble_income, TRUE)
+		if(noble_rank || noble_income)
+			SSeconomy.register_estate(H, noble_rank, noble_income, TRUE, M?.client, estate_pay_rank)
+
+	if(ishuman(H))
+		var/mob/living/carbon/human/human = H
+		if(political_faction)
+			human.political_faction = political_faction
+		var/datum/political_faction/faction = GLOB.political_factions[human.political_faction]
+		if(faction && faction.id != POLITICAL_FACTION_NEUTRAL && !HAS_TRAIT(human, TRAIT_OUTLAW))
+			record_featured_object_stat(FEATURED_STATS_POLITICAL_FACTIONS, faction.name)
 
 	if(show_in_credits && H.ckey && isnull(SScrediticons.processing[H.ckey]))
 		SScrediticons.processing[H.ckey] = FALSE

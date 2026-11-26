@@ -19,10 +19,8 @@
 	boss_mob_types = list(
 		/mob/living/carbon/human/species/elf/dark/drowraider/scourge = 100,
 	)
-	boss_title_templates = list(
-		"%N the Venomed",
-		"%N of the Shadow",
-		"Matron %N",
-		"%N the Spiderkin",
+	variant_chances = list(
+		/datum/quest_faction_variant/drow_spellblades = 10,
+		/datum/quest_faction_variant/drow_coven = 10,
 	)
 	boss_name_file = "strings/rt/names/elf/elfdm.txt"

@@ -23,7 +23,8 @@
 		TRAIT_NUTCRACKER,
 		TRAIT_GOODLOVER,
 		TRAIT_HOMESTEAD_EXPERT,
-		TRAIT_GOOD_MASSEUR
+		TRAIT_GOOD_MASSEUR,
+		TRAIT_BATHHOUSE
 	)
 
 	advclass_cat_rolls = list(CTAG_BATHMOM = 2)
@@ -48,6 +49,10 @@
 		STATKEY_STR = 1,
 		STATKEY_CON = 1,
 		STATKEY_INT = 1
+	)
+	subclass_stashed_items = list(
+		"Wax Putty I" = /obj/item/waxputty,
+		"Wax Putty II" = /obj/item/waxputty,
 	)
 	subclass_skills = list(
 		/datum/skill/combat/wrestling = SKILL_LEVEL_JOURNEYMAN,
