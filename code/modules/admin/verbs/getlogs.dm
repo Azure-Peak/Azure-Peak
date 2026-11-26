@@ -23,6 +23,7 @@
 #define LOGVIEW_HUGE 3
 /// Source file vanished
 #define LOGVIEW_GONE 4
+#define LOGVIEW_SUBTLE "secret/[LOG_CATEGORY_SUBTLE]"
 
 /// Parsed rounds by folder path, shared between admins
 GLOBAL_LIST_EMPTY(logview_rounds)
@@ -279,7 +280,7 @@ GENERAL_PROTECT_DATUM(/datum/log_round)
 	/// Source names whose entries are shown
 	var/list/shown = list()
 	/// Categories unticked by the admin
-	var/list/hidden = list(LOG_CATEGORY_SUBTLE = TRUE)
+	var/list/hidden = list()
 	/// Text an entry must contain
 	var/search = ""
 	/// Whether search is a regex
@@ -453,7 +454,11 @@ GENERAL_PROTECT_DATUM(/datum/log_viewer)
 				shown -= name
 			else
 				shown[name] = TRUE
-			log_admin("[key_name(usr)] toggled log source [name] [shown[name] ? "on" : "off"] in the log viewer.")
+			if(shown[name] && name == LOGVIEW_SUBTLE)
+				message_admins("[key_name_admin(usr)] opened the subtle logs of [folder.path] in the log viewer.")
+				log_admin("[key_name(usr)] opened the subtle logs of [folder.path] in the log viewer.")
+			else
+				log_admin("[key_name(usr)] toggled log source [name] [shown[name] ? "on" : "off"] in the log viewer.")
 			kick()
 			return TRUE
 		if("cat")
@@ -473,8 +478,6 @@ GENERAL_PROTECT_DATUM(/datum/log_viewer)
 					return
 				hidden[cat] = TRUE
 			log_admin("[key_name(usr)] toggled log category [cat] [hidden[cat] ? "off" : "on"] in the log viewer.")
-			if(cat == LOG_CATEGORY_SUBTLE && !hidden[cat])
-				message_admins("[key_name_admin(usr)] turned on subtle logs in the log viewer.")
 			kick()
 			return TRUE
 		if("filter")
@@ -517,7 +520,7 @@ GENERAL_PROTECT_DATUM(/datum/log_viewer)
 			return TRUE
 		if("clear")
 			unfilter()
-			hidden = list(LOG_CATEGORY_SUBTLE = TRUE)
+			hidden = list()
 			page = 1
 			focus = null
 			kick()
@@ -538,10 +541,12 @@ GENERAL_PROTECT_DATUM(/datum/log_viewer)
 			if(!folder || !istext(rel))
 				return
 			var/listed = (rel in folder.others)
+			var/subtle = FALSE
 			for(var/name in folder.sources)
 				var/datum/log_source/source = folder.sources[name]
 				if(source.file == rel)
 					listed = TRUE
+					subtle = (name == LOGVIEW_SUBTLE)
 					break
 			if(!listed)
 				return
@@ -549,8 +554,9 @@ GENERAL_PROTECT_DATUM(/datum/log_viewer)
 			if(user.file_spam_check())
 				return
 			var/path = "[folder.path][rel]"
-			message_admins("[key_name_admin(usr)] downloaded log file [path]")
-			log_admin("[key_name(usr)] downloaded log file [path]")
+			var/what = subtle ? "the subtle log file" : "log file"
+			message_admins("[key_name_admin(usr)] downloaded [what] [path]")
+			log_admin("[key_name(usr)] downloaded [what] [path]")
 			if(params["open"])
 				user << run(file(path))
 			else
@@ -895,17 +901,21 @@ GENERAL_PROTECT_DATUM(/datum/log_viewer)
 
 /datum/log_viewer/proc/export(client/user)
 	var/list/out = list()
+	var/subtle = 0
 	for(var/pos in 1 to length(hidx))
 		var/datum/log_source/source = hsrc[pos]
 		var/i = hidx[pos]
 		out += "\[[source.when(i)]\] [uppertext(source.cats[i])]: [source.msgs[i]]"
+		if(source.name == LOGVIEW_SUBTLE)
+			subtle++
 		LOGVIEW_YIELD
 	var/path = "tmp/logview.[owner].txt"
 	rustg_file_write(jointext(out, "\n"), path)
 	if(!user)
 		return
-	message_admins("[key_name_admin(user)] exported [length(out)] filtered log entries from [folder?.path]")
-	log_admin("[key_name(user)] exported [length(out)] filtered log entries from [folder?.path]")
+	var/what = "[length(out)] filtered log entries[subtle ? " including [subtle] subtle" : ""]"
+	message_admins("[key_name_admin(user)] exported [what] from [folder?.path]")
+	log_admin("[key_name(user)] exported [what] from [folder?.path]")
 	user << ftp(file(path), "[folder?.label]-filtered.txt")
 
 #undef LOGVIEW_MAX_BYTES
@@ -920,3 +930,4 @@ GENERAL_PROTECT_DATUM(/datum/log_viewer)
 #undef LOGVIEW_READY
 #undef LOGVIEW_HUGE
 #undef LOGVIEW_GONE
+#undef LOGVIEW_SUBTLE
