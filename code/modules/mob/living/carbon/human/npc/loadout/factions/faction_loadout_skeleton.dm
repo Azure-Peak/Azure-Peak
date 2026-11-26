@@ -323,6 +323,7 @@
 		/datum/npc_loadout/armor/light/skeleton_caster,
 		/datum/npc_loadout/kit/skeleton_amulet,
 		/datum/npc_loadout/kit/caster_skele_fulgurmancer,
+		/datum/npc_loadout/kit/skeleton_tabard,
 	)
 
 /datum/npc_archetype/skeleton/caster/geomancer
@@ -331,7 +332,7 @@
 		/datum/npc_loadout/armor/light/skeleton_caster,
 		/datum/npc_loadout/kit/skeleton_amulet,
 		/datum/npc_loadout/kit/caster_skele_geomancer,
-
+		/datum/npc_loadout/kit/skeleton_tabard,
 	)
 
 /datum/npc_archetype/skeleton/caster/telomancer
@@ -340,6 +341,7 @@
 		/datum/npc_loadout/armor/light/skeleton_caster,
 		/datum/npc_loadout/kit/skeleton_amulet,
 		/datum/npc_loadout/kit/caster_skele_telomancer,
+		/datum/npc_loadout/kit/skeleton_tabard,
 	)
 
 /datum/npc_archetype/skeleton/caster/ferramancer
@@ -348,6 +350,7 @@
 		/datum/npc_loadout/armor/light/skeleton_caster,
 		/datum/npc_loadout/kit/skeleton_amulet,
 		/datum/npc_loadout/kit/caster_skele_ferramancer,
+		/datum/npc_loadout/kit/skeleton_tabard,
 	)
 
 /datum/npc_archetype/skeleton/caster/cryomancer
@@ -356,6 +359,7 @@
 		/datum/npc_loadout/armor/light/skeleton_caster,
 		/datum/npc_loadout/kit/skeleton_amulet,
 		/datum/npc_loadout/kit/caster_skele_cryomancer,
+		/datum/npc_loadout/kit/skeleton_tabard,
 	)
 
 /datum/npc_archetype/skeleton/caster/pyromancer
@@ -364,6 +368,7 @@
 		/datum/npc_loadout/armor/light/skeleton_caster,
 		/datum/npc_loadout/kit/skeleton_amulet,
 		/datum/npc_loadout/kit/caster_skele_pyromancer,
+		/datum/npc_loadout/kit/skeleton_tabard,
 	)
 
 //** STATS **//
@@ -687,7 +692,6 @@
 		list(/obj/item/rogueweapon/eaglebeak/lucerne),
 		list(/obj/item/rogueweapon/greatsword/zwei),
 	)
-	r_hand = /obj/item/rogueweapon/woodstaff/implement/amethyst
 
 //casters
 

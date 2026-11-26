@@ -78,7 +78,6 @@
 	head = /obj/item/clothing/head/roguetown/roguehood/black
 	mask = /obj/item/clothing/mask/rogue/facemask/aalloy //Face protection
 	shirt = /obj/item/clothing/suit/roguetown/armor/vestments_padded
-	cloak = /obj/item/clothing/cloak/tabard/toga/lich //because varients look bad
 	neck = /obj/item/clothing/neck/roguetown/chaincoif/iron/aalloy
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/cloth/lich
 	gloves = /obj/item/clothing/gloves/roguetown/bandages/lich //shittier version used for this
