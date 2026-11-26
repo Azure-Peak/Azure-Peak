@@ -11,9 +11,12 @@ import {
   inkButtonStyle,
   PARCHMENT_SHADOW,
   pageStyle,
+  RateSeals,
   rulerStyle,
   SEAL_AMBER,
+  SEAL_BLUE,
   SEAL_GREEN,
+  SEAL_RED,
   SERIF,
   sectionHeaderStyle,
   subtitleStyle,
@@ -114,8 +117,8 @@ const GroupDivider = (props: { label: string }) => (
   </div>
 );
 
-const LineRow = (props: { line: DemandLine; cutPercent: number }) => {
-  const { line, cutPercent } = props;
+const LineRow = (props: { line: DemandLine; keepPercent: number }) => {
+  const { line, keepPercent } = props;
   const remaining = Math.max(0, line.qty_target - line.qty_fulfilled);
   const done = remaining === 0;
   const hasKin =
@@ -124,7 +127,7 @@ const LineRow = (props: { line: DemandLine; cutPercent: number }) => {
   const effectivePrice = hasKin
     ? (line.kin_offered_price as number)
     : line.offered_price;
-  const producerPayout = Math.round(effectivePrice * (1 - cutPercent / 100));
+  const producerPayout = Math.round((effectivePrice * keepPercent) / 100);
   return (
     <div
       style={{
@@ -190,9 +193,9 @@ const LineRow = (props: { line: DemandLine; cutPercent: number }) => {
 const Subsection = (props: {
   tag: string;
   lines: DemandLine[];
-  cutPercent: number;
+  keepPercent: number;
 }) => {
-  const { tag, lines, cutPercent } = props;
+  const { tag, lines, keepPercent } = props;
   if (lines.length === 0) return null;
   return (
     <div style={{ marginTop: '6px' }}>
@@ -221,15 +224,15 @@ const Subsection = (props: {
         <LineRow
           key={`${tag}|${line.good}`}
           line={line}
-          cutPercent={cutPercent}
+          keepPercent={keepPercent}
         />
       ))}
     </div>
   );
 };
 
-const ManifestSection = (props: { manifest: Manifest; cutPercent: number }) => {
-  const { manifest, cutPercent } = props;
+const ManifestSection = (props: { manifest: Manifest; keepPercent: number }) => {
+  const { manifest, keepPercent } = props;
   const grouped: Record<string, DemandLine[]> = {};
   for (const line of manifest.lines) {
     const key = line.tag || 'bulk';
@@ -298,7 +301,7 @@ const ManifestSection = (props: { manifest: Manifest; cutPercent: number }) => {
               <Subsection
                 tag={tag}
                 lines={grouped[tag] || []}
-                cutPercent={cutPercent}
+                keepPercent={keepPercent}
               />
             </div>
           );
@@ -357,7 +360,18 @@ const Underledger = () => {
 
 export const ShipFulfillment = () => {
   const { data, act } = useBackend<Data>();
-  const { manifests, middleman_cut_percent, can_manage } = data;
+  const {
+    manifests,
+    middleman_cut_percent,
+    can_manage,
+    duty_suspended,
+    duty_rate_pct = 0,
+  } = data;
+  const dodging = !!can_manage && !!duty_suspended;
+  const keepPercent = Math.max(
+    0,
+    100 - middleman_cut_percent - (dodging ? 0 : duty_rate_pct),
+  );
 
   return (
     <Window width={620} height={680} theme="parchment">
@@ -381,6 +395,28 @@ export const ShipFulfillment = () => {
             Drop matching goods at the crate to fulfill. The Merchant takes{' '}
             {middleman_cut_percent}% as middleman.
           </div>
+          <RateSeals
+            seals={[
+              {
+                label: "Merchant's levy",
+                value: `${middleman_cut_percent}%`,
+                color: SEAL_AMBER,
+              },
+              {
+                label: 'Crown export duty',
+                value: `${duty_rate_pct}%`,
+                color: SEAL_BLUE,
+                struck: dodging,
+                note: dodging ? 'DODGING' : undefined,
+                noteColor: SEAL_RED,
+              },
+              {
+                label: 'You keep',
+                value: `${keepPercent}%`,
+                color: SEAL_GREEN,
+              },
+            ]}
+          />
           <div style={rulerStyle} />
           {manifests.length === 0 ? (
             <div
@@ -397,7 +433,7 @@ export const ShipFulfillment = () => {
               <ManifestSection
                 key={m.ship_id}
                 manifest={m}
-                cutPercent={middleman_cut_percent}
+                keepPercent={keepPercent}
               />
             ))
           )}

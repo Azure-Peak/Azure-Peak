@@ -534,7 +534,7 @@
 			// If there's only one stick left in the bundle...
 			if (amount == 1)
 				// Replace the bundle with a single stick
-				var/obj/item/ST = new stacktype(T)
+				var/obj/item/ST = spawn_single(T)
 				if(user.is_holding(src))
 					user.doUnEquip(src, TRUE, T, silent = TRUE)
 				qdel(src)

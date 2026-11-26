@@ -37,6 +37,7 @@
 	var/noun_one
 	var/noun_many
 	var/export_tag
+	var/heading = ""
 	var/list/lines = list()
 
 /datum/bill_of_fare_column/proc/link_data(list/row, linked_type)
@@ -199,7 +200,7 @@
 		return TRUE
 	for(var/key in columns)
 		var/datum/bill_of_fare_column/column = columns[key]
-		if(length(column.lines))
+		if(length(column.lines) || length(column.heading))
 			return TRUE
 	return FALSE
 
@@ -285,6 +286,7 @@
 		"max_price" = BILL_OF_FARE_MAX_PRICE,
 		"title_len" = BILL_OF_FARE_TITLE_LEN,
 		"line_len" = BILL_OF_FARE_LINE_LEN,
+		"heading_len" = BILL_OF_FARE_HEADING_LEN,
 		"notes_len" = BILL_OF_FARE_NOTES_LEN,
 		"pen_name_len" = BILL_OF_FARE_PEN_NAME_LEN,
 		"import_len" = BILL_OF_FARE_IMPORT_MAX_LEN,
@@ -303,15 +305,18 @@
 
 /datum/component/bill_of_fare/ui_data(mob/user)
 	var/list/rows = list()
+	var/list/headings = list()
 	for(var/key in columns)
 		var/datum/bill_of_fare_column/column = columns[key]
 		rows[key] = column.rows()
+		headings[key] = column.heading
 	var/author = is_author(user)
 	return list(
 		"title" = title,
 		"notes" = notes,
 		"can_edit" = can_write(user),
 		"rows" = rows,
+		"headings" = headings,
 		"export" = export_text(),
 		"signature" = signature(),
 		"claimed" = is_claimed(),
@@ -344,6 +349,15 @@
 				return
 			notes = clean
 			log_write(user, "notes", clean)
+		if("set_heading")
+			var/datum/bill_of_fare_column/column = get_column(params["column"])
+			if(!column)
+				return
+			var/clean = bill_of_fare_clean_text(user, params["text"], BILL_OF_FARE_HEADING_LEN)
+			if(isnull(clean))
+				return
+			column.heading = clean
+			log_write(user, "[column.key] heading", clean)
 		if("add_linked")
 			var/datum/bill_of_fare_column/column = get_column(params["column"])
 			var/linked_type = column?.catalog_type_at(params["id"])

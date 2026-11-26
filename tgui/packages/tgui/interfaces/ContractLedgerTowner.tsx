@@ -3,11 +3,13 @@ import { Button } from 'tgui-core/components';
 import type { BooleanLike } from 'tgui-core/react';
 
 import { useBackend } from '../backend';
+import { formatMammon } from './common/format';
 
 type Tier = 'medium' | 'hard' | 'perilous';
 type Funder = 'personal' | 'crown' | 'company';
 
 type Delivery = 'hand' | 'board';
+type Funding = 'treasury' | 'pledge';
 
 const TIER_ORDER: Tier[] = ['medium', 'hard', 'perilous'];
 
@@ -45,6 +47,8 @@ type TownerData = {
   balance: number;
   towner_purse_balance: number;
   towner_company_balance: number;
+  towner_pledge_balance: number;
+  towner_can_pledge: BooleanLike;
   towner_postings: Posting[];
   towner_crown_cost_mult: number;
   towner_company_cost_mult: number;
@@ -106,13 +110,21 @@ const ActivePostingCard = (props: {
   balance: number;
   purseBalance: number;
   companyBalance: number;
+  pledgeBalance: number;
+  canPledge: boolean;
   crownCostMult: number;
   companyCostMult: number;
   atCap: boolean;
-  onPost: (tier: Tier, delivery: Delivery, variety: string) => void;
+  onPost: (
+    tier: Tier,
+    delivery: Delivery,
+    variety: string,
+    funding: Funding,
+  ) => void;
 }) => {
   const [tier, setTier] = useState<Tier>('medium');
   const [delivery, setDelivery] = useState<Delivery>('hand');
+  const [funding, setFunding] = useState<Funding>('treasury');
   const varieties = props.posting.varieties || [];
   const [varietyKey, setVarietyKey] = useState<string>(
     varieties.length > 0 ? varieties[0].key : '',
@@ -123,9 +135,13 @@ const ActivePostingCard = (props: {
   const cost = summary ? summary.cost : 0;
   const crown = props.posting.funder === 'crown';
   const company = props.posting.funder === 'company';
-  const purse = crown
-    ? props.purseBalance
-    : company
+  const usePledge = crown && props.canPledge && funding === 'pledge';
+  const crownSource = usePledge ? 'the Burgher Pledge' : 'the Treasury';
+  const purse = usePledge
+    ? props.pledgeBalance
+    : crown
+      ? props.purseBalance
+      : company
       ? props.companyBalance
       : props.balance;
   const canAfford = purse >= cost;
@@ -138,8 +154,29 @@ const ActivePostingCard = (props: {
           className="ContractLedger__CardObjective"
           style={{ marginTop: 4, fontSize: '0.85em', fontWeight: 'bold' }}
         >
-          Crown contract: paid from the Treasury at {props.crownCostMult}x the
+          Crown contract: paid from {crownSource} at {props.crownCostMult}x the
           price.
+        </div>
+      )}
+      {crown && props.canPledge && (
+        <div
+          className="ContractLedger__CardRow"
+          style={{ marginTop: 6, justifyContent: 'flex-start' }}
+        >
+          <Button
+            selected={funding === 'treasury'}
+            onClick={() => setFunding('treasury')}
+            style={toggleStyle(funding === 'treasury')}
+          >
+            Treasury ({formatMammon(props.purseBalance)}m)
+          </Button>
+          <Button
+            selected={funding === 'pledge'}
+            onClick={() => setFunding('pledge')}
+            style={toggleStyle(funding === 'pledge')}
+          >
+            Burgher Pledge ({formatMammon(props.pledgeBalance)}m)
+          </Button>
         </div>
       )}
       {company && (
@@ -228,14 +265,14 @@ const ActivePostingCard = (props: {
               ? 'You have as many postings out as you can. Withdraw one or wait for one to be fulfilled.'
               : !canAfford
                 ? crown
-                  ? `The Treasury can't afford ${cost}m.`
+                  ? `${usePledge ? 'The Burgher Pledge' : 'The Treasury'} can't afford ${cost}m.`
                   : company
                     ? `The ATC can't afford ${cost}m.`
                     : `You need ${cost}m on account.`
                 : undefined
           }
           onClick={() =>
-            props.onPost(tier, delivery, selectedVariety?.key || '')
+            props.onPost(tier, delivery, selectedVariety?.key || '', funding)
           }
         >
           {delivery === 'hand' ? 'Draw up' : 'Post'} ({cost}m)
@@ -299,8 +336,15 @@ export const TownerPostingPanel = () => {
     tier: Tier,
     delivery: Delivery,
     variety: string,
+    funding: Funding,
   ) => {
-    act('compose_towner', { type: postingType, tier, delivery, variety });
+    act('compose_towner', {
+      type: postingType,
+      tier,
+      delivery,
+      variety,
+      funding,
+    });
   };
 
   const yourPostings = postings.filter((p) => !!p.eligible);
@@ -334,9 +378,12 @@ export const TownerPostingPanel = () => {
         </span>
         <span>
           Postings: {data.towner_active_postings} / {data.towner_max_postings} |
-          Balance: {data.balance}m
-          {anyCrown && <> | Treasury: {data.towner_purse_balance ?? 0}m</>}
-          {anyCompany && <> | ATC: {data.towner_company_balance ?? 0}m</>}
+          Balance: {formatMammon(data.balance)}m
+          {anyCrown && <> | Treasury: {formatMammon(data.towner_purse_balance)}m</>}
+          {anyCrown && !!data.towner_can_pledge && (
+            <> | Pledge: {formatMammon(data.towner_pledge_balance)}m</>
+          )}
+          {anyCompany && <> | ATC: {formatMammon(data.towner_company_balance)}m</>}
         </span>
       </div>
       <div style={blurbStyle}>
@@ -354,10 +401,12 @@ export const TownerPostingPanel = () => {
                 balance={data.balance}
                 purseBalance={data.towner_purse_balance ?? 0}
                 companyBalance={data.towner_company_balance ?? 0}
+                pledgeBalance={data.towner_pledge_balance ?? 0}
+                canPledge={!!data.towner_can_pledge}
                 crownCostMult={data.towner_crown_cost_mult}
                 companyCostMult={data.towner_company_cost_mult}
                 atCap={data.towner_active_postings >= data.towner_max_postings}
-                onPost={(t, d, v) => post(p.type, t, d, v)}
+                onPost={(t, d, v, f) => post(p.type, t, d, v, f)}
               />
             ))}
           </div>

@@ -331,6 +331,13 @@ export type CharFlaw = {
   picked_choices: { index: number; choice: string }[];
 };
 
+// --------------- PoliticsData ---------------
+export type PoliticsData = {
+  political_faction: string;
+  estate_region: string;
+  psydonite: BooleanLike;
+};
+
 // --------------- VillainData ---------------
 export type VillainData = {
   antag_banned: BooleanLike;

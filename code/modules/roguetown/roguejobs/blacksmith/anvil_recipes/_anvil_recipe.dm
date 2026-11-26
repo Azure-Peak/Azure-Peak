@@ -86,9 +86,9 @@
 									B.amount -= 1
 									B.update_bundle()
 									var/turf/newloc = get_turf(B)
-									obj_to_use = new B.stacktype(newloc)
+									obj_to_use = B.spawn_single(newloc)
 									if(B.amount == 1)
-										new B.stacktype(newloc)
+										B.spawn_single(newloc)
 										qdel(B)
 									else if(B.amount <= 0)
 										qdel(B)
