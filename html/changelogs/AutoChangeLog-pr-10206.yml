@@ -1,5 +1,0 @@
-author: "mumblemancer"
-delete-after: True
-changes:
-  - bugfix: "infernal familiars should accurately report their numbers now"
-  - qol: "familiar-summoning rituals now say theyre binding familiars and not a lesser [x]"
