@@ -952,3 +952,86 @@
       The Enduring Codex
   - rscadd: Added a donator loadout entry for the same elixir for Lucine
   - image: Added the Enduring Codex tome sprite
+2026-11-23:
+  BobProductive:
+  - bugfix: Climbing code messages meant for the climber now only show for the climber
+      not everyone around them.
+  WeNeedMorePhoron:
+  - rscadd: Optimized the contract ledger, admin tabs removal and crafting menu. Report
+      oddities.
+  - rscadd: Increased cultural goods discount from 50% to 70% to see if it induce
+      Merchant to do more reselling gameplay
+  - rscadd: Homesteaders can now issue clay, food and cheese contracts
+  - rscadd: Animals now drop barding, caparison, saddlebags etc. when they are destroyed
+      / rot etc.
+  - rscadd: Tamed animals now rot / dust on a 45 / 60 minutes timer, much longer than
+      normal animals. However, they will still turn deadite at nearly the same time.
+  - balance: NPCs are unable to bind, again
+  - rscadd: Remove leashing / presence requirements for Mercenary to receive stipend,
+      added a note that you will get jobbanned if you abuse this
+  - rscadd: NPC climbing interval reduced, NPC climbing should no longer drop their
+      weapons on stump / table, and Cmode should be on regularly.
+  - rscadd: NPC should be less likely to try to melee with a tossblade.
+  - rscadd: Added the Bill of Fare, a pre-formatted menu that let you list up to 15
+      food and 15 drinks, add notes, and sign it with your own name / job / anonymous
+      name and title. All inn roles start with it and anyone else can make one with
+      a piece of paper.
+  - bugfix: NPC now have an imitated reaction time and delay and chance to miss their
+      toss, just like a player
+  - bugfix: NPC should no longer beat themselves to death trying to clear an obstacle
+      on the same tile, which just so happens to be themselves
+  - bugfix: You can no longer kick yourself
+  - rscadd: After closing into melee with an archer NPC, they will commit to melee
+      for a bit before trying to kite and shoot again
+  - rscadd: NPC archers shoot faster again
+  - rscadd: Mage NPCs are more likely to miss and now have 1 level less of staff to
+      make them easier to kill.
+  - rscadd: NPC with skills at Journeyman level or below will now aim for major zones
+      instead of subzones. This includes somewhere between 40% of deadites to 70%
+      of goblins, 50 - 60% of orc / reavers / bandits
+  - rscadd: Skeletons threat points is adjusted up and down to corresponds to the
+      actual amount of threat and armor they have.
+  - balance: Ironified bog deserters and dwarf skeleton knight gears
+  - rscadd: Adjusted NPC tracking on Pyro / Ferra / Spellblades to be fairer
+  - rscadd: NPC spells and bow draw can no longer be interrupted by hitting them,
+      same as a player's
+  - rscadd: Refactored and cleaned up succession rituals code
+2026-11-24:
+  567Turtle:
+  - bugfix: tiger stripes are now drawn correctly
+  KatTheFox:
+  - refactor: Spell alt modes are now handled through a unified set of vars and procs,
+      instead of being manually reinvented in each of 15 different spell files. Spells
+      should behave identically, except for unholy blast, which will now dust instead
+      of gib because I cba to port that to the new, parented-to-divine-blast version.
+  - bugfix: Adjudicators who pick the Psydonic War Axe now actually get their war
+      axe and shield instead of nothing.
+  OrbisAnima:
+  - balance: Makes alchemical arrows have antibeast base (150%).
+  - qol: Removes fail chance on grindwheel plank creation.
+  Quinalion:
+  - qol: You can now climb onto nearby tree branches by left-clicking them with an
+      empty hand.
+  - qol: Branch climbing respects Climbing skill, Speed, furniture bonuses, Woodwalker,
+      and sneak mode.
+  - bugfix: Leaves over open space no longer swallow interactions intended for the
+      tile beneath them.
+  - bugfix: Carried or grabbed characters now remain attached to their carrier when
+      using stairs.
+  - bugfix: Passengers attached to a dragged mob now travel between floors with it.
+  Ryumi:
+  - rscadd: Static threat spawners now have a chance to extinguish all lights around
+      them when nobody is looking, to keep the roads feeling at least a little dangerous,
+      even when the lights are on.
+  - rscadd: Static threat spawners now ignore the light fixtures seen in the Underdark
+      and Mount Decapitation; meaning they will will spawn threats even when they
+      are in their "area of effect." You'll need to build lights in such areas if
+      you're seeing threats appearing there!
+  awwlie:
+  - bugfix: fixed shift + key, keybinds not taking the key, but the result.
+  radarseas:
+  - rscadd: Added Zizo Fog, its exclusive to Zizo's Pet Cemetary omen and Zizo's defilement.
+      Zizites can prayer during it, Zizites get a minor mood buff.
+  - rscadd: Added omen text to Zizo's defilement.
+  - bugfix: fixed Zizo's pet cemetary being inconsistant and using the wrong way to
+      announce itself, making it almost seem more like an admin event.

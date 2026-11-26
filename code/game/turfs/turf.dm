@@ -677,10 +677,11 @@
 /turf/proc/acid_melt()
 	return
 
-/turf/handle_fall(mob/faller, forced)
+/turf/handle_fall(mob/faller, forced, silent = FALSE)
 	if(!forced)
 		return
-	playsound(src, "bodyfall", 100, TRUE)
+	if(!silent)
+		playsound(src, "bodyfall", 100, TRUE)
 	if(!faller.mind)
 		faller.drop_all_held_items()
 

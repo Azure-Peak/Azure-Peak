@@ -78,6 +78,8 @@
 		/obj/item/reagent_containers/glass/bucket/pot/kettle/tankard,
 		/obj/item/reagent_containers/glass/bucket/pot/kettle/tankard,
 		/obj/item/mini_flagpole/innkeeper,
+		/obj/item/bill_of_fare,
+		/obj/item/natural/feather,
 	)
 	if(H.mind)
 		SStreasury.grant_savings(ECONOMIC_LOWER_MIDDLE_CLASS, H)

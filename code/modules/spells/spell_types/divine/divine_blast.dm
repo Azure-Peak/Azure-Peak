@@ -28,10 +28,9 @@
 	spell_impact_intensity = SPELL_IMPACT_LOW
 	spell_requirements = SPELL_REQUIRES_HUMAN
 	var/next_bonus_time = 0
-	var/current_mode = 1
-	var/list/modes = list(
-		list("name" = "Focus", "tag" = "", "proj" = /obj/projectile/energy/divineblast, "invocation" = "Sakral Strahl!"),
-		list("name" = "Arc", "tag" = "ARC", "proj" = /obj/projectile/energy/divineblast/arc, "invocation" = "Sakral Strahlum!"),
+	modes = list(
+		list("name" = "Focus", "tag" = "", "proj" = /obj/projectile/energy/divineblast, "invocation" = "Sakral Strahl!", "color" = "#00ccff"),
+		list("name" = "Arc", "tag" = "ARC", "proj" = /obj/projectile/energy/divineblast/arc, "invocation" = "Sakral Strahlum!", "color" = "#00ccff"),
 	)
 
 /obj/projectile/energy/divineblast
@@ -92,7 +91,7 @@
 						L.emote("paincrit")
 				apply_divine_damage(L)
 				var/datum/action/cooldown/spell/projectile/divine_blast/S = source_spell
-				if(S && S.can_apply_god_bonus() && !(L.patron?.type in ALL_DIVINE_PATRONS))
+				if(S && S.can_apply_god_bonus() && L.patron.associated_faith != caster.patron.associated_faith)
 					apply_god_bonus(L)
 					S.consume_god_bonus()
 				if(!L.mind)
@@ -142,35 +141,41 @@
 	L.adjust_fire_stacks(fire_stacks, /datum/status_effect/fire_handler/fire_stacks/divine)
 	L.ignite_mob()
 
-/datum/action/cooldown/spell/projectile/divine_blast/Grant(mob/grant_to)
-	. = ..()
-	apply_mode(current_mode)
-
-/datum/action/cooldown/spell/projectile/divine_blast/proc/apply_mode(index)
-	var/list/mode = modes[index]
-	projectile_type = mode["proj"]
-	invocations = list(mode["invocation"])
-	update_mode_maptext(mode["tag"])
-
-/datum/action/cooldown/spell/projectile/divine_blast/toggle_arc_mode(mob/user)
-	current_mode = (current_mode % length(modes)) + 1
-	apply_mode(current_mode)
-	to_chat(user, span_notice("[name]: [modes[current_mode]["name"]] mode."))
-
-/datum/action/cooldown/spell/projectile/divine_blast/proc/update_mode_maptext(tag)
-	for(var/datum/hud/hud as anything in viewers)
-		var/atom/movable/screen/movable/action_button/B = viewers[hud]
-		var/atom/movable/screen/arc_maptext_holder/holder
-		for(var/atom/movable/screen/arc_maptext_holder/existing in B.vis_contents)
-			holder = existing
-			break
-		if(!holder)
-			holder = new(B)
-			B.vis_contents.Add(holder)
-		holder.maptext = MAPTEXT(tag)
-		holder.color = "#00ccff"
-
 /datum/action/cooldown/spell/projectile/divine_blast/get_spell_statistics(mob/living/user)
 	var/list/stats = ..()
 	stats += span_info("Firing mode (Shift+G): Focus (standard blast) / Arc (lobs over obstacles with reduced damage).")
 	return stats
+
+/datum/action/cooldown/spell/projectile/divine_blast/inhumen
+	name = "Profane Blast"
+	desc = "Release a blast of sheer divine energy at your enemies. Deals more damage to conformists, undead, and simple-minded creatures. Once every 30 seconds, your God may smite the target, inflicting debilitating effects that are especially potent against the mindless. Incapacitated mindless are brutally executed by the blast.<br><br>Toggle firing mode (Shift+G): Focus or Arc."
+	modes = list(
+		list("name" = "Focus", "tag" = "", "proj" = /obj/projectile/energy/divineblast/inhumen, "invocation" = "Sakral Strahl!"),
+		list("name" = "Arc", "tag" = "ARC", "proj" = /obj/projectile/energy/divineblast/inhumen/arc, "invocation" = "Sakral Strahlum!"),
+	)
+
+/obj/projectile/energy/divineblast/inhumen // yes, that's really the only change
+	color = "#ff0000"
+
+/obj/projectile/energy/divineblast/inhumen/arc
+	name = "arced divine blast"
+	damage = 20
+	arcshot = TRUE
+
+/obj/projectile/energy/divineblast/inhumen/apply_divine_damage(mob/living/L)
+	var/damage_to_do = damage
+	if((L.patron?.type in ALL_DIVINE_PATRONS) || (L.patron?.type in OLD_GOD_PATRON))
+		damage_to_do += 30
+	if(L.mob_biotypes & MOB_UNDEAD || HAS_TRAIT(L, TRAIT_SILVER_WEAK))
+		damage_to_do += 10
+	if(!L.mind)
+		damage_to_do += 60
+	var/mob/living/carbon/human/caster = firer
+	if(istype(caster) && ishuman(L))
+		if(!L.mind)
+			if(arcyne_strike(caster, L, null, damage_to_do, def_zone, BCLASS_BURN, PEN_MEDIUM, spell_name = "Divine Blast", damage_type = BURN, skip_animation = TRUE) == ARCYNE_STRIKE_WARDED)
+				return
+		if(arcyne_strike(caster, L, null, damage_to_do, def_zone, BCLASS_BURN, PEN_NONE, spell_name = "Divine Blast", damage_type = BURN, skip_animation = TRUE) == ARCYNE_STRIKE_WARDED)
+			return
+	else
+		L.apply_damage(damage_to_do, BURN)

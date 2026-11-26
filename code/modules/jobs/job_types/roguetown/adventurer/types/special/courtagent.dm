@@ -94,10 +94,6 @@
 				if(!agent_prefs)
 					agent_prefs = list("codename" = null, "hand_file_notes" = null, "hand_file_notes_raw" = null)
 					H.mind.job_subprefs[title] = agent_prefs
-				if(!agent_prefs["hand_file_notes"]) // someone forgot to set their prefs, whuh oh!
-					to_chat(H, span_notice("Set your class preferences for Court Agent to disable this popup!"))
-					agent_prefs["hand_file_notes"] = parsemarkdown(tgui_input_text(H, "What does your file say?", "THY DEEDS ARE KNOWN", multiline = TRUE, encode = FALSE))
-					agent_prefs["codename"] = tgui_input_text(H, "Do you have a codename?", "CODENAME", null, MAX_NAME_LEN)
 			addtimer(CALLBACK(H, TYPE_PROC_REF(/mob/living/carbon/human, know_employer)), 1 MINUTES) // give roundstart a bit to settle
 			addtimer(CALLBACK(src, PROC_REF(give_zadcage), H), 1 MINUTES) // this needs to happen after equipment ideally
 			..()
@@ -122,6 +118,12 @@
 	if(!bag) // ...if all else fails, just throw it in their hands or drop it
 		H.put_in_hands(cage)
 	to_chat(H, span_notice("I feel the reassuring weight of my zadcage[bag?" in my bag":""]. It is my lifeline; it risks exposing me. I must keep it safe and hidden."))
+	var/list/prefs = H.mind?.job_subprefs?[title]
+	if(!prefs || prefs["hand_file_notes"] || !H.client)
+		return
+	to_chat(H, span_notice("Set your class preferences for Court Agent to disable this popup!"))
+	prefs["hand_file_notes"] = parsemarkdown(tgui_input_text(H, "What does your file say?", "THY DEEDS ARE KNOWN", multiline = TRUE, encode = FALSE), H)
+	prefs["codename"] = tgui_input_text(H, "Do you have a codename?", "CODENAME", null, MAX_NAME_LEN)
 
 /mob/living/carbon/human/proc/know_employer()
 	if(!GLOB.court_spymaster.len)

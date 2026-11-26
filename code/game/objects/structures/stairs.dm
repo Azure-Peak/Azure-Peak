@@ -136,27 +136,40 @@
 		return
 	var/mob/living/L = AM
 	var/atom/movable/pulling = L.pulling
-	var/was_pulled_buckled = FALSE
 	var/obj/item/inqarticles/garrote/cord
-	if(pulling)
-		if(pulling in L.buckled_mobs)
-			was_pulled_buckled = TRUE
+	if(pulling && !(pulling in L.buckled_mobs))
 		for(var/obj/item/inqarticles/garrote/G in L.held_items)
 			if(G.victim == pulling)
 				cord = G
 				REMOVE_TRAIT(pulling, TRAIT_GARROTED, TRAIT_GENERIC)
 				break
-	L.forceMove(newtarg)
-	if(pulling)
-		L.stop_pulling()
-		pulling.forceMove(newtarg)
+	L.travel_z_with_riders(newtarg)
+	if(L.loc != newtarg)
+		return
+	if(pulling && !(pulling in L.buckled_mobs))
+		if(cord)
+			L.stop_pulling()
+		if(isliving(pulling))
+			var/mob/living/pulled_mob = pulling
+			pulled_mob.travel_z_with_riders(newtarg)
+		else
+			pulling.forceMove(newtarg)
 		if(cord)
 			if(!cord.wrap(L, pulling))
 				cord.wipeslate(L)
-		else
-			L.start_pulling(pulling, supress_message = TRUE)
-		if(was_pulled_buckled) // Assume this was a fireman carry since piggybacking is not a thing
-			L.buckle_mob(pulling, TRUE, TRUE, 90, 0, 0)
+
+/mob/living/proc/travel_z_with_riders(turf/destination)
+	var/atom/origin = loc
+	forceMove(destination)
+	if(loc != destination || !has_buckled_mobs())
+		return
+	for(var/mob/living/rider as anything in buckled_mobs.Copy())
+		if(QDELETED(rider) || rider.buckled != src || rider.loc != origin)
+			continue
+		var/was_zfalling = rider.zfalling
+		rider.zfalling = TRUE
+		rider.forceMove(destination)
+		rider.zfalling = was_zfalling
 
 #undef STAIR_TERMINATOR_AUTOMATIC
 #undef STAIR_TERMINATOR_NO
