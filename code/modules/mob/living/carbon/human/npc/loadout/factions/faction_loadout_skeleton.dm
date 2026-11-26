@@ -277,8 +277,7 @@
 	armor_training = ARMOR_CLASS_MEDIUM
 	loadouts = list(
 		/datum/npc_loadout/armor/luxplate/zizo,
-		/datum/npc_loadout/kit/random_zizo_skele_belt,
-		/datum/npc_loadout/kit/skeleton_amulet,
+		/datum/npc_loadout/kit/zizo_skele_avantyne_flavor,
 		/datum/npc_loadout/kit/skeleton_tabard,
 		/datum/npc_loadout/weapon/zizo,
 	)
@@ -294,8 +293,7 @@
 	armor_training = ARMOR_CLASS_HEAVY
 	loadouts = list(
 		/datum/npc_loadout/armor/luxplate/zizo_heavy,
-		/datum/npc_loadout/kit/random_zizo_skele_belt,
-		/datum/npc_loadout/kit/skeleton_amulet,
+		/datum/npc_loadout/kit/zizo_skele_avantyne_flavor,
 		/datum/npc_loadout/kit/skeleton_tabard,
 		/datum/npc_loadout/weapon/zizo_heavy,
 	)
@@ -615,10 +613,14 @@
 		NPC_NOTHING = 80,
 	)
 
-/datum/npc_loadout/kit/random_zizo_skele_belt
+/datum/npc_loadout/kit/zizo_skele_avantyne_flavor
 	belt = list(
 		/obj/item/storage/belt/rogue/leather = 1,
 		/obj/item/storage/belt/rogue/leather/black = 1,
+	)
+	id = list(
+		/obj/item/clothing/neck/roguetown/psicross/inhumen/aalloy = 1, //ZIZO. ZIZO. ZIZO.
+		NPC_NOTHING = 5,
 	)
 
 //** WEAPONS **//
