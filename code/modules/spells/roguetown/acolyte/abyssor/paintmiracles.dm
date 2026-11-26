@@ -515,6 +515,8 @@
 	ico.alpha = 200 // watery effect without being TOO hard to see
 	projection.appearance = ico
 	var/datum/language_holder/lang = user.mind.get_language_holder()
+	var/datum/skill_holder/skills = user.ensure_skills()
+	var/list/user_skills = skills.known_skills.Copy()
 	projection.name = user.get_unmasked_name()
 	projection.key = user.key
 	projection.original_body = user
@@ -524,6 +526,8 @@
 		proj_lang.copy_known_languages_from(lang)
 		undine_mind.AddSpell(new /datum/action/cooldown/spell/undine_teleport, projection)
 		undine_mind.AddSpell(new /datum/action/cooldown/spell/projectile/waterbolt/undine, projection)
+		var/datum/skill_holder/undine_skills = projection.ensure_skills()
+		undine_skills.known_skills = user_skills // this is almost never going to be relevant HOWEVER it is really funny that undine can fish and this enables it (they have pacifist so wskills won't matter)
 	projection.RegisterSignal(user, COMSIG_QDELETING, TYPE_PROC_REF(/mob/living/simple_animal/undine, entrap_spirit))
 	projection.RegisterSignal(projection, COMSIG_MOB_DEATH, TYPE_PROC_REF(/mob/living/simple_animal/undine, come_back))
 	projection.RegisterSignal(projection, COMSIG_LIVING_RESIST, TYPE_PROC_REF(/mob/living/simple_animal/undine, come_back))
@@ -536,7 +540,8 @@
 	maxHealth = 1
 	health = 1
 	pass_flags = PASS_ALL // can't leave the water, but bars/grates won't stop you
-	base_intents = list(INTENT_HELP, INTENT_GRAB)
+	base_intents = list(INTENT_HELP, INTENT_DISARM, INTENT_GRAB, INTENT_HARM)
+	held_items = list(null, null)
 	dextrous = TRUE
 	cmode = FALSE
 	var/last_tochat
@@ -545,6 +550,7 @@
 /mob/living/simple_animal/undine/Initialize(mapload)
 	. = ..()
 	ADD_TRAIT(src, TRAIT_TRAM_MOVER, TRAIT_MIRACLE) // this prevents movement slowdown from water. that's all it does.
+	ADD_TRAIT(src, TRAIT_PACIFISM, TRAIT_MIRACLE) // i don't. think this will be needed. but just in case because I KNOW HOW YOU PEOPLE ARE
 	RegisterSignal(src, COMSIG_MOVABLE_PRE_MOVE, PROC_REF(handle_move))
 
 /mob/living/simple_animal/undine/ConveyorMove() // they can only be in water, so this is a river; and as a water spirit they should not be washed away by rivers!
@@ -569,7 +575,7 @@
 /mob/living/simple_animal/undine/proc/come_back()
 	if(original_body && key)
 		original_body.key = key
-	visible_message(span_warning("[src] collapses, leaving naught but a splash of water in its wake..."))
+	visible_message(span_warning("[src] collapses, leaving naught but a splash of water in [original_body.p_their()] wake..."))
 	playsound(get_turf(src), 'sound/magic/abyssor_splash.ogg', 70, TRUE)
 	drop_all_held_items()
 	qdel(src)
