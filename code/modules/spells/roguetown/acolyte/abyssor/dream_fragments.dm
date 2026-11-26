@@ -259,7 +259,7 @@ GLOBAL_DATUM_INIT(dream_omens_handler, /datum/dream_omens_handler, new)
 	var/farm_sage = get_sage_name(FEATURED_STATS_FARMERS)
 	var/cha_sage = get_sage_name(FEATURED_STATS_SPEAKERS)
 	var/list/sages = list("alchemy" = alch_sage, "diligence" = craft_sage, "eloquence" = cha_sage, "Abyssor's bounty" = fish_sage, "Dendor's toil" = farm_sage)
-	var/list/names = ()
+	var/list/names = list()
 	for(var/key in sages) // unlikely as it is, we might actually have a round where this fires before anyone farms/fishes/alchemy...iess...? whatever
 		if(!sages[key])
 			sages -= key
