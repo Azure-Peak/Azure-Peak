@@ -263,6 +263,30 @@
 		/datum/npc_loadout/weapon/lich_knight,
 	)
 
+/datum/npc_archetype/skeleton/zizo
+	name = "Avantyne Skeleton Warrior"
+	statpack = /datum/npc_statpack/line/t3 //on par w/ dwarf skeletons
+	patron = /datum/patron/inhumen/zizo
+	armor_training = ARMOR_CLASS_MEDIUM
+	loadouts = list(
+		/datum/npc_loadout/armor/luxplate/zizo,
+		/datum/npc_loadout/kit/skeleton_amulet,
+		/datum/npc_loadout/kit/skeleton_tabard,
+		/datum/npc_loadout/weapon/zizo,
+	)
+
+/datum/npc_archetype/skeleton/zizo_heavy
+	name = "Avantyne Skeleton Bulwark"
+	statpack = /datum/npc_statpack/line/t3 //on par w/ dwarf skeletons
+	patron = /datum/patron/inhumen/zizo
+	armor_training = ARMOR_CLASS_HEAVY
+	loadouts = list(
+		/datum/npc_loadout/armor/luxplate/zizo_heavy,
+		/datum/npc_loadout/kit/skeleton_amulet,
+		/datum/npc_loadout/kit/skeleton_tabard,
+		/datum/npc_loadout/weapon/zizo_heavy,
+	)
+
 //** STATS **//
 
 
@@ -293,7 +317,6 @@
 	willpower = 20
 	perception = 20
 	intelligence = 1
-
 
 //** FLAVOR **//
 

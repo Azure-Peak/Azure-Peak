@@ -348,3 +348,31 @@ GLOBAL_LIST_INIT(skeleton_aggro, list(
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/light
 	armor = /obj/item/clothing/suit/roguetown/armor/plate/cuirass/copper
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/copper
+
+//*!*!* Avantyne clad skeletons and high-level gear we do NOT want in the hands of regular players below here *!*!*//
+
+/mob/living/carbon/human/species/skeleton/unstrippable_npc/after_creation()
+	..()
+	ai_controller = /datum/ai_controller/human_npc
+	skel_fragile = TRUE
+
+	AddComponent(/datum/component/ai_aggro_system)
+
+	ADD_TRAIT(src, TRAIT_NPC_EXAMINE, TRAIT_GENERIC)
+	ADD_TRAIT(src, TRAIT_DUSTABLE, TRAIT_GENERIC) //nessessary
+	ADD_TRAIT(src, TRAIT_DUST_DELETE_GEAR, TRAIT_GENERIC)
+
+	ADD_TRAIT(src, TRAIT_NOZIZORECRUIT, TRAIT_GENERIC) //Ask the Zizite cleric for a gravemark, sire.
+
+	for(var/obj/item/equipped_item in get_equipped_items() + held_items)
+		equipped_item.AddComponent(/datum/component/item_on_drop/dust)
+	for(var/obj/item/held_item in held_items)
+		ADD_TRAIT(held_item, TRAIT_NODROP, TRAIT_GENERIC)
+
+/mob/living/carbon/human/species/skeleton/unstrippable_npc/zizo
+	threat_point = THREAT_DANGEROUS_PLUS
+	npc_archetype = /datum/npc_archetype/skeleton/zizo
+
+/mob/living/carbon/human/species/skeleton/unstrippable_npc/zizo_heavy
+	threat_point = THREAT_ELITE
+	npc_archetype = /datum/npc_archetype/skeleton/zizo_heavy
