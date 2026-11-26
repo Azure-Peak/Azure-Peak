@@ -420,6 +420,8 @@ GLOBAL_LIST_INIT(zombie_aggro, list(
 	ADD_TRAIT(src, TRAIT_NPC_EXAMINE, TRAIT_GENERIC)
 	SEND_SIGNAL(src, COMSIG_MOB_MODIFY_AGGRO_LINES, GLOB.zombie_aggro, TRUE)
 
+//here's where we pretend to reanimate deadite NPCs. trust the plan.
+
 /mob/living/carbon/human/proc/do_deadite_npc_reanimation()
 	var/mob/living/carbon/human/zombie = src
 
