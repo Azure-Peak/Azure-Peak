@@ -112,7 +112,7 @@ GLOBAL_DATUM_INIT(ghost_hermes, /datum/ghost_hermes, new)
 		GL.unread = FALSE
 		if(i > 1)
 			body += "<hr>"
-	return show_parchment(user, body, "ghostmail")
+	return show_parchment(user, user.read_langs(body), "ghostmail")
 
 /datum/ghost_hermes/proc/can_post(mob/dead/observer/user, feedback = FALSE)
 	if(!isobserver(user) || !user.ckey)

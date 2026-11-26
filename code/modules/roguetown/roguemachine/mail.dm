@@ -427,7 +427,7 @@
 /// sender is the optional signature; blank means the letter goes out anonymous.
 /proc/build_sanitized_letter(mob/user, recipient, content, sender)
 	var/obj/item/paper/P = new
-	var/parsed_content = parsemarkdown(html_encode(content), user)
+	var/parsed_content = write_langs(parsemarkdown(html_encode(content), user), user)
 	P.info += "<font face=\"[FOUNTAIN_PEN_FONT]\" color=#14103f>[parsed_content]</font>"
 	P.mailer = sanitize_mail_sender(sender)
 	if(!(findtext(recipient,"#")==1))

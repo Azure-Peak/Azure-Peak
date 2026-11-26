@@ -785,7 +785,7 @@
 			<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><style type=\"text/css\">
 					body { background-image:url('book.png');background-repeat: repeat; }</style></head><body scroll=yes>"}
 		for(var/I in page_texts)
-			dat += "<p>[I]</p>"
+			dat += "<p>[user.read_langs(I)]</p>"
 		dat += "<br>"
 		dat += "<a href='?src=[REF(src)];close=1' style='position:absolute;right:50px'>Close</a>"
 		dat += "</body></html>"

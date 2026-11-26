@@ -200,7 +200,7 @@
 		var/dat = {"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">
 			<html><head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\"><style type=\"text/css\">
 			body { background-image:url('book.png');background-repeat: repeat; }</style></head><body scroll=yes>"}
-		dat += info
+		dat += user.read_langs(info)
 		dat += "<br>"
 		dat += "<a href='?src=[REF(src)];close=1' style='position:absolute;right:50px'>Close</a>"
 		dat += "</body></html>"
@@ -226,7 +226,7 @@
 	var/dat = {"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">
 			<html><head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\"><style type=\"text/css\">
 			body { background-image:url('book.png');background-repeat: repeat; }</style></head><body scroll=yes>"}
-	dat += "[t]<br>"
+	dat += "[user.read_langs(t)]<br>"
 	dat += "<a href='?src=[REF(src)];close=1' style='position:absolute;right:50px'>Close</a>"
 	dat += "</body></html>"
 	user << browse(dat, "window=reading;size=500x400;can_close=1;can_minimize=0;can_maximize=0;can_resize=1;titlebar=1;border=0")
@@ -333,7 +333,7 @@
 	if(length(t) < 1)		//No input means nothing needs to be parsed
 		return
 
-	t = parsemarkdown(t, user, iscrayon)
+	t = write_langs(parsemarkdown(t, user, iscrayon), user)
 
 	if(istype(P, /obj/item/natural/thorn))
 		t = "<font face=\"[FOUNTAIN_PEN_FONT]\" color=#862f20>[t]</font>"
@@ -379,7 +379,8 @@
 		* item : An unordered list item.<br>
 		&nbsp;&nbsp;* item: An unordered list child item.<br>
 		--- : Adds a horizontal rule.<br>
-		-=FFFFFFtext=- : Adds a specific <font color = '#FFFFFF'>colour</font> to text.
+		-=FFFFFFtext=- : Adds a specific <font color = '#FFFFFF'>colour</font> to text.<br>
+		,k(text) : Writes the text in the language whose key is k, as in speech.<br>
 	</BODY></HTML>"}, "window=paper_help")
 
 
