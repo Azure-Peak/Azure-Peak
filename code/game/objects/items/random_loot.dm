@@ -40,6 +40,6 @@
 		/obj/item/ingot/silver = 15,
 		/obj/item/ingot/silverblessed = 3,
 		/obj/item/ingot/lithmyc = 5,
-		/obj/item/ingot/purifiedaalloy = 5,
-		/obj/item/ingot/aalloy = 2
+		/obj/item/ingot/ancient = 5,
+		/obj/item/ingot/decrepit = 2
 		)

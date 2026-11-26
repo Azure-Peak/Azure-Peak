@@ -83,8 +83,8 @@ GLOBAL_LIST_EMPTY(bulk_trade_item_types)
 	GLOB.material_baseline_prices[/obj/item/ingot/steelholy] = round(SELLPRICE_STEEL_INGOT * INGOT_STEELHOLY_MULT)
 	GLOB.material_baseline_prices[/obj/item/ingot/blacksteel] = round(SELLPRICE_STEEL_INGOT * INGOT_BLACKSTEEL_FROM_STEEL + SELLPRICE_SILVER_INGOT * INGOT_BLACKSTEEL_FROM_SILVER)
 	GLOB.material_baseline_prices[/obj/item/ingot/lithmyc] = round(SELLPRICE_STEEL_INGOT * INGOT_LITHMYC_MULT)
-	GLOB.material_baseline_prices[/obj/item/ingot/purifiedaalloy] = round(SELLPRICE_STEEL_INGOT * INGOT_PURIFIEDAALLOY_MULT)
-	GLOB.material_baseline_prices[/obj/item/ingot/aalloy] = round(SELLPRICE_IRON_INGOT * INGOT_AALLOY_MULT)
+	GLOB.material_baseline_prices[/obj/item/ingot/ancient] = round(SELLPRICE_STEEL_INGOT * INGOT_ALLOYANCIENT_MULT)
+	GLOB.material_baseline_prices[/obj/item/ingot/decrepit] = round(SELLPRICE_IRON_INGOT * INGOT_ALLOYDECREPIT_MULT)
 	GLOB.material_baseline_prices[/obj/item/ingot/drow] = round(SELLPRICE_STEEL_INGOT * INGOT_DROW_MULT)
 	GLOB.material_baseline_prices[/obj/item/grown/log/tree/small] = SELLPRICE_WOOD
 	GLOB.material_baseline_prices[/obj/item/grown/log/tree/stick] = 1
@@ -245,8 +245,8 @@ GLOBAL_LIST_EMPTY(bulk_trade_item_types)
 		"silverblessed" = /obj/item/ingot/silverblessed,
 		"gold" = /obj/item/ingot/gold,
 		"lithmyc" = /obj/item/ingot/lithmyc,
-		"purifiedaalloy" = /obj/item/ingot/purifiedaalloy,
-		"aalloy" = /obj/item/ingot/aalloy,
+		"ancient" = /obj/item/ingot/ancient,
+		"decrepit" = /obj/item/ingot/decrepit,
 	)
 	for(var/name in ingot_paths)
 		var/p = ingot_paths[name]

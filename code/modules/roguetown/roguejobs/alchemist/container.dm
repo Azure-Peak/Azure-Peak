@@ -126,29 +126,29 @@
 /obj/item/reagent_containers/glass/bottle/rogue/spicedwine
 	name = "bottle of spiced wine"
 	list_reagents = list(/datum/reagent/consumable/ethanol/spicedwine = 50)
-	desc = "A glass bottle with a waxed cork-seal. Keen eyes can spot the dizzying amount of bubbles constantly frothing to the top of its tangerine-hued treasures."
+	desc = "A glass bottle with a waxed Rockhill cork-seal. Keen eyes can spot the dizzying amount of bubbles constantly frothing to the top of its tangerine-hued treasures."
 
 /obj/item/reagent_containers/glass/bottle/rogue/spicedwineaged
 	name = "bottle of aged spiced wine"
 	list_reagents = list(/datum/reagent/consumable/ethanol/spicedwine/aged = 50)
-	desc = "A glass bottle with a waxed cork-seal, and secured with cloth lacing. Errant light turns its tangerine hues into a golden-amber surprise."
+	desc = "A glass bottle with a waxed Rockhill cork-seal, and secured with cloth lacing. Errant light turns its tangerine hues into a golden-amber surprise."
 
 /obj/item/reagent_containers/glass/bottle/rogue/spicedwinedelectable
 	name = "bottle of delectable spiced wine"
 	list_reagents = list(/datum/reagent/consumable/ethanol/spicedwine/delectable = 50)
-	desc = "A glass bottle with a waxed cork-seal, further laced with silk cordage. Not even its seals can save your nostrils from imbuing a sliver of its impossibly aromatic supply."
+	desc = "A glass bottle with a waxed Rockhill cork-seal, further laced with silk cordage. Not even its seals can save your nostrils from imbuing a sliver of its impossibly aromatic supply."
 
 /obj/item/reagent_containers/glass/bottle/rogue/beer/zagul
 	name = "bottle of Zagul"
 	icon_state = "beer_2"
 	list_reagents = list(/datum/reagent/consumable/ethanol/zagul = 50)
-	desc = "A bottle with the coastal zagul cork-seal. An extremely cheap lager hailing from a local brewery."
+	desc = "A bottle with the coastal zagul cork-seal. An extremely cheap lager hailing from a Saltwick brewery."
 
 /obj/item/reagent_containers/glass/bottle/rogue/beer/blackgoat
 	name = "bottle of Blackgoat"
 	icon_state = "beer"
 	list_reagents = list(/datum/reagent/consumable/ethanol/blackgoat = 50)
-	desc = "A bottle with the black goat kriek cork-seal. A fruit-sour beer brewed with jackberries for a tangy taste."
+	desc = "A bottle with the black goat kriek cork-seal. A Grenzelhoftian fruit-sour beer brewed with jackberries for a tangy taste."
 
 /obj/item/reagent_containers/glass/bottle/rogue/beer/ratkept
 	name = "bottle of Ratkept"
@@ -166,13 +166,13 @@
 	name = "bottle of Aurorian Herbal Beer"
 	icon_state = "beer"
 	list_reagents = list(/datum/reagent/consumable/ethanol/aurorian = 50)
-	desc = "A bottle with the Aurorian Brewhouse cork-seal. An Elvish beer brewed from a herbal gruit."
+	desc = "A bottle with the Aurorian Brewhouse cork-seal. An Elvish beer from Rosawood, brewed from a herbal gruit."
 
 /obj/item/reagent_containers/glass/bottle/rogue/beer/fireleaf
 	name = "bottle of Fireleaf"
 	icon_state = "beer"
 	list_reagents = list(/datum/reagent/consumable/ethanol/fireleaf= 50)
-	desc = "A bottle with a generic leaf cork-seal. An Elvish beer formed by distilling cabbages. You're pretty sure you can make your own with certainly higher quality."
+	desc = "A bottle with a generic leaf cork-seal. An Elvish beer from Eveswood, formed by distilling cabbages. You're pretty sure you can make your own with certainly higher quality."
 
 /obj/item/reagent_containers/glass/bottle/rogue/beer/butterhairs
 	name = "bottle of Butterhairs"
@@ -231,7 +231,7 @@
 	icon = 'icons/obj/alcohol.dmi'
 	icon_state = "elven_red"
 	list_reagents = list(/datum/reagent/consumable/ethanol/elfred = 50)
-	desc = "A bottle gilded with a silver cork-seal. It appears to be labelled as an elvish red wine from Otava. Likely worth more than what an entire village makes!"
+	desc = "A bottle gilded with a silver cork-seal. It appears to be labelled as an elvish red wine from Bewmarch. Likely worth more than what an entire village makes!"
 
 /obj/item/reagent_containers/glass/bottle/rogue/elfblue
 	name = "bottle of Valmora Blue"
@@ -348,13 +348,13 @@
 	name = "bottle of Possumtail Swampweed Wine"
 	icon_state = "plum_wine"
 	list_reagents = list(/datum/reagent/consumable/ethanol/murkwine = 50)
-	desc = "A bottle with a Possumtail Brewery mark. A special brew made from murky water and swampweed. A Heartfelt special."
+	desc = "A bottle with a Possumtail Brewery mark. A special brew made from murky water and swampweed. A Blackholt special."
 
 /obj/item/reagent_containers/glass/bottle/rogue/beer/nocshine
 	name = "bottle of Nocshine"
 	icon_state = "valmora_blue"
 	list_reagents = list(/datum/reagent/consumable/ethanol/nocshine = 50)
-	desc = "A bottle with a blue, Crescent moon mark. A special brew that is extremely potent and toxic, but strengthen the body. If you dare."
+	desc = "A bottle with a blue, Crescent moon mark. A special Blackholt brew that is extremely potent and toxic, but strengthens the body. If you dare."
 
 /obj/item/reagent_containers/glass/bottle/rogue/beer/whipwine
 	name = "bottle of Whipwine"

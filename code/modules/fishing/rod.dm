@@ -526,7 +526,7 @@
 	difficulty_modifier = FISHING_ROD_BLACKSTEEL_DIFFICULTY
 	bait_height_mult = FISHING_ROD_BLACKSTEEL_BAIT_HEIGHT
 
-/obj/item/fishingrod/aalloy
+/obj/item/fishingrod/ancient
 	name = "ancient fishing rod"
 	desc = "The Comet Syon's impact drowned the world, long ago. The waves've long since receded, but His greatest works remain shrouded far beneath the sea."
 	icon_state = "arod"

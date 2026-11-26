@@ -73,7 +73,7 @@
 //** FLAVOR **//
 
 /datum/npc_loadout/kit/mad_touched
-	mask = /obj/item/clothing/mask/rogue/facemask/steel/paalloy/mad_touched
+	mask = /obj/item/clothing/mask/rogue/facemask/ancient/mad_touched
 	cloak = /obj/item/clothing/cloak/wickercloak
 	belt = /obj/item/storage/belt/rogue/leather
 	head = list(
@@ -81,9 +81,9 @@
 		/obj/item/clothing/head/roguetown/menacing/bandit/mad_touched_treasure_hunter = 50, //IS THIS TRVE?!
 	)
 	id = list(
-		/obj/item/clothing/neck/roguetown/psicross/inhumen/aalloy = 10, //ZIZO. ZIZO. ZIZO.
-		/obj/item/clothing/neck/roguetown/psicross/aalloy = 10,
-		/obj/item/clothing/neck/roguetown/psicross/noc/aalloy = 10,
+		/obj/item/clothing/neck/roguetown/psicross/inhumen/ancient/decrepit = 10, //ZIZO. ZIZO. ZIZO.
+		/obj/item/clothing/neck/roguetown/psicross/ancient/decrepit = 10,
+		/obj/item/clothing/neck/roguetown/psicross/noc/ancient/decrepit = 10,
 		/obj/item/clothing/neck/roguetown/psicross/inhumen/matthios = 10,
 		NPC_NOTHING = 60,
 	)
@@ -107,11 +107,11 @@
 	l_hand = /obj/item/rogueweapon/sword/sabre/bronzekhopesh
 
 /datum/npc_loadout/weapon/mad_touched_greatsword
-	r_hand = /obj/item/rogueweapon/greatsword/paalloy
+	r_hand = /obj/item/rogueweapon/greatsword/ancient
 
 /datum/npc_loadout/weapon/mad_touched_buckler
 	r_hand = /obj/item/rogueweapon/shield/buckler
-	l_hand = /obj/item/rogueweapon/huntingknife/idagger/steel/padagger
+	l_hand = /obj/item/rogueweapon/huntingknife/idagger/ancient
 
 /datum/npc_loadout/weapon/mad_touched_bow
 	backr = /obj/item/gun/ballistic/revolver/grenadelauncher/bow

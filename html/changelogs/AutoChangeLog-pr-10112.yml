@@ -1,0 +1,7 @@
+author: "changelingonberry"
+delete-after: True
+changes:
+  - rscadd: "The Marquette Inquisition shop has a new TGUI interface."
+  - balance: "Changed many marques prices, added a bataille category for steel weapons etc."
+  - bugfix: "Tallowpots are no longer infinite."
+  - rscadd: "Added inqport area to roguetest for testing."

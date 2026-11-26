@@ -1,10 +1,10 @@
 
 /datum/job/roguetown/heartfelt/knight
 	title = "Knight of Heartfelt"
-	tutorial = "You are a Knight of Heartfelt, part of a brotherhood in service to your Lord. \
-	Now, alone and committed to safeguarding the court, you ride to the Peaks, resolved to ensure their safe arrival."
+	tutorial = "You are a Knight of Heartfelt. Having proven yourself both loyal and capable, you have been knighted to serve the County as the Count's sentry. \
+	You listen to your Liege and the Marshal, defending your Lord and realm - the last beacon of chivalry in these dark times."
 	allowed_sexes = list(MALE, FEMALE)
-	forbidden_races = list(RACES_CONSTRUCT RACES_DESPISED)
+	forbidden_races = list(RACES_CONSTRUCT RACES_DESPISED RACES_HEARTFELT)
 	total_positions = 1
 	spawn_positions = 1
 	job_traits = list(TRAIT_NOBLE, TRAIT_HEAVYARMOR, TRAIT_HEARTFELT)
@@ -45,10 +45,10 @@
 
 /datum/advclass/heartfelt/knight
 	name = "Knight of Heartfelt"
-	tutorial = "You are a Knight of Heartfelt, once part of a brotherhood in service to your Lord. \
-	Now, alone and committed to safeguarding what remains of your court, you ride to the Peaks, resolved to ensure their safe arrival."
+	tutorial = "You are a Knight of Heartfelt. Having proven yourself both loyal and capable, you have been knighted to serve the County as the Count's sentry. \
+	You listen to your Liege and the Marshal, defending your Lord and realm - the last beacon of chivalry in these dark times."
 	allowed_sexes = list(MALE, FEMALE)
-	forbidden_races = list(RACES_CONSTRUCT RACES_DESPISED)
+	forbidden_races = list(RACES_CONSTRUCT RACES_DESPISED RACES_HEARTFELT)
 	outfit = /datum/outfit/job/heartfelt/knight
 	maximum_possible_slots = 1
 	pickprob = 100
@@ -117,7 +117,7 @@
 	switch(weapon_choice)
 		if("Dec Sword + Shield")
 			l_hand = /obj/item/rogueweapon/sword/long/dec
-			backl = /obj/item/rogueweapon/shield/tower/metal
+			backl = /obj/item/rogueweapon/shield/kite
 			H.adjust_skillrank_up_to(/datum/skill/combat/shields, SKILL_LEVEL_JOURNEYMAN, TRUE)
 			H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_EXPERT, TRUE)
 		if("Zweihander")
@@ -157,7 +157,7 @@
 			H.adjust_skillrank_up_to(/datum/skill/combat/polearms, SKILL_LEVEL_EXPERT, TRUE)
 		if("Lance + Shield")
 			l_hand = /obj/item/rogueweapon/spear/lance
-			backl = /obj/item/rogueweapon/shield/tower/metal
+			backl = /obj/item/rogueweapon/shield/kite
 			H.adjust_skillrank_up_to(/datum/skill/combat/shields, SKILL_LEVEL_JOURNEYMAN, TRUE)
 			H.adjust_skillrank_up_to(/datum/skill/combat/polearms, SKILL_LEVEL_EXPERT, TRUE)
 		else //In case they DC or don't choose close the panel, etc
@@ -167,25 +167,25 @@
 	var/helmet = list("Pigface Bascinet","Guard Helmet","Barred Helmet","Bucket Helmet","Knight's Helmet","Knight's Armet","Volfskulle Bascinet" ,"Visored Sallet","Snouted Visored Sallet","Armet","Snouted Armet","Hounskull Bascinet", "Etruscan Bascinet", "Slitted Kettle")
 	var/helmet_choice = input(H, "Choose your Helm.", "TAKE UP HELMS") as anything in helmet
 	switch(helmet_choice)
-		if("Pigface Bascinet") 
+		if("Pigface Bascinet")
 			head = /obj/item/clothing/head/roguetown/helmet/bascinet/pigface
-		if("Guard Helmet")	
+		if("Guard Helmet")
 			head = /obj/item/clothing/head/roguetown/helmet/heavy/guard
-		if("Barred Helmet")		
+		if("Barred Helmet")
 			head = /obj/item/clothing/head/roguetown/helmet/heavy/sheriff
-		if("Bucket Helmet")		
+		if("Bucket Helmet")
 			head = /obj/item/clothing/head/roguetown/helmet/heavy/bucket
-		if("Knight's Helmet")		
+		if("Knight's Helmet")
 			head = /obj/item/clothing/head/roguetown/helmet/heavy/knight/old
-		if("Knight's Armet")		
+		if("Knight's Armet")
 			head = /obj/item/clothing/head/roguetown/helmet/heavy/knight
 		if("Volfskulle Bascinet")
 			head = /obj/item/clothing/head/roguetown/helmet/heavy/volfplate
-		if("Visored Sallet")	
+		if("Visored Sallet")
 			head = /obj/item/clothing/head/roguetown/helmet/sallet/visored
 		if("Snouted Visored Sallet")
 			head = /obj/item/clothing/head/roguetown/helmet/sallet/visored/snouted
-		if("Armet")			
+		if("Armet")
 			head = /obj/item/clothing/head/roguetown/helmet/heavy/knight/armet
 		if("Snouted Armet")
 			head = /obj/item/clothing/head/roguetown/helmet/heavy/knight/armet/snouted
@@ -193,5 +193,5 @@
 			head = /obj/item/clothing/head/roguetown/helmet/bascinet/pigface/hounskull
 		if("Etruscan Bascinet")
 			head = /obj/item/clothing/head/roguetown/helmet/bascinet/etruscan
-		if("Slitted Kettle") 
+		if("Slitted Kettle")
 			head = /obj/item/clothing/head/roguetown/helmet/heavy/knight/skettle

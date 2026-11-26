@@ -13,8 +13,14 @@
 		/mob/living/carbon/human/species/goblin/npc/bomber = 7,
 		/mob/living/carbon/human/species/goblin/npc/large = 5,
 		/mob/living/carbon/human/species/hobgoblin/npc/ambush = 15,
+		/mob/living/carbon/human/species/goblin/npc/magos = 4,
+		/mob/living/carbon/human/species/goblin/npc/brickomancer = 3,
+		/mob/living/carbon/human/species/goblin/npc/knifomancer = 3,
 	)
 	boss_mob_types = list(
 		/mob/living/carbon/human/species/goblin/npc/large = 100,
+	)
+	variant_chances = list(
+		/datum/quest_faction_variant/goblin_magi = 10,
 	)
 	boss_name_file = "strings/rt/names/other/goblinm.txt"

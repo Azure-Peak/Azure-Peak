@@ -219,6 +219,7 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 	var/bloody_icon_state = "itemblood"
 	var/dam_icon = 'icons/effects/item_damage32.dmi'
 	var/dam_icon_state = "itemdamaged"
+	var/mutable_appearance/damage_overlay
 	var/boobed = FALSE
 
 	var/firefuel = 0 //add this idiot
@@ -718,17 +719,18 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 
 		if(istype(src, /obj/item/ammo_casing/caseless/rogue))
 			var/obj/item/ammo_casing/caseless/rogue/rog_ammo = src
-			if(rog_ammo.BB.damage)
-				inspec += "\n<b>PROJECTILE DAMAGE:</b> [rog_ammo.BB.damage]"
-			inspec += "\n<b>Armor Penetration:</b> [rog_ammo.BB.armor_penetration > PEN_NONE ? colorgrade_rating(uppertext(rog_ammo.BB.flag), rog_ammo.BB.armor_penetration) : "<font color='#808080'>NONE</font>"]"
-			if(rog_ammo.BB.min_range)
-				inspec += "\n<b>MINIMUM EFFECTIVE RANGE:</b> [rog_ammo.BB.min_range] tile(s)"
-			if(rog_ammo.BB.max_range)
-				inspec += "\n<b>MAXIMUM EFFECTIVE RANGE:</b> [rog_ammo.BB.max_range] tile(s)"
-			if(rog_ammo.BB.dam_falloff_factor)
-				inspec += "\n<b>DAMAGE FALLOFF:</b> [get_falloff_string(rog_ammo.BB.dam_falloff_factor)]"
-			if(rog_ammo.BB.antibeast_factor != 1)
-				inspec += "\n<b>ANTI-BEAST MODIFIER:</b> [rog_ammo.BB.antibeast_factor * 100]% <span class='info'><a href='?src=[REF(src)];explainantibeast=1'>{?}</a></span>"
+			if(rog_ammo.BB) //javelins are in the same path but have no projectile variables, causing a runtime when you exmaine them, lets check if there are actual projectile attributes first
+				if(rog_ammo.BB.damage)
+					inspec += "\n<b>PROJECTILE DAMAGE:</b> [rog_ammo.BB.damage]"
+				inspec += "\n<b>Armor Penetration:</b> [rog_ammo.BB.armor_penetration > PEN_NONE ? colorgrade_rating(uppertext(rog_ammo.BB.flag), rog_ammo.BB.armor_penetration) : "<font color='#808080'>NONE</font>"]"
+				if(rog_ammo.BB.min_range)
+					inspec += "\n<b>MINIMUM EFFECTIVE RANGE:</b> [rog_ammo.BB.min_range] tile(s)"
+				if(rog_ammo.BB.max_range)
+					inspec += "\n<b>MAXIMUM EFFECTIVE RANGE:</b> [rog_ammo.BB.max_range] tile(s)"
+				if(rog_ammo.BB.dam_falloff_factor)
+					inspec += "\n<b>DAMAGE FALLOFF:</b> [get_falloff_string(rog_ammo.BB.dam_falloff_factor)]"
+				if(rog_ammo.BB.antibeast_factor != 1)
+					inspec += "\n<b>ANTI-BEAST MODIFIER:</b> [rog_ammo.BB.antibeast_factor * 100]% <span class='info'><a href='?src=[REF(src)];explainantibeast=1'>{?}</a></span>"
 
 //**** CLOTHING STUFF
 
@@ -1762,7 +1764,9 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 	return TRUE
 
 /obj/item/proc/update_damaged_state()
-	cut_overlays()
+	if(damage_overlay)
+		cut_overlay(damage_overlay)
+		damage_overlay = null
 	if (!obj_broken)
 		return
 	var/icon/damaged_icon = icon(initial(icon), icon_state, , TRUE)
@@ -1770,6 +1774,7 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 	damaged_icon.Blend(icon(dam_icon, dam_icon_state), ICON_MULTIPLY)
 	var/mutable_appearance/damage = new(damaged_icon)
 	damage.alpha = 150
+	damage_overlay = damage
 	add_overlay(damage)
 
 /obj/item/proc/repair_coverage()

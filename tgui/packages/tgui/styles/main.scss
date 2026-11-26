@@ -29,6 +29,7 @@
 @include meta.load-css('./themes/parchment.scss');
 @include meta.load-css('./themes/parchment_vellum.scss');
 @include meta.load-css('./themes/parchment_leatherbound.scss');
+@include meta.load-css('./themes/marquette.scss');
 
 // Interfaces
 @include meta.load-css('./interfaces/AlertModal.scss');

@@ -154,13 +154,13 @@
 	. = ..()
 	. += span_info("Right click to adjust the coif's coverage. Certain coifs with multiple adjustments - like the full chain coif - might need to be right-clicked multiple times, in order to cycle back to its default state.")
 
-/obj/item/clothing/neck/roguetown/chaincoif/paalloy
+/obj/item/clothing/neck/roguetown/chaincoif/ancient
 	name = "ancient coif"
 	desc = "Polished gilbranze rings, linked together to form a billowing hood. Let it not be a crown of thorns that saves this dying world, but a crown of progress; of fettered metal and stained bone, rejuvenated by Zizo's will to herald Her greatest works yet."
 	icon_state = "achaincoif"
 	smeltresult = /obj/item/ingot/aaslag
 
-/obj/item/clothing/neck/roguetown/chaincoif/iron/aalloy
+/obj/item/clothing/neck/roguetown/chaincoif/ancient/decrepit
 	name = "decrepit coif"
 	desc = "Rotted metal rings, linked together to form a billowing hood. Shrapnel peppers the linkage; arrowheads and speartips, brought along from a battlefield whose history - and legionnaires - have been lost to tyme."
 	icon_state = "achaincoif"
@@ -383,7 +383,7 @@
 	smeltresult = /obj/item/ingot/bronze
 	max_integrity = ARMOR_INT_SIDE_BRONZE + ARMOR_INT_SIDE_COVERAGE_BONUS
 
-/obj/item/clothing/neck/roguetown/gorget/aalloy
+/obj/item/clothing/neck/roguetown/gorget/ancient/decrepit
 	name = "decrepit gorget"
 	desc = "Rotted metal plates, shingled together to shroud the neck. Primitive scrapes line the flanks, yet the center seems to've been cored out by a spear's thrust."
 	icon_state = "ancientgorget"
@@ -489,7 +489,7 @@
 	desc = "A series of interlocking rings of metal set around the throat. Used by the kouken of Kazengun for precisely the same reason as the knights of Psydonia."
 	icon_state = "kazengunneckguard"
 
-/obj/item/clothing/neck/roguetown/gorget/paalloy
+/obj/item/clothing/neck/roguetown/gorget/ancient
 	name = "ancient gorget"
 	desc = "Polished gilbranze plates, layered atop one-another to guard the neck. The spine; a sacred leyline between spirit and sinew. It must remain unsevered, lest Her blessings be lost."
 	icon_state = "ancientgorget"
@@ -536,6 +536,7 @@
 	grid_height = 32
 	/// Used to see whether or not we display the wrist icon or the neck icon regardless.
 	var/wrist_display = FALSE
+	no_loot_taint = TRUE
 
 /obj/item/clothing/neck/roguetown/psicross/mob_can_equip(mob/living/M, mob/living/equipper, slot, disable_warning = FALSE, bypass_equip_delay_self = FALSE)
 	if(slot == SLOT_WRISTS || (wrist_display && slot != SLOT_NECK))
@@ -612,7 +613,7 @@
 	resistance_flags = FIRE_PROOF
 	sellprice = 100
 
-/obj/item/clothing/neck/roguetown/psicross/aalloy
+/obj/item/clothing/neck/roguetown/psicross/ancient/decrepit
 	name = "decrepit psycross"
 	desc = "'A comet capable of rending all the enemies of humanity apart; oh, how graceful His power was! And His sacrifice, ever so noble! Yet now He slumbers, unaware of the fruits His efforts came to give. And He sighs. And He weeps.'"
 	icon_state = "psycross_a"
@@ -620,14 +621,14 @@
 	chunkcolor = "#532e25"
 	material_category = ARMOR_MAT_PLATE
 
-/obj/item/clothing/neck/roguetown/psicross/paalloy
+/obj/item/clothing/neck/roguetown/psicross/ancient
 	name = "ancient psycross"
 	desc = "'A comet capable of rending all the enemies of humanity apart; oh, how graceful His power was! And His sacrifice, ever so noble! Yet now He slumbers, unaware of the fruits His efforts came to give. And He sighs. And He weeps.'"
 	icon_state = "psycross_a"
 	chunkcolor = "#532e25"
 	material_category = ARMOR_MAT_PLATE
 
-/obj/item/clothing/neck/roguetown/psicross/inhumen/aalloy
+/obj/item/clothing/neck/roguetown/psicross/inhumen/ancient/decrepit
 	name = "decrepit zcross"
 	desc = "A symbol of progress from an era that had reason to believe in it."
 	icon_state = "zcross_a"
@@ -636,10 +637,10 @@
 	material_category = ARMOR_MAT_PLATE
 	resistance_flags = FIRE_PROOF
 
-/obj/item/clothing/neck/roguetown/psicross/inhumen/aalloy/get_examine_highlight_status()
+/obj/item/clothing/neck/roguetown/psicross/inhumen/ancient/decrepit/get_examine_highlight_status()
 	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_SUSPICIOUS, HERESYDESC_ZIZO_ICON)
 
-/obj/item/clothing/neck/roguetown/psicross/inhumen/paalloy
+/obj/item/clothing/neck/roguetown/psicross/inhumen/ancient
 	name = "ancient zcross"
 	desc = "'Progress. Ascension. Destiny. A mandate, commanded by God, to be fulfilled by Man. She called us forth from the edge of reality - and with Her dying breath, rasped out the final truth; the fire is gone, and the world will soon follow.'"
 	icon_state = "zcross_a"
@@ -647,7 +648,7 @@
 	material_category = ARMOR_MAT_PLATE
 	resistance_flags = FIRE_PROOF
 
-/obj/item/clothing/neck/roguetown/psicross/inhumen/paalloy/get_examine_highlight_status()
+/obj/item/clothing/neck/roguetown/psicross/inhumen/ancient/get_examine_highlight_status()
 	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_SUSPICIOUS, HERESYDESC_ZIZO_ICON)
 
 /obj/item/clothing/neck/roguetown/psicross/inhumen/wood
@@ -839,7 +840,7 @@
 	icon_state = "noc_g"
 	resistance_flags = FIRE_PROOF
 
-/obj/item/clothing/neck/roguetown/psicross/noc/aalloy
+/obj/item/clothing/neck/roguetown/psicross/noc/ancient/decrepit
 	name = "decrepit amulet of Noc"
 	desc = "The ultimate answer to the ultimate question is not a parable, but a pair of numbers; 'four' and 'two'. Thou may not understand it, yet, but I assure thee; it shall all make sense in due tyme."
 	icon_state = "noc_a"
@@ -848,7 +849,7 @@
 	material_category = ARMOR_MAT_PLATE
 	resistance_flags = FIRE_PROOF
 
-/obj/item/clothing/neck/roguetown/psicross/noc/paalloy
+/obj/item/clothing/neck/roguetown/psicross/noc/ancient
 	name = "ancient amulet of Noc"
 	desc = "The ultimate answer to the ultimate question is not a parable, but a pair of numbers; 'four' and 'two'. Thou may not understand it, yet, but I assure thee; it shall all make sense in due tyme."
 	icon_state = "noc_a"
@@ -1406,6 +1407,7 @@
 	item_state = "matthioschainmantle"
 	smeltresult = /obj/item/ingot/component/matthios
 	unenchantable = TRUE
+	no_loot_taint = TRUE //heretic stuff, in case it somehow ends up on a skele/NPC or w/e
 
 /obj/item/clothing/neck/roguetown/chaincoif/chainmantle/matthios/Initialize(mapload)
 	. = ..()
@@ -1426,6 +1428,7 @@
 	armor_class = ARMOR_CLASS_MEDIUM
 	smeltresult = /obj/item/ingot/component/zizo
 	unenchantable = TRUE
+	no_loot_taint = TRUE //heretic stuff, in case it somehow ends up on a skele/NPC or w/e
 
 /obj/item/clothing/neck/roguetown/bevor/zizo/Initialize(mapload)
 	. = ..()
@@ -1445,6 +1448,7 @@
 	item_state = "graggargorget"
 	smeltresult = /obj/item/ingot/component/graggar
 	unenchantable = TRUE
+	no_loot_taint = TRUE //heretic stuff, in case it somehow ends up on a skele/NPC or w/e
 
 /obj/item/clothing/neck/roguetown/gorget/steel/graggar/Initialize(mapload)
 	. = ..()
@@ -1474,6 +1478,7 @@
 	color = null
 	chunkcolor = "#645567"
 	smeltresult = /obj/item/ingot/component/baotha
+	no_loot_taint = TRUE //heretic stuff, in case it somehow ends up on a skele/NPC or w/e
 
 /obj/item/clothing/neck/roguetown/coif/baotha/Initialize(mapload)
 	. = ..()

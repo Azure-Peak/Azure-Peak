@@ -87,17 +87,17 @@
 	color = "#999999"
 	armor = ARMOR_LEATHER
 
-/obj/item/clothing/mask/rogue/facemask/steel/paalloy/mad_touched
+/obj/item/clothing/mask/rogue/facemask/ancient/mad_touched
 	name = "eerie ancient mask"
 
-/obj/item/clothing/mask/rogue/facemask/steel/paalloy/mad_touched/equipped(mob/user, slot)
+/obj/item/clothing/mask/rogue/facemask/ancient/mad_touched/equipped(mob/user, slot)
 	. = ..()
 	if(slot == SLOT_WEAR_MASK)
 		ADD_TRAIT(src, TRAIT_NODROP, CURSED_ITEM_TRAIT)
 		var/mob/living/carbon/human/mad_touched = user
 		mad_touched.apply_damage(25, BRUTE, BODY_ZONE_HEAD)
 
-/obj/item/clothing/mask/rogue/facemask/steel/paalloy/mad_touched/dropped(mob/user)
+/obj/item/clothing/mask/rogue/facemask/ancient/mad_touched/dropped(mob/user)
 	. = ..()
 	REMOVE_TRAIT(src, TRAIT_NODROP, CURSED_ITEM_TRAIT)
 

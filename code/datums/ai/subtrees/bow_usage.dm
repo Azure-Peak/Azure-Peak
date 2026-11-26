@@ -14,13 +14,18 @@
 	var/obj/item/gun/ballistic/revolver/grenadelauncher/bow = controller.blackboard[BB_ARCHER_NPC_BOW]
 	if(!length(Q?.arrows) && !bow?.chambered)
 		AI_THINK(pawn, "BOW: out of arrows - falling back to melee")
-		_restore_stashed_weapon(controller, pawn)
+		_restore_stashed_weapon(controller, pawn, draw_sidearm = TRUE)
 		return
 
-	if(get_dist(pawn, target) <= ARCHER_NPC_KITE_FLOOR && !_archer_retreat_turf(pawn, target))
-		AI_THINK(pawn, "BOW: boxed in at dist [get_dist(pawn, target)], no retreat turf - drawing steel")
-		_restore_stashed_weapon(controller, pawn)
+	if(_archer_closed_in(controller, pawn, target))
+		AI_THINK(pawn, "BOW: closed in at dist [get_dist(pawn, target)] - drawing steel")
+		_restore_stashed_weapon(controller, pawn, draw_sidearm = TRUE)
 		return
+
+	if(_archer_breaking_off(controller, pawn, target))
+		AI_THINK(pawn, "BOW: breaking off from [target]")
+		controller.queue_behavior(/datum/ai_behavior/back_off_facing, BB_BASIC_MOB_CURRENT_TARGET)
+		return SUBTREE_RETURN_FINISH_PLANNING
 
 	controller.queue_behavior(/datum/ai_behavior/ranged_attack_bow, BB_BASIC_MOB_CURRENT_TARGET)
 	if(LAZYACCESS(controller.current_behaviors, GET_AI_BEHAVIOR(/datum/ai_behavior/ranged_attack_bow)))
@@ -81,6 +86,8 @@
 		return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_FAILED
 
 	if(!isliving(target) || target.stat == DEAD)
+		return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_FAILED
+	if(_archer_closed_in(controller, pawn, target) || _archer_breaking_off(controller, pawn, target))
 		return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_FAILED
 	var/obj/item/gun/ballistic/revolver/grenadelauncher/bow = pawn.get_active_held_item()
 	if(!istype(bow))
@@ -178,8 +185,6 @@
 	if(retreat)
 		_archer_commit_burst(controller, pawn, retreat)
 		set_movement_target(controller, retreat)
-	else if(dist <= ARCHER_NPC_KITE_FLOOR)
-		return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_FAILED // boxed in with the foe adjacent - draw steel
 	else
 		controller.ai_movement.stop_moving_towards(controller) // boxed in but they're not adjacent - stand and shoot
 	return AI_BEHAVIOR_DELAY
@@ -229,6 +234,27 @@
 		if(get_dist(step, target) >= cur_dist)
 			return step
 	return null
+
+/proc/_archer_closed_in(datum/ai_controller/controller, mob/living/carbon/human/pawn, atom/target)
+	var/dist = get_dist(pawn, target)
+	if(world.time < controller.blackboard[BB_ARCHER_NPC_MELEE_UNTIL])
+		return dist <= ARCHER_NPC_KITE_RANGE
+	if(dist > ARCHER_NPC_KITE_FLOOR)
+		return FALSE
+	var/turf/retreat = _archer_retreat_turf(pawn, target)
+	if(retreat && (world.time < controller.blackboard[BB_ARCHER_NPC_DISENGAGE_UNTIL] || !_archer_has_sidearm(controller, pawn)))
+		return FALSE
+	var/melee_until = world.time + rand(ARCHER_NPC_MELEE_COMMIT_MIN, ARCHER_NPC_MELEE_COMMIT_MAX)
+	controller.set_blackboard_key(BB_ARCHER_NPC_MELEE_UNTIL, melee_until)
+	controller.set_blackboard_key(BB_ARCHER_NPC_DISENGAGE_UNTIL, melee_until + ARCHER_NPC_DISENGAGE_TIME)
+	return TRUE
+
+/proc/_archer_breaking_off(datum/ai_controller/controller, mob/living/carbon/human/pawn, atom/target)
+	return world.time < controller.blackboard[BB_ARCHER_NPC_DISENGAGE_UNTIL] && get_dist(pawn, target) <= ARCHER_NPC_KITE_FLOOR
+
+/proc/_archer_has_sidearm(datum/ai_controller/controller, mob/living/carbon/human/pawn)
+	var/obj/item/stashed = controller.blackboard[BB_ARCHER_NPC_STASHED_WEAPON]
+	return !QDELETED(stashed) || ai_find_stowed_weapon(pawn)
 
 /proc/_archer_has_firing_lane(turf/from, atom/target)
 	var/turf/tt = get_turf(target)
@@ -342,8 +368,8 @@
 		_draw_into_hand(pawn, bow, active = TRUE)
 
 /proc/_stash_melee_weapon(datum/ai_controller/controller, mob/living/carbon/human/pawn, obj/item/weapon, remember = TRUE)
-	var/stashed = FALSE
-	if(pawn.belt)
+	var/stashed = ai_sheathe_weapon(pawn, weapon)
+	if(!stashed && pawn.belt)
 		for(var/slot in list(SLOT_BELT_R, SLOT_BELT_L))
 			if(!pawn.get_item_by_slot(slot) && pawn.equip_to_slot_if_possible(weapon, slot, disable_warning = TRUE, bypass_equip_delay_self = TRUE))
 				stashed = TRUE
@@ -353,27 +379,33 @@
 	if(remember)
 		controller.set_blackboard_key(BB_ARCHER_NPC_STASHED_WEAPON, weapon)
 
-/proc/_restore_stashed_weapon(datum/ai_controller/controller, mob/living/carbon/human/pawn)
+/proc/_restore_stashed_weapon(datum/ai_controller/controller, mob/living/carbon/human/pawn, draw_sidearm = FALSE)
 	pawn.remove_movespeed_modifier(MOVESPEED_ID_CHARGING)
 	controller.clear_blackboard_key(BB_ARCHER_NPC_REPOSITION_TURF)
+	var/obj/item/held = pawn.get_active_held_item()
 	var/obj/item/stashed = controller.blackboard[BB_ARCHER_NPC_STASHED_WEAPON]
 	if(QDELETED(stashed))
 		controller.clear_blackboard_key(BB_ARCHER_NPC_STASHED_WEAPON)
-		return
-	var/obj/item/held = pawn.get_active_held_item()
+		if(!draw_sidearm || (held && !istype(held, /obj/item/gun/ballistic/revolver/grenadelauncher)))
+			return
+		stashed = ai_find_stowed_weapon(pawn)
+		if(!stashed)
+			return
 	if(istype(held, /obj/item/gun/ballistic/revolver/grenadelauncher)) // never drop the bow: it must stay in inventory to re-draw
 		var/stowed = FALSE
+		var/list/stow_slots = list(SLOT_BACK_R, SLOT_BACK_L)
 		if(pawn.belt)
-			for(var/slot in list(SLOT_BELT_R, SLOT_BELT_L))
-				if(!pawn.get_item_by_slot(slot) && pawn.equip_to_slot_if_possible(held, slot, disable_warning = TRUE, bypass_equip_delay_self = TRUE))
-					stowed = TRUE
-					break
+			stow_slots += list(SLOT_BELT_R, SLOT_BELT_L)
+		for(var/slot in stow_slots)
+			if(!pawn.get_item_by_slot(slot) && pawn.equip_to_slot_if_possible(held, slot, disable_warning = TRUE, bypass_equip_delay_self = TRUE))
+				stowed = TRUE
+				break
 		if(!stowed && !pawn.get_inactive_held_item())
 			_draw_into_hand(pawn, held, active = FALSE)
 			stowed = TRUE
 		if(!stowed)
 			return
-	_draw_into_hand(pawn, stashed, active = TRUE)
+	ai_draw_stowed_weapon(pawn, stashed, active = TRUE)
 	controller.clear_blackboard_key(BB_ARCHER_NPC_STASHED_WEAPON)
 
 /proc/_quiver_has_ammo(mob/living/carbon/human/pawn)

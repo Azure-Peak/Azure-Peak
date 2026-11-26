@@ -397,7 +397,7 @@
 	smeltresult = /obj/item/ingot/drow
 	smelt_bar_num = 1
 
-/obj/item/clothing/mask/rogue/facemask/aalloy
+/obj/item/clothing/mask/rogue/facemask/ancient/decrepit
 	name = "decrepit mask"
 	desc = "Rotted metal, molded into an unblinking visage. Only the statues, buried within the innards of Mount Decapitation, share its wrinkled lip and sneer of cold command."
 	icon_state = "ancientmask"
@@ -454,6 +454,7 @@
 	block2add = null
 	body_parts_covered = MOUTH|NOSE
 	flags_inv = HIDEFACE|HIDESNOUT
+	no_loot_taint = TRUE //heretic stuff, in case it somehow ends up on a skele/NPC or w/e
 
 /obj/item/clothing/mask/rogue/facemask/steel/graggar/ComponentInitialize()
 	AddComponent(/datum/component/cursed_item, TRAIT_HORDE, "ARMOR", "RENDERED ASUNDER")
@@ -461,12 +462,13 @@
 /obj/item/clothing/mask/rogue/facemask/steel/graggar/get_examine_highlight_status()
 	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_GRAGGAR_ARMOR)
 
-/obj/item/clothing/mask/rogue/facemask/steel/paalloy
+/obj/item/clothing/mask/rogue/facemask/ancient
 	name = "ancient mask"
 	desc = "Polished gilbranze, molded into an intimidating visage. Touch the cheek; it is warm, \
 	like flesh. But it is not flesh. Not yet."
 	icon_state = "ancientmask"
 	smeltresult = /obj/item/ingot/aaslag
+	max_integrity = ARMOR_INT_MASK_STEEL
 
 /obj/item/clothing/mask/rogue/facemask/steel/steppesman
 	name = "steppesman war mask"

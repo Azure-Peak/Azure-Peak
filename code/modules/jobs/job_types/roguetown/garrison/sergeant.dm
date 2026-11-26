@@ -112,7 +112,7 @@
 		switch(weapon_choice)
 			if("Flail & Shield")	//Tower-shield, higher durability wood shield w/ more coverage. Plus a steel flail; maybe.. less broken that a steel mace?
 				beltr = /obj/item/rogueweapon/mace/cudgel
-				beltl = /obj/item/rogueweapon/flail/sflail
+				beltl = /obj/item/rogueweapon/flail/steel
 				backl = /obj/item/rogueweapon/shield/tower
 				H.adjust_skillrank_up_to(/datum/skill/combat/whipsflails, 4, TRUE)
 			if("Axe & Iron Shield")	//Steel Axe - basically exact same as MAA. Has it's niche due to axe's integrity vs swords.

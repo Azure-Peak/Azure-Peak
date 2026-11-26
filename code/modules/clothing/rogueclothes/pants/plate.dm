@@ -35,7 +35,7 @@
 	max_integrity = ARMOR_INT_LEG_IRON_PLATE
 	smeltresult = /obj/item/ingot/iron
 
-/obj/item/clothing/under/roguetown/platelegs/aalloy
+/obj/item/clothing/under/roguetown/platelegs/ancient/decrepit
 	name = "decrepit plate chausses"
 	desc = "Rotted metal plates, shingled over chausses of rotting leather-and-maille. Voided bowels are all that remains of its former legionnaire."
 	icon_state = "ancientpants"
@@ -46,7 +46,7 @@
 	smeltresult = /obj/item/ingot/aaslag
 	anvilrepair = null
 
-/obj/item/clothing/under/roguetown/platelegs/paalloy
+/obj/item/clothing/under/roguetown/platelegs/ancient
 	name = "ancient plate chausses"
 	desc = "Polished gilbranze plates, layered atop silken chausses. Only the few who had embraced undeath were spared from Zizo's ascension; now, they command the undying \
 	legionnaires who march forth to sunder creation in Her name."
@@ -63,6 +63,7 @@
 	armor_class = ARMOR_CLASS_MEDIUM
 	smeltresult = /obj/item/ingot/component/graggar
 	unenchantable = TRUE
+	no_loot_taint = TRUE //heretic stuff, in case it somehow ends up on a skele/NPC or w/e
 
 /obj/item/clothing/under/roguetown/platelegs/graggar/Initialize(mapload)
 	. = ..()
@@ -79,6 +80,7 @@
 	armor = ARMOR_PLATE_BSTEEL
 	smeltresult = /obj/item/ingot/component/matthios
 	unenchantable = TRUE
+	no_loot_taint = TRUE //heretic stuff, in case it somehow ends up on a skele/NPC or w/e
 
 /obj/item/clothing/under/roguetown/platelegs/matthios/Initialize(mapload)
 	. = ..()
@@ -105,6 +107,7 @@
 	armor_class = ARMOR_CLASS_MEDIUM
 	smeltresult = /obj/item/ingot/component/zizo
 	unenchantable = TRUE
+	no_loot_taint = TRUE //heretic stuff, in case it somehow ends up on a skele/NPC or w/e
 
 /obj/item/clothing/under/roguetown/platelegs/zizo/get_examine_highlight_status()
 	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_ZIZO_ARMOR)

@@ -266,7 +266,9 @@
 		record_material_flow(MATERIAL_FLOW_IN, MATERIAL_SOURCE_DOMESTIC, path, 1)
 		if(source)
 			record_material_flow(MATERIAL_FLOW_OUT, MATERIAL_SOURCE_SMELTING, source.type, 1)
-	return new path(src, quality)
+	if(ispath(path, /obj/item/ingot))
+		return new path(src, quality)
+	return new path(src)
 
 /obj/machinery/light/rogue/smelter/proc/handle_smelting()
 	for(var/obj/item/item as anything in contained_items)
@@ -343,7 +345,7 @@
 		alloy = /obj/item/ingot/bronze
 	else if(purifiedalloy == 11)
 		max_contained_items = 2
-		alloy = /obj/item/ingot/purifiedaalloy // 3 aaslag, 1 gold, makes 2 purified alloy.
+		alloy = /obj/item/ingot/ancient // 3 aaslag, 1 gold, makes 2 purified alloy.
 	else if(blacksteelalloy == 7)
 		max_contained_items = 1 // Blacksteel is supposed to be rare and inefficient. 3 steel and 1 silver into one.
 		alloy = /obj/item/ingot/blacksteel

@@ -307,7 +307,7 @@
 		/obj/item/quiver/bronzearrows = 2,
 		/obj/item/quiver/bolt/bronze = 2,
 		/obj/item/rogueweapon/mace/woodclub/crafted = 3,
-		/obj/item/rogueweapon/mace/warhammer/bronze = 4,
+		/obj/item/rogueweapon/mace/warclub = 4,
 		/obj/item/rogueweapon/mace/wsword = 3,
 		/obj/item/rogueweapon/woodstaff = 3,
 		/obj/item/rogueweapon/spear/bronze = 3,

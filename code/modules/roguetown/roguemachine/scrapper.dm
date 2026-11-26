@@ -90,7 +90,7 @@
 				SStgui.update_uis(src)
 				return
 
-	if(istype(P, /obj/item/roguecoin/aalloy) || istype(P, /obj/item/roguecoin/inqcoin))
+	if(istype(P, /obj/item/roguecoin/psila) || istype(P, /obj/item/roguecoin/marque))
 		return
 	if(istype(P, /obj/item/roguecoin))
 		if(!is_keyholder(user))

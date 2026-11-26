@@ -93,7 +93,7 @@
 			H.equip_to_slot_or_del(new /obj/item/rogueweapon/scabbard/gwstrap, SLOT_BACK_L)
 			H.adjust_skillrank_up_to(/datum/skill/combat/axes, SKILL_LEVEL_EXPERT)
 		if("Militia Thresher")
-			H.put_in_hands(new /obj/item/rogueweapon/flail/peasantwarflail)
+			H.put_in_hands(new /obj/item/rogueweapon/flail/great)
 			H.equip_to_slot_or_del(new /obj/item/rogueweapon/scabbard/gwstrap, SLOT_BACK_L)
 			H.adjust_skillrank_up_to(/datum/skill/combat/whipsflails, SKILL_LEVEL_EXPERT)
 		if("Militia Goedendag (Pair)")

@@ -61,7 +61,7 @@
 			pic.color = get_detail_color()
 		add_overlay(pic)
 
-/obj/item/clothing/head/roguetown/helmet/heavy/aalloy
+/obj/item/clothing/head/roguetown/helmet/heavy/ancient/decrepit
 	name = "decrepit barbute"
 	desc = "Rotted metal plates, pounded into a visored helmet. Scrapes and dents line the curved plating, weathered from centuries of \
 	neglect. The remains of a plume's stub hang atop its rim."
@@ -77,28 +77,6 @@
 	worn_y_dimension = 64
 	mob_overlay_icon = 'icons/roguetown/clothing/onmob/64x64/head.dmi' //Uses the new 'greatplume + orle' system. If this glitches out, I made sure to include a fully-prepared 32x32 version - with details - in head.dmi.
 	bloody_icon = 'icons/effects/blood64.dmi'
-
-/obj/item/clothing/head/roguetown/helmet/heavy/aalloy/attackby(obj/item/W, mob/living/user, params)
-	..()
-	if(istype(W, /obj/item/natural/feather) && !detail_tag)
-		var/choice = input(user, "Choose a color.", "Plume") as anything in COLOR_MAP
-		detail_color = COLOR_MAP[choice]
-		detail_tag = "_detail"
-		user.visible_message(span_warning("[user] adds [W] to [src]."))
-		user.transferItemToLoc(W, src, FALSE, FALSE)
-		update_icon()
-		if(loc == user && ishuman(user))
-			var/mob/living/carbon/H = user
-			H.update_inv_head()
-
-/obj/item/clothing/head/roguetown/helmet/heavy/aalloy/update_icon()
-	cut_overlays()
-	if(get_detail_tag())
-		var/mutable_appearance/pic = mutable_appearance(icon(icon, "[get_detail_state(icon_state)][detail_tag]"))
-		pic.appearance_flags = RESET_COLOR
-		if(get_detail_color())
-			pic.color = get_detail_color()
-		add_overlay(pic)
 
 /obj/item/clothing/head/roguetown/helmet/heavy/barbute
 	name = "barbute"
@@ -198,7 +176,7 @@
 	icon_state = "kazengunheavyhelm"
 	block2add = null // Open face, better visibility.
 
-/obj/item/clothing/head/roguetown/helmet/heavy/paalloy
+/obj/item/clothing/head/roguetown/helmet/heavy/ancient
 	name = "ancient barbute"
 	desc = "Polished gilbranze plates, pounded to form a visored helmet. Zizo commands progress, and progress commands sacrifice; let these \
 	sundered legionnaires rise again, to spill the blood of unenlightened fools. A coiled pocket is perched atop the rim, awaiting to be plumed."
@@ -209,7 +187,7 @@
 	mob_overlay_icon = 'icons/roguetown/clothing/onmob/64x64/head.dmi' //Uses the new 'greatplume + orle' system. If this glitches out, I made sure to include a fully-prepared 32x32 version - with details - in head.dmi.
 	bloody_icon = 'icons/effects/blood64.dmi'
 
-/obj/item/clothing/head/roguetown/helmet/heavy/paalloy/attackby(obj/item/W, mob/living/user, params)
+/obj/item/clothing/head/roguetown/helmet/heavy/ancient/attackby(obj/item/W, mob/living/user, params)
 	..()
 	if(istype(W, /obj/item/natural/feather) && !detail_tag)
 		var/choice = input(user, "Choose a color.", "Plume") as anything in COLOR_MAP
@@ -222,7 +200,7 @@
 			var/mob/living/carbon/H = user
 			H.update_inv_head()
 
-/obj/item/clothing/head/roguetown/helmet/heavy/paalloy/update_icon()
+/obj/item/clothing/head/roguetown/helmet/heavy/ancient/update_icon()
 	cut_overlays()
 	if(get_detail_tag())
 		var/mutable_appearance/pic = mutable_appearance(icon(icon, "[get_detail_state(icon_state)][detail_tag]"))
@@ -241,7 +219,7 @@
 	smeltresult = /obj/item/ingot/steel
 	smelt_bar_num = 2
 
-/obj/item/clothing/head/roguetown/helmet/heavy/guard/aalloy
+/obj/item/clothing/head/roguetown/helmet/heavy/guard/ancient/decrepit
 	name = "decrepit savoyard"
 	desc = "Rotted metal plates, molded into a ventilated casket. It reeks of fetid shit, and each breath - labored and strained - is laced with flaked metal."
 	max_integrity = ARMOR_INT_HELMET_HEAVY_DECREPIT
@@ -252,7 +230,7 @@
 	smeltresult = /obj/item/ingot/aaslag
 	anvilrepair = null
 
-/obj/item/clothing/head/roguetown/helmet/heavy/guard/paalloy
+/obj/item/clothing/head/roguetown/helmet/heavy/guard/ancient
 	name = "ancient savoyard"
 	desc = "Polished gilbranze plates, molded into a bulwark's greathelm. The Comet Syon's glare has been forever burnt into the alloy; a \
 	decayed glimpse into the world that was, before Psydon's slumber and Zizo's awakening."
@@ -347,7 +325,7 @@
 			pic.color = get_detail_color()
 		add_overlay(pic)
 
-/obj/item/clothing/head/roguetown/helmet/heavy/knight/aalloy
+/obj/item/clothing/head/roguetown/helmet/heavy/knight/ancient/decrepit
 	name = "decrepit bascinet"
 	desc = "A chipped greathelm of rotted metal. The fittings squeal with nauseous annoyance, whenever you move to lift its half-rusted visor up \
 	and down. Add a feather to show the colors of your family or allegiance."
@@ -365,7 +343,7 @@
 	mob_overlay_icon = 'icons/roguetown/clothing/onmob/64x64/head.dmi' //Uses the new 'greatplume + orle' system. If this glitches out, I made sure to include a fully-prepared 32x32 version - with details - in head.dmi.
 	bloody_icon = 'icons/effects/blood64.dmi'
 
-/obj/item/clothing/head/roguetown/helmet/heavy/knight/paalloy
+/obj/item/clothing/head/roguetown/helmet/heavy/knight/ancient
 	name = "ancient bascinet"
 	desc = "An ancient greathelm of polished gilbranze. There is no sight more haunting than that of a noble knight, long-succumbed to the undying \
 	forces of evylle. Add a feather to show the colors of your family or allegiance."
@@ -1409,6 +1387,7 @@
 	experimental_inhand = FALSE
 	experimental_onhip = FALSE
 	smeltresult = /obj/item/ingot/component/matthios
+	no_loot_taint = TRUE //heretic stuff, in case it somehow ends up on a skele/NPC or w/e
 
 /obj/item/clothing/head/roguetown/helmet/heavy/matthios/Initialize(mapload)
 	. = ..()
@@ -1425,6 +1404,7 @@
 	flags_inv = HIDEEARS|HIDEFACE|HIDESNOUT|HIDEHAIR|HIDEFACIALHAIR
 	var/active_item = FALSE
 	smeltresult = /obj/item/ingot/component/graggar
+	no_loot_taint = TRUE //heretic stuff, in case it somehow ends up on a skele/NPC or w/e
 
 /obj/item/clothing/head/roguetown/helmet/heavy/graggar/Initialize(mapload)
 	. = ..()
@@ -1470,6 +1450,7 @@
 	max_integrity = ARMOR_INT_HELMET_ANTAG
 	chunkcolor = "#363030"
 	smeltresult = /obj/item/ingot/component/zizo
+	no_loot_taint = TRUE //heretic stuff, in case it somehow ends up on a skele/NPC or w/e
 
 /obj/item/clothing/head/roguetown/helmet/heavy/zizo/Initialize(mapload)
 	. = ..()

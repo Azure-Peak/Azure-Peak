@@ -317,6 +317,7 @@ export type Skill = {
   name: string;
   level: number;
   max_level: string;
+  hardcap: BooleanLike;
 };
 
 export type Trait = {

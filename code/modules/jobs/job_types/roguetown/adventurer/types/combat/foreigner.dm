@@ -171,7 +171,7 @@
 	to_chat(H, span_warning("An exile from the Holy See of Otava, accused of heresy and cast out of your homeland as penance. \
 	Some consider yours a fate worse than death; the metal alloy mask seared onto your face serving as a permanent reminder of your sins. \
 	You are a living example of what becomes of those who stand in defiance of the Otavan inquisition."))
-	mask = /obj/item/clothing/mask/rogue/facemask/steel/paalloy/mad_touched
+	mask = /obj/item/clothing/mask/rogue/facemask/ancient/mad_touched
 	wrists = /obj/item/clothing/neck/roguetown/psicross
 	shirt = /obj/item/clothing/cloak/tabard/psydontabard
 	gloves = /obj/item/clothing/gloves/roguetown/chain/psydon
@@ -580,7 +580,7 @@
 			if("Warclub + Shield")
 				H.adjust_skillrank_up_to(/datum/skill/combat/maces, SKILL_LEVEL_JOURNEYMAN, TRUE)
 				H.adjust_skillrank_up_to(/datum/skill/combat/shields, SKILL_LEVEL_JOURNEYMAN, TRUE)
-				r_hand = /obj/item/rogueweapon/mace/warhammer/bronze
+				r_hand = /obj/item/rogueweapon/mace/warclub
 				backr = /obj/item/rogueweapon/shield/bronze
 			if("Flail + Shield")
 				H.adjust_skillrank_up_to(/datum/skill/combat/whipsflails, SKILL_LEVEL_JOURNEYMAN, TRUE)
@@ -708,15 +708,15 @@
 
 /datum/advclass/foreigner/lesserblackoak
 	name = "Azurian Grovewalker"
-	tutorial = "Autumn's grace trails you as a guardian-errant of the Black Oaks; an irregular militia that \
-	fights for the ancestral elven homelands of Azuria. Nature's call manifests along your blossoming bark, \
+	tutorial = "Autumn's grace trails you as a guardian-errant of the Black Oaks; the warriors that \
+	fight for the Rossans of Azuria. Nature's call manifests along your blossoming bark, \
 	and you shall answer. Whether through blade or bow, you shall ensure that those who dare to disrespect \
 	Azuria's supple forests will learn to regret it."
-	extra_context = "This class is restricted to the Elf, Half-Elf, and Dark Elf species."
+	extra_context = "This class is restricted to the Elf and Half-Elf species."
 	class_select_category = CLASS_CAT_RACIAL
 	allowed_sexes = list(MALE, FEMALE)
 	forbidden_races = list(RACES_BLACKOAK)
-	traits_applied = list(TRAIT_OUTDOORSMAN, TRAIT_BLACKOAK, TRAIT_DODGEEXPERT, TRAIT_WOODWALKER)
+	traits_applied = list(TRAIT_OUTDOORSMAN, TRAIT_DODGEEXPERT, TRAIT_WOODWALKER)
 	outfit = /datum/outfit/job/roguetown/adventurer/lesserblackoak
 	subclass_languages = list(/datum/language/oldazurian)
 	cmode_music = 'sound/music/combat_blackoak.ogg'
@@ -745,7 +745,7 @@
 
 /datum/outfit/job/roguetown/adventurer/lesserblackoak/pre_equip(mob/living/carbon/human/H)
 	..()
-	to_chat(H, span_warning("Whether through merit or heritage, you've earned the right of tutelage under the Black Oaks; an irregular militia that fights for the ancestral elven homelands of Azuria. Jaunt through the underbrush and oppress the oppressors with both blade-and-bow."))
+	to_chat(H, span_warning("Whether through merit or heritage, you've earned the right of tutelage under the Black Oaks; the warriors that fight for the Rossans of Azuria. Jaunt through the underbrush and slay your foes with both blade and bow."))
 	H.set_blindness(0)
 	if(H.mind)
 		var/weapons = list("Autumned Longsword","Autumned Glaive","Autumned Bow")

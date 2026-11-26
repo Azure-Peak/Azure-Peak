@@ -86,7 +86,7 @@
 	shoes = /obj/item/clothing/shoes/roguetown/boots/armor/iron
 	id = /obj/item/clothing/ring/silver/cleric
 	backl = /obj/item/storage/backpack/rogue/satchel
-	backr = /obj/item/rogueweapon/shield/tower/holysee
+	backr = /obj/item/rogueweapon/shield/kite/holysee
 	backpack_contents = list(
 		/obj/item/ritechalk = 1,
 		/obj/item/rope/chain = 1,
@@ -219,10 +219,10 @@
 			H.put_in_hands(new /obj/item/rogueweapon/scabbard/gwstrap(H))
 			H.adjust_skillrank_up_to(/datum/skill/combat/polearms, SKILL_LEVEL_EXPERT, TRUE)
 		if("Flail")
-			H.put_in_hands(new /obj/item/rogueweapon/flail/sflail/holysee(H))
+			H.put_in_hands(new /obj/item/rogueweapon/flail/steel/holysee(H))
 			H.adjust_skillrank(/datum/skill/combat/whipsflails, SKILL_LEVEL_NOVICE, TRUE)
 		if("Mace")
-			H.put_in_hands(new /obj/item/rogueweapon/mace/steel/holyseemace(H))
+			H.put_in_hands(new /obj/item/rogueweapon/mace/steel/holysee(H))
 			H.adjust_skillrank(/datum/skill/combat/maces, SKILL_LEVEL_NOVICE, TRUE)
 		if("Battle Axe")
 			H.put_in_hands(new /obj/item/rogueweapon/stoneaxe/battle/holyseeaxe(H))
@@ -248,7 +248,7 @@
 			H.adjust_skillrank(/datum/skill/combat/swords, 1, TRUE)
 			H.equip_to_slot_or_del(new /obj/item/rogueweapon/scabbard/sword, SLOT_BELT_L, TRUE)
 		if("Swift End")
-			H.put_in_hands(new /obj/item/rogueweapon/flail/sflail/necraflail(H))
+			H.put_in_hands(new /obj/item/rogueweapon/flail/silver/necra(H))
 			H.adjust_skillrank(/datum/skill/combat/whipsflails, SKILL_LEVEL_NOVICE, TRUE)
 		if("Plaguebringer Sickles")
 			H.put_in_hands(new /obj/item/rogueweapon/huntingknife/idagger/steel/pestrasickle(H))
@@ -297,7 +297,7 @@
 			H.equip_to_slot_or_del(new /obj/item/rogueweapon/scabbard/sword, SLOT_BELT_L, TRUE)
 			H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_EXPERT, TRUE)
 		if("Sunburst")
-			H.put_in_hands(new /obj/item/rogueweapon/mace/steel/holyseemace/sunburst(H))
+			H.put_in_hands(new /obj/item/rogueweapon/mace/steel/holysee/sunburst(H))
 			H.adjust_skillrank_up_to(/datum/skill/combat/maces, SKILL_LEVEL_EXPERT, TRUE)
 
 	// -- Start of section for god specific bonuses --

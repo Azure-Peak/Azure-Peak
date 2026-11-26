@@ -1,10 +1,10 @@
 
 /datum/advclass/heartfelt/retinue/prior
 	name = "Heartfelt Priest"
-	tutorial = "The Priest of Heartfelt, you were destined for ascension within the Church. \
-	. Still guided by the blessings of Astrata, you journey to the Peak, determined to offer what aid and solace you can."
+	tutorial = "You are the Priest of Heartfelt, destined for ascension within the Church. \
+	Still guided by the blessings of Astrata, you journey to the Peak, determined to offer what aid and solace you can."
 	allowed_sexes = list(MALE, FEMALE)
-	forbidden_races = list(RACES_CONSTRUCT RACES_DESPISED)
+	forbidden_races = list(RACES_CONSTRUCT RACES_DESPISED RACES_HEARTFELT)
 	outfit = /datum/outfit/job/roguetown/heartfelt/prior
 	maximum_possible_slots = 1
 	pickprob = 100
@@ -13,7 +13,7 @@
 
 // HIGH COURT - /ONE SLOT/ Roles that were previously in the Court, but moved here.
 
-	traits_applied = list(TRAIT_CHOSEN, TRAIT_RITUALIST, TRAIT_SOUL_EXAMINE, TRAIT_GRAVEROBBER, TRAIT_HOMESTEAD_EXPERT, TRAIT_MEDICINE_EXPERT, TRAIT_HEARTFELT, TRAIT_ALCHEMY_EXPERT)
+	traits_applied = list(TRAIT_CLERGY, TRAIT_RITUALIST, TRAIT_SOUL_EXAMINE, TRAIT_GRAVEROBBER, TRAIT_HOMESTEAD_EXPERT, TRAIT_MEDICINE_EXPERT, TRAIT_HEARTFELT, TRAIT_ALCHEMY_EXPERT)
 
 	subclass_stats = list(
 		STATKEY_INT = 3,
@@ -48,7 +48,7 @@
 	belt = /obj/item/storage/belt/rogue/leather/rope/upgraded
 	beltl = /obj/item/flashlight/flare/torch/lantern
 	beltr = /obj/item/storage/belt/rogue/pouch/coins/rich
-	armor = /obj/item/clothing/suit/roguetown/shirt/robe/priest
+	armor = /obj/item/clothing/suit/roguetown/shirt/robe/astrata
 	cloak = /obj/item/clothing/cloak/chasuble
 	backl = /obj/item/storage/backpack/rogue/satchel
 	backpack_contents = list(
@@ -58,5 +58,7 @@
 
 	if(H.age == AGE_OLD)
 		H.adjust_skillrank(/datum/skill/magic/holy, 1, TRUE)
+	if(H.mind)
+		H.mind.AddSpell(new /datum/action/cooldown/spell/projectile/divine_bolt)
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)
 	C.grant_miracles(H, cleric_tier = CLERIC_T4, passive_gain = CLERIC_REGEN_MAJOR, start_maxed = TRUE)	//Starts off maxed out.

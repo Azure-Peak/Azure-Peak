@@ -657,9 +657,9 @@
 	dir = 1;
 	icon_state = "longtable"
 	},
-/obj/item/rogueweapon/flail/sflail,
-/obj/item/rogueweapon/flail/sflail,
-/obj/item/rogueweapon/flail/sflail,
+/obj/item/rogueweapon/flail/steel,
+/obj/item/rogueweapon/flail/steel,
+/obj/item/rogueweapon/flail/steel,
 /obj/machinery/light/rogue/candle/r,
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/indoors)
@@ -1356,6 +1356,9 @@
 "GO" = (
 /turf/open/water/swamp/deep,
 /area/rogue/outdoors)
+"GQ" = (
+/turf/open/floor/rogue/blocks/newstone/alt,
+/area/rogue/indoors/inq/import)
 "Hb" = (
 /obj/structure/roguemachine/goldface,
 /turf/open/floor/rogue/blocks/newstone/alt,
@@ -3629,8 +3632,8 @@ dB
 (33,1,1) = {"
 oh
 ev
-ev
-ev
+GQ
+GQ
 ev
 TN
 Gk
@@ -3681,8 +3684,8 @@ dB
 (34,1,1) = {"
 ME
 ev
-ev
-ev
+GQ
+GQ
 ev
 or
 or

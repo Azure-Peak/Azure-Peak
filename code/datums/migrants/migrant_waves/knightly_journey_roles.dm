@@ -114,17 +114,17 @@
 			H.adjust_skillrank_up_to(/datum/skill/combat/shields, SKILL_LEVEL_MASTER, TRUE)
 			beltr = /obj/item/rogueweapon/sword/long
 			r_hand = /obj/item/rogueweapon/scabbard/sword
-			backr = /obj/item/rogueweapon/shield/tower/metal
+			backr = /obj/item/rogueweapon/shield/kite
 		if("Mace + Shield")
 			H.adjust_skillrank_up_to(/datum/skill/combat/maces, SKILL_LEVEL_EXPERT, TRUE)
 			H.adjust_skillrank_up_to(/datum/skill/combat/shields, SKILL_LEVEL_MASTER, TRUE)
 			beltr = /obj/item/rogueweapon/mace
-			backr = /obj/item/rogueweapon/shield/tower/metal
+			backr = /obj/item/rogueweapon/shield/kite
 		if("Flail + Shield")
 			H.adjust_skillrank_up_to(/datum/skill/combat/whipsflails, SKILL_LEVEL_EXPERT, TRUE)
 			H.adjust_skillrank_up_to(/datum/skill/combat/shields, SKILL_LEVEL_MASTER, TRUE)
 			beltr = /obj/item/rogueweapon/flail
-			backr = /obj/item/rogueweapon/shield/tower/metal
+			backr = /obj/item/rogueweapon/shield/kite
 		if("Billhook")
 			H.adjust_skillrank_up_to(/datum/skill/combat/polearms, SKILL_LEVEL_EXPERT, TRUE)
 			r_hand = /obj/item/rogueweapon/spear/billhook
@@ -133,7 +133,7 @@
 			H.adjust_skillrank_up_to(/datum/skill/combat/polearms, SKILL_LEVEL_EXPERT, TRUE)
 			H.adjust_skillrank_up_to(/datum/skill/combat/shields, SKILL_LEVEL_MASTER, TRUE)
 			r_hand = /obj/item/rogueweapon/spear/lance
-			backr = /obj/item/rogueweapon/shield/tower/metal
+			backr = /obj/item/rogueweapon/shield/kite
 		if("Battle Axe")
 			H.adjust_skillrank_up_to(/datum/skill/combat/axes, SKILL_LEVEL_EXPERT, TRUE)
 			r_hand = /obj/item/rogueweapon/stoneaxe/battle

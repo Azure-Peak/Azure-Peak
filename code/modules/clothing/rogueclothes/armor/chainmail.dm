@@ -40,7 +40,6 @@
 
 //MEDIUM ARMOR - HAUBERGEON//
 /obj/item/clothing/suit/roguetown/armor/chainmail
-	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_SHIRT
 	name = "haubergeon"
 	desc = "A maille shirt fashioned from hundreds of interlinked steel rings. This blouse covers all the little nooks-and-crannies \
 	that're neglected by a standard cuirass, and - when paired with a gambeson - offers superb protection from most worldly strikes."
@@ -48,6 +47,7 @@
 	icon_state = "haubergeon"
 	armor = ARMOR_MAILLE
 	max_integrity = ARMOR_INT_CHEST_MEDIUM_STEEL
+	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_SHIRT
 	blocksound = CHAINHIT
 	drop_sound = 'sound/foley/dropsound/chain_drop.ogg'
 	pickup_sound = 'sound/foley/equip/equip_armor_chain.ogg'
@@ -63,19 +63,19 @@
 	AddComponent(/datum/component/armour_filtering/negative, TRAIT_FREEBLADEDEXTERITY)
 
 /obj/item/clothing/suit/roguetown/armor/chainmail/iron
-	icon_state = "ihaubergeon"
 	name = "iron haubergeon"
 	desc = "A maille shirt fashioned from hundreds of interlinked iron rings. The humble combination of a haubergeon and gambeson \
 	is favored amongst Psydonia's levymen, alongside a sharpened spear and a cooled pint of ale."
+	icon_state = "ihaubergeon"
 	max_integrity = ARMOR_INT_CHEST_MEDIUM_IRON
 	smeltresult = /obj/item/ingot/iron
 
 /obj/item/clothing/suit/roguetown/armor/chainmail/bronze
-	icon_state = "bhaubergeon"
 	name = "bronze haubergeon"
 	desc = "A maille shirt fashioned from hundreds of interlinked bronze rings. The value of flexible protection, especially in \
 	the centuries before plate, made any form of chainmail a rather valuable commodity; enough-so that it was worth its own weight \
 	in gold."
+	icon_state = "bhaubergeon"
 	max_integrity = ARMOR_INT_CHEST_MEDIUM_BRONZE
 	smeltresult = /obj/item/ingot/bronze
 
@@ -83,7 +83,7 @@
 	. = ..()
 	AddComponent(/datum/component/item_equipped_movement_rustle, SFX_CHAIN_STEP)
 
-/obj/item/clothing/suit/roguetown/armor/chainmail/aalloy
+/obj/item/clothing/suit/roguetown/armor/chainmail/ancient/decrepit
 	name = "decrepit haubergeon"
 	desc = "Rotted metal rings and rotting leather, woven together to form a short maille-atekon. There's a breach along the rings, \
 	where the leather is wet with blackness: the aftermath of a mortal wound, delivered centuries ago."
@@ -95,7 +95,7 @@
 	smeltresult = /obj/item/ingot/aaslag
 	anvilrepair = null
 
-/obj/item/clothing/suit/roguetown/armor/chainmail/paalloy
+/obj/item/clothing/suit/roguetown/armor/chainmail/ancient
 	name = "ancient haubergeon"
 	desc = "Polished gilbranze rings and silk, woven together to form a short maille-atekon. The death of a million brought forth the \
 	ascension of Zizo; and if a million more must perish to complete Her works, then let it be done."
@@ -151,7 +151,7 @@
 	max_integrity = ARMOR_INT_CHEST_MEDIUM_BRONZE
 	armor = ARMOR_BRONZE
 
-/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/aalloy
+/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/ancient/decrepit
 	name = "decrepit hauberk"
 	desc = "Rotted metal rings and rotting leather, woven together to form a sleeved maille-atekon. Once, the armored vestments of a \
 	paladin: now, the withered veil of Zizo's undying legionnaires."
@@ -163,7 +163,7 @@
 	smeltresult = /obj/item/ingot/aaslag
 	anvilrepair = null
 
-/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/paalloy
+/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/ancient
 	name = "ancient hauberk"
 	desc = "Polished gilbranze rings and silk, woven together to form a sleeved maille-atekon. To bring the lyfeless back from decrepity, \
 	to elevate them to heights once thought unsurmountable; that is the will of Zizo, made manifest."
@@ -200,7 +200,7 @@
 	armor_class = ARMOR_CLASS_HEAVY
 	max_integrity = ARMOR_INT_CHEST_PLATE_IRONLIGHT // Roughly 325 INT. +150 over regular hauberk, and -50 under regular plate.
 
-/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/aalloy/heavy
+/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/ancient/decrepit/heavy
 	name = "decrepit plate-and-maille"
 	desc = "Rotted metal rings and rotting leather, woven together to form a sleeved maille-atekon; one that's been uncomfortably \
 	tucked beneath a matching cuirass. Such are the last remains of those who've dared to march against the undying legions, be it \
@@ -211,7 +211,7 @@
 	armor_class = ARMOR_CLASS_HEAVY
 	max_integrity = ARMOR_INT_CHEST_PLATE_DECREPITLIGHT // 200 INT.
 
-/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/paalloy/heavy
+/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/ancient/heavy
 	name = "ancient plate-and-maille"
 	desc = "Polished gilbranze rings and silk, woven together to form a sleeved maille-atekon; one that's been uncomfortably tucked \
 	beneath a matching cuirass. It emanates an unfamiliar sensation, rarely seen amongst rot-and-undeath - elegance. In the worlds to \
@@ -284,9 +284,9 @@
 
 /datum/crafting_recipe/roguetown/survival/ancientmailledhauberk
 	name = "layer an ancient cuirass atop hauberk"
-	result = list(/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/paalloy/heavy)
-	reqs = list(/obj/item/clothing/suit/roguetown/armor/plate/cuirass/paalloy = 1,
-				/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/paalloy = 1)
+	result = list(/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/ancient/heavy)
+	reqs = list(/obj/item/clothing/suit/roguetown/armor/plate/cuirass/ancient = 1,
+				/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/ancient = 1)
 	craftdiff = 0 //Note that its Decrepit-tier variant is intended to largely be used by mobs and not players; hence, the lack of a crafting recipe.
 	req_table = TRUE //If someone wants to add that in post, hwoever, I don't mind. You can easily do so by copy-pasting the format, here.
 	bypass_dupe_test = TRUE
@@ -329,6 +329,7 @@
 	item_state = "matthioshauberk"
 	smeltresult = /obj/item/ingot/component/matthios
 	unenchantable = TRUE
+	no_loot_taint = TRUE //heretic stuff, in case it somehow ends up on a skele/NPC or w/e
 
 /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/matthios/Initialize(mapload)
 	. = ..()
@@ -350,6 +351,7 @@
 	material_category = ARMOR_MAT_CHAINMAIL
 	smeltresult = /obj/item/ingot/component/zizo
 	unenchantable = TRUE
+	no_loot_taint = TRUE //heretic stuff, in case it somehow ends up on a skele/NPC or w/e
 
 /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/zizo/Initialize(mapload)
 	. = ..()
@@ -369,6 +371,7 @@
 	item_state = "graggarhauberk"
 	smeltresult = /obj/item/ingot/component/graggar
 	unenchantable = TRUE
+	no_loot_taint = TRUE //heretic stuff, in case it somehow ends up on a skele/NPC or w/e
 
 /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/graggar/Initialize(mapload)
 	. = ..()

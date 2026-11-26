@@ -11,6 +11,8 @@
 	var/static/list/boon_cats
 	/// world.time the Renegade may next be seen chewing.
 	var/chew_cd = 0
+	/// bool to lock renegades from buying more than one crystal.
+	var/crystal = FALSE
 
 /datum/renegade_boons/New(datum/antagonist/renegade/R)
 	owner = R
@@ -34,7 +36,7 @@
 
 /datum/renegade_boons/ui_status(mob/user, datum/ui_state/state)
 	var/mob/living/carbon/human/H = user
-	if(H != owner?.owner?.current || !istype(H.mouth, /obj/item/roguecoin/aalloy) || !in_reach(H))
+	if(H != owner?.owner?.current || !istype(H.mouth, /obj/item/roguecoin/psila) || !in_reach(H))
 		return UI_CLOSE
 	return ..()
 
@@ -54,12 +56,12 @@
 		ui.open()
 
 /datum/renegade_boons/ui_data(mob/living/carbon/human/user)
-	var/obj/item/roguecoin/aalloy/P = user.mouth
+	var/obj/item/roguecoin/psila/P = user.mouth
 	var/list/items = list()
 	if(category || search)
 		var/list/rows = list()
 		for(var/datum/renegade_boon/B as anything in boon_list)
-			if(B.once && (B.name in owner.bought))
+			if((B.once && (B.name in owner.bought)) || (crystal && istype(B, /datum/renegade_boon/crystal)))
 				continue
 			rows += list(list("ref" = "[B.type]", "name" = B.name, "desc" = B.desc, "category" = B.category, "price" = B.cost))
 		var/list/vheslie = VHESLIE_CATEGORIES
@@ -102,13 +104,13 @@
 			return TRUE
 
 /datum/renegade_boons/proc/buy(mob/living/carbon/human/H, path)
-	var/obj/item/roguecoin/aalloy/P = H.mouth
+	var/obj/item/roguecoin/psila/P = H.mouth
 	var/name
 	var/price
 	var/list/contents
 	if(ispath(path, /datum/renegade_boon))
 		var/datum/renegade_boon/B = locate(path) in boon_list
-		if(!B || (B.once && (B.name in owner.bought)))
+		if(!B || (B.once && (B.name in owner.bought)) || (crystal && istype(B, /datum/renegade_boon/crystal)))
 			return
 		name = B.name
 		price = B.cost
@@ -132,6 +134,8 @@
 		P.set_quantity(P.quantity - price)
 	owner.spent += price
 	owner.bought += name
+	if(ispath(path, /datum/renegade_boon/crystal))
+		crystal = TRUE
 	var/turf/T = get_turf(H)
 	var/list/made = list()
 	for(var/item_path in contents)
@@ -219,28 +223,24 @@
 	name = "Survivor's Crystal"
 	desc = "A cloudy crystal. It'll imbue whoever crushes it with the ability to shrug off pain, or be quick in their steps.."
 	cost = 4
-	once = TRUE
 	contains = list(/obj/item/renegade_crystal/survival)
 
 /datum/renegade_boon/crystal/plate
 	name = "Plated Crystal"
 	desc = "A dull crystal, it makes the heavier armour far more bearable."
 	cost = 2
-	once = TRUE
 	contains = list(/obj/item/renegade_crystal/plate)
 
 /datum/renegade_boon/crystal/wrath
 	name = "Wrathful Crystal"
 	desc = "A jagged crystal. Crushing this would surely turn the most peaceful of souls into killers."
 	cost = 4
-	once = TRUE
 	contains = list(/obj/item/renegade_crystal/wrath)
 
 /datum/renegade_boon/crystal/ritual
 	name = "Ritualist's Crystal"
 	desc = "A humming crystal. Whoever crushes it will know the shapes of the old rites."
 	cost = 4
-	once = TRUE
 	contains = list(/obj/item/renegade_crystal/ritual)
 
 /datum/renegade_boon/crystal/guise

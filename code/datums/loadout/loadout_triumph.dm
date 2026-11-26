@@ -17,18 +17,6 @@
 
 // -1 TRI
 
-/datum/loadout_item/shirt/ilamellar
-	name = "Gift - Iron Lamellar Armor decoration"
-	path = /obj/item/clothing/suit/roguetown/shirt/ilamellar
-	triumph_cost = 1
-	sort_category = "Triumphs"
-
-/datum/loadout_item/shirt/blamellar
-	name = "Gift - Bronze Lamellar Armor decoration"
-	path = /obj/item/clothing/suit/roguetown/shirt/blamellar
-	triumph_cost = 1
-	sort_category = "Triumphs"
-
 /datum/loadout_item/psicross/noc/bronze
 	name = "Bronze Amulet of Noc"
 	path = /obj/item/clothing/neck/roguetown/psicross/noc/bronze
@@ -53,7 +41,7 @@
 	triumph_cost = 1
 	sort_category = "Triumphs"
 
-/datum/loadout_item/psicross/inhumen/graggar/bronze
+/datum/loadout_item/psicross/graggar/bronze
 	name = "Bronze Amulet of Graggar"
 	path = /obj/item/clothing/neck/roguetown/psicross/inhumen/graggar/bronze
 	triumph_cost = 1
@@ -65,27 +53,39 @@
 	triumph_cost = 1
 	sort_category = "Triumphs"
 
-/datum/loadout_item/psicross/inhumen/bronze
-	name = "Bronze Inverted Psycross"
+/datum/loadout_item/psicross/ancient
+	name = "Ancient Psycross"
+	path = /obj/item/clothing/neck/roguetown/psicross/ancient
+	triumph_cost = 1
+	sort_category = "Triumphs"
+
+/datum/loadout_item/psicross/noc/ancient
+	name = "Ancient Amulet of Noc"
+	path = /obj/item/clothing/neck/roguetown/psicross/noc/ancient
+	triumph_cost = 1
+	sort_category = "Triumphs"
+
+/datum/loadout_item/psicross/zizo/ancient
+	name = "Ancient Amulet of Zizo"
+	path = /obj/item/clothing/neck/roguetown/psicross/inhumen/ancient
+	triumph_cost = 1
+	sort_category = "Triumphs"
+
+/datum/loadout_item/psicross/zizo/bronze
+	name = "Bronze Amulet of Zizo"
 	path = /obj/item/clothing/neck/roguetown/psicross/inhumen/bronze
 	triumph_cost = 1
 	sort_category = "Triumphs"
 
-/datum/loadout_item/psicross/paalloy
-	name = "Ancient Psycross"
-	path = /obj/item/clothing/neck/roguetown/psicross/paalloy
+/datum/loadout_item/shirt/ilamellar
+	name = "Gift - Iron Lamellar Armor Decoration"
+	path = /obj/item/clothing/suit/roguetown/shirt/ilamellar
 	triumph_cost = 1
 	sort_category = "Triumphs"
 
-/datum/loadout_item/psicross/inhumen/paalloy
-	name = "Ancient Inverted Psycross"
-	path = /obj/item/clothing/neck/roguetown/psicross/inhumen/paalloy
-	triumph_cost = 1
-	sort_category = "Triumphs"
-
-/datum/loadout_item/psicross/noc/paalloy
-	name = "Ancient Amulet of Noc"
-	path = /obj/item/clothing/neck/roguetown/psicross/noc/paalloy
+/datum/loadout_item/shirt/blamellar
+	name = "Gift - Bronze Lamellar Armor Decoration"
+	path = /obj/item/clothing/suit/roguetown/shirt/blamellar
 	triumph_cost = 1
 	sort_category = "Triumphs"
 
@@ -344,12 +344,6 @@
 	sort_category = "Triumphs"
 
 // -7 TRI
-/datum/loadout_item/triumph_buttpack
-	name = "Belted Satchel"
-	path = /obj/item/storage/backpack/rogue/satchel/beltpack
-	triumph_cost = 7
-	sort_category = "Triumphs"
-
 /datum/loadout_item/triumph_lunchpouch
 	name = "Pouch of Luncheons"
 	path = /obj/item/storage/belt/rogue/pouch/triumphlunch
@@ -661,6 +655,12 @@
 	triumph_cost = 3
 	sort_category = "Triumphs"
 
+/datum/loadout_item/triumph_tomekit_enduring
+	name = "Triumph Kit - The Enduring Codex"
+	path = /obj/item/enchantingkit/triumph_tomekit_enduring
+	triumph_cost = 3
+	sort_category = "Triumphs"
+
 
 //////////////////
 //	PERFUMES !	//
@@ -745,31 +745,31 @@
 	triumph_cost = 5
 	sort_category = "Triumphs"
 
-/datum/loadout_item/greatplumestandalone
+/datum/loadout_item/triumph_greatplume
 	name = "Standalone Decoration, Greatplume"
 	path = /obj/item/clothing/head/roguetown/decoration/greatplume
 	triumph_cost = 3
 	sort_category = "Triumphs"
 
-/datum/loadout_item/featherplumestandalone
+/datum/loadout_item/triumph_featherplume
 	name = "Standalone Decoration, Featherplume"
 	path = /obj/item/clothing/head/roguetown/decoration/featherplume
 	triumph_cost = 3
 	sort_category = "Triumphs"
 
-/datum/loadout_item/crestplumestandalone
+/datum/loadout_item/triumph_crestplume
 	name = "Standalone Decoration, Crestplume"
 	path = /obj/item/clothing/head/roguetown/decoration/crestplume
 	triumph_cost = 3
 	sort_category = "Triumphs"
 
-/datum/loadout_item/shoulderguardstandalone
+/datum/loadout_item/triumph_shoulderguard
 	name = "Standalone Decoration, Shoulderguard"
 	path = /obj/item/clothing/cloak/tabard/stabard/donator_shoulderguard
 	triumph_cost = 3
 	sort_category = "Triumphs"
 
-/datum/loadout_item/orlestandalone
+/datum/loadout_item/triumph_orle
 	name = "Standalone Decoration, Orle"
 	path = /obj/item/clothing/head/roguetown/decoration/orle/donator_dyeable
 	triumph_cost = 3

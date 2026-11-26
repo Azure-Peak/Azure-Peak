@@ -368,7 +368,7 @@
 /turf/open/floor/carpet/red,
 /area/rogue/under/cave/inhumen)
 "bu" = (
-/obj/item/roguecoin/aalloy/pile,
+/obj/item/roguecoin/psila/pile,
 /obj/structure/ritualcircle/matthios,
 /turf/open/floor/rogue/cobble,
 /area/rogue/under/cave/inhumen)
@@ -389,7 +389,7 @@
 /obj/effect/decal/cobbleedge{
 	icon_state = "cobbleedge-sread"
 	},
-/obj/item/roguecoin/aalloy/pile,
+/obj/item/roguecoin/psila/pile,
 /turf/open/floor/rogue/cobble/mossy,
 /area/rogue/under/cave/inhumen)
 "by" = (
@@ -632,7 +632,7 @@
 /turf/closed/mineral/rogue/bedrock,
 /area/rogue/outdoors/mountains)
 "cz" = (
-/obj/item/rogueweapon/pitchfork/aalloy,
+/obj/item/rogueweapon/pitchfork/decrepit,
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/outdoors/woods/vampire_lair)
 "cA" = (
@@ -712,7 +712,7 @@
 /area/rogue/outdoors/banditcamp)
 "cV" = (
 /obj/structure/table/wood/fancy/royalblack,
-/obj/item/roguestatue/aalloy{
+/obj/item/roguestatue/decrepit{
 	pixel_y = 16
 	},
 /turf/open/floor/rogue/tile/bfloorz,
@@ -1251,7 +1251,7 @@
 /area/rogue/under/cave/inhumen)
 "fn" = (
 /obj/structure/table/church,
-/obj/item/rogueweapon/huntingknife/idagger/adagger,
+/obj/item/rogueweapon/huntingknife/idagger/ancient/decrepit,
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/under/cave/inhumen)
 "fo" = (
@@ -1487,7 +1487,7 @@
 /area/rogue/outdoors/woods/wretch_lair)
 "gf" = (
 /obj/effect/decal/cleanable/roguerune/god/psydon,
-/obj/item/clothing/neck/roguetown/psicross/aalloy,
+/obj/item/clothing/neck/roguetown/psicross/ancient/decrepit,
 /turf/open/floor/rogue/cobblerock,
 /area/rogue/outdoors/woods/wretch_lair)
 "gg" = (
@@ -1819,7 +1819,7 @@
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/under/cave/inhumen)
 "hF" = (
-/obj/item/fishingrod/aalloy,
+/obj/item/fishingrod/ancient,
 /turf/open/floor/rogue/AzureSand,
 /area/rogue/outdoors/woods/wretch_lair)
 "hG" = (
@@ -1929,7 +1929,7 @@
 /area/rogue/indoors/banditcamp)
 "il" = (
 /obj/structure/table/wood/fancy/purple,
-/obj/item/cooking/platter/aalloy,
+/obj/item/cooking/platter/decrepit,
 /turf/open/floor/rogue/tile,
 /area/rogue/indoors/vampire_manor)
 "in" = (
@@ -1968,7 +1968,7 @@
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/indoors/vampire_manor)
 "it" = (
-/obj/item/rogueweapon/shovel/aalloy,
+/obj/item/rogueweapon/shovel/decrepit,
 /turf/open/floor/rogue/cobble,
 /area/rogue/under/cave/inhumen)
 "iu" = (
@@ -2148,7 +2148,7 @@
 /area/rogue/indoors/banditcamp)
 "jj" = (
 /obj/structure/table/vtable,
-/obj/item/roguecoin/aalloy/pile,
+/obj/item/roguecoin/psila/pile,
 /obj/structure/mirror/fancy,
 /turf/open/floor/rogue/churchbrick,
 /area/rogue/indoors/vampire_manor)
@@ -2320,7 +2320,7 @@
 /turf/open/floor/rogue/tile,
 /area/rogue/indoors/vampire_manor)
 "jR" = (
-/obj/item/rogueweapon/thresher/aalloy,
+/obj/item/rogueweapon/thresher/decrepit,
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/outdoors/woods/vampire_lair)
 "jS" = (
@@ -3278,7 +3278,7 @@
 /turf/open/water/river/flow,
 /area/rogue/outdoors/woods)
 "nI" = (
-/obj/item/fishingrod/aalloy,
+/obj/item/fishingrod/ancient,
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/outdoors/woods/vampire_lair)
 "nJ" = (
@@ -3511,12 +3511,12 @@
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/vampire_manor)
 "oJ" = (
-/obj/item/clothing/suit/roguetown/armor/plate/cuirass/aalloy,
-/obj/item/clothing/neck/roguetown/gorget/aalloy,
-/obj/item/clothing/head/roguetown/helmet/heavy/guard/aalloy,
-/obj/item/clothing/gloves/roguetown/plate/aalloy,
+/obj/item/clothing/suit/roguetown/armor/plate/cuirass/ancient/decrepit,
+/obj/item/clothing/neck/roguetown/gorget/ancient/decrepit,
+/obj/item/clothing/head/roguetown/helmet/heavy/guard/ancient/decrepit,
+/obj/item/clothing/gloves/roguetown/plate/ancient/decrepit,
 /obj/structure/mannequin/male/decorative/training_dummy_style,
-/obj/item/clothing/under/roguetown/platelegs/aalloy,
+/obj/item/clothing/under/roguetown/platelegs/ancient/decrepit,
 /turf/open/floor/rogue/tile/bfloorz,
 /area/rogue/indoors/vampire_manor)
 "oK" = (
@@ -3647,7 +3647,7 @@
 /turf/open/floor/rogue/cobble,
 /area/rogue/indoors/vampire_manor)
 "pl" = (
-/obj/item/rogueweapon/pitchfork/aalloy,
+/obj/item/rogueweapon/pitchfork/decrepit,
 /turf/open/floor/rogue/dirt/ambush,
 /area/rogue/outdoors/woods/vampire_lair)
 "po" = (
@@ -3673,19 +3673,19 @@
 "pq" = (
 /obj/structure/table/wood/fancy/blue,
 /obj/machinery/light/rogue/candle/r,
-/obj/item/roguestatue/aalloy{
+/obj/item/roguestatue/decrepit{
 	pixel_y = 16
 	},
 /turf/open/floor/rogue/tile/bfloorz,
 /area/rogue/indoors/vampire_manor)
 "pr" = (
 /obj/structure/mannequin/male/decorative/training_dummy_style,
-/obj/item/clothing/suit/roguetown/armor/plate/cuirass/aalloy,
-/obj/item/clothing/shoes/roguetown/boots/aalloy,
-/obj/item/clothing/neck/roguetown/gorget/aalloy,
-/obj/item/clothing/head/roguetown/helmet/heavy/guard/aalloy,
-/obj/item/clothing/gloves/roguetown/plate/aalloy,
-/obj/item/clothing/under/roguetown/platelegs/aalloy,
+/obj/item/clothing/suit/roguetown/armor/plate/cuirass/ancient/decrepit,
+/obj/item/clothing/shoes/roguetown/boots/ancient/decrepit,
+/obj/item/clothing/neck/roguetown/gorget/ancient/decrepit,
+/obj/item/clothing/head/roguetown/helmet/heavy/guard/ancient/decrepit,
+/obj/item/clothing/gloves/roguetown/plate/ancient/decrepit,
+/obj/item/clothing/under/roguetown/platelegs/ancient/decrepit,
 /turf/open/floor/rogue/tile/bfloorz,
 /area/rogue/indoors/vampire_manor)
 "ps" = (
@@ -3812,12 +3812,12 @@
 /turf/open/floor/rogue/cobble,
 /area/rogue/under/cave/inhumen)
 "pK" = (
-/obj/item/clothing/suit/roguetown/armor/plate/cuirass/aalloy,
-/obj/item/clothing/neck/roguetown/gorget/aalloy,
-/obj/item/clothing/head/roguetown/helmet/heavy/guard/aalloy,
-/obj/item/clothing/gloves/roguetown/plate/aalloy,
+/obj/item/clothing/suit/roguetown/armor/plate/cuirass/ancient/decrepit,
+/obj/item/clothing/neck/roguetown/gorget/ancient/decrepit,
+/obj/item/clothing/head/roguetown/helmet/heavy/guard/ancient/decrepit,
+/obj/item/clothing/gloves/roguetown/plate/ancient/decrepit,
 /obj/structure/mannequin/male/decorative/training_dummy_style,
-/obj/item/clothing/under/roguetown/platelegs/aalloy,
+/obj/item/clothing/under/roguetown/platelegs/ancient/decrepit,
 /turf/open/floor/rogue/cobble,
 /area/rogue/indoors/vampire_manor)
 "pM" = (
@@ -3885,7 +3885,7 @@
 /turf/open/floor/rogue/cobble/mossy,
 /area/rogue/under/cave/inhumen)
 "pY" = (
-/obj/item/rogueweapon/pick/aalloy,
+/obj/item/rogueweapon/pick/ancient/decrepit,
 /turf/open/floor/rogue/cobble,
 /area/rogue/under/cave/inhumen)
 "pZ" = (
@@ -4136,7 +4136,7 @@
 /area/rogue/indoors/vampire_manor)
 "qZ" = (
 /obj/structure/table/church/m,
-/obj/item/clothing/neck/roguetown/psicross/inhumen/paalloy,
+/obj/item/clothing/neck/roguetown/psicross/inhumen/ancient,
 /turf/open/floor/rogue/twig,
 /area/rogue/under/cave/inhumen)
 "ra" = (
@@ -4235,11 +4235,11 @@
 /area/rogue/outdoors/banditcamp)
 "rz" = (
 /obj/structure/mannequin/male/decorative/training_dummy_style,
-/obj/item/clothing/suit/roguetown/armor/plate/cuirass/aalloy,
-/obj/item/clothing/neck/roguetown/gorget/aalloy,
-/obj/item/clothing/head/roguetown/helmet/heavy/guard/aalloy,
-/obj/item/clothing/gloves/roguetown/plate/aalloy,
-/obj/item/clothing/under/roguetown/platelegs/aalloy,
+/obj/item/clothing/suit/roguetown/armor/plate/cuirass/ancient/decrepit,
+/obj/item/clothing/neck/roguetown/gorget/ancient/decrepit,
+/obj/item/clothing/head/roguetown/helmet/heavy/guard/ancient/decrepit,
+/obj/item/clothing/gloves/roguetown/plate/ancient/decrepit,
+/obj/item/clothing/under/roguetown/platelegs/ancient/decrepit,
 /turf/open/floor/rogue/tile/bfloorz,
 /area/rogue/indoors/vampire_manor)
 "rA" = (
@@ -4578,7 +4578,7 @@
 /turf/open/floor/rogue/cobble,
 /area/rogue/indoors/banditcamp)
 "sA" = (
-/obj/item/rogueweapon/shovel/aalloy,
+/obj/item/rogueweapon/shovel/decrepit,
 /turf/open/floor/rogue/AzureSand,
 /area/rogue/outdoors/woods/wretch_lair)
 "sB" = (
@@ -4802,7 +4802,7 @@
 /turf/open/floor/carpet/royalblack,
 /area/rogue/indoors/vampire_manor)
 "tu" = (
-/obj/item/rogueweapon/pick/aalloy,
+/obj/item/rogueweapon/pick/ancient/decrepit,
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/under/cave/inhumen)
 "tv" = (
@@ -4876,13 +4876,13 @@
 /turf/open/floor/rogue/ruinedwood/turned,
 /area/rogue/outdoors/banditcamp)
 "tG" = (
-/obj/item/clothing/gloves/roguetown/plate/aalloy,
-/obj/item/clothing/head/roguetown/helmet/heavy/guard/aalloy,
-/obj/item/clothing/suit/roguetown/armor/plate/cuirass/aalloy,
-/obj/item/clothing/neck/roguetown/gorget/aalloy,
+/obj/item/clothing/gloves/roguetown/plate/ancient/decrepit,
+/obj/item/clothing/head/roguetown/helmet/heavy/guard/ancient/decrepit,
+/obj/item/clothing/suit/roguetown/armor/plate/cuirass/ancient/decrepit,
+/obj/item/clothing/neck/roguetown/gorget/ancient/decrepit,
 /obj/effect/decal/cleanable/dirt/cobweb,
 /obj/structure/mannequin/male/decorative/training_dummy_style,
-/obj/item/clothing/under/roguetown/platelegs/aalloy,
+/obj/item/clothing/under/roguetown/platelegs/ancient/decrepit,
 /turf/open/floor/carpet/royalblack,
 /area/rogue/indoors/vampire_manor)
 "tI" = (
@@ -5133,7 +5133,7 @@
 /turf/open/floor/rogue/dirt/ambush,
 /area/rogue/outdoors/woods/vampire_lair)
 "uO" = (
-/obj/item/clothing/neck/roguetown/psicross/noc/aalloy,
+/obj/item/clothing/neck/roguetown/psicross/noc/ancient/decrepit,
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/indoors/vampire_manor)
 "uP" = (
@@ -5195,7 +5195,7 @@
 	pixel_x = -16;
 	pixel_y = 13
 	},
-/obj/item/roguestatue/aalloy{
+/obj/item/roguestatue/decrepit{
 	pixel_y = 16
 	},
 /turf/open/floor/rogue/tile/masonic,
@@ -5698,7 +5698,7 @@
 /area/rogue/under/cave/inhumen)
 "xn" = (
 /obj/structure/table/wood/fancy/royalblack,
-/obj/item/roguestatue/aalloy{
+/obj/item/roguestatue/decrepit{
 	pixel_y = 16
 	},
 /turf/open/floor/rogue/ruinedwood/spiral,
@@ -5817,7 +5817,7 @@
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/under/cave/inhumen)
 "xS" = (
-/obj/item/rogueweapon/shovel/aalloy,
+/obj/item/rogueweapon/shovel/decrepit,
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/under/cave/inhumen)
 "xU" = (
@@ -6108,7 +6108,7 @@
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/indoors/vampire_manor)
 "zm" = (
-/obj/item/rogueweapon/stoneaxe/woodcut/aaxe,
+/obj/item/rogueweapon/stoneaxe/woodcut/ancient/decrepit,
 /turf/open/floor/rogue/grass,
 /area/rogue/outdoors/woods/vampire_lair)
 "zn" = (
@@ -6119,7 +6119,7 @@
 /turf/open/floor/carpet/red,
 /area/rogue/indoors/vampire_manor)
 "zo" = (
-/obj/item/clothing/neck/roguetown/psicross/noc/aalloy,
+/obj/item/clothing/neck/roguetown/psicross/noc/ancient/decrepit,
 /turf/open/water/cleanshallow,
 /area/rogue/outdoors/woods/vampire_lair)
 "zq" = (
@@ -6264,7 +6264,7 @@
 /area/rogue/indoors/vampire_manor)
 "Aa" = (
 /obj/structure/table/wood/fancy/purple,
-/obj/item/roguestatue/aalloy{
+/obj/item/roguestatue/decrepit{
 	pixel_y = 16
 	},
 /turf/open/floor/carpet/red,
@@ -6495,7 +6495,7 @@
 "AJ" = (
 /obj/structure/table/wood/fancy,
 /obj/machinery/light/rogue/candle/r,
-/obj/item/roguestatue/aalloy{
+/obj/item/roguestatue/decrepit{
 	pixel_y = 16
 	},
 /turf/open/floor/rogue/tile/bfloorz,
@@ -6505,13 +6505,13 @@
 /turf/open/floor/rogue/grasscold,
 /area/rogue/outdoors/banditcamp)
 "AL" = (
-/obj/item/clothing/gloves/roguetown/plate/aalloy,
-/obj/item/clothing/head/roguetown/helmet/heavy/guard/aalloy,
-/obj/item/clothing/suit/roguetown/armor/plate/cuirass/aalloy,
-/obj/item/clothing/neck/roguetown/gorget/aalloy,
+/obj/item/clothing/gloves/roguetown/plate/ancient/decrepit,
+/obj/item/clothing/head/roguetown/helmet/heavy/guard/ancient/decrepit,
+/obj/item/clothing/suit/roguetown/armor/plate/cuirass/ancient/decrepit,
+/obj/item/clothing/neck/roguetown/gorget/ancient/decrepit,
 /obj/effect/decal/cleanable/dirt/cobweb,
 /obj/structure/mannequin/male/decorative/training_dummy_style,
-/obj/item/clothing/under/roguetown/platelegs/aalloy,
+/obj/item/clothing/under/roguetown/platelegs/ancient/decrepit,
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/indoors/vampire_manor)
 "AM" = (
@@ -6743,8 +6743,8 @@
 /area/rogue/outdoors/woods)
 "BD" = (
 /obj/structure/closet/crate/chest/neu_iron,
-/obj/item/rogueweapon/hoe/aalloy,
-/obj/item/rogueweapon/sickle/aalloy,
+/obj/item/rogueweapon/hoe/decrepit,
+/obj/item/rogueweapon/sickle/decrepit,
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/outdoors/woods/vampire_lair)
 "BE" = (
@@ -6781,7 +6781,7 @@
 /turf/open/floor/rogue/concrete,
 /area/rogue/under/cave/inhumen)
 "BL" = (
-/obj/item/rogueweapon/tongs/aalloy{
+/obj/item/rogueweapon/tongs/ancient/decrepit{
 	pixel_x = -10;
 	pixel_y = 4
 	},
@@ -6826,7 +6826,7 @@
 /area/rogue/outdoors/mountains)
 "BV" = (
 /obj/structure/closet/dirthole/grave,
-/obj/item/rogueweapon/shovel/aalloy,
+/obj/item/rogueweapon/shovel/decrepit,
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/under/cave/inhumen)
 "BW" = (
@@ -7057,7 +7057,7 @@
 /area/rogue/indoors/banditcamp)
 "CV" = (
 /obj/structure/table/vtable,
-/obj/item/roguestatue/aalloy{
+/obj/item/roguestatue/decrepit{
 	pixel_y = 16
 	},
 /turf/open/floor/rogue/tile/masonic{
@@ -7229,7 +7229,7 @@
 /obj/item/reagent_containers/glass/cup/silver/pewter{
 	pixel_x = -11
 	},
-/obj/item/roguecoin/aalloy/pile,
+/obj/item/roguecoin/psila/pile,
 /turf/open/floor/rogue/twig,
 /area/rogue/under/cave/inhumen)
 "DE" = (
@@ -7664,12 +7664,12 @@
 /turf/open/floor/rogue/carpet/lord/center,
 /area/rogue/indoors/vampire_manor)
 "FD" = (
-/obj/item/clothing/suit/roguetown/armor/plate/cuirass/aalloy,
-/obj/item/clothing/neck/roguetown/gorget/aalloy,
-/obj/item/clothing/head/roguetown/helmet/heavy/guard/aalloy,
-/obj/item/clothing/gloves/roguetown/plate/aalloy,
+/obj/item/clothing/suit/roguetown/armor/plate/cuirass/ancient/decrepit,
+/obj/item/clothing/neck/roguetown/gorget/ancient/decrepit,
+/obj/item/clothing/head/roguetown/helmet/heavy/guard/ancient/decrepit,
+/obj/item/clothing/gloves/roguetown/plate/ancient/decrepit,
 /obj/structure/mannequin/male/decorative/training_dummy_style,
-/obj/item/clothing/under/roguetown/platelegs/aalloy,
+/obj/item/clothing/under/roguetown/platelegs/ancient/decrepit,
 /turf/open/floor/rogue/tile/masonic/inverted,
 /area/rogue/indoors/vampire_manor)
 "FE" = (
@@ -7734,10 +7734,10 @@
 /turf/open/water/ocean,
 /area/rogue/outdoors/woods/wretch_lair)
 "FZ" = (
-/obj/item/roguecoin/aalloy/pile,
+/obj/item/roguecoin/psila/pile,
 /obj/structure/closet/crate/chest/neu_iron,
-/obj/item/clothing/neck/roguetown/psicross/noc/aalloy,
-/obj/item/rogueweapon/thresher/aalloy,
+/obj/item/clothing/neck/roguetown/psicross/noc/ancient/decrepit,
+/obj/item/rogueweapon/thresher/decrepit,
 /turf/open/floor/rogue/AzureSand,
 /area/rogue/outdoors/woods/wretch_lair)
 "Ga" = (
@@ -8577,7 +8577,7 @@
 /obj/item/clothing/under/roguetown/skirt/black,
 /obj/item/clothing/cloak/matron,
 /obj/item/clothing/cloak/tabard/blkknight,
-/obj/item/clothing/ring/aalloy,
+/obj/item/clothing/ring/decrepit,
 /obj/item/clothing/head/roguetown/roguehood/shalal/hijab/black,
 /obj/item/clothing/suit/roguetown/armor/leather/heavy/tailcoat,
 /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/hierophant/civilian,
@@ -8615,7 +8615,7 @@
 /turf/closed/wall/mineral/rogue/decostone,
 /area/rogue/under/cave/inhumen)
 "JN" = (
-/obj/item/roguecoin/aalloy/pile,
+/obj/item/roguecoin/psila/pile,
 /turf/open/floor/rogue/cobble,
 /area/rogue/under/cave/inhumen)
 "JO" = (
@@ -8637,12 +8637,12 @@
 /turf/open/water/ocean,
 /area/rogue/under/cave/inhumen)
 "JS" = (
-/obj/item/clothing/suit/roguetown/armor/plate/cuirass/aalloy,
-/obj/item/clothing/neck/roguetown/gorget/aalloy,
-/obj/item/clothing/head/roguetown/helmet/heavy/guard/aalloy,
-/obj/item/clothing/gloves/roguetown/plate/aalloy,
+/obj/item/clothing/suit/roguetown/armor/plate/cuirass/ancient/decrepit,
+/obj/item/clothing/neck/roguetown/gorget/ancient/decrepit,
+/obj/item/clothing/head/roguetown/helmet/heavy/guard/ancient/decrepit,
+/obj/item/clothing/gloves/roguetown/plate/ancient/decrepit,
 /obj/structure/mannequin/male/decorative/training_dummy_style,
-/obj/item/clothing/under/roguetown/platelegs/aalloy,
+/obj/item/clothing/under/roguetown/platelegs/ancient/decrepit,
 /turf/open/floor/carpet/red,
 /area/rogue/indoors/vampire_manor)
 "JT" = (
@@ -8751,7 +8751,7 @@
 /area/rogue/under/cave/inhumen)
 "Kg" = (
 /obj/machinery/light/rogue/candle/r,
-/obj/item/roguecoin/aalloy/pile,
+/obj/item/roguecoin/psila/pile,
 /obj/structure/ritualcircle/matthios,
 /turf/open/floor/rogue/cobble/mossy,
 /area/rogue/under/cave/inhumen)
@@ -8981,13 +8981,13 @@
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/outdoors/banditcamp)
 "Lg" = (
-/obj/item/clothing/suit/roguetown/armor/plate/cuirass/aalloy,
-/obj/item/clothing/neck/roguetown/gorget/aalloy,
-/obj/item/clothing/head/roguetown/helmet/heavy/guard/aalloy,
-/obj/item/clothing/gloves/roguetown/plate/aalloy,
+/obj/item/clothing/suit/roguetown/armor/plate/cuirass/ancient/decrepit,
+/obj/item/clothing/neck/roguetown/gorget/ancient/decrepit,
+/obj/item/clothing/head/roguetown/helmet/heavy/guard/ancient/decrepit,
+/obj/item/clothing/gloves/roguetown/plate/ancient/decrepit,
 /obj/structure/mannequin/male/decorative/training_dummy_style,
 /obj/structure/fluff/walldeco/maidendrape,
-/obj/item/clothing/under/roguetown/platelegs/aalloy,
+/obj/item/clothing/under/roguetown/platelegs/ancient/decrepit,
 /turf/open/floor/rogue/tile/masonic{
 	dir = 8
 	},
@@ -9004,7 +9004,7 @@
 /turf/open/floor/carpet/royalblack,
 /area/rogue/indoors/vampire_manor)
 "Lj" = (
-/obj/item/rogueweapon/shovel/aalloy,
+/obj/item/rogueweapon/shovel/decrepit,
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/outdoors/woods/vampire_lair)
 "Lk" = (
@@ -9370,7 +9370,7 @@
 /turf/open/floor/rogue/tile,
 /area/rogue/under/cave/inhumen)
 "Mv" = (
-/obj/item/rogueweapon/hammer/aalloy,
+/obj/item/rogueweapon/hammer/ancient/decrepit,
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/indoors/vampire_manor)
 "Mw" = (
@@ -9385,7 +9385,7 @@
 /area/rogue/indoors/vampire_manor)
 "Mx" = (
 /obj/structure/table/wood/fancy/blue,
-/obj/item/roguestatue/aalloy{
+/obj/item/roguestatue/decrepit{
 	pixel_y = 16
 	},
 /turf/open/floor/rogue/tile/bfloorz,
@@ -9411,9 +9411,9 @@
 /area/rogue/outdoors/woods/vampire_lair)
 "MG" = (
 /obj/structure/closet/crate/chest/neu_iron,
-/obj/item/roguecoin/aalloy/pile,
-/obj/item/clothing/neck/roguetown/psicross/aalloy,
-/obj/item/rogueweapon/sickle/aalloy,
+/obj/item/roguecoin/psila/pile,
+/obj/item/clothing/neck/roguetown/psicross/ancient/decrepit,
+/obj/item/rogueweapon/sickle/decrepit,
 /turf/open/floor/rogue/AzureSand,
 /area/rogue/outdoors/woods/wretch_lair)
 "MH" = (
@@ -9442,13 +9442,13 @@
 /turf/open/floor/rogue/blocks,
 /area/rogue/indoors/banditcamp)
 "MQ" = (
-/obj/item/clothing/gloves/roguetown/plate/aalloy,
-/obj/item/clothing/head/roguetown/helmet/heavy/guard/aalloy,
-/obj/item/clothing/suit/roguetown/armor/plate/cuirass/aalloy,
-/obj/item/clothing/neck/roguetown/gorget/aalloy,
+/obj/item/clothing/gloves/roguetown/plate/ancient/decrepit,
+/obj/item/clothing/head/roguetown/helmet/heavy/guard/ancient/decrepit,
+/obj/item/clothing/suit/roguetown/armor/plate/cuirass/ancient/decrepit,
+/obj/item/clothing/neck/roguetown/gorget/ancient/decrepit,
 /obj/effect/decal/cleanable/dirt/cobweb,
 /obj/structure/mannequin/male/decorative/training_dummy_style,
-/obj/item/clothing/under/roguetown/platelegs/aalloy,
+/obj/item/clothing/under/roguetown/platelegs/ancient/decrepit,
 /turf/open/floor/rogue/tile,
 /area/rogue/indoors/vampire_manor)
 "MR" = (
@@ -9770,7 +9770,7 @@
 "Oi" = (
 /obj/machinery/light/rogue/candle/l,
 /obj/structure/ritualcircle/matthios,
-/obj/item/roguecoin/aalloy/pile,
+/obj/item/roguecoin/psila/pile,
 /obj/effect/decal/cobbleedge{
 	dir = 9
 	},
@@ -9953,12 +9953,12 @@
 /turf/open/floor/rogue/cobble,
 /area/rogue/outdoors/woods/wretch_lair)
 "OS" = (
-/obj/item/clothing/suit/roguetown/armor/plate/cuirass/aalloy,
-/obj/item/clothing/neck/roguetown/gorget/aalloy,
-/obj/item/clothing/head/roguetown/helmet/heavy/guard/aalloy,
-/obj/item/clothing/gloves/roguetown/plate/aalloy,
+/obj/item/clothing/suit/roguetown/armor/plate/cuirass/ancient/decrepit,
+/obj/item/clothing/neck/roguetown/gorget/ancient/decrepit,
+/obj/item/clothing/head/roguetown/helmet/heavy/guard/ancient/decrepit,
+/obj/item/clothing/gloves/roguetown/plate/ancient/decrepit,
 /obj/structure/mannequin/male/decorative/training_dummy_style,
-/obj/item/clothing/under/roguetown/platelegs/aalloy,
+/obj/item/clothing/under/roguetown/platelegs/ancient/decrepit,
 /turf/open/floor/rogue/tile,
 /area/rogue/indoors/vampire_manor)
 "OT" = (
@@ -9983,10 +9983,10 @@
 /turf/closed/wall/mineral/rogue/decostone/mossy/cand,
 /area/rogue/under/cave/inhumen)
 "Pb" = (
-/obj/item/roguecoin/aalloy/pile,
+/obj/item/roguecoin/psila/pile,
 /obj/structure/closet/crate/chest/neu_iron,
-/obj/item/clothing/neck/roguetown/psicross/noc/aalloy,
-/obj/item/roguestatue/aalloy,
+/obj/item/clothing/neck/roguetown/psicross/noc/ancient/decrepit,
+/obj/item/roguestatue/decrepit,
 /turf/open/floor/rogue/AzureSand,
 /area/rogue/outdoors/woods/wretch_lair)
 "Pc" = (
@@ -10175,7 +10175,7 @@
 /turf/open/floor/rogue/dirt/ambush,
 /area/rogue/outdoors/woods/vampire_lair)
 "Qc" = (
-/obj/item/rogueweapon/hammer/aalloy,
+/obj/item/rogueweapon/hammer/ancient/decrepit,
 /turf/open/floor/rogue/greenstone,
 /area/rogue/indoors/vampire_manor)
 "Qd" = (
@@ -10485,21 +10485,21 @@
 /turf/open/floor/rogue/grass,
 /area/rogue/outdoors/woods/vampire_lair)
 "RD" = (
-/obj/item/clothing/gloves/roguetown/plate/aalloy,
-/obj/item/clothing/head/roguetown/helmet/heavy/guard/aalloy,
-/obj/item/clothing/suit/roguetown/armor/plate/cuirass/aalloy,
-/obj/item/clothing/neck/roguetown/gorget/aalloy,
+/obj/item/clothing/gloves/roguetown/plate/ancient/decrepit,
+/obj/item/clothing/head/roguetown/helmet/heavy/guard/ancient/decrepit,
+/obj/item/clothing/suit/roguetown/armor/plate/cuirass/ancient/decrepit,
+/obj/item/clothing/neck/roguetown/gorget/ancient/decrepit,
 /obj/structure/mannequin/male/decorative/training_dummy_style,
-/obj/item/clothing/under/roguetown/platelegs/aalloy,
+/obj/item/clothing/under/roguetown/platelegs/ancient/decrepit,
 /turf/open/floor/rogue/tile,
 /area/rogue/indoors/vampire_manor)
 "RF" = (
-/obj/item/clothing/suit/roguetown/armor/plate/cuirass/aalloy,
-/obj/item/clothing/neck/roguetown/gorget/aalloy,
-/obj/item/clothing/head/roguetown/helmet/heavy/guard/aalloy,
-/obj/item/clothing/gloves/roguetown/plate/aalloy,
+/obj/item/clothing/suit/roguetown/armor/plate/cuirass/ancient/decrepit,
+/obj/item/clothing/neck/roguetown/gorget/ancient/decrepit,
+/obj/item/clothing/head/roguetown/helmet/heavy/guard/ancient/decrepit,
+/obj/item/clothing/gloves/roguetown/plate/ancient/decrepit,
 /obj/structure/mannequin/male/decorative/training_dummy_style,
-/obj/item/clothing/under/roguetown/platelegs/aalloy,
+/obj/item/clothing/under/roguetown/platelegs/ancient/decrepit,
 /turf/open/floor/rogue/tile/masonic/single,
 /area/rogue/indoors/vampire_manor)
 "RI" = (
@@ -10603,7 +10603,7 @@
 	pixel_x = -16;
 	pixel_y = 13
 	},
-/obj/item/roguestatue/aalloy{
+/obj/item/roguestatue/decrepit{
 	pixel_y = 16
 	},
 /turf/open/floor/rogue/tile,
@@ -10621,7 +10621,7 @@
 /obj/item/rogueweapon/tongs,
 /obj/item/rogueweapon/hammer/iron,
 /obj/machinery/light/rogue/candle/l,
-/obj/item/needle/aalloy,
+/obj/item/needle/decrepit,
 /turf/open/floor/rogue/ruinedwood{
 	icon_state = "weird1"
 	},
@@ -11288,7 +11288,7 @@
 /turf/open/floor/rogue/dirt,
 /area/rogue/outdoors/banditcamp)
 "Vm" = (
-/obj/item/rogueweapon/sickle/aalloy,
+/obj/item/rogueweapon/sickle/decrepit,
 /turf/open/floor/rogue/dirt/ambush,
 /area/rogue/outdoors/woods/vampire_lair)
 "Vn" = (
@@ -11494,9 +11494,9 @@
 /area/rogue/under/cave/inhumen)
 "Wc" = (
 /obj/structure/closet/crate/chest,
-/obj/item/clothing/neck/roguetown/psicross/inhumen/aalloy,
-/obj/item/clothing/neck/roguetown/psicross/inhumen/aalloy,
-/obj/item/clothing/neck/roguetown/psicross/inhumen/aalloy,
+/obj/item/clothing/neck/roguetown/psicross/inhumen/ancient/decrepit,
+/obj/item/clothing/neck/roguetown/psicross/inhumen/ancient/decrepit,
+/obj/item/clothing/neck/roguetown/psicross/inhumen/ancient/decrepit,
 /turf/open/floor/rogue/twig,
 /area/rogue/under/cave/inhumen)
 "Wd" = (
@@ -11546,7 +11546,7 @@
 /turf/open/floor/rogue/blocks,
 /area/rogue/outdoors/woods/vampire_lair)
 "Wn" = (
-/obj/item/fishingrod/aalloy,
+/obj/item/fishingrod/ancient,
 /turf/open/floor/rogue/grass,
 /area/rogue/outdoors/woods/vampire_lair)
 "Wp" = (
@@ -11665,7 +11665,7 @@
 /area/rogue/outdoors/woods/vampire_lair)
 "WN" = (
 /obj/structure/table/wood/poor,
-/obj/item/cooking/pan/aalloy{
+/obj/item/cooking/pan/decrepit{
 	pixel_x = -5;
 	pixel_y = 3
 	},
@@ -12047,7 +12047,7 @@
 /area/rogue/under/cave/inhumen)
 "Yf" = (
 /obj/structure/table/vtable/v2,
-/obj/item/roguecoin/aalloy/pile,
+/obj/item/roguecoin/psila/pile,
 /obj/effect/decal/cleanable/dirt/cobweb{
 	icon_state = "cobweb2"
 	},
@@ -12265,7 +12265,7 @@
 /turf/open/floor/rogue/twig,
 /area/rogue/indoors/banditcamp)
 "YV" = (
-/obj/item/rogueweapon/shovel/aalloy,
+/obj/item/rogueweapon/shovel/decrepit,
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/indoors/vampire_manor)
 "YW" = (
@@ -12305,7 +12305,7 @@
 /turf/open/floor/rogue/twig,
 /area/rogue/outdoors/woods/wretch_lair)
 "Ze" = (
-/obj/item/rogueweapon/shovel/aalloy,
+/obj/item/rogueweapon/shovel/decrepit,
 /turf/open/floor/rogue/dirt/ambush,
 /area/rogue/outdoors/woods/vampire_lair)
 "Zg" = (
@@ -12367,13 +12367,13 @@
 /turf/open/floor/rogue/dirt/ambush,
 /area/rogue/outdoors/woods/vampire_lair)
 "Zy" = (
-/obj/item/clothing/suit/roguetown/armor/plate/cuirass/aalloy,
-/obj/item/clothing/neck/roguetown/gorget/aalloy,
-/obj/item/clothing/head/roguetown/helmet/heavy/guard/aalloy,
-/obj/item/clothing/gloves/roguetown/plate/aalloy,
+/obj/item/clothing/suit/roguetown/armor/plate/cuirass/ancient/decrepit,
+/obj/item/clothing/neck/roguetown/gorget/ancient/decrepit,
+/obj/item/clothing/head/roguetown/helmet/heavy/guard/ancient/decrepit,
+/obj/item/clothing/gloves/roguetown/plate/ancient/decrepit,
 /obj/structure/mannequin/male/decorative/training_dummy_style,
 /obj/structure/fluff/walldeco/maidendrape,
-/obj/item/clothing/under/roguetown/platelegs/aalloy,
+/obj/item/clothing/under/roguetown/platelegs/ancient/decrepit,
 /turf/open/floor/rogue/tile/masonic{
 	dir = 1
 	},

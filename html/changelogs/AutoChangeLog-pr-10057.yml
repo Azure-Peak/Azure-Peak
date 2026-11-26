@@ -1,4 +1,0 @@
-author: "OrbisAnima"
-delete-after: True
-changes:
-  - rscadd: "Separates the Weapon and Armor choices for the adventurer warrior barbarian class, keeping the same mechanics as to not affect balance, so the bodybuilder retains its 'shirt' but would be able to take an armor if muscles arent chosen."

@@ -41,33 +41,9 @@
 	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
 	ignore_combat_tag = TRUE // otherwise it breaks immediately on cast
 
+	default_maptext_x = 5
+	modes = list(list("tag" = "LAY", name = "Lay", "color" = GLOW_COLOR_ICE), list("tag" = "HOLD", name = "Hold", "color" = "#ff6a3d"), list("tag" = "SKATE", name = "Skate", "color" = "#ff6a3d"))
 	var/verglas_radius = 3
-	var/verglas_mode = VERGLAS_MODE_LAY
-	var/labels = list("LAY", "HOLD", "SKATE")
-
-/datum/action/cooldown/spell/verglas/Grant(mob/grant_to)
-	. = ..()
-	update_mode_maptext()
-
-/datum/action/cooldown/spell/verglas/toggle_alt_mode(mob/user)
-	verglas_mode = (verglas_mode % VERGLAS_MODE_SKATE) + 1
-	update_mode_maptext()
-	return TRUE
-
-/datum/action/cooldown/spell/verglas/proc/update_mode_maptext()
-	var/label_color = (verglas_mode == VERGLAS_MODE_LAY) ? GLOW_COLOR_ICE : "#ff6a3d"
-	for(var/datum/hud/hud as anything in viewers)
-		var/atom/movable/screen/movable/action_button/B = viewers[hud]
-		var/atom/movable/screen/arc_maptext_holder/holder
-		for(var/atom/movable/screen/arc_maptext_holder/existing in B.vis_contents)
-			holder = existing
-			break
-		if(!holder)
-			holder = new(B)
-			B.vis_contents.Add(holder)
-		holder.maptext = MAPTEXT(labels[verglas_mode])
-		holder.maptext_x = 5
-		holder.color = label_color
 
 /datum/action/cooldown/spell/verglas/get_impact_turfs(atom/center)
 	return get_visible_area_turfs(get_turf(center), verglas_radius)
@@ -78,7 +54,7 @@
 	if(!istype(H))
 		return FALSE
 
-	if(verglas_mode != VERGLAS_MODE_LAY)
+	if(current_mode != VERGLAS_MODE_LAY)
 		if(H.has_status_effect(/datum/status_effect/verglas_concentration))
 			H.remove_status_effect(/datum/status_effect/verglas_concentration)
 			return FALSE
@@ -87,7 +63,7 @@
 			H.remove_status_effect(/datum/status_effect/verglas_concentration/skate)
 			return FALSE
 
-	if(verglas_mode == VERGLAS_MODE_SKATE)
+	if(current_mode == VERGLAS_MODE_SKATE)
 		var/turf/turf = get_turf(H)
 		playsound(turf, 'sound/spellbooks/crystal.ogg', 80, TRUE)
 		var/init = new /obj/effect/verglas/temp(turf)
@@ -109,7 +85,7 @@
 		to_chat(H, span_warning("I can't cast where I can't see!"))
 		return FALSE
 
-	var/hold = (verglas_mode == VERGLAS_MODE_HOLD)
+	var/hold = (current_mode == VERGLAS_MODE_HOLD)
 	playsound(centerpoint, 'sound/spellbooks/crystal.ogg', 80, TRUE)
 	var/list/spawned = list()
 	for(var/turf/T in get_hear(verglas_radius, centerpoint))

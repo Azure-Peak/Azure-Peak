@@ -15,6 +15,8 @@
 		/mob/living/simple_animal/hostile/retaliate/rogue/troll/bog = 15,
 		/mob/living/carbon/human/species/human/northern/bog_deserters/caster = 10,
 		/mob/living/carbon/human/species/human/northern/bog_deserters/phalangite = 8,
+		/mob/living/carbon/human/species/human/northern/bog_deserters/tosser/ambush = 6,
+		/mob/living/carbon/human/species/human/northern/bog_deserters/tosser/better_gear/ambush = 3,
 	)
 	boss_mob_types = list(
 		/mob/living/carbon/human/species/human/northern/outlaw_tank = 40,

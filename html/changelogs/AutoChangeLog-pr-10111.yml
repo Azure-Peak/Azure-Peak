@@ -1,4 +1,0 @@
-author: "changelingonberry"
-delete-after: True
-changes:
-  - bugfix: "You can no longer remove underwear, stockings, or piercings while in combat mode. Piercings cannot be removed while wearing a shirt."

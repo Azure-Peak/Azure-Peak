@@ -176,7 +176,7 @@
 /datum/wound/facial/disfigurement/on_mob_loss(mob/living/affected)
 	. = ..()
 	REMOVE_TRAIT(affected, TRAIT_DISFIGURED, "[type]")
-	
+
 /datum/wound/facial/disfigurement/nose
 	name = "rhinotomy"
 	check_name = span_warning("NOSE")
@@ -184,7 +184,7 @@
 		"The nose is mangled beyond recognition!",
 		"The nose is destroyed!",
 	)
-	mortal = TRUE
+	mortal = FALSE
 	woundpain = 10
 
 /datum/wound/facial/disfigurement/nose/on_mob_gain(mob/living/affected)
@@ -370,7 +370,7 @@
 		bodypart_owner?.dismemberable = FALSE
 		addtimer(CALLBACK(src, PROC_REF(reset_dismemberment_immunity)), immunity_time)
 		playsound(affected?.owner, 'sound/combat/dismemberment/grievous-behead.ogg', 250, FALSE, -1)
-		
+
 /datum/wound/grievous/proc/reset_dismemberment_immunity()
 	if (!bodypart_owner || QDELETED(src))
 		return

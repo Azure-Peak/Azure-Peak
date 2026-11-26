@@ -854,3 +854,241 @@
   - rscadd: more lines for goblins, highwaymen, and the merchant's ship-hailing
   - balance: zigs will once again be destroyed w/ 2 manual putout pinches
   - rscadd: zigs have a mechanical explanation for newbies
+2026-11-21:
+  KatTheFox:
+  - rscadd: Custom descriptors for fur, feathers, chitin, and scales are now available;
+      instead of "custom skin" being the only custom descriptor available for the
+      skin slot.
+  OMEGATHERION:
+  - qol: Track gives you all the rules information to align you with hunted targets
+  OrbisAnima:
+  - rscadd: Separates the Weapon and Armor choices for the adventurer warrior barbarian
+      class, keeping the same mechanics as to not affect balance, so the bodybuilder
+      retains its 'shirt' but would be able to take an armor if muscles arent chosen.
+  Quinalion:
+  - rscadd: Added more tables, curtains, bookcases, trunks and decorative furniture.
+  - rscadd: Added coloured and decorated tent walls and doors.
+  - rscadd: Added paintings, statues, rugs, navy carpet and decorative floor tiles.
+  - rscadd: Added incense, silver and gold wall candles, and construction recipes
+      for the new furnishings.
+  - image: Updated Eora's candle with heart-shaped lit, unlit and melted sprites.
+  - bugfix: Bookcases now respect their capacity when filled individually or from
+      storage, and preserve accepted books when dismantled.
+  SpartanBobby:
+  - rscadd: Added Wyld Metabolism to woodelf
+  WeNeedMorePhoron:
+  - rscadd: You may wear mercenary medals in every slot. It is no longer for sale
+      on Etruscan or Ranesheni ships
+  - bugfix: Fixes furnace-fired pottery getting 2 drams of capacity
+  - bugfix: Thunder Arrows no longer slow you down for 20 seconds instead of 2. Gilded
+      Dragon Staff no longer slow you down for 40 seconds instead of 4.
+  - rscadd: Slowdown has been refactored and now have an icon and status effect. Report
+      any oddities.
+  borneblood:
+  - spellcheck: Toned up a little the descriptions of some toggleables in the character
+      editor.
+  - bugfix: Fixes a spam from sleep buff's flavortext timing out with no grace period
+      to prevent so.
+  changelingonberry:
+  - admin: Adds UTF8 support to the player panel
+  - bugfix: You can no longer remove underwear, stockings, or piercings while in combat
+      mode. Piercings cannot be removed while wearing a shirt.
+  dopamiin0:
+  - bugfix: dagger straps no longer have invisible icons
+  - bugfix: luxury room v's balcony no longer inexplicably requires a key to luxury
+      room iv
+  radarseas:
+  - code_imp: Hunted vice now correctly informs you of what to expect + what escalation
+      you'll receive upon taking it.
+2026-11-22:
+  BobProductive:
+  - bugfix: Fixed NPCs being added to the known list
+  - bugfix: properly fixes the known list
+  Clem-The-Duck:
+  - bugfix: wrong fov on donator mask
+  - rscadd: New donator item for clemtheduck and persephone
+  KatTheFox:
+  - balance: Feytouched can now choose between 30 points of boon capacity, or the
+      ability for the hag to possess them. There's a toggle for the latter in the
+      RoleUnique tab, in case you need to... not be interrupted for a while.
+  - rscadd: Added a bunch of stuff to hags. Best to find this kind of stuff out IC.
+  - bugfix: Fixed a lot of hag bugs idw to list here.
+  Ryan180602:
+  - balance: Renegades are now restricted to one crystal.
+  WeNeedMorePhoron:
+  - balance: Made blockade slightly cheaper to issue, same for Incursion
+  - balance: Blockade handle 8 instead of 6 bands of threats
+  - balance: Increased definition of highpop from 30 to 60
+  - balance: Implemented scaling, such that with a Steward or Innkeeper, at roundstart
+      the amount of contracts available would be similar to before I buffed it by
+      2x, trending toward more quests at 1:30
+  - balance: Contracts is now distributed to the regions with the most proportional
+      threat
+  - rscadd: Optimized the contract ledger by caching things like threat points, size
+      table, rewards, text and moving some into static data. The amount of cpu it
+      was using crept up steadily as I added feature so this should bring it back
+      down
+  - rscadd: Added subfactions for various factions
+  - rscadd: Notorious Bounties can now be taken solo, designed as a 1v1, scaled as
+      a 1v1, and you are recommended to bring two regardless
+  - bugfix: Made the hot spring tiles edge smooth again, at cost of them not slowing
+      you don't. This does not matter.
+  - bugfix: Eoran Pomegranate Tree heals for beautiful people no longer spam you as
+      often (every 2 minutes)
+  borneblood:
+  - bugfix: Fixed an oversight with Dual Wielder where Unarmed people were ignoring
+      the -5% penalty.
+  - bugfix: Fixed an oversight where Flurry of Blows could keep firing even though
+      we were no longer adjacent to the target.
+  - code_imp: Shaved and re-blocked the procs for Dual Wielder's validation.
+  changelingonberry:
+  - bugfix: Fix missing headshot placeholder for humans
+  - qol: The black mirror now has a TGUI interface that populates with your known
+      people list.
+  fffelinid:
+  - rscadd: Cat NPCs now follow you if you pspsps at them.
+  jinxynii:
+  - rscadd: Added a Triumph morphing elixir (3 TRI) that turns an arcyne tome into
+      The Enduring Codex
+  - rscadd: Added a donator loadout entry for the same elixir for Lucine
+  - image: Added the Enduring Codex tome sprite
+2026-11-23:
+  BobProductive:
+  - bugfix: Climbing code messages meant for the climber now only show for the climber
+      not everyone around them.
+  WeNeedMorePhoron:
+  - rscadd: Optimized the contract ledger, admin tabs removal and crafting menu. Report
+      oddities.
+  - rscadd: Increased cultural goods discount from 50% to 70% to see if it induce
+      Merchant to do more reselling gameplay
+  - rscadd: Homesteaders can now issue clay, food and cheese contracts
+  - rscadd: Animals now drop barding, caparison, saddlebags etc. when they are destroyed
+      / rot etc.
+  - rscadd: Tamed animals now rot / dust on a 45 / 60 minutes timer, much longer than
+      normal animals. However, they will still turn deadite at nearly the same time.
+  - balance: NPCs are unable to bind, again
+  - rscadd: Remove leashing / presence requirements for Mercenary to receive stipend,
+      added a note that you will get jobbanned if you abuse this
+  - rscadd: NPC climbing interval reduced, NPC climbing should no longer drop their
+      weapons on stump / table, and Cmode should be on regularly.
+  - rscadd: NPC should be less likely to try to melee with a tossblade.
+  - rscadd: Added the Bill of Fare, a pre-formatted menu that let you list up to 15
+      food and 15 drinks, add notes, and sign it with your own name / job / anonymous
+      name and title. All inn roles start with it and anyone else can make one with
+      a piece of paper.
+  - bugfix: NPC now have an imitated reaction time and delay and chance to miss their
+      toss, just like a player
+  - bugfix: NPC should no longer beat themselves to death trying to clear an obstacle
+      on the same tile, which just so happens to be themselves
+  - bugfix: You can no longer kick yourself
+  - rscadd: After closing into melee with an archer NPC, they will commit to melee
+      for a bit before trying to kite and shoot again
+  - rscadd: NPC archers shoot faster again
+  - rscadd: Mage NPCs are more likely to miss and now have 1 level less of staff to
+      make them easier to kill.
+  - rscadd: NPC with skills at Journeyman level or below will now aim for major zones
+      instead of subzones. This includes somewhere between 40% of deadites to 70%
+      of goblins, 50 - 60% of orc / reavers / bandits
+  - rscadd: Skeletons threat points is adjusted up and down to corresponds to the
+      actual amount of threat and armor they have.
+  - balance: Ironified bog deserters and dwarf skeleton knight gears
+  - rscadd: Adjusted NPC tracking on Pyro / Ferra / Spellblades to be fairer
+  - rscadd: NPC spells and bow draw can no longer be interrupted by hitting them,
+      same as a player's
+  - rscadd: Refactored and cleaned up succession rituals code
+2026-11-24:
+  567Turtle:
+  - bugfix: tiger stripes are now drawn correctly
+  KatTheFox:
+  - refactor: Spell alt modes are now handled through a unified set of vars and procs,
+      instead of being manually reinvented in each of 15 different spell files. Spells
+      should behave identically, except for unholy blast, which will now dust instead
+      of gib because I cba to port that to the new, parented-to-divine-blast version.
+  - bugfix: Adjudicators who pick the Psydonic War Axe now actually get their war
+      axe and shield instead of nothing.
+  OrbisAnima:
+  - balance: Makes alchemical arrows have antibeast base (150%).
+  - qol: Removes fail chance on grindwheel plank creation.
+  Quinalion:
+  - qol: You can now climb onto nearby tree branches by left-clicking them with an
+      empty hand.
+  - qol: Branch climbing respects Climbing skill, Speed, furniture bonuses, Woodwalker,
+      and sneak mode.
+  - bugfix: Leaves over open space no longer swallow interactions intended for the
+      tile beneath them.
+  - bugfix: Carried or grabbed characters now remain attached to their carrier when
+      using stairs.
+  - bugfix: Passengers attached to a dragged mob now travel between floors with it.
+  Ryumi:
+  - rscadd: Static threat spawners now have a chance to extinguish all lights around
+      them when nobody is looking, to keep the roads feeling at least a little dangerous,
+      even when the lights are on.
+  - rscadd: Static threat spawners now ignore the light fixtures seen in the Underdark
+      and Mount Decapitation; meaning they will will spawn threats even when they
+      are in their "area of effect." You'll need to build lights in such areas if
+      you're seeing threats appearing there!
+  awwlie:
+  - bugfix: fixed shift + key, keybinds not taking the key, but the result.
+  radarseas:
+  - rscadd: Added Zizo Fog, its exclusive to Zizo's Pet Cemetary omen and Zizo's defilement.
+      Zizites can prayer during it, Zizites get a minor mood buff.
+  - rscadd: Added omen text to Zizo's defilement.
+  - bugfix: fixed Zizo's pet cemetary being inconsistant and using the wrong way to
+      announce itself, making it almost seem more like an admin event.
+2026-11-25:
+  JustSomeGal:
+  - rscadd: Shophand now has Cicerone
+  Quinalion:
+  - bugfix: Armour, weapons and clothing no longer lose their secondary colours when
+      broken or repaired.
+  Ryan180602:
+  - bugfix: roundstart court agents now get their notes in the hand's sheaf of papers.
+  WeNeedMorePhoron:
+  - rscadd: Shifting clicking a bill of fare let you view its content
+  - rscadd: Poison daggers now applies the envenomed debuff on penetrative wounds
+      when used by someone with the venomcraft trait.
+  - rscdel: Removed the ability to dip certain poison dagger in reagents
+  - rscdel: Remove belted satchel from triumph items
+  - rscadd: Retrieval quests shouldn't care about items you carry on yourself anymore
+  - rscadd: You can no longer invite conjured sumons into fellowship
+  - rscadd: Corrected numerous class texts that would imply that the Azurian Church
+      is under the Holy See of Grenzelhoft (It is politically independent). Changed
+      the Divine Pantheon text to match this to imply Grenzelhoftian Holy See is more
+      of a first amongst equal
+  - rscadd: The litany of the ten that gives them their staff is now spoken in Imperial
+      instead of Grenzelhoftian.
+  - rscdel: Removed the Heritage Vision traits from Black Oak
+  - rscadd: Rewrote Black Oak descriptor and class to move away from the "this is
+      our land" angle to one based on the new Bloak lore. Also updated the related
+      grovewalker description.
+  - rscdel: Dark Elf are no longer allowed to be bloak (I am not sure why they were
+      even allowed in the first place)
+  - rscdel: Removed the Chieftain class from the Heartfelt Migration Wave
+  - rscadd: Rewrote the lore of the heartfelt classes and ported some Azurian classes
+      description. The Magi has a mention that their election as the Count of Heartfelt
+      is considered an oddity and they must've came after 1492.
+  - rscadd: The Heartfelt Priest is no longer a Bishop equivalence (!?) in traits
+      but more of an acolyte with T4 access
+  - rscadd: Heartfelt is officially racist and will no longer accept goblins, half-orcs
+      or kobolds amongst their rank,
+  - rscadd: Rewrote some description of alcohol to give them a proper origin within
+      Azuria
+  - rscadd: Corrected some lore desc I did not catch that referred to Rockhill as
+      a country, or to the papacies of Grenzelhoft / Etrusca (And instead use the
+      word clergies)
+  - rscadd: Corrected some quest writs to match the above rewrite
+  fffelinid:
+  - bugfix: Fixed a few bugs related to the Amorphous Landing murkling quirk.
+  - balance: Increased player-controlled ooze mobs health a bit.
+  radarseas:
+  - rscadd: Added more deranged knight variants
+  - rscadd: Added basic framework for Zizo miracles in the hands of AI.
+  - balance: Zizite deranged knights can now randomly cast a cantrip chosen out of
+      3 types, with a 6/7 chance,
+  - balance: Luxplate deranged knights can use upto, T2 miracles as long as they have
+      written AI in the code for it.
+  - balance: the Fallen duke boss on pilgrim has been adjusted slightly.
+  - balance: Skeletons no longer all have ugly masks, critical weakness has been adjusted
+      to no longer kill w/ facial disfigurement.
+  - balance: unique weapons + heretic stuff + amulets + mad duke's rapier is no longer
+      scavenged-marked

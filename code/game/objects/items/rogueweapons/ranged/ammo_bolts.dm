@@ -22,19 +22,19 @@
 	caliber = "lightbolt"
 	projectile_type = /obj/projectile/bullet/reusable/bolt/light
 
-/obj/item/ammo_casing/caseless/rogue/bolt/aalloy
+/obj/item/ammo_casing/caseless/rogue/bolt/ancient/decrepit
 	name = "decrepit bolt"
 	desc = "An ancient bolt, tipped with rotted metal. It lacks the luster that it once held, many centuries ago."
 	icon_state = "ancientbolt"
-	projectile_type = /obj/projectile/bullet/reusable/bolt/aalloy
+	projectile_type = /obj/projectile/bullet/reusable/bolt/ancient/decrepit
 	color = "#bb9696"
 
-/obj/item/ammo_casing/caseless/rogue/bolt/paalloy
+/obj/item/ammo_casing/caseless/rogue/bolt/ancient
 	name = "ancient bolt"
 	desc = "An ancient bolt, tipped with polished gilbranze. The razor-thin tip \
 	resembles a sabot more than an arrowhead; something that most alloys cannot reliably withstand."
 	icon_state = "ancientbolt"
-	projectile_type = /obj/projectile/bullet/reusable/bolt/paalloy
+	projectile_type = /obj/projectile/bullet/reusable/bolt/ancient
 
 /obj/item/ammo_casing/caseless/rogue/bolt/bronze
 	name = "bronze bolt"
@@ -127,15 +127,15 @@
 	max_range = MAX_BOLT_RANGE - 1
 	dam_falloff_factor = DAM_FALLOFF_BOLT
 
-/obj/projectile/bullet/reusable/bolt/aalloy
+/obj/projectile/bullet/reusable/bolt/ancient/decrepit
 	damage = 40
 	armor_penetration = PEN_MEDIUM
-	ammo_type = /obj/item/ammo_casing/caseless/rogue/bolt/aalloy
+	ammo_type = /obj/item/ammo_casing/caseless/rogue/bolt/ancient/decrepit
 	icon_state = "ancientbolt_proj"
 
-/obj/projectile/bullet/reusable/bolt/paalloy
+/obj/projectile/bullet/reusable/bolt/ancient
 	damage = 60
-	ammo_type = /obj/item/ammo_casing/caseless/rogue/bolt/paalloy
+	ammo_type = /obj/item/ammo_casing/caseless/rogue/bolt/ancient
 	icon_state = "ancientbolt_proj"
 
 /obj/projectile/bullet/reusable/bolt/bronze
@@ -222,7 +222,7 @@
 		M.visible_message(span_warning("[M] staggers back from the tremendous impact!"))
 		M.apply_status_effect(/datum/status_effect/debuff/staggered, 6 SECONDS)
 		M.apply_status_effect(/datum/status_effect/debuff/exposed, 6 SECONDS) //Done in conjunction with the new Feint testmerge - opens up for a single integrity-destroying attack.
-		M.Slowdown(6)
+		M.apply_slowdown(6 SECONDS)
 		M.OffBalance(1 SECONDS)
 		M.Immobilize(1 SECONDS)
 		return
@@ -248,16 +248,16 @@
 	flag = "blunt"
 	icon_state = "heavybolt_proj"
 
-/obj/item/ammo_casing/caseless/rogue/heavy_bolt/aalloy
+/obj/item/ammo_casing/caseless/rogue/heavy_bolt/ancient/decrepit
 	name = "decrepit heavy bolt"
 	desc = "A length of rotted metal, quilled to take flight and tear down the living. \
 	Metal flakes occasionally peel off from its core, mysteriously hovering about - \
 	tolerable by the undying, but unbearibly noxious to the living."
 	icon_state = "ancientheavybolt"
-	projectile_type = /obj/projectile/bullet/reusable/heavy_bolt/aalloy
+	projectile_type = /obj/projectile/bullet/reusable/heavy_bolt/ancient/decrepit
 	color = "#bb9696"
 
-/obj/projectile/bullet/reusable/heavy_bolt/aalloy
+/obj/projectile/bullet/reusable/heavy_bolt/ancient/decrepit
 	name = "decrepit heavy bolt"
 	damage = 60
 	object_damage_multiplier = 20 //Ensures the bolt can still, at a minimum, destroy most wooden barricades and doors in one shot.
@@ -268,13 +268,13 @@
 	eyeblur = 2
 	drowsy = 2
 
-/obj/item/ammo_casing/caseless/rogue/heavy_bolt/paalloy
+/obj/item/ammo_casing/caseless/rogue/heavy_bolt/ancient
 	name = "ancient heavy bolt"
 	desc = "A polished length of gilbranze, which chisels away stone-and-spirit alike with each vaulting. It whispers to you; a half-glance to the right, further up to compensate, so that the living's humors may taste utter disruption."
 	icon_state = "ancientheavybolt"
-	projectile_type = /obj/projectile/bullet/reusable/heavy_bolt/paalloy
+	projectile_type = /obj/projectile/bullet/reusable/heavy_bolt/ancient
 
-/obj/projectile/bullet/reusable/heavy_bolt/paalloy
+/obj/projectile/bullet/reusable/heavy_bolt/ancient
 	name = "ancient heavy bolt"
 	icon_state = "ancientbolt_proj"
 	object_damage_multiplier = 16

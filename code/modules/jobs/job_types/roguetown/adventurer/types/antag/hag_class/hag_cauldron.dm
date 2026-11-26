@@ -42,8 +42,8 @@
 		/obj/item/rogueweapon/mace/goden/steel = /obj/item/hag_catalyst/synth_base,
 		/obj/item/rogueweapon/mace/maul/grand = /obj/item/hag_catalyst/synth_base,
 		// REGULAR STEEL - FLAILS
-		/obj/item/rogueweapon/flail/sflail = /obj/item/hag_catalyst/synth_base,
-		/obj/item/rogueweapon/flail/peasantwarflail/iron = /obj/item/hag_catalyst/synth_base,
+		/obj/item/rogueweapon/flail/steel = /obj/item/hag_catalyst/synth_base,
+		/obj/item/rogueweapon/flail/great/iron = /obj/item/hag_catalyst/synth_base,
 		/obj/item/rogueweapon/flail/militia = /obj/item/hag_catalyst/synth_base,
 		// REGULAR STEEL - GREATSWORDS
 		/obj/item/rogueweapon/greatsword = /obj/item/hag_catalyst/synth_base,

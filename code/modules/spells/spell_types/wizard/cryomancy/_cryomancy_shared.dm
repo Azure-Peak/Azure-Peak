@@ -22,7 +22,7 @@
 			target.visible_message(span_danger("The frost on [target] exposes and slow them down!"), span_userdanger("The frost exposes my weakness and slow me down!"))
 			target.balloon_alert_to_viewers("<font color='#4cadee'>SHATTERED - EXPOSED!</font>")
 			playsound(get_turf(target), 'sound/spellbooks/crystal.ogg', 80, TRUE)
-			target.Slowdown(2)
+			target.apply_slowdown(3 SECONDS)
 			final_tier = 0
 			break
 		if(target.has_status_effect(/datum/status_effect/debuff/frosted2))

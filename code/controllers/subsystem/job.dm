@@ -838,8 +838,9 @@ SUBSYSTEM_DEF(job)
 	if(related_policy)
 		to_chat(M,related_policy)
 	if(job && H)
-		if(H.client && H.mind)
-			H.mind.job_subprefs = H.client.prefs?.job_subprefs?.Copy()
+		var/client/C = H.client || M.client
+		if(C && H.mind)
+			H.mind.job_subprefs = C.prefs?.job_subprefs?.Copy() || list()
 		job.after_spawn(H, M, joined_late) // note: this happens before the mob has a key! M will always have a client, H might not.
 
 	if(ishuman(H))
@@ -1034,6 +1035,8 @@ SUBSYSTEM_DEF(job)
 			key = "Inquisition"
 		if(BURGHERS)
 			key = "Burghers"
+		if(ATC)
+			key = "Azurian Trading Company"
 		if(GUILDSMAN)
 			key = "Guildsmen"
 		if(PEASANTS)

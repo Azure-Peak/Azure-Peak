@@ -38,7 +38,7 @@
 	icon_state = "bandedgloves"
 	item_state = "bandedgloves"
 
-/obj/item/clothing/gloves/roguetown/plate/aalloy
+/obj/item/clothing/gloves/roguetown/plate/ancient/decrepit
 	name = "decrepit plate gauntlets"
 	desc = "Rotted metal mechanisms, connected to form the shells of hands. Too clumsy to properly knock a bow, too rigid to comfortably grip a sword; clench those fists any tighter, and the segments'll cut into flesh."
 	icon_state = "agauntlets"
@@ -49,7 +49,7 @@
 	smeltresult = /obj/item/ingot/aaslag
 	anvilrepair = null
 
-/obj/item/clothing/gloves/roguetown/plate/paalloy
+/obj/item/clothing/gloves/roguetown/plate/ancient
 	name = "ancient plate gauntlets"
 	desc = "Polished gilbranze mechanisms, meticulously interconnected to shroud splayed hands. 'Mercy' and 'innocence' are concepts paraded by the unenlightened; spill their blood without guilt, so that the world may yet be remade in Her image."
 	icon_state = "agauntlets"
@@ -62,6 +62,7 @@
 	icon_state = "graggarplategloves"
 	smeltresult = /obj/item/ingot/component/graggar
 	unenchantable = TRUE
+	no_loot_taint = TRUE //heretic stuff, in case it somehow ends up on a skele/NPC or w/e
 
 /obj/item/clothing/gloves/roguetown/plate/graggar/Initialize(mapload)
 	. = ..()
@@ -93,6 +94,7 @@
 	max_integrity = ARMOR_INT_SIDE_ANTAG
 	smeltresult = /obj/item/ingot/component/matthios
 	unenchantable = TRUE
+	no_loot_taint = TRUE //heretic stuff, in case it somehow ends up on a skele/NPC or w/e
 
 /obj/item/clothing/gloves/roguetown/plate/matthios/Initialize(mapload)
 	. = ..()
@@ -116,6 +118,7 @@
 	max_integrity = ARMOR_INT_SIDE_ANTAG - 250
 	armor_class = ARMOR_CLASS_LIGHT
 	smeltresult = /obj/item/ingot/component/baotha
+	no_loot_taint = TRUE //heretic stuff, in case it somehow ends up on a skele/NPC or w/e
 
 /obj/item/clothing/gloves/roguetown/plate/baotha/Initialize(mapload)
 	. = ..()
@@ -142,6 +145,7 @@
 	armor_class = ARMOR_CLASS_MEDIUM
 	smeltresult = /obj/item/ingot/component/zizo
 	unenchantable = TRUE
+	no_loot_taint = TRUE //heretic stuff, in case it somehow ends up on a skele/NPC or w/e
 
 /obj/item/clothing/gloves/roguetown/plate/zizo/Initialize(mapload)
 	. = ..()

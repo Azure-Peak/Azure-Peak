@@ -2,7 +2,7 @@
 	body_parts_covered = NONE
 
 /obj/item/clothing/head/roguetown/crown/fakecrown
-	name = "Old crown"
+	name = "old crown"
 	desc = "A crown, now seemingly lacking any greater purpose other than it's collectors value."
 	icon_state = "serpcrown"
 	no_loot_taint = TRUE

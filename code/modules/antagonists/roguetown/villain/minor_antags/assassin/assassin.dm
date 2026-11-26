@@ -39,6 +39,7 @@
 		TRAIT_STEELHEARTED,
 		TRAIT_ANTISCRYING,
 		TRAIT_ZURCH,
+		TRAIT_NONAMESTEAL
 	)
 
 	#define SOURCE_ASSASSIN "source_assassin"
@@ -130,9 +131,9 @@
 			had_blast = TRUE
 			convert.mind.RemoveSpell(/datum/action/cooldown/spell/projectile/divine_blast)
 
-		if(convert.mind.has_spell(/datum/action/cooldown/spell/projectile/unholy_blast))
+		if(convert.mind.has_spell(/datum/action/cooldown/spell/projectile/divine_blast/inhumen))
 			had_blast = TRUE
-			convert.mind.RemoveSpell(/datum/action/cooldown/spell/projectile/unholy_blast)
+			convert.mind.RemoveSpell(/datum/action/cooldown/spell/projectile/divine_blast/inhumen)
 
 		// cleric traits are removed here
 		convert.devotion.Destroy()
@@ -146,7 +147,7 @@
 		convert.devotion = new_devotion
 		new_devotion.grant_miracles(convert, saved_level, saved_devotion_gain, saved_max_progression)
 		if(had_blast)
-			var/datum/action/cooldown/spell/blast = /datum/action/cooldown/spell/projectile/unholy_blast
+			var/datum/action/cooldown/spell/blast = /datum/action/cooldown/spell/projectile/divine_blast/inhumen
 			blast.Grant(convert)
 
 

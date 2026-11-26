@@ -323,9 +323,9 @@
 		message_admins("[usr.key] has applied the Crustacean to [src].")
 		return
 
-	if(istype(I, /obj/item/roguecoin/aalloy))
+	if(istype(I, /obj/item/roguecoin/psila))
 		return
-	if(istype(I, /obj/item/roguecoin/inqcoin))
+	if(istype(I, /obj/item/roguecoin/marque))
 		return
 	if(istype(I, /obj/item/roguecoin))
 		var/value = I.get_real_price()

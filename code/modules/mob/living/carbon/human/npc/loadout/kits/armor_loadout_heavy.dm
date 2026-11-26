@@ -66,36 +66,36 @@
 
 //** DeCREPIT ALLOY - SKELETONS **//
 
-/datum/npc_loadout/armor/heavy/aalloy
-	pants = /obj/item/clothing/under/roguetown/platelegs/aalloy
-	shoes = /obj/item/clothing/shoes/roguetown/boots/aalloy
-	neck = /obj/item/clothing/neck/roguetown/gorget/aalloy
-	gloves = /obj/item/clothing/gloves/roguetown/chain/aalloy
+/datum/npc_loadout/armor/heavy/decrepit
+	pants = /obj/item/clothing/under/roguetown/platelegs/ancient/decrepit
+	shoes = /obj/item/clothing/shoes/roguetown/boots/ancient/decrepit
+	neck = /obj/item/clothing/neck/roguetown/gorget/ancient/decrepit
+	gloves = /obj/item/clothing/gloves/roguetown/chain/ancient/decrepit
 
-/datum/npc_loadout/armor/heavy/aalloy/plated
-	gloves = /obj/item/clothing/gloves/roguetown/plate/aalloy
+/datum/npc_loadout/armor/heavy/decrepit/plated
+	gloves = /obj/item/clothing/gloves/roguetown/plate/ancient/decrepit
 	head = list(
-		/obj/item/clothing/head/roguetown/helmet/heavy/guard/aalloy = 60,
-		/obj/item/clothing/head/roguetown/helmet/heavy/knight/aalloy = 40,
+		/obj/item/clothing/head/roguetown/helmet/heavy/guard/ancient/decrepit = 60,
+		/obj/item/clothing/head/roguetown/helmet/heavy/knight/ancient/decrepit = 40,
 	)
 
-/datum/npc_loadout/armor/heavy/aalloy/plated/guard
-	head = /obj/item/clothing/head/roguetown/helmet/heavy/guard/aalloy
+/datum/npc_loadout/armor/heavy/decrepit/plated/guard
+	head = /obj/item/clothing/head/roguetown/helmet/heavy/guard/ancient/decrepit
 
-/datum/npc_loadout/armor/heavy/aalloy_cuirass
-	armor = /obj/item/clothing/suit/roguetown/armor/plate/cuirass/aalloy
-	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/aalloy
-	wrists = /obj/item/clothing/wrists/roguetown/bracers/aalloy
+/datum/npc_loadout/armor/heavy/decrepit_cuirass
+	armor = /obj/item/clothing/suit/roguetown/armor/plate/cuirass/ancient/decrepit
+	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/ancient/decrepit
+	wrists = /obj/item/clothing/wrists/roguetown/bracers/ancient/decrepit
 
-/datum/npc_loadout/armor/heavy/aalloy_hauberk
-	armor = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/aalloy/heavy
+/datum/npc_loadout/armor/heavy/decrepit_hauberk
+	armor = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/ancient/decrepit/heavy
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/light
-	wrists = /obj/item/clothing/wrists/roguetown/bracers/aalloy/chain
+	wrists = /obj/item/clothing/wrists/roguetown/bracers/ancient/decrepit/chain
 
-/datum/npc_loadout/armor/heavy/aalloy_plate
-	armor = /obj/item/clothing/suit/roguetown/armor/plate/aalloy
-	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/aalloy
-	wrists = /obj/item/clothing/wrists/roguetown/bracers/aalloy
+/datum/npc_loadout/armor/heavy/decrepit_plate
+	armor = /obj/item/clothing/suit/roguetown/armor/plate/ancient/decrepit
+	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/ancient/decrepit
+	wrists = /obj/item/clothing/wrists/roguetown/bracers/ancient/decrepit
 
 //** BLACK KNIGHT **//
 
@@ -118,3 +118,17 @@
 	head = /obj/item/clothing/head/roguetown/helmet
 	wrists = /obj/item/clothing/wrists/roguetown/bracers
 	pants = /obj/item/clothing/under/roguetown/brigandinelegs
+
+//** HEDGE KNIGHT IN FULL BLACKSTEEL **//
+/datum/npc_loadout/armor/heavy/hedgeknight
+	wrists = /obj/item/clothing/wrists/roguetown/bracers/blacksteel/modern
+	gloves = /obj/item/clothing/gloves/roguetown/plate/blacksteel/modern
+	armor = /obj/item/clothing/suit/roguetown/armor/plate/blacksteel/modern
+	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail
+	shoes = /obj/item/clothing/shoes/roguetown/boots/armor/blacksteel/modern
+	pants = /obj/item/clothing/under/roguetown/platelegs/blacksteel/modern
+	neck = /obj/item/clothing/neck/roguetown/bevor/blacksteel/modern
+	head = list(
+		/obj/item/clothing/head/roguetown/helmet/blacksteel/modern = 80,
+		/obj/item/clothing/head/roguetown/helmet/blacksteel/modern/grenzelhoft = 20,
+	)

@@ -78,7 +78,7 @@
 			if("Flail & Iron Shield")
 				H.adjust_skillrank_up_to(/datum/skill/combat/whipsflails, SKILL_LEVEL_EXPERT, TRUE)
 				H.adjust_skillrank_up_to(/datum/skill/combat/shields, SKILL_LEVEL_JOURNEYMAN, TRUE)
-				beltr = /obj/item/rogueweapon/flail/sflail
+				beltr = /obj/item/rogueweapon/flail/steel
 				backr = /obj/item/rogueweapon/shield/iron
 			if("Billhook")
 				H.adjust_skillrank_up_to(/datum/skill/combat/polearms, SKILL_LEVEL_EXPERT, TRUE)
@@ -86,7 +86,7 @@
 				backr = /obj/item/rogueweapon/scabbard/gwstrap
 			if("Greatflail")
 				H.adjust_skillrank_up_to(/datum/skill/combat/whipsflails, SKILL_LEVEL_EXPERT, TRUE)
-				r_hand = /obj/item/rogueweapon/flail/peasantwarflail/iron
+				r_hand = /obj/item/rogueweapon/flail/great/iron
 				backr = /obj/item/rogueweapon/scabbard/gwstrap
 		var/armors = list("Chainmaille Set","Iron Breastplate","Gambeson & Helmet","Light Raneshi Armor")
 		var/armor_choice = input(H, "Choose your armor.", "TAKE UP ARMOR") as anything in armors
@@ -462,7 +462,7 @@
 				backr = /obj/item/rogueweapon/shield/iron
 			if("Greatflail")
 				H.adjust_skillrank_up_to(/datum/skill/combat/whipsflails, SKILL_LEVEL_JOURNEYMAN, TRUE)
-				r_hand = /obj/item/rogueweapon/flail/peasantwarflail/iron
+				r_hand = /obj/item/rogueweapon/flail/great/iron
 				backr = /obj/item/rogueweapon/scabbard/gwstrap
 			if("Lucerne")
 				H.adjust_skillrank_up_to(/datum/skill/combat/polearms, SKILL_LEVEL_JOURNEYMAN, TRUE)
@@ -553,7 +553,7 @@
 				r_hand = /obj/item/rogueweapon/mace/warhammer/steel/silver
 			if("Silver Morningstar")
 				H.adjust_skillrank_up_to(/datum/skill/combat/whipsflails, SKILL_LEVEL_JOURNEYMAN, TRUE)
-				r_hand = /obj/item/rogueweapon/flail/sflail/silver
+				r_hand = /obj/item/rogueweapon/flail/silver
 			if("Silver Whip")
 				H.adjust_skillrank_up_to(/datum/skill/combat/whipsflails, SKILL_LEVEL_JOURNEYMAN, TRUE)
 				r_hand = /obj/item/rogueweapon/whip/silver
@@ -613,9 +613,9 @@
 				l_hand = /obj/item/rogueweapon/sword/long/broadsword/steel
 			if("Greatshield")
 				if(ispath(r_hand, /obj/item/rogueweapon/handclaw) || ispath(r_hand, /obj/item/rogueweapon/katar))
-					backr = /obj/item/rogueweapon/shield/tower/metal
+					backr = /obj/item/rogueweapon/shield/kite
 				else
-					l_hand = /obj/item/rogueweapon/shield/tower/metal
+					l_hand = /obj/item/rogueweapon/shield/kite
 				H.adjust_skillrank_up_to(/datum/skill/combat/shields, SKILL_LEVEL_JOURNEYMAN, TRUE)
 			if("Stake Launcher")
 				l_hand = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow/staker

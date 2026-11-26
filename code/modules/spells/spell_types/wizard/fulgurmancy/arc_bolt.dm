@@ -38,40 +38,11 @@
 
 	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN
 
-	var/current_mode = 1
-	var/list/modes = list(
+	modes = list(
 		list("name" = "Chain", "tag" = "CHAIN", "proj" = /obj/projectile/magic/arc_bolt, "invocation" = "Fulgur!"),
 		list("name" = "Focus", "tag" = "FOCUS", "proj" = /obj/projectile/magic/arc_bolt/single, "invocation" = "Fulgur Singularis!"),
 		list("name" = "Arc", "tag" = "ARC", "proj" = /obj/projectile/magic/arc_bolt/single/arc, "invocation" = "Fulgur Arcus!"),
 	)
-
-/datum/action/cooldown/spell/projectile/arc_bolt/Grant(mob/grant_to)
-	. = ..()
-	apply_mode(current_mode)
-
-/datum/action/cooldown/spell/projectile/arc_bolt/proc/apply_mode(index)
-	var/list/mode = modes[index]
-	projectile_type = mode["proj"]
-	invocations = list(mode["invocation"])
-	update_mode_maptext(mode["tag"])
-
-/datum/action/cooldown/spell/projectile/arc_bolt/toggle_arc_mode(mob/user)
-	current_mode = (current_mode % length(modes)) + 1
-	apply_mode(current_mode)
-	to_chat(user, span_notice("[name]: [modes[current_mode]["name"]] mode."))
-
-/datum/action/cooldown/spell/projectile/arc_bolt/proc/update_mode_maptext(tag)
-	for(var/datum/hud/hud as anything in viewers)
-		var/atom/movable/screen/movable/action_button/B = viewers[hud]
-		var/atom/movable/screen/arc_maptext_holder/holder
-		for(var/atom/movable/screen/arc_maptext_holder/existing in B.vis_contents)
-			holder = existing
-			break
-		if(!holder)
-			holder = new(B)
-			B.vis_contents.Add(holder)
-		holder.maptext = MAPTEXT(tag)
-		holder.color = "#00ccff"
 
 /datum/action/cooldown/spell/projectile/arc_bolt/get_impact_turfs(atom/center)
 	. = list()

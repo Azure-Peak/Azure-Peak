@@ -13,7 +13,6 @@
 	return (max(0, newtime) + ARCHER_NPC_MIN_AIM_TIME + ARCHER_NPC_NOCK_TIME) * ARCHER_NPC_ROF_PENALTY
 
 /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow
-	has_item_quality = TRUE
 	name = "crossbow"
 	desc = "A deadly weapon that shoots a bolt with terrific power. Unlike the common bow, \
 	it uses a sophisticated mechanism to renock - and retain - its half-length bolts; a \
@@ -25,6 +24,7 @@
 	item_state = "crossbow"
 	experimental_onhip = TRUE
 	experimental_onback = TRUE
+	has_item_quality = TRUE
 	possible_item_intents = list(/datum/intent/shoot/crossbow, /datum/intent/arc/crossbow, /datum/intent/buttstroke)
 	mag_type = /obj/item/ammo_box/magazine/internal/shot/xbow
 	slot_flags = ITEM_SLOT_BACK
@@ -287,7 +287,7 @@
 	max_integrity = 80
 	damfactor = 1.1 // Lower than starting
 
-/obj/item/gun/ballistic/revolver/grenadelauncher/crossbow/aalloy
+/obj/item/gun/ballistic/revolver/grenadelauncher/crossbow/ancient
 	name = "ancient crossbow"
 	desc = "A deadly weapon from another tyme, which shoots a bolt with terrific power. Unlike the common bow, it \
 	uses a sophisticated mechanism to renock - and retain - its half-length bolts; a matter that relies more on raw \
@@ -412,7 +412,7 @@
 	item_d_type = "blunt"
 	intent_intdamage_factor = BLUNT_DEFAULT_INT_DAMAGEFACTOR - 0.45 //Reduces integrity damage modifier to +15%.
 
-/obj/item/gun/ballistic/revolver/grenadelauncher/crossbow/heavy/paalloy
+/obj/item/gun/ballistic/revolver/grenadelauncher/crossbow/heavy/ancient
 	name = "ancient siegebow"
 	desc = "A heavier weight crossbow from another tyme - the basis of a mounted ballista, made fit for handheld \
 	usage. Integrated just beneath the stock is a windlass mechanism, necessary to surmount the siegebow's titanic \
@@ -422,8 +422,8 @@
 
 /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow/heavy/relic
 	name = "\"Providence\""
-	desc = "In the hands of Saint Augustere, this specially-hewn siegebow felled the traitorous Archbishop of Rockhill; \
-	mere moments before the completion of a terrible ritual. Decades later, it has been called into action once more \
+	desc = "In the hands of Saint Augustere, this specially-hewn siegebow felled the Zizite exarch in the Battle of the Hamlet; \
+	mere moments before the completion of a terrible ritual. Yils later, it has been called into action once more \
 	to destroy those who'd seek to sacrifice His greatest works. May thy aim be true, childe o' God - and thy judgement, unfettered."
 	minstr = 10 //X STR. Intended for use by the Inquisitor, or as a purchased alternative.
 	max_integrity = 200
