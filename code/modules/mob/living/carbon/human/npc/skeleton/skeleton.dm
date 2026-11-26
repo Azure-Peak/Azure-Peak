@@ -349,7 +349,7 @@ GLOBAL_LIST_INIT(skeleton_aggro, list(
 	armor = /obj/item/clothing/suit/roguetown/armor/plate/cuirass/copper
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/copper
 
-//*!*!* Avantyne clad skeletons and high-level gear we do NOT want in the hands of regular players below here *!*!*//
+//*!*!*// Avantyne clad skeletons and high-level gear we do NOT want in the hands of regular players below here //*!*!*//
 
 /mob/living/carbon/human/species/skeleton/unstrippable_npc
 	ambush_faction = "undead"
@@ -358,6 +358,11 @@ GLOBAL_LIST_INIT(skeleton_aggro, list(
 	blood_toll_bucket = STATS_KILLED_DEADITES
 	d_intent = INTENT_PARRY
 	ambushable = FALSE
+
+/mob/living/carbon/human/species/skeleton/unstrippable_npc/death(gibbed, nocutscene = FALSE)
+	. = ..()
+	if(!gibbed)
+		dust(FALSE, FALSE, TRUE)
 
 /mob/living/carbon/human/species/skeleton/unstrippable_npc/after_creation()
 	..()
@@ -373,6 +378,8 @@ GLOBAL_LIST_INIT(skeleton_aggro, list(
 		equipped_item.AddComponent(/datum/component/item_on_drop/dust)
 	for(var/obj/item/held_item in held_items)
 		ADD_TRAIT(held_item, TRAIT_NODROP, TRAIT_GENERIC)
+
+///*!*!*!*/// begin our loadouts ///*!*!*!*///
 
 /mob/living/carbon/human/species/skeleton/unstrippable_npc/zizo
 	threat_point = THREAT_DANGEROUS_PLUS //above hard
