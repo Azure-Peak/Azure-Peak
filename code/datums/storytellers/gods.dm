@@ -214,10 +214,10 @@
 		),
 		"Set 5" = list(
 			STATS_MARRIAGES_MADE = list("name" = "Marriages made:", "points" = 20, "capacity" = 80), //Rare so worth a ton.
-		)
+		),
 		"Set 6" = list(
 			STATS_YIELDS = list("name" = "Yields made:", "points" = 2, "capacity" = 30), //love wins!
-		),
+		)
 	)
 
 /datum/storyteller/dendor
