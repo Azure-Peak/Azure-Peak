@@ -21,6 +21,7 @@
 	var/stopgambling = 0
 	var/probpenalty = 2
 	var/oldtithe = 0
+	var/tithediff = 0
 
 
 /obj/structure/roguemachine/lottery_roguetown/attack_hand(mob/living/user) //empty hand
@@ -88,7 +89,8 @@
 
 //let's actually go gambling and determine results
 		if(src.gamblingprob > src.diceroll)
-			record_round_statistic(STATS_WON_GAMBLED, [gamblingprice - oldtithe]) //find the difference for what we won.
+			src.tithediff = (gamblingprice - oldtithe)
+			record_round_statistic(STATS_WON_GAMBLED, tithediff) //find the difference for what we won.
 			src.oldtithe = src.gamblingprice
 			src.gamblingprice *= pick(1.1, 1.1, 1.1, 1.1, 1.2, 1.2, 1.2, 1.4, 1.4, 2)
 			src.gamblingprice = round(src.gamblingprice)

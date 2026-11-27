@@ -196,7 +196,7 @@
 #define STATS_PEOPLE_MOCKED "people_mocked"
 #define STATS_CRITS_MADE "crits_made"
 #define STATS_SONGS_PLAYED "songs_played"
-#define STATS_LOST_GAMBLED "lost_gambling
+#define STATS_LOST_GAMBLED "lost_gambling"
 #define STATS_WON_GAMBLED "won_gambling"
 
 //Malum
