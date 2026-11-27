@@ -190,6 +190,7 @@
 #define STATS_WARCRIES "warcries"
 #define STATS_YIELDS "yields"
 #define STATS_THRILLSEEKERS "thrillseekers"
+#define STATS_UNJUST_DEATHS "unjust_deaths"
 
 //Xylix
 #define STATS_LAUGHS_MADE "laughs_made"

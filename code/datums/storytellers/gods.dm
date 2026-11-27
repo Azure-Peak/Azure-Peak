@@ -18,16 +18,15 @@
 	),
 	"Set 3" = list(
 		STATS_NOBLE_DEATHS = list("name" = "Noble deaths:", "points" = -3.75, "capacity" = -60),
-		STATS_PEOPLE_SMITTEN = list("name" = "People smitten:", "points" = 4, "capacity" = 40),
 	),
 	"Set 4" = list(
 		STATS_PRAYERS_MADE = list("name" = "Prayers made:", "points" = 2.25, "capacity" = 65),
 	),
 	"Set 5" = list(
-		STATS_TAXES_COLLECTED = list("name" = "Taxes collected:", "points" = 0.25, "capacity" = 110), //to counteract the downsides of tax evaders, its quite high
+		STATS_TAXES_COLLECTED = list("name" = "Taxes collected:", "points" = 0.2, "capacity" = 80),
 	),
 	"Set 6" = list(
-		STATS_TAXES_EVADED = list("name" = "Taxes evaded:", "points" = -0.1, "capacity" = -30),
+		STATS_PEOPLE_SMITTEN = list("name" = "People smitten:", "points" = 4, "capacity" = 40),
 	),
 	"Set 7" = list(
 		STATS_ASTRATA_REVIVALS = list("name" = "Holy revivals:", "points" = 6, "capacity" = 75),
@@ -75,7 +74,10 @@
 		),
 		"Set 5" = list(
 			STATS_THRILLSEEKERS = list("name" = "Thrillseekers:", "points" = 5, "capacity" = 50)
-		)
+		),
+		"Set 6" = list(
+			STATS_UNJUST_DEATHS = list("name" = "Unjust Deaths:", "points" = -1.25, "capacity" = 50),
+		),
 	)
 
 /datum/storyteller/abyssor
@@ -85,17 +87,23 @@
 	influence_sets = list(
 		"Set 1" = list(
 			STATS_FISH_CAUGHT = list("name" = "Fish caught:", "points" = 1.75, "capacity" = 85),
-			STATS_ALIVE_AXIAN = list("name" = "Number of axians:", "points" = 8, "capacity" = 70),
 		),
 		"Set 2" = list(
-			STATS_WATER_CONSUMED = list("name" = "Water consumed:", "points" = 0.014, "capacity" = 90),
+			STATS_ALIVE_AXIAN = list("name" = "Number of axians:", "points" = 8, "capacity" = 70),
 		),
 		"Set 3" = list(
-			STATS_ABYSSOR_REMEMBERED = list("name" = "Abyssor remembered:", "points" = 1.1, "capacity" = 50),
-			STATS_LEECHES_EMBEDDED = list("name" = "Leeches embedded:", "points" = 0.75, "capacity" = 70),
+			STATS_WATER_CONSUMED = list("name" = "Water consumed:", "points" = 0.014, "capacity" = 90),
 		),
 		"Set 4" = list(
+			STATS_LEECHES_EMBEDDED = list("name" = "Leeches embedded:", "points" = 0.75, "capacity" = 70),
+		),
+		"Set 5" = list(
+			STATS_ABYSSOR_REMEMBERED = list("name" = "Abyssor remembered:", "points" = 1.1, "capacity" = 50),
+		),
+		"Set 6" = list(
 			STATS_PEOPLE_DROWNED = list("name" = "People drowned:", "points" = 12, "capacity" = 75),
+		),
+		"Set 7" = list(
 			STATS_BATHS_TAKEN = list("name" = "Baths taken:", "points" = 4.5, "capacity" = 60),
 		)
 	)
@@ -197,8 +205,10 @@
 		),
 		"Set 5" = list(
 			STATS_BEARDS_SHAVED = list("name" = "Beards shaved:", "points" = -4, "capacity" = -40),
-			STATS_ALIVE_DWARVES = list("name" = "Number of dwarfs:", "points" = 4, "capacity" = 45),
 		),
+		"Set 6" = list(
+			STATS_ALIVE_DWARVES = list("name" = "Number of dwarfs:", "points" = 4, "capacity" = 45),
+		)
 	)
 
 /datum/storyteller/eora
