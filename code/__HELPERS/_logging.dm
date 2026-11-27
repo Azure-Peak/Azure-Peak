@@ -123,6 +123,9 @@
 /proc/log_emote(text)
 	logger.Log(LOG_CATEGORY_GAME_EMOTE, text)
 
+/proc/log_subtle(text)
+	logger.Log(LOG_CATEGORY_SUBTLE, text)
+
 /proc/log_prayer(text)
 	logger.Log(LOG_CATEGORY_GAME_PRAYER, text)
 
@@ -140,6 +143,12 @@
 
 /proc/log_craft(text)
 	logger.Log(LOG_CATEGORY_GAME_CRAFT, text)
+
+/proc/log_construction(mob/user, atom/built)
+	var/turf/T = get_turf(built)
+	var/what = "[built] ([built.type])"
+	log_craft("[key_name(user)] built [what] at [AREACOORD(T)]")
+	user.log_message("built [what] at [AREACOORD(T)]", LOG_CRAFT, log_globally = FALSE)
 
 /proc/log_vote(text)
 	logger.Log(LOG_CATEGORY_GAME_VOTE, text)

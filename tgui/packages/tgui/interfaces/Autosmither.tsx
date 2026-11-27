@@ -1,16 +1,35 @@
-import { useEffect, useMemo, useState } from 'react';
+import { memo, useEffect, useMemo, useState } from 'react';
 import {
   Box,
   Button,
   DmIcon,
+  Dropdown,
   Input,
-  NoticeBox,
   Section,
   Stack,
 } from 'tgui-core/components';
+import type { BooleanLike } from 'tgui-core/react';
 
 import { useBackend } from '../backend';
 import { Window } from '../layouts';
+import { IncrementalList } from './common/IncrementalList';
+import {
+  dashedFrameStyle,
+  ParchmentProgressBar,
+  SEAL_AMBER,
+  SEAL_BLUE,
+  SEAL_GREEN,
+  SEAL_RED,
+  TITLE_FONT,
+} from './common/parchment';
+import {
+  buildGroupedRail,
+  compareGroupedCategories,
+  groupOf,
+  type RailNode,
+  SMITHING_GROUP_ORDER,
+  subcategoryOf,
+} from './common/RecipeRail';
 
 type Requirement = {
   key: string;
@@ -33,11 +52,12 @@ type Recipe = {
 type QueueEntry = {
   id: number;
   index: number;
+  ref: string;
   name: string;
   category: string;
   icon: string;
   created_num: number;
-  active: boolean;
+  active: BooleanLike;
 };
 
 type Data = {
@@ -51,13 +71,15 @@ type Data = {
   current_recipe_ref: string | null;
   progress: number;
   needed_progress: number;
+  steps_done: number;
+  steps_total: number;
 };
 
 const STATUS_COLORS = {
-  off: '#d14b43',
-  on: '#58b76a',
-  working: '#a46bff',
-  waiting: '#d98b2b',
+  off: SEAL_RED,
+  on: SEAL_GREEN,
+  working: SEAL_BLUE,
+  waiting: SEAL_AMBER,
 };
 
 const STATUS_LABELS = {
@@ -67,10 +89,17 @@ const STATUS_LABELS = {
   waiting: 'FEED ME',
 };
 
-const MACHINE_ACTIVITY_LABELS = {
-  active: STATUS_LABELS.on,
-  inactive: STATUS_LABELS.off,
+const STATUS_NOTES = {
+  off: 'Off. Run the start sequence.',
+  on: 'Idle.',
+  working: 'Working.',
+  waiting: 'Waiting for materials in the hopper.',
 };
+
+const NO_POWER_NOTE = 'No rotational power.';
+const LOCKED_NOTE = 'Stand next to the auto anvil to use its controls.';
+const POWERED_FLAVOR = 'MALUM AWAITS YOUR BLOOD, SWEAT AND DEVOTION';
+const UNPOWERED_FLAVOR = "MALUM'S FORCE OF LYFE DOES NOT FLOW";
 
 const QUOTE_LINES = [
   'I bring order from chaos. What do you bring?',
@@ -87,45 +116,39 @@ const QUOTE_LINES = [
   'Does it hurt when you break?',
 ];
 
-const QUOTE_LINES_PER_RAIL = 2;
+const ALL_CATEGORIES = '__all__';
 
-const shuffleLines = (lines: string[]) => {
-  const shuffled = [...lines];
+const compareCategories = compareGroupedCategories(SMITHING_GROUP_ORDER);
 
-  for (let index = shuffled.length - 1; index > 0; index--) {
-    const swapIndex = Math.floor(Math.random() * (index + 1));
-    const nextValue = shuffled[index];
-    shuffled[index] = shuffled[swapIndex];
-    shuffled[swapIndex] = nextValue;
-  }
-
-  return shuffled;
+type QueueGroup = {
+  entries: QueueEntry[];
+  active: boolean;
 };
 
-const getQuoteColumns = (lines: string[], linesPerRail: number) => {
-  const shuffled = shuffleLines(lines);
-  const visibleCount = Math.min(shuffled.length, linesPerRail * 2);
-  const visibleLines = shuffled.slice(0, visibleCount);
-  const midpoint = Math.ceil(visibleLines.length / 2);
-  return [visibleLines.slice(0, midpoint), visibleLines.slice(midpoint)];
-};
-
-const getCategoryIconState = (category: string | null | undefined) => {
-  const lowerCategory = (category || '').toLowerCase();
-  if (lowerCategory.includes('weapon')) {
-    return 'weapon';
+const groupQueue = (queue: QueueEntry[]) => {
+  const groups: QueueGroup[] = [];
+  for (const entry of queue) {
+    const active = !!entry.active;
+    const last = groups[groups.length - 1];
+    if (
+      last &&
+      !last.active &&
+      !active &&
+      last.entries[0].name === entry.name
+    ) {
+      last.entries.push(entry);
+    } else {
+      groups.push({ entries: [entry], active });
+    }
   }
-  if (lowerCategory.includes('armor')) {
-    return 'armor';
-  }
-  return 'rework';
+  return groups;
 };
 
 export const Autosmither = () => {
   const { data } = useBackend<Data>();
 
   return (
-    <Window width={1100} height={620} title="Auto Anvil">
+    <Window width={900} height={600} title="Auto Anvil" theme="parchment">
       <Window.Content>
         <AutosmitherContent data={data} />
       </Window.Content>
@@ -138,12 +161,13 @@ type AutosmitherContentProps = {
 };
 
 const AutosmitherContent = ({ data }: AutosmitherContentProps) => {
-  const { recipes = [], current_recipes = [], machine_on } = data;
+  const { recipes = [], current_recipes = [] } = data;
   const [selectedRef, setSelectedRef] = useState<string | null>(
     recipes[0]?.ref || null,
   );
   const [amount, setAmount] = useState(1);
   const [searchText, setSearchText] = useState('');
+  const [category, setCategory] = useState<string>(ALL_CATEGORIES);
 
   useEffect(() => {
     if (!recipes.length) {
@@ -155,26 +179,59 @@ const AutosmitherContent = ({ data }: AutosmitherContentProps) => {
     }
   }, [recipes, selectedRef]);
 
-  const selectedRecipe = useMemo(
-    () => recipes.find((recipe) => recipe.ref === selectedRef) || null,
-    [recipes, selectedRef],
+  const recipeByRef = useMemo(
+    () => Object.fromEntries(recipes.map((recipe) => [recipe.ref, recipe])),
+    [recipes],
   );
+
+  const selectedRecipe = (selectedRef && recipeByRef[selectedRef]) || null;
+
+  const categoryNodes = useMemo(() => {
+    const counts: Record<string, number> = {};
+    for (const recipe of recipes) {
+      counts[recipe.category] = (counts[recipe.category] || 0) + 1;
+    }
+    return buildGroupedRail(
+      Object.keys(counts).sort(compareCategories),
+      counts,
+    );
+  }, [recipes]);
 
   const filteredRecipes = useMemo(() => {
     const query = searchText.trim().toLowerCase();
-    if (!query) {
-      return recipes;
+    return recipes
+      .filter(
+        (recipe) =>
+          category === ALL_CATEGORIES ||
+          recipe.category === category ||
+          groupOf(recipe.category) === category,
+      )
+      .filter((recipe) => {
+        if (!query) {
+          return true;
+        }
+        const recipeName = recipe.name.toLowerCase();
+        const recipeCategory = recipe.category.toLowerCase();
+        return recipeName.includes(query) || recipeCategory.includes(query);
+      })
+      .sort(
+        (a, b) =>
+          compareCategories(a.category, b.category) ||
+          a.name.localeCompare(b.name),
+      );
+  }, [recipes, searchText, category]);
+
+  useEffect(() => {
+    if (
+      filteredRecipes.length &&
+      !filteredRecipes.some((recipe) => recipe.ref === selectedRef)
+    ) {
+      setSelectedRef(filteredRecipes[0].ref);
     }
+  }, [category]);
 
-    return recipes.filter((recipe) => {
-      const recipeName = recipe.name.toLowerCase();
-      const recipeCategory = recipe.category.toLowerCase();
-      return recipeName.includes(query) || recipeCategory.includes(query);
-    });
-  }, [recipes, searchText]);
-
-  const quoteColumns = useMemo(
-    () => getQuoteColumns(QUOTE_LINES, QUOTE_LINES_PER_RAIL),
+  const quote = useMemo(
+    () => QUOTE_LINES[Math.floor(Math.random() * QUOTE_LINES.length)],
     [],
   );
 
@@ -193,55 +250,60 @@ const AutosmitherContent = ({ data }: AutosmitherContentProps) => {
     >
       <CovenantSigil
         style={{
-          left: '29%',
-          top: '2.5%',
-          opacity: 0.22,
+          right: '2%',
+          top: '3%',
+          opacity: 0.18,
         }}
       />
       <CovenantSigil
         style={{
-          right: '2%',
-          bottom: '6%',
-          opacity: 0.18,
+          left: '40%',
+          bottom: '4%',
+          opacity: 0.14,
         }}
       />
-      <Stack fill>
-        <Stack.Item basis="30%" mr={1}>
-          <CurrentQueueSection machineOn={machine_on} queue={current_recipes} />
+      <Stack vertical fill>
+        <Stack.Item>
+          <StatusBar data={data} quote={quote} />
         </Stack.Item>
-        <Stack.Item basis="5%" mr={1}>
-          <QuoteRail lines={quoteColumns[0]} />
-        </Stack.Item>
-        <Stack.Item grow basis={0} mr={1}>
-          {machine_on ? (
-            <ActiveCenterPanel
-              controlsLocked={data.controls_locked}
-              hopperCounts={data.hopper_counts}
-              statusState={data.status_state}
-              selectedRecipe={selectedRecipe}
-              amount={amount}
-              setAmount={setAmount}
-              progress={data.progress}
-              neededProgress={data.needed_progress}
-            />
-          ) : (
-            <OffCenterPanel
-              controlsLocked={data.controls_locked}
-              machinePowered={data.machine_powered}
-            />
-          )}
-        </Stack.Item>
-        <Stack.Item basis="5%" mr={1}>
-          <QuoteRail lines={quoteColumns[1]} />
-        </Stack.Item>
-        <Stack.Item basis="30%">
-          <RecipePickerSection
-            recipes={filteredRecipes}
-            selectedRef={selectedRef}
-            onSelect={setSelectedRef}
-            searchText={searchText}
-            onSearch={setSearchText}
-          />
+        <Stack.Item grow basis={0}>
+          <Stack fill>
+            <Stack.Item basis="42%">
+              <RecipePickerSection
+                recipes={filteredRecipes}
+                totalCount={recipes.length}
+                selectedRef={selectedRef}
+                onSelect={setSelectedRef}
+                searchText={searchText}
+                onSearch={setSearchText}
+                categoryNodes={categoryNodes}
+                category={category}
+                onCategory={setCategory}
+              />
+            </Stack.Item>
+            <Stack.Item grow basis={0}>
+              <Stack vertical fill>
+                <Stack.Item grow basis={0}>
+                  <RecipeDetailSection
+                    recipe={selectedRecipe}
+                    hopperCounts={data.hopper_counts}
+                    amount={amount}
+                    setAmount={setAmount}
+                  />
+                </Stack.Item>
+                <Stack.Item grow basis={0}>
+                  <QueueSection
+                    queue={current_recipes}
+                    recipeByRef={recipeByRef}
+                    hopperCounts={data.hopper_counts}
+                    onSelect={setSelectedRef}
+                    progress={data.progress}
+                    neededProgress={data.needed_progress}
+                  />
+                </Stack.Item>
+              </Stack>
+            </Stack.Item>
+          </Stack>
         </Stack.Item>
       </Stack>
     </Box>
@@ -265,404 +327,406 @@ const CovenantSigil = ({ style }: CovenantSigilProps) => {
       <DmIcon
         icon="icons/roguetown/items/malummiracles.dmi"
         icon_state="craftercovenant"
-        width={48}
-        height={48}
+        width="48px"
+        height="48px"
       />
     </Box>
   );
 };
 
-type QuoteRailProps = {
-  lines: string[];
+type StatusBarProps = {
+  data: Data;
+  quote: string;
 };
 
-const QuoteRail = ({ lines }: QuoteRailProps) => {
+const StatusBar = ({ data, quote }: StatusBarProps) => {
+  const { act } = useBackend<Data>();
+  const { status_state, machine_on, machine_powered } = data;
+  const isLocked = Boolean(data.controls_locked);
+
+  let note = STATUS_NOTES[status_state];
+  if (!machine_on && !machine_powered) {
+    note = NO_POWER_NOTE;
+  }
+
+  let flavor = quote;
+  if (!machine_on) {
+    flavor = machine_powered ? POWERED_FLAVOR : UNPOWERED_FLAVOR;
+  }
+  if (isLocked) {
+    flavor = LOCKED_NOTE;
+  }
+
   return (
-    <Section fill>
-      <Stack vertical fill align="center" justify="space-around">
-        {lines.map((line) => (
-          <Stack.Item key={line} grow>
-            <Box
-              bold
-              textAlign="center"
-              style={{
-                writingMode: 'vertical-rl',
-                textOrientation: 'mixed',
-                color: '#c9c1ab',
-                minHeight: '100%',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}
-            >
-              {line}
-            </Box>
-          </Stack.Item>
-        ))}
+    <Section>
+      <Stack align="center">
+        <Stack.Item>
+          <Box
+            bold
+            fontSize={1.6}
+            style={{
+              color: STATUS_COLORS[status_state],
+              fontFamily: TITLE_FONT,
+            }}
+          >
+            {STATUS_LABELS[status_state]}
+          </Box>
+        </Stack.Item>
+        <Stack.Item grow ml={1.5}>
+          <Box bold>{note}</Box>
+          <Box italic color="label">
+            {flavor}
+          </Box>
+        </Stack.Item>
+        <Stack.Item color="label">
+          {machine_on ? 'Stop ' : 'Start '}
+          {Array.from({ length: data.steps_total || 0 }, (_, step) =>
+            step < data.steps_done ? '●' : '○',
+          ).join('')}
+        </Stack.Item>
+        <Stack.Item>
+          <Button disabled={isLocked} onClick={() => act('lever')}>
+            Pull Lever
+          </Button>
+        </Stack.Item>
+        <Stack.Item>
+          <Button disabled={isLocked} onClick={() => act('button')}>
+            Push Buttons
+          </Button>
+        </Stack.Item>
+        <Stack.Item>
+          <Button disabled={isLocked} onClick={() => act('dial')}>
+            Fiddle Dials
+          </Button>
+        </Stack.Item>
       </Stack>
     </Section>
   );
 };
 
-type CurrentQueueSectionProps = {
-  machineOn: boolean;
-  queue: QueueEntry[];
+type RecipeDetailSectionProps = {
+  recipe: Recipe | null;
+  hopperCounts: Record<string, number>;
+  amount: number;
+  setAmount: (amount: number) => void;
 };
 
-const CurrentQueueSection = ({
-  machineOn,
-  queue,
-}: CurrentQueueSectionProps) => {
+const RecipeDetailSection = ({
+  recipe,
+  hopperCounts,
+  amount,
+  setAmount,
+}: RecipeDetailSectionProps) => {
   const { act } = useBackend<Data>();
+
+  if (!recipe) {
+    return (
+      <Section title="No Recipe Selected" fill>
+        <Box style={dashedFrameStyle}>
+          Select a recipe from the list to preview its inputs.
+        </Box>
+      </Section>
+    );
+  }
+
+  return (
+    <Section title={recipe.name} fill scrollable>
+      <Stack align="center" mb={1}>
+        <Stack.Item>
+          <DmIcon
+            icon={recipe.icon_file}
+            icon_state={recipe.icon_state}
+            width={2}
+            height={2}
+          />
+        </Stack.Item>
+        <Stack.Item grow color="label">
+          {recipe.category}
+          {recipe.created_num > 1 ? ` x${recipe.created_num}` : ''}
+        </Stack.Item>
+      </Stack>
+      <Box bold mb={0.5}>
+        Required Materials
+      </Box>
+      {recipe.requirements.map((requirement) => {
+        const availableCount = hopperCounts[requirement.key] || 0;
+        const hasEnough = availableCount >= requirement.amount;
+
+        return (
+          <Stack
+            key={`${requirement.key}-${requirement.amount}`}
+            align="center"
+            mb={0.5}
+          >
+            <Stack.Item>
+              <Box className={requirement.icon} mr={1} inline />
+            </Stack.Item>
+            <Stack.Item grow>
+              {requirement.amount}x {requirement.name}
+            </Stack.Item>
+            <Stack.Item style={{ color: hasEnough ? SEAL_GREEN : SEAL_RED }}>
+              {hasEnough ? '✓' : '✗'} {availableCount} in hopper
+            </Stack.Item>
+          </Stack>
+        );
+      })}
+      <Stack align="center" mt={1}>
+        <Stack.Item>
+          <Button onClick={() => setAmount(Math.max(1, amount - 5))}>
+            {'<<'}
+          </Button>
+        </Stack.Item>
+        <Stack.Item>
+          <Button onClick={() => setAmount(Math.max(1, amount - 1))}>
+            {'<'}
+          </Button>
+        </Stack.Item>
+        <Stack.Item>
+          <Box textAlign="center" bold fontSize={1.3} width="2.5em">
+            {amount}
+          </Box>
+        </Stack.Item>
+        <Stack.Item>
+          <Button onClick={() => setAmount(Math.min(25, amount + 1))}>
+            {'>'}
+          </Button>
+        </Stack.Item>
+        <Stack.Item>
+          <Button onClick={() => setAmount(Math.min(25, amount + 5))}>
+            {'>>'}
+          </Button>
+        </Stack.Item>
+        <Stack.Item grow>
+          <Button.Confirm
+            fluid
+            onClick={() => act('add_recipe', { ref: recipe.ref, amount })}
+          >
+            Add {amount} To Queue
+          </Button.Confirm>
+        </Stack.Item>
+      </Stack>
+    </Section>
+  );
+};
+
+const CraftProgress = (props: { percent: number }) => (
+  <Stack align="center">
+    <Stack.Item grow>
+      <ParchmentProgressBar value={props.percent} max={100} color={SEAL_AMBER} />
+    </Stack.Item>
+    <Stack.Item color="label">{props.percent}%</Stack.Item>
+  </Stack>
+);
+
+type QueueNeed = {
+  name: string;
+  icon: string;
+  amount: number;
+};
+
+const queueNeeds = (
+  queue: QueueEntry[],
+  recipeByRef: Record<string, Recipe>,
+) => {
+  const needs: Record<string, QueueNeed> = {};
+  for (const entry of queue) {
+    const recipe = recipeByRef[entry.ref];
+    if (entry.active || !recipe) {
+      continue;
+    }
+    for (const requirement of recipe.requirements) {
+      if (!needs[requirement.key]) {
+        needs[requirement.key] = {
+          name: requirement.name,
+          icon: requirement.icon,
+          amount: 0,
+        };
+      }
+      needs[requirement.key].amount += requirement.amount;
+    }
+  }
+  return needs;
+};
+
+type QueueSectionProps = {
+  queue: QueueEntry[];
+  recipeByRef: Record<string, Recipe>;
+  hopperCounts: Record<string, number>;
+  progress: number;
+  neededProgress: number;
+  onSelect: (ref: string) => void;
+};
+
+const QueueSection = ({
+  queue,
+  recipeByRef,
+  hopperCounts,
+  progress,
+  neededProgress,
+  onSelect,
+}: QueueSectionProps) => {
+  const { act } = useBackend<Data>();
+  const progressPercent =
+    neededProgress > 0
+      ? Math.min(100, Math.round((progress / neededProgress) * 100))
+      : 0;
+  const needs = queueNeeds(queue, recipeByRef);
+  const needKeys = Object.keys(needs);
 
   return (
     <Section
       title="What Churns Inside"
       fill
       scrollable
-      buttons={
-        <Box bold color={machineOn ? STATUS_COLORS.on : STATUS_COLORS.off}>
-          {machineOn
-            ? MACHINE_ACTIVITY_LABELS.active
-            : MACHINE_ACTIVITY_LABELS.inactive}
-        </Box>
-      }
+      buttons={<Box color="label">{queue.length}</Box>}
     >
       {!queue.length && (
-        <Box
-          px={2}
-          py={3}
-          textAlign="center"
-          style={{
-            background: '#2c2f33',
-            border: '1px solid rgba(255, 255, 255, 0.08)',
-            color: '#d8d3c2',
-          }}
-        >
+        <Box textAlign="center" style={dashedFrameStyle}>
           Malum holds you in His cradle. Do not kick Him in the guts.
         </Box>
       )}
-      {queue.map((entry) => (
-        <Button
-          key={entry.id}
-          fluid
-          mb={1}
-          color={entry.active ? 'purple' : undefined}
-          onClick={() => act('remove_recipe', { id: entry.id })}
-        >
-          <Stack align="center">
+      {groupQueue(queue).map((group) => {
+        const first = group.entries[0];
+        const last = group.entries[group.entries.length - 1];
+        const count = group.entries.length;
+
+        return (
+          <Stack key={first.id} align="center" mb={0.5}>
             <Stack.Item>
-              <Box className={entry.icon} mr={1} inline />
+              <Box className={first.icon} mr={1} inline />
             </Stack.Item>
-            <Stack.Item grow>
-              <Box bold>
-                {entry.index}. {entry.name}
+            <Stack.Item grow style={{ minWidth: 0 }}>
+              <Box
+                bold
+                className="toc-link"
+                style={{
+                  color: group.active ? SEAL_AMBER : undefined,
+                  cursor: 'pointer',
+                }}
+                onClick={() => onSelect(first.ref)}
+              >
+                {first.name}
+                {count > 1 ? ` x${count}` : ''}
               </Box>
-              <Box color="label">
-                {entry.category}
-                {entry.created_num > 1 ? ` x${entry.created_num}` : ''}
-              </Box>
+              {group.active && <CraftProgress percent={progressPercent} />}
             </Stack.Item>
             <Stack.Item>
-              <Box color={entry.active ? STATUS_COLORS.working : 'label'}>
-                {entry.active ? 'ACTIVE' : 'REMOVE'}
-              </Box>
+              {group.active ? (
+                <Button.Confirm
+                  icon="times"
+                  tooltip="Cancel"
+                  confirmContent="Materials are lost. Cancel?"
+                  onClick={() =>
+                    act('remove_recipe', { id: first.id, cancel_active: true })
+                  }
+                />
+              ) : (
+                <Button
+                  icon="times"
+                  tooltip="Remove one"
+                  onClick={() => act('remove_recipe', { id: last.id })}
+                />
+              )}
             </Stack.Item>
           </Stack>
-        </Button>
-      ))}
-    </Section>
-  );
-};
-
-type ActiveCenterPanelProps = {
-  controlsLocked: boolean;
-  hopperCounts: Record<string, number>;
-  statusState: Data['status_state'];
-  selectedRecipe: Recipe | null;
-  amount: number;
-  setAmount: (amount: number) => void;
-  progress: number;
-  neededProgress: number;
-};
-
-const ActiveCenterPanel = ({
-  controlsLocked,
-  hopperCounts,
-  statusState,
-  selectedRecipe,
-  amount,
-  setAmount,
-  progress,
-  neededProgress,
-}: ActiveCenterPanelProps) => {
-  const { act } = useBackend<Data>();
-  const progressPercent =
-    neededProgress > 0
-      ? Math.min(100, Math.round((progress / neededProgress) * 100))
-      : 0;
-
-  return (
-    <Stack vertical fill>
-      <Stack.Item>
-        <Section title="MY MOOD">
-          <Box
-            textAlign="center"
-            bold
-            fontSize={2}
-            style={{
-              color: STATUS_COLORS[statusState],
-            }}
-          >
-            {STATUS_LABELS[statusState]}
+        );
+      })}
+      {needKeys.length > 0 && (
+        <Box mt={1} style={dashedFrameStyle}>
+          <Box bold mb={0.5}>
+            Queue needs
           </Box>
-          <Box
-            mt={1}
-            px={1.5}
-            py={1}
-            style={{
-              background: '#1f2328',
-              border: '1px solid rgba(255, 255, 255, 0.08)',
-            }}
-          >
-            <Box bold mb={0.5}>
-              Progress
-            </Box>
-            <Box color="label">
-              {progressPercent}% complete ({Math.round(progress)}/
-              {neededProgress || 0})
-            </Box>
-          </Box>
-          <Box mt={1}>
-            <ControlRack controlsLocked={controlsLocked} />
-          </Box>
-        </Section>
-      </Stack.Item>
-      <Stack.Item grow basis={0}>
-        {selectedRecipe ? (
-          <Section title={selectedRecipe.name} fill scrollable>
-            <Stack vertical fill>
-              <Stack.Item>
-                <Stack align="center">
-                  <Stack.Item>
-                    <DmIcon
-                      icon={selectedRecipe.icon_file}
-                      icon_state={selectedRecipe.icon_state}
-                      width={16}
-                      height={16}
-                    />
-                  </Stack.Item>
-                </Stack>
-              </Stack.Item>
-              <Stack.Item mt={1}>
-                <Box bold mb={1}>
-                  Required Materials
-                </Box>
-                {selectedRecipe.requirements.map((requirement) => {
-                  const availableCount = hopperCounts[requirement.key] || 0;
-                  const hasEnough = availableCount >= requirement.amount;
-
-                  return (
-                    <Stack
-                      key={`${requirement.key}-${requirement.amount}`}
-                      align="center"
-                      mb={0.5}
-                    >
-                      <Stack.Item>
-                        <Box className={requirement.icon} mr={1} inline />
-                      </Stack.Item>
-                      <Stack.Item>
-                        {hasEnough ? (
-                          <Box
-                            inline
-                            mr={1}
-                            style={{
-                              color: '#58b76a',
-                            }}
-                          >
-                            ✓
-                          </Box>
-                        ) : null}
-                      </Stack.Item>
-                      <Stack.Item>
-                        {requirement.amount}x {requirement.name}
-                      </Stack.Item>
-                    </Stack>
-                  );
-                })}
-              </Stack.Item>
-              <Stack.Item mt={2}>
-                <Box bold mb={1}>
-                  Queue Amount
-                </Box>
-                <Stack align="center" justify="space-between">
-                  <Stack.Item>
-                    <Button onClick={() => setAmount(Math.max(1, amount - 5))}>
-                      {'<<'}
-                    </Button>
-                  </Stack.Item>
-                  <Stack.Item>
-                    <Button onClick={() => setAmount(Math.max(1, amount - 1))}>
-                      {'<'}
-                    </Button>
-                  </Stack.Item>
-                  <Stack.Item grow>
-                    <Box textAlign="center" bold fontSize={1.5}>
-                      {amount}
-                    </Box>
-                  </Stack.Item>
-                  <Stack.Item>
-                    <Button onClick={() => setAmount(Math.min(25, amount + 1))}>
-                      {'>'}
-                    </Button>
-                  </Stack.Item>
-                  <Stack.Item>
-                    <Button onClick={() => setAmount(Math.min(25, amount + 5))}>
-                      {'>>'}
-                    </Button>
-                  </Stack.Item>
-                </Stack>
-              </Stack.Item>
-              <Stack.Item mt={2}>
-                <Button.Confirm
-                  fluid
-                  color="good"
-                  onClick={() =>
-                    act('add_recipe', { ref: selectedRecipe.ref, amount })
-                  }
+          {needKeys.map((key) => {
+            const need = needs[key];
+            const have = hopperCounts[key] || 0;
+            const hasEnough = have >= need.amount;
+            return (
+              <Stack key={key} align="center">
+                <Stack.Item>
+                  <Box className={need.icon} mr={1} inline />
+                </Stack.Item>
+                <Stack.Item grow>{need.name}</Stack.Item>
+                <Stack.Item
+                  style={{ color: hasEnough ? SEAL_GREEN : SEAL_RED }}
                 >
-                  Add {amount} To Queue
-                </Button.Confirm>
-              </Stack.Item>
-            </Stack>
-          </Section>
-        ) : (
-          <Section title="No Recipe Selected" fill>
-            <NoticeBox>
-              Select a recipe from the right to preview its inputs.
-            </NoticeBox>
-          </Section>
-        )}
-      </Stack.Item>
-    </Stack>
-  );
-};
-
-type OffCenterPanelProps = {
-  controlsLocked: boolean;
-  machinePowered: boolean;
-};
-
-const OffCenterPanel = ({
-  controlsLocked,
-  machinePowered,
-}: OffCenterPanelProps) => {
-  return (
-    <Section fill>
-      <Stack fill align="center" justify="center">
-        <Stack.Item>
-          <Box
-            textAlign="center"
-            px={4}
-            py={6}
-            style={{
-              background: '#2c2f33',
-              border: '1px solid rgba(255, 255, 255, 0.08)',
-            }}
-          >
-            <Box
-              bold
-              fontSize={1.8}
-              style={{
-                color: '#d8d3c2',
-              }}
-            >
-              {machinePowered
-                ? 'MALUM AWAITS YOUR BLOOD, SWEAT AND DEVOTION'
-                : "MALUM'S FORCE OF LYFE DOES NOT FLOW"}
-            </Box>
-            <Box
-              mt={2}
-              bold
-              fontSize={2.2}
-              style={{
-                color: STATUS_COLORS.off,
-              }}
-            >
-              {MACHINE_ACTIVITY_LABELS.inactive}
-            </Box>
-            <Box mt={3}>
-              <ControlRack controlsLocked={controlsLocked} />
-            </Box>
-          </Box>
-        </Stack.Item>
-      </Stack>
-    </Section>
-  );
-};
-
-type ControlRackProps = {
-  controlsLocked: boolean;
-};
-
-const ControlRack = ({ controlsLocked }: ControlRackProps) => {
-  const { act } = useBackend<Data>();
-  const isLocked = Boolean(controlsLocked);
-
-  return (
-    <Stack vertical>
-      <Stack.Item>
-        <Box bold textAlign="center" mb={1}>
-          Control Rack
+                  {hasEnough ? '✓' : '✗'} {have}/{need.amount}
+                </Stack.Item>
+              </Stack>
+            );
+          })}
         </Box>
-      </Stack.Item>
-      <Stack.Item>
-        <Stack>
-          <Stack.Item grow>
-            <Button fluid disabled={isLocked} onClick={() => act('lever')}>
-              Pull Lever
-            </Button>
-          </Stack.Item>
-          <Stack.Item grow>
-            <Button fluid disabled={isLocked} onClick={() => act('button')}>
-              Push Buttons
-            </Button>
-          </Stack.Item>
-          <Stack.Item grow>
-            <Button fluid disabled={isLocked} onClick={() => act('dial')}>
-              Fiddle Dials
-            </Button>
-          </Stack.Item>
-        </Stack>
-      </Stack.Item>
-      {isLocked && (
-        <Stack.Item>
-          <Box color="label" textAlign="center" mt={1}>
-            Stand next to the auto anvil to use its controls.
-          </Box>
-        </Stack.Item>
       )}
-    </Stack>
+    </Section>
   );
 };
 
 type RecipePickerSectionProps = {
   recipes: Recipe[];
+  totalCount: number;
   selectedRef: string | null;
   onSelect: (ref: string) => void;
   searchText: string;
   onSearch: (value: string) => void;
+  categoryNodes: RailNode[];
+  category: string;
+  onCategory: (category: string) => void;
 };
+
+const CategoryOption = (props: {
+  label: string;
+  count: number;
+  indent?: boolean;
+}) => (
+  <Stack>
+    <Stack.Item grow pl={props.indent ? 2 : 0}>
+      {props.label}
+    </Stack.Item>
+    <Stack.Item color="label">{props.count}</Stack.Item>
+  </Stack>
+);
 
 const RecipePickerSection = ({
   recipes,
+  totalCount,
   selectedRef,
   onSelect,
   searchText,
   onSearch,
+  categoryNodes,
+  category,
+  onCategory,
 }: RecipePickerSectionProps) => {
+  const categoryOptions = [
+    {
+      value: ALL_CATEGORIES,
+      displayText: <CategoryOption label="All recipes" count={totalCount} />,
+    },
+    ...categoryNodes.flatMap((node) => [
+      {
+        value: node.key,
+        displayText: <CategoryOption label={node.label} count={node.count} />,
+      },
+      ...(node.children || []).map((child) => ({
+        value: child.key,
+        displayText: (
+          <CategoryOption label={child.label} count={child.count} indent />
+        ),
+      })),
+    ]),
+  ];
+  const showCategory = !recipes.some((recipe) => recipe.category === category);
+
   return (
     <Stack vertical fill>
+      <Stack.Item>
+        <Dropdown
+          fluid
+          selected={category}
+          displayText={category === ALL_CATEGORIES ? 'All recipes' : category}
+          options={categoryOptions}
+          onSelected={onCategory}
+        />
+      </Stack.Item>
       <Stack.Item>
         <Input
           fluid
@@ -671,33 +735,60 @@ const RecipePickerSection = ({
           onChange={onSearch}
         />
       </Stack.Item>
-      <Stack.Item grow basis={0} mt={1}>
-        <Section title="What I Can Provide" fill scrollable>
-          {!recipes.length && <NoticeBox>No matching recipes.</NoticeBox>}
-          {recipes.map((recipe) => (
-            <Button
-              key={recipe.ref}
-              fluid
-              mb={1}
-              selected={recipe.ref === selectedRef}
-              onClick={() => onSelect(recipe.ref)}
-            >
-              <Stack align="center">
-                <Stack.Item>
-                  <Box className={recipe.icon} mr={1} inline />
-                </Stack.Item>
-                <Stack.Item grow>
-                  <Box bold>{recipe.name}</Box>
-                  <Box color="label">
-                    {recipe.category}
-                    {recipe.created_num > 1 ? ` x${recipe.created_num}` : ''}
-                  </Box>
-                </Stack.Item>
-              </Stack>
-            </Button>
-          ))}
+      <Stack.Item grow basis={0}>
+        <Section key={category} title="What I Can Provide" fill scrollable>
+          {!recipes.length && (
+            <Box style={dashedFrameStyle}>No matching recipes.</Box>
+          )}
+          <IncrementalList>
+            {recipes.map((recipe) => (
+              <RecipePickerRow
+                key={recipe.ref}
+                recipe={recipe}
+                selected={recipe.ref === selectedRef}
+                showCategory={showCategory}
+                onSelect={onSelect}
+              />
+            ))}
+          </IncrementalList>
         </Section>
       </Stack.Item>
     </Stack>
   );
 };
+
+type RecipePickerRowProps = {
+  recipe: Recipe;
+  selected: boolean;
+  showCategory: boolean;
+  onSelect: (ref: string) => void;
+};
+
+const RecipePickerRow = memo(
+  ({ recipe, selected, showCategory, onSelect }: RecipePickerRowProps) => (
+    <Button fluid selected={selected} onClick={() => onSelect(recipe.ref)}>
+      <Stack align="center">
+        <Stack.Item>
+          <Box className={recipe.icon} inline />
+        </Stack.Item>
+        <Stack.Item
+          grow
+          style={{
+            minWidth: 0,
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+            whiteSpace: 'nowrap',
+          }}
+        >
+          {recipe.name}
+          {recipe.created_num > 1 ? ` x${recipe.created_num}` : ''}
+        </Stack.Item>
+        {showCategory && (
+          <Stack.Item color="label">
+            {subcategoryOf(recipe.category)}
+          </Stack.Item>
+        )}
+      </Stack>
+    </Button>
+  ),
+);

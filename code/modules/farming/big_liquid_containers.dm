@@ -42,7 +42,7 @@
 // Alcohol
 /obj/structure/fermentation_keg/zagul
 	name = "liquor barrel"
-	desc = "A barrel marked with a coastal zagul. An extremely cheap lager hailing from a local brewery."
+	desc = "A barrel marked with a coastal zagul. An extremely cheap lager hailing from a Saltwick brewery."
 
 /obj/structure/fermentation_keg/zagul/Initialize(mapload)
 	. = ..()
@@ -50,7 +50,7 @@
 
 /obj/structure/fermentation_keg/blackgoat
 	name = "fruitily aromatic barrel"
-	desc = "A barrel marked with the Black Goat Kriek emblem. A fruit-sour beer brewed with jackberries for a tangy taste."
+	desc = "A barrel marked with the Black Goat Kriek emblem. A Grenzelhoftian fruit-sour beer brewed with jackberries for a tangy taste."
 
 /obj/structure/fermentation_keg/blackgoat/Initialize(mapload)
 	. = ..()
@@ -97,6 +97,13 @@
 	. = ..()
 	reagents.add_reagent(/datum/reagent/consumable/ethanol/redwine,900)
 
+/obj/structure/fermentation_keg/elvenred
+	name = "delectable fruity wine barrel"
+	desc = "A barrel that contains a Rosawood delicacy. Elven wine is prized across all of Psydonia."
+
+/obj/structure/fermentation_keg/elvenred/Initialize(mapload)
+	. = ..()
+	reagents.add_reagent(/datum/reagent/consumable/ethanol/elfred,900)
 
 /obj/structure/fermentation_keg/onion
 	name = "eye-wateringly aromatic barrel"
@@ -166,7 +173,7 @@
 
 /obj/structure/fermentation_keg/spicedwine
 	name = "fragrant barrel"
-	desc = "A barrel that marinates with the alluring aroma of spice. Branded on the side is an unfamiliar brewery's marking, denoting it as a casket for spiced wine."
+	desc = "A barrel that marinates with the alluring aroma of spice. Branded on the side is a Rockhill brewery's marking, denoting it as a casket for spiced wine."
 
 /obj/structure/fermentation_keg/spicedwine/Initialize(mapload)
 	. = ..()
@@ -174,7 +181,7 @@
 
 /obj/structure/fermentation_keg/spicedwineaged
 	name = "potently fragrant barrel"
-	desc = "A barrel that marinates with the alluring aroma of spice. Branded on the side is an unfamiliar brewery's marking, denoting it as a casket for spiced wine. It has been left to age for some time."
+	desc = "A barrel that marinates with the alluring aroma of spice. Branded on the side is a Rockhill brewery's marking, denoting it as a casket for spiced wine. It has been left to age for some time."
 
 /obj/structure/fermentation_keg/spicedwineaged/Initialize(mapload)
 	. = ..()
@@ -182,7 +189,7 @@
 
 /obj/structure/fermentation_keg/spicedwinedelectable
 	name = "captivatingly fragrant barrel"
-	desc = "A barrel that marinates with the alluring aroma of spice. Branded on the side is an unfamiliar brewery's marking, denoting it as a casket for spiced wine. It has been left to evolve into something greater."
+	desc = "A barrel that marinates with the alluring aroma of spice. Branded on the side is a Rockhill brewery's marking, denoting it as a casket for spiced wine. It has been left to evolve into something greater."
 
 /obj/structure/fermentation_keg/spicedwinedelectable/Initialize(mapload)
 	. = ..()

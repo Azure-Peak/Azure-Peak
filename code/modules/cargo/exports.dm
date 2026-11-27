@@ -43,6 +43,10 @@
 /atom/movable/proc/get_real_price()
 	if (special_item)
 		return 0
+	if(isitem(src))
+		var/obj/item/as_item = src
+		if(as_item.item_quality == ITEM_QUALITY_GIFT)
+			return 0
 	if(sellprice == initial(sellprice))
 		randomize_price()
 	if(!static_price && !sellprice && initial(sellprice) == 0)
@@ -50,7 +54,7 @@
 		if(!derived)
 			derived = lookup_derived_subtype_price(type)
 		if(derived)
-			sellprice = derived
+			sellprice = max(1, round(derived, 1))
 			randomize_price()
 	if(worn_out)
 		return max(1, round(sellprice * WORN_SELL_MULT))

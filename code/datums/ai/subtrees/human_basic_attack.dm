@@ -69,6 +69,8 @@
 		if(isweapon(offhand) && !istype(offhand, /obj/item/rogueweapon/shield))
 			pawn.swap_hand()
 			npc_spend_input(pawn)
+		else if(!offhand && _draw_stowed(pawn, active = FALSE))
+			pawn.swap_hand()
 	else if(istype(held_item, /obj/item/gun))
 		_restore_stashed_weapon(controller, pawn, draw_sidearm = TRUE)
 	else if(held_item?.flags_ai_inventory & AI_ITEM_THROWING)
@@ -199,11 +201,23 @@
 		return
 	if(held)
 		return
+	if(_draw_stowed(pawn))
+		return
 	for(var/obj/item/rogueweapon/candidate in range(1, pawn))
 		if(!isturf(candidate.loc) || !ai_is_melee_weapon(candidate))
 			continue
 		if(_draw_into_hand(pawn, candidate, active = TRUE))
 			return
+
+/datum/ai_behavior/basic_melee_attack/human_npc/proc/_draw_stowed(mob/living/carbon/human/pawn, active = TRUE)
+	var/obj/item/stowed = ai_find_stowed_weapon(pawn)
+	if(!stowed)
+		return FALSE
+	var/datum/component/holster/holster = isitem(stowed.loc) ? stowed.loc.GetComponent(/datum/component/holster) : null
+	if(!ai_draw_stowed_weapon(pawn, stowed, active))
+		return FALSE
+	npc_spend_input(pawn, pawn.npc_reaction_time() + (holster ? holster.sheathe_time : 0))
+	return TRUE
 
 /datum/ai_behavior/basic_melee_attack/human_npc/proc/_update_attack_intent(datum/ai_controller/controller, mob/living/carbon/human/pawn, atom/target)
 	var/swings_left = controller.blackboard[BB_HUMAN_NPC_ATTACK_INTENT_SWINGS_LEFT]

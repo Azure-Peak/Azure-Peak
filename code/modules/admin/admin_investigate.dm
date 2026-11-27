@@ -32,6 +32,7 @@
 	selected = replacetext(selected, " (empty)", "")
 
 	if(selected == "notes, memos, watchlist" && check_rights(R_ADMIN))
+		log_admin("[key_name(usr)] investigated notes, memos and watchlist.")
 		browse_messages()
 		return
 
@@ -39,4 +40,5 @@
 	if(!fexists(F))
 		to_chat(src, span_danger("No [selected] logfile was found."))
 		return
+	log_admin("[key_name(usr)] investigated the [selected] log.")
 	src << browse(F,"window=investigate[selected];size=800x300")

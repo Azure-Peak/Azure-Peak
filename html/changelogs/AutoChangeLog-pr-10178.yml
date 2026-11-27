@@ -1,0 +1,4 @@
+author: "JustSomeGal"
+delete-after: True
+changes:
+  - refactor: "Moved the paint advclasses for acolyte and templar into appropriate places. No player-facing change from this."

@@ -219,6 +219,7 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 	var/bloody_icon_state = "itemblood"
 	var/dam_icon = 'icons/effects/item_damage32.dmi'
 	var/dam_icon_state = "itemdamaged"
+	var/mutable_appearance/damage_overlay
 	var/boobed = FALSE
 
 	var/firefuel = 0 //add this idiot
@@ -311,6 +312,7 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 	var/is_important = FALSE
 	var/unmintable = FALSE
 	var/atc_sealed = FALSE
+	var/stockpile_stamped = FALSE
 	var/was_crafted = FALSE
 	var/is_carved = FALSE
 	/// does this item/weapon circumvent two-stage death during dismemberment? (do not add this to anything but ultra rare shit)
@@ -344,6 +346,36 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 		max_integrity += (max_integrity * 0.11142857143)	// don't ask
 		obj_integrity = max_integrity
 
+/obj/item/proc/seals_match(obj/item/other)
+	return atc_sealed == other.atc_sealed && stockpile_stamped == other.stockpile_stamped
+
+/obj/item/proc/copy_seals(obj/item/from)
+	atc_sealed = from.atc_sealed
+	stockpile_stamped = from.stockpile_stamped
+
+/obj/item/proc/get_seals()
+	. = NONE
+	if(atc_sealed)
+		. |= ITEM_SEAL_ATC
+	if(stockpile_stamped)
+		. |= ITEM_SEAL_STOCKPILE
+
+/obj/item/proc/add_seals(seals)
+	if(seals & ITEM_SEAL_ATC)
+		atc_sealed = TRUE
+	if(seals & ITEM_SEAL_STOCKPILE)
+		stockpile_stamped = TRUE
+
+/obj/item/proc/stockpile_stamp_applies()
+	if(!stockpile_stamped)
+		return FALSE
+	var/good_id = get_trade_good_id()
+	if(!good_id)
+		return FALSE
+	if(SStreasury.stockpile_by_trade_good[good_id])
+		return TRUE
+	var/datum/trade_good/TG = GLOB.trade_goods[good_id]
+	return TG.behavior != TRADE_BEHAVIOR_EQUIPMENT && TG.behavior != TRADE_BEHAVIOR_POTION
 
 /obj/item/proc/update_transform()
 	transform = null
@@ -718,17 +750,18 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 
 		if(istype(src, /obj/item/ammo_casing/caseless/rogue))
 			var/obj/item/ammo_casing/caseless/rogue/rog_ammo = src
-			if(rog_ammo.BB.damage)
-				inspec += "\n<b>PROJECTILE DAMAGE:</b> [rog_ammo.BB.damage]"
-			inspec += "\n<b>Armor Penetration:</b> [rog_ammo.BB.armor_penetration > PEN_NONE ? colorgrade_rating(uppertext(rog_ammo.BB.flag), rog_ammo.BB.armor_penetration) : "<font color='#808080'>NONE</font>"]"
-			if(rog_ammo.BB.min_range)
-				inspec += "\n<b>MINIMUM EFFECTIVE RANGE:</b> [rog_ammo.BB.min_range] tile(s)"
-			if(rog_ammo.BB.max_range)
-				inspec += "\n<b>MAXIMUM EFFECTIVE RANGE:</b> [rog_ammo.BB.max_range] tile(s)"
-			if(rog_ammo.BB.dam_falloff_factor)
-				inspec += "\n<b>DAMAGE FALLOFF:</b> [get_falloff_string(rog_ammo.BB.dam_falloff_factor)]"
-			if(rog_ammo.BB.antibeast_factor != 1)
-				inspec += "\n<b>ANTI-BEAST MODIFIER:</b> [rog_ammo.BB.antibeast_factor * 100]% <span class='info'><a href='?src=[REF(src)];explainantibeast=1'>{?}</a></span>"
+			if(rog_ammo.BB) //javelins are in the same path but have no projectile variables, causing a runtime when you exmaine them, lets check if there are actual projectile attributes first
+				if(rog_ammo.BB.damage)
+					inspec += "\n<b>PROJECTILE DAMAGE:</b> [rog_ammo.BB.damage]"
+				inspec += "\n<b>Armor Penetration:</b> [rog_ammo.BB.armor_penetration > PEN_NONE ? colorgrade_rating(uppertext(rog_ammo.BB.flag), rog_ammo.BB.armor_penetration) : "<font color='#808080'>NONE</font>"]"
+				if(rog_ammo.BB.min_range)
+					inspec += "\n<b>MINIMUM EFFECTIVE RANGE:</b> [rog_ammo.BB.min_range] tile(s)"
+				if(rog_ammo.BB.max_range)
+					inspec += "\n<b>MAXIMUM EFFECTIVE RANGE:</b> [rog_ammo.BB.max_range] tile(s)"
+				if(rog_ammo.BB.dam_falloff_factor)
+					inspec += "\n<b>DAMAGE FALLOFF:</b> [get_falloff_string(rog_ammo.BB.dam_falloff_factor)]"
+				if(rog_ammo.BB.antibeast_factor != 1)
+					inspec += "\n<b>ANTI-BEAST MODIFIER:</b> [rog_ammo.BB.antibeast_factor * 100]% <span class='info'><a href='?src=[REF(src)];explainantibeast=1'>{?}</a></span>"
 
 //**** CLOTHING STUFF
 
@@ -1762,7 +1795,9 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 	return TRUE
 
 /obj/item/proc/update_damaged_state()
-	cut_overlays()
+	if(damage_overlay)
+		cut_overlay(damage_overlay)
+		damage_overlay = null
 	if (!obj_broken)
 		return
 	var/icon/damaged_icon = icon(initial(icon), icon_state, , TRUE)
@@ -1770,6 +1805,7 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 	damaged_icon.Blend(icon(dam_icon, dam_icon_state), ICON_MULTIPLY)
 	var/mutable_appearance/damage = new(damaged_icon)
 	damage.alpha = 150
+	damage_overlay = damage
 	add_overlay(damage)
 
 /obj/item/proc/repair_coverage()
@@ -1858,6 +1894,10 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 	worn_out = TRUE
 	has_item_quality = TRUE
 	item_quality = ITEM_QUALITY_WORN
+
+/obj/item/proc/mark_as_gift()
+	has_item_quality = TRUE
+	item_quality = ITEM_QUALITY_GIFT
 
 /obj/item/proc/unmark_as_worn()
 	if(!worn_out)

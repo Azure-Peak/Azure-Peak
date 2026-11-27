@@ -73,15 +73,20 @@
 	STALUC = 10
 	if(ishuman(src))
 		var/mob/living/carbon/human/H = src
+		H.stat_ledger = null
 
 		if (H.statpack)
+			var/list/snapshot = H.snapshot_build()
 			H.statpack.apply_to_human(H, new_player)
+			H.record_build_changes(BUILD_SOURCE_STATPACK, snapshot)
 		if (H.dna?.species) // LETHALSTONE EDIT: apply our race bonus, if we have one
 			var/datum/species/species = H.dna.species
 			if (species.race_bonus)
+				var/list/snapshot = H.snapshot_build()
 				for (var/stat in species.race_bonus)
 					var/amt = species.race_bonus[stat]
 					H.change_stat(stat, amt)
+				H.record_build_changes(BUILD_SOURCE_RACE, snapshot)
 		switch(H.age)
 			if(AGE_MIDDLEAGED)
 				change_stat(STATKEY_SPD, -1)

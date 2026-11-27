@@ -101,6 +101,9 @@
 	var/announce_latejoin = TRUE
 	var/give_bank_account = FALSE
 	var/noble_income = FALSE //Passive income every day from noble estate
+	var/noble_rank = NOBLE_RANK_NONE
+	var/estate_pay_rank = NOBLE_RANK_NONE
+	var/political_faction
 
 	var/can_random = TRUE
 
@@ -352,8 +355,11 @@
 			H.mind.AddSpell(new S)
 
 	if(length(job_stats))
+		var/mob/living/carbon/human/tracked = H
+		var/list/snapshot = tracked.snapshot_build()
 		for(var/stat in job_stats)
 			H.change_stat(stat, job_stats[stat])
+		tracked.record_build_changes(BUILD_SOURCE_JOB, snapshot)
 
 	for(var/X in peopleknowme)
 		for(var/datum/mind/MF in get_minds(X))
@@ -372,10 +378,6 @@
 				H.mind.i_know_person(MF)
 
 	// Ready up bonus
-	if(H.mind)
-		if (HAS_TRAIT(H, TRAIT_EXPLOSIVE_SUPPLY))
-			H.mind.has_bomb = TRUE
-
 	if(!H.islatejoin)
 		H.adjust_triumphs(1)
 		H.apply_status_effect(/datum/status_effect/buff/mealbuff)
@@ -403,9 +405,16 @@
 		else
 			SStreasury.create_bank_account(H)
 
-		if(noble_income)
-			SStreasury.noble_incomes[H] = noble_income
-			SStreasury.grant_estate_income(H, noble_income, TRUE)
+		if(noble_rank || noble_income)
+			SSeconomy.register_estate(H, noble_rank, noble_income, TRUE, M?.client, estate_pay_rank)
+
+	if(ishuman(H))
+		var/mob/living/carbon/human/human = H
+		if(political_faction)
+			human.political_faction = political_faction
+		var/datum/political_faction/faction = GLOB.political_factions[human.political_faction]
+		if(faction && faction.id != POLITICAL_FACTION_NEUTRAL && !HAS_TRAIT(human, TRAIT_OUTLAW))
+			record_featured_object_stat(FEATURED_STATS_POLITICAL_FACTIONS, faction.name)
 
 	if(show_in_credits && H.ckey && isnull(SScrediticons.processing[H.ckey]))
 		SScrediticons.processing[H.ckey] = FALSE
@@ -605,10 +614,12 @@
 		statcl = advclass.adv_stat_ceiling
 
 	if(length(statcl))
+		var/list/snapshot = H.snapshot_build()
 		for(var/stat in statcl)
 			if(statcl[stat] < H.get_true_stat(stat))
 				H.change_stat(stat, (statcl[stat] - H.get_true_stat(stat)))
 				to_chat(H, "Your [stat] was reduced to \Roman[statcl[stat]] due to class limits.")
+		H.record_build_changes(BUILD_SOURCE_JOB, snapshot)
 
 // LETHALSTONE EDIT: Helper functions for pronoun-based clothing selection
 /proc/should_wear_masc_clothes(mob/living/carbon/human/H)

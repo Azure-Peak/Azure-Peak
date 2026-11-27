@@ -60,6 +60,7 @@
 	handle_heart()
 	update_energy()
 	update_stamina()
+	update_health_hud()
 	for(var/datum/charflaw/cf in charflaws)
 		if(!cf.ephemeral && mind)
 			cf.flaw_on_life(src)

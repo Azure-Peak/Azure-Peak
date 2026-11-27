@@ -10,10 +10,10 @@
 #define MIGRANT_ROLE_OPTION_LIMIT 16
 
 #define MIGRANT_NOBILITY \
-	/datum/migrant_role/heartfelt/lord,\
+	/datum/migrant_role/heartfelt/count,\
 	/datum/migrant_role/heartfelt/hand,\
 	/datum/migrant_role/heartfelt/knight,\
 
 
 #define MIGRANT_LORDS \
-	/datum/migrant_role/heartfelt/lord,\
+	/datum/migrant_role/heartfelt/count,\

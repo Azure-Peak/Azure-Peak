@@ -21,7 +21,7 @@
 		"Head Physician" = 80,
 		"Apothecary" = 40,
 	)
-	flavor_text = {"This Covenant of Noc & Pestra, sworne under the watchful eye of Noc and the merciful hand of Pestra, witnesseth that the scholars of the University and the healers of the Apothecary shall bear no greater levy than the lightest measure upon their heads, and shall be paid from the Crown's purse an honest minimum of their due whilst this Covenant standeth.
+	flavor_text = {"This Covenant of Noc & Pestra, sworne under the watchful eye of Noc and the merciful hand of Pestra, witnesseth that the scholars of the University of Azuria and the healers of the Apothecary shall bear no greater levy than the lightest measure upon their heads, and shall be paid from the Crown's purse an honest minimum of their due whilst this Covenant standeth.
 
 In exchange, the chartered scholars of the University shall keep the lore and knowledge of the Realm, preserve it, and teach it unto those worthy and of bright minds, for Noc granted humen the gift of magick and wisdom that we may pass it on. And the chartered healers of the Apothecary, agents of Pestra, shall tend the hurt of every subject who cometh to their door, be they beggar or burgher, and shall never refuse the wounded for want of coin, for Pestra is merciful and taught us medicine that we may care for one another.
 
@@ -30,7 +30,7 @@ Yeven under the seal of the Crown, in witness of Noc and Pestra."}
 	restore_text = "The %RULER% has affirmed the Covenant of Noc & Pestra. The scholars and healers of Azuria resume their sheltered station, that the Realm may keep both its lore and its mercy."
 
 /datum/decree/noc_pestra_covenant/roll_initial_year()
-	return CALENDAR_EPOCH_YEAR - rand(20, 60)
+	return 1496
 
 /// Returns TRUE if the payer is a member of one of the two chartered rosters.
 /datum/decree/noc_pestra_covenant/proc/is_protected(mob/living/payer)

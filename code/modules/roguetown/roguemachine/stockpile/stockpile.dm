@@ -1,6 +1,6 @@
 /obj/structure/roguemachine/stockpile
 	name = "stockpile"
-	desc = "A magitech device connected to the trade network. Buy basic goods, crafting materials, and food here, or sell them for money."
+	desc = "A magickal device connected to the city's trade network. Buy and sell goods with the market here."
 	icon = 'icons/roguetown/misc/machines.dmi'
 	icon_state = "stockpile_vendor"
 	density = FALSE
@@ -14,8 +14,9 @@
 	. = ..()
 	. += span_info("Left-click with an open hand to see the stockpile. Put in mammon to buy goods from it.")
 	. += span_info("Left-click the machine with an item to sell it into the stockpile. You're paid into your MEISTER account. The machine won't take your goods unless you have an account.")
+	. += span_info("Left-click the machine with a sack or other container to sell everything inside it that the stockpile will accept.")
 	. += span_info("Right-clicking the machine will automatically load all adjacent items into the stockpile at once.")
-	. += span_info("Goods sold here go into the stockpile. Others can buy them. The Steward can also sell them abroad. The stockpile only refills when people sell to it or the Steward imports goods.")
+	. += span_info("Goods sold here go into the market. Roles with royal subsidy sell into the royal stockpile instead.")
 /obj/structure/roguemachine/stockpile/Initialize(mapload)
 	. = ..()
 	SSroguemachine.stock_machines += src
@@ -24,16 +25,13 @@
 
 /obj/structure/roguemachine/stockpile/Destroy()
 	SSroguemachine.stock_machines -= src
+	if(withdraw_tab?.budget >= 1)
+		refund_pouch(withdraw_tab.budget, custom_turf = get_turf(src))
 	return ..()
 
 /obj/structure/roguemachine/stockpile/examine(mob/user)
 	. = ..()
 	. += span_info("Right-click to sell everything in front of the stockpile.")
-	if(SStreasury.royal_custom_unlocked)
-		. += span_info(SStreasury.royal_custom_active ? "Royal Custom is in force. The markup on imports goes to the Treasury." : "Royal Custom is suspended. The markup on imports pays for shipping.")
-	else
-		var/v = SStreasury.economic_output || 0
-		. += span_info("Royal Custom Charter unlocks at [SStreasury.royal_custom_threshold] mammon of stockpile trade ([v] so far).")
 
 /obj/structure/roguemachine/stockpile/ui_state(mob/user)
 	return GLOB.human_adjacent_state
@@ -53,52 +51,27 @@
 		ui.open()
 
 /obj/structure/roguemachine/stockpile/ui_data(mob/user)
-	check_charter_unlock()
 	var/list/data = list()
 	data["budget"] = withdraw_tab.budget
 	data["compact"] = withdraw_tab.compact ? TRUE : FALSE
 	data["categories"] = categories
 	data["category"] = withdraw_tab.current_category
-	data["fiscal_authority"] = has_fiscal_authority(user) ? TRUE : FALSE
 	data["food_stipend"] = (ishuman(user) && HAS_TRAIT(user, TRAIT_ROYAL_SUBSIDY)) ? TRUE : FALSE
-	var/treasury_balance = SStreasury.discretionary_fund?.balance || 0
-	data["treasury_floor"] = SStreasury.stockpile_purchase_floor
-	data["below_floor"] = treasury_balance < SStreasury.stockpile_purchase_floor
-	data["charter_unlocked"] = SStreasury.royal_custom_unlocked ? TRUE : FALSE
-	data["charter_active"] = SStreasury.royal_custom_active ? TRUE : FALSE
-	data["charter_margin"] = SStreasury.royal_custom_margin
-	data["charter_volume"] = SStreasury.economic_output || 0
-	data["charter_threshold"] = SStreasury.royal_custom_threshold
+	data["subsidy_remaining"] = data["food_stipend"] ? SStreasury.royal_subsidy_remaining(user) : 0
+	var/wage_reserve = data["food_stipend"] ? SStreasury.get_expected_wage_outlay() : 0
+	data["wage_reserve"] = wage_reserve
+	data["below_reserve"] = (data["food_stipend"] && SStreasury.discretionary_fund.balance < wage_reserve) ? TRUE : FALSE
 	data["no_deposit"] = FALSE
+	if((user.job in GLOB.atc_positions) && SSmerchant_trade)
+		data["export_licence"] = list(
+			"left" = SSmerchant_trade.export_licence_left(),
+			"total" = SSmerchant_trade.export_licence_allowance(),
+		)
+	data["next_market_day_minutes"] = max(1, CEILING(seconds_until_market_day() / 60, 1))
 	data["title"] = ""
 	data["subtitle"] = ""
 
-	var/list/rows = list()
-	for(var/datum/roguestock/stockpile/R in SStreasury.stockpile_datums)
-		R.refresh_auto_price()
-		var/list/shortage = R.get_shortage_progress()
-		var/export_unit_price = 0
-		if(R.importexport_amt > 0)
-			export_unit_price = round(R.get_export_price() / R.importexport_amt)
-		rows += list(list(
-			"ref" = "\ref[R]",
-			"name" = R.name,
-			"desc" = R.desc,
-			"category" = R.category,
-			"amount" = R.stockpile_amount,
-			"limit" = R.stockpile_limit,
-			"withdraw_price" = R.withdraw_price,
-			"deposit_price" = R.payout_price,
-			"export_price" = export_unit_price,
-			"import_price" = withdraw_tab.direct_import_price(R),
-			"withdraw_disabled" = R.withdraw_disabled ? TRUE : FALSE,
-			"accept_enabled" = R.accept_toggle_enabled ? TRUE : FALSE,
-			"event_tag" = R.get_event_label(),
-			"shortage_progress" = shortage ? shortage["progress"] : 0,
-			"shortage_target" = shortage ? shortage["target"] : 0,
-			"shortage_affected" = shortage ? shortage["affected"] : "",
-		))
-	data["stocks"] = rows
+	withdraw_tab.add_stock_rows(data)
 
 	// The treasure-mint bounty was removed; no bounty datums remain. Keep the key so the
 	// Stockpile TGUI's bounty section simply stays hidden (it gates on bounties.length).
@@ -126,50 +99,9 @@
 			withdraw_tab.compact = !withdraw_tab.compact
 			return TRUE
 		if("refund_budget")
-			if(withdraw_tab.budget > 0)
-				budget2change(withdraw_tab.budget, usr)
-				withdraw_tab.budget = 0
+			if(withdraw_tab.refund_budget(usr))
 				playsound(loc, 'sound/misc/coindispense.ogg', 100, FALSE, -1)
 			return TRUE
-		if("direct_import")
-			var/datum/roguestock/D = locate(params["ref"]) in SStreasury.stockpile_datums
-			if(!D)
-				return TRUE
-			withdraw_tab.do_direct_import(D, usr)
-			return TRUE
-
-/obj/structure/roguemachine/stockpile/proc/check_charter_unlock()
-	if(SStreasury.royal_custom_unlocked)
-		return
-	var/volume = SStreasury.economic_output || 0
-	if(volume < SStreasury.royal_custom_threshold)
-		return
-	SStreasury.royal_custom_unlocked = TRUE
-	SStreasury.royal_custom_active = TRUE
-	scom_announce("The town has traded [SStreasury.royal_custom_threshold] mammon through its stockpiles. The Crown now claims the Royal Custom for the Treasury. This is the markup on goods ordered from abroad.")
-	for(var/mob/living/carbon/human/H in GLOB.human_list)
-		if(!H.client || !H.mind)
-			continue
-		if(H.mind.assigned_role == "Steward")
-			send_ooc_note("<b>Royal Custom unlocked.</b> The markup on goods ordered from abroad through the stockpile now goes to the Treasury. You can set it on the Royal Custom tab.", name = H.real_name)
-
-/obj/structure/roguemachine/stockpile/proc/try_auto_export_units(datum/roguestock/D, units)
-	if(!D || !D.trade_good_id || units <= 0)
-		return 0
-	if(D.autoexport_disabled)
-		return 0
-	if(D.stockpile_amount < units)
-		return 0
-	var/list/best = SSeconomy.get_best_export_region(D.trade_good_id)
-	if(!best || !best["region_id"])
-		return 0
-	var/datum/economic_region/region = GLOB.economic_regions[best["region_id"]]
-	if(!region)
-		return 0
-	var/remaining = region.demands_today[D.trade_good_id] || 0
-	if(remaining < units)
-		return 0
-	return SSeconomy.manual_export(null, best["region_id"], D.trade_good_id, units)
 
 /obj/structure/roguemachine/stockpile/proc/attemptsell(obj/item/I, mob/H, message = TRUE, sound = TRUE)
 	if(istype(I, /obj/structure/handcart)) // Handle carts specially - sell their contents, leave the empty cart
@@ -214,86 +146,56 @@
 			say("No account found for [H]. Submit your fingers to a Meister for inspection.")
 		return
 
-	// Pre-check: Crown's Purse must be solvent enough to pay. Below the Steward-set floor,
-	// the Crown refuses purchases entirely - goods stay in the farmer's hands.
-	var/treasury_balance = SStreasury.discretionary_fund?.balance || 0
-	var/below_floor = treasury_balance < SStreasury.stockpile_purchase_floor
+	var/datum/component/storage/STR = I.GetComponent(/datum/component/storage)
+	if(STR && !STR.locked)
+		for(var/obj/item/stored in STR.contents())
+			if(attemptsell(stored, H, FALSE, FALSE))
+				. = TRUE
+		if(!.)
+			if(message)
+				say("Nothing in [I.name] is accepted here.")
+			return
+		if(sound)
+			playsound(loc, 'sound/misc/hiss.ogg', 100, FALSE, -1)
+		return
 
 	for(var/datum/roguestock/R in SStreasury.stockpile_datums)
 		if(istype(I, /obj/item/natural/bundle))
 			var/obj/item/natural/bundle/B = I
-			if(B.stacktype == R.item_type)
-				if(!R.accept_toggle_enabled)
-					if(message)
-						say("The Crown has no interest in [R.name] at this time.")
-					return
-				if(below_floor)
-					if(message)
-						say("The Treasury is too low to buy anything right now.")
-					return
-				var/bundle_amt = B.amount
-				var/full_on_arrival = (R.stockpile_amount >= R.stockpile_limit)
-				R.stockpile_amount += bundle_amt
-				var/auto_exported = FALSE
-				if(full_on_arrival)
-					if(try_auto_export_units(R, bundle_amt) <= 0)
-						R.stockpile_amount -= bundle_amt
-						if(message)
-							if(R.autoexport_disabled)
-								say("The [R.name] stockpile is full and Autoexport is off. Take it elsewhere.")
-							else
-								say("The [R.name] stockpile is full and no region has demand for that much. Try a smaller bundle or take it elsewhere.")
-						return
-					auto_exported = TRUE
-				SStreasury.dirty_market_view()
-				if(message == TRUE)
-					stock_announce("[bundle_amt] units of [R.name] have been stockpiled.")
-				qdel(B)
-				if(sound == TRUE)
-					playsound(loc, 'sound/misc/hiss.ogg', 100, FALSE, -1)
-				R.refresh_auto_price()
-				var/amt = R.payout_price * bundle_amt
-				if(HAS_TRAIT(H, TRAIT_ROYAL_SUBSIDY))
-					SStreasury.log_fund_entry(new /datum/treasury_entry(null, SStreasury.discretionary_fund, SStreasury.discretionary_fund, 0, "Subsidy Deposit: [R.name] by [H.real_name]"))
-					send_ooc_note("<b>MEISTER:</b> The [amt]m for your [R.name] stays in the Treasury under your food stipend.", name = H.real_name)
-					return
-				SStreasury.economic_output += amt
-				SStreasury.give_money_account(amt, H, "+[amt]m from selling [R.name]", expense_acct = LEDGER_CROWN_EXP_STOCKPILE, income_acct = LEDGER_CITIZEN_SALES, flow = TREASURY_FLOW_STOCKPILE)
-				if(auto_exported && message)
-					say("The [R.name] stockpile is full. The Crown shipped yours abroad. You're still paid.")
-				record_round_statistic(STATS_STOCKPILE_EXPANSES, amt)
+			if(B.stacktype != R.item_type)
+				continue
+			if(R.market_never_buys)
+				if(message)
+					say("The market does not buy [R.name].")
 				return
-			continue
-		// Bloc to replace old vault mechanics
+			var/bundle_amt = B.amount
+			R.refresh_auto_price()
+			qdel(B)
+			. = TRUE
+			SStreasury.dirty_market_view(R)
+			if(message == TRUE)
+				stock_announce("[bundle_amt] units of [R.name] have been stockpiled.")
+			if(sound == TRUE)
+				playsound(loc, 'sound/misc/hiss.ogg', 100, FALSE, -1)
+			if(HAS_TRAIT(H, TRAIT_ROYAL_SUBSIDY))
+				deposit_to_royal_stock(R, bundle_amt, H)
+				return
+			var/amt = R.market_bid(bundle_amt)
+			R.market_stock += bundle_amt
+			credit_economic_event_saturation(R.trade_good_id, bundle_amt)
+			var/paid = pay_seller(H, amt, "from selling [bundle_amt] [R.name]")
+			SStreasury.economic_output += paid
+			return
 		else if(istype(I,R.item_type))
 			if(!R.check_item(I))
 				continue
-			// Steward-controlled accept toggle. Refuses with a message; item stays in hand.
-			if(!R.accept_toggle_enabled)
+			if(R.market_never_buys)
 				if(message)
-					say("The Crown has no interest in [R.name] at this time.")
+					say("The market does not buy [R.name].")
 				return
-			if(below_floor)
-				if(message)
-					say("The Treasury is too low to buy anything right now.")
-				return
-			var/auto_exported = FALSE
-			var/full_on_arrival = (R.stockpile_amount >= R.stockpile_limit)
-			if(full_on_arrival)
-				R.stockpile_amount += 1
-				if(try_auto_export_units(R, 1) <= 0)
-					R.stockpile_amount -= 1
-					if(message)
-						if(R.autoexport_disabled)
-							say("The [R.name] stockpile is full and Autoexport is off. Take it elsewhere.")
-						else
-							say("The [R.name] stockpile is full and no region has demand for that much. Try a smaller bundle or take it elsewhere.")
-					return
-				auto_exported = TRUE
 			R.refresh_auto_price()
-			var/list/settlement = R.get_quality_settlement(I)
+			var/list/settlement = R.get_quality_settlement(I, R.market_bid(1))
 			var/amt = settlement["seller_payout"]
-			var/crown_delta = settlement["crown_delta"]
 			var/quality_baseline = settlement["baseline"]
 			var/true_value = I.get_real_price()
 			if(message && I.has_item_quality && I.item_quality != ITEM_QUALITY_STANDARD)
@@ -301,41 +203,43 @@
 				if(flavor)
 					say(flavor)
 					to_chat(H, span_info("[src] says, \"[flavor]\""))
-			if(crown_delta > 0)
-				SStreasury.mint(SStreasury.discretionary_fund, crown_delta, "Quality premium: [I.name] (+[crown_delta]m)", null, LEDGER_CROWN_REV_QUALITY)
-			else if(crown_delta < 0)
-				SStreasury.burn(SStreasury.discretionary_fund, -crown_delta, "Quality penalty: [I.name] ([crown_delta]m)", LEDGER_CROWN_EXP_QUALITY)
-				record_treasury_expense(TREASURY_FLOW_MISC, "Quality Penalty", -crown_delta)
-			if(!full_on_arrival)
-				R.stockpile_amount += 1
-			SStreasury.dirty_market_view()
 			qdel(I)
+			. = TRUE
+			SStreasury.dirty_market_view(R)
 			if(message == TRUE)
 				stock_announce("[R.name] has been stockpiled.")
 			if(sound == TRUE)
 				playsound(loc, 'sound/misc/hiss.ogg', 100, FALSE, -1)
-			if(amt)
-				if(HAS_TRAIT(H, TRAIT_ROYAL_SUBSIDY))
-					SStreasury.log_fund_entry(new /datum/treasury_entry(null, SStreasury.discretionary_fund, SStreasury.discretionary_fund, 0, "Subsidy Deposit: [R.name] by [H.real_name]"))
-					send_ooc_note("<b>MEISTER:</b> The [amt]m for your [R.name] stays in the Treasury under your food stipend.", name = H.real_name)
-					return
-				SStreasury.economic_output += true_value
-				var/bounty_msg = "+[amt]m from selling [R.name]"
-				if(crown_delta != 0)
-					var/seller_delta = amt - quality_baseline
-					var/seller_sign = seller_delta > 0 ? "+" : ""
-					var/crown_sign = crown_delta > 0 ? "+" : ""
-					bounty_msg = "+[amt]m from selling [R.name] (quality: you [seller_sign][seller_delta]m, Crown [crown_sign][crown_delta]m, against the usual [quality_baseline]m)"
-				SStreasury.give_money_account(amt, H, bounty_msg, expense_acct = LEDGER_CROWN_EXP_STOCKPILE, income_acct = LEDGER_CITIZEN_SALES, flow = TREASURY_FLOW_STOCKPILE)
-				if(auto_exported && message)
-					say("The [R.name] stockpile is full. The Crown shipped yours abroad. You're still paid.")
-			record_round_statistic(STATS_STOCKPILE_EXPANSES, amt)
+			if(HAS_TRAIT(H, TRAIT_ROYAL_SUBSIDY))
+				deposit_to_royal_stock(R, 1, H)
+				return
+			R.market_stock += 1
+			credit_economic_event_saturation(R.trade_good_id, 1)
+			SStreasury.economic_output += true_value
+			var/reason = "from selling [R.name]"
+			var/seller_delta = mammon_round(amt - quality_baseline)
+			if(seller_delta)
+				reason = "from selling [R.name] (quality [seller_delta > 0 ? "+" : ""][format_mammon(seller_delta)]m against the usual [format_mammon(quality_baseline)]m)"
+			pay_seller(H, amt, reason)
 			record_round_statistic(STATS_STOCKPILE_REVENUE, true_value)
 			return
 
 	// Nothing in the stockpile accepted this item
 	if(message)
 		say("[I.name] isn't accepted here.")
+
+/obj/structure/roguemachine/stockpile/proc/pay_seller(mob/H, amount, reason)
+	amount = mammon_round(amount)
+	if(amount <= 0)
+		return 0
+	SStreasury.give_money_account(amount, H, "+[format_mammon(amount)]m [reason]", mint_new = TRUE, mint_label = "the market", income_acct = LEDGER_CITIZEN_SALES)
+	record_round_statistic(STATS_STOCKPILE_EXPANSES, amount)
+	return amount
+
+/obj/structure/roguemachine/stockpile/proc/deposit_to_royal_stock(datum/roguestock/R, units, mob/H)
+	R.royal_stock += units
+	SStreasury.log_fund_entry(new /datum/treasury_entry(null, SStreasury.discretionary_fund, SStreasury.discretionary_fund, 0, "Subsidy Deposit: [units] [R.name] by [H.real_name]"))
+	send_ooc_note("<b>MEISTER:</b> Your [R.name] goes into the royal stockpile.", name = H.real_name)
 
 /obj/structure/roguemachine/stockpile/attackby(obj/item/P, mob/user, params)
 	if(istype(P, /obj/item/roguecoin/aalloy))

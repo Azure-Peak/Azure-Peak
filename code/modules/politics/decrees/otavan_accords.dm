@@ -3,9 +3,11 @@
 	name = "The Otavan Accords"
 	category = DECREE_CATEGORY_NEW
 	mechanical_text = "Inquisition members pay no taxes."
-	flavor_text = {"In the name of the Ten, under the Almighty Allfather's watch, be it known that the Holy Otavan Inquisition, sworn servants of Psydon and emissaries of the Orthodoxy, shall keep vigil against heresy athupon this land: to defend and protect the Duchy of Azuria from those who would do it harm, and to counsel and advise the leaders and peoples of the nation. The Inquisition is hereby granted the right to try foreigners, those sanctioned and outlawed by the Duchy for crimes of high heresy, or those who are handed over by order of Crown and Court. The Holy Inquisition is to be granted permission to aid in trials of citizenry alongside the lawful authorities of the land, save for the Nobility, who must be tried before the Crown.
+	flavor_text = {"...Furthermore, by this treaty set forth in Vaucourt, let it be known from this dae forth that no more blood shall be shed between Otava and Azuria, and that peace shall come to the lands upon the Arwin. Azuria shall renounce all her claims west of the River Arwin, and Otava hers to the east, such that the river shall divide the two realms and the toll of Vaucourt be shared between them, that peace may be had for ten thousand yils.
 
-In exchange, as foreign adherents sanctioned by treaty, the Inquisition shall bear no tax nor levy, neither upon their persons nor upon the instruments of their office; nor shall the Crown hinder their holy duty, save by lawful cause shown before the Bishop or Council.
+In support of this everlasting friendship, Otava shall send the Holy Otavan Inquisition, sworn servants of Psydon, housed at Otava's expense, to keep vigil against heresy upon this land. The Inquisition may try foreigners, those outlawed by the Duchy for high heresy, and those handed over by Crown and Court, and may aid the lawful authorities in trials of citizenry, save for the Nobility, who answer to the Crown alone.
+
+In exchange, as foreign adherents sanctioned by treaty, the Inquisition shall bear no tax nor levy upon their persons nor the instruments of their office, nor shall the Crown hinder their holy duty, save by lawful cause shown before the Bishop or Council.
 
 Yeven under the seal of the Crown, in witness of Psydon and the Ten."}
 	revoke_text = "The %RULER% has broken the Otavan Accords. The Inquisition is stripped of its treaty protections - and Otava shall not take such an insult lightly."

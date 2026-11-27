@@ -6,7 +6,7 @@
 	if(!check_rights(R_ADMIN))
 		return
 
-	holder.discord_manipulation() 
+	holder.discord_manipulation()
 
 
 /datum/admins/proc/discord_manipulation()
@@ -21,16 +21,20 @@
 	switch(lookup_choice)
 		if("ID")
 			var/lookup_id = input(usr,"Enter Discord ID to lookup ckey") as text|null
-			var/returned_ckey = SSdiscord.lookup_id(lookup_id)
+			var/returned_ckey = SSdiscord.lookup_ckey(lookup_id)
+			log_admin("[key_name(usr)] looked up the ckey for Discord ID [lookup_id]: [returned_ckey || "none found"]")
 			if(returned_ckey)
 				var/unlink_choice = alert(usr, "Discord ID [lookup_id] is linked to Ckey [returned_ckey]. Do you wish to unlink or cancel?", "Account Found", "Unlink", "Cancel")
 				if(unlink_choice == "Unlink")
 					SSdiscord.unlink_account(returned_ckey)
+					message_admins("[key_name_admin(usr)] unlinked Discord ID [lookup_id] from ckey [returned_ckey].")
+					log_admin("[key_name(usr)] unlinked Discord ID [lookup_id] from ckey [returned_ckey].")
 			else
 				to_chat(usr, span_warning("Discord ID <b>[lookup_id]</b> has no associated ckey"))
 		if("Ckey")
 			var/lookup_ckey = input(usr,"Enter Ckey to lookup ID") as text|null
 			var/returned_id = SSdiscord.lookup_id(lookup_ckey)
+			log_admin("[key_name(usr)] looked up the Discord ID for ckey [lookup_ckey]: [returned_id || "none found"]")
 			if(returned_id)
 				to_chat(usr, span_notice("Ckey <b>[lookup_ckey]</b> is assigned to Discord ID <b>[returned_id]</b>"))
-				to_chat(usr, span_notice("Discord mention format: <b>&lt;@[returned_id]&gt;</b>")) // &lt; and &gt; print < > in HTML without using them as tags	
+				to_chat(usr, span_notice("Discord mention format: <b>&lt;@[returned_id]&gt;</b>")) // &lt; and &gt; print < > in HTML without using them as tags

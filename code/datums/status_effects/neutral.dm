@@ -151,7 +151,7 @@
 
 /atom/movable/screen/alert/status_effect/ugotmail
 	name = "Mail"
-	desc = "I have a letter waiting for me at the HERMES."
+	desc = "I have mail waiting for me at the HERMES."
 	icon_state = "mail"
 
 //Xylix Gambling

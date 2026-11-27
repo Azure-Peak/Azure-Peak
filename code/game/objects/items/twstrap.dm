@@ -245,8 +245,8 @@
 	/obj/item/explosive/fused/powder/stick,
 	/obj/item/explosive/impact/shrapnel,
 	/obj/item/explosive/impact/shrapnel,
-	/obj/item/explosive/impact/smoke/fire_gas,
-	/obj/item/explosive/impact/smoke/fire_gas,
+	/obj/item/explosive/fused/bottle,
+	/obj/item/explosive/fused/bottle,
 	)
 	for(var/i in 1 to max_storage)
 		var/pickitem = pick(fill_list)

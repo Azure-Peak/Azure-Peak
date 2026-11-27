@@ -7,6 +7,7 @@ GLOBAL_DATUM_INIT(economic_panel, /datum/economic_panel, new)
 
 	if(!check_rights(R_ADMIN|R_DEBUG))
 		return
+	log_admin("[key_name(usr)] opened the economic panel.")
 	GLOB.economic_panel.ui_interact(usr)
 	SSblackbox.record_feedback("tally", "admin_verb", 1, "Economic Panel")
 
@@ -90,11 +91,10 @@ GLOBAL_DATUM_INIT(economic_panel, /datum/economic_panel, new)
 
 	var/list/blockades = list()
 	for(var/datum/blockade/B as anything in GLOB.active_blockades)
-		var/datum/economic_region/ER = B.get_region()
 		var/datum/quest_faction/F = B.get_faction()
 		blockades += list(list(
-			"region_id" = B.region_id,
-			"region_name" = ER ? ER.name : B.region_id,
+			"subroute_id" = "[B.subroute]",
+			"subroute_name" = "[B.get_name()] ([B.get_region_names()])",
 			"threat_region" = B.threat_region_name,
 			"faction_name" = F ? F.name_plural : B.faction_id,
 			"day_started" = B.day_started,
@@ -103,17 +103,31 @@ GLOBAL_DATUM_INIT(economic_panel, /datum/economic_panel, new)
 		))
 	data["blockades"] = blockades
 
-	var/list/blockade_region_options = list()
-	for(var/region_id in GLOB.economic_regions)
-		var/datum/economic_region/ER = GLOB.economic_regions[region_id]
-		if(!ER.threat_region_id)
-			continue
-		blockade_region_options += list(list(
-			"id" = region_id,
-			"name" = ER.name,
-			"blockaded" = ER.is_region_blockaded ? TRUE : FALSE,
+	var/list/gathering_blockades = list()
+	for(var/subroute in SSeconomy?.gathering_blockades)
+		var/faction_id = SSeconomy.gathering_blockades[subroute]
+		var/datum/quest_faction/F = get_quest_faction(faction_id)
+		gathering_blockades += list(list(
+			"subroute_id" = "[subroute]",
+			"subroute_name" = "[get_subroute_name(subroute)] ([get_subroute_region_names(subroute)])",
+			"threat_region" = get_subroute_threat_region(subroute),
+			"faction_name" = F ? F.name_plural : faction_id,
 		))
-	data["blockade_region_options"] = blockade_region_options
+	data["gathering_blockades"] = gathering_blockades
+
+	var/list/blockade_subroute_options = list()
+	for(var/datum/trade_subroute/subroute as anything in subtypesof(/datum/trade_subroute))
+		var/list/region_names = list()
+		for(var/datum/economic_region/ER as anything in get_subroute_regions(subroute))
+			region_names += ER.name
+		if(!length(region_names))
+			continue
+		blockade_subroute_options += list(list(
+			"id" = "[subroute]",
+			"name" = "[initial(subroute.name)] ([english_list(region_names)])",
+			"blockaded" = SSeconomy?.find_blockade_for_subroute(subroute) ? TRUE : FALSE,
+		))
+	data["blockade_subroute_options"] = blockade_subroute_options
 
 	var/list/blockade_faction_options = list()
 	for(var/fid in GLOB.quest_factions)
@@ -136,8 +150,6 @@ GLOBAL_DATUM_INIT(economic_panel, /datum/economic_panel, new)
 		assembly["censured_count"] = length(SScity_assembly.censured_refs)
 		var/datum/assembly_warrant/W = SScity_assembly.current_warrant
 		if(W)
-			assembly["trade_cap"] = W.trade_daily_cap
-			assembly["trade_remaining"] = W.trade_remaining
 			assembly["defense_cap"] = W.defense_daily_cap
 			assembly["defense_remaining"] = W.defense_remaining
 	data["assembly"] = assembly
@@ -151,7 +163,6 @@ GLOBAL_DATUM_INIT(economic_panel, /datum/economic_panel, new)
 	bankruptcy["operating_floor"] = BANKRUPTCY_OPERATING_FLOOR
 	bankruptcy["arrears_loan_floor"] = TREASURY_ARREARS_LOAN
 	bankruptcy["recovery_reset"] = BANKRUPTCY_RECOVERY_RESET
-	bankruptcy["autoexport_override"] = round(BANKRUPTCY_AUTOEXPORT_PERCENTAGE * 100)
 	var/list/suspended = list()
 	for(var/decree_id in SStreasury.bankruptcy_suspended_decree_ids)
 		var/datum/decree/D = SStreasury.get_decree(decree_id)
@@ -308,15 +319,17 @@ GLOBAL_DATUM_INIT(economic_panel, /datum/economic_panel, new)
 		if("advance_day")
 			GLOB.dayspassed++
 			// Run the full dawn cadence so testing matches in-game timing: rural tax,
-			// loans, pledge, estate incomes, then payroll (which itself triggers SSeconomy.daily_tick).
+			// loans, pledge, estate incomes, then payroll, then SSeconomy.daily_tick.
 			// Rural mints first so it's in the pool when payroll checks solvency. Payroll runs last
 			// because it's the call that may transition the solvency state.
 			SStreasury.tick_rural_tax()
 			SStreasury.tick_loans()
 			SStreasury.tick_burgher_pledge()
-			SStreasury.distribute_estate_incomes()
+			SSeconomy.pay_estates()
 			SStreasury.distribute_daily_payments()
+			SSeconomy.daily_tick()
 			SStreasury.tick_poll_levy_arrears()
+			SStreasury.royal_subsidy_spent = list()
 			for(var/mob/living/carbon/human/H in GLOB.human_list)
 				var/datum/charflaw/indebted/I = locate(/datum/charflaw/indebted) in H.charflaws
 				if(!I || !I.is_active)
@@ -339,7 +352,7 @@ GLOBAL_DATUM_INIT(economic_panel, /datum/economic_panel, new)
 			admin_log_fiscal("fired tick_burgher_pledge", "Fire Pledge Tick")
 			return TRUE
 		if("fire_estate_incomes")
-			SStreasury.distribute_estate_incomes()
+			SSeconomy.pay_estates()
 			admin_log_fiscal("distributed estate incomes", "Distribute Estates")
 			return TRUE
 		if("fire_payroll")
@@ -371,32 +384,43 @@ GLOBAL_DATUM_INIT(economic_panel, /datum/economic_panel, new)
 				return TRUE
 			var/datum/blockade/B = SSeconomy.roll_blockade()
 			if(B)
-				var/datum/economic_region/ER = B.get_region()
-				admin_log_fiscal("rolled a blockade on [ER ? ER.name : B.region_id] ([B.faction_id])", "Fire Blockade Roll")
+				admin_log_fiscal("rolled a blockade on [B.get_name()] ([B.faction_id])", "Fire Blockade Roll")
 			else
-				to_chat(usr, span_warning("No eligible region available to blockade."))
+				to_chat(usr, span_warning("No eligible subroute available to blockade."))
+			return TRUE
+		if("fire_blockade_gather")
+			if(!SSeconomy)
+				return TRUE
+			if(SSeconomy.gather_blockade())
+				admin_log_fiscal("rolled a gathering blockade for the next dawn", "Fire Gathering Roll")
+			else
+				to_chat(usr, span_warning("No eligible subroute available to blockade."))
+			return TRUE
+		if("land_gathering_blockades")
+			if(!SSeconomy || !length(SSeconomy.gathering_blockades))
+				return TRUE
+			SSeconomy.land_gathering_blockades()
+			admin_log_fiscal("landed gathering blockades early", "Land Gathering Blockades")
 			return TRUE
 		if("place_blockade")
 			if(!SSeconomy)
 				return TRUE
-			var/region_id = params["region_id"]
-			if(!region_id || !GLOB.economic_regions[region_id])
-				to_chat(usr, span_warning("Pick a region to blockade."))
+			var/subroute = text2path(params["subroute_id"])
+			if(!ispath(subroute, /datum/trade_subroute) || !length(get_subroute_regions(subroute)))
+				to_chat(usr, span_warning("Pick a subroute to blockade."))
 				return TRUE
-			if(SSeconomy.find_blockade_for_region(region_id))
-				to_chat(usr, span_warning("That region is already blockaded."))
+			if(SSeconomy.find_blockade_for_subroute(subroute))
+				to_chat(usr, span_warning("That subroute is already blockaded."))
 				return TRUE
-			var/datum/economic_region/ER = GLOB.economic_regions[region_id]
 			var/fid = params["faction_id"]
 			if(!fid)
-				var/datum/threat_region/TR = SSregionthreat.get_region(ER.threat_region_id)
-				fid = SSeconomy.pick_blockade_faction_for(TR)
+				fid = SSeconomy.pick_blockade_faction_for(SSregionthreat.get_region(get_subroute_threat_region(subroute)))
 			if(!fid)
-				to_chat(usr, span_warning("No eligible faction for that region - pick one explicitly."))
+				to_chat(usr, span_warning("No eligible faction for that subroute - pick one explicitly."))
 				return TRUE
-			var/datum/blockade/B = SSeconomy.place_blockade(region_id, fid)
+			var/datum/blockade/B = SSeconomy.place_blockade(subroute, fid)
 			if(B)
-				admin_log_fiscal("placed a blockade on [ER.name] ([fid])", "Place Blockade")
+				admin_log_fiscal("placed a blockade on [B.get_name()] ([fid])", "Place Blockade")
 			return TRUE
 		if("clear_blockade")
 			if(!SSeconomy)
@@ -404,9 +428,9 @@ GLOBAL_DATUM_INIT(economic_panel, /datum/economic_panel, new)
 			var/datum/blockade/B = locate(params["ref"]) in GLOB.active_blockades
 			if(!B)
 				return TRUE
-			var/datum/economic_region/ER = B.get_region()
+			var/blockade_name = B.get_name()
 			SSeconomy.clear_blockade(B, "admin")
-			admin_log_fiscal("force-cleared blockade on [ER ? ER.name : "unknown"]", "Clear Blockade")
+			admin_log_fiscal("force-cleared blockade on [blockade_name]", "Clear Blockade")
 			return TRUE
 		if("mint_discretionary")
 			var/amt = text2num(params["amount"])
@@ -520,17 +544,8 @@ GLOBAL_DATUM_INIT(economic_panel, /datum/economic_panel, new)
 			return TRUE
 		if("assembly_drain_warrant")
 			if(SScity_assembly?.current_warrant)
-				SScity_assembly.current_warrant.trade_remaining = 0
 				SScity_assembly.current_warrant.defense_remaining = 0
 				admin_log_fiscal("drained Alderman warrant", "Drain Warrant")
-			return TRUE
-		if("assembly_set_trade_cap")
-			var/amt = text2num(params["amount"])
-			if(!isnum(amt) || amt < 0)
-				return TRUE
-			SScity_assembly?.current_warrant?.set_trade_cap(round(amt))
-			SScity_assembly?.current_warrant?.refresh_for_day()
-			admin_log_fiscal("set Alderman trade cap to [amt]m", "Set Trade Cap")
 			return TRUE
 		if("assembly_set_defense_cap")
 			var/amt = text2num(params["amount"])

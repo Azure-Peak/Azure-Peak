@@ -4,8 +4,6 @@
 	var/category
 	var/behavior
 	var/base_price
-	var/low_price
-	var/high_price
 	var/importable = TRUE
 	var/source_region_id
 	var/item_type
@@ -13,7 +11,6 @@
 	/// (not just exact matches). Used for goods that have many cosmetic/mechanical variants
 	/// that should all count as the same shipment - e.g. enchantment scrolls.
 	var/accept_subtypes = FALSE
-	var/global_price_mod = 1.0
 	var/derive_price = FALSE
 	var/crown_accepts = TRUE
 	/// Optional override for the market-pool ITEM_CAT_* this good's item_type maps to.
@@ -25,13 +22,6 @@
 	var/reagent_type
 	var/required_volume = 0
 
-/datum/trade_good/New()
-	. = ..()
-	if(isnull(low_price) && !isnull(base_price))
-		low_price = round(base_price * 0.6)
-	if(isnull(high_price) && !isnull(base_price))
-		high_price = base_price * 2
-
 GLOBAL_LIST_INIT(trade_goods, init_trade_goods())
 
 /proc/init_trade_goods()
@@ -42,3 +32,18 @@ GLOBAL_LIST_INIT(trade_goods, init_trade_goods())
 			continue
 		result[instance.id] = instance
 	return result
+
+/proc/get_trade_good_id_for_type(path)
+	for(var/id in GLOB.trade_goods)
+		var/datum/trade_good/TG = GLOB.trade_goods[id]
+		if(!TG.item_type)
+			continue
+		if(TG.accept_subtypes ? ispath(path, TG.item_type) : path == TG.item_type)
+			return id
+	return null
+
+/obj/item/proc/get_trade_good_id()
+	return get_trade_good_id_for_type(type)
+
+/obj/item/natural/bundle/get_trade_good_id()
+	return get_trade_good_id_for_type(stacktype)

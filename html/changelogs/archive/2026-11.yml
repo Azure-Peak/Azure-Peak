@@ -996,3 +996,360 @@
   - rscadd: NPC spells and bow draw can no longer be interrupted by hitting them,
       same as a player's
   - rscadd: Refactored and cleaned up succession rituals code
+2026-11-24:
+  567Turtle:
+  - bugfix: tiger stripes are now drawn correctly
+  KatTheFox:
+  - refactor: Spell alt modes are now handled through a unified set of vars and procs,
+      instead of being manually reinvented in each of 15 different spell files. Spells
+      should behave identically, except for unholy blast, which will now dust instead
+      of gib because I cba to port that to the new, parented-to-divine-blast version.
+  - bugfix: Adjudicators who pick the Psydonic War Axe now actually get their war
+      axe and shield instead of nothing.
+  OrbisAnima:
+  - balance: Makes alchemical arrows have antibeast base (150%).
+  - qol: Removes fail chance on grindwheel plank creation.
+  Quinalion:
+  - qol: You can now climb onto nearby tree branches by left-clicking them with an
+      empty hand.
+  - qol: Branch climbing respects Climbing skill, Speed, furniture bonuses, Woodwalker,
+      and sneak mode.
+  - bugfix: Leaves over open space no longer swallow interactions intended for the
+      tile beneath them.
+  - bugfix: Carried or grabbed characters now remain attached to their carrier when
+      using stairs.
+  - bugfix: Passengers attached to a dragged mob now travel between floors with it.
+  Ryumi:
+  - rscadd: Static threat spawners now have a chance to extinguish all lights around
+      them when nobody is looking, to keep the roads feeling at least a little dangerous,
+      even when the lights are on.
+  - rscadd: Static threat spawners now ignore the light fixtures seen in the Underdark
+      and Mount Decapitation; meaning they will will spawn threats even when they
+      are in their "area of effect." You'll need to build lights in such areas if
+      you're seeing threats appearing there!
+  awwlie:
+  - bugfix: fixed shift + key, keybinds not taking the key, but the result.
+  radarseas:
+  - rscadd: Added Zizo Fog, its exclusive to Zizo's Pet Cemetary omen and Zizo's defilement.
+      Zizites can prayer during it, Zizites get a minor mood buff.
+  - rscadd: Added omen text to Zizo's defilement.
+  - bugfix: fixed Zizo's pet cemetary being inconsistant and using the wrong way to
+      announce itself, making it almost seem more like an admin event.
+2026-11-25:
+  JustSomeGal:
+  - rscadd: Shophand now has Cicerone
+  Quinalion:
+  - bugfix: Armour, weapons and clothing no longer lose their secondary colours when
+      broken or repaired.
+  Ryan180602:
+  - bugfix: roundstart court agents now get their notes in the hand's sheaf of papers.
+  WeNeedMorePhoron:
+  - rscadd: Shifting clicking a bill of fare let you view its content
+  - rscadd: Poison daggers now applies the envenomed debuff on penetrative wounds
+      when used by someone with the venomcraft trait.
+  - rscdel: Removed the ability to dip certain poison dagger in reagents
+  - rscdel: Remove belted satchel from triumph items
+  - rscadd: Retrieval quests shouldn't care about items you carry on yourself anymore
+  - rscadd: You can no longer invite conjured sumons into fellowship
+  - rscadd: Corrected numerous class texts that would imply that the Azurian Church
+      is under the Holy See of Grenzelhoft (It is politically independent). Changed
+      the Divine Pantheon text to match this to imply Grenzelhoftian Holy See is more
+      of a first amongst equal
+  - rscadd: The litany of the ten that gives them their staff is now spoken in Imperial
+      instead of Grenzelhoftian.
+  - rscdel: Removed the Heritage Vision traits from Black Oak
+  - rscadd: Rewrote Black Oak descriptor and class to move away from the "this is
+      our land" angle to one based on the new Bloak lore. Also updated the related
+      grovewalker description.
+  - rscdel: Dark Elf are no longer allowed to be bloak (I am not sure why they were
+      even allowed in the first place)
+  - rscdel: Removed the Chieftain class from the Heartfelt Migration Wave
+  - rscadd: Rewrote the lore of the heartfelt classes and ported some Azurian classes
+      description. The Magi has a mention that their election as the Count of Heartfelt
+      is considered an oddity and they must've came after 1492.
+  - rscadd: The Heartfelt Priest is no longer a Bishop equivalence (!?) in traits
+      but more of an acolyte with T4 access
+  - rscadd: Heartfelt is officially racist and will no longer accept goblins, half-orcs
+      or kobolds amongst their rank,
+  - rscadd: Rewrote some description of alcohol to give them a proper origin within
+      Azuria
+  - rscadd: Corrected some lore desc I did not catch that referred to Rockhill as
+      a country, or to the papacies of Grenzelhoft / Etrusca (And instead use the
+      word clergies)
+  - rscadd: Corrected some quest writs to match the above rewrite
+  fffelinid:
+  - bugfix: Fixed a few bugs related to the Amorphous Landing murkling quirk.
+  - balance: Increased player-controlled ooze mobs health a bit.
+  radarseas:
+  - rscadd: Added more deranged knight variants
+  - rscadd: Added basic framework for Zizo miracles in the hands of AI.
+  - balance: Zizite deranged knights can now randomly cast a cantrip chosen out of
+      3 types, with a 6/7 chance,
+  - balance: Luxplate deranged knights can use upto, T2 miracles as long as they have
+      written AI in the code for it.
+  - balance: the Fallen duke boss on pilgrim has been adjusted slightly.
+  - balance: Skeletons no longer all have ugly masks, critical weakness has been adjusted
+      to no longer kill w/ facial disfigurement.
+  - balance: unique weapons + heretic stuff + amulets + mad duke's rapier is no longer
+      scavenged-marked
+2026-11-26:
+  BobProductive:
+  - bugfix: Fixes runtime when examining the properties of javelins
+  - rscadd: Added an alternative duelist cape, available in the loadout
+  OrbisAnima:
+  - code_imp: Expands the cloak storage system so that individual items can be given
+      its own storage system instead of forcing the same compoinent to all of them.
+  - balance: Nerfs the martyr cloak to have no storage.
+  - balance: Reverts Bandolier to a regular cloak stats, ie, it will fit in bags and
+      be sized 2x2
+  Quinalion:
+  - rscadd: Added 67 hairstyle options to the shared character customizer.
+  - bugfix: Fixed Archivist's missing sprite.
+  - rscdel: Removed 20 duplicate hairstyle options and 2 blank entries.
+  - qol: Sorted the hairstyle lists alphabetically.
+  Ryan180602:
+  - balance: Reintroduce chain exploding for impacts.
+  - balance: Halve the shrapnel count on impacts.
+  - balance: Impacts now do blunt damage to armour without the integ mod. They also
+      do far lesser damage now.
+  - balance: Impacts chaining off do most of the raw damage on the spot. Shrapnel
+      spreads out all the same tho some can be caught by the suicide bomber.
+  - balance: Impacts are now 2x2 inventory space.
+  - balance: Blaststick damage was nearly halved.
+  - balance: Blaststicks are 2x1.
+  - rscdel: Remove belchers.
+  - balance: Mounts need to ride in a direction to get up to top speed.
+  - balance: Mounts turning 90* kills some speed (only on gallop), and 180* kills
+      all of it (on gallop or otherwise).
+  - balance: People who's saddleborn mounts were killed and cull the debuff by bonding
+      with another.
+  - balance: Riding unbonded mounts gives an apprentice riding skill cap.
+  - balance: People can parry on mounts once more.
+  - balance: Under Journeyman and without galloping, there's a chance for the rider
+      to be dehorsed depending on force of the damage + rider skill.
+  - bugfix: Only the rider gains XP on riding. Not the passenger.
+  - bugfix: Hitting the mount when galloping will also dehorse the rider.
+  - bugfix: Some mount related layering issues.
+  - qol: Mounting an incap/bound person only mounts them to the passenger slot now.
+      So you don't need another to do it for you.
+  WeNeedMorePhoron:
+  - rscadd: Merchant is now ATC category in orbit menu
+  - rscadd: You can only take one notorious at a time and if you somehow get two,
+      you should no longer get trapped in between them.
+  - rscdel: Reverted quarterstaff state to the balance before November 11 to preserve
+      their viability
+  - rscadd: Add skill hardcap to virtues. Pilgrim now adjust knives and athletic up
+      to Apprentice or by +1, and cannot exceed and therefore give you +1 Athletic
+      or +1 Knives on a combat role and give you Master / Legendary knives BS.
+  - rscadd: 'Makes Doppelganger copies their target''s skills and combat traits (Except
+      pacifism etc.), instead of being fixed Expert, which was causing them to obliterate
+      journeyman or towner easily. If not player controlled, they will have a 1 skill
+      penalty and small stat penalty. They copy quivers and scabbarded weapons properly
+      now and switch over to archer AI if they copy an archer
+
+      - Doppel heart is now a 1x1 item, now sells for 60 instead of 100.'
+  - rscadd: Renamed the variant of gloomy medium hairstyle to gloomy (medium alt)
+      instead of duplicated name of gloomy long
+  - rscadd: 'Notorious tweaks: Additional members no longer scale the amount of NPC
+      like crazy, it is now limited to 40 TP. Leashing mechanics now work on both
+      the hunted and the hunters, to prevent either side from doing overly scummy
+      behavior. Lowered the leash range to 21 tiles from 40. The location of the boss
+      is whispered to everyone in the fellowship instead of just the leader. Made
+      it so that the leashing mechanics no longer TELEPORT you back to the center,
+      but move you away from the nearest tile. If you win you still get revived, I
+      want to lower the risk and give more enjoyable content. Madeit  z level insensitive
+      to avoid cases like that bog tower just teleporting and yanking everyone'
+  - rscadd: Arsonist and Dust Runner virtue's delivery should now works as described
+      and intended whether or not you've slept or not.
+  - rscadd: Wax putty recipes no longer give sneaking xp
+  - rscadd: Ported Ratwood's smoother, more performant animated energy / stamina bar.
+  changelingonberry:
+  - rscadd: The Marquette Inquisition shop has a new TGUI interface.
+  - balance: Changed many marques prices, added a bataille category for steel weapons
+      etc.
+  - bugfix: Tallowpots are no longer infinite.
+  - rscadd: Added inqport area to roguetest for testing.
+  dopamiin0:
+  - bugfix: custom emotes ending in bold/italic/underlined text no longer get extra
+      periods added to them
+  mumblemancer:
+  - bugfix: infernal familiars should accurately report their numbers now
+  - qol: familiar-summoning rituals now say theyre binding familiars and not a lesser
+      [x]
+2026-11-27:
+  AtrocityKill:
+  - image: added directional states for fiend infernal
+  - image: slightly adjusted positions of glimmerwing fae
+  BobProductive:
+  - bugfix: Rotates duelist cape (alt) 's back sprite
+  Etheo:
+  - rscadd: Gave bathhouse vault a new way to enter. Examine closely.
+  - rscadd: Makes the vault's entrance mechanically known to all bathhouse employees,
+      including matron-hired agents.
+  - rscadd: Adds 4 more bathmaster keys to the vault, for a total of 5. The amount
+      of agents a matron can charter.
+  FreeStylaLT:
+  - rscadd: Bamboo Hats can now be toggled and flipped up.
+  Ollanius:
+  - rscdel: Removes lance.dm, templar_knives.dm, and axe.dm - the one that just stored
+      a single Dreamwalker-related weapon. All of these weapons're now stored in the
+      appropriately-matching .dms.
+  - refactor: All instances of 'paalloy' and 'aalloy' have been replaced by 'ancient'
+      and 'ancient/decrepit' in the code, respectively. Psila are now under 'roguecoin/psila',
+      Marques are now under 'roguecoin/marque' (instead of inqcoin), Kite Shields
+      are now under `shield/kite`, Warclubs are now distinct from Warhammers in pathing,
+      and Flails + Greatflails have had their filepaths tidied up.
+  - refactor: Completely overhauls all melee weapon-specific .dms in the "rogueweapon/melee"
+      folder, cleaning up a bunch of leftover formatting- and organizational errors.
+  - refactor: Melee weapon-specific .dms are now stored in one of six folders; 'axes',
+      'bludgeon', 'knife', 'polearm', 'sword', and 'unique'. Whips and flails're stored
+      in 'bludgeon', if you're curious.
+  - refactor: Melee weapon-specific intents, likewise, are now stored in seperate
+      .dms that're paired to each weapon class's (class'?) subfolder. For the sake
+      of simplicity, there's just one `_intents.dm` for each subfolder / weapon class.
+  - code_imp: A lot of intents and weapons've been moved around and moved to a more
+      proper location. This should have next-to-no player-facing impacts; in the off-chance
+      something screwed up happens, however, make sure to contact @Dongwaiver on the
+      'cord.
+  - code_imp: Doubleheaded axes and alloytipped whips no longer have 'triumph_' in
+      their path, as they can be obtained ingame without the need for spending TRI.
+  - code_imp: Certain legacy-styled items now have 'old' instead of 'triumph_' as
+      their subpath; the 'Valorian axes' and original daggers (made by Kavrick), specifically.
+  - code_imp: Cleans up loadout-specific paths, including renaming Zizoite Amulets
+      from 'Zcross / Inverted Psycross' to just 'Amulets of Zizo'. If you have an
+      iron or decrepit zsicross, I'd suggest checking your loadout just to be sure
+      they aren't swapped.
+  - code_imp: Fixes some errant instances of capitalization.
+  - qol: Adds disclaimer in modkit-specific .dms on how to properly assemble modkits
+      with multiple item paths (from the highest amount of paths per item to the lowest),
+      to avoid glitches. Thanks to Eiren for originally discovering this!
+  - rscadd: Ancient statues. These can be smithed and rarely found in either coffins
+      or middling-level loot spawners, and - like their decrepit variants - are one
+      of the only gilbranze-era items that can be smelted into a whole ingot.
+  - rscadd: Steel greatflails and iron bardiches. Slightly increased- and decreased
+      durability, respectively.
+  - bugfix: Imbued longswords should now properly render their skins upon use.
+  Quinalion:
+  - qol: Players can now turn Dual Wielder on and off whenever they want.
+  WeNeedMorePhoron:
+  - rscadd: You may now set custom headers for bill of fare.
+  - rscadd: One step refinement such as refining a piece of ore into ingots will now
+      keep the stamp, to prevent ez money earning from non-merchant buying now nearly
+      infinite stockpile goods, smelting it and selling it to ships / navigator
+  - rscadd: Ingots are now BUY ONLY on the market, you cannot sell them directly anymore.
+      Put em in the scrapper or turn it into goods. It is buy only so that Steward
+      can still buy and sell stocks of ingots into the market.
+  - rscadd: Steward can now select sell tribute and sell offers on arrival for more
+      convenient direct sale if they do not wish to hold their stock in the royal
+      stockpile
+  - rscdel: Remove the stockpile literally next to the Navigator in Merchant's shop
+      on both map because that's just far too ridiculously convenient.
+  - rscadd: Price of market goods are measured in a decimal manner. This let me price
+      goods much more precisely. Any coins that is withdrawn must still be whole.
+  - rscadd: The market (Stockpile machine) is now separated conceptually from royal
+      stock, with nine price band for goods. Selling price is the baseline, and buying
+      price is 75% of the current buying price.
+  - rscadd: Keep roles with Royal Subsidy now deposit into the royal stockpile unpaid.
+  - rscadd: The Steward now buy from and sell from the market with treasury money.
+  - rscadd: The market sells past zero down to half the target, and then runs out
+      of stock. In short, it is a relatively elastic market.
+  - rscadd: Market targets are set per category, with certain bulk goods getting more
+      goods.
+  - rscadd: 'Market Dae: Every dawn, market stock moves toward the target by 50% of
+      the gap, with a floor of 25% of the target.'
+  - rscadd: Raids / Blockade cut the step by the raided share of supply or demand.
+  - rscadd: Rented Caravans (see below) pay 50m and adds 10% to market correction
+      each. Over 100%, a midday correction will also occurs
+  - rscadd: Market tab / Stockpile show a forecast with a RAIDED % tag
+  - rscadd: Royal Stock starts off completely empty. Royal Subsidy is now gated by
+      the wages for tomorrow, which completely replaces the purchase floor
+  - rscadd: Built in all of the new Azurian lore regions. They all are built from
+      a composition of region types x size. Regions belongs to one of the 4 bigger
+      regions and 8 subroutes.
+  - rscadd: Requests now replace Standing Orders. It will requests one type of good,
+      one equipment or potion item.
+  - rscadd: Each region has up to one request and one offer.
+  - rscadd: 4 requests roll a day plus 0.05 per player, capped at 13, each lasting
+      2 dayss.
+  - rscadd: Each is worth 200 - 400m (pop scaling) and pay at 2.5x. Delivery is per
+      unit and can be partial, quality will influence and increase pay where eligible.
+      There is no more low-pop bonus since Steward has ability to call in Tributes
+      which add flat value to the economy.
+  - rscadd: 'Extending a Request: You can extend a request for 1 day by sending a
+      zad for 200 pledge.'
+  - rscadd: 'Petitions: The Steward''s petitions are reworked. They are picked by
+      kinds, and then target a random eligible regions, including raided regions.
+      It cost pledge and the order will pay less.'
+  - rscadd: Requests for crafted goods pay more, but it must be crafted by a player.
+  - rscadd: The Steward will start with 5 caravans, and +1 caravan per day, up to
+      12. Each will carries 1 request, 1 offer and 1 tribute on a route. It is committed
+      when it is sent and then the trade is settled at dawn.
+  - rscadd: 'Tribute: Tribute are hand set goods that a region will gift. They are
+      worth 150m, and then pop scaled and sent toward the Royal Stock. They are also
+      used for nobility'
+  - rscadd: 'Gifts: A random gift is sent per every pickup from region, toward the
+      warehouse. They have the new gift quality and 0% value'
+  - rscadd: 'Raids: Raids will block a subroute. The escort fee is 200m + 100m / day.
+      It opens the subroute for deals and market dae. Raided deals are half size'
+  - rscadd: 'Commissions: Crown Imports are removed in favor of the new Commission
+      system. Retinue kits come from the Royal Armoury (Abstracted), and is priced
+      at 1.5x their goldface / silverface price and come on a timer. The local commsision
+      will sell keyring set and zad packs'
+  - rscadd: 'Regional events are scrapped. There is a pool of 42 daily gluts and shortages
+      events: Fish and Crops, Primary Goods, Secondary Goods and Cosmetic / Trade
+      Goods. Every day two fish or crop related events will be active, pus one or
+      two others. Only one metal related event can be active at a time, and some events
+      are mixed causing some gluts and shortages. The primary emphasis is on fish
+      / crops related events because these are the two economic roles that can adapt
+      the most and  change their production. I have limited the relative impact of
+      metal events. Shortage relief is now counted by value sold into the market.'
+  - rscadd: You can pick your political faction in the new Politics tab. This includes
+      the Neutral, Azurosa, Heartfelt, Rosawood, Benedictus (Psydonites Only). Your
+      political faction is visible to other of the same factions, unless you're a
+      noble, in which case your faction is always visible. Inquisition is always Benedictus
+      and Merchant always Rosawood. Outlaws are disowned. A new ruler's faction is
+      announced as ascendant.
+  - rscadd: ' You can pick the location of your estates (Only applied if you''re a
+      noble by job or role) from one of the 17 regions of Azuria, landless, or foreign
+      estate. You lose the parcel if the region is blockaded and the income is delayed
+      until it is cleared. Foreign estates pay 1/3 less in terms of parcel and income.'
+  - rscadd: 'Nobility are split into three ranks: Gentries gain 15m of income plus
+      one parcel of the region''s tribute goods. Peer gains 30m and 2 parcels, and
+      royal 50m + 3 parcels (Excluding Grand Duke). Heartfelt Lord is ranked as a
+      Peer but paid as a Royal. Everyone will see a noble''s rank.'
+  - rscadd: Knight Banneret now speaks Old Azurian, and has a new verb called Remember
+      Title. This show the ruler's full styling plus the old Azurian version. It can
+      be swapped per map. There's no support / featuire for it, yet.
+  - rscadd: Every single Nerve Master interface has been moved to TGUI and improved
+      greatly in readability and usability. Performance improved. Printed reports
+      were removed
+  - rscdel: Direct import, export, autoexport, steward trade policies, stockpile limits,
+      export ledger. Alderman trade controls, etc.
+  - rscadd: Rewritten accords / laws to fit the newest lore as much as possible
+  - rscadd: Redid the mail system to no longer depends on a singular 10x10 inventory
+  - rscadd: Stockpile items can no longer be directly exported or sold to ships, except
+      by the Merchant / Shophand who will have an export license to remove the stockpile
+      stamp from these goods for sale.
+  - rscadd: Overhauled the autosmither, crafting and smithing UI. Improved performance
+      on multiple UI that uses long lists.
+  - admin: Improved the observe verb to use orbit menu instead of a manual input.
+      It is logged if you use it.
+  - admin: Added a read only character panel, and corresponding data to track stats,
+      virtues, buff etc. sources
+  - admin: Added a lot of logging to admin actions that are missing it and should
+  - admin: Split up the subtle logs and make it not accessible or editable. Made it
+      separate from every other logs to avoid flashbanging. Admins are messaged if
+      subtle logs are viewed.
+  - admin: ' Unified all construction logs into the game log'
+  mumblemancer:
+  - rscadd: added poopy codersprites for leap & featherfall (the spells)
+  radarseas:
+  - rscadd: Added 2 skeleton varients in Avantyne, these are just normal T3 lineman
+      skeletons w/ enough int to do specials, currently exclusive to adminbus
+  - rscadd: Added skeleton mages, currently exclusive to adminbus. Spellblades not
+      yet implimented.
+  - rscadd: Added smart lines for smarter skeletons, for that "smart" half-zombified
+      rotting but still intact enough to sort of vaguely remember their last purpose,
+      skeletons to use. Currently used for casters + Luxplate skeletons
+  - bugfix: fixed luxplate NPC sets having belts in them, you're meant to get that
+      via flavor loadouts not have it on the luxplate NPC loadouts and overridden.

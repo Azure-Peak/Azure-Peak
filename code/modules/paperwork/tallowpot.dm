@@ -34,7 +34,7 @@
 /obj/item/tallowpot/process()
 	if(heatedup > 0)
 		heatedup -= 4
-		remaining = max(remaining - -20, 0)
+		remaining = max(remaining - 20, 0)
 		messageshown = 0
 	else
 		if(tallow)

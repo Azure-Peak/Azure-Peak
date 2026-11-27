@@ -10,7 +10,7 @@
 	sewrepair = TRUE //Vrell - AFAIK, all cloaks are cloth ATM. Technically semi-less future-proof, but it removes a line of code from every subtype, which is worth it IMO.
 	experimental_inhand = TRUE
 	var/overarmor = TRUE
-	var/storage = TRUE
+	var/storage = /datum/component/storage/concrete/roguetown/cloak
 
 	grid_width = 64
 	grid_height = 64
@@ -26,7 +26,7 @@
 /obj/item/clothing/cloak/ComponentInitialize()
 	. = ..()
 	if(storage)
-		AddComponent(/datum/component/storage/concrete/roguetown/cloak)
+		AddComponent(storage)
 
 /obj/item/clothing/cloak/dropped(mob/living/carbon/human/user)
 	..()
@@ -60,11 +60,8 @@
 	icon_state = "bandolier"
 	item_state = "bandolier"
 	resistance_flags = FIRE_PROOF
-	w_class = WEIGHT_CLASS_BULKY
 	slot_flags = ITEM_SLOT_BACK_R|ITEM_SLOT_SHIRT|ITEM_SLOT_ARMOR|ITEM_SLOT_CLOAK //Same slots as the regular tabard, with the added bonus of being slingable on the rightmost backslot.
 	salvage_result = /obj/item/natural/hide/cured
-	grid_width = 64
-	grid_height = 96
 
 //////////////////////////
 /// TABARD
@@ -989,6 +986,10 @@
 /obj/item/clothing/cloak/tabard/stabard/black
 	color = CLOTHING_BLACK
 
+/obj/item/clothing/cloak/tabard/stabard/hedgeknight
+	color = CLOTHING_WHITE
+	detail_tag = "_dim"
+	detail_color = CLOTHING_BLACK
 
 /obj/item/clothing/cloak/lordcloak
 	name = "lordly cloak"
@@ -1798,6 +1799,7 @@
 	sleevetype = "shirt"
 	nodismemsleeves = TRUE
 	inhand_mod = TRUE
+	no_loot_taint = TRUE //heretic stuff, in case it somehow ends up on a skele/NPC or w/e
 
 /obj/item/clothing/cloak/graggar/Initialize(mapload)
 	. = ..()
@@ -2102,6 +2104,39 @@
 		add_overlay(pic)
 
 /obj/item/clothing/cloak/half/duelcape/Initialize(mapload)
+	. = ..()
+	update_icon()
+
+/obj/item/clothing/cloak/half/duelcape_alt  //sprites from vanderlin
+	name = "duelist cloak"
+	desc = "A flamboyant red duelists cape that is sure to catch the eye. This one had it's cape trimmed, leaving only the cloak"
+	icon_state = "duelistcape_alt"
+	item_state = "duelistcape_alt"
+	color = CLOTHING_SCARLET
+	nodismemsleeves = TRUE
+	detail_tag = "_detail"
+	detail_color = CLOTHING_GOLD_METALLIC
+	sleeved = null
+	sleevetype = "shirt"
+	sleeved = 'icons/roguetown/clothing/onmob/cloaks.dmi'
+	slot_flags = ITEM_SLOT_BACK_R|ITEM_SLOT_CLOAK
+	allowed_race = NON_DWARVEN_RACE_TYPES
+	inhand_mod = FALSE
+
+/obj/item/clothing/cloak/half/duelcape_alt/Initialize(mapload)
+	. = ..()
+	update_icon()
+
+/obj/item/clothing/cloak/half/duelcape_alt/update_icon()
+	cut_overlays()
+	if(get_detail_tag())
+		var/mutable_appearance/pic = mutable_appearance(icon(icon, "[icon_state][detail_tag]"))
+		pic.appearance_flags = RESET_COLOR
+		if(get_detail_color())
+			pic.color = get_detail_color()
+		add_overlay(pic)
+
+/obj/item/clothing/cloak/half/duelcape_alt/Initialize(mapload)
 	. = ..()
 	update_icon()
 

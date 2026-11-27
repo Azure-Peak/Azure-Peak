@@ -37,6 +37,7 @@ GLOBAL_LIST_EMPTY(virtues)
 	var/custom_text
 	/// If a virtue hits the soft cap we give them a 1 skill point boost
 	var/softcap = FALSE
+	var/list/hardcapped_skills = list()
 	/// Whether a virtue should show up in regular selection
 	var/unlisted = FALSE
 	/// Whether the virtue is only available as a second virtue choice (so only available to virtuous / fated)
@@ -135,7 +136,7 @@ GLOBAL_LIST_EMPTY(virtues)
 			var/space_left = virtue_limit - current
 			increase_amount = min(inc, space_left)
 
-		if (increase_amount == 0 && softcap && current < 6)
+		if (increase_amount == 0 && softcap && current < 6 && !(S in hardcapped_skills))
 			increase_amount = 1
 
 		if (increase_amount == 0)
@@ -182,15 +183,21 @@ GLOBAL_LIST_EMPTY(virtues)
 	recipient.adjust_triumphs(-triumph_cost, FALSE)
 	return TRUE
 
-/proc/apply_virtue(mob/living/carbon/human/recipient, datum/virtue/virtue_type)
+/proc/apply_virtue(mob/living/carbon/human/recipient, datum/virtue/virtue_type, source = VIRTUE_SOURCE_OTHER)
+	var/triumphs_before = recipient.get_triumphs()
 	if (!virtue_type.check_triumphs(recipient))
 		return
+	var/mob/living/carbon/human/tracked = ishuman(recipient) ? recipient : null
+	var/list/snapshot = tracked?.snapshot_build()
 	virtue_type.apply_to_human(recipient)
 	virtue_type.handle_traits(recipient)
 	virtue_type.handle_skills(recipient)
 	virtue_type.handle_stashed_items(recipient)
 	virtue_type.handle_added_languages(recipient)
 	virtue_type.handle_stats(recipient)
+	var/list/skills_gained = tracked?.record_build_changes(BUILD_SOURCE_VIRTUES, snapshot)
+	if(tracked && !istype(virtue_type, /datum/virtue/none))
+		LAZYADD(tracked.virtue_records, new /datum/virtue_record(virtue_type, source, skills_gained, triumphs_before - recipient.get_triumphs()))
 	if(HAS_TRAIT(recipient, TRAIT_RESIDENT))
 		if(SStreasury.has_account(recipient))
 			SStreasury.generate_money_account(20, recipient)
@@ -211,6 +218,24 @@ GLOBAL_LIST_EMPTY(virtues)
 	desc = "Without virtue."
 	ui_fa_icon = "ban"
 	stackable = TRUE
+
+/datum/virtue_record
+	var/virtue_type
+	var/name
+	var/source
+	var/list/picked_choices
+	var/list/skills_gained
+	var/triumphs_spent = 0
+
+/datum/virtue_record/New(datum/virtue/virtue, source, list/skills_gained, triumphs_spent)
+	virtue_type = virtue.type
+	name = virtue.name
+	src.source = source
+	if(LAZYLEN(virtue.picked_choices))
+		picked_choices = virtue.picked_choices.Copy()
+	if(LAZYLEN(skills_gained))
+		src.skills_gained = skills_gained
+	src.triumphs_spent = max(0, triumphs_spent)
 
 /// Dynamic UI data for TGUI to display these in the prefs menu
 /datum/virtue/ui_data(mob/user)
@@ -271,6 +296,7 @@ GLOBAL_LIST_EMPTY(virtues)
 			"name" = name,
 			"level" = L[2],
 			"max_level" = SSskills.level_names_plain[L[3]],
+			"hardcap" = (L[1] in hardcapped_skills),
 		))
 	data["added_skills"] = added_skills_data
 

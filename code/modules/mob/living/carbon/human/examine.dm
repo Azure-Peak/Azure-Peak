@@ -82,7 +82,7 @@
 		var/mammonsinbank = SStreasury.get_balance(src)
 		var/totalvalue = mammonsonperson + mammonsinbank
 		if(totalvalue && HAS_TRAIT(user, TRAIT_GILDED_SIGHT))
-			. += span_notice("They carry [mammonsonperson] mammons, with [mammonsinbank] stored away, totaling [totalvalue].")
+			. += span_notice("They carry [mammonsonperson] mammons, with [format_mammon(mammonsinbank)] stored away, totaling [format_mammon(totalvalue)].")
 		else if(mammonsonperson && mammonsonperson >= 100)
 			. += span_notice("They carry about [mammonsonperson] mammons with them.")
 	var/obscured = check_obscured_slots()
@@ -719,24 +719,16 @@
 		. += span_userdanger("DEADITE!")
 		. += span_warning("Uneasy steps, the sound of profane flesh and bone knitting itself and a stench of rot. A walking corpse!")
 
-/// Black Oaks recognize each other on sight, even behind masks.
-/mob/living/carbon/human/proc/blackoak_examine(mob/user)
-	. = list()
-	if(user != src && HAS_TRAIT(user, TRAIT_BLACKOAK) && HAS_TRAIT(src, TRAIT_BLACKOAK))
-		. += span_nicegreen("A member of the enclave.")
-
 /mob/living/carbon/human/proc/generate_main_examine_body(mob/user, m1, m2, m3, obscure_name, race_name, origin_name, observer_privilege, list/unknown_names)
 	. = list()
 	var/datum/component/hag_name/HN = GetComponent(/datum/component/hag_name)
 	if((name in unknown_names) && !HN) // the identity datum can set your name to 'unknown' but we do still want full examine unless they're masked
 		. += span_info("ø ------------ ø\nThis is <EM>[name]</EM>.")
 		. += deadite_examine()
-		. += blackoak_examine(user)
 		. += get_ssd_examine_text(m3)
 	else if(obscure_name && !client?.prefs?.masked_examine)
 		. += span_info("ø ------------ ø\nThis is an unknown <EM>[name]</EM>.")
 		. += deadite_examine()
-		. += blackoak_examine(user)
 		. += get_ssd_examine_text(m3)
 	else
 		on_examine_face(user)
@@ -843,17 +835,37 @@
 		if((HAS_TRAIT(user, TRAIT_FEYBOUND) || HAS_TRAIT(user, TRAIT_FEYTOUCHED) ||	istype(user, /mob/living/carbon/human/species/familiar/fae)) && HAS_TRAIT(src, TRAIT_ANCIENT_HAG))
 			. += span_nicegreen("A true force of the fey, the mossmother speaks to this one closely.")
 
-		if(SSticker.rulermob == src)
-			. += span_notice("<b>The ruler of this land.</b>")
+		var/is_ruler = SSticker.rulermob == src
+		var/list/standing = list()
+		if(is_ruler)
+			standing += "<b>The ruler of this land.</b>"
 		else if(GLOB.lord_titles[name])
 			. += span_notice("[m3] been granted the title of \"[GLOB.lord_titles[name]]\".")
 
-		if(show_descriptors)
-			if(HAS_TRAIT(src, TRAIT_NOBLE) || HAS_TRAIT(src, TRAIT_DEFILED_NOBLE))
-				if(HAS_TRAIT(user, TRAIT_NOBLE) || HAS_TRAIT(user, TRAIT_DEFILED_NOBLE))
-					. += span_notice("A fellow noble.")
-				else
-					. += span_notice("A noble!")
+		if(show_descriptors || observer_privilege)
+			var/datum/political_faction/faction = political_faction_seen_by(user)
+			var/fellow = user != src && is_political_noble(user)
+			if(is_political_noble(src) && !is_ruler)
+				var/noble_line = "[fellow ? "A fellow" : "A"] noble"
+				if(noble_rank > NOBLE_RANK_NONE)
+					noble_line += " (<span class='tooltip' title=\"[GLOB.noble_rank_descs[noble_rank]]\">[GLOB.noble_rank_titles[noble_rank]]</span>)"
+				if(faction && !faction.examine_text)
+					noble_line += " of the [faction.name] faction"
+				var/datum/noble_estate/estate = SSeconomy.estates[src]
+				if(estate && (fellow || observer_privilege) && !HAS_TRAIT(src, TRAIT_OUTLAW))
+					var/estate_name = estate.estate_name()
+					if(estate.region_id == ESTATE_LANDLESS)
+						noble_line += ", without any significant estates"
+					else if(estate_name)
+						noble_line += ", with an estate in [estate_name]"
+				standing += "[noble_line]."
+				if(faction?.examine_text)
+					standing += faction.examine_line(TRUE, user == src)
+			else if(faction)
+				standing += faction.examine_line(is_political_noble(src), user == src)
+
+		if(length(standing))
+			. += span_smallnotice(jointext(standing, " "))
 
 		if(HAS_TRAIT(src, TRAIT_RESIDENT))
 			. += span_notice("A chartered resident of Azuria.")
@@ -932,11 +944,6 @@
 				var/mob/living/carbon/human/viewer = user
 				if((viewer.job in GLOB.garrison_positions) || (viewer.job in GLOB.retinue_positions) || (viewer.job in GLOB.courtier_positions) || (viewer.job in GLOB.noble_positions))
 					. += span_smallred("Destitute..")
-
-		if((HAS_TRAIT(user, TRAIT_BLACKOAK) && !(src.dna.species.name == "Elf" || src.dna.species.name == "Dark Elf" || src.dna.species.name == "Half-Elf")))
-			. += span_phobia("An invader...")
-
-		. += blackoak_examine(user)
 
 		if(length(GLOB.tennite_schisms))
 			var/datum/tennite_schism/S = GLOB.tennite_schisms[1]
