@@ -1,8 +1,0 @@
-author: "WeNeedMorePhoron"
-delete-after: True
-changes:
-  - admin: "Improved the observe verb to use orbit menu instead of a manual input. It is logged if you use it."
-  - admin: "Added a read only character panel, and corresponding data to track stats, virtues, buff etc. sources"
-  - admin: "Added a lot of logging to admin actions that are missing it and should"
-  - admin: "Split up the subtle logs and make it not accessible or editable. Made it separate from every other logs to avoid flashbanging. Admins are messaged if subtle logs are viewed."
-  - admin: " Unified all construction logs into the game log"

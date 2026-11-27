@@ -1,7 +1,0 @@
-author: "radarseas"
-delete-after: True
-changes:
-  - rscadd: "Added 2 skeleton varients in Avantyne, these are just normal T3 lineman skeletons w/ enough int to do specials, currently exclusive to adminbus"
-  - rscadd: "Added skeleton mages, currently exclusive to adminbus. Spellblades not yet implimented."
-  - rscadd: "Added smart lines for smarter skeletons, for that \"smart\" half-zombified rotting but still intact enough to sort of vaguely remember their last purpose, skeletons to use. Currently used for casters + Luxplate skeletons"
-  - bugfix: "fixed luxplate NPC sets having belts in them, you're meant to get that via flavor loadouts not have it on the luxplate NPC loadouts and overridden."
