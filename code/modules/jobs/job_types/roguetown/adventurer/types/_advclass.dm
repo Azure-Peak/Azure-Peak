@@ -23,6 +23,8 @@
 	var/cmode_music
 
 	var/noble_income = FALSE //Passive income every day from noble estate
+	var/noble_rank = NOBLE_RANK_NONE
+	var/estate_pay_rank = NOBLE_RANK_NONE
 
 	/// This class is immune to species-based swapped gender locks
 	var/immune_to_genderswap = FALSE
@@ -95,6 +97,7 @@
 	if(!H)
 		return FALSE
 
+	var/list/snapshot = dummy ? null : H.snapshot_build()
 	if(outfit)
 		H.equipOutfit(outfit, dummy)
 
@@ -110,10 +113,8 @@
 	for(var/trait in traits_applied)
 		ADD_TRAIT(H, trait, JOB_TRAIT)
 
-	if(noble_income)
-		var/already_has_income = !isnull(SStreasury.noble_incomes[H])
-		SStreasury.noble_incomes[H] = noble_income
-		SStreasury.grant_estate_income(H, noble_income, !already_has_income)
+	if(noble_rank || noble_income)
+		SSeconomy.register_estate(H, noble_rank, noble_income, pay_rank = estate_pay_rank)
 
 	if(adaptive_name)
 		H.adaptive_name = TRUE
@@ -127,7 +128,9 @@
 			H.mind.AddSpell(new spell)
 
 	if(reset_stats)
+		H.record_build_changes(BUILD_SOURCE_JOB, snapshot)
 		H.reset_stats()
+		snapshot = H.snapshot_build()
 
 	if(length(subclass_stats))
 		for(var/stat in subclass_stats)
@@ -137,13 +140,15 @@
 		for(var/skill in subclass_skills)
 			H.adjust_skillrank_up_to(skill, subclass_skills[skill], TRUE)
 
+	H.record_build_changes(BUILD_SOURCE_JOB, snapshot)
+
 	// Set up spell systems before virtues so Arcyne Potential can detect and add to them
 	if(LAZYLEN(subclass_mage_aspects))
 		H.mind?.setup_mage_aspects(subclass_mage_aspects.Copy())
 
 	if(length(subclass_virtues))
 		for(var/virtue in subclass_virtues)
-			apply_virtue(H, new virtue)
+			apply_virtue(H, new virtue, VIRTUE_SOURCE_JOB)
 
 	if(age_mod)
 		if(istype(age_mod))
@@ -165,7 +170,7 @@
 			var/mob/horse_mob = new horse(TU)
 			if(istype(horse_mob, /mob/living/simple_animal/hostile/retaliate/rogue))
 				var/mob/living/simple_animal/hostile/retaliate/rogue/rogue_animal = horse_mob
-				rogue_animal.owner = H
+				rogue_animal.claim(H)
 				rogue_animal.friends |= H
 	H.set_advsetup(FALSE)
 	H.mind?.refresh_spell_buttons()
@@ -325,8 +330,10 @@
 // Basically the handler has a chance to plus up a class, heres a generic proc you can override to handle behavior related to it.
 // For now you just get an extra stat in everything depending on how many plusses you managed to get.
 /datum/advclass/proc/boost_by_plus_power(plus_factor, mob/living/carbon/human/H)
+	var/list/snapshot = H.snapshot_build()
 	for(var/S in MOBSTATS)
 		H.change_stat(S, plus_factor)
+	H.record_build_changes(BUILD_SOURCE_JOB, snapshot)
 
 
 //Final proc in the set for really silly shit

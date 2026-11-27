@@ -108,27 +108,27 @@ GLOBAL_LIST_INIT(special_traits, build_special_traits())
 	var/language_type = player.prefs.extra_language
 	if(virtue_type)
 		if(virtue_check(virtue_type, species))
-			apply_virtue(character, virtue_type)
+			apply_virtue(character, virtue_type, VIRTUE_SOURCE_CHOSEN)
 		else
 			to_chat(character, "Incorrect Virtue parameters! It will not be applied.")
 	if(virtuetwo_type && virtuous)
 		if(virtue_check(virtuetwo_type, species))
-			apply_virtue(character, virtuetwo_type)
+			apply_virtue(character, virtuetwo_type, VIRTUE_SOURCE_CHOSEN)
 		else
 			to_chat(character, "Incorrect Second Virtue parameters! It will not be applied.")
 	if(origin_type)
 		if((language_type && language_type != "None"))
 			character.grant_language(language_type)
 		if(origin_type.job_origin == TRUE)
-			apply_virtue(character, origin_type)
+			apply_virtue(character, origin_type, VIRTUE_SOURCE_JOB)
 			player.prefs.virtue_origin = origin_type.last_origin
 		else
 			if(origin_check(origin_type, species))
-				apply_virtue(character, origin_type)
+				apply_virtue(character, origin_type, VIRTUE_SOURCE_CHOSEN)
 			else
 				to_chat(character, "Incorrect Origin parameters! Resetting to default.")
 				origin_type = new character.dna.species.origin_default
-				apply_virtue(character, origin_type)
+				apply_virtue(character, origin_type, VIRTUE_SOURCE_RACE)
 
 /// Virtuous/fated alone, or two vices: lesser. Virtuous/fated AND two vices: lesser and greater. Neither: no quirks
 /proc/get_quirk_slots(datum/preferences/prefs)
@@ -209,7 +209,7 @@ GLOBAL_LIST_INIT(special_traits, build_special_traits())
 	if(ispath(bonus))	//The bonus is a real path
 		if(ispath(bonus, /datum/virtue))
 			var/datum/virtue/v = bonus
-			apply_virtue(character, new v)
+			apply_virtue(character, new v, VIRTUE_SOURCE_RACE)
 	if(bonus in MOBSTATS)
 		var/statchange = 1
 		if(parentlist)

@@ -50,6 +50,7 @@
 				to_chat(user, span_warning("There is no hide on the rack anymore."))
 				return
 			playsound(src,pick('sound/items/book_open.ogg','sound/items/book_page.ogg'), 100, FALSE)
+			var/hide_seals = hide.get_seals()
 			QDEL_NULL(hide)
 			user.mind.add_sleep_experience(/datum/skill/craft/tanning, user.STAINT * 2) //these numbers may need some revision
 			update_icon()
@@ -70,12 +71,14 @@
 					essence_factor = 10
 			for(var/i = 0; i < pieces_to_spawn; i++)
 				if(prob(essence_factor + user.goodluck(2)))
-					new /obj/item/natural/cured/essence(get_turf(user))
+					var/obj/item/natural/cured/essence/E = new(get_turf(user))
+					E.add_seals(hide_seals)
 					if(!sound_played)
 						sound_played = TRUE
 						to_chat(user, span_warning("Dendor provides..."))
 						playsound(src,pick('sound/items/gem.ogg'), 100, FALSE)
-				new /obj/item/natural/hide/cured(get_turf(user))
+				var/obj/item/natural/hide/cured/C = new(get_turf(user))
+				C.add_seals(hide_seals)
 			return
 		else
 			to_chat(user, span_warning("I need to anchor this down with a wooden stake before I can work this hide."))

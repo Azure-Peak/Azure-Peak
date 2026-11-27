@@ -34,6 +34,14 @@
 	source_region_id = TRADE_REGION_BLACKHOLT
 	item_type = /obj/item/alch/sinew
 
+/datum/trade_good/bones
+	id = TRADE_GOOD_BONES
+	name = "Bones"
+	category = TRADE_CATEGORY_ANIMAL
+	behavior = TRADE_BEHAVIOR_RAW
+	base_price = SELLPRICE_BONE
+	item_type = /obj/item/natural/bone
+
 /datum/trade_good/trollhorn
 	id = TRADE_GOOD_TROLL_HORN
 	name = "Troll Horn"

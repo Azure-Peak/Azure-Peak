@@ -124,7 +124,7 @@
 					"lines" = lines,
 				))
 	data["manifests"] = manifests
-	data["middleman_cut_percent"] = SSmerchant_trade ? SSmerchant_trade.merchant_levy_percent : TRADE_MERCHANT_LEVY_DEFAULT_PERCENT
+	data["middleman_cut_percent"] = SSmerchant_trade ? SSmerchant_trade.fulfillment_levy_percent : TRADE_MERCHANT_LEVY_DEFAULT_PERCENT
 	data["kinship_sell_pct"] = round((KINSHIP_SELL_MULT - 1) * 100)
 	data["can_manage"] = can_manage(user) ? TRUE : FALSE
 	data["duty_suspended"] = duty_suspended
@@ -155,7 +155,7 @@
 	if(!SStreasury.has_account(user))
 		say("No account found for [user]. Submit your fingers to a Meister for inspection.")
 		return
-	var/list/tally = list("total_producer" = 0, "total_gross" = 0, "total_duty" = 0, "total_cut" = 0, "total_kin_bonus" = 0, "total_quality_delta" = 0, "lines" = list())
+	var/list/tally = new_tally()
 	for(var/obj/item/I in get_turf(user))
 		attempt_deposit(I, user, FALSE, FALSE, tally)
 	for(var/obj/structure/fermentation_keg/keg in get_turf(user))
@@ -165,8 +165,27 @@
 	playsound(loc, 'sound/misc/hiss.ogg', 100, FALSE, -1)
 	playsound(loc, 'sound/misc/disposalflush.ogg', 100, FALSE, -1)
 
+/obj/structure/roguemachine/ship_fulfillment/proc/new_tally()
+	return list("total_producer" = 0, "total_gross" = 0, "total_duty" = 0, "total_cut" = 0, "total_kin_bonus" = 0, "total_quality_delta" = 0, "lines" = list())
+
+/obj/structure/roguemachine/ship_fulfillment/proc/remit_fulfillment(ship_name, good_name, qty, gross, levy_float, duty, levy_tax, levy)
+	if(duty > 0)
+		SStreasury.mint(SStreasury.discretionary_fund, duty, "[TAX_CATEGORY_EXPORT_DUTY] (ship fulfillment)", null, LEDGER_CROWN_REV_EXPORT_DUTY)
+		SStreasury.apply_concordat_tithe(gross, TAX_CATEGORY_EXPORT_DUTY, "ship fulfillment")
+	if(levy_tax > 0)
+		SStreasury.mint(SStreasury.discretionary_fund, levy_tax, "[TAX_CATEGORY_EXPORT_DUTY] (levy income, ship fulfillment)", null, LEDGER_CROWN_REV_EXPORT_DUTY)
+		SStreasury.apply_concordat_tithe(levy_float, TAX_CATEGORY_EXPORT_DUTY, "levy income (ship fulfillment)")
+	if(levy > 0)
+		SStreasury.mint(SStreasury.merchant_fund, levy, "Merchant's levy: [qty] [good_name] -> [ship_name]", null, LEDGER_MERCHANT_LEVY_IN)
+		SSmerchant_trade?.log_fund_movement("Fulfillment levy ([ship_name])", levy)
+
 /obj/structure/roguemachine/ship_fulfillment/proc/flush_tally(list/tally, mob/user)
-	if(!tally || tally["total_producer"] <= 0)
+	if(!tally)
+		return
+	for(var/key in tally["lines"])
+		var/list/line = tally["lines"][key]
+		remit_fulfillment(line["ship_name"], line["good_name"], line["qty"], line["gross"], line["levy_float"], line["duty"], line["levy_tax"], line["levy"])
+	if(tally["total_producer"] <= 0)
 		return
 	var/list/line_summaries = list()
 	var/list/ship_names = list()
@@ -180,7 +199,7 @@
 	var/quality_str = ""
 	if(quality_delta != 0)
 		var/sign_str = quality_delta > 0 ? "+" : ""
-		quality_str = ", quality [sign_str][quality_delta]m"
+		quality_str = ", quality [sign_str][format_mammon(quality_delta)]m"
 	var/breakdown = "[english_list(line_summaries)]: gross [tally["total_gross"]]m, Crown [tally["total_duty"]]m, Merchant [tally["total_cut"]]m[kin_total > 0 ? ", Kinship +[kin_total]m" : ""][quality_str]"
 	SStreasury.give_money_account(tally["total_producer"], user, breakdown, mint_new = TRUE, mint_label = mint_label)
 	if(quality_delta != 0)
@@ -197,9 +216,12 @@
 		var/obj/structure/handcart/cart = I
 		var/turf/cart_loc = get_turf(cart)
 		var/list/cart_contents = cart.contained_items.Copy()
+		var/list/cart_tally = tally || new_tally()
 		for(var/atom/movable/cart_content in cart_contents)
 			if(isitem(cart_content))
-				attempt_deposit(cart_content, user, message, FALSE, tally)
+				attempt_deposit(cart_content, user, message, FALSE, cart_tally)
+		if(!tally)
+			flush_tally(cart_tally, user)
 		for(var/atom/movable/remaining in cart_contents)
 			if(!QDELETED(remaining))
 				cart.remove_from(remaining)
@@ -214,8 +236,11 @@
 		var/obj/item/roguebin/bin = I
 		var/turf/bin_loc = get_turf(bin)
 		var/list/bin_contents = bin.held_contents()
+		var/list/bin_tally = tally || new_tally()
 		for(var/obj/item/bin_item in bin_contents)
-			attempt_deposit(bin_item, user, message, FALSE, tally)
+			attempt_deposit(bin_item, user, message, FALSE, bin_tally)
+		if(!tally)
+			flush_tally(bin_tally, user)
 		for(var/obj/item/remaining in bin_contents)
 			if(!QDELETED(remaining))
 				bin.release_held(remaining, bin_loc)
@@ -230,9 +255,17 @@
 		if(message)
 			to_chat(user, span_warning("[I] bears an ATC seal. Foreign captains won't buy ATC stock back."))
 		return
-	var/datum/component/unsellable/unsellable = GetComponent(/datum/component/unsellable)
+	if(I.stockpile_stamp_applies())
+		if(message)
+			to_chat(user, span_warning("[I] has  a stockpile stamp. The law against cabotage bars its re-export."))
+		return
+	var/datum/component/unsellable/unsellable = I.GetComponent(/datum/component/unsellable)
 	if(unsellable)
 		to_chat(user, span_warning("[I] [unsellable.reason]. No captain will buy it."))
+		return
+	if(I.item_quality == ITEM_QUALITY_GIFT)
+		if(message)
+			to_chat(user, span_warning("[I] is a gift. No captain will buy it."))
 		return
 	if(istype(I, /obj/item/reagent_containers/food/snacks))
 		var/obj/item/reagent_containers/food/snacks/F = I
@@ -292,7 +325,7 @@
 			B.update_icon()
 		settle_payout(line["offered_price"] * take, user, ship, line["good_name"], take, message, sound, tally)
 		return
-	var/good_id = identify_trade_good(I)
+	var/good_id = I.get_trade_good_id()
 	if(!good_id)
 		if(message)
 			to_chat(user, span_warning("[I] is not something a foreign vessel would buy in bulk."))
@@ -357,10 +390,10 @@
 		var/kin_mult = SSmerchant_trade.get_kinship_sell_mult(ship.realm_id)
 		if(kin_mult > 1)
 			var/pre_kin = gross
-			gross = round(gross * kin_mult)
+			gross = mammon_round(gross * kin_mult)
 			kin_bonus = gross - pre_kin
 	var/duty_rate = SStreasury.get_tax_rate(TAX_CATEGORY_EXPORT_DUTY)
-	var/levy_pct = SSmerchant_trade ? SSmerchant_trade.merchant_levy_percent : 0
+	var/levy_pct = SSmerchant_trade ? SSmerchant_trade.fulfillment_levy_percent : 0
 	var/levy_float = gross * levy_pct / 100
 	var/duty_on_gross_float = gross * duty_rate
 	var/duty_on_levy_float = levy_float * duty_rate
@@ -369,17 +402,15 @@
 	var/levy_remitted = 0
 	var/total_duty = 0
 	if(duty_suspended)
-		var/evaded = round(duty_on_gross_float) + round(duty_on_levy_float)
+		var/evaded = mammon_round(duty_on_gross_float + duty_on_levy_float)
 		if(evaded > 0)
 			record_round_statistic(STATS_TAXES_EVADED, evaded)
 			duty_evaded_here += evaded
 	else
 		if(duty_on_gross_float > 0)
-			duty_remitted = SStreasury.mint_fractional(SStreasury.discretionary_fund, duty_on_gross_float, "[TAX_CATEGORY_EXPORT_DUTY] (ship fulfillment)", null, LEDGER_CROWN_REV_EXPORT_DUTY)
-			SStreasury.apply_concordat_tithe(gross, TAX_CATEGORY_EXPORT_DUTY, "ship fulfillment")
+			duty_remitted = mammon_round(duty_on_gross_float)
 		if(duty_on_levy_float > 0)
-			levy_tax_remitted = SStreasury.mint_fractional(SStreasury.discretionary_fund, duty_on_levy_float, "[TAX_CATEGORY_EXPORT_DUTY] (levy income, ship fulfillment)", null, LEDGER_CROWN_REV_EXPORT_DUTY)
-			SStreasury.apply_concordat_tithe(levy_float, TAX_CATEGORY_EXPORT_DUTY, "levy income (ship fulfillment)")
+			levy_tax_remitted = mammon_round(duty_on_levy_float)
 		total_duty = duty_remitted + levy_tax_remitted
 		if(total_duty > 0)
 			record_round_statistic(STATS_TAXES_COLLECTED, total_duty)
@@ -389,11 +420,10 @@
 				SSmerchant_trade.merchant_levy_taxed += levy_tax_remitted
 	var/merchant_net_float = levy_float - (duty_suspended ? 0 : duty_on_levy_float)
 	if(merchant_net_float > 0)
-		levy_remitted = SStreasury.mint_fractional(SStreasury.merchant_fund, merchant_net_float, "Merchant's levy: [qty] [good_name] -> [ship.ship_name]", null, LEDGER_MERCHANT_LEVY_IN)
+		levy_remitted = mammon_round(merchant_net_float)
 		if(SSmerchant_trade)
 			SSmerchant_trade.merchant_levy_collected += levy_remitted
-			SSmerchant_trade.log_fund_movement("Fulfillment levy ([ship.ship_name])", levy_remitted)
-	var/producer_payout = gross - duty_remitted - round(levy_float)
+	var/producer_payout = mammon_round(gross - duty_remitted - mammon_round(levy_float))
 	if(producer_payout < 0)
 		producer_payout = 0
 	record_round_statistic(STATS_TRADE_VALUE_EXPORTED, gross)
@@ -411,27 +441,24 @@
 		tally["total_quality_delta"] = (tally["total_quality_delta"] || 0) + quality_delta
 		var/key = "[ship.ship_id]|[good_name]"
 		var/list/info = tally["lines"][key]
-		if(info)
-			info["qty"] += qty
-		else
-			tally["lines"][key] = list("qty" = qty, "good_name" = good_name, "ship_name" = ship.ship_name)
+		if(!info)
+			info = list("qty" = 0, "good_name" = good_name, "ship_name" = ship.ship_name, "gross" = 0, "levy_float" = 0, "duty" = 0, "levy_tax" = 0, "levy" = 0)
+			tally["lines"][key] = info
+		info["qty"] += qty
+		info["gross"] += gross
+		info["levy_float"] += levy_float
+		info["duty"] += duty_remitted
+		info["levy_tax"] += levy_tax_remitted
+		info["levy"] += levy_remitted
 		return
+	remit_fulfillment(ship.ship_name, good_name, qty, gross, levy_float, duty_remitted, levy_tax_remitted, levy_remitted)
 	var/quality_str = ""
 	if(quality_delta != 0)
 		var/q_sign = quality_delta > 0 ? "+" : ""
-		quality_str = ", quality [q_sign][quality_delta]m"
-	var/breakdown = "[qty] [good_name] for [ship.ship_name]: gross [gross]m, Crown [total_duty]m, Merchant [levy_remitted]m[kin_bonus > 0 ? ", Kinship +[kin_bonus]m" : ""][quality_str]"
+		quality_str = ", quality [q_sign][format_mammon(quality_delta)]m"
+	var/breakdown = "[qty] [good_name] for [ship.ship_name]: gross [gross]m, Crown [format_mammon(total_duty)]m, Merchant [format_mammon(levy_remitted)]m[kin_bonus > 0 ? ", Kinship +[kin_bonus]m" : ""][quality_str]"
 	if(producer_payout > 0)
 		SStreasury.give_money_account(producer_payout, user, breakdown, mint_new = TRUE, mint_label = ship ? ship.ship_name : "foreign vessels")
-
-/obj/structure/roguemachine/ship_fulfillment/proc/identify_trade_good(obj/item/P)
-	for(var/id in GLOB.trade_goods)
-		var/datum/trade_good/TG = GLOB.trade_goods[id]
-		if(!TG.item_type)
-			continue
-		if(TG.accept_subtypes ? istype(P, TG.item_type) : P.type == TG.item_type)
-			return id
-	return null
 
 /obj/structure/roguemachine/ship_fulfillment/proc/identify_trade_good_for_type(item_type)
 	for(var/id in GLOB.trade_goods)

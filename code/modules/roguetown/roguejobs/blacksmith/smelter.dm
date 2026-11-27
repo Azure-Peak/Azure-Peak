@@ -266,9 +266,14 @@
 		record_material_flow(MATERIAL_FLOW_IN, MATERIAL_SOURCE_DOMESTIC, path, 1)
 		if(source)
 			record_material_flow(MATERIAL_FLOW_OUT, MATERIAL_SOURCE_SMELTING, source.type, 1)
+	var/obj/item/result
 	if(ispath(path, /obj/item/ingot))
-		return new path(src, quality)
-	return new path(src)
+		result = new path(src, quality)
+	else
+		result = new path(src)
+	if(source)
+		result.add_seals(source.get_seals())
+	return result
 
 /obj/machinery/light/rogue/smelter/proc/handle_smelting()
 	for(var/obj/item/item as anything in contained_items)
@@ -357,6 +362,7 @@
 		var/floor_mean_quality = SMELTERY_LEVEL_SPOIL
 		var/ore_deleted = 0
 		var/datum/component/unsellable/is_unsellable
+		var/input_seals = NONE
 		for(var/obj/item/item in contained_items)
 			floor_mean_quality += contained_items[item]
 			ore_deleted += 1
@@ -364,13 +370,15 @@
 				record_material_flow(MATERIAL_FLOW_OUT, MATERIAL_SOURCE_SMELTING, item.type, 1)
 			contained_items -= item
 			if(!is_unsellable)
-				is_unsellable = GetComponent(item, /datum/component/unsellable) // one alchemical apple unsellables the bunch
+				is_unsellable = item.GetComponent(/datum/component/unsellable) // one alchemical apple unsellables the bunch
+			input_seals |= item.get_seals()
 			qdel(item)
 		floor_mean_quality = floor(floor_mean_quality/ore_deleted)
 		for(var/i in 1 to max_contained_items)
 			var/obj/item/result = smelt_into(alloy, floor_mean_quality)
 			if(is_unsellable)
 				result.AddComponent(/datum/component/unsellable, is_unsellable.reason) // alloying with alchemical ores/bars also doesn't work to money launder. nice try though!
+			result.add_seals(input_seals)
 			contained_items += result
 	else
 		for(var/obj/item/item in contained_items)
@@ -420,6 +428,7 @@
 		// The smelting quality of all ores added together, divided by the number of ores, and then rounded to the lowest integer (this isn't done until after the for loop)
 		var/floor_mean_quality = SMELTERY_LEVEL_SPOIL
 		var/ore_deleted = 0
+		var/input_seals = NONE
 		for(var/obj/item/item in contained_items)
 			floor_mean_quality += contained_items[item]
 			ore_deleted += 1
@@ -427,13 +436,15 @@
 				record_material_flow(MATERIAL_FLOW_OUT, MATERIAL_SOURCE_SMELTING, item.type, 1)
 			contained_items -= item
 			if(!is_unsellable)
-				is_unsellable = GetComponent(item, /datum/component/unsellable) // one alchemical apple unsellables the bunch
+				is_unsellable = item.GetComponent(/datum/component/unsellable) // one alchemical apple unsellables the bunch
+			input_seals |= item.get_seals()
 			qdel(item)
 		floor_mean_quality = floor(floor_mean_quality/ore_deleted)
 		for(var/i in 1 to max_contained_items)
 			var/obj/item/result = smelt_into(alloy, floor_mean_quality)
 			if(is_unsellable)
 				result.AddComponent(/datum/component/unsellable, is_unsellable.reason) // alloying with alchemical ores/bars also doesn't work to money launder. nice try though!
+			result.add_seals(input_seals)
 			contained_items += result
 	else
 		for(var/obj/item/item in contained_items)

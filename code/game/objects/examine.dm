@@ -19,6 +19,8 @@
 	var/word
 	var/style = "info"
 	switch(item_quality)
+		if(ITEM_QUALITY_GIFT)
+			word = "gift"
 		if(ITEM_QUALITY_WORN)
 			word = "worn"
 			style = "warning"
@@ -53,6 +55,8 @@
 /obj/item/examine(mob/user)
 	. = ..()
 	. += integrity_check()
+	if(mailedto && !istype(src, /obj/item/paper) && !istype(src, /obj/item/smallDelivery))
+		. += span_small("It's addressed to [mailedto].")
 
 	var/derived_cat = get_derived_category(type)
 	var/display_cat = derived_cat
@@ -91,6 +95,8 @@
 	var/list/seals = list()
 	if(atc_sealed)
 		seals += "ATC seal"
+	if(stockpile_stamp_applies())
+		seals += "stockpile stamp"
 	if(unmintable)
 		seals += "town-property stamp"
 	if(length(seals))

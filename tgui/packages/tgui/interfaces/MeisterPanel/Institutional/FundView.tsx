@@ -11,6 +11,7 @@ import { BathhouseOrdinanceSection } from './BathhouseOrdinanceSection';
 import { FundActivity } from './FundActivity';
 import { IssueLoanSection } from './IssueLoanSection';
 import { WithdrawSection } from './WithdrawSection';
+import { formatMammon } from '../../common/format';
 
 export const FundView = ({
   fund,
@@ -30,7 +31,7 @@ export const FundView = ({
         <div style={fieldLabelStyle}>Coffers</div>
         <div style={fieldValueStyle}>
           <span style={{ color: SEAL_AMBER, fontWeight: 'bold' }}>
-            {balance}m
+            {formatMammon(balance)}m
           </span>
           {outstanding > 0 && (
             <span style={{ marginLeft: 8, color: INK_FAINT }}>

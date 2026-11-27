@@ -108,8 +108,8 @@ type Charter = {
 };
 
 type Blockade = {
-  region_id: string;
-  region_name: string;
+  subroute_id: string;
+  subroute_name: string;
   threat_region: string;
   faction_name: string;
   day_started: number;
@@ -117,7 +117,14 @@ type Blockade = {
   ref: string;
 };
 
-type BlockadeRegionOption = {
+type GatheringBlockade = {
+  subroute_id: string;
+  subroute_name: string;
+  threat_region: string;
+  faction_name: string;
+};
+
+type BlockadeSubrouteOption = {
   id: string;
   name: string;
   blockaded: BooleanLike;
@@ -144,8 +151,6 @@ type Assembly = {
   alderman_ckey?: string | null;
   history_count?: number;
   censured_count?: number;
-  trade_cap?: number;
-  trade_remaining?: number;
   defense_cap?: number;
   defense_remaining?: number;
 };
@@ -172,7 +177,6 @@ type Bankruptcy = {
   operating_floor: number;
   arrears_loan_floor: number;
   recovery_reset: number;
-  autoexport_override: number;
   suspended_charters: SuspendedCharter[];
   atc_loan_min: number;
   atc_loan_max: number;
@@ -197,7 +201,8 @@ type Data = {
   effective_player_count: number;
   live_player_count: number;
   blockades: Blockade[];
-  blockade_region_options: BlockadeRegionOption[];
+  gathering_blockades: GatheringBlockade[];
+  blockade_subroute_options: BlockadeSubrouteOption[];
   blockade_faction_options: BlockadeFactionOption[];
   assembly: Assembly;
   bankruptcy: Bankruptcy;
@@ -248,7 +253,8 @@ export const EconomicPanel = () => {
     effective_player_count,
     live_player_count,
     blockades,
-    blockade_region_options,
+    gathering_blockades,
+    blockade_subroute_options,
     blockade_faction_options,
     assembly,
     bankruptcy,
@@ -270,7 +276,7 @@ export const EconomicPanel = () => {
   const [ledgerReason, setLedgerReason] = useState('');
   const [ledgerGroup, setLedgerGroup] = useState(false);
   const [ledgerPage, setLedgerPage] = useState(0);
-  const [blockadeRegion, setBlockadeRegion] = useState('');
+  const [blockadeSubroute, setBlockadeSubroute] = useState('');
   const [blockadeFaction, setBlockadeFaction] = useState('');
   const LEDGER_PAGE_SIZE = 50;
   const filteredLedger = ledger.filter((e) => {
@@ -353,7 +359,6 @@ export const EconomicPanel = () => {
   const [favorAmount, setFavorAmount] = useState(500);
   const [playerMintAmount, setPlayerMintAmount] = useState(50);
   const [simPop, setSimPop] = useState(simulated_player_scalar);
-  const [assemblyTradeCap, setAssemblyTradeCap] = useState(300);
   const [assemblyDefenseCap, setAssemblyDefenseCap] = useState(500);
 
   const applyFilter = (overrides: Partial<Filter> = {}) => {
@@ -435,9 +440,6 @@ export const EconomicPanel = () => {
                       </LabeledList.Item>
                       <LabeledList.Item label="Recovery Reset">
                         {bankruptcy.recovery_reset}m
-                      </LabeledList.Item>
-                      <LabeledList.Item label="Sequestration Auto-Export">
-                        {bankruptcy.autoexport_override}%
                       </LabeledList.Item>
                       <LabeledList.Item label="ATC Loans This Round">
                         {bankruptcy.atc_loans_drawn}
@@ -974,17 +976,22 @@ export const EconomicPanel = () => {
                     </Button.Confirm>
                   </Stack.Item>
                   <Stack.Item>
+                    <Button.Confirm onClick={() => act('fire_blockade_gather')}>
+                      Fire Gathering Roll
+                    </Button.Confirm>
+                  </Stack.Item>
+                  <Stack.Item>
                     <Dropdown
-                      width="11em"
-                      placeholder="Region..."
-                      selected={blockadeRegion}
-                      options={blockade_region_options.map((o) => ({
+                      width="22em"
+                      placeholder="Subroute..."
+                      selected={blockadeSubroute}
+                      options={blockade_subroute_options.map((o) => ({
                         value: o.id,
                         displayText: o.blockaded
                           ? `${o.name} (blockaded)`
                           : o.name,
                       }))}
-                      onSelected={(value) => setBlockadeRegion(value)}
+                      onSelected={(value) => setBlockadeSubroute(value)}
                     />
                   </Stack.Item>
                   <Stack.Item>
@@ -993,7 +1000,7 @@ export const EconomicPanel = () => {
                       placeholder="Faction (auto)..."
                       selected={blockadeFaction}
                       options={[
-                        { value: '', displayText: 'Auto (by region)' },
+                        { value: '', displayText: 'Auto (by threat region)' },
                         ...blockade_faction_options.map((o) => ({
                           value: o.id,
                           displayText: o.name,
@@ -1004,18 +1011,48 @@ export const EconomicPanel = () => {
                   </Stack.Item>
                   <Stack.Item>
                     <Button.Confirm
-                      disabled={!blockadeRegion}
+                      disabled={!blockadeSubroute}
                       onClick={() =>
                         act('place_blockade', {
-                          region_id: blockadeRegion,
+                          subroute_id: blockadeSubroute,
                           faction_id: blockadeFaction || null,
                         })
                       }
                     >
-                      Blockade Region
+                      Blockade Subroute
                     </Button.Confirm>
                   </Stack.Item>
                 </Stack>
+                {gathering_blockades.length > 0 && (
+                  <Box mb={1}>
+                    <Stack align="center" mb={0.5}>
+                      <Stack.Item grow bold>
+                        Gathering (strikes at the next dawn)
+                      </Stack.Item>
+                      <Stack.Item>
+                        <Button.Confirm
+                          onClick={() => act('land_gathering_blockades')}
+                        >
+                          Land Now
+                        </Button.Confirm>
+                      </Stack.Item>
+                    </Stack>
+                    <Table>
+                      <Table.Row header>
+                        <Table.Cell>Subroute</Table.Cell>
+                        <Table.Cell>Threat</Table.Cell>
+                        <Table.Cell>Faction</Table.Cell>
+                      </Table.Row>
+                      {gathering_blockades.map((g) => (
+                        <Table.Row key={g.subroute_id}>
+                          <Table.Cell>{g.subroute_name}</Table.Cell>
+                          <Table.Cell>{g.threat_region}</Table.Cell>
+                          <Table.Cell>{g.faction_name}</Table.Cell>
+                        </Table.Row>
+                      ))}
+                    </Table>
+                  </Box>
+                )}
                 {blockades.length === 0 ? (
                   <Box italic color="gray">
                     No blockades active. Trade roads run clear.
@@ -1023,7 +1060,7 @@ export const EconomicPanel = () => {
                 ) : (
                   <Table>
                     <Table.Row header>
-                      <Table.Cell>Region</Table.Cell>
+                      <Table.Cell>Subroute</Table.Cell>
                       <Table.Cell>Threat</Table.Cell>
                       <Table.Cell>Faction</Table.Cell>
                       <Table.Cell>Day</Table.Cell>
@@ -1032,7 +1069,7 @@ export const EconomicPanel = () => {
                     </Table.Row>
                     {blockades.map((b) => (
                       <Table.Row key={b.ref}>
-                        <Table.Cell>{b.region_name}</Table.Cell>
+                        <Table.Cell>{b.subroute_name}</Table.Cell>
                         <Table.Cell>{b.threat_region}</Table.Cell>
                         <Table.Cell>{b.faction_name}</Table.Cell>
                         <Table.Cell>D{b.day_started}</Table.Cell>
@@ -1073,10 +1110,6 @@ export const EconomicPanel = () => {
                     <LabeledList>
                       <LabeledList.Item label="Alderman">
                         {assembly.alderman_name || '(vacant)'}
-                      </LabeledList.Item>
-                      <LabeledList.Item label="Trade Warrant">
-                        {assembly.trade_remaining ?? 0}m /{' '}
-                        {assembly.trade_cap ?? 0}m
                       </LabeledList.Item>
                       <LabeledList.Item label="Defense Warrant">
                         {assembly.defense_remaining ?? 0}p /{' '}
@@ -1135,27 +1168,6 @@ export const EconomicPanel = () => {
                   </Stack.Item>
                 </Stack>
                 <Stack align="center" mt={1}>
-                  <Stack.Item>Trade cap:</Stack.Item>
-                  <Stack.Item>
-                    <NumberInput
-                      step={50}
-                      minValue={0}
-                      maxValue={10000}
-                      value={assemblyTradeCap}
-                      onChange={(v: number) => setAssemblyTradeCap(v)}
-                    />
-                  </Stack.Item>
-                  <Stack.Item>
-                    <Button
-                      onClick={() =>
-                        act('assembly_set_trade_cap', {
-                          amount: assemblyTradeCap,
-                        })
-                      }
-                    >
-                      Set
-                    </Button>
-                  </Stack.Item>
                   <Stack.Item>Defense cap:</Stack.Item>
                   <Stack.Item>
                     <NumberInput

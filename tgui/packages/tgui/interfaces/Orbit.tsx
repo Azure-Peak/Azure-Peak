@@ -10,6 +10,7 @@ import {
   Section,
   Stack,
 } from 'tgui-core/components';
+import type { BooleanLike } from 'tgui-core/react';
 
 import { useBackend } from '../backend';
 import { Window } from '../layouts';
@@ -31,7 +32,11 @@ type OrbitData = {
   alive: OrbitTarget[];
   dead: OrbitTarget[];
   ghosts: OrbitTarget[];
+  npcs?: OrbitTarget[];
   orbiting_ref?: string;
+  can_observe?: BooleanLike;
+  observe_clicks?: BooleanLike;
+  observing_ref?: string;
 };
 
 type OrbitSectionKey = (typeof SECTIONS)[number]['key'];
@@ -40,6 +45,7 @@ const SECTIONS = [
   { key: 'alive', title: 'Alive', color: 'blue' },
   { key: 'dead', title: 'Dead', color: 'average' },
   { key: 'ghosts', title: 'Ghosts', color: 'label' },
+  { key: 'npcs', title: 'Other mobs', color: 'grey' },
 ] as const;
 
 type RoleGroup = {
@@ -83,6 +89,7 @@ const ALIVE_NORMAL_GROUP_ORDER = [
   'Church',
   'Inquisition',
   'Burghers',
+  'Azurian Trading Company',
   'Peasants',
   'Sidefolk',
   'Wanderers',
@@ -432,39 +439,48 @@ export const Orbit = () => {
   const [query, setQuery] = useState('');
   const [colorMode, setColorMode] = useState<'role' | 'health'>('role');
   const [openSections, setOpenSections] = useAtom(openSectionsAtom);
-  const orbitRef = data.orbiting_ref;
+  const canObserve = !!data.can_observe;
+  const isObserveMode = !!data.observe_clicks;
+  const observingRef = data.observing_ref;
+  const orbitRef = isObserveMode ? observingRef : data.orbiting_ref;
   const isRoleColorMode = colorMode === 'role';
   const aliveTargets = data.alive || EMPTY_TARGETS;
   const deadTargets = data.dead || EMPTY_TARGETS;
   const ghostTargets = data.ghosts || EMPTY_TARGETS;
+  const npcTargets = data.npcs || EMPTY_TARGETS;
 
   const normalizedQuery = query.trim().toLowerCase();
   const handleOrbit = useCallback(
-    (ref: string) => act('orbit', { ref }),
-    [act],
+    (ref: string) => act(isObserveMode ? 'observe' : 'orbit', { ref }),
+    [act, isObserveMode],
   );
   const handleRefresh = useCallback(() => act('refresh'), [act]);
+  const handleStop = useCallback(() => act('stop_observing'), [act]);
+  const handleToggleObserve = useCallback(
+    () => act('toggle_observe_clicks'),
+    [act],
+  );
   const toggleColorMode = useCallback(() => {
     setColorMode((mode) => (mode === 'role' ? 'health' : 'role'));
   }, []);
 
   const indexedData = useMemo(() => {
+    const sources: Record<OrbitSectionKey, OrbitTarget[]> = {
+      alive: aliveTargets,
+      dead: deadTargets,
+      ghosts: ghostTargets,
+      npcs: npcTargets,
+    };
     return SECTIONS.reduce(
       (indexed, section) => {
-        const source =
-          section.key === 'alive'
-            ? aliveTargets
-            : section.key === 'dead'
-              ? deadTargets
-              : ghostTargets;
-        indexed[section.key] = source.map((item) =>
+        indexed[section.key] = sources[section.key].map((item) =>
           buildIndexedTarget(item, section.key),
         );
         return indexed;
       },
       {} as Record<OrbitSectionKey, OrbitTargetIndexed[]>,
     );
-  }, [aliveTargets, deadTargets, ghostTargets]);
+  }, [aliveTargets, deadTargets, ghostTargets, npcTargets]);
 
   const sections = useMemo(() => {
     return SECTIONS.reduce((builtSections, section) => {
@@ -491,7 +507,11 @@ export const Orbit = () => {
   }, [indexedData, normalizedQuery]);
 
   return (
-    <Window title="Orbit" width={460} height={560}>
+    <Window
+      title={isObserveMode ? 'Observe' : 'Orbit'}
+      width={460}
+      height={560}
+    >
       <Window.Content>
         <Stack fill vertical>
           <Stack.Item>
@@ -509,6 +529,30 @@ export const Orbit = () => {
                     onChange={setQuery}
                   />
                 </Stack.Item>
+                {canObserve && (
+                  <Stack.Item>
+                    <Button
+                      icon={isObserveMode ? 'eye' : 'circle-notch'}
+                      selected={isObserveMode}
+                      onClick={handleToggleObserve}
+                      tooltip={
+                        isObserveMode
+                          ? 'Clicks observe. Switch to orbit'
+                          : 'Clicks orbit. Switch to observe'
+                      }
+                    />
+                  </Stack.Item>
+                )}
+                {canObserve && !!observingRef && (
+                  <Stack.Item>
+                    <Button
+                      icon="eye-slash"
+                      color="bad"
+                      onClick={handleStop}
+                      tooltip="Stop observing"
+                    />
+                  </Stack.Item>
+                )}
                 <Stack.Item>
                   <Button
                     icon="sync-alt"
@@ -536,7 +580,7 @@ export const Orbit = () => {
           <Stack.Item grow>
             <Section fill scrollable>
               {sections.length === 0 && (
-                <NoticeBox>No orbit targets match your search.</NoticeBox>
+                <NoticeBox>No targets match your search.</NoticeBox>
               )}
 
               {sections.map((section) => (

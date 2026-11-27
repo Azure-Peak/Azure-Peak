@@ -10,7 +10,7 @@
 		if(!icon || !icon_state)
 			continue
 
-		Insert("[sanitize_css_class_name("recipe_[REF(recipe)]")]", icon, icon_state)
+		Insert("[sanitize_css_class_name("recipe_[recipe.type]")]", icon, icon_state)
 
 		if(!(recipe.req_bar in seen_materials) && recipe.req_bar::icon && recipe.req_bar::icon_state)
 			Insert("[sanitize_css_class_name("material_[recipe.req_bar]")]", recipe.req_bar::icon, recipe.req_bar::icon_state)

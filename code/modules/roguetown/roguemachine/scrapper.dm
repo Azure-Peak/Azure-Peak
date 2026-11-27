@@ -215,9 +215,11 @@
 	bark_dirty = TRUE
 	record_material_flow(MATERIAL_FLOW_IN, flow_source, path, units, total_price)
 	record_round_statistic(STATS_SCRAP_MAMMONS_PAID, total_price)
+	var/scrap_seals = I.get_seals()
 	qdel(I)
 	for(var/i in 1 to units)
-		new path(src)
+		var/obj/item/material = new path(src)
+		material.add_seals(scrap_seals)
 	if(payout)
 		payout[1] += total_price
 	else
@@ -373,10 +375,11 @@
 		if("withdraw")
 			if(budget <= 0)
 				return TRUE
-			var/amount = budget
-			budget = 0
+			var/amount = floor(mammon_round(budget))
+			if(amount < 1)
+				return TRUE
+			budget = refund_pouch(budget, usr)
 			bark_dirty = TRUE
-			budget2change(amount, usr)
 			playsound(loc, 'sound/misc/coindispense.ogg', 100, FALSE, -1)
 			to_chat(usr, span_notice("I withdraw [amount]m from the coffer."))
 			return TRUE

@@ -156,16 +156,7 @@
 /obj/item/roguemachine/navigator/ui_static_data(mob/user)
 	var/list/data = list()
 	data["motto"] = motto
-	data["handler_fee_percent"] = round(fixed_tax * 100)
-	data["duty_rate"] = SStreasury ? SStreasury.get_tax_rate(TAX_CATEGORY_EXPORT_DUTY) : 0
-	data["pay_taxes"] = pay_taxes
-	data["levy_rate"] = SSmerchant_trade ? SSmerchant_trade.merchant_levy_percent : 0
-	data["pay_merchant_share"] = pay_merchant_share
-	data["duty_collected_here"] = duty_collected_here
-	data["duty_evaded_here"] = duty_evaded_here
-	data["levy_collected_here"] = levy_collected_here
 	data["is_smuggler"] = FALSE
-	data["facilitator_present"] = FALSE
 	data["market_data"] = build_navigator_market_data()
 	return data
 
@@ -179,6 +170,15 @@
 		is_prop = (H.job in profit_id)
 	data["is_proprietor"] = is_prop
 	data["is_readable"] = user ? user.can_read(src, TRUE) : TRUE
+	data["handler_fee_percent"] = round(fixed_tax * 100)
+	data["duty_rate"] = SStreasury ? SStreasury.get_tax_rate(TAX_CATEGORY_EXPORT_DUTY) : 0
+	data["pay_taxes"] = pay_taxes
+	data["levy_rate"] = SSmerchant_trade ? SSmerchant_trade.navigator_levy_percent : 0
+	data["pay_merchant_share"] = pay_merchant_share
+	data["duty_collected_here"] = duty_collected_here
+	data["duty_evaded_here"] = duty_evaded_here
+	data["levy_collected_here"] = levy_collected_here
+	data["facilitator_present"] = FALSE
 	return data
 
 /obj/item/roguemachine/navigator/proc/build_navigator_market_data()
@@ -217,6 +217,10 @@
 /obj/item/roguemachine/navigator/smuggler/ui_static_data(mob/user)
 	var/list/data = ..()
 	data["is_smuggler"] = TRUE
+	return data
+
+/obj/item/roguemachine/navigator/smuggler/build_navigator_data(mob/user)
+	var/list/data = ..()
 	data["duty_rate"] = 0
 	data["pay_taxes"] = FALSE
 	data["duty_collected_here"] = 0
@@ -281,13 +285,11 @@
 			pay_taxes = !pay_taxes
 			to_chat(H, span_notice("The Navigator's toll clasp clicks. Export duty: <b>[pay_taxes ? "PAYING" : "DODGING"]</b>."))
 			playsound(loc, 'sound/misc/gold_misc.ogg', 80, FALSE, -1)
-			update_static_data_for_all_viewers()
 			return TRUE
 		if("toggle_levy")
 			pay_merchant_share = !pay_merchant_share
 			to_chat(H, span_notice("The Navigator's toll clasp clicks. Merchant's levy: <b>[pay_merchant_share ? "COLLECTING" : "WAIVED"]</b>."))
 			playsound(loc, 'sound/misc/gold_misc.ogg', 80, FALSE, -1)
-			update_static_data_for_all_viewers()
 			return TRUE
 
 /obj/item/roguemachine/navigator/update_icon()
@@ -347,11 +349,13 @@
 					var/obj/item/IT = I
 					if(IT.is_important)
 						continue
-					if(IT.atc_sealed)
+					if(IT.atc_sealed || IT.stockpile_stamp_applies())
 						continue
 					if(IT.unmintable && !accepts_unmintable)
 						continue
 					if(IT.GetComponent(/datum/component/unsellable))
+						continue
+					if(IT.item_quality == ITEM_QUALITY_GIFT)
 						continue
 				var/base_price = I.get_real_price()
 				var/category = get_derived_category(I.type) || ITEM_CAT_MISCELLANEOUS
@@ -410,7 +414,7 @@
 
 /obj/item/roguemachine/navigator/proc/settle_export(gross, turf/payout_turf, payout_dir)
 	var/duty_rate = SStreasury.get_tax_rate(TAX_CATEGORY_EXPORT_DUTY)
-	var/levy_pct = SSmerchant_trade ? SSmerchant_trade.merchant_levy_percent : 0
+	var/levy_pct = SSmerchant_trade ? SSmerchant_trade.navigator_levy_percent : 0
 	var/levy = pay_merchant_share ? round(gross * levy_pct / 100) : 0
 	var/duty_on_gross = round(gross * duty_rate)
 	var/duty_on_levy = round(levy * duty_rate)

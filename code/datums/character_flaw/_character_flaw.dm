@@ -770,7 +770,7 @@ GLOBAL_LIST_INIT(averse_factions, list(
 			send_ooc_note("<b>MEISTER:</b> [alimony]m was taken in debts owed.", name = deadbeat.real_name)
 	else
 		if(bankamt > 0 && SStreasury.burn(account, bankamt, "Defaulted Debts"))
-			send_ooc_note("<b>MEISTER:</b> [bankamt]m was taken in defaulted debts.", name = deadbeat.real_name)
+			send_ooc_note("<b>MEISTER:</b> [format_mammon(bankamt)]m was taken in defaulted debts.", name = deadbeat.real_name)
 		deadbeat.add_stress(/datum/stressevent/debt)
 		if(!bounty_added)
 			if(ishuman(deadbeat))

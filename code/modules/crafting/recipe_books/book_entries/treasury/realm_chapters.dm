@@ -19,18 +19,15 @@
 		Does not refill while the Bull is suspended.</p>
 
 		<h3>Alderman's Warrant</h3> <p>An Alderman, elected by the City Assembly,
-		gains a Defense Warrant and a Trade Warrant. Neither are actual currency. They
-		are spending ceilings against the Treasury and the Burgher Pledge:</p>
+		gains a Defense Warrant. It is not actual currency. It is a spending ceiling
+		against the Burgher Pledge:</p>
 		<ul>
-			<li><b>Trade Warrant</b> - a daily mammon ceiling against the Treasury. The
-			Alderman may import and export up to this amount each day. The monetary value
-			of both imports and exports counts against the Warrant. Coin flows to and
-			from the Treasury itself.</li> <li><b>Defense Warrant</b> - a daily Pledge
+			<li><b>Defense Warrant</b> - a daily Pledge
 			ceiling. Defense contracts issued by the Alderman burn Pledge authority up to
 			this cap. The Steward's defense contracts work the same way. The Alderman
 			can't spend the Treasury on defense and may not issue Requests.</li>
 		</ul>
-		<p>Both ceilings refresh at each session's resolution. Unspent authorisation does not carry over.</p>
+		<p>The ceiling refreshes at each session's resolution. Unspent authorisation does not carry over.</p>
 
 		<h3>Crown Authority</h3> <p>The following titles share full Crown authority.
 		They may petition regions, take a loan from the ATC, commission defense and
@@ -108,154 +105,19 @@
 		Completing a blockade gives a triumph reward of [BLOCKADE_CLEAR_TRIUMPHS] to all participants in the fellowship.
 		</p>
 
-		<p>Multiple blockades may exist at once. One scroll per blockade at a time.
-		Blockades are rolled only at roundstart and never spawn during the round.</p>
+		<p>A blockade block one subroute of a trade route and cuts the road to every
+		region along it. Multiple blockades may exist at once. One scroll per
+		blockade at a time. Mid round blockade will be announced a dae before.</p>
+
+		<p>The Steward can hire an escort to get caravans through a blockaded road
+		until the next day. The escort costs more the longer the blockade remains. Deals in a
+		blockaded region are halved in size, and no tribute comes through.</p>
 
 		<p>A Blockade Scroll may be withdrawn from Your Postings until the first wave
 		begins. The waves begin when the holder arrives. Each wave must be broken
 		within [BLOCKADE_WAVE_TIMER_DS / 600] minutes of spawning. There are warnings
 		at [DisplayTimeText(BLOCKADE_WAVE_WARN_FIRST)], [DisplayTimeText(BLOCKADE_WAVE_WARN_SECOND)] and
 		[DisplayTimeText(BLOCKADE_WAVE_WARN_THIRD)] left.</p>
-		</div>
-	"}
-
-
-/datum/book_entry/treasury_realm/trade
-	name = "03. Regional Trade"
-
-/datum/book_entry/treasury_realm/trade/inner_book_html(mob/user)
-	return {"
-		<div>
-		<p>The Crown trades with ten regions: Kingsfield, Rosawood, Rockhill, Daftsmarch, Blackholt, Saltwick, Hagenwald, Bleakcoast, Northfort, Heartfelt. Trade and stockpile both work through the Nerve Master's "Trade and Stockpile" interface.</p>
-
-		<h3>Trade Pricing</h3>
-		<ul>
-			<li>Each region has daily production and demand for specific goods. Volumes
-			scale with the number of active people.</li> <li><b>Import</b> price rises
-			sharply once purchases exceed daily production. Repeat imports of the same
-			good in one day carry a further surcharge.</li> <li><b>Export</b> price falls
-			sharply once sales exceed daily demand.</li> <li><b>Export</b> price is
-			always [IMPORT_EXPORT_SPREAD * 100]% less than the matching import price.
-			Buying and reselling on the same day is always a loss.</li>
-			<li><b>Blockade</b>: Blockade does not block import or export outright. It
-			multiplies cost to make trade unwise: Import Price x[BLOCKADE_IMPORT_MULT],
-			Export Revenue x[BLOCKADE_EXPORT_MULT].</li> <li><b>Economic events</b> apply
-			a further multiplier. See Supply and Demand.</li> <li>Each Trade action is
-			capped at [TRADE_MAX_BULK_UNITS] units per click. The trade modal shows a
-			live quote with base subtotal, escalation surcharge, and total before
-			commit.</li>
-		</ul>
-
-		<h3>Stockpile Pricing, Autoprice and Autolimit</h3> <p>Each stockpiled good
-		has two prices: a <b>buy price</b> (what the Crown pays whoever deposits) and
-		a <b>sell price</b> (what the Crown charges whoever withdraws).</p> <p>On
-		<b>Autoprice</b>, prices follow the good's base price times any event
-		multiplier. Blockades are ignored. The Crown profits at least 1m per
-		transaction:</p>
-		<ul>
-			<li><b>Sell</b> = <code>import_ref</code>.</li> <li><b>Buy</b> = the lower of
-			<code>[1 - IMPORT_EXPORT_SPREAD] × export_ref</code> or <code>export_ref -
-			1m</code>.</li>
-		</ul>
-		<p>Where <code>import_ref = base × event_mod</code> and <code>export_ref =
-		import_ref × [(1 - IMPORT_EXPORT_SPREAD) * 100]%</code>. At small base prices
-		the buy price is <code>export_ref - 1m</code>. At larger prices it is
-		<code>[(1 - IMPORT_EXPORT_SPREAD) * 100]% × export_ref</code>, so the Crown's margin grows with the price. Regional
-		shortages, blockades and route congestion only affect imports and exports.
-		They do not change stockpile prices. The Steward can set prices by hand when
-		needed.</p>
-		<ul>
-			<li>The Steward may set either price by hand, which switches the entry to
-			<b>Manual</b>. Manual entries hold whatever the Steward set until they are
-			set back to Autoprice, which resets both prices at once.</li> <li>Autoexport
-			skips goods priced by hand.</li>
-			<li>The Market Scroll shows an <b>arbitrage margin</b> column for each good (sell - buy, times current stock) and an aggregate "Arbitrage potential" total at the top.</li>
-		</ul>
-
-		<h3>Stockpile Limit - Auto and Manual</h3> <p>Each stockpile entry has a daily
-		limit beyond which deposits no longer pay. Limits start in <b>Auto</b> mode at
-		roundstart. The formula is <b>total daily demand across all regions x pop
-		multiplier x [STOCKPILE_AUTO_LIMIT_DAYS] days of headroom</b>. Goods with no
-		demand line (gems, treasures) get a floor of [STOCKPILE_LIMIT_MIN] units. The
-		Steward may override by setting a limit by hand, which flips the entry to
-		<b>Manual</b>. <b>Autolimit All</b> resets every entry back to the
-		formula.</p>
-
-		<h3>Bulk Operators</h3> <p>The Market Scroll has controls for each category
-		and for all goods: <b>Autoprice All</b> / <b>Autolimit All</b> reset modes;
-		<b>Buy ×</b> / <b>Sell ×</b> multipliers scale either side of the spread
-		across a category or globally (each multiplier flips affected entries to
-		Manual). <b>Open All</b> / <b>Close All</b> per category open or refuse
-		deposits in bulk.</p>
-
-		<h3>Surplus Exports</h3> <p>Each stockpile entry has a daily <b>surplus
-		floor</b>: <code>floor = limit x threshold</code>. Stock above the floor is
-		surplus. Each dawn, Autoexport sells it to the best paying region until that
-		region's demand runs out. The threshold defaults to
-		[round(AUTOEXPORT_DEFAULT_PERCENTAGE * 100)]% and is set globally. Lower it to
-		make the Crown more aggressive about turning hoarded stock into mammon. Raise
-		it to keep more stock on hand for citizens and standing orders.</p> <p>The
-		Steward may also press <b>Export Surplus</b> on the Market Scroll (or the
-		button for one category). Once a region has no demand left, nothing more can
-		be exported there until the next dawn. Pressing it again does nothing.
-		<b>Goods priced by hand are skipped</b>. Export them row by row from the same
-		scroll.</p>
-
-		<h3>Imports and the Stockpile</h3> <p>Regional imports enter the Crown's
-		stockpile and feed standing orders and the city's economy at large. The
-		Steward may set a <b>purchase floor</b>: while the Treasury is below it, the
-		stockpile stops buying deposits.</p>
-
-		<p>The Alderman <b>cannot</b> alter stockpile pricing or limits. Those belong
-		to the Steward alone.</p>
-		</div>
-	"}
-
-
-/datum/book_entry/treasury_realm/auto_import
-	name = "04. Autoimport"
-
-/datum/book_entry/treasury_realm/auto_import/inner_book_html(mob/user)
-	return {"
-		<div>
-		<p>Autoimport buys essential goods each dawn. The Steward doesn't have to
-		import the same basics by hand every day. Goods stay on the list until
-		removed.</p>
-
-		<h3>Essentials</h3>
-		<p>Seven goods are on Autoimport by default: <b>coal, wood, grain, iron ore,
-		hide, fur, and fat</b>. The Steward may remove any of them from the
-		<b>Autoimport</b> tab and add them back later.</p>
-
-		<h3>Adding Other Goods</h3> <p>Any importable good with an active producing
-		region may be put on Autoimport. The Steward marks them in the same tab,
-		grouped by category.</p>
-
-		<h3>Rules</h3>
-		<p>Each dawn, for each good on the list:</p>
-		<ul>
-			<li>If the stockpile already holds [AUTO_IMPORT_FLOOR] or more units, no
-			import is made.</li> <li>Otherwise, the Crown buys [AUTO_IMPORT_BATCH] units
-			from the cheapest producing region.</li> <li>The import is skipped if any
-			unit would cost more than [AUTO_IMPORT_MAX_PRICE_MULT]x the good's base
-			price. Shortages can push prices past this. Autoimport then skips the good
-			instead of draining the Treasury.</li> <li>The import is skipped if it would
-			drop the Treasury below the Steward's <b>Treasury floor</b> (default
-			[AUTO_IMPORT_PURSE_FLOOR_DEFAULT]m, adjustable from the tab).</li>
-		</ul>
-
-		<h3>Visibility</h3>
-		<p>Successful imports announce on the Nerve Master with an <i>(auto)</i> tag.
-		Skipped days (stockpile full, price spike, Treasury floor) leave a note in the
-		Tally readout. The panel retains the last [AUTO_IMPORT_HISTORY_DAYS] days of
-		activity.</p>
-
-		<h3>Kill Switch</h3> <p><b>Strike All</b> in the tab takes every good off
-		Autoimport at once, essentials included. Goods can be enabled again one at a
-		time.</p>
-
-		<p>Autoimport spends from the Treasury only. It is not part of any Alderman
-		warrant.</p>
 		</div>
 	"}
 
@@ -268,14 +130,8 @@
 <div>
 		<h3>Types</h3>
 		<ul>
-			<li><b>Regular</b> - rolled each dawn ([STANDING_ORDERS_BASE_PER_DAY] base,
-			+1 per ~[round(1 / STANDING_ORDERS_PER_ACTIVE_PLAYER)] active people, capped
-			at [STANDING_ORDERS_MAX_PER_DAY]/day). Lasts [STANDING_ORDER_DURATION] days.
-			Payout: base x[1 + STANDING_ORDER_BASE_BONUS] per unit.</li>
-			<li><b>Urgent</b> - spawned by shortage events. No more than
-			[STANDING_ORDERS_MAX_URGENT] stand at a time. Lasts [URGENT_ORDER_DURATION]
-			days. Payout: base x shortage price multiplier per unit
-			([ECON_SHORTAGE_MINOR]-[ECON_SHORTAGE_CRISIS]x).</li> <li><b>Warehouse</b> -
+			<li><b>Regular</b> - rolled each dawn, more the more players are active .</li>
+			<li><b>Warehouse</b> -
 			for finished goods (equipment, potions, trophy heads). Settled from the
 			export warehouse (Behind the Stewardry), not the stockpile.</li>
 			<li><b>Petitioned</b> - spawned on demand by the Steward burning Burgher
@@ -291,20 +147,21 @@
 		goods come from those templates.</p>
 
 		<h3>Fulfillment</h3>
-		<p>Stockpile orders: deposit goods and confirm at the Nerve Master. The payout
-		goes into the Treasury. Warehouse orders: settled automatically on sweep. The
-		Treasury is paid directly. The Steward decides who gets a share of the profit
-		and how much.</p>
+		<p>Orders are delivered by caravan from the Nerve Master. A caravan carries one
+		order, one offer and one region's tribute along a route, and returns shortly before the next dawn.
+		At the start of the week, a competent Steward would've sent caravans out earlier
+		already. Therefore, the first few caravans are remembered caravans and will return
+		within minutes of being sent out. Stockpile goods leave from the royal stockpile, and finished goods leave from the
+		warehouse dock. The payout goes into the Treasury.</p>
 
-		<p><b>Partial fulfillment:</b> if the goods on hand cover at least
-		[round(STANDING_ORDER_PARTIAL_THRESHOLD * 100)]% of an order's posted value,
-		the Steward may settle it anyway. The buyer pays
-		[round(STANDING_ORDER_PARTIAL_PAYOUT_MULT * 100)]% of the delivered share's
-		value and nothing is paid for the missing share. A failed attempt locks
-		fulfillment for [DisplayTimeText(STANDING_ORDER_FULFILL_RETRY_COOLDOWN)].</p>
+		<p><b>Partial delivery:</b> an order can be delivered in parts. Each unit
+		is paid in full and an order stay open until it expires.</p>
+
+		<p><b>Extension:</b> Crown officials can spend Burgher Pledge at the Nerve
+		Master to send a zad and keep an order open another dae.</p>
 
 		<h3>Limits</h3>
-		<p>Max [STANDING_ORDERS_MAX_PER_REGION] orders per region. Max [STANDING_ORDERS_POOL_CAP] orders in the realm. Blockaded regions can hold orders but cannot be delivered to.</p>
+		<p>Each region will have one order at a time. Blockaded regions can have orders but cannot be delivered to. Without petitions, there will be few orders for crafted goods, instead favoring normal commodities instead.</p>
 		</div>
 	"}
 
@@ -319,7 +176,7 @@
 		goods that fulfill standing orders tagged for the warehouse.</p>
 
 		<h3>Equipment Orders</h3> <p>Only an exact type match counts. Subtypes,
-		variants, and heirlooms are not consumed.</p>
+		variants, and heirlooms are not consumed. Only crafted goods will count. Hunt trophies are the exception.</p>
 
 		<h3>Potion Orders</h3>
 		<p>Swept by reagent and volume. Any container holding the right reagent counts, consumed from the top until the order is met.</p>
@@ -374,11 +231,7 @@
 			sequestration lifts.</li> <li><b>All Charters but the Golden Bull are
 			suspended</b>. They cannot be restored until sequestration lifts (see below).
 			The Golden Bull cannot be revoked.</li> <li><b>The Steward's commerce
-			controls are locked</b>. Every importable good is put on Autoimport, and the
-			surplus threshold is set to [round(BANKRUPTCY_AUTOEXPORT_PERCENTAGE * 100)]%
-			of the limit. Manual import/export, stockpile pricing, and bulk price
-			multipliers are all disabled. The Steward's earlier settings are <b>not</b>
-			restored on recovery and must be retuned by hand.</li>
+			controls are locked</b>.</li>
 		</ul>
 
 		<p>The skim continues during sequestration. The Treasury may still refill up
@@ -404,11 +257,6 @@
 
 		<p>The Grand Duke or Regent can then restore the suspended Charters at the
 		throne by speaking <b>revise charter</b>, one per day.</p>
-
-
-		<p>Trade configuration does <b>not</b> reset on recovery: the Autoimport list
-		and the surplus threshold stay where sequestration left them. Retune them by
-		hand.</p>
 
 		<h3>Repeat Sequestrations</h3> <p>The realm may enter sequestration multiple
 		times in the same round. There is no protection against repeat failure. Each
@@ -545,8 +393,7 @@
 
 		<p>A <b>drift</b> that is not zero means coin moved without being written down, or something
 		was written down that never happened. Common causes are an admin editing a balance directly,
-		an account vanishing without being closed out, or an entry refused as unbalanced. The morning
-		report warns when a line is out by half a mammon or more.</p>
+		an account vanishing without being closed out, or an entry refused as unbalanced.</p>
 		</div>
 	"}
 
@@ -588,7 +435,6 @@
 			<b>Stock Count Variance</b>. When goods are exported the stock falls, and the variance
 			charges the cost of what left, alongside the Export Sales revenue. The charge appears at
 			the next count, not at the moment of sale.</li>
-			<li>This is not the same figure as the Market tab's arbitrage potential.</li>
 		</ul>
 
 		<h3>Debts</h3>

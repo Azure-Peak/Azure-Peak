@@ -30,6 +30,35 @@
 	return "Retrieve [progress_required] [progress_required > 1 ? target_item_plural : initial(target_item_type.name)]."
 
 
+/datum/quest/retrieval/get_target_location()
+	var/turf/user_turf = quest_scroll ? get_turf(quest_scroll) : null
+	if(!user_turf)
+		return null
+
+	var/mob/bearer = get(quest_scroll, /mob)
+	var/turf/closest
+	var/min_dist = INFINITY
+	var/turf/closest_held
+	var/held_dist = INFINITY
+
+	for(var/datum/weakref/ref in tracked_atoms)
+		var/atom/A = ref.resolve()
+		if(QDELETED(A))
+			continue
+		var/turf/A_turf = get_turf(A)
+		if(!A_turf)
+			continue
+		var/dist = get_dist(user_turf, A_turf)
+		if(bearer && get(A, /mob) == bearer)
+			if(dist < held_dist)
+				held_dist = dist
+				closest_held = A_turf
+		else if(dist < min_dist)
+			min_dist = dist
+			closest = A_turf
+
+	return closest || closest_held
+
 /datum/quest/retrieval/get_additional_reward(turf/origin_turf, turf/target_turf)
 	return ROUND_UP(calculate_delivery_reward(origin_turf, target_turf) + progress_required * QUEST_DELIVERY_PER_ITEM_BONUS)
 

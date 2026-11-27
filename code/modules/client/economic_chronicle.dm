@@ -78,6 +78,7 @@ GLOBAL_DATUM(economic_chronicle, /datum/economic_chronicle)
 		paths |= path
 
 	var/list/rows = list()
+	var/list/by_name = list()
 	var/total_in = 0
 	var/total_out = 0
 	var/list/column_totals = list()
@@ -104,15 +105,21 @@ GLOBAL_DATUM(economic_chronicle, /datum/economic_chronicle)
 			continue
 		total_in += row_in
 		total_out += row_out
-		rows += list(list(
-			"name" = material_flow_name(path),
-			"cat" = material_flow_category(path),
-			"cells" = cells,
-			"in" = row_in,
-			"out" = row_out,
-			"open" = open_demand,
-			"net" = row_in - row_out,
-		))
+		var/row_name = material_flow_name(path)
+		var/list/row = by_name[row_name]
+		if(!row)
+			row = list("name" = row_name, "cat" = material_flow_category(path), "cells" = list(), "in" = 0, "out" = 0, "open" = 0)
+			by_name[row_name] = row
+		var/list/row_cells = row["cells"]
+		for(var/code in cells)
+			row_cells[code] = (row_cells[code] || 0) + cells[code]
+		row["in"] += row_in
+		row["out"] += row_out
+		row["open"] += open_demand
+	for(var/row_name in by_name)
+		var/list/row = by_name[row_name]
+		row["net"] = row["in"] - row["out"]
+		rows += list(row)
 	if(length(rows))
 		sortTim(rows, GLOBAL_PROC_REF(cmp_material_row_flow_desc))
 
@@ -195,7 +202,7 @@ GLOBAL_DATUM(economic_chronicle, /datum/economic_chronicle)
 		"petitioned" = GLOB.azure_round_stats[STATS_STANDING_ORDERS_PETITIONED] || 0,
 		"petition_pledge_spent" = GLOB.azure_round_stats[STATS_PETITION_PLEDGE_SPENT] || 0,
 	)
-	var/itemised_revenue = (GLOB.azure_round_stats[STATS_RURAL_TAXES_COLLECTED] || 0) + royal_taxes_total + (GLOB.azure_round_stats[STATS_FINES_INCOME] || 0) + poll["total"] + (GLOB.azure_round_stats[STATS_STOCKPILE_EXPORTS_VALUE] || 0) + (GLOB.azure_round_stats[STATS_STOCKPILE_REVENUE] || 0) + standing["revenue"]
+	var/itemised_revenue = (GLOB.azure_round_stats[STATS_RURAL_TAXES_COLLECTED] || 0) + royal_taxes_total + (GLOB.azure_round_stats[STATS_FINES_INCOME] || 0) + poll["total"] + (GLOB.azure_round_stats[STATS_STOCKPILE_REVENUE] || 0) + standing["revenue"]
 	var/total_revenue = SStreasury.purse_inflow_total
 	var/total_expenses = SStreasury.purse_outflow_total
 	var/attributed_expenses = total_treasury_expenses()
@@ -210,7 +217,6 @@ GLOBAL_DATUM(economic_chronicle, /datum/economic_chronicle)
 		"royal" = royal,
 		"exempt" = exempt,
 		"fines_income" = GLOB.azure_round_stats[STATS_FINES_INCOME] || 0,
-		"stockpile_exports" = GLOB.azure_round_stats[STATS_STOCKPILE_EXPORTS_VALUE] || 0,
 		"stockpile_revenue" = GLOB.azure_round_stats[STATS_STOCKPILE_REVENUE] || 0,
 		"stockpile_direct_imports" = GLOB.azure_round_stats[STATS_STOCKPILE_DIRECT_IMPORTS] || 0,
 		"standing" = standing,
@@ -228,7 +234,6 @@ GLOBAL_DATUM(economic_chronicle, /datum/economic_chronicle)
 		"other_income" = max(0, total_revenue - itemised_revenue),
 		"unattributed_expenses" = max(0, total_expenses - attributed_expenses),
 		"net_treasury" = total_revenue - total_expenses,
-		"trade_balance" = (GLOB.azure_round_stats[STATS_STOCKPILE_EXPORTS_VALUE] || 0) - (GLOB.azure_round_stats[STATS_STOCKPILE_IMPORTS_VALUE] || 0),
 		"foreign_trade_volume" = (GLOB.azure_round_stats[STATS_TRADE_VALUE_EXPORTED] || 0) + (GLOB.azure_round_stats[STATS_TRADE_VALUE_EXPORTED_BM] || 0) + (GLOB.azure_round_stats[STATS_TRADE_VALUE_IMPORTED] || 0),
 		"effective_tax_rate" = effective_tax_rate,
 		"exemption_share" = exemption_share,

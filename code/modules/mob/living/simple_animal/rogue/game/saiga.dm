@@ -18,6 +18,7 @@
 	speak_chance = 1
 	see_in_dark = 6
 	ride_move_delay = 8//Fastest mount
+	gallops = TRUE
 	animal_species = /mob/living/simple_animal/hostile/retaliate/rogue/saiga/saigabuck
 	botched_butcher_results = list(
 								/obj/item/reagent_containers/food/snacks/rogue/meat/steak = 1,
@@ -184,34 +185,9 @@
 	setup_mount()
 
 /mob/living/simple_animal/hostile/retaliate/rogue/saiga/death()
-	unbuckle_all_mobs()
 	. = ..()
 	if(!QDELETED(src))
 		src.AddComponent(/datum/component/deadite_animal_reanimation)
-
-/// If we're a mount and are hit while sprinting, throw our rider off
-/// Also called if the rider is hit
-/mob/living/simple_animal/hostile/retaliate/rogue/saiga/proc/check_sprint_dismount()
-	SIGNAL_HANDLER
-	for(var/mob/living/carbon/human/rider in buckled_mobs)
-		if(rider.m_intent != MOVE_INTENT_RUN)
-			continue
-		var/rider_skill = rider.get_skill_level(/datum/skill/misc/riding)
-		if(rider_skill >= SKILL_LEVEL_MASTER)
-			continue
-		violent_dismount(rider)
-
-/mob/living/simple_animal/hostile/retaliate/rogue/saiga/post_buckle_mob(mob/living/M)
-	. = ..()
-	RegisterSignal(M, COMSIG_MOB_APPLY_DAMGE, PROC_REF(check_sprint_dismount))
-	if(!has_buckled_mobs())
-		RegisterSignal(src, COMSIG_MOB_APPLY_DAMGE, PROC_REF(check_sprint_dismount))
-
-/mob/living/simple_animal/hostile/retaliate/rogue/saiga/post_unbuckle_mob(mob/living/M)
-	. = ..()
-	UnregisterSignal(M, COMSIG_MOB_APPLY_DAMGE, PROC_REF(check_sprint_dismount))
-	if(!has_buckled_mobs())
-		UnregisterSignal(src, COMSIG_MOB_APPLY_DAMGE, PROC_REF(check_sprint_dismount))
 
 /mob/living/simple_animal/hostile/retaliate/rogue/saiga/saigabuck/taunted(mob/user)
 	emote("aggro")

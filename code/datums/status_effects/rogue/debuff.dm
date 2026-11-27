@@ -855,6 +855,30 @@
 /datum/status_effect/debuff/slowed/proc/update_modifier()
 	owner.add_movespeed_modifier(MOVESPEED_ID_SLOWED, update = TRUE, priority = 100, override = TRUE, multiplicative_slowdown = severity, movetypes = GROUND)
 
+/atom/movable/screen/alert/status_effect/debuff/envenomed
+	name = "Envenomed"
+	desc = "Poison numbs my limbs."
+	icon_state = "slowdown"
+
+// Replacement for reagent based debuff - once a penetrative strike is scored, they are debuffed significantly in offensive output and speed. So you can finish them off quite well. You are meant to risk it with pick to get through the poison early in the fight, if you can.
+/datum/status_effect/debuff/envenomed
+	id = "envenomed"
+	alert_type = /atom/movable/screen/alert/status_effect/debuff/envenomed
+	duration = ENVENOMED_DURATION
+	effectedstats = list(STATKEY_STR = ENVENOMED_STAT_PENALTY, STATKEY_PER = ENVENOMED_STAT_PENALTY, STATKEY_INT = ENVENOMED_STAT_PENALTY)
+
+/datum/status_effect/debuff/envenomed/on_apply()
+	. = ..()
+	owner.add_movespeed_modifier(MOVESPEED_ID_ENVENOMED, update = TRUE, priority = 100, override = TRUE, multiplicative_slowdown = ENVENOMED_SLOWDOWN, movetypes = GROUND)
+	to_chat(owner, span_danger("My wound burns, and my body feels weaker"))
+
+/datum/status_effect/debuff/envenomed/tick()
+	owner.energy_add(-ENVENOMED_ENERGY_DRAIN)
+
+/datum/status_effect/debuff/envenomed/on_remove()
+	owner.remove_movespeed_modifier(MOVESPEED_ID_ENVENOMED)
+	return ..()
+
 /datum/status_effect/debuff/excomm
 	id = "Excommunicated!"
 	alert_type = /atom/movable/screen/alert/status_effect/debuff/excomm

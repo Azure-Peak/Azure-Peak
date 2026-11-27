@@ -809,7 +809,11 @@ SUBSYSTEM_DEF(job)
 		H.mind.assigned_role = rank
 
 	if(job)
+		var/mob/living/carbon/human/tracked = ishuman(H) ? H : null
+		var/list/snapshot = tracked?.snapshot_build()
 		var/new_mob = job.equip(H, null, null, joined_late , null, M.client)
+		if(!ismob(new_mob) || new_mob == tracked)
+			tracked?.record_build_changes(BUILD_SOURCE_JOB, snapshot)
 		if(ismob(new_mob))
 			H = new_mob
 			if(!joined_late)
@@ -838,8 +842,9 @@ SUBSYSTEM_DEF(job)
 	if(related_policy)
 		to_chat(M,related_policy)
 	if(job && H)
-		if(H.client && H.mind)
-			H.mind.job_subprefs = H.client.prefs?.job_subprefs?.Copy()
+		var/client/C = H.client || M.client
+		if(C && H.mind)
+			H.mind.job_subprefs = C.prefs?.job_subprefs?.Copy() || list()
 		job.after_spawn(H, M, joined_late) // note: this happens before the mob has a key! M will always have a client, H might not.
 
 	if(ishuman(H))
@@ -1034,6 +1039,8 @@ SUBSYSTEM_DEF(job)
 			key = "Inquisition"
 		if(BURGHERS)
 			key = "Burghers"
+		if(ATC)
+			key = "Azurian Trading Company"
 		if(GUILDSMAN)
 			key = "Guildsmen"
 		if(PEASANTS)
