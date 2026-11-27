@@ -115,16 +115,16 @@
 			STATS_SONGS_PLAYED = list("name" = "Songs played:", "points" = 0.475, "capacity" = 70),
 		),
 		"Set 4" = list(
-			STATS_WON_GAMBLED = list("name" = "Amount won gambling:", "points" = 0.1, "capacity" = 40), //fortune
+			STATS_WON_GAMBLED = list("name" = "Won gambling:", "points" = 0.1, "capacity" = 40), //fortune
 		),
 		"Set 5" = list(
-			STATS_LOST_GAMBLED = list("name" = "Amount lost gambling:", "points" = 0.05, "capacity" = 60), //woe
+			STATS_LOST_GAMBLED = list("name" = "Lost gambling:", "points" = 0.05, "capacity" = 60), //woe
 		),
 		"Set 6" = list(
 			STATS_MOAT_FALLERS = list("name" = "Moat fallers:", "points" = 4, "capacity" = 50),
 		),
 		"Set 7" = list(
-			STATS_CRITS_MADE = list("name" = "Crits made:", "points" = 0.26, "capacity" = 90),
+			STATS_CRITS_MADE = list("name" = "Crits made:", "points" = 0.2, "capacity" = 90),
 		)
 	)
 
