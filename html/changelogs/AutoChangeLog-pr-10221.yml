@@ -1,0 +1,6 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - rscadd: "One step refinement such as refining a piece of ore into ingots will now keep the stamp, to prevent ez money earning from non-merchant buying now nearly infinite stockpile goods, smelting it and selling it to ships / navigator"
+  - rscadd: "Ingots are now BUY ONLY on the market, you cannot sell them directly anymore. Put em in the scrapper or turn it into goods. It is buy only so that Steward can still buy and sell stocks of ingots into the market."
+  - rscadd: "Steward can now select sell tribute and sell offers on arrival for more convenient direct sale if they do not wish to hold their stock in the royal stockpile"
