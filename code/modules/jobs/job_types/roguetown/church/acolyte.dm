@@ -250,3 +250,68 @@
 		H.adjust_skillrank_up_to(/datum/skill/misc/climbing, SKILL_LEVEL_JOURNEYMAN, TRUE) //journeyman
 		H.adjust_skillrank(/datum/skill/misc/lockpicking, SKILL_LEVEL_NOVICE, TRUE)
 		H.adjust_skillrank_up_to(/datum/skill/misc/music, SKILL_LEVEL_EXPERT, TRUE)
+
+
+/datum/advclass/herald
+	name = "Herald of the Abyss"
+	tutorial = "One of Abyssor's acolytes dedicated to the path of the dream painter. You are amongst the most studious of the cult, capable of casting the most powerful miracles. Detail your visions, bring great tidings... Perform the grunt work to prepare the greatest rituals. You are beholden to the word of the Bishop whose basement you dwell in."
+	outfit = /datum/outfit/job/roguetown/herald
+	category_tags = list(CTAG_ACOLYTE)
+	allowed_patrons = list(/datum/patron/divine/abyssor)
+	traits_applied = list(TRAIT_WATERBREATHING, TRAIT_BLEED_PAINT)
+	// Let's not let the entire church be abysorrite encouraged.
+	maximum_possible_slots = 3
+	subclass_stats = list(
+		STATKEY_INT = 2,
+		STATKEY_WIL = 2,
+		STATKEY_SPD = 1,
+		STATKEY_PER = 2,
+		// Nice day to go fishing, eh?
+		STATKEY_LCK = 1,
+		STATKEY_STR = -1,
+	)
+	subclass_skills = list(
+		/datum/skill/combat/wrestling = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/combat/unarmed = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/combat/staves = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/misc/medicine = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/craft/alchemy = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/misc/reading = SKILL_LEVEL_EXPERT,
+		/datum/skill/craft/cooking = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/craft/crafting = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/labor/fishing = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/misc/swimming = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/craft/sewing = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/labor/farming = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/magic/holy = SKILL_LEVEL_MASTER,
+		/datum/skill/misc/athletics = SKILL_LEVEL_NOVICE,
+		/datum/skill/craft/carpentry = SKILL_LEVEL_NOVICE
+	)
+	subclass_languages = list(/datum/language/abyssal)
+
+/datum/outfit/job/roguetown/herald/pre_equip(mob/living/carbon/human/H)
+	..()
+	H.adjust_blindness(-3)
+	id = /obj/item/clothing/ring/gold
+	belt = /obj/item/storage/belt/rogue/leather/rope/upgraded
+	beltr = /obj/item/storage/belt/rogue/pouch/coins/mid
+	backl = /obj/item/storage/backpack/rogue/satchel
+	shirt = /obj/item/clothing/suit/roguetown/armor/vestments_padded
+	shoes = /obj/item/clothing/shoes/roguetown/sandals
+	pants = /obj/item/clothing/under/roguetown/trou/leather
+	neck = /obj/item/clothing/neck/roguetown/psicross/abyssor/g
+	armor = /obj/item/clothing/suit/roguetown/shirt/robe/abyssor_painter_sea
+	head = /obj/item/clothing/head/roguetown/roguehood/abyssor_painter
+	r_hand = /obj/item/rogueweapon/woodstaff/quarterstaff/steel/paint_heal
+	backpack_contents = list(
+		/obj/item/ritechalk = 1,
+		/obj/item/mini_flagpole/church,
+		/obj/item/storage/keyring/acolyte
+		)
+	H.cmode_music = 'sound/music/cmode/church/combat_acolyte.ogg'
+	if(H.mind)
+		SStreasury.grant_savings(ECONOMIC_LOWER_MIDDLE_CLASS, H)
+		H.mind.AddSpell(new /datum/action/cooldown/spell/projectile/divine_blast)
+	var/datum/devotion/C = new /datum/devotion(H, H.patron)
+	ADD_TRAIT(H, TRAIT_INK_AFFINITY, ROUNDSTART_TRAIT)
+	C.grant_miracles(H, cleric_tier = CLERIC_T4, passive_gain = CLERIC_REGEN_MAJOR, start_maxed = TRUE)
