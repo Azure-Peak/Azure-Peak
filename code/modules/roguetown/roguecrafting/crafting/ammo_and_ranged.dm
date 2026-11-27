@@ -157,7 +157,7 @@
 	name = "rope arrow"
 	display_category = ITEM_CAT_WEAPONS_AMMO
 	category = "Ranged"
-	result = /obj/item/ammo_casing/caseless/rogue/arrow/stone
+	result = /obj/item/ammo_casing/caseless/rogue/arrow/rope
 	reqs = list(
 		/obj/item/ammo_casing/caseless/rogue/arrow/iron = 1,
 		/obj/item/rope = 1,
