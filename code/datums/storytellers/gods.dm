@@ -76,8 +76,8 @@
 			STATS_THRILLSEEKERS = list("name" = "Thrillseekers:", "points" = 5, "capacity" = 50)
 		),
 		"Set 6" = list(
-			STATS_UNJUST_DEATHS = list("name" = "Unjust Deaths:", "points" = -1.25, "capacity" = 50),
-		),
+			STATS_BOUNTY_TOTAL_CLAIMED = list("name" = "Claimed bounties:", "points" = 0.1, "capacity" = 50), //ravox stands for justice, not order.
+		)
 	)
 
 /datum/storyteller/abyssor

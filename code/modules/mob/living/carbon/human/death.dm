@@ -66,8 +66,6 @@
 				record_round_statistic(STATS_DEADITES_KILLED)
 			if(mind.has_antag_datum(/datum/antagonist/skeleton) || mind.has_antag_datum(/datum/antagonist/lich))
 				record_round_statistic(STATS_SKELETONS_KILLED)
-			if((!HAS_TRAIT(src, TRAIT_PACIFIST) && (src !in GLOB.excommunicated_players || src !in GLOB.outlawed_players || !mind.has_antag_datum(/datum/antagonist/bandit)))) || !mind.has_antag_datum(/datum/antagonist/skeleton) || !mind.has_antag_datum(/datum/antagonist/zombie) || !mind.has_antag_datum(/datum/antagonist/lich || !mind.has_antag_datum(/datum/antagonist/vampire))
-				record_round_statistic(STATS_UNJUST_DEATHS) //killing an undead antagonist or a an outlaw/excommunicate/bandit that isn't pacified won't raise this. Ravox stands for justice, not death.
 
 	if(client)
 		SSdroning.kill_droning(client)

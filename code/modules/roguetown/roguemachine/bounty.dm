@@ -614,6 +614,7 @@
 	if(correct_head)
 		say("A bounty has been sated.")
 		budget2change(reward_amount, A, putinhands = FALSE)
+		record_round_statistic(STATS_BOUNTY_TOTAL_CLAIMED, reward_amount)
 
 		var/obj/item/clothing/neck/old_mask = M.get_item_by_slot(SLOT_NECK)
 		if(old_mask)
