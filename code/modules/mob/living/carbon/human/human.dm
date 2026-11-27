@@ -695,6 +695,8 @@
 							return
 					client.prefs?.save_preferences()
 					client.prefs?.save_character()
+					message_admins(span_danger("[key_name_admin(usr)] purged the [choice] portion of [key_name_admin(src)]'s saved slot."))
+					log_message("had the [choice] portion of their saved slot purged by [key_name(usr)]", LOG_ADMIN)
 
 	if(href_list[VV_HK_PURGE_SLOT])
 		if(!check_rights(R_SPAWN))
@@ -703,6 +705,8 @@
 			return
 		if(alert(usr,"This will irreversibly purge this ENTIRE character's slot (OOC, FT, OOC Ex.)","PURGE","PURGE","Nevermind") == "PURGE")
 			if(alert(usr,"This cannot be undone. Are you sure?","DON'T FATFINGER THIS","Yes","No") == "Yes")
+				message_admins(span_danger("[key_name_admin(usr)] purged the entire saved slot of [key_name_admin(src)]."))
+				log_message("had their entire saved slot purged by [key_name(usr)]", LOG_ADMIN)
 				flavortext = null
 				nsfwflavortext = null
 				erpprefs = null
@@ -732,6 +736,8 @@
 			return
 		if(!client || !client.prefs)
 			return
+		message_admins(span_danger("[key_name_admin(usr)] reapplied the preferences of [key_name_admin(src)]."))
+		log_message("had their preferences reapplied by [key_name(usr)]", LOG_ADMIN)
 		client.prefs.copy_to(src, TRUE, FALSE)
 	if(href_list[VV_HK_SET_SPECIES])
 		if(!check_rights(R_SPAWN))
@@ -740,6 +746,8 @@
 		if(result)
 			var/newtype = GLOB.species_list[result]
 			admin_ticket_log("[key_name_admin(usr)] has modified the bodyparts of [src] to [result]")
+			message_admins(span_danger("[key_name_admin(usr)] set the species of [key_name_admin(src)] to [result]."))
+			log_message("had their species set to [result] by [key_name(usr)]", LOG_ADMIN)
 			set_species(newtype)
 
 /mob/living/carbon/human/MouseDrop_T(atom/dragged, mob/living/user)

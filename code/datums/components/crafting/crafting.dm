@@ -407,6 +407,8 @@
 											CI.apply_quality(null, null, inherited_quality)
 									else
 										CI.apply_quality(user, R.skillcraft)
+							else
+								log_construction(user, I)
 							I.add_fingerprint(user)
 					else
 						if(ispath(R.result, /turf))
@@ -416,10 +418,8 @@
 								X.add_fingerprint(user)
 								if(R.loud)
 									X.loud_message("Construction sounds can be heard")
-									if(R.adminlog)
-										log_craft("[user.real_name], ([user.ckey]) has built [X] at [AREACOORD(X)]") //We log this too
 								if(R.adminlog)
-									log_craft("[user.real_name], ([user.ckey]) has built [X] at [AREACOORD(X)]")
+									log_construction(user, X)
 						else
 							var/atom/movable/I = new R.result (T)
 							I.CheckParts(parts, R)
@@ -437,6 +437,8 @@
 											CI.apply_quality(null, null, inherited_quality)
 									else
 										CI.apply_quality(user, R.skillcraft)
+							else
+								log_construction(user, I)
 							I.add_fingerprint(user)
 					user.visible_message(span_notice("[user] [R.verbage] \a [R.name]!"), \
 										span_notice("I [R.verbage_simple] \a [R.name]!"))

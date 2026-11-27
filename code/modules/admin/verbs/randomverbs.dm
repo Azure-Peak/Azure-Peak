@@ -453,6 +453,7 @@ Traitors and the like can also be revived with the previous role mostly intact.
 
 	var/msg = span_adminnotice("[admin] has respawned [player_key] as [new_character.real_name].")
 	message_admins(msg)
+	log_admin("[key_name(src)] has respawned [player_key] as [new_character.real_name].")
 	admin_ticket_log(new_character, msg)
 
 	to_chat(new_character, "You have been fully respawned. Enjoy the game.")
@@ -636,6 +637,9 @@ Traitors and the like can also be revived with the previous role mostly intact.
 	set category = "Admin.Special"
 	set name = "Check Contents"
 
+	if(!check_rights(R_ADMIN))
+		return
+	log_admin_view(M, "had their contents checked")
 	var/list/L = M.get_contents()
 	for(var/t in L)
 		to_chat(usr, "[t]")
@@ -667,9 +671,11 @@ Traitors and the like can also be revived with the previous role mostly intact.
 	if(new_are)
 		to_chat(usr, "Random events enabled")
 		message_admins("Admin [key_name_admin(usr)] has enabled random events.")
+		log_admin("[key_name(usr)] has enabled random events.")
 	else
 		to_chat(usr, "Random events disabled")
 		message_admins("Admin [key_name_admin(usr)] has disabled random events.")
+		log_admin("[key_name(usr)] has disabled random events.")
 	SSblackbox.record_feedback("nested tally", "admin_toggle", 1, list("Toggle Random Events", "[new_are ? "Enabled" : "Disabled"]")) //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
 
 
@@ -1002,6 +1008,7 @@ Traitors and the like can also be revived with the previous role mostly intact.
 		to_chat(usr, span_warning("Tracking is disabled in the server configuration file."))
 		return
 
+	log_admin("[key_name(usr)] viewed the playtime list")
 	var/list/msg = list()
 	msg += "<html><head><title>Playtime Report</title></head><body><b>Player Playtime</b><BR><UL>"
 	for(var/client/C in GLOB.clients)
@@ -1019,6 +1026,7 @@ Traitors and the like can also be revived with the previous role mostly intact.
 		to_chat(usr, span_warning("Tracking is disabled in the server configuration file."))
 		return
 
+	log_admin_view(C, "had their playtime viewed")
 	var/list/body = list()
 	body += "<html><head><title>Playtime for [C.key]</title></head><BODY>"
 	body += C.get_exp_breakdown()

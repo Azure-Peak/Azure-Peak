@@ -1304,6 +1304,8 @@
 							to_chat(usr, "<span class='boldwarning'>[src] doesn't have such bodypart.</span>")
 					else
 						to_chat(usr, "<span class='boldwarning'>Only humans can be augmented.</span>")
+			message_admins(span_danger("[key_name_admin(usr)] used [edit_action] on the [result] bodypart of [key_name_admin(src)]."))
+			log_message("had their [result] bodypart modified ([edit_action]) by [key_name(usr)]", LOG_ADMIN)
 		admin_ticket_log("[key_name_admin(usr)] has modified the bodyparts of [src]")
 	if(href_list[VV_HK_MODIFY_ORGANS])
 		if(!check_rights(NONE))
@@ -1362,6 +1364,8 @@
 			to_chat(usr, "Mob doesn't exist anymore")
 			return
 		if(result)
+			message_admins(span_danger("[key_name_admin(usr)] sent the hallucination [result] to [key_name_admin(src)]."))
+			log_message("was sent the hallucination [result] by [key_name(usr)]", LOG_ADMIN)
 			new result(src, TRUE)
 
 /mob/living/carbon/can_resist()

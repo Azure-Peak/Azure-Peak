@@ -7,6 +7,7 @@ GLOBAL_DATUM_INIT(economic_panel, /datum/economic_panel, new)
 
 	if(!check_rights(R_ADMIN|R_DEBUG))
 		return
+	log_admin("[key_name(usr)] opened the economic panel.")
 	GLOB.economic_panel.ui_interact(usr)
 	SSblackbox.record_feedback("tally", "admin_verb", 1, "Economic Panel")
 
