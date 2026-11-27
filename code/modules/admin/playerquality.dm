@@ -153,6 +153,7 @@ GLOBAL_LIST_EMPTY(playerquality_cache)
 	if(!fexists("data/player_saves/[copytext(ckey,1,2)]/[ckey]/preferences.sav"))
 		to_chat(usr, span_boldwarning("User does not exist."))
 		return
+	log_admin_view(GLOB.directory[ckey] || ckey, "had their PQ history viewed")
 	var/popup_window_data = "<center>[ckey]</center>"
 	popup_window_data += "<center>PQ: [get_playerquality(ckey, TRUE)] ([get_playerquality(ckey, FALSE)])</center>"
 	popup_window_data += "<center><a href='?_src_=holder;[HrefToken()];cursemenu=[ckey]'>CURSES</a></center>"

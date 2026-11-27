@@ -387,7 +387,9 @@
 						continue
 
 					var/list/quality_capture = R.skip_quality ? list() : null
-					var/list/parts = del_reqs(R, user, quality_capture)
+					var/list/seal_capture = list("seals" = NONE)
+					var/list/parts = del_reqs(R, user, quality_capture, seal_capture)
+					var/crafted_seals = seal_capture["seals"] & ITEM_SEALS_SURVIVE_CRAFTING
 					var/inherited_quality = quality_capture?["min_quality"]
 					if(islist(R.result))
 						var/list/L = R.result
@@ -398,12 +400,15 @@
 							if(isitem(I))
 								var/obj/item/CI = I
 								CI.was_crafted = TRUE
+								CI.add_seals(crafted_seals)
 								if(CI.has_item_quality)
 									if(R.skip_quality)
 										if(!isnull(inherited_quality))
 											CI.apply_quality(null, null, inherited_quality)
 									else
 										CI.apply_quality(user, R.skillcraft)
+							else
+								log_construction(user, I)
 							I.add_fingerprint(user)
 					else
 						if(ispath(R.result, /turf))
@@ -413,10 +418,8 @@
 								X.add_fingerprint(user)
 								if(R.loud)
 									X.loud_message("Construction sounds can be heard")
-									if(R.adminlog)
-										log_craft("[user.real_name], ([user.ckey]) has built [X] at [AREACOORD(X)]") //We log this too
 								if(R.adminlog)
-									log_craft("[user.real_name], ([user.ckey]) has built [X] at [AREACOORD(X)]")
+									log_construction(user, X)
 						else
 							var/atom/movable/I = new R.result (T)
 							I.CheckParts(parts, R)
@@ -427,12 +430,15 @@
 							if(isitem(I))
 								var/obj/item/CI = I
 								CI.was_crafted = TRUE
+								CI.add_seals(crafted_seals)
 								if(CI.has_item_quality)
 									if(R.skip_quality)
 										if(!isnull(inherited_quality))
 											CI.apply_quality(null, null, inherited_quality)
 									else
 										CI.apply_quality(user, R.skillcraft)
+							else
+								log_construction(user, I)
 							I.add_fingerprint(user)
 					user.visible_message(span_notice("[user] [R.verbage] \a [R.name]!"), \
 										span_notice("I [R.verbage_simple] \a [R.name]!"))
@@ -489,7 +495,7 @@
 	del_reqs return the list of parts resulting object will receive as argument of CheckParts proc, on the atom level it will add them all to the contents, on all other levels it calls ..() and does whatever is needed afterwards but from contents list already
 */
 
-/datum/component/personal_crafting/proc/del_reqs(datum/crafting_recipe/R, mob/user, list/quality_out)
+/datum/component/personal_crafting/proc/del_reqs(datum/crafting_recipe/R, mob/user, list/quality_out, list/seal_out)
 	var/list/surroundings
 	var/list/Deletion = list()
 	. = list()
@@ -552,6 +558,8 @@
 							continue
 						found_bundle = TRUE
 						surroundings -= B
+						if(seal_out)
+							seal_out["seals"] |= B.get_seals()
 						if(B.amount > amt)
 							B.amount -= amt
 							B.update_bundle()
@@ -646,6 +654,11 @@
 			if(isnull(min_q) || IT.item_quality < min_q)
 				min_q = IT.item_quality
 		quality_out["min_quality"] = min_q
+	if(seal_out)
+		for(var/obj/item/IT in Deletion)
+			seal_out["seals"] |= IT.get_seals()
+		for(var/obj/item/IT in .)
+			seal_out["seals"] |= IT.get_seals()
 	while(Deletion.len)
 		var/DL = Deletion[Deletion.len]
 		Deletion.Cut(Deletion.len)

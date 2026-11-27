@@ -1,6 +1,0 @@
-author: "Etheo"
-delete-after: True
-changes:
-  - rscadd: "Gave bathhouse vault a new way to enter. Examine closely."
-  - rscadd: "Makes the vault's entrance mechanically known to all bathhouse employees, including matron-hired agents."
-  - rscadd: "Adds 4 more bathmaster keys to the vault, for a total of 5. The amount of agents a matron can charter."

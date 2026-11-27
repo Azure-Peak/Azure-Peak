@@ -28,6 +28,7 @@ GLOBAL_LIST_EMPTY(statpacks)
 				var/value = rand(stat_range[1], stat_range[2])
 				recipient.change_stat(stat, value)
 				applied_stats[stat] = value
+		recipient.statpack_rolls = applied_stats
 		post_apply(recipient, new_player, applied_stats)
 		record_featured_object_stat(FEATURED_STATS_STATPACKS, name)
 		return TRUE

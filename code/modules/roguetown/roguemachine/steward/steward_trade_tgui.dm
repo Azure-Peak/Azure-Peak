@@ -264,6 +264,8 @@
 			"request" = trip.request_name,
 			"offer" = trip.offer_good_id ? "[trip.offer_units] [offer_good ? offer_good.name : trip.offer_good_id]" : null,
 			"tribute" = tribute_region?.name,
+			"sell_offer" = trip.sell_offer ? TRUE : FALSE,
+			"sell_tribute" = trip.sell_tribute ? TRUE : FALSE,
 			"return_seconds" = trip.return_at ? max(0, round((trip.return_at - world.time) / (1 SECONDS))) : null,
 		))
 	data["caravans"] = list(
@@ -276,6 +278,11 @@
 		"trips" = trips,
 	)
 	data["caravan_quote"] = build_caravan_quote(user.ckey)
+	var/list/sell = caravan_sell[user.ckey]
+	data["caravan_sell"] = list(
+		"offer" = sell?["offer"] ? TRUE : FALSE,
+		"tribute" = sell?["tribute"] ? TRUE : FALSE,
+	)
 	data["market_dae"] = list(
 		"rate" = SSeconomy.market_day_rate(),
 		"rented" = SSeconomy.caravan_rentals,
@@ -493,6 +500,17 @@ GLOBAL_LIST_INIT(steward_trade_sequestration_locked_actions, list(
 			caravan_view[usr.ckey] = list("request" = "[params["request"]]", "offer" = "[params["offer"]]", "tribute" = "[params["tribute"]]")
 			ui.send_update()
 			return
+		if("caravan_sell_toggle")
+			var/kind = params["kind"]
+			if(kind != "offer" && kind != "tribute")
+				return
+			var/list/sell = caravan_sell[usr.ckey]
+			if(!sell)
+				sell = list("offer" = FALSE, "tribute" = FALSE)
+				caravan_sell[usr.ckey] = sell
+			sell[kind] = !sell[kind]
+			ui.send_update()
+			return
 		if("buy_escort")
 			var/subroute = text2path(params["subroute"])
 			if(ispath(subroute, /datum/trade_subroute) && SSeconomy.buy_escort(usr, subroute))
@@ -517,7 +535,8 @@ GLOBAL_LIST_INIT(steward_trade_sequestration_locked_actions, list(
 			var/datum/economic_region/tribute_region
 			if(params["tribute"])
 				tribute_region = GLOB.economic_regions[params["tribute"]]
-			if(SSeconomy.send_caravan(usr, route, request, offer, tribute_region, params["fill"] ? TRUE : FALSE))
+			var/list/sell = caravan_sell[usr.ckey]
+			if(SSeconomy.send_caravan(usr, route, request, offer, tribute_region, params["fill"] ? TRUE : FALSE, sell?["offer"] ? TRUE : FALSE, sell?["tribute"] ? TRUE : FALSE))
 				playsound(src, 'sound/misc/coindispense.ogg', 60, FALSE, -1)
 			return TRUE
 		if("place_commission")

@@ -22,6 +22,8 @@
 		dat += individual_logging_panel_link(M, INDIVIDUAL_LOOC_LOG, LOGSRC_CLIENT, "LOOC Log", source, ntype)
 		dat += " | "
 		dat += individual_logging_panel_link(M, INDIVIDUAL_SHOW_ALL_LOG, LOGSRC_CLIENT, "Show All", source, ntype)
+		dat += " | "
+		dat += individual_logging_panel_link(M, INDIVIDUAL_SUBTLE_LOG, LOGSRC_CLIENT, "Subtle", source, ntype)
 		dat += "</center>"
 	else
 		dat += "<p> No client attached to mob </p>"
@@ -43,6 +45,8 @@
 	dat += individual_logging_panel_link(M, INDIVIDUAL_LOOC_LOG, LOGSRC_MOB, "LOOC Log", source, ntype)
 	dat += " | "
 	dat += individual_logging_panel_link(M, INDIVIDUAL_SHOW_ALL_LOG, LOGSRC_MOB, "Show All", source, ntype)
+	dat += " | "
+	dat += individual_logging_panel_link(M, INDIVIDUAL_SUBTLE_LOG, LOGSRC_MOB, "Subtle", source, ntype)
 	dat += "</center>"
 
 	dat += "<hr style='background:#000000; border:0; height:1px'>"
@@ -53,15 +57,21 @@
 		var/datum/player_details/details = GLOB.player_details[M.client]
 		if(details) //we dont want to runtime if an admin aghosted
 			log_source = details.logging
+	var/hide_entries = (ntype == INDIVIDUAL_SUBTLE_LOG)
 	var/list/concatenated_logs = list()
 	for(var/log_type in log_source)
 		var/nlog_type = text2num(log_type)
 		if(nlog_type & ntype)
 			var/list/all_the_entrys = log_source[log_type]
 			for(var/entry in all_the_entrys)
-				concatenated_logs += "<b>[entry]</b><br>[all_the_entrys[entry]]"
+				if(hide_entries)
+					concatenated_logs += "<b>[entry]</b> <a href='#' class='hidden-show' onclick=\"this.nextSibling.style.display='inline';this.style.display='none';return false;\">\[Show\]</a><span class='hidden-entry' style='display:none'><br>[all_the_entrys[entry]]</span>"
+				else
+					concatenated_logs += "<b>[entry]</b><br>[all_the_entrys[entry]]"
 	if(length(concatenated_logs))
 		sortTim(concatenated_logs, cmp = GLOBAL_PROC_REF(cmp_text_dsc)) //Sort by timestamp.
+		if(hide_entries)
+			dat += "<center><a href='#' onclick=\"var e=document.getElementsByClassName('hidden-entry');for(var i=0;i<e.length;i++){e\[i\].style.display='inline';}var b=document.getElementsByClassName('hidden-show');for(var j=0;j<b.length;j++){b\[j\].style.display='none';}return false;\">\[Show all\]</a></center>"
 		dat += "<font size=2px>"
 		dat += concatenated_logs.Join("<br>")
 		dat += "</font>"

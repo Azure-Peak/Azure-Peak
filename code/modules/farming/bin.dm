@@ -202,6 +202,7 @@
 					R.createditem_num--
 					var/obj/item/editme = new crafteditem(used_turf)
 					editme.was_crafted = TRUE
+					editme.add_seals(R.input_seals & ITEM_SEALS_SURVIVE_CRAFTING)
 					R.apply_result_quality(editme)
 					editme.max_integrity = newmaxinteg
 					editme.obj_integrity = newinteg

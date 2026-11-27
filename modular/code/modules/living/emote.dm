@@ -29,14 +29,14 @@
 		if(type_override)
 			emote_type = type_override
 
-	user.log_message("SUBTLE - " + message, LOG_EMOTE)
+	var/log_text = message
 	if(findtext(message, "$n"))
 		message = trim(replacetext(message, "$n", "<b>[user]</b>"))
 	else
 		message = "<b>[user]</b> " + message
-	user.do_subtle_emote(message)
+	user.do_subtle_emote(message, log_text)
 
-/mob/proc/do_subtle_emote(message)
+/mob/proc/do_subtle_emote(message, log_text)
 	var/distance = 4
 	var/list/ghostless = get_hearers_in_view(distance, src)
 	var/list/mobsinview = list()
@@ -47,6 +47,7 @@
 			if(!L.rogue_sneaking && L.name != "Unknown") // do not let hidden/unknown targets be added to list
 				mobspickable += L
 	var/choice = input(src, "Pick a target?", "Subtle Emote") in mobspickable
+	log_message("SUBTLE ([ismob(choice) ? "to [key_name(choice)]" : choice]) - [log_text]", LOG_SUBTLE)
 	to_chat(src, "<i>[message]</i>")
 
 	var/user_loc

@@ -355,8 +355,11 @@
 			H.mind.AddSpell(new S)
 
 	if(length(job_stats))
+		var/mob/living/carbon/human/tracked = H
+		var/list/snapshot = tracked.snapshot_build()
 		for(var/stat in job_stats)
 			H.change_stat(stat, job_stats[stat])
+		tracked.record_build_changes(BUILD_SOURCE_JOB, snapshot)
 
 	for(var/X in peopleknowme)
 		for(var/datum/mind/MF in get_minds(X))
@@ -611,10 +614,12 @@
 		statcl = advclass.adv_stat_ceiling
 
 	if(length(statcl))
+		var/list/snapshot = H.snapshot_build()
 		for(var/stat in statcl)
 			if(statcl[stat] < H.get_true_stat(stat))
 				H.change_stat(stat, (statcl[stat] - H.get_true_stat(stat)))
 				to_chat(H, "Your [stat] was reduced to \Roman[statcl[stat]] due to class limits.")
+		H.record_build_changes(BUILD_SOURCE_JOB, snapshot)
 
 // LETHALSTONE EDIT: Helper functions for pronoun-based clothing selection
 /proc/should_wear_masc_clothes(mob/living/carbon/human/H)

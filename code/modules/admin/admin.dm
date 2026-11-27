@@ -173,6 +173,7 @@
 	//body += "<A href='?_src_=holder;[HrefToken()];languagemenu=[REF(M)]'>Language Menu</A>"
 	body += "<br><A href='?_src_=holder;[HrefToken()];heal_panel=[REF(M)]'>Heal Panel</A> | "
 	body += "<A href='?_src_=holder;[HrefToken()];inventory_panel=[REF(M)]'>Inventory Panel</A> | "
+	body += "<A href='?_src_=holder;[HrefToken()];character_panel=[REF(M)]'>Character Panel</A> | "
 	body += "<A href='?_src_=holder;[HrefToken()];examine_player=[REF(M)]'>Flavor Text</A> | "
 	body += "<A href='?_src_=holder;[HrefToken()];secrets_panel=[REF(M)]'>Secrets</A>"
 
@@ -426,6 +427,11 @@
 //i.e. buttons/verbs
 
 
+#define REBOOT_REGULAR "Regular Restart"
+#define REBOOT_HARD "Hard Restart (No Delay/Feedback Reason)"
+#define REBOOT_HARDEST "Hardest Restart (No actions, just reboot)"
+#define REBOOT_SERVER "Server Restart (Kill and restart DD)"
+
 /datum/admins/proc/restart()
 	set category = "Server"
 	set name = "Reboot World"
@@ -433,9 +439,9 @@
 	if (!usr.client.holder)
 		return
 
-	var/list/options = list("Regular Restart", "Hard Restart (No Delay/Feeback Reason)", "Hardest Restart (No actions, just reboot)")
+	var/list/options = list(REBOOT_REGULAR, REBOOT_HARD, REBOOT_HARDEST)
 	if(world.TgsAvailable())
-		options += "Server Restart (Kill and restart DD)";
+		options += REBOOT_SERVER
 
 	var/rebootconfirm
 	if(SSticker.admin_delay_notice)
@@ -446,20 +452,26 @@
 	if(rebootconfirm)
 		var/result = input(usr, "Select reboot method", "World Reboot", options[1]) as null|anything in options
 		if(result)
+			log_admin("[key_name(usr)] rebooted the world: [result]")
 			SSblackbox.record_feedback("tally", "admin_verb", 1, "Reboot World") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
 			var/init_by = "Initiated by Admin."
 			switch(result)
-				if("Regular Restart")
+				if(REBOOT_REGULAR)
 					SSticker.Reboot(init_by, "admin reboot - by Admin", 10)
-				if("Hard Restart (No Delay, No Feeback Reason)")
+				if(REBOOT_HARD)
 					to_world("World reboot - [init_by]")
 					world.Reboot()
-				if("Hardest Restart (No actions, just reboot)")
+				if(REBOOT_HARDEST)
 					to_world("Hard world reboot - [init_by]")
 					world.Reboot(fast_track = TRUE)
-				if("Server Restart (Kill and restart DD)")
+				if(REBOOT_SERVER)
 					to_world("Server restart - [init_by]")
 					world.TgsEndProcess()
+
+#undef REBOOT_REGULAR
+#undef REBOOT_HARD
+#undef REBOOT_HARDEST
+#undef REBOOT_SERVER
 
 /datum/admins/proc/end_round()
 	set category = "Server"
@@ -473,6 +485,7 @@
 		return
 	if(confirm == "Yes")
 		SSticker.force_ending = 1
+		log_admin("[key_name(usr)] ended the round.")
 		SSblackbox.record_feedback("tally", "admin_verb", 1, "End Round") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
 
 

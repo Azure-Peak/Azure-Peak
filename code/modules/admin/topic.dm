@@ -26,10 +26,12 @@
 		var/index = text2num(href_list["read_letter"])
 		if(index >= 1 && index <= length(SSroguemachine.letter_archive))
 			var/datum/letter_record/R = SSroguemachine.letter_archive[index]
+			log_admin("[key_name(usr)] read letter #[index] from [R.sender_key] to [R.recipient].")
 			R.show_letter(usr)
 		return
 
 	if(href_list["letter_log"])
+		log_admin("[key_name(usr)] opened the letter archive.")
 		show_letter_log()
 		return
 
@@ -47,6 +49,12 @@
 			show_inventory_panel(M)
 		return
 
+	if(href_list["character_panel"])
+		var/mob/living/M = locate(href_list["character_panel"])
+		if(M)
+			show_character_panel(M)
+		return
+
 	// Open Secrets from Player Panel
 	if(href_list["secrets_panel"])
 		if(!check_rights(R_ADMIN))
@@ -56,6 +64,7 @@
 		if(!H)
 			return
 
+		log_admin_view(H, "had their secrets viewed")
 		var/list/all_secrets = H.get_secrets_for(usr)
 		if(!length(all_secrets))
 			to_chat(usr, span_info("This one has no secrets recorded."))
@@ -512,6 +521,7 @@
 		if(alert(usr, "This will end the round, are you SURE you want to do this?", "Confirmation", "Yes", "No") == "Yes")
 			if(alert(usr, "Final Confirmation: End the round NOW?", "Confirmation", "Yes", "No") == "Yes")
 				message_admins(span_adminnotice("[key_name_admin(usr)] has ended the round."))
+				log_admin("[key_name(usr)] has ended the round.")
 				SSticker.force_ending = 1 //Yeah there we go APC destroyed mission accomplished
 				return
 			else
@@ -697,11 +707,13 @@
 	else if(href_list["showwatch"])
 		if(!check_rights(R_BAN))
 			return
+		log_admin("[key_name(usr)] viewed the watchlist.")
 		browse_messages("watchlist entry")
 
 	else if(href_list["showwatchfilter"])
 		if(!check_rights(R_BAN))
 			return
+		log_admin("[key_name(usr)] viewed the watchlist.")
 		browse_messages("watchlist entry", filter = TRUE)
 
 	else if(href_list["showmessageckey"])
@@ -711,15 +723,20 @@
 		var/agegate = TRUE
 		if (href_list["showall"])
 			agegate = FALSE
+		log_admin_view(GLOB.directory[target] || target, "had their notes viewed")
 		browse_messages(target_ckey = target, agegate = agegate)
 
 	else if(href_list["showmessageckeylinkless"])
+		if(!check_rights(R_BAN))
+			return
 		var/target = href_list["showmessageckeylinkless"]
+		log_admin_view(GLOB.directory[target] || target, "had their notes viewed")
 		browse_messages(target_ckey = target, linkless = TRUE)
 
 	else if(href_list["messageedits"])
 		if(!check_rights(R_BAN))
 			return
+		log_admin("[key_name(usr)] viewed the edit history of note #[href_list["messageedits"]].")
 		var/datum/DBQuery/query_get_message_edits = SSdbcore.NewQuery(
 			"SELECT edits FROM [format_table_name("messages")] WHERE id = :message_id",
 			list("message_id" = href_list["messageedits"])
@@ -852,6 +869,8 @@
 				delete_character = TRUE
 			H.admin_send_back_to_lobby(usr, delete_character)
 		else
+			message_admins(span_danger("[key_name_admin(usr)] sent [key_name_admin(M)] back to the lobby."))
+			log_admin("[key_name(usr)] sent [key_name(M)] back to the lobby.")
 			SSdroning.kill_droning(M.client)
 			SSdroning.kill_loop(M.client)
 			SSdroning.kill_rain(M.client)
@@ -930,6 +949,7 @@
 		if(!ismob(M))
 			to_chat(usr, "This can only be used on instances of type /mob.")
 			return
+		log_admin_view(M, "had their admin info checked")
 
 		var/location_description = ""
 		var/special_role_description = ""
@@ -987,6 +1007,7 @@
 			return
 
 		var/Add = href_list["addjobslot"]
+		log_admin("[key_name(usr)] added a [Add] job slot.")
 
 		for(var/datum/job/job in SSjob.occupations)
 			if(job.title == Add)
@@ -1004,6 +1025,7 @@
 			return
 
 		var/Add = href_list["customjobslot"]
+		log_admin("[key_name(usr)] is setting custom [Add] job slots.")
 
 		for(var/datum/job/job in SSjob.occupations)
 			if(job.title == Add)
@@ -1028,6 +1050,7 @@
 			return
 
 		var/Remove = href_list["removejobslot"]
+		log_admin("[key_name(usr)] removed a [Remove] job slot.")
 
 		for(var/datum/job/job in SSjob.occupations)
 			if(job.title == Remove && job.total_positions - job.current_positions > 0)
@@ -1044,6 +1067,7 @@
 			return
 
 		var/Unlimit = href_list["unlimitjobslot"]
+		log_admin("[key_name(usr)] made [Unlimit] job slots unlimited.")
 
 		for(var/datum/job/job in SSjob.occupations)
 			if(job.title == Unlimit)
@@ -1060,6 +1084,7 @@
 			return
 
 		var/Limit = href_list["limitjobslot"]
+		log_admin("[key_name(usr)] limited [Limit] job slots to the filled amount.")
 
 		for(var/datum/job/job in SSjob.occupations)
 			if(job.title == Limit)
@@ -1154,6 +1179,8 @@
 		usr.client.Getmob(M)
 
 	else if(href_list["increase_skill"] || href_list["decrease_skill"])
+		if(!check_rights(R_ADMIN))
+			return
 		var/up = !!href_list["increase_skill"]
 		var/mob/M = locate(href_list[up ? "increase_skill" : "decrease_skill"])
 		var/skill_path = text2path(href_list["skill"])
@@ -1168,6 +1195,8 @@
 		show_player_panel_next(M, "skills")
 
 	else if(href_list["set_skill"])
+		if(!check_rights(R_ADMIN))
+			return
 		var/mob/M = locate(href_list["set_skill"])
 		var/skill_path = text2path(href_list["skill"])
 		var/datum/skill/skill = GetSkillRef(skill_path)
@@ -1184,6 +1213,8 @@
 			show_player_panel_next(M, "skills")
 
 	else if(href_list["add_language"] || href_list["remove_language"])
+		if(!check_rights(R_ADMIN))
+			return
 		var/add = !!href_list["add_language"]
 		var/mob/M = locate(href_list[add ? "add_language" : "remove_language"])
 		var/datum/language/lang = text2path(href_list["language"])
@@ -1198,6 +1229,8 @@
 		show_player_panel_next(M, "languages")
 
 	else if(href_list["add_stat"] || href_list["lower_stat"])
+		if(!check_rights(R_ADMIN))
+			return
 		var/up = !!href_list["add_stat"]
 		var/mob/living/M = locate(href_list[up ? "add_stat" : "lower_stat"])
 		var/statkey = href_list["stat"]
@@ -1211,6 +1244,8 @@
 		show_player_panel_next(M, "stats")
 
 	else if(href_list["set_stat"])
+		if(!check_rights(R_ADMIN))
+			return
 		var/mob/living/M = locate(href_list["set_stat"])
 		var/statkey = href_list["stat"]
 		var/current_value = M.get_stat(statkey)
@@ -1302,6 +1337,9 @@
 			to_chat(usr, "This can only be used on instances of type /mob.")
 			return
 
+		log_admin_view(M, "had their individual logs viewed")
+		if(text2num(href_list["log_type"]) == INDIVIDUAL_SUBTLE_LOG)
+			log_admin_view(M, "had their subtle logs viewed", TRUE)
 		show_individual_logging_panel(M, href_list["log_src"], href_list["log_type"])
 	else if(href_list["examine_player"])
 		if(!check_rights(R_ADMIN))
@@ -1311,6 +1349,7 @@
 		if(!isliving(target))
 			return
 
+		log_admin_view(target, "had their flavor text panel opened")
 		var/datum/examine_panel/mob_examine_panel = new(target)
 		mob_examine_panel.viewing = usr
 		mob_examine_panel.ui_interact(usr)
@@ -1352,6 +1391,8 @@
 			to_chat(usr, "This can only be used on instances on mindless mobs")
 			return
 		M.mind_initialize()
+		message_admins(span_danger("[key_name_admin(usr)] initialized a mind for [key_name_admin(M)]."))
+		M.log_message("had a mind initialized by [key_name(usr)]", LOG_ADMIN)
 
 	else if(href_list["create_object"])
 		if(!check_rights(R_SPAWN))
@@ -1376,6 +1417,7 @@
 	else if(href_list["dupe_marked_datum"])
 		if(!check_rights(R_SPAWN))
 			return
+		log_admin("[key_name(usr)] duplicated the marked datum [marked_datum] ([marked_datum?.type]) at [AREACOORD(usr)].")
 		return DuplicateObject(marked_datum, perfectcopy=1, newloc=get_turf(usr))
 
 	else if(href_list["object_list"])			//this is the laggiest thing ever
@@ -1603,6 +1645,9 @@
 		if(!check_rights(R_ADMIN))
 			return
 		var/client/C = locate(href_list["client"]) in GLOB.clients
+		if(!C)
+			return
+		log_admin_view(C, "had their related accounts by [uppertext(href_list["showrelatedacc"])] viewed")
 		var/thing_to_check
 		if(href_list["showrelatedacc"] == "cid")
 			thing_to_check = C.related_accounts_cid
@@ -1765,6 +1810,7 @@
 		var/admin_key = href_list["searchunbanadminkey"]
 		var/player_ip = href_list["searchunbanip"]
 		var/player_cid = href_list["searchunbancid"]
+		log_admin("[key_name(usr)] searched bans for key \"[player_key]\", admin \"[admin_key]\", IP \"[player_ip]\", CID \"[player_cid]\".")
 		unban_panel(player_key, admin_key, player_ip, player_cid)
 
 	else if(href_list["unbanpagecount"])
@@ -1806,56 +1852,83 @@
 		beaker_panel_act(href_list)
 
 	else if(href_list["reloadpolls"])
+		if(!check_rights(R_POLL))
+			return
 		GLOB.polls.Cut()
 		GLOB.poll_options.Cut()
 		load_poll_data()
 		poll_list_panel()
 
 	else if(href_list["newpoll"])
+		if(!check_rights(R_POLL))
+			return
 		poll_management_panel()
 
 	else if(href_list["editpoll"])
+		if(!check_rights(R_POLL))
+			return
 		var/datum/poll_question/poll = locate(href_list["editpoll"]) in GLOB.polls
 		poll_management_panel(poll)
 
 	else if(href_list["deletepoll"])
+		if(!check_rights(R_POLL))
+			return
 		var/datum/poll_question/poll = locate(href_list["deletepoll"]) in GLOB.polls
 		poll.delete_poll()
 		poll_list_panel()
 
 	else if(href_list["initializepoll"])
+		if(!check_rights(R_POLL))
+			return
 		poll_parse_href(href_list)
 
 	else if(href_list["submitpoll"])
+		if(!check_rights(R_POLL))
+			return
 		var/datum/poll_question/poll = locate(href_list["submitpoll"]) in GLOB.polls
 		poll_parse_href(href_list, poll)
 
 	else if(href_list["clearpollvotes"])
+		if(!check_rights(R_POLL))
+			return
 		var/datum/poll_question/poll = locate(href_list["clearpollvotes"]) in GLOB.polls
 		poll.clear_poll_votes()
 		poll_management_panel(poll)
 
 	else if(href_list["addpolloption"])
+		if(!check_rights(R_POLL))
+			return
 		var/datum/poll_question/poll = locate(href_list["addpolloption"]) in GLOB.polls
 		poll_option_panel(poll)
 
 	else if(href_list["editpolloption"])
+		if(!check_rights(R_POLL))
+			return
 		var/datum/poll_option/option = locate(href_list["editpolloption"]) in GLOB.poll_options
 		var/datum/poll_question/poll = locate(href_list["parentpoll"]) in GLOB.polls
 		poll_option_panel(poll, option)
 
 	else if(href_list["deletepolloption"])
+		if(!check_rights(R_POLL))
+			return
 		var/datum/poll_option/option = locate(href_list["deletepolloption"]) in GLOB.poll_options
 		var/datum/poll_question/poll = option.delete_option()
 		poll_management_panel(poll)
 
 	else if(href_list["submitoption"])
+		if(!check_rights(R_POLL))
+			return
 		var/datum/poll_option/option = locate(href_list["submitoption"]) in GLOB.poll_options
 		var/datum/poll_question/poll = locate(href_list["submitoptionpoll"]) in GLOB.polls
 		poll_option_parse_href(href_list, poll, option)
 
 	else if(href_list["readcommends"])
-		var/the_key = href_list["readcommends"]
+		if(!check_rights(R_ADMIN))
+			return
+		var/the_key = ckey(href_list["readcommends"])
+		if(!the_key)
+			return
+		log_admin_view(GLOB.directory[the_key] || the_key, "had their commends viewed")
 		var/popup_window_data = "<center>[the_key]</center>"
 
 		var/json_file = file("data/player_saves/[copytext(the_key,1,2)]/[the_key]/commends.json")
@@ -1870,7 +1943,12 @@
 		popup.open()
 
 	else if(href_list["cursemenu"])
-		var/the_key = href_list["cursemenu"]
+		if(!check_rights(R_ADMIN))
+			return
+		var/the_key = ckey(href_list["cursemenu"])
+		if(!the_key)
+			return
+		log_admin_view(GLOB.directory[the_key] || the_key, "had their curses viewed")
 		var/popup_window_data = "<center>[the_key]</center>"
 
 		var/json_file = file("data/player_saves/[copytext(the_key,1,2)]/[the_key]/curses.json")

@@ -95,7 +95,7 @@
 	var/list/seals = list()
 	if(atc_sealed)
 		seals += "ATC seal"
-	if(stockpile_stamped)
+	if(stockpile_stamp_applies())
 		seals += "stockpile stamp"
 	if(unmintable)
 		seals += "town-property stamp"

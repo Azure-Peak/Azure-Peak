@@ -9,6 +9,7 @@
 	var/market_target = MARKET_TARGET_STANDARD
 	// Only the stockpile can ever purchase these goods. The market will never supply them
 	var/market_never_supplies = FALSE
+	var/market_never_buys = FALSE
 	var/payout_price = 1
 	var/withdraw_price = 1
 	var/category = "Raw Materials"
@@ -342,6 +343,7 @@
 		"limit" = market_target,
 		"royal_amount" = royal_stock,
 		"never_supplied" = market_never_supplies ? TRUE : FALSE,
+		"never_bought" = market_never_buys ? TRUE : FALSE,
 		"sold_out" = market_available() <= 0 ? TRUE : FALSE,
 		"next_buy" = market_next_buy_change(),
 		"next_sell" = market_next_sell_change(),
