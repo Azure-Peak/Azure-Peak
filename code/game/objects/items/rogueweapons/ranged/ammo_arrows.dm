@@ -387,7 +387,7 @@
 		return
 	var/turf/hit_turf = target //the turf we actually hit
 	var/turf/source_projection = locate(starting.x, starting.y, hit_turf.z) //we want to get the z level of where the arrow struck in the very likely case we fired it up
-	var/turf/open_space = get_step(hit_turf, get_cardinal_dir(hit_turf, source_projection)) //we move the tile we struck adjacent to the tile from where we fired it from - esentially moving it down a tile
+	var/turf/open_space = get_step(hit_turf, get_cardinal_dir(hit_turf, source_projection)) //we move the tile we struck adjacent to the tile from where we fired it from - esentially moving it a tile towards us
 	if(!istype(open_space, /turf/open/transparent/openspace))
 		return
 	var/turf/below_turf = GET_TURF_BELOW(open_space)
