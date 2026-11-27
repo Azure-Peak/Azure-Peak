@@ -54,7 +54,7 @@
 			STATS_VOYEURS = list("name" = "Voyeurs:", "points" = 5, "capacity" = 50),
 		),
 		"Set 6" = list(
-			STATS_STARGAZERS = list("name" = "Stargazing total:", "points" = 5, "capacity" = 50),
+			STATS_STARGAZERS = list("name" = "Telescope uses:", "points" = 2.5, "capacity" = 50),
 		)
 	)
 
@@ -299,21 +299,23 @@
 	influence_sets = list(
 		"Set 1" = list( //alchoholics and junkies
 			STATS_JUNKIES = list("name" = "Number of junkies:", "points" = 9, "capacity" = 60),
+		),
+		"Set 2" = list( //alchoholics and junkies
 			STATS_ALCOHOLICS = list("name" = "Number of alcoholics:", "points" = 3.25, "capacity" = 50),
 		),
-		"Set 2" = list( //drugs and booze
+		"Set 3" = list( //drugs and booze
 			STATS_DRUGS_SNORTED = list("name" = "Drugs snorted:", "points" = 4, "capacity" = 85),
 		),
-		"Set 3" = list(
+		"Set 4" = list(
 			STATS_ALCOHOL_CONSUMED = list("name" = "Alcohol consumed:", "points" = 0.042, "capacity" = 90),
 		),
-		"Set 4" = list( //tabboos and addictions
+		"Set 5" = list( //tabboos and addictions
 			STATS_MASOCHISTS = list("name" = "Number of masochists:", "points" = 3, "capacity" = 20),
 		),
-		"Set 5" = list(
+		"Set 6" = list(
 			STATS_NYMPHOMANIACS = list("name" = "Number of nymphomaniacs:", "points" = 6, "capacity" = 30),
 		),
-		"Set 6" = list(	//in the name
+		"Set 7" = list(	//in the name
 			STATS_PLEASURES = list("name" = "Pleasures had:", "points" = 5, "capacity" = 50),
 		)
 	)
@@ -350,21 +352,23 @@
 	influence_sets = list(
 		"Set 1" = list(
 			STATS_NOBLE_DEATHS = list("name" = "Nobles killed:", "points" = 5.5, "capacity" = 50),
-			STATS_CLERGY_DEATHS = list("name" = "Clergy killed:", "points" = 8, "capacity" = 70),
 		),
 		"Set 2" = list(
-			STATS_SHRINE_VALUE = list("name" = "Value offered to his idol:", "points" = 0.08, "capacity" = 70),
+			STATS_CLERGY_DEATHS = list("name" = "Clergy killed:", "points" = 8, "capacity" = 70),
 		),
 		"Set 3" = list(
-			STATS_GREEDY_PEOPLE = list("name" = "Number of greedy people:", "points" = 6.5, "capacity" = 70),
+			STATS_SHRINE_VALUE = list("name" = "Value offered to his idol:", "points" = 0.08, "capacity" = 70),
 		),
 		"Set 4" = list(
-			STATS_INDEBTED = list("name"= "Number of indebted people:", "points" = 5, "capacity" = 30),
+			STATS_GREEDY_PEOPLE = list("name" = "Number of greedy people:", "points" = 6.5, "capacity" = 70),
 		),
 		"Set 5" = list(
-			STATS_LOCKS_PICKED = list("name" = "Locks picked:", "points" = 3.75, "capacity" = 80),
+			STATS_INDEBTED = list("name"= "Number of indebted people:", "points" = 5, "capacity" = 30),
 		),
 		"Set 6" = list(
+			STATS_LOCKS_PICKED = list("name" = "Locks picked:", "points" = 3.75, "capacity" = 80),
+		),
+		"Set 7" = list(
 			STATS_TAXES_EVADED = list("name" = "Taxes evaded:", "points" = 0.15, "capacity" = 50), //free market
 		)
 	)
