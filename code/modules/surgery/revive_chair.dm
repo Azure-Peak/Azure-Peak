@@ -311,6 +311,7 @@
 	playsound(src, 'sound/magic/lightning.ogg', 100, TRUE)
 	do_sparks(8, TRUE, occupant)
 	occupant.visible_message(span_danger("Bolts of electricity course through [occupant]!"))
+	record_round_statistic(STATS_REVIVAL_CHAIR_USES)
 
 	// Revive process
 	occupant.adjustOxyLoss(-occupant.getOxyLoss())

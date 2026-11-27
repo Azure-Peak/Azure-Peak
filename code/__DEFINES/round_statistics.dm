@@ -228,14 +228,15 @@
 #define STATS_ZIZO_SAID "zizo_said"
 #define STATS_DEADITES_WOKEN_UP "deadites_woken_up"
 #define STATS_CLERGY_DEATHS "priest_deaths"
-#define STATS_TORTURES "tortures"
 #define STATS_ZCROSS_USERS "people_wearing_zcross"
+#define STATS_REVIVAL_CHAIR_USES "revival_chair_uses"
 
 //Graggar
 #define STATS_BLOOD_SPILT "blood_spilt"
 #define STATS_ORGANS_EATEN "organs_eaten"
 #define STATS_DEATHS "deaths"
 #define STATS_SADISTS "sadists"
+#define STATS_TORTURES "tortures"
 #define STATS_ASSASSINATIONS "assassinations"
 
 //Baotha

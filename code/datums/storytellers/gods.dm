@@ -185,9 +185,12 @@
 			STATS_LUX_REVIVALS = list("name" = "Lux revivals:", "points" = 16, "capacity" = 70),
 		),
 		"Set 5" = list(
-			STATS_ROT_CURED = list("name" = "Rot cured:", "points" = 5, "capacity" = 70),
+			STATS_REVIVAL_CHAIR_USES = list("name" = "Fulmenor revivals:", "points" = 8, "capacity" = 40), //its medicine, but a certain someone smiles more on this
 		),
 		"Set 6" = list(
+			STATS_ROT_CURED = list("name" = "Rot cured:", "points" = 5, "capacity" = 70),
+		),
+		"Set 7" = list(
 			STATS_FOOD_ROTTED = list("name" = "Food rotted:", "points" = 0.26, "capacity" = 80),
 		)
 	)
@@ -290,7 +293,7 @@
 			STATS_LUX_HARVESTED = list("name" = "Lux Extracted:", "points" = 12, "capacity" = 70),
 		),
 		"Set 6" = list(
-			STATS_TORTURES = list("name" = "Tortures performed:", "points" = 5.25, "capacity" = 70),
+			STATS_REVIVAL_CHAIR_USES = list("name" = "Fulmenor revivals:", "points" = 12, "capacity" = 70), //The fruits of Progress
 		),
 		"Set 7" = list(
 			STATS_ZIZO_SAID = list("name" = "Zizo spoken:", "points" = 0.5, "capacity" = 40), //SAY HER NAME
@@ -346,6 +349,9 @@
 			STATS_SADISTS = list("name" = "Number of sadists:", "points" = 3, "capacity" = 20),
 		),
 		"Set 6" = list(
+			STATS_TORTURES = list("name" = "Tortures performed:", "points" = 3.25, "capacity" = 70),
+		),
+		"Set 7" = list(
 			STATS_YIELDS = list("name" = "Yields made:", "points" = -3.25, "capacity" = -40), //YIELD? COWARDICE! VICTORY AT ANY COST!
 		)
 	)
