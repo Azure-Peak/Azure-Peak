@@ -198,6 +198,7 @@
 					owner.psydo_nyte()
 					owner.playsound_local(owner, 'sound/misc/psydong.ogg', 100, FALSE)
 					sleep(10)
+					record_round_statistic(STATS_TIMES_ENDVRED, pick(4,50)) //endvred too hard
 					owner.gib()
 					return FALSE
 
@@ -241,6 +242,7 @@
 
 		target.apply_status_effect(/datum/status_effect/buff/psyhealing, psyhealing)
 		target.apply_status_effect(/datum/status_effect/buff/adrenaline_rush/psydon)
+		record_round_statistic(STATS_TIMES_ENDVRED)
 
 		return TRUE
 
@@ -796,6 +798,8 @@
 	to_chat(user, span_notice("You purify their Lux with the merging of theirs and your own, for a mote."))
 	to_chat(H, span_info("You feel a gentle stirring sensation pour over your Lux, stealing your wounds."))
 
+	record_round_statistic(STATS_TIMES_ENDVRED)
+
 	return TRUE
 
 //
@@ -895,6 +899,7 @@
 		H.apply_status_effect(/datum/status_effect/buff/psyvived)
 		C.say("MY LYFE FOR YOURS! LYVE, AS DOES HE!", forced=TRUE, language=/datum/language/common)
 		C.visible_message(span_danger("[C] suddenly collapses, as the last of their lux is siphoned into [H]'s chest!")) //Originally "[C] suddenly falls down on the ground... DEAD and PSY-DONE!".
+		record_round_statistic(STATS_TIMES_ENDVRED)
 		C.death()
 		H.revive(full_heal=TRUE, admin_revive=FALSE)
 		H.adjustOxyLoss(-H.getOxyLoss())
@@ -1041,6 +1046,7 @@
 	to_chat(C, span_warning("You take [H]'s suffering upon yourself!"))
 	to_chat(H, span_notice("[C] absolves you of your injuries!"))
 
+	record_round_statistic(STATS_TIMES_ENDVRED)
 	return TRUE
 
 /proc/translate_wound_for_target(datum/wound/W, mob/living/carbon/human/recipient)

@@ -140,7 +140,9 @@
 #define STATS_PSYCROSS_USERS "people_wearing_psycross"
 #define STATS_LUX_HARVESTED "lux_harvested"
 #define STATS_MARQUES_MADE "marques_made"
-#define STATS_DNR_KILLED "unrevivable deaths"
+#define STATS_DNR_KILLED "unrevivable_deaths"
+#define STATS_TIMES_WEPT "times_wept"
+#define STATS_TIMES_ENDVRED "times_endvred"
 
 //Astratan
 #define STATS_LAWS_AND_DECREES_MADE "laws_and_decrees_made"

@@ -85,7 +85,7 @@
 			STATS_BOUNTY_TOTAL_CLAIMED = list("name" = "Claimed bounties:", "points" = 0.025, "capacity" = 50),
 		),
 		"Set 7" = list(
-			STATS_ALIVE_GARRISON = list("name" = "Alive garrison:", "points" = 1, "capacity" = 20), //closest to law
+			STATS_ALIVE_GARRISON = list("name" = "Number of garrison:", "points" = 0.75, "capacity" = 20), //closest to law
 		)
 	)
 
