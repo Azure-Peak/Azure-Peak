@@ -326,6 +326,7 @@
 /obj/structure/trap/bomb/trap_effect(mob/living/L)
 	..()
 	explosion(src, light_impact_range = 1, flame_range = 2, smoke = TRUE, soundin = pick('sound/misc/explode/bottlebomb (1).ogg','sound/misc/explode/bottlebomb (2).ogg'))
+	record_round_statistic(STATS_BOMBS_EXPLODED)
 
 /obj/structure/trap/flame // fire can RR easily, dangerous
 	name = "flamejet plate trap"
@@ -607,6 +608,7 @@
 /obj/structure/trap/bogtrap/bomb/trap_effect(mob/living/L)
 	to_chat(L, span_danger("<B>A buried charge detonates!</B>"))
 	explosion(src, light_impact_range = 1, flame_range = 3, smoke = TRUE)
+	record_round_statistic(STATS_BOMBS_EXPLODED)
 	playsound(src, 'sound/misc/explode/bottlebomb (1).ogg', 200, TRUE)
 
 //kneestingers

@@ -261,6 +261,7 @@
 		apply_scorch_stack(target, 1)
 
 	explosion(T, light_impact_range = 2, smoke = (tripcrit > 0), adminlog = FALSE, soundin = BOMB_SOUND, bomb_owner = thrower)
+	record_round_statistic(STATS_BOMBS_EXPLODED)
 
 	var/spread = (lit || forced) ? firerange : 1 // all credits to ryon!!!
 	for(var/turf/open/O in dview(spread, T))
@@ -300,6 +301,7 @@
 	//IMPORTANT!! go into walls /turf/closed/wall/ and see /turf/closed/wall/ex_act. Its bounded with /proc/explosion. Same for /obj/structure and /obj/structure/ex_act because if you going to fuck intergity or whatever this shit called players will skin you alive for breaking their equipment and keys
 	//also /turf/open/floor/ex_act for comment above
 	explosion(T, extreme_impact_range = devrange, heavy_impact_range = heavyrange, light_impact_range = lightrange, ignorecap = ignorecap, flame_range = flamerange, smoke = TRUE, soundin = BOMB_SOUND)
+	record_round_statistic(STATS_BOMBS_EXPLODED)
 
 /obj/item/explosive/fused/powder/stick
 	name = "blastpowder stick"
@@ -511,6 +513,7 @@
 
 	playsound(T, BOMB_SOUND, 100)
 	explosion(T, smoke = (tripcrit > 0), adminlog = FALSE, silent = TRUE, bomb_owner = thrower)
+	record_round_statistic(STATS_BOMBS_EXPLODED)
 
 /obj/projectile/bullet/bombshard
 	name = "shrapnel"

@@ -66,6 +66,8 @@
 				record_round_statistic(STATS_DEADITES_KILLED)
 			if(mind.has_antag_datum(/datum/antagonist/skeleton) || mind.has_antag_datum(/datum/antagonist/lich))
 				record_round_statistic(STATS_SKELETONS_KILLED)
+			if(HAS_TRAIT(src, TRAIT_DNR))
+				record_round_statistic(STATS_DNR_KILLED)
 
 	if(client)
 		SSdroning.kill_droning(client)

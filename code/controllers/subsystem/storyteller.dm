@@ -1861,6 +1861,9 @@ SUBSYSTEM_DEF(gamemode)
 		STATS_DEADITES_ALIVE,
 		STATS_CLINGY_PEOPLE,
 		STATS_BEAUTIFUL_PEOPLE,
+		STATS_PACIFIED_PEOPLE,
+		STATS_MAGES,
+		STATS_DNR_TOTAL,
 		STATS_MARRIAGES_MADE,
 		STATS_ALCOHOLICS,
 		STATS_JUNKIES,
@@ -1999,6 +2002,12 @@ SUBSYSTEM_DEF(gamemode)
 				record_round_statistic(STATS_VOYEURS)
 			if(HAS_TRAIT(human_mob, TRAIT_BEAUTIFUL))
 				record_round_statistic(STATS_BEAUTIFUL_PEOPLE)
+			if(HAS_TRAIT(human_mob, TRAIT_DNR))
+				record_round_statistic(STATS_DNR_TOTAL)
+			if(HAS_TRAIT(human_mob, TRAIT_ARCYNE))
+				record_round_statistic(STATS_MAGES)
+			if(HAS_TRAIT(human_mob, TRAIT_PACIFISM))
+				record_round_statistic(STATS_PACIFIED_PEOPLE)
 
 			// Races - proper alive checking (We have so fucking many, kill me..)
 			if(ishumannorthern(human_mob))

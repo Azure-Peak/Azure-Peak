@@ -30,7 +30,7 @@
 	),
 	"Set 7" = list(
 		STATS_ASTRATA_REVIVALS = list("name" = "Holy revivals:", "points" = 6, "capacity" = 75),
-	),
+	)
 )
 
 /datum/storyteller/noc
@@ -55,6 +55,9 @@
 		),
 		"Set 6" = list(
 			STATS_STARGAZERS = list("name" = "Telescope uses:", "points" = 2.5, "capacity" = 50),
+		),
+		"Set 7" = list(
+			STATS_MAGES = list("name" = "Arcyne attuned:", "points" = 0.5, "capacity" = 50),
 		)
 	)
 
@@ -79,10 +82,10 @@
 			STATS_THRILLSEEKERS = list("name" = "Thrillseekers:", "points" = 5, "capacity" = 50)
 		),
 		"Set 6" = list(
-			STATS_BOUNTY_TOTAL_CLAIMED = list("name" = "Claimed bounties:", "points" = 0.025, "capacity" = 50), //ravox stands for justice, not order.
+			STATS_BOUNTY_TOTAL_CLAIMED = list("name" = "Claimed bounties:", "points" = 0.025, "capacity" = 50),
 		),
 		"Set 7" = list(
-			STATS_ALIVE_GARRISON = list("name" = "Alive garrison:", "points" = 0.5, "capacity" = 20), //closest to law
+			STATS_ALIVE_GARRISON = list("name" = "Alive garrison:", "points" = 1, "capacity" = 20), //closest to law
 		)
 	)
 
@@ -104,7 +107,7 @@
 			STATS_LEECHES_EMBEDDED = list("name" = "Leeches embedded:", "points" = 0.75, "capacity" = 70),
 		),
 		"Set 5" = list(
-			STATS_ABYSSOR_REMEMBERED = list("name" = "Abyssor remembered:", "points" = 1.1, "capacity" = 50),
+			STATS_ABYSSOR_REMEMBERED = list("name" = "Visions completed:", "points" = 0.8, "capacity" = 50), //expected that dedicated painters may cap this out
 		),
 		"Set 6" = list(
 			STATS_PEOPLE_DROWNED = list("name" = "People drowned:", "points" = 12, "capacity" = 75),
@@ -164,6 +167,9 @@
 		),
 		"Set 6" = list(
 			STATS_SKELETONS_KILLED = list("name" = "Skeletons killed:", "points" = 5, "capacity" = 50),
+		),
+		"Set 7" = list(
+			STATS_DNR_TOTAL = list("name" = "Unrevivable people:", "points" = 2.25, "capacity" = 50),
 		)
 	)
 
@@ -217,7 +223,10 @@
 		),
 		"Set 6" = list(
 			STATS_ALIVE_DWARVES = list("name" = "Number of dwarfs:", "points" = 4, "capacity" = 45),
-		)
+		),
+		"Set 7" = list(
+			STATS_BOMBS_EXPLODED = list("name" = "Bombs exploded:", "points" = 0.25, "capacity" = 40),
+		),
 	)
 
 /datum/storyteller/eora
@@ -241,7 +250,10 @@
 			STATS_MARRIAGES_MADE = list("name" = "Marriages made:", "points" = 20, "capacity" = 80), //Rare so worth a ton.
 		),
 		"Set 6" = list(
-			STATS_YIELDS = list("name" = "Yields made:", "points" = 2, "capacity" = 30), //love wins!
+			STATS_PACIFIED_PEOPLE = list("name" = "Pacifists:", "points" = 3, "capacity" = 50), //love wins!
+		),
+		"Set 7" = list(
+			STATS_EORA_TREE_FELLERS = list("name" = "Eoran trees felled:", "points" = -8, "capacity" = -40), //a true affront to Eora!
 		)
 	)
 
@@ -267,6 +279,9 @@
 		),
 		"Set 6" = list(
 			STATS_ASUNDERED_MINDS = list("name" = "Asundered Minds:", "points" = 5, "capacity" = 50),
+		),
+		"Set 7" = list(
+			STATS_ANIMALS_DEADITED = list("name" = "Animals deadited:", "points" = -0.35, "capacity" = -40),
 		)
 	)
 

@@ -136,9 +136,11 @@
 
 //Psydon
 #define STATS_HUMEN_DEATHS "humen_deaths"
+#define STATS_PSYCENSER_EXPLODE "golgatha_exploded"
 #define STATS_PSYCROSS_USERS "people_wearing_psycross"
 #define STATS_LUX_HARVESTED "lux_harvested"
 #define STATS_MARQUES_MADE "marques_made"
+#define STATS_DNR_KILLED "unrevivable deaths"
 
 //Astratan
 #define STATS_LAWS_AND_DECREES_MADE "laws_and_decrees_made"
@@ -163,6 +165,7 @@
 #define STATS_SKILLS_DREAMED "skills_dreamed"
 #define STATS_VOYEURS "voyeurs"
 #define STATS_STARGAZERS "stargazers"
+#define STATS_MAGES "total_mages"
 
 //Necra
 #define STATS_SKELETONS_KILLED "skeletons_killed"
@@ -170,6 +173,7 @@
 #define STATS_GRAVES_ROBBED "graves_robbed"
 #define STATS_DEADITES_KILLED "deadites_killed"
 #define STATS_VAMPIRES_KILLED "vampires_killed"
+#define STATS_DNR_TOTAL "DNR_total"
 
 //Pestra
 #define STATS_POTIONS_BREWED "potions_brewed"
@@ -207,6 +211,7 @@
 #define STATS_CRAFT_SKILLS "craft_skills"
 #define STATS_CRAFTED_ITEMS "craft_items"
 #define STATS_BEARDS_SHAVED "beards_shaved"
+#define STATS_BOMBS_EXPLODED "bombs_exploded"
 
 //Abyssor
 #define STATS_WATER_CONSUMED "water_consumed"
@@ -222,6 +227,8 @@
 #define STATS_CLINGY_PEOPLE "clingy_people"
 #define STATS_BEAUTIFUL_PEOPLE "beautiful_people"
 #define STATS_MARRIAGES_MADE "marriages_done"
+#define STATS_EORA_TREE_FELLERS "eora_tree_fellers"
+#define STATS_PACIFIED_PEOPLE "pacifism_total"
 
 //Zizo
 #define STATS_CONSTRUCT_DEATHS "construct_deaths"

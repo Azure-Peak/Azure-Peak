@@ -115,7 +115,7 @@
 	// Centered container with left-aligned content
 	data += "<div style='text-align: center;'>"
 	data += "<div style='display: inline-block; text-align: left; margin-left: auto; margin-right: auto;'>"
-	
+
 	var/stat_is_object = GLOB.featured_stats[current_featured]["object_stat"]
 	var/stat_is_admin_only = GLOB.featured_stats[current_featured]["admin_only"]
 	var/has_entries = length(GLOB.featured_stats[current_featured]["entries"])
@@ -263,7 +263,7 @@
 	data += "<div style='margin: 35px;'>"
 	switch(tab)
 		if("Gods")
-		
+
 			// Gods' Interventions Section
 			data += "<div>"
 			data += "<div style='text-align: center; color: #e0e0f0; font-size: 1.2em; margin-bottom: 10px;'>GODS' INTERVENTIONS</div>"
@@ -361,7 +361,7 @@
 
 				data += "</div>"
 
-		
+
 		if("Messages")
 			data += "<div style='display: table; width: 100%; table-layout: fixed;'>"
 			data += "<div style='display: table-row;'>"
@@ -877,7 +877,7 @@
 	var/list/faith_color = list(/datum/faith/divine = "#28908C", /datum/faith/inhumen = "#46254a", /datum/faith/old_god = "#47636d")
 	var/text_color = ((GLOB.dominant_faith_tracker.dominant_faith == /datum/faith/divine) ? "#E1C562" : "#d0d0d0")
 	var/border_color = ((GLOB.dominant_faith_tracker.dominant_faith == /datum/faith/divine) ? "#E1C562" : "#99b2b1")
-	
+
 	data += "<div style='width: 42.5%; margin: 0 auto 30px; border: 2px solid [border_color]; background: [faith_color[GLOB.dominant_faith_tracker.dominant_faith]]; color: [text_color]; max-height: 420px;'>"
 	data += "<div style='text-align: center; font-size: 1.3em; padding: 12px;'><b>DOMINANT FAITH: [GLOB.faithlist[GLOB.dominant_faith_tracker.dominant_faith]]</b></div>"
 	data += "<div style='padding: 0 15px 15px 15px;'>"
@@ -923,9 +923,10 @@
 			if(GLOB.patron_follower_counts[patron] >= psydon_followers)
 				largest_religion = FALSE
 				break
+	var/golgatha_exploded = GLOB.azure_round_stats[STATS_PSYCENSER_EXPLODE] == 0 ? TRUE : FALSE
 	var/apostasy_followers = GLOB.patron_follower_counts["Godless"] || 0
 	var/psydonite_monarch = GLOB.azure_round_stats[STATS_MONARCH_PATRON] == "Psydon" ? TRUE : FALSE
-	var/psydon_influence = (psydon_followers * 20) + (GLOB.confessors.len * 20) + (GLOB.azure_round_stats[STATS_HUMEN_DEATHS] * -10) + (GLOB.azure_round_stats[STATS_ALIVE_TIEFLINGS] * -20) + (psydonite_monarch ? (psydonite_monarch * 500) : -250) + (largest_religion? (largest_religion * 500) : -250) + (GLOB.azure_round_stats[STATS_PSYCROSS_USERS] * 10) + (apostasy_followers * -20) + (GLOB.azure_round_stats[STATS_LUX_HARVESTED] * -50) + (psydonite_user ? 10000 : -10000)
+	var/psydon_influence = (psydon_followers * 20) + (GLOB.confessors.len * 20) + (GLOB.azure_round_stats[STATS_HUMEN_DEATHS] * -10) + (GLOB.azure_round_stats[STATS_DNR_KILLED] * -5) + (psydonite_monarch ? (psydonite_monarch * 500) : -250) + (largest_religion? (largest_religion * 500) : -250) + (GLOB.azure_round_stats[STATS_PSYCROSS_USERS] * 10) + (apostasy_followers * -20) + (GLOB.azure_round_stats[STATS_LUX_HARVESTED] * -50) + (psydonite_user ? 10000 : -10000) + (golgatha_exploded ? 500 : -2500)
 
 	data += "<div style='width: 42.5%; margin: 0 auto 30px; border: 2px solid #99b2b1; background: #47636d; color: #d0d0d0; max-height: 420px;'>"
 	data += "<div style='text-align: center; font-size: 1.3em; padding: 12px;'><b>PSYDON</b></div>"
@@ -939,6 +940,7 @@
 	data += "Number of confessions: [GLOB.confessors.len] ([get_colored_influence_value(GLOB.confessors.len * 20)])<br>"
 	data += "Largest faith: [largest_religion ? "YES" : "NO"] ([get_colored_influence_value(largest_religion ? 500 : -250)])<br>"
 	data += "Psydonite monarch: [psydonite_monarch ? "YES" : "NO"] ([get_colored_influence_value((psydonite_monarch ? (psydonite_monarch * 500) : -250))])<br>"
+	data += "Unrevivable Deaths: [GLOB.azure_round_stats[STATS_DNR_KILLED]] ([get_colored_influence_value(GLOB.azure_round_stats[STATS_ZCROSS_USERS] * -5)])<br>"
 	data += "</div>"
 
 	data += "<div style='flex: 1; padding-left: 60px;'>"
@@ -946,7 +948,8 @@
 	data += "Humen deaths: [GLOB.azure_round_stats[STATS_HUMEN_DEATHS]] ([get_colored_influence_value(GLOB.azure_round_stats[STATS_HUMEN_DEATHS] * -10)])<br>"
 	data += "Largest faith: [largest_religion ? "YES" : "NO"] ([get_colored_influence_value(largest_religion ? 500 : -250)])<br>"
 	data += "Lux harvested: [GLOB.azure_round_stats[STATS_LUX_HARVESTED]] ([get_colored_influence_value(GLOB.azure_round_stats[STATS_LUX_HARVESTED] * -50)])<br>"
-	data += "God's status: [psydonite_user ? "ALIVE" : "DEAD"] ([get_colored_influence_value(psydonite_user ? 10000 : -10000)])<br>"
+	data += "Golgatha Intact: [golgatha_exploded ? "YES" : "NO"] ([get_colored_influence_value(golgatha_exploded ? 250 : -2500)])<br>"
+	data += "God's status: [psydonite_user ? "ALIVE" : "DEAD"] ([get_colored_influence_value(psydonite_user ? 10000 : -10000)])<br>" //I know it doesn't make 10 or 11 but 12. but mah symmetry + god LIVES is sovl
 	data += "</div>"
 
 	data += "</div>"
