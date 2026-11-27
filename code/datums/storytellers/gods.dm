@@ -316,7 +316,7 @@
 		),
 		"Set 5" = list(
 			STATS_PEOPLE_GIBBED = list("name" = "People gibbed:", "points" = 3.5, "capacity" = 55),
-		)
+		),
 		"Set 6" = list(
 			STATS_YIELDS = list("name" = "Yields made:", "points" = -4.25, "capacity" = -40), //YIELD? COWARDICE! VICTORY AT ANY COST!
 		)
