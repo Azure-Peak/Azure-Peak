@@ -1545,26 +1545,26 @@ generate/load female uniform sprites matching all previously decided variables
 	var/detail_state = get_detail_state(t_state)
 
 	if(get_detail_tag())
-		var/mutable_appearance/pic = mutable_appearance(icon(file2use, "[detail_state][get_detail_tag()]"), -layer2use)
+		var/mutable_appearance/pic = mutable_appearance(file2use, "[detail_state][get_detail_tag()]", -layer2use)
 		pic.appearance_flags = RESET_COLOR
 		if(get_detail_color())
 			pic.color = get_detail_color()
 		standing.overlays.Add(pic)
 		if(!isinhands && boobed_overlay && boobed_detail && boobed)
-			pic = mutable_appearance(icon(file2use, "[detail_state]_boob[get_detail_tag()]"), -layer2use)
+			pic = mutable_appearance(file2use, "[detail_state]_boob[get_detail_tag()]", -layer2use)
 			pic.appearance_flags = RESET_COLOR
 			if(get_detail_color())
 				pic.color = get_detail_color()
 			standing.overlays.Add(pic)
 
 	if(get_altdetail_tag())
-		var/mutable_appearance/pic = mutable_appearance(icon(file2use, "[detail_state][get_altdetail_tag()]"), -layer2use)
+		var/mutable_appearance/pic = mutable_appearance(file2use, "[detail_state][get_altdetail_tag()]", -layer2use)
 		pic.appearance_flags = RESET_COLOR
 		if(get_altdetail_color())
 			pic.color = get_altdetail_color()
 		standing.overlays.Add(pic)
 		if(!isinhands && boobed_overlay && boobed_detail && boobed)
-			pic = mutable_appearance(icon(file2use, "[detail_state]_boob[get_altdetail_tag()]"), -layer2use)
+			pic = mutable_appearance(file2use, "[detail_state]_boob[get_altdetail_tag()]", -layer2use)
 			pic.appearance_flags = RESET_COLOR
 			if(get_altdetail_color())
 				pic.color = get_altdetail_color()
@@ -1576,7 +1576,7 @@ generate/load female uniform sprites matching all previously decided variables
 		var/mob/living/carbon/human/wearer = loc
 		var/blood_color = item_blood?.blood_color || (ishuman(wearer) ? wearer.get_blood_color() : "#C80000")
 		var/static/list/bloody_onmob = list()
-		var/cache_key = "[index][(boobed_overlay) ? "_boob" : ""]-[blood_color]"
+		var/cache_key = "\ref[file2use]|[index][(boobed_overlay) ? "_boob" : ""]-[blood_color]"
 		var/icon/clothing_icon = bloody_onmob[cache_key]
 		if(!clothing_icon)
 			if(sleeved && sleeveindex < 4) //cut out sleeves from north/south sprites
@@ -1690,14 +1690,14 @@ generate/load female uniform sprites matching all previously decided variables
 		sleeves += r_sleeve
 
 		if(I.get_detail_tag() && I.sleeved_detail)
-			var/mutable_appearance/pic = mutable_appearance(icon(I.sleeved, "[used][I.get_detail_tag()]"), layer=-layer2use)
+			var/mutable_appearance/pic = mutable_appearance(I.sleeved, "[used][I.get_detail_tag()]", layer=-layer2use)
 //			pic.appearance_flags = RESET_COLOR
 			if(I.get_detail_color())
 				pic.color = I.get_detail_color()
 			sleeves += pic
 
 		if(has_blood)
-			var/cache_key = "[used]-[blood_color]"
+			var/cache_key = "\ref[I.sleeved]|[used]-[blood_color]"
 			var/icon/blood_overlay = bloody_r[cache_key]
 			if(!blood_overlay)
 				blood_overlay = icon(I.sleeved, used)
@@ -1719,14 +1719,14 @@ generate/load female uniform sprites matching all previously decided variables
 		sleeves += l_sleeve
 
 		if(I.get_detail_tag() && I.sleeved_detail)
-			var/mutable_appearance/pic = mutable_appearance(icon(I.sleeved, "[used][I.get_detail_tag()]"), layer=-layer2use)
+			var/mutable_appearance/pic = mutable_appearance(I.sleeved, "[used][I.get_detail_tag()]", layer=-layer2use)
 //			pic.appearance_flags = RESET_COLOR
 			if(I.get_detail_color())
 				pic.color = I.get_detail_color()
 			sleeves += pic
 
 		if(has_blood)
-			var/cache_key = "[used]-[blood_color]"
+			var/cache_key = "\ref[I.sleeved]|[used]-[blood_color]"
 			var/icon/blood_overlay = bloody_l[cache_key]
 			if(!blood_overlay)
 				blood_overlay = icon(I.sleeved, used)

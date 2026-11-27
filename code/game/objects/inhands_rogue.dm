@@ -47,7 +47,7 @@ GLOBAL_LIST_INIT(has_behind_cache, list()) // cheaty hack to avoid repeated list
 	var/list/sig = list()
 	for(var/mutable_appearance/overlay as anything in overlays)
 		if(overlay.plane in plane_whitelist)
-			sig += "\ref[overlay]"
+			sig += "\ref[overlay.icon]:[overlay.icon_state]:[overlay.color]"
 	return sig.Join(",")
 
 /obj/item/proc/onmob_prop()

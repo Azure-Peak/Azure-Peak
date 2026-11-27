@@ -142,7 +142,6 @@
 /obj/effect/decal/cleanable/blood/squirt
 	icon_state = "squirt_greyscale"
 	random_icon_states = null
-	mergeable_decal = FALSE
 	jitter = FALSE
 
 /obj/effect/decal/cleanable/blood/spray
