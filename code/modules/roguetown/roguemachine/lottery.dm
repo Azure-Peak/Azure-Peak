@@ -88,6 +88,7 @@
 
 //let's actually go gambling and determine results
 		if(src.gamblingprob > src.diceroll)
+			record_round_statistic(STATS_WON_GAMBLED, [gamblingprice - oldtithe]) //find the difference for what we won.
 			src.oldtithe = src.gamblingprice
 			src.gamblingprice *= pick(1.1, 1.1, 1.1, 1.1, 1.2, 1.2, 1.2, 1.4, 1.4, 2)
 			src.gamblingprice = round(src.gamblingprice)
@@ -104,8 +105,9 @@
 			return
 
 		else
-			src.say(pick("TEN, WHEEL OF FORTUNE - inversed.", "The Castle. O, Omen!", "A harvest of locusts...!", "Look into my eyes and whisper your woes.", "Aw, dangit.", "Fool. Poor fool.", "Your eyes leak out of your skull, drool falling from your lips.", "Divine idiocy.", "You stand just as I did; loser and a freek."))
+			src.say(pick("TEN, WHEEL OF FORTUNE - inversed.", "The Castle. O, Omen!", "A harvest of locusts...!", "Look into my eyes and whisper your woes.", "Aw, dangit.", "Fool. Poor fool.", "Your eyes leak out of your skull, drool falling from your lips.", "Divine idiocy.", "You stand just as I did; loser and a freek.", "O' Woe art thee!"))
 			playsound(src, 'sound/misc/bug.ogg', 100, FALSE, -1)
+			record_round_statistic(STATS_LOST_GAMBLED, oldtithe) //REALLY make them THINK about their life choices up to this point
 			sleep(20) //really make them THINK about their life choices up to this point
 			src.say(pick("King of fools, your land is barren. Play again?", "Divine comedy. Play again?", "Next time, surely. Play again?", "Haha-...ah-ha-ha! Again! Play again, jester!", "Poor beggar! Spin me again?"))
 			playsound(src, 'sound/misc/bug.ogg', 100, FALSE, -1)

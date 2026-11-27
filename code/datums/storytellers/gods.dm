@@ -2,7 +2,7 @@
 	name = "Psydon"
 	color_theme = "#80ced8"
 
-	//Has no influence, your actions will not impact him his spawn rates. Cus he's asleep.
+	//Has no influence, your actions will not impact HIM or HIS spawn rates.
 
 /datum/storyteller/astrata
 	name = "Astrata"
@@ -21,15 +21,17 @@
 		STATS_PEOPLE_SMITTEN = list("name" = "People smitten:", "points" = 4, "capacity" = 40),
 	),
 	"Set 4" = list(
-		STATS_ASTRATA_REVIVALS = list("name" = "Holy revivals:", "points" = 6, "capacity" = 75),
 		STATS_PRAYERS_MADE = list("name" = "Prayers made:", "points" = 2.25, "capacity" = 65),
 	),
 	"Set 5" = list(
-		STATS_TAXES_COLLECTED = list("name" = "Taxes collected:", "points" = 0.25, "capacity" = 80),
+		STATS_TAXES_COLLECTED = list("name" = "Taxes collected:", "points" = 0.25, "capacity" = 110), //to counteract the downsides of tax evaders, its quite high
 	),
 	"Set 6" = list(
 		STATS_TAXES_EVADED = list("name" = "Taxes evaded:", "points" = -0.1, "capacity" = -30),
-	)
+	),
+	"Set 7" = list(
+		STATS_ASTRATA_REVIVALS = list("name" = "Holy revivals:", "points" = 6, "capacity" = 75),
+	),
 )
 
 /datum/storyteller/noc
@@ -104,22 +106,25 @@
 
 	influence_sets = list(
 		"Set 1" = list(
-			STATS_LAUGHS_MADE = list("name" = "Laughs had:", "points" = 0.225, "capacity" = 85),
+			STATS_LAUGHS_MADE = list("name" = "Laughs had:", "points" = 0.125, "capacity" = 85),
 		),
 		"Set 2" = list(
 			STATS_PEOPLE_MOCKED = list("name" = "People mocked:", "points" = 5, "capacity" = 60),
 		),
 		"Set 3" = list(
-			STATS_CRITS_MADE = list("name" = "Crits made:", "points" = 0.26, "capacity" = 90),
+			STATS_SONGS_PLAYED = list("name" = "Songs played:", "points" = 0.475, "capacity" = 70),
 		),
 		"Set 4" = list(
-			STATS_LOCKS_PICKED = list("name" = "Locks picked:", "points" = 1.5, "capacity" = 30), //less score, but silver tongues are Xylix's shtick too
+			STATS_WON_GAMBLED = list("name" = "Amount won gambling:", "points" = 0.1, "capacity" = 40), //fortune
 		),
 		"Set 5" = list(
-			STATS_SONGS_PLAYED = list("name" = "Songs played:", "points" = 0.675, "capacity" = 70),
-		)
+			STATS_LOST_GAMBLED = list("name" = "Amount lost gambling:", "points" = 0.05, "capacity" = 60), //woe
+		),
 		"Set 6" = list(
 			STATS_MOAT_FALLERS = list("name" = "Moat fallers:", "points" = 4, "capacity" = 50),
+		),
+		"Set 7" = list(
+			STATS_CRITS_MADE = list("name" = "Crits made:", "points" = 0.26, "capacity" = 90),
 		)
 	)
 
