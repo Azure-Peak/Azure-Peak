@@ -202,7 +202,6 @@
 			removeomen(OMEN_NOPRIEST)
 
 /mob/living/carbon/human/gib(no_brain, no_organs, no_bodyparts, safe_gib = FALSE, leave_gibs = TRUE)
-	record_round_statistic(STATS_PEOPLE_GIBBED)
 	for(var/mob/living/carbon/human/CA in viewers(7, src))
 		if(CA != src && !HAS_TRAIT(CA, TRAIT_BLIND))
 			if(HAS_TRAIT(CA, TRAIT_STEELHEARTED) || HAS_TRAIT(CA, TRAIT_NIHILIST))

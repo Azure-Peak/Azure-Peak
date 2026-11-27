@@ -93,9 +93,6 @@
 			STATS_LEECHES_EMBEDDED = list("name" = "Leeches embedded:", "points" = 0.75, "capacity" = 70),
 		),
 		"Set 4" = list(
-			STATS_ASUNDERED_MINDS = list("name" = "Asundered Minds:", "points" = 2, "capacity" = 50),
-		),
-		"Set 5" = list(
 			STATS_PEOPLE_DROWNED = list("name" = "People drowned:", "points" = 12, "capacity" = 75),
 			STATS_BATHS_TAKEN = list("name" = "Baths taken:", "points" = 4.5, "capacity" = 60),
 		)
@@ -114,10 +111,14 @@
 		),
 		"Set 3" = list(
 			STATS_CRITS_MADE = list("name" = "Crits made:", "points" = 0.26, "capacity" = 90),
-			STATS_LOCKS_PICKED = list("name" = "Locks picked:", "points" = 1.5, "capacity" = 30), //less score, but silver tongues are Xylix's shtick too
 		),
 		"Set 4" = list(
+			STATS_LOCKS_PICKED = list("name" = "Locks picked:", "points" = 1.5, "capacity" = 30), //less score, but silver tongues are Xylix's shtick too
+		),
+		"Set 5" = list(
 			STATS_SONGS_PLAYED = list("name" = "Songs played:", "points" = 0.675, "capacity" = 70),
+		)
+		"Set 6" = list(
 			STATS_MOAT_FALLERS = list("name" = "Moat fallers:", "points" = 4, "capacity" = 50),
 		)
 	)
@@ -254,12 +255,13 @@
 	influence_sets = list(
 		"Set 1" = list(
 			STATS_CONSTRUCT_DEATHS = list("name" = "Constructs killed:", "points" = -3.25, "capacity" = -50), //loss of Progress
+			STATS_DEADITES_ALIVE = list("name" = "Sapient Deadites alive:", "points" = 1, "capacity" = 40),
 		),
 		"Set 2" = list(
 			STATS_DEADITES_WOKEN_UP = list("name" = "Deadites woken up:", "points" = 0.5, "capacity" = 85),
 		),
 		"Set 3" = list(
-			STATS_DEADITES_ALIVE = list("name" = "Sapient Deadites alive:", "points" = 1, "capacity" = 40),
+			STATS_GRAVES_ROBBED = list("name" = "Graves robbed:", "points" = 0.75, "capacity" = 40), //not really Progress, but defying the status quo
 		),
 		"Set 4" = list(
 			STATS_LUX_HARVESTED = list("name" = "Lux Extracted:", "points" = 12, "capacity" = 70),
@@ -283,16 +285,17 @@
 		),
 		"Set 2" = list( //drugs and booze
 			STATS_DRUGS_SNORTED = list("name" = "Drugs snorted:", "points" = 4, "capacity" = 85),
+		),
+		"Set 3" = list(
 			STATS_ALCOHOL_CONSUMED = list("name" = "Alcohol consumed:", "points" = 0.042, "capacity" = 90),
 		),
-		"Set 3" = list( //tabboos and addictions
-			STATS_SADISTS = list("name" = "Number of sadists:", "points" = 3, "capacity" = 20),
+		"Set 4" = list( //tabboos and addictions
 			STATS_MASOCHISTS = list("name" = "Number of masochists:", "points" = 3, "capacity" = 20),
 		),
-		"Set 4" = list(
+		"Set 5" = list(
 			STATS_NYMPHOMANIACS = list("name" = "Number of nymphomaniacs:", "points" = 6, "capacity" = 30),
 		),
-		"Set 5" = list(	//in the name
+		"Set 6" = list(	//in the name
 			STATS_PLEASURES = list("name" = "Pleasures had:", "points" = 5, "capacity" = 50),
 		)
 	)
@@ -315,7 +318,7 @@
 			STATS_ASSASSINATIONS = list("name" = "Successful assassinations:", "points" = 20, "capacity" = 100),
 		),
 		"Set 5" = list(
-			STATS_PEOPLE_GIBBED = list("name" = "People gibbed:", "points" = 3.5, "capacity" = 55),
+			STATS_SADISTS = list("name" = "Number of sadists:", "points" = 3, "capacity" = 20),
 		),
 		"Set 6" = list(
 			STATS_YIELDS = list("name" = "Yields made:", "points" = -3.25, "capacity" = -40), //YIELD? COWARDICE! VICTORY AT ANY COST!
@@ -336,12 +339,14 @@
 		),
 		"Set 3" = list(
 			STATS_GREEDY_PEOPLE = list("name" = "Number of greedy people:", "points" = 6.5, "capacity" = 70),
-			STATS_INDEBTED = list("name"= "Number of indebted people:", "points" = 5, "capacity" = 30),
 		),
 		"Set 4" = list(
-			STATS_LOCKS_PICKED = list("name" = "Locks picked:", "points" = 3.75, "capacity" = 80),
+			STATS_INDEBTED = list("name"= "Number of indebted people:", "points" = 5, "capacity" = 30),
 		),
 		"Set 5" = list(
+			STATS_LOCKS_PICKED = list("name" = "Locks picked:", "points" = 3.75, "capacity" = 80),
+		),
+		"Set 6" = list(
 			STATS_TAXES_EVADED = list("name" = "Taxes evaded:", "points" = 0.15, "capacity" = 50), //free market
 		)
 	)

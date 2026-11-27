@@ -230,13 +230,12 @@
 #define STATS_BLOOD_SPILT "blood_spilt"
 #define STATS_ORGANS_EATEN "organs_eaten"
 #define STATS_DEATHS "deaths"
-#define STATS_PEOPLE_GIBBED "people_gibbed"
+#define STATS_SADISTS "sadists"
 #define STATS_ASSASSINATIONS "assassinations"
 
 //Baotha
 #define STATS_DRUGS_SNORTED "drugs_snorted"
 #define STATS_ALCOHOL_CONSUMED "alcohol_consumed"
-#define STATS_SADISTS "sadists"
 #define STATS_MASOCHISTS "mascochists"
 #define STATS_PLEASURES "pleasures"
 #define STATS_ALCOHOLICS "alcoholics"
