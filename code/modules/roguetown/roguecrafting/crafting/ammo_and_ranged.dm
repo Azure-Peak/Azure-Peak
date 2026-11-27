@@ -153,7 +153,8 @@
 		)
 	req_table = TRUE
 
-/datum/crafting_recipe/roguetown/survival/stonearrow
+
+/datum/crafting_recipe/roguetown/stealth/ropearrow
 	name = "rope arrow"
 	display_category = ITEM_CAT_WEAPONS_AMMO
 	category = "Ranged"
@@ -163,6 +164,7 @@
 		/obj/item/rope = 1,
 		)
 	req_table = TRUE
+	craftdiff = 2
 
 /datum/crafting_recipe/roguetown/survival/stonearrow_six
 	name = "stone arrow (x6)"
