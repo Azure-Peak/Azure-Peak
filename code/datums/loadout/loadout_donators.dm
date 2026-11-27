@@ -652,6 +652,10 @@
 	name = "Donator Kit - Unorthodoxist Psydonite Helm"
 	path = /obj/item/enchantingkit/ryan_psyhelm
 
+/datum/loadout_item/donator/ryan/ogremask
+	name = "Donator Kit - Snouted Ogre Mask"
+	path = /obj/item/enchantingkit/ryan_ogremask
+
 /datum/loadout_item/donator/ryan/naginata
 	name = "Donator Kit - +5 Common Profane Naginata"
 	path = /obj/item/enchantingkit/weapon/ryan_naginata
