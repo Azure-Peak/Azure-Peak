@@ -1151,7 +1151,7 @@ const OfferPanel = (props: {
       <div style={rowStyle}>
         <FillToggle
           on={selling}
-          disabled={quote.market_closed || !!props.lockNote}
+          disabled={!!quote.market_closed || !!props.lockNote}
           note={quote.market_closed ? 'The market is closed.' : props.lockNote}
           label="Sell on arrival"
           onToggle={props.onToggleSell}
