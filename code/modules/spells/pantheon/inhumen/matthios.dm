@@ -529,7 +529,7 @@
 	var/item_value = I.get_real_price()
 	var/quality_multiplier = I.has_item_quality ? ITEM_QUALITY_MULT(I.item_quality) : 1
 	var/final_value = round(item_value * quality_multiplier)
-	var/god_favor = 90 - (20 * associated_skill)
+	var/god_favor = 90 - (20 * owner.get_skill_level(associated_skill))
 	var/matthios_cut = rand(10, god_favor)
 	if(I.has_item_quality && I.item_quality > ITEM_QUALITY_STANDARD)
 		matthios_cut *= 0.5
