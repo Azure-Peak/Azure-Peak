@@ -127,7 +127,7 @@
 	if(!can_bite())
 		return FALSE
 
-	//in future if we want to make these more fair//
+	//in future if we want to make these more fair
 
 	//if(!get_location_accessible(src, BODY_ZONE_PRECISE_MOUTH, grabs="other"))
 		//if(!HAS_TRAIT(src, TRAIT_BITERHELM)) //if we can't bite, we can't bite.
