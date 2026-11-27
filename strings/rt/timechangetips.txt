@@ -78,7 +78,7 @@ TRIUMPHs can be spent by right-clicking your mood indicator. This will temporari
 The ENCYCLOPEDIA in your OOC TAB contains a wealth of information on various topics!
 An actor's ORIGIN provides a free language.
 REAGENTS can be ground in a mortar and pestle through the MIDDLE-MOUSE BUTTON. This will turn certain items into a "LIQUID" form.
-TALLOW can be used to OIL someone, making any grabbing of an exposed body-part have a chance to fail! Try oiled wrestling tonite!
+FAT can be used to OIL someone, making any grabbing of an exposed body-part have a chance to fail! Try oiled wrestling tonite!
 The strange, blue sounds coming from another ACTOR may be a MINDLINK! MINDLINKS are two-way magic communications currently on speaker!
 GHOSTS can send letters through the HERMES!
 Certain items, like sticks and cloth, can be BUNDLED through the RIGHT-MOUSE BUTTON!
