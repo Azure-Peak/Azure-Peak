@@ -17,7 +17,7 @@
 		has_rot = check_bodyparts_for_rot(target)
 	else if (target.has_status_effect(/datum/status_effect/zombie_infection))
 		has_rot = TRUE
-	else if(!target.mind && !HAS_TRAIT(target, TRAIT_ZOMBIE_IMMUNE))
+	else if(!mind.target && !HAS_TRAIT(target, TRAIT_ZOMBIE_IMMUNE))
 		has_rot = TRUE
 
 	// Remove rot component

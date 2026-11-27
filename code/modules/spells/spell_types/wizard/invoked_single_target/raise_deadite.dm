@@ -69,7 +69,7 @@
 		else
 			playsound(get_turf(M), 'sound/magic/magnet.ogg', 80, TRUE, soundping = TRUE)
 			owner.visible_message("[owner] mutters an incantation and [M] twitches with unnatural life!")
-			addtimer(CALLBACK(M, TYPE_PROC_REF(/mob/living/carbon/human, do_deadite_npc_reanimation)), 1 SECONDS) //rise my chud son. OH GOD GET IT OFF AAAAA.
+			addtimer(CALLBACK(M, TYPE_PROC_REF(/mob/living/carbon/human, do_deadite_npc_reanimation)), 1 SECONDS) //rise my chud son. OH GOD GET IT OFF AAAAA. (intended to not be factionised, because necros shouldn't be making swarms in seconds)
 			return TRUE
 	else
 		to_chat(owner, span_notice("They can not be risen!"))

@@ -16,9 +16,9 @@
 	/////////////////////////////////////
 	var/mob/living/carbon/human/victim = A
 	var/mob/living/user = M
-	var/datum/ai_controller/controller = M.ai_controller
+	var/datum/ai_controller/controller = A.ai_controller
 
-	if(!HAS_TRAIT(victim, TRAIT_DNR) && !HAS_TRAIT(victim, TRAIT_ZOMBIE_IMMUNE) && victim.stat == DEAD && controller) //make sure this is an applicable NPC (dead and convertable)
+	if(!HAS_TRAIT(victim, TRAIT_DNR) && victim.stat == DEAD && controller && !victim.mind) //make sure this is an applicable NPC (dead and convertable)
 		user.visible_message(span_artery("[user] lines up \the [parent] over [victim]'s heart...!"))
 		user.apply_status_effect(/datum/status_effect/swingdelay/disrupt, staketime + 2, TRUE)
 		if(do_after(user, staketime, TRUE, victim, same_direction = TRUE))
