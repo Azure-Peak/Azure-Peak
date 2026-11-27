@@ -132,6 +132,7 @@
 			return FALSE
 
 	if(HAS_TRAIT(src, TRAIT_NO_BITE)) //if we CAN'T bite, we CAN'T bite.
+		return FALSE
 
 	victim.onbite(src)
 	// onbite doesn't directly apply the attack delay so we do it here
