@@ -52,6 +52,9 @@
 		),
 		"Set 5" = list(
 			STATS_VOYEURS = list("name" = "Voyeurs:", "points" = 5, "capacity" = 50),
+		),
+		"Set 6" = list(
+			STATS_STARGAZERS = list("name" = "Stargazing total:", "points" = 5, "capacity" = 50),
 		)
 	)
 
@@ -76,7 +79,7 @@
 			STATS_THRILLSEEKERS = list("name" = "Thrillseekers:", "points" = 5, "capacity" = 50)
 		),
 		"Set 6" = list(
-			STATS_BOUNTY_TOTAL_CLAIMED = list("name" = "Claimed bounties:", "points" = 0.1, "capacity" = 50), //ravox stands for justice, not order.
+			STATS_BOUNTY_TOTAL_CLAIMED = list("name" = "Claimed bounties:", "points" = 0.025, "capacity" = 50), //ravox stands for justice, not order.
 		)
 	)
 

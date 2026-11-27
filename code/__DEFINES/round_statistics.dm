@@ -162,6 +162,7 @@
 #define STATS_BOOKS_BURNED "books_burned"
 #define STATS_SKILLS_DREAMED "skills_dreamed"
 #define STATS_VOYEURS "voyeurs"
+#define STATS_STARGAZERS "stargazers"
 
 //Necra
 #define STATS_SKELETONS_KILLED "skeletons_killed"
