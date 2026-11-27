@@ -20,6 +20,7 @@
 	var/datum/steward_ledger_panel/ledger_panel
 	var/list/petition_view = list()
 	var/list/caravan_view = list()
+	var/list/caravan_sell = list()
 
 /obj/structure/roguemachine/steward/Initialize(mapload)
 	. = ..()

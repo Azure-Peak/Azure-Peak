@@ -6,8 +6,10 @@
 	var/request_finished = FALSE
 	var/offer_good_id
 	var/offer_units = 0
+	var/sell_offer = FALSE
 	var/tribute_region_id
 	var/list/tribute_units
+	var/sell_tribute = FALSE
 	var/return_at = 0
 
 /datum/controller/subsystem/economy/proc/caravans_home()
@@ -133,7 +135,7 @@
 		total += D.market_ask(plan[good_id])
 	return mammon_round(total)
 
-/datum/controller/subsystem/economy/proc/send_caravan(mob/user, route, datum/standing_order/request, datum/region_offer/offer, datum/economic_region/tribute_region, fill = FALSE)
+/datum/controller/subsystem/economy/proc/send_caravan(mob/user, route, datum/standing_order/request, datum/region_offer/offer, datum/economic_region/tribute_region, fill = FALSE, sell_offer = FALSE, sell_tribute = FALSE)
 	var/blocker = caravan_send_blocker(route, request, offer, tribute_region)
 	if(blocker)
 		if(user)
@@ -180,10 +182,12 @@
 	if(offer)
 		trip.offer_good_id = offer.good_id
 		trip.offer_units = offer_units
+		trip.sell_offer = sell_offer
 		GLOB.region_offer_pool -= offer
 	if(tribute_region)
 		trip.tribute_region_id = tribute_region.region_id
 		trip.tribute_units = tribute_region.take_tribute()
+		trip.sell_tribute = sell_tribute
 	caravan_trips += trip
 	caravans_used_home = max(0, caravans_used_home - 1)
 	var/remembered = remembered_caravans_left > 0
@@ -192,7 +196,7 @@
 		trip.return_at = world.time + CARAVAN_REMEMBERED_TIME
 		addtimer(CALLBACK(src, PROC_REF(return_remembered_caravan), trip), CARAVAN_REMEMBERED_TIME)
 	SStreasury.dirty_market_view()
-	log_game("CARAVAN sent on [get_route_name(route)] by [user ? key_name(user) : "system"][remembered ? " (remembered)" : ""]: request [trip.request_name || "none"], offer [trip.offer_good_id || "none"], tribute [trip.tribute_region_id || "none"]")
+	log_game("CARAVAN sent on [get_route_name(route)] by [user ? key_name(user) : "system"][remembered ? " (remembered)" : ""]: request [trip.request_name || "none"], offer [trip.offer_good_id || "none"][trip.sell_offer ? " (sell)" : ""], tribute [trip.tribute_region_id || "none"][trip.sell_tribute ? " (sell)" : ""]")
 	if(user)
 		if(remembered)
 			to_chat(user, span_notice("You remember sending a caravan to [get_route_name(route)] before the start of the week."))
@@ -237,9 +241,29 @@
 			record_round_statistic(STATS_STANDING_ORDERS_FULFILLED, 1)
 	if(trip.offer_good_id)
 		deliver_offer(trip.offer_good_id, trip.offer_units)
+		if(trip.sell_offer)
+			var/list/offer_units = list()
+			offer_units[trip.offer_good_id] = trip.offer_units
+			sell_caravan_goods(offer_units)
 	if(trip.tribute_region_id)
 		var/datum/economic_region/tribute_region = GLOB.economic_regions[trip.tribute_region_id]
-		tribute_region?.deliver_tribute(trip.tribute_units)
+		if(tribute_region)
+			tribute_region.deliver_tribute(trip.tribute_units)
+			if(trip.sell_tribute)
+				sell_caravan_goods(trip.tribute_units)
+
+/datum/controller/subsystem/economy/proc/sell_caravan_goods(list/units)
+	if(SStreasury.is_in_receivership())
+		return
+	for(var/good_id in units)
+		var/datum/roguestock/D = find_stockpile_by_trade_good(good_id)
+		if(!D || D.market_never_supplies)
+			continue
+		var/quantity = min(units[good_id], D.royal_stock)
+		if(quantity <= 0)
+			continue
+		var/revenue = release_to_market(D, quantity, "Caravan Sale: [quantity] [D.name]")
+		log_game("CARAVAN SALE: [quantity] [D.name] (revenue [revenue]m)")
 
 /datum/controller/subsystem/economy/proc/restock_crown_imports()
 	for(var/datum/crown_import/D as anything in GLOB.crown_imports)

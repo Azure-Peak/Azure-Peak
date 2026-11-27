@@ -161,6 +161,11 @@ export const CaravansView = (props: { data: Data }) => {
   const goodName: Namer = (id) => data.good_catalog[id]?.name ?? id;
   const regionName: Namer = (id) => data.region_catalog[id]?.name ?? id;
   const sequestered = !!data.sequestration?.active;
+  const sellOffer = !!data.caravan_sell?.offer && !sequestered;
+  const sellTribute = !!data.caravan_sell?.tribute && !sequestered;
+  const sequesteredNote = sequestered
+    ? 'Trade controls are locked under sequestration.'
+    : '';
 
   const routeOfRegion: Record<string, string> = {};
   for (const r of routes) {
@@ -201,7 +206,7 @@ export const CaravansView = (props: { data: Data }) => {
     ? reckonRequest(requestQuote, !!fillByRef[requestQuote.ref], sequestered)
     : null;
   const offerNet = selectedOffer
-    ? offerQuote && !offerQuote.market_closed
+    ? sellOffer && offerQuote && !offerQuote.market_closed
       ? offerQuote.sale_total - selectedOffer.total_price
       : -selectedOffer.total_price
     : 0;
@@ -209,7 +214,8 @@ export const CaravansView = (props: { data: Data }) => {
     selectedTribute && data.caravan_quote?.tribute?.region_id === selectedTribute
       ? data.caravan_quote.tribute
       : null;
-  const tributeResale = tributeQuote ? tributeQuote.sale_total : 0;
+  const tributeResale =
+    sellTribute && tributeQuote ? tributeQuote.sale_total : 0;
 
   const anyPick = !!(selectedRequest || selectedOffer || selectedTribute);
   const nothingToDeliver = !!reckon && reckon.delivered === 0;
@@ -290,8 +296,9 @@ export const CaravansView = (props: { data: Data }) => {
             &middot; <span style={{ color: INK }}>{trip.route}:</span>{' '}
             {[
               trip.request,
-              trip.offer,
-              trip.tribute && `${trip.tribute} tribute`,
+              trip.offer && `${trip.offer}${trip.sell_offer ? ' to Market' : ''}`,
+              trip.tribute &&
+                `${trip.tribute} tribute${trip.sell_tribute ? ' to Market' : ''}`,
             ]
               .filter(Boolean)
               .join(' · ')}
@@ -392,38 +399,84 @@ export const CaravansView = (props: { data: Data }) => {
             offer={selectedOffer}
             quote={offerQuote}
             net={offerNet}
+            sell={sellOffer}
+            lockNote={sequesteredNote}
             goodName={goodName}
             regionName={regionName}
+            onToggleSell={() => act('caravan_sell_toggle', { kind: 'offer' })}
           />
         </div>
         <div
           style={{ display: 'flex', alignItems: 'center', gap: '12px', minWidth: 0 }}
         >
-          <span style={labelStyle}>Tribute</span>
-          <span
+          <div
             style={{
-              ...ellipsisCellStyle,
-              color: selectedTribute ? INK : INK_FAINT,
+              flex: '1 1 auto',
+              minWidth: 0,
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '2px',
             }}
           >
-            {selectedTribute
-              ? `${regionName(selectedTribute)} · ${tributeText(data.region_caravan[selectedTribute], goodName)}`
-              : 'None'}
-          </span>
-          {tributeResale > 0 && (
-            <span
-              style={{ flex: '0 0 auto', fontSize: FONT_SMALL, color: INK_SOFT }}
+            <div
+              style={{ display: 'flex', alignItems: 'center', gap: '12px', minWidth: 0 }}
             >
-              Resale{' '}
-              <span style={{ color: SEAL_GREEN }}>+{mammon(tributeResale)}</span>
-            </span>
-          )}
-          <span style={{ flex: '0 0 auto', color: INK_SOFT }}>
-            Projected net{' '}
-            <b style={{ color: anyPick ? signColor(projected) : INK_SOFT }}>
-              {anyPick ? signed(projected) : '-'}
-            </b>
-          </span>
+              <span style={labelStyle}>Tribute</span>
+              <span
+                style={{
+                  ...ellipsisCellStyle,
+                  color: selectedTribute ? INK : INK_FAINT,
+                }}
+                title={
+                  selectedTribute
+                    ? tributeText(data.region_caravan[selectedTribute], goodName)
+                    : undefined
+                }
+              >
+                {selectedTribute
+                  ? `${regionName(selectedTribute)} · ${tributeText(data.region_caravan[selectedTribute], goodName)}`
+                  : 'None'}
+              </span>
+              {selectedTribute && (
+                <FillToggle
+                  on={sellTribute}
+                  disabled={sequestered}
+                  note={sequesteredNote}
+                  label="Sell on arrival"
+                  onToggle={() => act('caravan_sell_toggle', { kind: 'tribute' })}
+                />
+              )}
+            </div>
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'flex-end',
+                gap: '16px',
+                minWidth: 0,
+                whiteSpace: 'nowrap',
+              }}
+            >
+              {selectedTribute && (
+                <span style={{ color: INK_SOFT }}>
+                  Tribute resale{' '}
+                  {tributeResale > 0 ? (
+                    <span style={{ color: SEAL_GREEN }}>
+                      +{mammon(tributeResale)}
+                    </span>
+                  ) : (
+                    <span style={{ color: INK_FAINT }}>-</span>
+                  )}
+                </span>
+              )}
+              <span style={{ color: INK_SOFT }}>
+                Projected net{' '}
+                <b style={{ color: anyPick ? signColor(projected) : INK_SOFT }}>
+                  {anyPick ? signed(projected) : '-'}
+                </b>
+              </span>
+            </div>
+          </div>
           <button
             type="button"
             disabled={!anyPick}
@@ -931,6 +984,7 @@ const RequestPanel = (props: {
             on={reckon.fillOn}
             disabled={!reckon.canFill}
             note={reckon.toggleNote}
+            label="Fill partial from Market"
             onToggle={props.onToggleFill}
           />
         )}
@@ -972,6 +1026,7 @@ const FillToggle = (props: {
   on: boolean;
   disabled: boolean;
   note: string;
+  label: string;
   onToggle: () => void;
 }) => (
   <button
@@ -1018,7 +1073,7 @@ const FillToggle = (props: {
         }}
       />
     </span>
-    Fill partial from Market
+    {props.label}
   </button>
 );
 
@@ -1026,8 +1081,11 @@ const OfferPanel = (props: {
   offer: ActiveOffer | undefined;
   quote: OfferQuote | null;
   net: number;
+  sell: boolean;
+  lockNote: string;
   goodName: Namer;
   regionName: Namer;
+  onToggleSell: () => void;
 }) => {
   const { offer, quote } = props;
   if (!offer) {
@@ -1057,7 +1115,8 @@ const OfferPanel = (props: {
     : `Market bid ${priceRange(quote.bid_first, quote.bid_last, 'falling to')}${
         quote.bid_first !== quote.bid_last ? ' as the stock fills' : ' each'
       }`;
-  const parts = quote.market_closed
+  const selling = props.sell && !quote.market_closed;
+  const parts = !selling
     ? [
         {
           label: 'Cost',
@@ -1089,6 +1148,15 @@ const OfferPanel = (props: {
       <span style={lineStyle} title={bidHover}>
         {resaleLine}
       </span>
+      <div style={rowStyle}>
+        <FillToggle
+          on={selling}
+          disabled={quote.market_closed || !!props.lockNote}
+          note={quote.market_closed ? 'The market is closed.' : props.lockNote}
+          label="Sell on arrival"
+          onToggle={props.onToggleSell}
+        />
+      </div>
       <Projection parts={parts} />
     </div>
   );
