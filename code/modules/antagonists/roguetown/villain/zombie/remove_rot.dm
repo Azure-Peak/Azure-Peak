@@ -17,11 +17,15 @@
 		has_rot = check_bodyparts_for_rot(target)
 	else if (target.has_status_effect(/datum/status_effect/zombie_infection))
 		has_rot = TRUE
-	else if(!mind.target && !HAS_TRAIT(target, TRAIT_ZOMBIE_IMMUNE))
+	//handle NPCs
+	else if(!target.mind && !HAS_TRAIT(target, TRAIT_ZOMBIE_IMMUNE))
 		has_rot = TRUE
 
 	// Remove rot component
 	remove_rot_component(target)
+
+	// Handle NPCs
+	handle_deadite_npc_prevention(target)
 
 	// Remove Infected var
 	target.infected = FALSE
@@ -95,3 +99,8 @@
 			H.original_skin_tone = null
 
 	target.update_body()
+
+/proc/handle_deadite_npc_prevention(mob/living/carbon/target)
+	if(!target.mind && !HAS_TRAIT(target, TRAIT_ZOMBIE_IMMUNE))
+		ADD_TRAIT(target, TRAIT_ZOMBIE_IMMUNE, TRAIT_GENERIC) //prevents zombie reanimation on dead NPC corpses that are cured of rot.
+		ADD_TRAIT(target, TRAIT_DNR, TRAIT_GENERIC) //obviously staying down at an examine's glance
