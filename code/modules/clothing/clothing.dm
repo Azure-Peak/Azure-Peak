@@ -253,6 +253,7 @@
 					body_parts_covered &= ~LEG_RIGHT
 				var/obj/item/Sr = new salvage_result(get_turf(src))
 				Sr.color = color
+				Sr.add_seals(get_seals())
 				user.put_in_hands(Sr)
 			else
 				user.visible_message(span_warning("[user] tries and fails to tear [src]."), span_warning("You try and fail to tear [src]."))
@@ -279,6 +280,7 @@
 					body_parts_covered &= ~LEG_LEFT
 				var/obj/item/Sr = new salvage_result(get_turf(src))
 				Sr.color = color
+				Sr.add_seals(get_seals())
 				user.put_in_hands(Sr)
 			else
 				user.visible_message(span_warning("[user] tries and fails to tear [src]."), span_warning("You try and fail to tear [src]."))

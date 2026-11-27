@@ -353,6 +353,30 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 	atc_sealed = from.atc_sealed
 	stockpile_stamped = from.stockpile_stamped
 
+/obj/item/proc/get_seals()
+	. = NONE
+	if(atc_sealed)
+		. |= ITEM_SEAL_ATC
+	if(stockpile_stamped)
+		. |= ITEM_SEAL_STOCKPILE
+
+/obj/item/proc/add_seals(seals)
+	if(seals & ITEM_SEAL_ATC)
+		atc_sealed = TRUE
+	if(seals & ITEM_SEAL_STOCKPILE)
+		stockpile_stamped = TRUE
+
+/obj/item/proc/stockpile_stamp_applies()
+	if(!stockpile_stamped)
+		return FALSE
+	var/good_id = get_trade_good_id()
+	if(!good_id)
+		return FALSE
+	if(SStreasury.stockpile_by_trade_good[good_id])
+		return TRUE
+	var/datum/trade_good/TG = GLOB.trade_goods[good_id]
+	return TG.behavior != TRADE_BEHAVIOR_EQUIPMENT && TG.behavior != TRADE_BEHAVIOR_POTION
+
 /obj/item/proc/update_transform()
 	transform = null
 	if(dropshrink)

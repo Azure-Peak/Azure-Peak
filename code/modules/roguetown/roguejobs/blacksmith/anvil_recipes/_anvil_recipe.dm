@@ -33,13 +33,17 @@
 	var/skip_quality = FALSE
 	var/min_input_quality = null
 	var/result_quality = null
+	var/input_seals = NONE
 
 /datum/anvil_recipe/New(datum/P, ...)
 	parent = P
 	. = ..()
 
 /datum/anvil_recipe/proc/track_input_quality(obj/item/I)
-	if(!istype(I) || !I.has_item_quality)
+	if(!istype(I))
+		return
+	input_seals |= I.get_seals()
+	if(!I.has_item_quality)
 		return
 	if(isnull(min_input_quality) || I.item_quality < min_input_quality)
 		min_input_quality = I.item_quality
@@ -176,6 +180,7 @@
 
 /datum/anvil_recipe/proc/handle_creation(obj/item/I)
 	I.was_crafted = TRUE
+	I.add_seals(input_seals & ITEM_SEALS_SURVIVE_CRAFTING)
 	numberofhits = ceil(numberofhits / num_of_materials) // Divide the hits equally among the number of bars required, rounded up.
 	if(numberofbreakthroughs) // Hitting the bar the perfect way should be rewarding quality-wise
 		numberofhits -= numberofbreakthroughs

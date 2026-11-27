@@ -32,6 +32,7 @@
 
 	var/datum/anvil_recipe/current
 	var/current_queue_id
+	var/current_seals = NONE
 
 	var/hopper_type = /obj/structure/closet/crate/chest/autosmither
 	var/obj/structure/closet/crate/chest/autosmither/hopper
@@ -494,6 +495,7 @@
 /obj/structure/autosmither/proc/clear_current_recipe()
 	current = null
 	current_queue_id = null
+	current_seals = NONE
 	progress = 0
 	needed_progress = initial(needed_progress)
 
@@ -506,6 +508,9 @@
 		if(!(listed_atom.type in material_copy))
 			continue
 		material_copy[listed_atom.type]--
+		if(isitem(listed_atom))
+			var/obj/item/material = listed_atom
+			current_seals |= material.get_seals()
 		qdel(listed_atom)
 		if(material_copy[listed_atom.type] <= 0)
 			material_copy -= listed_atom.type
@@ -521,6 +526,7 @@
 	var/atom/drop_target = get_turf(src)
 	for(var/i in 1 to current.createditem_num)
 		new_item = new current.created_item(drop_target)
+		new_item.add_seals(current_seals & ITEM_SEALS_SURVIVE_CRAFTING)
 		if(new_item.obj_integrity < new_item.max_integrity)
 			new_item.obj_integrity = new_item.max_integrity
 		created_items += new_item
