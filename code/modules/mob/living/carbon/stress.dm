@@ -237,7 +237,6 @@ GLOBAL_LIST_INIT(stress_messages, world.file2list("strings/rt/stress_messages.tx
 			to_chat(src, span_boldred("--PRAY!! WEEP!! ENDURE!!"))
 		else
 			to_chat(src, span_boldred("Deep breaths, deep breaths... I can handle this."))
-		record_round_statistic(STATS_TIMES_ENDVRED)
 		return
 	to_chat(src, span_boldred("I PANIC!!!"))
 	Stun(2 SECONDS)

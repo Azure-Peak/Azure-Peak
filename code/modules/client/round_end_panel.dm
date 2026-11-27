@@ -190,8 +190,8 @@
 	data += "<font color='#ce4646'><span class='bold'>Nobility:</span></font> [GLOB.azure_round_stats[STATS_ALIVE_NOBLES]]<br>"
 	data += "<font color='#556B2F'><span class='bold'>Garrison:</span></font> [GLOB.azure_round_stats[STATS_ALIVE_GARRISON]]<br>"
 	data += "<font color='#DAA520'><span class='bold'>Clergy:</span></font> [GLOB.azure_round_stats[STATS_ALIVE_CLERGY]]<br>"
+	data += "<font color='#cbe1ec'><span class='bold'>Inquisition:</span></font> [GLOB.azure_round_stats[STATS_ALIVE_INQUIS]]<br>"
 	data += "<font color='#D2691E'><span class='bold'>Tradesmen:</span></font> [GLOB.azure_round_stats[STATS_ALIVE_TRADESMEN]]<br>"
-	data += "<font color='#8B4513'><span class='bold'>Humens:</span></font> [GLOB.azure_round_stats[STATS_ALIVE_NORTHERN_HUMANS]]<br>"	//Here to save space, should be other column
 	data += "<font color='#6b89e0'><span class='bold'>Males:</span></font> [GLOB.azure_round_stats[STATS_MALE_POPULATION]]<br>"
 	data += "<font color='#d67daa'><span class='bold'>Females:</span></font> [GLOB.azure_round_stats[STATS_FEMALE_POPULATION]]<br>"
 	data += "<font color='#77d0cd'><span class='bold'>Non-binary:</span></font> [GLOB.azure_round_stats[STATS_OTHER_GENDER]]<br>"
@@ -202,11 +202,11 @@
 
 	// Right column	- Way too many races, so they've been thrown together.
 	data += "<div style='display: table-cell; width: 50%; vertical-align: top; padding: 0 10px;'>"
+	data += "<font color='#8B4513'><span class='bold'>Humens:</span></font> [GLOB.azure_round_stats[STATS_ALIVE_NORTHERN_HUMANS]]<br>"
 	data += "<font color='#808080'><span class='bold'>Dwarves:</span></font> [GLOB.azure_round_stats[STATS_ALIVE_DWARVES]]<br>"
 	data += "<font color='#87CEEB'><span class='bold'>Pure & Half-Elves:</span></font> [GLOB.azure_round_stats[STATS_ALIVE_WOOD_ELVES] + GLOB.azure_round_stats[STATS_ALIVE_SUN_ELVES] + GLOB.azure_round_stats[STATS_ALIVE_HALF_ELVES]]<br>"
 	data += "<font color='#7729af'><span class='bold'>Dark Elves:</span></font> [GLOB.azure_round_stats[STATS_ALIVE_DARK_ELVES]]<br>"
-	data += "<font color='#e7e3d9'><span class='bold'>Aasimars:</span></font> [GLOB.azure_round_stats[STATS_ALIVE_AASIMAR]]<br>"
-	data += "<font color='#DC143C'><span class='bold'>Tieflings:</span></font> [GLOB.azure_round_stats[STATS_ALIVE_TIEFLINGS]]<br>"
+	data += "<font color='#e7e3d9'><span class='bold'>Tieflings & Aasimars:</span></font> [GLOB.azure_round_stats[STATS_ALIVE_AASIMAR]] + [GLOB.azure_round_stats[STATS_ALIVE_TIEFLINGS]]<br>"
 	data += "<font color='#228B22'><span class='bold'>Half-Orcs & Goblins:</span></font> [GLOB.azure_round_stats[STATS_ALIVE_HALF_ORCS] + GLOB.azure_round_stats[STATS_ALIVE_GOBLINS]]<br>"
 	data += "<font color='#CD853F'><span class='bold'>Kobolds & Verminvolk:</span></font> [GLOB.azure_round_stats[STATS_ALIVE_KOBOLDS] + GLOB.azure_round_stats[STATS_ALIVE_VERMINFOLK]]<br>"
 	data += "<font color='#FFD700'><span class='bold'>Zardmen & Dracon:</span></font> [GLOB.azure_round_stats[STATS_ALIVE_LIZARDS] + GLOB.azure_round_stats[STATS_ALIVE_DRACON]]<br>"
@@ -923,10 +923,10 @@
 			if(GLOB.patron_follower_counts[patron] >= psydon_followers)
 				largest_religion = FALSE
 				break
-	var/golgatha_exploded = GLOB.azure_round_stats[STATS_PSYCENSER_EXPLODE] == 0 ? TRUE : FALSE
+	var/golgatha_exploded = GLOB.azure_round_stats[STATS_PSYCENSER_EXPLODE] < 1 ? TRUE : FALSE
 	var/apostasy_followers = GLOB.patron_follower_counts["Godless"] || 0
 	var/psydonite_monarch = GLOB.azure_round_stats[STATS_MONARCH_PATRON] == "Psydon" ? TRUE : FALSE
-	var/psydon_influence = (psydon_followers * 20) + (GLOB.confessors.len * 20) + (GLOB.azure_round_stats[STATS_HUMEN_DEATHS] * -10) + (GLOB.azure_round_stats[STATS_TIMES_WEPT] * 1) + (GLOB.azure_round_stats[STATS_TIMES_ENDVRED] * 1) + (GLOB.azure_round_stats[STATS_DNR_KILLED] * -5) + (psydonite_monarch ? (psydonite_monarch * 500) : -250) + (largest_religion? (largest_religion * 500) : -250) + (GLOB.azure_round_stats[STATS_PSYCROSS_USERS] * 10) + (apostasy_followers * -20) + (GLOB.azure_round_stats[STATS_LUX_HARVESTED] * -50) + (psydonite_user ? 10000 : -10000) + (golgatha_exploded ? 500 : -2500)
+	var/psydon_influence = (psydon_followers * 20) + (GLOB.confessors.len * 20) + (GLOB.azure_round_stats[STATS_HUMEN_DEATHS] * -10) + (GLOB.azure_round_stats[STATS_TIMES_WEPT] * 1) + (GLOB.azure_round_stats[STATS_ALIVE_INQUIS] * 8) + (GLOB.azure_round_stats[STATS_DNR_KILLED] * -5) + (psydonite_monarch ? (psydonite_monarch * 500) : -250) + (largest_religion? (largest_religion * 500) : -250) + (GLOB.azure_round_stats[STATS_PSYCROSS_USERS] * 10) + (apostasy_followers * -20) + (GLOB.azure_round_stats[STATS_LUX_HARVESTED] * -50) + (psydonite_user ? 10000 : -10000) + (golgatha_exploded ? 500 : -2500)
 
 	data += "<div style='width: 42.5%; margin: 0 auto 30px; border: 2px solid #99b2b1; background: #47636d; color: #d0d0d0; max-height: 420px;'>"
 	data += "<div style='text-align: center; font-size: 1.3em; padding: 12px;'><b>PSYDON</b></div>"
@@ -941,7 +941,7 @@
 	data += "Largest faith: [largest_religion ? "YES" : "NO"] ([get_colored_influence_value(largest_religion ? 500 : -250)])<br>"
 	data += "Psydonite monarch: [psydonite_monarch ? "YES" : "NO"] ([get_colored_influence_value((psydonite_monarch ? (psydonite_monarch * 500) : -250))])<br>"
 	data += "Unrevivable Deaths: [GLOB.azure_round_stats[STATS_DNR_KILLED]] ([get_colored_influence_value(GLOB.azure_round_stats[STATS_ZCROSS_USERS] * -5)])<br>"
-	data += "Times endured: [GLOB.azure_round_stats[STATS_TIMES_ENDVRED]] ([get_colored_influence_value(GLOB.azure_round_stats[STATS_TIMES_ENDVRED] * 1)])<br>"
+	data += "Number of Inquisition: [GLOB.azure_round_stats[STATS_ALIVE_INQUIS]] ([get_colored_influence_value(GLOB.azure_round_stats[STATS_ALIVE_INQUIS] * 8)])<br>"
 	data += "</div>"
 
 	data += "<div style='flex: 1; padding-left: 60px;'>"

@@ -142,7 +142,7 @@
 #define STATS_MARQUES_MADE "marques_made"
 #define STATS_DNR_KILLED "unrevivable_deaths"
 #define STATS_TIMES_WEPT "times_wept"
-#define STATS_TIMES_ENDVRED "times_endvred"
+#define STATS_ALIVE_INQUIS "alive_inquisition"
 
 //Astratan
 #define STATS_LAWS_AND_DECREES_MADE "laws_and_decrees_made"
