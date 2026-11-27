@@ -164,6 +164,10 @@
 			var/obj/item/natural/bundle/B = I
 			if(B.stacktype != R.item_type)
 				continue
+			if(R.market_never_buys)
+				if(message)
+					say("The market does not buy [R.name].")
+				return
 			var/bundle_amt = B.amount
 			R.refresh_auto_price()
 			qdel(B)
@@ -185,6 +189,10 @@
 		else if(istype(I,R.item_type))
 			if(!R.check_item(I))
 				continue
+			if(R.market_never_buys)
+				if(message)
+					say("The market does not buy [R.name].")
+				return
 			R.refresh_auto_price()
 			var/list/settlement = R.get_quality_settlement(I, R.market_bid(1))
 			var/amt = settlement["seller_payout"]

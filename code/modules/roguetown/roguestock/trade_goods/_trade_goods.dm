@@ -32,3 +32,18 @@ GLOBAL_LIST_INIT(trade_goods, init_trade_goods())
 			continue
 		result[instance.id] = instance
 	return result
+
+/proc/get_trade_good_id_for_type(path)
+	for(var/id in GLOB.trade_goods)
+		var/datum/trade_good/TG = GLOB.trade_goods[id]
+		if(!TG.item_type)
+			continue
+		if(TG.accept_subtypes ? ispath(path, TG.item_type) : path == TG.item_type)
+			return id
+	return null
+
+/obj/item/proc/get_trade_good_id()
+	return get_trade_good_id_for_type(type)
+
+/obj/item/natural/bundle/get_trade_good_id()
+	return get_trade_good_id_for_type(stacktype)

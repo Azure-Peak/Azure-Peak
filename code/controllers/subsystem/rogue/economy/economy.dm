@@ -520,6 +520,16 @@ SUBSYSTEM_DEF(economy)
 		return null
 	return SStreasury.stockpile_by_trade_good[good_id]
 
+/datum/controller/subsystem/economy/proc/release_to_market(datum/roguestock/D, quantity, ledger_label)
+	D.refresh_auto_price()
+	var/revenue = D.market_bid(quantity)
+	D.royal_stock -= quantity
+	D.market_stock += quantity
+	credit_economic_event_saturation(D.trade_good_id, quantity)
+	SStreasury.dirty_market_view(D)
+	SStreasury.mint(SStreasury.discretionary_fund, revenue, ledger_label, null, LEDGER_CROWN_REV_STOCKPILE_SALES)
+	return revenue
+
 /datum/controller/subsystem/economy/proc/sell_to_market(mob/user, good_id, quantity)
 	var/datum/roguestock/D = find_stockpile_by_trade_good(good_id)
 	if(!D)
@@ -533,13 +543,7 @@ SUBSYSTEM_DEF(economy)
 	quantity = min(round(quantity), TRADE_MAX_BULK_UNITS, D.royal_stock)
 	if(quantity <= 0)
 		return 0
-	D.refresh_auto_price()
-	var/revenue = D.market_bid(quantity)
-	D.royal_stock -= quantity
-	D.market_stock += quantity
-	credit_economic_event_saturation(good_id, quantity)
-	SStreasury.dirty_market_view(D)
-	SStreasury.mint(SStreasury.discretionary_fund, revenue, "Market Sale: [quantity] [D.name] by [user.real_name]", null, LEDGER_CROWN_REV_STOCKPILE_SALES)
+	var/revenue = release_to_market(D, quantity, "Market Sale: [quantity] [D.name] by [user.real_name]")
 	log_game("MARKET SALE by [user.ckey]: [quantity] [D.name] (revenue [revenue]m)")
 	to_chat(user, span_notice("Sold [quantity] [D.name] to the market for [format_mammon(revenue)]m."))
 	return revenue

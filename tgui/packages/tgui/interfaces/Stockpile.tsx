@@ -37,6 +37,7 @@ type StockRow = {
   deposit_price: number;
   royal_amount: number;
   never_supplied: BooleanLike;
+  never_bought: BooleanLike;
   sold_out: BooleanLike;
   next_buy: BuyChange | null;
   next_sell: PriceChange | null;
@@ -201,12 +202,14 @@ const StockRowView = (props: {
               boxSizing: 'border-box',
             }}
             title={
-              row.next_sell
+              !row.never_bought && row.next_sell
                 ? `Next ${row.next_sell.count} at ${formatMammon(row.deposit_price)}m. After that, ${formatMammon(row.next_sell.price)}m.`
                 : undefined
             }
           >
-            Sell {formatMammon(row.deposit_price)}m
+            {row.never_bought
+              ? 'Closed'
+              : `Sell ${formatMammon(row.deposit_price)}m`}
           </span>
         )}
         <button

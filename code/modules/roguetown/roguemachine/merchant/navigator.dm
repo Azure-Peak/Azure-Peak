@@ -349,7 +349,7 @@
 					var/obj/item/IT = I
 					if(IT.is_important)
 						continue
-					if(IT.atc_sealed || IT.stockpile_stamped)
+					if(IT.atc_sealed || IT.stockpile_stamp_applies())
 						continue
 					if(IT.unmintable && !accepts_unmintable)
 						continue
