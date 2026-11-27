@@ -127,6 +127,12 @@
 	if(!can_bite())
 		return FALSE
 
+	if(!get_location_accessible(src, BODY_ZONE_PRECISE_MOUTH, grabs="other"))
+		if(!HAS_TRAIT(src, TRAIT_BITERHELM)) //if we can't bite, we can't bite.
+			return FALSE
+
+	if(HAS_TRAIT(src, TRAIT_NO_BITE)) //if we CAN'T bite, we CAN'T bite.
+
 	victim.onbite(src)
 	// onbite doesn't directly apply the attack delay so we do it here
 	changeNext_move(/datum/intent/bite::clickcd)
