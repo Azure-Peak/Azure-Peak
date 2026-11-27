@@ -101,18 +101,23 @@
 	item_type = /obj/item/natural/silk
 	trade_good_id = TRADE_GOOD_SILK
 
-//natural/hide/cured must be defined/populated in sstreasury before natural/hide, for istype stockpile check to work
 /datum/roguestock/stockpile/cured
 	name = "Cured Leather"
 	desc = "Cured Leather ready to be worked."
 	item_type = /obj/item/natural/hide/cured
 	trade_good_id = TRADE_GOOD_CURED_LEATHER
+	market_never_buys = TRUE // Shut down any cheap hide -> leather exploit
 
 /datum/roguestock/stockpile/hide
 	name = "Hide"
 	desc = "Stripped hide from animals."
 	item_type = /obj/item/natural/hide
 	trade_good_id = TRADE_GOOD_HIDE
+
+/datum/roguestock/stockpile/hide/check_item(obj/item/I)
+	if(istype(I, /obj/item/natural/hide/cured))
+		return FALSE
+	return ..()
 
 /datum/roguestock/stockpile/fur
 	market_target = MARKET_TARGET_MODEST
