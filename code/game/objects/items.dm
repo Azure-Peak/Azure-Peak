@@ -775,9 +775,9 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 			if(!C.body_parts_covered)
 				inspec += "<b>NONE!</b>"
 			else if(!C.body_parts_covered_dynamic)
-				zonelist = body_parts_covered2organ_names(C.body_parts_covered, TRUE)
+				zonelist = body_parts_covered2organ_names(C.body_parts_covered)
 			else
-				zonelist = body_parts_covered2organ_names(C.body_parts_covered_dynamic, TRUE)
+				zonelist = body_parts_covered2organ_names(C.body_parts_covered_dynamic)
 			var/count = 0
 			for(var/zone in zonelist)
 				var/add_divider = TRUE
