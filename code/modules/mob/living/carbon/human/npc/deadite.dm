@@ -106,8 +106,8 @@
 		var/prone_player = victim?.mind && !(victim.mobility_flags & MOBILITY_STAND)
 		if(prone_player && bite.grabbed != victim)
 			qdel(bite) // let go of whoever else we have and go for them
-		// 50% chance to continue biting if already started, unless they're down
-		else if(prone_player || prob(50))
+		// 10% chance to continue biting if already started, unless they're down
+		else if(prone_player || prob(10))
 			bite.bitelimb(src)
 			return TRUE
 		else
@@ -127,9 +127,11 @@
 	if(!can_bite())
 		return FALSE
 
-	if(!get_location_accessible(src, BODY_ZONE_PRECISE_MOUTH, grabs="other"))
-		if(!HAS_TRAIT(src, TRAIT_BITERHELM)) //if we can't bite, we can't bite.
-			return FALSE
+	//in future if we want to make these more fair//
+
+	//if(!get_location_accessible(src, BODY_ZONE_PRECISE_MOUTH, grabs="other"))
+		//if(!HAS_TRAIT(src, TRAIT_BITERHELM)) //if we can't bite, we can't bite.
+			//return FALSE
 
 	if(HAS_TRAIT(src, TRAIT_NO_BITE)) //if we CAN'T bite, we CAN'T bite.
 		return FALSE
