@@ -80,6 +80,9 @@
 		),
 		"Set 6" = list(
 			STATS_BOUNTY_TOTAL_CLAIMED = list("name" = "Claimed bounties:", "points" = 0.025, "capacity" = 50), //ravox stands for justice, not order.
+		),
+		"Set 7" = list(
+			STATS_ALIVE_GARRISON = list("name" = "Alive garrison:", "points" = 0.5, "capacity" = 20), //closest to law
 		)
 	)
 
@@ -272,23 +275,25 @@
 
 	influence_sets = list(
 		"Set 1" = list(
-			STATS_CONSTRUCT_DEATHS = list("name" = "Constructs killed:", "points" = -3.25, "capacity" = -50), //loss of Progress
-			STATS_DEADITES_ALIVE = list("name" = "Sapient Deadites alive:", "points" = 1, "capacity" = 40),
+			STATS_CONSTRUCT_DEATHS = list("name" = "Constructs killed:", "points" = -3.25, "capacity" = -40), //loss of Progress
 		),
 		"Set 2" = list(
-			STATS_DEADITES_WOKEN_UP = list("name" = "Deadites woken up:", "points" = 0.5, "capacity" = 85),
+			STATS_DEADITES_ALIVE = list("name" = "Deadites alive:", "points" = 1, "capacity" = 40),
 		),
 		"Set 3" = list(
-			STATS_GRAVES_ROBBED = list("name" = "Graves robbed:", "points" = 0.75, "capacity" = 40), //not really Progress, but defying the status quo
+			STATS_DEADITES_WOKEN_UP = list("name" = "Deadites woken up:", "points" = 0.5, "capacity" = 85),
 		),
 		"Set 4" = list(
-			STATS_LUX_HARVESTED = list("name" = "Lux Extracted:", "points" = 12, "capacity" = 70),
+			STATS_ZCROSS_USERS = list("name" = "Worn zcrosses:", "points" = 0.7, "capacity" = 40), //UP THE Z
 		),
 		"Set 5" = list(
-			STATS_TORTURES = list("name" = "Tortures performed:", "points" = 5.25, "capacity" = 70),
+			STATS_LUX_HARVESTED = list("name" = "Lux Extracted:", "points" = 12, "capacity" = 70),
 		),
 		"Set 6" = list(
-			STATS_BOOKS_BURNED = list("name" = "Books burned:", "points" = 5, "capacity" = 50), //We actually gain influence from it
+			STATS_TORTURES = list("name" = "Tortures performed:", "points" = 5.25, "capacity" = 70),
+		),
+		"Set 7" = list(
+			STATS_ZIZO_SAID = list("name" = "Zizo spoken:", "points" = 0.5, "capacity" = 40), //SAY HER NAME
 		)
 	)
 
@@ -366,9 +371,9 @@
 			STATS_INDEBTED = list("name"= "Number of indebted people:", "points" = 5, "capacity" = 30),
 		),
 		"Set 6" = list(
-			STATS_LOCKS_PICKED = list("name" = "Locks picked:", "points" = 3.75, "capacity" = 80),
+			STATS_LOCKS_PICKED = list("name" = "Locks picked:", "points" = 2.75, "capacity" = 80),
 		),
 		"Set 7" = list(
-			STATS_TAXES_EVADED = list("name" = "Taxes evaded:", "points" = 0.15, "capacity" = 50), //free market
+			STATS_TAXES_EVADED = list("name" = "Taxes evaded:", "points" = 0.15, "capacity" = 70), //free market
 		)
 	)

@@ -1850,6 +1850,7 @@ SUBSYSTEM_DEF(gamemode)
 	var/list/statistics_to_clear = list(
 		STATS_TOTAL_POPULATION,
 		STATS_PSYCROSS_USERS,
+		STATS_ZCROSS_USERS,
 		STATS_ALIVE_NOBLES,
 		STATS_ALIVE_GARRISON,
 		STATS_ALIVE_CLERGY,
@@ -1945,8 +1946,12 @@ SUBSYSTEM_DEF(gamemode)
 			var/mob/living/carbon/human/human_mob = client.mob
 			record_round_statistic(STATS_TOTAL_POPULATION)
 			for(var/obj/item/clothing/neck/current_item in human_mob.get_equipped_items(TRUE))
-				if(current_item.type in list(/obj/item/clothing/neck/roguetown/psicross, /obj/item/clothing/neck/roguetown/psicross/wood, /obj/item/clothing/neck/roguetown/psicross/aalloy, /obj/item/clothing/neck/roguetown/psicross/silver,	/obj/item/clothing/neck/roguetown/psicross/g))
+				if(current_item.type in list(/obj/item/clothing/neck/roguetown/psicross, /obj/item/clothing/neck/roguetown/psicross/wood, /obj/item/clothing/neck/roguetown/psicross/aalloy, /obj/item/clothing/neck/roguetown/psicross/paalloy, /obj/item/clothing/neck/roguetown/psicross/silver, /obj/item/clothing/neck/roguetown/psicross/silver/naledi, /obj/item/clothing/neck/roguetown/psicross/g))
 					record_round_statistic(STATS_PSYCROSS_USERS)
+					break
+			for(var/obj/item/clothing/neck/current_item in human_mob.get_equipped_items(TRUE))
+				if(current_item.type in list(/obj/item/clothing/neck/roguetown/psicross/inhumen, /obj/item/clothing/neck/roguetown/psicross/inhumen/wood, /obj/item/clothing/neck/roguetown/psicross/inhumen/aalloy, /obj/item/clothing/neck/roguetown/psicross/inhumen/paalloy, /obj/item/clothing/neck/roguetown/psicross/inhumen/g))
+					record_round_statistic(STATS_ZCROSS_USERS)
 					break
 			switch(human_mob.pronouns)
 				if(HE_HIM)

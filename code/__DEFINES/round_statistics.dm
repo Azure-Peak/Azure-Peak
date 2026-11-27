@@ -225,10 +225,11 @@
 
 //Zizo
 #define STATS_CONSTRUCT_DEATHS "construct_deaths"
-#define STATS_ZIZO_PRAISED "zizo_praised"
+#define STATS_ZIZO_SAID "zizo_said"
 #define STATS_DEADITES_WOKEN_UP "deadites_woken_up"
 #define STATS_CLERGY_DEATHS "priest_deaths"
 #define STATS_TORTURES "tortures"
+#define STATS_ZCROSS_USERS "people_wearing_zcross"
 
 //Graggar
 #define STATS_BLOOD_SPILT "blood_spilt"
