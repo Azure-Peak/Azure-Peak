@@ -25,8 +25,12 @@
 		STATS_PRAYERS_MADE = list("name" = "Prayers made:", "points" = 2.25, "capacity" = 65),
 	),
 	"Set 5" = list(
-		STATS_TAXES_COLLECTED = list("name" = "Taxes collected:", "points" = 0.2, "capacity" = 80),
-	))
+		STATS_TAXES_COLLECTED = list("name" = "Taxes collected:", "points" = 0.25, "capacity" = 80),
+	),
+	"Set 6" = list(
+		STATS_TAXES_EVADED = list("name" = "Taxes evaded:", "points" = -0.1, "capacity" = -30),
+	)
+)
 
 /datum/storyteller/noc
 	name = "Noc"
@@ -47,7 +51,7 @@
 		),
 		"Set 5" = list(
 			STATS_VOYEURS = list("name" = "Voyeurs:", "points" = 5, "capacity" = 50),
-		),
+		)
 	)
 
 /datum/storyteller/ravox
@@ -65,7 +69,7 @@
 			STATS_WARCRIES = list("name" = "Warcries made:", "points" = 0.35, "capacity" = 50),
 		),
 		"Set 4" = list(
-			STATS_YIELDS = list("name" = "Yields made:", "points" = -4.25, "capacity" = -40),
+			STATS_YIELDS = list("name" = "Yields made:", "points" = 4.25, "capacity" = 40), //worth something, god of justice
 		),
 		"Set 5" = list(
 			STATS_THRILLSEEKERS = list("name" = "Thrillseekers:", "points" = 5, "capacity" = 50)
@@ -79,16 +83,17 @@
 	influence_sets = list(
 		"Set 1" = list(
 			STATS_FISH_CAUGHT = list("name" = "Fish caught:", "points" = 1.75, "capacity" = 85),
+			STATS_ALIVE_AXIAN = list("name" = "Number of axians:", "points" = 8, "capacity" = 70),
 		),
 		"Set 2" = list(
 			STATS_WATER_CONSUMED = list("name" = "Water consumed:", "points" = 0.014, "capacity" = 90),
 		),
 		"Set 3" = list(
 			STATS_ABYSSOR_REMEMBERED = list("name" = "Abyssor remembered:", "points" = 1.1, "capacity" = 50),
-			STATS_ALIVE_AXIAN = list("name" = "Number of axians:", "points" = 8, "capacity" = 70),
+			STATS_LEECHES_EMBEDDED = list("name" = "Leeches embedded:", "points" = 0.75, "capacity" = 70),
 		),
 		"Set 4" = list(
-			STATS_LEECHES_EMBEDDED = list("name" = "Leeches embedded:", "points" = 0.75, "capacity" = 70),
+			STATS_ASUNDERED_MINDS = list("name" = "Asundered Minds:", "points" = 2, "capacity" = 50),
 		),
 		"Set 5" = list(
 			STATS_PEOPLE_DROWNED = list("name" = "People drowned:", "points" = 12, "capacity" = 75),
@@ -109,6 +114,7 @@
 		),
 		"Set 3" = list(
 			STATS_CRITS_MADE = list("name" = "Crits made:", "points" = 0.26, "capacity" = 90),
+			STATS_LOCKS_PICKED = list("name" = "Locks picked:", "points" = 1.5, "capacity" = 30), //less score, but silver tongues are Xylix's shtick too
 		),
 		"Set 4" = list(
 			STATS_SONGS_PLAYED = list("name" = "Songs played:", "points" = 0.675, "capacity" = 70),
@@ -122,7 +128,7 @@
 
 	influence_sets = list(
 		"Set 1" = list(
-			STATS_DEATHS = list("name" = "Total deaths:", "points" = 1.35, "capacity" = 100),
+			STATS_DEATHS = list("name" = "Total deaths:", "points" = 2.25, "capacity" = 100),
 		),
 		"Set 2" = list(
 			STATS_GRAVES_CONSECRATED = list("name" = "Graves consecrated:", "points" = 6.25, "capacity" = 80),
@@ -209,6 +215,9 @@
 		"Set 5" = list(
 			STATS_MARRIAGES_MADE = list("name" = "Marriages made:", "points" = 20, "capacity" = 80), //Rare so worth a ton.
 		)
+		"Set 6" = list(
+			STATS_YIELDS = list("name" = "Yields made:", "points" = 2, "capacity" = 30), //love wins!
+		),
 	)
 
 /datum/storyteller/dendor
@@ -231,6 +240,9 @@
 		"Set 5" = list(
 			STATS_WEREVOLVES = list("name" = "Number of werevolves:", "points" = 12.5, "capacity" = 65),
 		),
+		"Set 6" = list(
+			STATS_ASUNDERED_MINDS = list("name" = "Asundered Minds:", "points" = 5, "capacity" = 50),
+		)
 	)
 
 // INHUMEN
@@ -241,24 +253,23 @@
 
 	influence_sets = list(
 		"Set 1" = list(
-			STATS_HUMEN_DEATHS = list("name" = "Humen killed:", "points" = 5.5, "capacity" = 80),
-			STATS_CLERGY_DEATHS = list("name" = "Clergy killed:", "points" = 12, "capacity" = 70),
+			STATS_CONSTRUCT_DEATHS = list("name" = "Constructs killed:", "points" = -3.25, "capacity" = -50), //loss of Progress
 		),
 		"Set 2" = list(
-			STATS_DEADITES_WOKEN_UP = list("name" = "Deadites woken up:", "points" = 4, "capacity" = 85),
+			STATS_DEADITES_WOKEN_UP = list("name" = "Deadites woken up:", "points" = 0.5, "capacity" = 85),
 		),
 		"Set 3" = list(
-			STATS_DEADITES_ALIVE = list("name" = "Deadites alive:", "points" = 1, "capacity" = 40),
+			STATS_DEADITES_ALIVE = list("name" = "Sapient Deadites alive:", "points" = 1, "capacity" = 40),
 		),
 		"Set 4" = list(
-			STATS_LUX_HARVESTED = list("name" = "Clergy killed:", "points" = 12, "capacity" = 70),
+			STATS_LUX_HARVESTED = list("name" = "Lux Extracted:", "points" = 12, "capacity" = 70),
 		),
 		"Set 5" = list(
 			STATS_TORTURES = list("name" = "Tortures performed:", "points" = 5.25, "capacity" = 70),
 		),
 		"Set 6" = list(
 			STATS_BOOKS_BURNED = list("name" = "Books burned:", "points" = 5, "capacity" = 50), //We actually gain influence from it
-		),
+		)
 	)
 
 /datum/storyteller/baotha
@@ -266,24 +277,24 @@
 	color_theme = "#9933FF"
 
 	influence_sets = list(
-		"Set 1" = list(
-			STATS_JUNKIES = list("name" = "Number of junkies:", "points" = 9, "capacity" = 70),
+		"Set 1" = list( //alchoholics and junkies
+			STATS_JUNKIES = list("name" = "Number of junkies:", "points" = 9, "capacity" = 60),
+			STATS_ALCOHOLICS = list("name" = "Number of alcoholics:", "points" = 3.25, "capacity" = 50),
 		),
-		"Set 2" = list(
+		"Set 2" = list( //drugs and booze
 			STATS_DRUGS_SNORTED = list("name" = "Drugs snorted:", "points" = 4, "capacity" = 85),
-		),
-		"Set 3" = list(
-			STATS_ALCOHOLICS = list("name" = "Number of alcoholics:", "points" = 3.25, "capacity" = 60),
-		),
-		"Set 4" = list(
 			STATS_ALCOHOL_CONSUMED = list("name" = "Alcohol consumed:", "points" = 0.042, "capacity" = 90),
 		),
-		"Set 5" = list(
+		"Set 3" = list( //tabboos and addictions
+			STATS_SADISTS = list("name" = "Number of sadists:", "points" = 3, "capacity" = 20),
+			STATS_MASOCHISTS = list("name" = "Number of masochists:", "points" = 3, "capacity" = 20),
+		),
+		"Set 4" = list(
 			STATS_NYMPHOMANIACS = list("name" = "Number of nymphomaniacs:", "points" = 6, "capacity" = 30),
 		),
-		"Set 6" = list(
+		"Set 5" = list(	//in the name
 			STATS_PLEASURES = list("name" = "Pleasures had:", "points" = 5, "capacity" = 50),
-		),
+		)
 	)
 
 /datum/storyteller/graggar
@@ -301,10 +312,13 @@
 			STATS_DEATHS = list("name" = "Deaths:", "points" = 5, "capacity" = 115),
 		),
 		"Set 4" = list(
-			STATS_ASSASSINATIONS = list("name" = "Sucessful assassinations:", "points" = 20, "capacity" = 100),
+			STATS_ASSASSINATIONS = list("name" = "Successful assassinations:", "points" = 20, "capacity" = 100),
 		),
 		"Set 5" = list(
 			STATS_PEOPLE_GIBBED = list("name" = "People gibbed:", "points" = 3.5, "capacity" = 55),
+		)
+		"Set 6" = list(
+			STATS_YIELDS = list("name" = "Yields made:", "points" = -4.25, "capacity" = -40), //YIELD? COWARDICE! VICTORY AT ANY COST!
 		)
 	)
 
@@ -314,16 +328,20 @@
 
 	influence_sets = list(
 		"Set 1" = list(
-			STATS_NOBLE_DEATHS = list("name" = "Nobles killed:", "points" = 5.5, "capacity" = 80),
+			STATS_NOBLE_DEATHS = list("name" = "Nobles killed:", "points" = 5.5, "capacity" = 50),
+			STATS_CLERGY_DEATHS = list("name" = "Clergy killed:", "points" = 8, "capacity" = 70),
 		),
 		"Set 2" = list(
 			STATS_SHRINE_VALUE = list("name" = "Value offered to his idol:", "points" = 0.08, "capacity" = 70),
 		),
 		"Set 3" = list(
 			STATS_GREEDY_PEOPLE = list("name" = "Number of greedy people:", "points" = 6.5, "capacity" = 70),
-			STATS_INDEBTED = list("name"= "Number of indebted people:", "points" = 5, "capacity" = 25),
+			STATS_INDEBTED = list("name"= "Number of indebted people:", "points" = 5, "capacity" = 30),
 		),
 		"Set 4" = list(
 			STATS_LOCKS_PICKED = list("name" = "Locks picked:", "points" = 3.75, "capacity" = 80),
+		)
+		"Set 5" = list(
+			STATS_TAXES_EVADED = list("name" = "Taxes evaded:", "points" = 0.15, "capacity" = 50), //free market
 		)
 	)

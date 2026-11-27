@@ -6,6 +6,10 @@
 		noble = TRUE
 	if(HAS_TRAIT(src, TRAIT_DEFILED_NOBLE))
 		noble = FALSE
+	if(HAS_TRAIT(src, TRAIT_DEADITE)) //mindless corpses do not get a claim.
+		noble = FALSE
+	if(!mind) //NPCs do not count
+		false = FALSE
 
 	return noble
 

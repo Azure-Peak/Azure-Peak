@@ -182,6 +182,7 @@
 #define STATS_ANIMALS_TAMED "animals_tamed"
 #define STATS_WEREVOLVES "werevolves"
 #define STATS_FOREST_DEATHS "forest_deaths"
+#define STATS_ASUNDERED_MINDS "asundered_minds"
 
 //Ravox
 #define STATS_COMBAT_SKILLS "combat_skills"
@@ -219,11 +220,11 @@
 #define STATS_MARRIAGES_MADE "marriages_done"
 
 //Zizo
+#define STATS_CONSTRUCT_DEATHS "construct_deaths"
 #define STATS_ZIZO_PRAISED "zizo_praised"
 #define STATS_DEADITES_WOKEN_UP "deadites_woken_up"
 #define STATS_CLERGY_DEATHS "priest_deaths"
 #define STATS_TORTURES "tortures"
-#define STATS_SADISTS "sadists"
 
 //Graggar
 #define STATS_BLOOD_SPILT "blood_spilt"
@@ -235,6 +236,8 @@
 //Baotha
 #define STATS_DRUGS_SNORTED "drugs_snorted"
 #define STATS_ALCOHOL_CONSUMED "alcohol_consumed"
+#define STATS_SADISTS "sadists"
+#define STATS_MASOCHISTS "mascochists"
 #define STATS_PLEASURES "pleasures"
 #define STATS_ALCOHOLICS "alcoholics"
 #define STATS_JUNKIES "junkies"
@@ -242,7 +245,7 @@
 
 //Matthios
 #define STATS_SHRINE_VALUE "shrine_value"
-#define STATS_GREEDY_PEOPLE "tomb_deaths"
+#define STATS_GREEDY_PEOPLE "greedy_people"
 #define STATS_LOCKS_PICKED "locks_picked"
 #define STATS_BANDITS "bandits"
 #define STATS_INDEBTED "indebt_people"

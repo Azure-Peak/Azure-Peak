@@ -1865,6 +1865,9 @@ SUBSYSTEM_DEF(gamemode)
 		STATS_JUNKIES,
 		STATS_VOYEURS,
 		STATS_NYMPHOMANIACS,
+		STATS_SADISTS,
+		STATS_MASOCHISTS,
+		STATS_ASUNDERED_MINDS,
 		STATS_INDEBTED,
 		STATS_THRILLSEEKERS,
 		STATS_GREEDY_PEOPLE,
@@ -1973,6 +1976,10 @@ SUBSYSTEM_DEF(gamemode)
 				record_round_statistic(STATS_JUNKIES)
 			if(human_mob.has_flaw(/datum/charflaw/addiction/lovefiend))
 				record_round_statistic(STATS_NYMPHOMANIACS)
+			if(human_mob.has_flaw(/datum/charflaw/addiction/sadist))
+				record_round_statistic(STATS_SADISTS)
+			if(human_mob.has_flaw(/datum/charflaw/addiction/masochist))
+				record_round_statistic(STATS_MASOCHISTS)
 			if(human_mob.has_flaw(/datum/charflaw/indebted))
 				record_round_statistic(STATS_INDEBTED)
 			if(human_mob.has_flaw(/datum/charflaw/greedy))
@@ -1981,6 +1988,8 @@ SUBSYSTEM_DEF(gamemode)
 				record_round_statistic(STATS_CLINGY_PEOPLE)
 			if(human_mob.has_flaw(/datum/charflaw/addiction/thrillseeker))
 				record_round_statistic(STATS_THRILLSEEKERS)
+			if(human_mob.has_flaw(/datum/charflaw/mind_broken))
+				record_round_statistic(STATS_ASUNDERED_MINDS)
 			if(human_mob.has_flaw(/datum/charflaw/addiction/voyeur))
 				record_round_statistic(STATS_VOYEURS)
 			if(HAS_TRAIT(human_mob, TRAIT_BEAUTIFUL))

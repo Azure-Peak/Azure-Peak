@@ -105,6 +105,7 @@
 	current_charges--
 	SSjob.EquipRank(target, "Greater Skeleton", TRUE)
 	target.visible_message(span_warning("[target]'s eyes light up with an eerie glow!"))
+	record_round_statistic(STATS_DEADITES_WOKEN_UP)
 	var/datum/weakref/W = WEAKREF(target)
 	active_skeletons += W
 
