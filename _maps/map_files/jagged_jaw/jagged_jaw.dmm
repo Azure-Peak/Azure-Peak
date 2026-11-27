@@ -154713,10 +154713,6 @@
 	},
 /turf/open/floor/rogue/carpet,
 /area/rogue/indoors/town/magician/grim)
-"sDF" = (
-/obj/structure/roguemachine/stockpile,
-/turf/open/floor/rogue/wood,
-/area/rogue/indoors/town/shop)
 "sDG" = (
 /obj/effect/decal/edge_corner{
 	color = "#3f3f3f";
@@ -507948,7 +507944,7 @@ wma
 vwj
 jcb
 uFN
-sDF
+sDp
 wOL
 qPC
 pmL

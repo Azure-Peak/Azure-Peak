@@ -141,7 +141,14 @@ export type CaravanTrip = {
   request: string | null;
   offer: string | null;
   tribute: string | null;
+  sell_offer: BooleanLike;
+  sell_tribute: BooleanLike;
   return_seconds: number | null;
+};
+
+export type CaravanSell = {
+  offer: BooleanLike;
+  tribute: BooleanLike;
 };
 
 export type CaravanState = {
@@ -268,6 +275,7 @@ export type Data = StaticData & {
   commissions: CommissionState;
   caravans: CaravanState;
   caravan_quote: CaravanQuote;
+  caravan_sell: CaravanSell;
   market_dae: MarketDaeState;
   market_rows: MarketRow[];
   petition_categories: PetitionCategory[];

@@ -2219,6 +2219,14 @@
 	icon = 'icons/clothing/donor_clothes.dmi'
 	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes64.dmi'
 
+/obj/item/clothing/mask/rogue/facemask/steel/kazengun/full/ryan
+	name = "snouted ogre mask"
+	desc = "\"Fortune is an ugly, two-faced goddess.\""
+	icon = 'icons/clothing/donor_clothes.dmi'
+	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
+	icon_state = "ryan_ogremask"
+	item_state = "ryan_ogremask"
+
 /obj/item/rogueweapon/example/ryan_naginata
 	name = "+5 common profane naginata"
 	desc = "A traditional Kazengunite polearm, tarnished with profane iconography. A caged slave of a weapon under new management."

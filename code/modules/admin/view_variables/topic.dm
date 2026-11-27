@@ -31,6 +31,7 @@
 			return
 
 		message_admins("Admin [key_name_admin(usr)] renamed [key_name_admin(M)] to [new_name].")
+		M.log_message("had their name changed from [M.real_name] to [new_name] by [key_name(usr)]", LOG_ADMIN)
 		M.fully_replace_character_name(M.real_name,new_name)
 		vv_update_display(M, "name", new_name)
 		vv_update_display(M, "real_name", M.real_name || "No real name")

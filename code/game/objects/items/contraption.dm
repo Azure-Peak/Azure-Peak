@@ -500,7 +500,8 @@
 				return
 
 			if(item.fiber_salvage) //We're getting fiber as base if fiber is present on the item
-				new /obj/item/natural/fibers(get_turf(item))
+				var/obj/item/natural/fibers/F = new(get_turf(item))
+				F.add_seals(item.get_seals())
 			if(istype(item, /obj/item/storage))
 				var/obj/item/storage/bag = item
 				bag.emptyStorage()
@@ -515,6 +516,7 @@
 			for(var/i = 1; i <= item.salvage_amount; i++) // We are spawning salvage result for the salvage amount minus the torn sleves!
 				var/obj/item/Sr = new item.salvage_result(get_turf(item))
 				Sr.color = item.color
+				Sr.add_seals(item.get_seals())
 			user.visible_message(span_notice("[user] salvages [item] into usable materials."))
 			playsound(item, 'sound/items/flint.ogg', 100, TRUE)
 			qdel(item)

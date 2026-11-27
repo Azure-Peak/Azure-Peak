@@ -124,6 +124,8 @@ SUBSYSTEM_DEF(events)
 		to_chat(src, span_warning("No storyteller vote log found."))
 		return
 
+	log_admin("[key_name(usr)] viewed the storyteller vote log")
+
 	var/file_text = file2text(file_path)
 	var/list/file_data = safe_json_decode(file_text)
 	if(!islist(file_data))

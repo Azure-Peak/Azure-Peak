@@ -24,7 +24,7 @@
 /datum/antagonist/vampire/lord/on_gain()
 	. = ..()
 	addtimer(CALLBACK(owner.current, TYPE_PROC_REF(/mob/living/carbon/human, choose_name_popup), "[name]"), 5 SECONDS)
-	apply_virtue(owner.current, new /datum/virtue/combat/guarded) //HIGHLY EXPERIMENTAL, let them blend in and look weaker than they are.
+	apply_virtue(owner.current, new /datum/virtue/combat/guarded, VIRTUE_SOURCE_ANTAG) //HIGHLY EXPERIMENTAL, let them blend in and look weaker than they are.
 
 	greet()
 

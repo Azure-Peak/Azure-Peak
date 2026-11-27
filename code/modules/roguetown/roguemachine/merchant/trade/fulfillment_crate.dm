@@ -255,7 +255,7 @@
 		if(message)
 			to_chat(user, span_warning("[I] bears an ATC seal. Foreign captains won't buy ATC stock back."))
 		return
-	if(I.stockpile_stamped)
+	if(I.stockpile_stamp_applies())
 		if(message)
 			to_chat(user, span_warning("[I] has  a stockpile stamp. The law against cabotage bars its re-export."))
 		return
@@ -325,7 +325,7 @@
 			B.update_icon()
 		settle_payout(line["offered_price"] * take, user, ship, line["good_name"], take, message, sound, tally)
 		return
-	var/good_id = identify_trade_good(I)
+	var/good_id = I.get_trade_good_id()
 	if(!good_id)
 		if(message)
 			to_chat(user, span_warning("[I] is not something a foreign vessel would buy in bulk."))
@@ -459,15 +459,6 @@
 	var/breakdown = "[qty] [good_name] for [ship.ship_name]: gross [gross]m, Crown [format_mammon(total_duty)]m, Merchant [format_mammon(levy_remitted)]m[kin_bonus > 0 ? ", Kinship +[kin_bonus]m" : ""][quality_str]"
 	if(producer_payout > 0)
 		SStreasury.give_money_account(producer_payout, user, breakdown, mint_new = TRUE, mint_label = ship ? ship.ship_name : "foreign vessels")
-
-/obj/structure/roguemachine/ship_fulfillment/proc/identify_trade_good(obj/item/P)
-	for(var/id in GLOB.trade_goods)
-		var/datum/trade_good/TG = GLOB.trade_goods[id]
-		if(!TG.item_type)
-			continue
-		if(TG.accept_subtypes ? istype(P, TG.item_type) : P.type == TG.item_type)
-			return id
-	return null
 
 /obj/structure/roguemachine/ship_fulfillment/proc/identify_trade_good_for_type(item_type)
 	for(var/id in GLOB.trade_goods)

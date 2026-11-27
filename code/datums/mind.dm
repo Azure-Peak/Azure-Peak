@@ -751,12 +751,22 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 		var/new_role = input(usr, "Select new role", "Assigned role", assigned_role) as null|anything in sortList(get_all_jobs())
 		if (!new_role)
 			return
+		message_admins(span_danger("[key_name_admin(usr)] changed the assigned role of [key_name_admin(src)] from [assigned_role] to [new_role]."))
+		if(current)
+			current.log_message("had their assigned role changed from [assigned_role] to [new_role] by [key_name(usr)]", LOG_ADMIN)
+		else
+			log_admin("[key_name(usr)] changed the assigned role of [key_name(src)] from [assigned_role] to [new_role].")
 		assigned_role = new_role
 
 	else if (href_list["memory_edit"])
 		var/new_memo = copytext(sanitize(input(usr, "Write new memory", "Memory", memory) as null|message),1,MAX_MESSAGE_LEN)
 		if (isnull(new_memo))
 			return
+		message_admins(span_danger("[key_name_admin(usr)] edited the memory of [key_name_admin(src)]."))
+		if(current)
+			current.log_message("had their memory edited by [key_name(usr)]: [new_memo]", LOG_ADMIN)
+		else
+			log_admin("[key_name(usr)] edited the memory of [key_name(src)]: [new_memo]")
 		memory = new_memo
 
 	else if (href_list["obj_edit"] || href_list["obj_add"])
@@ -860,6 +870,11 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 	else if (href_list["common"])
 		switch(href_list["common"])
 			if("undress")
+				message_admins(span_danger("[key_name_admin(usr)] undressed [key_name_admin(src)]."))
+				if(current)
+					current.log_message("had all their items dropped by [key_name(usr)]", LOG_ADMIN)
+				else
+					log_admin("[key_name(usr)] undressed [key_name(src)].")
 				for(var/obj/item/W in current)
 					current.dropItemToGround(W, TRUE) //The 1 forces all items to drop, since this is an admin undress.
 	else if (href_list["obj_announce"])

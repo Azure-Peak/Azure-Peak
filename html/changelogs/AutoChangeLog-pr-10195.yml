@@ -1,0 +1,4 @@
+author: "dopamiin0"
+delete-after: True
+changes:
+  - bugfix: "barter's skill scaling works now"

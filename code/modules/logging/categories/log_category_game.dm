@@ -62,3 +62,7 @@
 	config_flag = /datum/config_entry/flag/log_game
 	master_category = /datum/log_category/game
 
+/datum/log_category/subtle
+	category = LOG_CATEGORY_SUBTLE
+	config_flag = /datum/config_entry/flag/log_emote
+	secret = TRUE

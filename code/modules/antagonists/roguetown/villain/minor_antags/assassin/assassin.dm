@@ -62,7 +62,7 @@
 	A.Grant(owner.current)
 
 	// temporary to see how this goes. i think it might help w/ how they need to toggle a lot of their features.
-	apply_virtue(owner.current, new /datum/virtue/combat/guarded)
+	apply_virtue(owner.current, new /datum/virtue/combat/guarded, VIRTUE_SOURCE_ANTAG)
 	// prevents ear-explosions & THE TEXTWALL. hopefully.
 	addtimer(CALLBACK(src, PROC_REF(greet)), 12 SECONDS)
 

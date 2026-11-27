@@ -46,6 +46,7 @@
 	experimental_inhand = FALSE
 	grid_height = 64
 	grid_width = 32
+	possible_item_intents = list(/datum/intent/use, /datum/intent/food)
 
 /obj/item/waxputty/examine(mob/user)
 	. = ..()
@@ -76,6 +77,15 @@
 	icon_state = "waxputty_useless"
 
 /obj/item/waxputty/attack(mob/living/target, mob/living/user)
+	if (istype(user.used_intent, /datum/intent/food) && target == user)
+		user.visible_message(span_notice("[user] begins nibbling on [src]."), span_notice("I begin nibbling on [src]."))
+		if(!do_after(user, 2 SECONDS, target = src))
+			return
+		playsound(user.loc, 'sound/misc/eat.ogg', rand(30,60), TRUE)
+		user.visible_message(span_notice("[user] finishes eating [src]."), span_notice("I finish eating [src]. Yum!"))
+		user.reagents.add_reagent(/datum/reagent/consumable/nutriment, NUTRITION_QUARTER_MEAL)
+		qdel(src)
+
 	if(!ishuman(target) || target == user)
 		. = ..()
 		return
