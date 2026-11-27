@@ -309,7 +309,7 @@
 			STATS_ORGANS_EATEN = list("name" = "Organs eaten:", "points" = 5, "capacity" = 70),
 		),
 		"Set 3" = list(
-			STATS_DEATHS = list("name" = "Deaths:", "points" = 5, "capacity" = 115),
+			STATS_DEATHS = list("name" = "Deaths:", "points" = 6, "capacity" = 115),
 		),
 		"Set 4" = list(
 			STATS_ASSASSINATIONS = list("name" = "Successful assassinations:", "points" = 20, "capacity" = 100),
@@ -318,7 +318,7 @@
 			STATS_PEOPLE_GIBBED = list("name" = "People gibbed:", "points" = 3.5, "capacity" = 55),
 		),
 		"Set 6" = list(
-			STATS_YIELDS = list("name" = "Yields made:", "points" = -4.25, "capacity" = -40), //YIELD? COWARDICE! VICTORY AT ANY COST!
+			STATS_YIELDS = list("name" = "Yields made:", "points" = -3.25, "capacity" = -40), //YIELD? COWARDICE! VICTORY AT ANY COST!
 		)
 	)
 
@@ -340,7 +340,7 @@
 		),
 		"Set 4" = list(
 			STATS_LOCKS_PICKED = list("name" = "Locks picked:", "points" = 3.75, "capacity" = 80),
-		)
+		),
 		"Set 5" = list(
 			STATS_TAXES_EVADED = list("name" = "Taxes evaded:", "points" = 0.15, "capacity" = 50), //free market
 		)
