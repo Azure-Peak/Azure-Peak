@@ -295,6 +295,9 @@ GLOBAL_LIST_INIT(zombie_aggro, list(
 	"I feel quite hungry!",
 	"I feel quite hungry!",
 	"I feel quite hungry!",
+	"I feel quite hungry!",
+	"I feel quite hungry!",
+	"I feel quite hungry!",
 	",w Kill...",
 	",w Consume...",
 	",w Cold...",
@@ -337,20 +340,18 @@ GLOBAL_LIST_INIT(zombie_aggro, list(
 	eyes.Insert(src)
 	update_body()
 
-	//Grant undead tongue then force it
+	//Grant undead tongue then force common for our groans
 	src.grant_language(/datum/language/undead) //Now we give you the language.
+	src.grant_language(/datum/language/common) //In case we somehow lack this.
 	var/datum/language_holder/language_holder = src.get_language_holder()
-	language_holder.selected_default_language = /datum/language/undead
+	language_holder.selected_default_language = /datum/language/common
 
 	//claws for unarmed attacking
 	src.base_intents = list(INTENT_HELP, INTENT_DISARM, INTENT_GRAB, /datum/intent/unarmed/claw)
 	update_a_intents()
 
 	//join zombies/undead factions
-	faction += "zombie"
-	faction += "undead"
-	faction -= "neutral"
-	faction -= "station"
+	faction = ("zombie","undead")
 
 	//Give ourselves the deadite voicepack
 	src.dna.species.soundpack_m = GLOB.voice_packs[/datum/voicepack/zombie/m]
@@ -410,4 +411,4 @@ GLOBAL_LIST_INIT(zombie_aggro, list(
 
 	//lastly, nessessity for ALL NPCs -> our examine trait
 	ADD_TRAIT(src, TRAIT_NPC_EXAMINE, TRAIT_GENERIC)
-	SEND_SIGNAL(src, COMSIG_MOB_MODIFY_AGGRO_LINES, GLOB.skeleton_aggro, TRUE)
+	SEND_SIGNAL(src, COMSIG_MOB_MODIFY_AGGRO_LINES, GLOB.zombie_aggro, TRUE)
