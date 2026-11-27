@@ -1,0 +1,4 @@
+author: "BobProductive"
+delete-after: True
+changes:
+  - bugfix: "Flips duelist cape back sprite to make it logical"
