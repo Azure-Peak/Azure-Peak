@@ -1,0 +1,4 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - rscdel: "Remove the stockpile literally next to the Navigator in Merchant's shop on both map because that's just far too ridiculously convenient."
