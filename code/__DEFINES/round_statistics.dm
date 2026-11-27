@@ -188,6 +188,7 @@
 #define STATS_WEREVOLVES "werevolves"
 #define STATS_FOREST_DEATHS "forest_deaths"
 #define STATS_ASUNDERED_MINDS "asundered_minds"
+#define STATS_ANIMALS_DEADITED "animals_deadited"
 
 //Ravox
 #define STATS_COMBAT_SKILLS "combat_skills"
