@@ -281,6 +281,14 @@
 	verbage_simple = "roll"
 	verbage = "rolls"
 
+/datum/crafting_recipe/roguetown/cooking/sigdry/blunt
+	name = "blunt - westleach"
+	result = /obj/item/clothing/mask/cigarette/rollie/blunt
+	reqs = list(
+		/obj/item/reagent_containers/food/snacks/grown/rogue/pipeweeddry = 2,
+		/obj/item/paper = 1,
+		)
+
 /datum/crafting_recipe/roguetown/cooking/rocknutdry
 	name = "zig - rocknut"
 	display_category = ITEM_CAT_FOODSTUFF_PRESERVED

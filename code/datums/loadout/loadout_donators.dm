@@ -1397,6 +1397,10 @@
 	name = "Elixir - Dominion Cestus"
 	path = /obj/item/enchantingkit/dominion_cestus
 
+/datum/loadout_item/donator/universal/noblezigbox
+	name = "Gift - Ornate Zigbox"
+	path = /obj/item/storage/belt/rogue/pouch/zigarrete/noble
+
 /datum/loadout_item/donator/rosy/bluelily
 	name = "Donator Item - Tufted Blue-lily"
 	path = /obj/item/clothing/head/roguetown/decoration/bluelily
@@ -1426,3 +1430,8 @@
 	name = "Donator kit - Woad Blessed Barbute"
 	path = /obj/item/enchantingkit/bloakbarbute
 	ckeywhitelist = list("koruu", "gabopwn", "dakken12")
+
+/datum/loadout_item/donator/easternpipe
+	name = "Donator Item - Ornate Eastern Pipe"
+	path = /obj/item/clothing/mask/cigarette/pipe/donator_eastern
+	ckeywhitelist = list("eldritchlullaby", "ryan180602")

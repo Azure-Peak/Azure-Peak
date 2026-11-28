@@ -8,6 +8,11 @@
 	cost = 3
 	contains = list(/obj/item/clothing/mask/cigarette/rollie/nicotine)
 
+/datum/supply_pack/rogue/bath_smokes/blunt
+	name = "Pipe Weed Blunt"
+	cost = 4
+	contains = list(/obj/item/clothing/mask/cigarette/rollie/blunt)
+
 /datum/supply_pack/rogue/bath_smokes/swampcig
 	name = "Swampweed Zig"
 	cost = 7

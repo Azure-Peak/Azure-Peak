@@ -5262,3 +5262,34 @@ As Excaliber."
 	block2add = FOV_DEFAULT
 	slot_flags = ITEM_SLOT_MASK|ITEM_SLOT_HEAD|ITEM_SLOT_MOUTH
 	experimental_onhip = TRUE
+
+/obj/item/clothing/mask/cigarette/pipe/donator_eastern
+	name = "ornate eastern pipe"
+	desc = "\"More evil gets done in the name of righteousness than any other way.\""
+	icon = 'icons/clothing/donor_clothes.dmi'
+	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
+	icon_state = "easternpipeoff"
+	item_state = "easternpipeoff"
+	icon_on = "easternpipeon"
+	icon_off = "easternpipeoff"
+
+/obj/item/storage/belt/rogue/pouch/zigarrete/noble
+	name = "ornate zigbox"
+	desc = "A lacquered case of deep red trimmed in gold, its lid embossed with a rose. Snug enough for four smokes."
+	icon = 'icons/clothing/donor_clothes.dmi'
+	icon_state = "zigbox_noble"
+	item_state = "zigbox_noble"
+	component_type = /datum/component/storage/concrete/roguetown/zig_box/noble
+
+/obj/item/storage/belt/rogue/pouch/zigarrete/noble/update_icon_state()
+	var/datum/component/storage/S = GetComponent(/datum/component/storage)
+	icon_state = LAZYLEN(S?.is_using) ? "zigbox_noble_open" : "zigbox_noble"
+	return ..()
+
+/obj/item/storage/belt/rogue/pouch/zigarrete/noble/update_overlays()
+	. = ..()
+	if(icon_state != "zigbox_noble_open")
+		return
+	var/slot = 0
+	for(var/obj/item/clothing/mask/cigarette/rollie/R in contents)
+		. += mutable_appearance(icon, "zigbox_[istype(R, /obj/item/clothing/mask/cigarette/rollie/blunt) ? "blunt" : "zig"][++slot]")
