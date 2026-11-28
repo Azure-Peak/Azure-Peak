@@ -406,6 +406,18 @@
 		items += mouth
 	if(wear_shirt)
 		items += wear_shirt
+	if(underwear_bottom)
+		items += underwear_bottom
+	if(legwear_socks)
+		items += legwear_socks
+	if(armsleeves)
+		items += armsleeves
+	if(underwear_top)
+		items += underwear_top
+	if(undershirt)
+		items += undershirt
+	if(earrings)
+		items += earrings
 	if(include_pockets)
 		if(l_store)
 			items += l_store
@@ -442,6 +454,11 @@
 
 	if(hidden_slots & HIDENECK)
 		obscured += SLOT_NECK
+	if(hidden_slots & HIDEEARS)
+		obscured |= SLOT_EARRINGS
+	for(var/obj/item/covering as anything in equipped)
+		if(covering.body_parts_covered_dynamic & EARS)
+			obscured |= SLOT_EARRINGS
 	if(hidden_slots & HIDEMASK)
 		obscured += SLOT_WEAR_MASK
 	if(hidden_slots & HIDEEYES)
@@ -450,15 +467,29 @@
 		obscured += SLOT_GLOVES
 	if(hidden_slots & HIDEJUMPSUIT)
 		obscured += SLOT_PANTS
+		obscured += SLOT_SOCKS
+		obscured += SLOT_UNDERSHIRT
+		obscured += SLOT_ARMSLEEVES
 	if(hidden_slots & HIDESHOES)
 		obscured += SLOT_SHOES
 	if(hidden_slots & HIDEBELT)
 		obscured += SLOT_BELT_R
 		obscured += SLOT_BELT_L
 		obscured += SLOT_BELT
+	if(hidden_slots & HIDE_UNDERWEAR_TOP)
+		obscured += SLOT_UNDERWEAR_TOP
+	if(hidden_slots & HIDE_UNDERWEAR_BOTTOM)
+		obscured += SLOT_UNDERWEAR_BOTTOM
 	if(hidden_slots & HIDESUITSTORAGE)
 		obscured += SLOT_S_STORE
 
+	if(transparent_protection)
+		for(var/obj/item/covering as anything in equipped)
+			var/cover_flags = covering.flags_inv | covering.transparent_protection
+			if((cover_flags & HIDECROTCH) && covering != underwear_bottom)
+				obscured |= list(SLOT_UNDERWEAR_BOTTOM)
+			if((cover_flags & HIDEBOOB) && covering != underwear_top)
+				obscured |= SLOT_UNDERWEAR_TOP
 	return obscured
 
 /obj/item/proc/equip_to_best_slot(mob/M)

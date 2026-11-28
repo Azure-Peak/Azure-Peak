@@ -19,7 +19,7 @@
 	sprite_accessories = list(
 		/datum/sprite_accessory/wings/bat,
 		/datum/sprite_accessory/wings/feathery,
-		/datum/sprite_accessory/wings/featheryv2,
+		/datum/sprite_accessory/wings/feathery_alt,
 		/datum/sprite_accessory/wings/pinioned,
 		/datum/sprite_accessory/wings/wide/succubus,
 		/datum/sprite_accessory/wings/fairy,
@@ -109,7 +109,7 @@
 	sprite_accessories = list(
 		/datum/sprite_accessory/wings/bat,
 		/datum/sprite_accessory/wings/feathery,
-		/datum/sprite_accessory/wings/featheryv2,
+		/datum/sprite_accessory/wings/feathery_alt,
 		/datum/sprite_accessory/wings/pinioned,
 		/datum/sprite_accessory/wings/wide/succubus,
 		/datum/sprite_accessory/wings/fairy,

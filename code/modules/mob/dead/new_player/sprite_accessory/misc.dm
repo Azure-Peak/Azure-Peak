@@ -88,7 +88,7 @@
 	layer = BODY_LAYER
 
 /datum/sprite_accessory/face_detail/burneye_l
-	name = "Burned Eye (l)"
+	name = "Burned Eye (L)"
 	icon_state = "burneye_l"
 	layer = BODY_LAYER
 
@@ -122,28 +122,6 @@
 
 /datum/sprite_accessory/accessory/adjust_appearance_list(list/appearance_list, obj/item/organ/organ, obj/item/bodypart/bodypart, mob/living/carbon/owner)
 	generic_gender_feature_adjust(appearance_list, organ, bodypart, owner, OFFSET_FACE, OFFSET_FACE_F)
-
-/datum/sprite_accessory/accessory/earrings
-	name = "Earrings (G)"
-	icon_state = "earrings"
-	layer = BODY_FRONT_LAYER
-
-/datum/sprite_accessory/accessory/earrings/sil
-	name = "Earrings (S)"
-	icon_state = "earrings_sil"
-	layer = BODY_FRONT_LAYER
-	color_disabled = FALSE
-
-/datum/sprite_accessory/accessory/earrings/hoop
-	name = "Hoop Earrings (G)"
-	icon_state = "earrings_hoop"
-	layer = BODY_FRONT_LAYER
-
-/datum/sprite_accessory/accessory/earrings/hoop/sil
-	name = "Hoop Earrings (S)"
-	icon_state = "earrings_sil_hoop"
-	layer = BODY_FRONT_LAYER
-	color_disabled = FALSE
 
 /datum/sprite_accessory/accessory/eyepierce
 	name = "Pierced Brow (L)"

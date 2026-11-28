@@ -46,6 +46,18 @@
 			return wear_armor
 		if(SLOT_PANTS)
 			return wear_pants
+		if(SLOT_UNDERWEAR_BOTTOM)
+			return underwear_bottom
+		if(SLOT_UNDERWEAR_TOP)
+			return underwear_top
+		if(SLOT_UNDERSHIRT)
+			return undershirt
+		if(SLOT_SOCKS)
+			return legwear_socks
+		if(SLOT_EARRINGS)
+			return earrings
+		if(SLOT_ARMSLEEVES)
+			return armsleeves
 		if(SLOT_L_STORE)
 			return l_store
 		if(SLOT_R_STORE)
@@ -78,7 +90,12 @@
 		backl,
 		beltr,
 		beltl,
-		mouth
+		mouth,
+		underwear_bottom,
+		underwear_top,
+		legwear_socks,
+		undershirt,
+		armsleeves,
 		)
 
 /mob/living/carbon/human/proc/get_head_slots()
@@ -89,6 +106,7 @@
 		glasses,
 		ears,
 		mouth,
+		earrings,
 		)
 
 /mob/living/carbon/human/proc/get_storage_slots()
@@ -209,6 +227,24 @@
 
 				if(SEND_SIGNAL(belt, COMSIG_TRY_STORAGE_INSERT, I, src, TRUE))
 					not_handled = FALSE
+		if(SLOT_UNDERWEAR_BOTTOM)
+			underwear_bottom = I
+			update_inv_underwear_bottom()
+		if(SLOT_UNDERWEAR_TOP)
+			underwear_top = I
+			update_inv_underwear_top()
+		if(SLOT_UNDERSHIRT)
+			undershirt = I
+			update_inv_undershirt()
+		if(SLOT_EARRINGS)
+			earrings = I
+			update_inv_earrings()
+		if(SLOT_SOCKS)
+			legwear_socks = I
+			update_inv_socks()
+		if(SLOT_ARMSLEEVES)
+			armsleeves = I
+			update_inv_armsleeves()
 		else
 			not_handled = TRUE
 //		else
@@ -346,6 +382,30 @@
 		mouth = null
 		if(!QDELETED(src))
 			update_inv_mouth()
+	else if(I == underwear_bottom)
+		underwear_bottom = null
+		if(!QDELETED(src))
+			update_inv_underwear_bottom()
+	else if(I == underwear_top)
+		underwear_top = null
+		if(!QDELETED(src))
+			update_inv_underwear_top()
+	else if(I == undershirt)
+		undershirt = null
+		if(!QDELETED(src))
+			update_inv_undershirt()
+	else if(I == earrings)
+		earrings = null
+		if(!QDELETED(src))
+			update_inv_earrings()
+	else if(I == legwear_socks)
+		legwear_socks = null
+		if(!QDELETED(src))
+			update_inv_socks()
+	else if(I == armsleeves)
+		armsleeves = null
+		if(!QDELETED(src))
+			update_inv_armsleeves()
 
 	worn_ac_dirty = TRUE
 

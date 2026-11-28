@@ -95,7 +95,7 @@
 	icon_state = "heart"
 
 /datum/sprite_accessory/head_feature/ipc_screen/monoeye
-	name = "Mono eye"
+	name = "Mono Eye"
 	icon_state = "monoeye"
 
 /datum/sprite_accessory/head_feature/ipc_screen/breakout
@@ -143,15 +143,15 @@
 	icon_state = "redtext"
 
 /datum/sprite_accessory/head_feature/ipc_screen/sinewave
-	name = "Sine wave"
+	name = "Sine Wave"
 	icon_state = "sinewave"
 
 /datum/sprite_accessory/head_feature/ipc_screen/squarewave
-	name = "Square wave"
+	name = "Square Wave"
 	icon_state = "squarewave"
 
 /datum/sprite_accessory/head_feature/ipc_screen/ecgwave
-	name = "ECG wave"
+	name = "ECG Wave"
 	icon_state = "ecgwave"
 
 /datum/sprite_accessory/head_feature/ipc_screen/eyes
@@ -159,7 +159,7 @@
 	icon_state = "eyes"
 
 /datum/sprite_accessory/head_feature/ipc_screen/textdrop
-	name = "Text drop"
+	name = "Text Drop"
 	icon_state = "textdrop"
 
 /datum/sprite_accessory/head_feature/ipc_screen/stars

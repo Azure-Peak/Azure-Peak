@@ -7,7 +7,7 @@
 	return is_human_part_visible(owner, HIDETAIL)
 
 /datum/sprite_accessory/tail_feature/adjust_appearance_list(list/appearance_list, obj/item/organ/organ, obj/item/bodypart/bodypart, mob/living/carbon/owner)
-	generic_gender_feature_adjust(appearance_list, organ, bodypart, owner, OFFSET_UNDIES, OFFSET_UNDIES_F)
+	generic_gender_feature_adjust(appearance_list, organ, bodypart, owner, OFFSET_UNDERWEAR_BOTTOM, OFFSET_UNDERWEAR_BOTTOM_F)
 
 /datum/sprite_accessory/tail_feature/get_icon_state(obj/item/organ/organ, obj/item/bodypart/bodypart, mob/living/carbon/owner)
 	if(!owner || !can_wag)

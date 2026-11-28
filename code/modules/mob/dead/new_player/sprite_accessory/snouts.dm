@@ -56,7 +56,7 @@
 	color_key_names = list("Snout", "Jaw")
 
 /datum/sprite_accessory/snout/vulp
-	name = "Vulp Two-shade"
+	name = "Vulp Two-Shade"
 	icon_state = "vulp"
 	color_keys = 2
 	color_key_names = list("Snout", "Inner")
@@ -190,7 +190,7 @@
 	color_key_names = list("Snout", "Inner")
 
 /datum/sprite_accessory/snout/tajaran
-	name = "Tajaran, normal"
+	name = "Tajaran, Normal"
 	icon_state = "ntajaran"
 
 /datum/sprite_accessory/snout/wolf
