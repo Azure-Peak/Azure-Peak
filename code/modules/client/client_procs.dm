@@ -968,6 +968,16 @@ GLOBAL_LIST_EMPTY(external_rsc_urls)
 	var/dragged = L["drag"]
 	if(dragged && !L[dragged])
 		return
+
+	// combat mode: a click on a tree targets a mob standing under it
+	if(mob?.cmode && is_type_in_typecache(object, GLOB.typecache_combat_click_through) && L["screen-loc"])
+		var/turf/clicked_turf = params2turf(L["screen-loc"], get_turf(eye ? eye : mob), src)
+		if(clicked_turf)
+			var/mob/living/under_tree = locate() in clicked_turf
+			if(under_tree && under_tree != mob)
+				object = under_tree
+
+
 	var/atom/click_object = object
 	var/catcher_params
 	if(istype(object, /atom/movable/screen/click_catcher))

@@ -3,6 +3,8 @@
 	stop_looking()
 	update_turf_movespeed(loc)
 	update_pixel_shifting(TRUE)
+	if(client && cmode) //To deal with new trees entering our range
+		client.refresh_faded_flora()
 
 /mob/living/setDir(newdir, ismousemovement)
 	. = ..()

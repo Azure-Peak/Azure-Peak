@@ -1,4 +1,5 @@
 #define SEARCHTIME 12 // Standard search cooldown = 1.2 seconds
+#define FLORAFADE 4 // In tiles around your character, used with refresh_faded_flora()
 //newtree
 
 /obj/structure/flora/roguetree
@@ -20,6 +21,7 @@
 	static_debris = list(/obj/item/grown/log/tree = 1)
 	alpha = 200
 	var/stump_type = /obj/structure/flora/roguetree/stump
+	var/image/fade_image = FALSE
 
 /obj/structure/flora/roguetree/get_mechanics_examine(mob/user)
 	. = ..()
@@ -72,12 +74,38 @@
 		var/turf/T = loc
 		T.ChangeTurf(/turf/open/floor/rogue/dirt)
 
+/obj/structure/flora/roguetree/proc/get_fade_image()
+	if(!fade_image)
+		fade_image = image(icon, src, icon_state)
+		fade_image.override = TRUE
+		fade_image.alpha = 90
+	return fade_image
+
+/client
+	var/list/faded_flora = list()
+
+/client/proc/refresh_faded_flora()
+	var/list/fade_queue = list()
+	if(mob?.cmode)
+		for(var/obj/structure/flora/F in range(FLORAFADE, mob))
+			if(is_type_in_typecache(F, GLOB.typecache_combat_click_through))
+				fade_queue += F
+	for(var/obj/structure/flora/F as anything in faded_flora - fade_queue)
+		images -= F:fade_image
+	for(var/obj/structure/flora/F as anything in fade_queue - faded_flora)
+		images += F:get_fade_image()
+	faded_flora = fade_queue
+
 /obj/structure/flora/roguetree/obj_destruction(damage_flag)
 	if(stump_type)
 		new stump_type(loc)
+	if(fade_image)
+		for(var/client/C)
+			C.faded_flora -= src
+			C.images -= fade_image
+			fade_image = null
 	playsound(src, 'sound/misc/treefall.ogg', 100, FALSE)
 	. = ..()
-
 
 /obj/structure/flora/roguetree/Initialize(mapload)
 	. = ..()
@@ -719,6 +747,7 @@
 	plane = GAME_PLANE_UPPER
 	dir = SOUTH
 	var/random_mush_zone = TRUE
+	var/image/fade_image = FALSE
 
 /obj/structure/flora/rogueshroom/attack_right(mob/user)
 	handle_special_items_retrieval(user, src)
@@ -732,6 +761,13 @@
 	pixel_x += rand(8,-8)
 	var/static/list/loc_connections = list(COMSIG_ATOM_EXIT = PROC_REF(on_exit))
 	AddElement(/datum/element/connect_loc, loc_connections)
+
+/obj/structure/flora/rogueshroom/proc/get_fade_image()
+	if(!fade_image)
+		fade_image = image(icon, src, icon_state)
+		fade_image.override = TRUE
+		fade_image.alpha = 90
+	return fade_image
 
 /obj/structure/flora/rogueshroom/CanPass(atom/movable/mover, turf/target)
 	if(istype(mover) && (mover.pass_flags & PASSGRILLE))
@@ -762,6 +798,11 @@
 
 /obj/structure/flora/rogueshroom/obj_destruction(damage_flag)
 	new /obj/structure/flora/shroomstump(loc, initial(icon_state), icon)
+	if(fade_image)
+		for(var/client/C)
+			C.faded_flora -= src
+			C.images -= fade_image
+			fade_image = null
 	. = ..()
 
 
@@ -1237,4 +1278,5 @@
 	static_debris = list(/obj/item/grown/log/tree = 1)
 	stump_type = /obj/structure/flora/roguetree/stump
 
+#undef FLORAFADE
 #undef SEARCHTIME
