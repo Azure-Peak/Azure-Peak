@@ -815,7 +815,7 @@
 
 /datum/loadout_item/donator/koruu_etrusc
 	name = "Donator Kit - Colada"
-	path = /obj/item/enchantingkit/weapon/koruu_etrusc
+	path = /obj/item/enchantingkit/weapon/koruu_etrusca
 	ckeywhitelist = list("koruu", "pneumothorax")
 
 /datum/loadout_item/donator/koruu_judgement

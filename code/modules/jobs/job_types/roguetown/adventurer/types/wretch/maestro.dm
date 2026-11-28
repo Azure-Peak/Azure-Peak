@@ -113,7 +113,7 @@
 				H.inspiration.maxsongs++				// 5 song slots instead of T2 default 4
 				H.adjust_skillrank_up_to(/datum/skill/combat/swords,		SKILL_LEVEL_EXPERT, TRUE)
 				H.adjust_skillrank_up_to(/datum/skill/combat/whipsflails, SKILL_LEVEL_EXPERT, TRUE)
-				r_hand = /obj/item/rogueweapon/whip/triumph
+				r_hand = /obj/item/rogueweapon/whip/alloytip
 				l_hand = /obj/item/rogueweapon/sword
 				beltl	= /obj/item/rogueweapon/scabbard/sword
 			if("Boomwhacker")
