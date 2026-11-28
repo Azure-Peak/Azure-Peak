@@ -405,6 +405,7 @@
 					return FALSE
 
 			to_chat(owner, span_notice("You begin to consume [corpse.name]."))
+			playsound(owner.loc, pick('sound/gore/flesh_eat_01.ogg', 'sound/gore/flesh_eat_02.ogg', 'sound/gore/flesh_eat_03.ogg', 'sound/gore/flesh_eat_04.ogg', 'sound/gore/flesh_eat_05.ogg', 'sound/gore/flesh_eat_06.ogg'), rand(30,60), TRUE)
 			if(do_after(owner, 20 SECONDS, corpse))
 				corpse.gib()
 				to_chat(owner, span_notice("You finish consuming [corpse.name], restoring your physical form."))
@@ -467,7 +468,7 @@
 
 		consume_counter++
 		if(prob(40))
-			playsound(receiver.loc, 'sound/misc/eat.ogg', rand(30,60), TRUE)
+			playsound(receiver.loc, pick('sound/gore/flesh_eat_01.ogg', 'sound/gore/flesh_eat_02.ogg', 'sound/gore/flesh_eat_03.ogg', 'sound/gore/flesh_eat_04.ogg', 'sound/gore/flesh_eat_05.ogg', 'sound/gore/flesh_eat_06.ogg'), rand(30,60), TRUE)
 
 		heal_gnoll(receiver, meat_base_heal * heal_multiplier)
 		if(receiver_is_gnoll)
@@ -519,16 +520,18 @@
 	if(!H)
 		return
 
-	if(!H.skin_armor)
+	if(!H.wear_shirt && !H.wear_armor)
 		return
 
-	var/obj/item/clothing/suit/roguetown/armor/skin_armor = H.skin_armor
-	if(!istype(skin_armor))
-		return
+	var/obj/item/clothing/suit/roguetown/armor/vampiric/gnoll/chest = H.wear_armor
+	var/obj/item/clothing/suit/roguetown/armor/vampiric/gnoll/limb = H.wear_shirt
+	var/list/to_restore = list(chest, limb)
 
-	var/heal_amount = round(skin_armor.max_integrity * (percent / 100))
+	for(var/obj/I in to_restore)
+		var/heal_amount = round(I.max_integrity * (percent / 100))
 
-	skin_armor.obj_integrity = min(skin_armor.obj_integrity + heal_amount, skin_armor.max_integrity)
+		I.obj_integrity = min(I.obj_integrity + heal_amount, I.max_integrity)
 
-	if(skin_armor.obj_broken && skin_armor.obj_integrity > 0)
-		skin_armor.obj_fix(null, FALSE)
+		if(I.obj_broken && I.obj_integrity > 0)
+			I.obj_fix(null, FALSE)
+

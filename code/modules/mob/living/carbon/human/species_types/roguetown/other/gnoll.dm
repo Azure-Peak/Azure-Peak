@@ -123,6 +123,3 @@
 	H.overlays_standing[DAMAGE_LAYER] = hands
 	H.apply_overlay(DAMAGE_LAYER)
 	return TRUE
-
-/datum/species/gnoll/random_name(gender,unique,lastname)
-	return "VEREWOLF"

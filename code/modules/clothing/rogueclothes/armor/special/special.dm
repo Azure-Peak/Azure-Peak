@@ -19,41 +19,87 @@
 	blocksound = SOFTUNDERHIT
 	armor = ARMOR_PADDED
 
+	attachment_component = FALSE
+
 /datum/outfit/job/roguetown/gnoll
 	var/shard_threshold = 46
 	var/shard_repair_value = 25
 	var/max_fury_stacks = 150
-	var/vamp_armor_type = /obj/item/clothing/suit/roguetown/armor/vampiric/gnoll
+	var/vamp_armor_chest = /obj/item/clothing/suit/roguetown/armor/vampiric/gnoll
+	var/vamp_armor_limb = /obj/item/clothing/suit/roguetown/armor/vampiric/gnoll/limb
 
 /obj/item/clothing/suit/roguetown/armor/vampiric/gnoll
-	name = "gnoll skin"
-	desc = "An impenetrable hide of Graggar's fury."
+	name = "berserker's hearthide"
+	desc = "You shed all, knowing He would protect you."
 	mob_overlay_icon = 'icons/roguetown/mob/monster/gnoll.dmi'
 	icon = 'icons/roguetown/mob/monster/gnoll.dmi'
 	icon_state = "berserker"
-	body_parts_covered = FULL_BODY
-	body_parts_inherent = FULL_BODY
 	sewrepair = FALSE
 	item_flags = DROPDEL
 	armor = ARMOR_GNOLL_STANDARD
+	body_parts_covered = CHEST
+	body_parts_inherent = CHEST
 	max_integrity = 475
 
+/obj/item/clothing/suit/roguetown/armor/vampiric/gnoll/Initialize(mapload)
+	..()
+	ADD_TRAIT(src, TRAIT_NODROP, CURSED_ITEM_TRAIT)
+
+/obj/item/clothing/suit/roguetown/armor/vampiric/gnoll/dropped(mob/living/carbon/human/user)
+	..()
+	if(QDELETED(src))
+		return
+	qdel(src)
+
+/obj/item/clothing/suit/roguetown/armor/vampiric/gnoll/limb
+	name = "berserker's hide extremities"
+	desc = "\"SOD THE HAND, AIM FOR THE NECK!\""
+	body_parts_covered = FULL_BODY_NO_CHEST
+	body_parts_inherent = FULL_BODY_NO_CHEST
+	max_integrity = 400
+
 /obj/item/clothing/suit/roguetown/armor/vampiric/gnoll/knight
+	name = "knight's hearthide"
+	desc = "His blood burns so that yours may keep warm."
 	icon_state = "knight"
 	max_integrity = 800
 	armor = ARMOR_GNOLL_STRONG
 
+/obj/item/clothing/suit/roguetown/armor/vampiric/gnoll/limb/knight
+	name = "knight's hide extremities"
+	desc = "Fire took all. But it was returned, manifold."
+	max_integrity = 700
+	armor = ARMOR_GNOLL_STRONG
+
 /obj/item/clothing/suit/roguetown/armor/vampiric/gnoll/impure
+	name = "impure hide"
+	desc = "This won't last long..."
 	icon_state = null
 	max_integrity = 400
 	armor = ARMOR_GNOLL_WEAK
+	body_parts_covered = FULL_BODY
+	body_parts_inherent = FULL_BODY
 
 /obj/item/clothing/suit/roguetown/armor/vampiric/gnoll/templar
+	name = "templar's hearthide"
+	desc = "The flesh is pierced, but the word is whole."
 	icon_state = "templar"
 	max_integrity = 600
-	armor = ARMOR_GNOLL_STANDARD
+
+/obj/item/clothing/suit/roguetown/armor/vampiric/gnoll/limb/templar
+	name = "templar's hide extremities"
+	desc = "Drop the brand. Take off the maille. Forsake the banner."
+	max_integrity = 525
 
 /obj/item/clothing/suit/roguetown/armor/vampiric/gnoll/shaman
+	name = "shaman's hearthide"
+	desc = "Doubt vanishes. He has made you."
 	icon_state = "shaman"
 	max_integrity = 400
+	armor = ARMOR_GNOLL_WEAK
+
+/obj/item/clothing/suit/roguetown/armor/vampiric/gnoll/limb/shaman
+	name = "shaman's hide extremities"
+	desc = "Where He walks, you walk. There is no other way."
+	max_integrity = 350
 	armor = ARMOR_GNOLL_WEAK

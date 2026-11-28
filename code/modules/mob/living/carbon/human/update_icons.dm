@@ -1338,17 +1338,17 @@ There are several things that need to be remembered:
 /mob/living/carbon/human/proc/update_inv_armor_special()
 	remove_overlay(ARMOR_LAYER)
 
-	if(!skin_armor)
+	if(!wear_armor)
 		return
 
-	if(!skin_armor.icon_state)
+	if(!wear_armor.icon_state)
 		return
 
-	var/armor_icon_state = skin_armor.icon_state
+	var/armor_icon_state = wear_armor.icon_state
 	if(!(src.mobility_flags & MOBILITY_STAND))
-		armor_icon_state = "[skin_armor.icon_state]_down"
+		armor_icon_state = "[wear_armor.icon_state]_down"
 
-	var/mutable_appearance/armor_overlay = mutable_appearance(skin_armor.icon, armor_icon_state, layer = ARMOR_LAYER)
+	var/mutable_appearance/armor_overlay = mutable_appearance(wear_armor.icon, armor_icon_state, layer = ARMOR_LAYER)
 
 	overlays_standing[ARMOR_LAYER] = armor_overlay
 
