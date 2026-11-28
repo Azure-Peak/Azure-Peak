@@ -17,13 +17,13 @@
 	icon_dead = "drider_dead"
 	animal_species = null
 	butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/meat/spider = 3, /obj/item/natural/bone = 3)
-	base_intents = list(/datum/intent/simple/bite/mirespider_lurker)
+	base_intents = list(/datum/intent/simple/bite/drider)
 	health = DRIDER_HEALTH
 	maxHealth = DRIDER_HEALTH
 	milkies = FALSE
-	melee_damage_lower = 60
-	melee_damage_upper = 90
-	STASPD = 18
+	melee_damage_lower = 50
+	melee_damage_upper = 70
+	STASPD = 15
 	STACON = 8
 	STASTR = 10
 	tame = FALSE
@@ -38,12 +38,14 @@
 /mob/living/simple_animal/hostile/retaliate/rogue/drider/tame
 	tame = TRUE
 
+/datum/intent/simple/bite/drider
+	clickcd = DRIDER_ATTACK_SPEED
+
 /mob/living/simple_animal/hostile/retaliate/rogue/drider/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/ai_aggro_system)
 	ai_controller.set_blackboard_key(BB_BASIC_FOODS, food_typecache)
-	ADD_TRAIT(src, TRAIT_CRITICAL_RESISTANCE, TRAIT_GENERIC)
-	ADD_TRAIT(src, TRAIT_NOFALLDAMAGE2, TRAIT_GENERIC)
+	ADD_TRAIT(src, TRAIT_NOFALLDAMAGE1, TRAIT_GENERIC)
 
 /mob/living/simple_animal/hostile/retaliate/rogue/drider/update_icon()
 	cut_overlays()
