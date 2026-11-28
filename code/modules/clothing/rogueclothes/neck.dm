@@ -36,9 +36,22 @@
 	toggle_icon_state = TRUE
 	sewrepair = TRUE
 
-/obj/item/clothing/neck/roguetown/coif/get_mechanics_examine(mob/user)
-	. = ..()
-	. += span_info("Right click to adjust the coif's coverage. Certain coifs with multiple adjustments - like the heavy padded coif - might need to be right-clicked multiple times, in order to cycle back to its default state.")
+
+/obj/item/clothing/neck/roguetown/coif/build_worn_icon(default_layer = 0, default_icon_file = null, isinhands = FALSE, femaleuniform = NO_FEMALE_UNIFORM, override_state = null, female = FALSE, customi = null, sleeveindex, boobed_overlay = FALSE, icon/clip_mask = null)
+	var/mutable_appearance/standing = ..()
+	// get attachment component and check if there's anything inside
+	if(attachment_component)
+		var/datum/component/storage/concrete/roguetown/our_component = GetComponent(attachment_component)
+		if(our_component && length(our_component.item_to_grid_coordinates))
+			for(var/obj/item/thing as anything in our_component.item_to_grid_coordinates)
+				if(thing.item_flags & NOT_SHOW_IN_STORAGE)
+					continue
+				var/mutable_appearance/thing_appearance = thing.build_worn_icon(default_layer, default_icon_file, isinhands, femaleuniform, override_state, female, customi, sleeveindex, boobed_overlay, clip_mask)
+				thing_appearance.appearance_flags = RESET_COLOR
+				thing_appearance.pixel_x -= standing.pixel_x
+				thing_appearance.pixel_y -= standing.pixel_y
+				standing.add_overlay(thing_appearance)
+	return standing
 
 /obj/item/clothing/neck/roguetown/coif/ComponentInitialize()
 	AddComponent(/datum/component/adjustable_clothing, NECK, null, null, null, null, (UPD_HEAD|UPD_MASK|UPD_NECK))	//Soundless coif
@@ -144,15 +157,28 @@
 	blocksound = CHAINHIT
 	anvilrepair = /datum/skill/craft/armorsmithing
 	smeltresult = /obj/item/ingot/steel
+	dynamic_hair_suffix = "+generic"
 
 /obj/item/clothing/neck/roguetown/chaincoif/ComponentInitialize()
 	AddComponent(/datum/component/adjustable_clothing, NECK, null, null, "sound/foley/equip/chain_equip.ogg", null, (UPD_HEAD|UPD_MASK|UPD_NECK))	//Chain coif.
 	AddComponent(/datum/component/armour_filtering/negative, TRAIT_FENCERDEXTERITY)
 	AddComponent(/datum/component/armour_filtering/negative, TRAIT_HONORBOUND)
 
-/obj/item/clothing/neck/roguetown/chaincoif/get_mechanics_examine(mob/user)
-	. = ..()
-	. += span_info("Right click to adjust the coif's coverage. Certain coifs with multiple adjustments - like the full chain coif - might need to be right-clicked multiple times, in order to cycle back to its default state.")
+/obj/item/clothing/neck/roguetown/chaincoif/build_worn_icon(default_layer = 0, default_icon_file = null, isinhands = FALSE, femaleuniform = NO_FEMALE_UNIFORM, override_state = null, female = FALSE, customi = null, sleeveindex, boobed_overlay = FALSE, icon/clip_mask = null)
+	var/mutable_appearance/standing = ..()
+	// get attachment component and check if there's anything inside
+	if(attachment_component)
+		var/datum/component/storage/concrete/roguetown/our_component = GetComponent(attachment_component)
+		if(our_component && length(our_component.item_to_grid_coordinates))
+			for(var/obj/item/thing as anything in our_component.item_to_grid_coordinates)
+				if(thing.item_flags & NOT_SHOW_IN_STORAGE)
+					continue
+				var/mutable_appearance/thing_appearance = thing.build_worn_icon(default_layer, default_icon_file, isinhands, femaleuniform, override_state, female, customi, sleeveindex, boobed_overlay, clip_mask)
+				thing_appearance.appearance_flags = RESET_COLOR
+				thing_appearance.pixel_x -= standing.pixel_x
+				thing_appearance.pixel_y -= standing.pixel_y
+				standing.add_overlay(thing_appearance)
+	return standing
 
 /obj/item/clothing/neck/roguetown/chaincoif/paalloy
 	name = "ancient coif"
