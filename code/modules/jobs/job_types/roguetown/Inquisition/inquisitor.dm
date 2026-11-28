@@ -23,8 +23,8 @@
 	min_pq = 10
 	max_pq = null
 	round_contrib_points = 2
+	vice_restrictions = list(/datum/charflaw/silverweakness, /datum/charflaw/wanted, /datum/charflaw/hemophage)
 	quest_claim_barred = TRUE
-	vice_restrictions = list(/datum/charflaw/silverweakness, /datum/charflaw/wanted)
 	job_subclasses = list(
 		/datum/advclass/inquisitor/inspector,
 		/datum/advclass/inquisitor/ordinator

@@ -174,14 +174,6 @@
 	. = ..()
 	recipient.AddComponent(/datum/component/bioluminescence)
 
-/datum/quirk/sanguivore
-	name = "Sanguivore"
-	desc = "Whether by habit or upbringing, I can stomach blood without retching."
-	mechdesc = "Drinking blood, by mouth or from a cup, will not make you sick. It grants no other benefit."
-	added_traits = list(TRAIT_SANGUIVORE)
-	restricted_species = list(/datum/species/construct/metal)
-	ui_fa_icon = "tint"
-
 /datum/quirk/bloodcolour
 	name = "Odd Blood"
 	desc = "My blood is not quite the colour one would expect."

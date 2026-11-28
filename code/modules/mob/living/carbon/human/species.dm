@@ -1085,11 +1085,15 @@ GLOBAL_LIST_INIT(body_builds, init_body_builds())
 
 	if(H.nutrition > 0 && H.stat != DEAD && !HAS_TRAIT(H, TRAIT_NOHUNGER))
 		var/hunger_rate = HUNGER_FACTOR
+		if(HAS_TRAIT(H, TRAIT_HEMOPHAGE)) // default hunger rate has proven way too high for hemophages
+			hunger_rate = 0.7
 		H.adjust_nutrition(-hunger_rate)
 
 	if(H.hydration > 0 && H.stat != DEAD && !HAS_TRAIT(H, TRAIT_NOHUNGER))
 
 		var/hydration_rate = HUNGER_FACTOR
+		if(HAS_TRAIT(H, TRAIT_HEMOPHAGE))
+			hydration_rate = 0.7
 		H.adjust_hydration(-hydration_rate)
 
 	if(H.nutrition > NUTRITION_LEVEL_FULL)
