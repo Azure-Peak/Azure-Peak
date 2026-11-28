@@ -705,6 +705,16 @@
 	worn_y_dimension = 64
 	bloody_icon = 'icons/effects/blood64.dmi'
 
+/obj/item/clothing/head/roguetown/helmet/sallet/warden/bloakbarbute
+	name = "woad blessed barbute"
+	desc = "A blend of the old and new. Tradition and Innovation. Forgesteel, blessed with the creations of the Woad-Mother. Songs and Dance learned over centuries now regrow yonder the surface, defending its wearer once more against the Metal Hordes."
+	icon = 'icons/roguetown/clothing/special/warden.dmi'
+	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/warden64.dmi'
+	icon_state = "bloak_barbute"
+	worn_x_dimension = 64
+	worn_y_dimension = 64
+	bloody_icon = 'icons/effects/blood64.dmi'
+
 /obj/item/clothing/head/roguetown/roguehood/warden/munitioneer
 	name = "forgehound's hood"
 	desc = "<i><font color='ff9933'>'Beneath his gleaming mask, the fyrmanne smiles. He is a salamander upon the worlde, belching flame, cleaning away history, and leaving a new land for the lyving.'</font></i>\
