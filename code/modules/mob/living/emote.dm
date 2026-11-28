@@ -539,6 +539,14 @@
 		return
 	if(ishuman(user) && ishuman(target))
 		var/mob/living/carbon/human/H = user
+		if(H.zone_selected == BODY_ZONE_PRECISE_MOUTH)
+			var/obj/item/clothing/mask/cigarette/user_cig = H.get_item_by_slot(SLOT_MOUTH)
+			var/obj/item/clothing/mask/cigarette/target_cig = target.get_item_by_slot(SLOT_MOUTH)
+			if(istype(user_cig) && istype(target_cig))
+				if(user_cig.lit && !target_cig.lit)
+					target_cig.light(span_notice("[H] smoothly lights [target]'s [target_cig.name] with [H.p_their()] own during the kiss."))
+				else if(!user_cig.lit && target_cig.lit)
+					user_cig.light(span_notice("[H] smoothly lights [H.p_their()] [user_cig.name] from [target]'s own during the kiss."))
 		var/do_change
 		if(target.loc == user.loc)
 			do_change = TRUE
@@ -548,13 +556,6 @@
 		if(do_change)
 			if(H.zone_selected == BODY_ZONE_PRECISE_MOUTH)
 				message_param = "kisses %t deeply."
-				var/obj/item/clothing/mask/cigarette/user_cig = H.get_item_by_slot(SLOT_MOUTH)
-				var/obj/item/clothing/mask/cigarette/target_cig = target.get_item_by_slot(SLOT_MOUTH)
-				if(istype(user_cig) && istype(target_cig))
-					if(user_cig.lit && !target_cig.lit)
-						target_cig.light(span_notice("[H] smoothly lights [target]'s [target_cig.name] with [H.p_their()] own during the kiss."))
-					else if(!user_cig.lit && target_cig.lit)
-						user_cig.light(span_notice("[H] smoothly lights [H.p_their()] [user_cig.name] from [target]'s own during the kiss."))
 			else if(H.zone_selected == BODY_ZONE_PRECISE_EARS)
 				message_param = "kisses %t on the ear."
 				if(!HAS_TRAIT(target, TRAIT_DECEIVING_MEEKNESS) && !HAS_TRAIT(target, TRAIT_NOMOOD))

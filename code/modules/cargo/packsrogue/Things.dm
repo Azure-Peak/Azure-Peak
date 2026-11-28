@@ -91,6 +91,11 @@
 	cost = 5
 	contains = list(/obj/item/clothing/mask/cigarette/rollie/nicotine)
 
+/datum/supply_pack/rogue/Things/blunt
+	name = "Westleach Blunt"
+	cost = 7
+	contains = list(/obj/item/clothing/mask/cigarette/rollie/blunt)
+
 /datum/supply_pack/rogue/Things/swampweed
 	name = "Swampweed Zig"
 	cost = 10

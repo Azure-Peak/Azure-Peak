@@ -153,6 +153,9 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 
 	var/dragtime = 100
 	var/nextdragtime = 0
+	var/nextpuff = 0
+	/// alt sprite state
+	var/upright = FALSE
 	var/lit = FALSE
 	var/starts_lit = FALSE
 	var/icon_on = "cigon"	//Note - these are in masks.dmi not in cigarette.dmi
@@ -263,25 +266,28 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 
 /obj/item/clothing/mask/cigarette/proc/handle_reagents()
 	if(reagents.total_volume)
-		var/to_smoke = REAGENTS_METABOLISM
 		if(iscarbon(loc))
 			var/mob/living/carbon/C = loc
 			if (src == C.mouth) // if it's in the human/monkey mouth, transfer reagents to the mob
-				var/fraction = min(REAGENTS_METABOLISM/reagents.total_volume, 1)
-				/*
-					* Given the amount of time the cig will last, and how often we take a hit, find the number
-					* of chems to give them each time so they'll have smoked it all by the end.
-					*/
-				if (smoke_all)
-					if(!smoketime)
-						to_smoke = reagents.total_volume
-					else
-						to_smoke = reagents.total_volume/smoketime
-
-				reagents.reaction(C, INGEST, fraction)
-				if(!reagents.trans_to(C, to_smoke))
-					reagents.remove_any(to_smoke)
+				inhale(C)
 				return
+		reagents.remove_any(REAGENTS_METABOLISM)
+
+/obj/item/clothing/mask/cigarette/proc/inhale(mob/living/carbon/C)
+	var/to_smoke = REAGENTS_METABOLISM
+	var/fraction = min(REAGENTS_METABOLISM/reagents.total_volume, 1)
+	/*
+		* Given the amount of time the cig will last, and how often we take a hit, find the number
+		* of chems to give them each time so they'll have smoked it all by the end.
+		*/
+	if (smoke_all)
+		if(!smoketime)
+			to_smoke = reagents.total_volume
+		else
+			to_smoke = reagents.total_volume/smoketime
+
+	reagents.reaction(C, INGEST, fraction)
+	if(!reagents.trans_to(C, to_smoke))
 		reagents.remove_any(to_smoke)
 
 /obj/item/clothing/mask/cigarette/process()
@@ -337,7 +343,54 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 		return
 	if(light_cig(M, user))
 		return TRUE
+	if(M == user && lit)
+		user.changeNext_move(CLICK_CD_MELEE)
+		if(!get_location_accessible(user, BODY_ZONE_PRECISE_MOUTH))
+			to_chat(user, span_warning("My mouth is covered."))
+		else if(world.time < nextpuff)
+			to_chat(user, span_warning("I need a moment before another drag."))
+		else if(!reagents.total_volume)
+			to_chat(user, span_warning("There's nothing left in [src] worth drawing."))
+		else
+			nextpuff = world.time + dragtime
+			inhale(user)
+			user.visible_message(span_notice("[user] takes a drag from [src]."), span_notice("I take a drag from [src]."))
+		return TRUE
 	return ..()
+
+/obj/item/clothing/mask/cigarette/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("To receive the effects, light them with any source of fire, such as a torch, brazier, flint, or prestidigitation.")
+	. += span_info("Using a lit smokable on yourself takes a single drag from it.")
+	. += span_info("Using a lit smokable on someone else with their MOUTH targeted lights the smokable in their mouth.")
+	. += span_info("Kissing someone with their MOUTH targeted while you both have a smokable in your mouths lights the unlit one from the lit one.")
+	if(icon_exists(mob_overlay_icon, "[icon_off]_up"))
+		. += span_info("Right-click it to change it's in-mouth sprite.")
+
+/obj/item/clothing/mask/cigarette/build_worn_icon(default_layer = 0, default_icon_file = null, isinhands = FALSE, femaleuniform = NO_FEMALE_UNIFORM, override_state = null, female = FALSE, customi = null, sleeveindex, boobed_overlay = FALSE, icon/clip_mask = null)
+	if(!isinhands && !override_state)
+		var/state = icon_state
+		if(upright && icon_exists(mob_overlay_icon, "[state]_up"))
+			state += "_up"
+		var/mob/living/carbon/C = loc
+		if(istype(C) && C.getorganslot(ORGAN_SLOT_SNOUT) && icon_exists(mob_overlay_icon, "[state]_snout"))
+			state += "_snout"
+		if(state != icon_state)
+			override_state = state
+	return ..()
+
+/obj/item/clothing/mask/cigarette/rmb_self(mob/user, keybind = FALSE)
+	toggle_upright(user)
+
+/obj/item/clothing/mask/cigarette/proc/toggle_upright(mob/user)
+	if(!icon_exists(mob_overlay_icon, "[icon_off]_up"))
+		return FALSE
+	upright = !upright
+	to_chat(user, span_notice(upright ? "I'll hold [src] upright." : "I'll let [src] hang low."))
+	if(ismob(loc))
+		var/mob/M = loc
+		M.update_inv_mouth()
+	return TRUE
 
 /obj/item/clothing/mask/cigarette/fire_act(added, maxstacks)
 	light()
@@ -357,6 +410,8 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 	update_icon()
 
 /obj/item/clothing/mask/cigarette/attack_right(mob/user)
+	if(toggle_upright(user))
+		return TRUE
 	if(lit)
 		user.visible_message(span_notice("[user] pinches out [src] with [user.p_their()] fingers."), \
 				span_notice("I pinch out [src] with my fingers."))
@@ -399,8 +454,6 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 
 /obj/item/clothing/mask/cigarette/rollie/get_mechanics_examine(mob/user)
 	. = ..()
-	. += span_info("Zigarettes of any kind can be put into your MOUTH slot.")
-	. += span_info("To receive the effects, light them with any source of fire, such as a torch, brazier, flint, or prestidigitation.")
 	. += span_info("RMB\'ing the zig will put it out, although it will reduce the total smoketime by half.")
 
 /obj/item/clothing/mask/cigarette/rollie/Initialize(mapload)
@@ -604,6 +657,16 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 	smoketime = 300
 	list_reagents = list(/datum/reagent/drug/westleach = 45, /datum/reagent/drug/abyss = 15)
 
+/obj/item/clothing/mask/cigarette/rollie/blunt
+	name = "blunt"
+	desc = "A fat roll of dried westleach packed thick in heavy paper. Burns slower than a zig."
+	icon_state = "bluntoff"
+	icon_on = "blunton"
+	icon_off = "bluntoff"
+	item_state = "bluntoff"
+	smoketime = 240
+	list_reagents = list(/datum/reagent/drug/westleach = 40)
+
 ////////////
 // CIGARS //
 ////////////
@@ -714,6 +777,11 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 		qdel(src)
 		return INITIALIZE_HINT_QDEL
 
+/obj/item/clothing/mask/cigarette/pipe/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Pack with a dried plant or ozium before lighting it.")
+	. += span_info("Using the pipe in hand puts it out, or empties it onto the ground if it is unlit.")
+
 /obj/item/clothing/mask/cigarette/pipe/Destroy()
 	STOP_PROCESSING(SSobj, src)
 	. = ..()
@@ -806,6 +874,8 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 // pipes should NOT inherit the being-destroyed part of zigarette behavior so we do this instead.
 // its a little dumb but should work, just copied the attack_self. DO NOT CALL PARENT!!!!
 /obj/item/clothing/mask/cigarette/pipe/attack_right(mob/user)
+	if(toggle_upright(user))
+		return
 	var/turf/location = get_turf(user)
 	if(lit)
 		name = copytext(name,5,length(name)+1)

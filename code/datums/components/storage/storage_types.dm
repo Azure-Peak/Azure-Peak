@@ -310,6 +310,18 @@
 		/obj/item/flint,
 		))
 
+/datum/component/storage/concrete/roguetown/zig_box/noble
+	screen_max_rows = 2
+	screen_max_columns = 2
+
+/datum/component/storage/concrete/roguetown/zig_box/noble/show_to(mob/M)
+	. = ..()
+	update_icon()
+
+/datum/component/storage/concrete/roguetown/zig_box/noble/hide_from(mob/M)
+	. = ..()
+	update_icon()
+
 /datum/component/storage/concrete/roguetown/zig_bandolier
 	screen_max_rows = 8
 	screen_max_columns = 3
