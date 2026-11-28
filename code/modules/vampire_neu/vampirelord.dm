@@ -168,14 +168,14 @@
 	if(!length(possible))
 		to_chat(src, span_warning("You have no subordinates to punish, assign them in the clan menu!"))
 		return
-	var/name_choice = input(src, "Who to punish?", "PUNISHMENT") as null|anything in possible
+	var/name_choice = tgui_input_list(src, "Who to punish?", "PUNISHMENT", null|possible)
 	if(!name_choice)
 		return
 	var/mob/living/carbon/human/choice = possible[name_choice]
 	if(!choice || QDELETED(choice))
 		return
 	var/punishmentlevels = list("Pause", "Pain", "OBLITERATE")
-	var/punishment = input(src, "Severity?", "PUNISHMENT") as null|anything in punishmentlevels
+	var/punishment = tgui_input_list(src, "Severity?", "PUNISHMENT", null|punishmentlevels)
 	if(!punishment)
 		return
 	switch(punishment)

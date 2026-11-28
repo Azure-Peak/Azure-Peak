@@ -59,7 +59,7 @@
 		H.mind.add_antag_datum(new_antag)
 		H.grant_language(/datum/language/thievescant)
 		var/wanted = list("I am a notorious criminal", "I am a nobody")
-		var/wanted_choice = input(H, "Are you a known criminal?") as anything in wanted
+		var/wanted_choice = tgui_input_list(H, "Are you a known criminal?", wanted)
 		switch(wanted_choice)
 			if("I am a notorious criminal") //Extra challenge for those who want it
 				bandit_select_bounty(H)

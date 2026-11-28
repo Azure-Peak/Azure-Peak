@@ -105,7 +105,7 @@
 
 	user.changeNext_move(CLICK_CD_INTENTCAP)
 
-	var/button_selection = input(user, "What button do I press?", "\The [src]") as null | anything in list("Stop/Start","Change Song","Change Volume")
+	var/button_selection = tgui_input_list(user, "What button do I press?", "\The [src]", null|list("Stop/Start","Change Song","Change Volume"))
 	if(!Adjacent(user))
 		return
 	if(!button_selection)
@@ -118,7 +118,7 @@
 		toggle_music()
 
 	if(button_selection=="Change Song")
-		var/songlists_selection = input(user, "Which song list?", "\The [src]") as null | anything in list("OTHERWORLDLY", "GENERIC", "OLDSCHOOL")
+		var/songlists_selection = tgui_input_list(user, "Which song list?", "\The [src]", null|list("OTHERWORLDLY", "GENERIC", "OLDSCHOOL"))
 		playsound(loc, pick('sound/misc/keyboard_select (1).ogg','sound/misc/keyboard_select (2).ogg','sound/misc/keyboard_select (3).ogg','sound/misc/keyboard_select (4).ogg'), 100, FALSE, -1)
 		user.visible_message(span_info("[user] presses a button on \the [src]."),span_info("I press a button on \the [src]."))
 		var/chosen_songlists_selection = null
@@ -129,7 +129,7 @@
 				chosen_songlists_selection = songlist_generic
 			if("OLDSCHOOL")
 				chosen_songlists_selection = songlist_oldschool
-		var/song_selection = input(user, "Which song do I play?", "\The [src]") as null | anything in chosen_songlists_selection
+		var/song_selection = tgui_input_list(user, "Which song do I play?", "\The [src]", null|chosen_songlists_selection)
 		if(!Adjacent(user))
 			return
 		if(!song_selection)

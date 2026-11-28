@@ -60,7 +60,7 @@
 		H.set_blindness(0)
 		H.mind.AddSpell(new /datum/action/cooldown/spell/rage)
 		var/list/armor_choices = list("Light Armor", "Bare Skin")
-		var/armor_choice = input(H,"Choose your DEFENSE.", "I CAN TAKE IT!!") as anything in armor_choices
+		var/armor_choice = tgui_input_list(H,"Choose your DEFENSE.", "I CAN TAKE IT!!", armor_choices)
 		switch(armor_choice)
 			if("Light Armor")
 				armor = /obj/item/clothing/suit/roguetown/armor/leather/heavy/coat
@@ -68,14 +68,14 @@
 				armor = /obj/item/clothing/suit/roguetown/armor/manual/resting/chest/berzerker //light steel maille
 				shirt = /obj/item/clothing/suit/roguetown/armor/manual/resting/body/berzerker //fullbody leather armor
 		var/list/main_choices = list("Unarmed Master", "Martial Expert") // Unarmed focuses on master punching and wrestling moves, Martial gives you two expert weapon skills to be flexible
-		var/category_choice = input(H, "Choose your MEANS OF VIOLENCE.", "SMASH OR SLASH!!") as anything in main_choices
+		var/category_choice = tgui_input_list(H, "Choose your MEANS OF VIOLENCE.", "SMASH OR SLASH!!", main_choices)
 		switch(category_choice)
 			if("Unarmed Master") //still incredibly strong btw, apply punch to skull
 				H.adjust_skillrank_up_to(/datum/skill/combat/unarmed, SKILL_LEVEL_EXPERT, TRUE)
 				ADD_TRAIT(H, TRAIT_CIVILIZEDBARBARIAN, TRAIT_GENERIC)
 				gloves = /obj/item/clothing/gloves/roguetown/bandages/weighted // apperantly normal barb gets em so for consistency sake
 				var/list/unarmed_options = list("Katar", "Knuckledusters", "Punch Dagger")
-				var/weapon_choice = input(H, "Choose how you PUNCH!", "BREAK THEIR BONES.") as anything in unarmed_options
+				var/weapon_choice = tgui_input_list(H, "Choose how you PUNCH!", "BREAK THEIR BONES.", unarmed_options)
 				switch(weapon_choice)
 					if("Katar")
 						beltr = /obj/item/rogueweapon/katar
@@ -85,7 +85,7 @@
 						beltr = /obj/item/rogueweapon/katar/punchdagger
 			if("Martial Expert") // designed to compete with unarmed by giving you alternatives to approaching fights- only expert
 				var/list/martial_options = list("Greatsword", "Battle Axe", "Grand Mace", "Longsword")
-				var/weapon_choice = input(H, "Choose your WEAPONS of WAR!", "SPILL THEIR ENTRAILS.") as anything in martial_options
+				var/weapon_choice = tgui_input_list(H, "Choose your WEAPONS of WAR!", "SPILL THEIR ENTRAILS.", martial_options)
 				switch(weapon_choice)
 					if("Greatsword") //Actually not a meme anymore
 						H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_EXPERT, TRUE)
@@ -103,7 +103,7 @@
 						beltr = /obj/item/rogueweapon/scabbard/sword
 						r_hand = /obj/item/rogueweapon/sword/falx
 				var/list/sidearm_options = list("Iron Arming Sword", "Iron Axe", "Mace")
-				var/sidearm_choice = input(H, "Choose your secondary WEAPON!", "SPILL THEIR ENTRAILS.") as anything in sidearm_options
+				var/sidearm_choice = tgui_input_list(H, "Choose your secondary WEAPON!", "SPILL THEIR ENTRAILS.", sidearm_options)
 				switch(sidearm_choice)
 					if("Iron Arming Sword")
 						H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_EXPERT, TRUE)
@@ -116,7 +116,7 @@
 						beltl = /obj/item/rogueweapon/mace
 
 		var/helmets = list("Berserker's Volfskulle Bascinet","Steel Kettle + Wildguard")
-		var/helmet_choice = input(H, "Choose your HELMET.", "STEEL YOURSELF.") as anything in helmets
+		var/helmet_choice = tgui_input_list(H, "Choose your HELMET.", "STEEL YOURSELF.", helmets)
 		switch(helmet_choice)
 			if("Berserker's Volfskulle Bascinet")
 				head = /obj/item/clothing/head/roguetown/helmet/heavy/volfplate/berserker //Pseudoantagonistic-exclusive. Light AC with an on-wear trait for HELMBITING.

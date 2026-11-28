@@ -136,7 +136,7 @@
 		if(!S.client)
 			continue
 		souloptions += S.livingname
-	var/pickedsoul = input(user, "Which wandering soul shall I commune with?", "Available Souls") as null|anything in souloptions
+	var/pickedsoul = tgui_input_list(user, "Which wandering soul shall I commune with?", "Available Souls", null|souloptions)
 	if(!pickedsoul)
 		to_chat(user, span_warning("I was unable to commune with a soul."))
 		return

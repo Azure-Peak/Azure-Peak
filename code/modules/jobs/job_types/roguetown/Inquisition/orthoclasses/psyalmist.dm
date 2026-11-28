@@ -72,7 +72,7 @@
 /datum/outfit/job/roguetown/psyaltrist/choose_loadout(mob/living/carbon/human/H)
 	. = ..()
 	var/instruments = list("Harp", "Lute", "Accordion", "Guitar", "Hurdy-Gurdy", "Viola", "Vocal Talisman", "Psyaltery", "Flute", "Drum", "Shamisen")
-	var/instrument_choice = input(H, "Choose your INSTRUMENT.", "TAKE UP PSYDON'S SOLEMNITY.") as anything in instruments
+	var/instrument_choice = tgui_input_list(H, "Choose your INSTRUMENT.", "TAKE UP PSYDON'S SOLEMNITY.", instruments)
 	switch(instrument_choice)
 		if("Harp")
 			H.equip_to_slot_or_del(new /obj/item/rogue/instrument/harp, SLOT_BACK_R, TRUE)
@@ -98,7 +98,7 @@
 			H.equip_to_slot_or_del(new /obj/item/rogue/instrument/shamisen, SLOT_BACK_R, TRUE)
 
 	var/weapons = list("Psydonic Shortsword", "Psydonic Cudgel", "Psydonic Flanged Mace", "Psydonic Whip")
-	var/weapon_choice = input(H,"Choose your WEAPON.", "TAKE UP PSYDON'S ARMS.") as anything in weapons
+	var/weapon_choice = tgui_input_list(H,"Choose your WEAPON.", "TAKE UP PSYDON'S ARMS.", weapons)
 	switch(weapon_choice)
 		if("Psydonic Shortsword")
 			H.put_in_hands(new /obj/item/rogueweapon/sword/short/silver/psy)

@@ -112,7 +112,7 @@
 	)
 	H.adjust_blindness(-3)
 	var/weapons = list("Dec Sword + Shield","Zweihander","Great Mace","Battle Axe","Greataxe","Estoc","Eagle Beak", "Partizan", "Lance + Shield")
-	var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
+	var/weapon_choice = tgui_input_list(H, "Choose your weapon.", "TAKE UP ARMS", weapons)
 	H.set_blindness(0)
 	switch(weapon_choice)
 		if("Dec Sword + Shield")
@@ -165,27 +165,27 @@
 			H.adjust_skillrank_up_to(/datum/skill/combat/polearms, SKILL_LEVEL_EXPERT, TRUE)
 
 	var/helmet = list("Pigface Bascinet","Guard Helmet","Barred Helmet","Bucket Helmet","Knight's Helmet","Knight's Armet","Volfskulle Bascinet" ,"Visored Sallet","Snouted Visored Sallet","Armet","Snouted Armet","Hounskull Bascinet", "Etruscan Bascinet", "Slitted Kettle")
-	var/helmet_choice = input(H, "Choose your Helm.", "TAKE UP HELMS") as anything in helmet
+	var/helmet_choice = tgui_input_list(H, "Choose your Helm.", "TAKE UP HELMS", helmet)
 	switch(helmet_choice)
-		if("Pigface Bascinet") 
+		if("Pigface Bascinet")
 			head = /obj/item/clothing/head/roguetown/helmet/bascinet/pigface
-		if("Guard Helmet")	
+		if("Guard Helmet")
 			head = /obj/item/clothing/head/roguetown/helmet/heavy/guard
-		if("Barred Helmet")		
+		if("Barred Helmet")
 			head = /obj/item/clothing/head/roguetown/helmet/heavy/sheriff
-		if("Bucket Helmet")		
+		if("Bucket Helmet")
 			head = /obj/item/clothing/head/roguetown/helmet/heavy/bucket
-		if("Knight's Helmet")		
+		if("Knight's Helmet")
 			head = /obj/item/clothing/head/roguetown/helmet/heavy/knight/old
-		if("Knight's Armet")		
+		if("Knight's Armet")
 			head = /obj/item/clothing/head/roguetown/helmet/heavy/knight
 		if("Volfskulle Bascinet")
 			head = /obj/item/clothing/head/roguetown/helmet/heavy/volfplate
-		if("Visored Sallet")	
+		if("Visored Sallet")
 			head = /obj/item/clothing/head/roguetown/helmet/sallet/visored
 		if("Snouted Visored Sallet")
 			head = /obj/item/clothing/head/roguetown/helmet/sallet/visored/snouted
-		if("Armet")			
+		if("Armet")
 			head = /obj/item/clothing/head/roguetown/helmet/heavy/knight/armet
 		if("Snouted Armet")
 			head = /obj/item/clothing/head/roguetown/helmet/heavy/knight/armet/snouted
@@ -193,5 +193,5 @@
 			head = /obj/item/clothing/head/roguetown/helmet/bascinet/pigface/hounskull
 		if("Etruscan Bascinet")
 			head = /obj/item/clothing/head/roguetown/helmet/bascinet/etruscan
-		if("Slitted Kettle") 
+		if("Slitted Kettle")
 			head = /obj/item/clothing/head/roguetown/helmet/heavy/knight/skettle

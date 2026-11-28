@@ -1008,7 +1008,7 @@
 /obj/item/clothing/shoes/roguetown/simpleshoes/heels/attack_right(mob/user)
 	..()
 	if(!picked)
-		var/choice = input(user, "Choose a color.", "Uniform colors") as anything in COLOR_MAP
+		var/choice = tgui_input_list(user, "Choose a color.", "Uniform colors", COLOR_MAP)
 		var/playerchoice = COLOR_MAP[choice]
 		picked = TRUE
 		detail_color = playerchoice
@@ -1196,7 +1196,7 @@
 /obj/item/clothing/head/roguetown/roguehood/shadedhat/attackby(obj/item/W, mob/living/user, params)
 	..()
 	if(istype(W, /obj/item/natural/fur) && !detail_tag)
-		var/choice = input(user, "Choose a color.", "Fur") as anything in COLOR_MAP
+		var/choice = tgui_input_list(user, "Choose a color.", "Fur", COLOR_MAP)
 		detail_color = COLOR_MAP[choice]
 		detail_tag = "_detail"
 		user.visible_message(span_warning("[user] adds [W] to [src]."))
@@ -1206,7 +1206,7 @@
 			var/mob/living/carbon/H = user
 			H.update_inv_head()
 	if(istype(W, /obj/item/natural/cloth) && !altdetail_tag)
-		var/choice = input(user, "Choose a color.", "Cloth") as anything in COLOR_MAP
+		var/choice = tgui_input_list(user, "Choose a color.", "Cloth", COLOR_MAP)
 		detail_color = COLOR_MAP[choice]
 		detail_tag = "_detailalt"
 		user.visible_message(span_warning("[user] adds [W] to [src]."))
@@ -1274,7 +1274,7 @@
 /obj/item/clothing/head/roguetown/helmet/heavy/knight/rockhill/attackby(obj/item/W, mob/living/user, params)
 	..()
 	if(istype(W, /obj/item/natural/cloth) && !altdetail_tag)
-		var/choicealt = input(user, "Choose a color.", "Scarf") as anything in COLOR_MAP + GLOB.pridelist
+		var/choicealt = tgui_input_list(user, "Choose a color.", "Scarf", COLOR_MAP + GLOB.pridelist)
 		user.visible_message(span_warning("[user] adds [W] to [src]."))
 		user.transferItemToLoc(W, src, FALSE, FALSE)
 		altdetail_color = COLOR_MAP[choicealt]
@@ -3762,7 +3762,7 @@ As Excaliber."
 	..()
 	if(!(istype(W, /obj/item/natural/feather) && !detail_tag))
 		return
-	var/choice = input(user, "Choose a color.", "Wings") as anything in COLOR_MAP
+	var/choice = tgui_input_list(user, "Choose a color.", "Wings", COLOR_MAP)
 	user.visible_message(span_warning("[user] adds [W] to [src]."))
 	user.transferItemToLoc(W, src, FALSE, FALSE)
 	detail_color = COLOR_MAP[choice]
@@ -3817,7 +3817,7 @@ As Excaliber."
 	..()
 	if(!(istype(W, /obj/item/natural/feather) && !detail_tag))
 		return
-	var/choice = input(user, "Choose a color.", "Wings") as anything in COLOR_MAP
+	var/choice = tgui_input_list(user, "Choose a color.", "Wings", COLOR_MAP)
 	user.visible_message(span_warning("[user] adds [W] to [src]."))
 	user.transferItemToLoc(W, src, FALSE, FALSE)
 	detail_color = COLOR_MAP[choice]
@@ -3857,7 +3857,7 @@ As Excaliber."
 	..()
 	if(!(istype(W, /obj/item/natural/feather) && !detail_tag))
 		return
-	var/choice = input(user, "Choose a color.", "Wings") as anything in COLOR_MAP
+	var/choice = tgui_input_list(user, "Choose a color.", "Wings", COLOR_MAP)
 	user.visible_message(span_warning("[user] adds [W] to [src]."))
 	user.transferItemToLoc(W, src, FALSE, FALSE)
 	detail_color = COLOR_MAP[choice]

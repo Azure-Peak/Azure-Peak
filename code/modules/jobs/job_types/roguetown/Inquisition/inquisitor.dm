@@ -127,7 +127,7 @@
 /datum/outfit/job/roguetown/inquisitor/inspector/choose_loadout(mob/living/carbon/human/H)
 	. = ..()
 	var/weapons = list("Relic, 'Stigmata' (Halberd)", "Relic, 'Eucharist' (Rapier)", "Relic, 'Providence' (Siegebow)", "Psydonic Tomahawk", "Psydonic Longsword", "Psydonic Rapier", "Psydonic Cudgel", "Psydonic Flanged Mace", "Your Faith (Expertise With Most Weapons)")
-	var/weapon_choice = input(H,"FLOURISH YOUR SILVER.", "WIELD THEM IN HIS NAME.") as anything in weapons
+	var/weapon_choice = tgui_input_list(H,"FLOURISH YOUR SILVER.", "WIELD THEM IN HIS NAME.", weapons)
 	switch(weapon_choice)
 		if("Relic, 'Stigmata' (Halberd)")
 			H.put_in_hands(new /obj/item/rogueweapon/halberd/silver/psy/relic(H))
@@ -263,7 +263,7 @@
 /datum/outfit/job/roguetown/inquisitor/ordinator/choose_loadout(mob/living/carbon/human/H)
 	. = ..()
 	var/weapons = list("Relic, 'Apocrypha' (Greatsword)", "Relic, 'Creed & Covenant' (Broadsword + Greatshield)", "Relic, 'Consecratia & Covenant' (Flail + Greatshield)", "Relic, 'Stigmata & Covenant' (Halberd + Greatshield)", "Relic, 'Covenant' (Greatshield) + Psydonic War Axe", "Psydonic Grand Mace", "Psydonic Broadsword", "Psydonic Poleaxe")
-	var/weapon_choice = input(H,"CHOOSE YOUR RELIQUARY PIECE.", "WIELD THEM IN HIS NAME.") as anything in weapons
+	var/weapon_choice = tgui_input_list(H,"CHOOSE YOUR RELIQUARY PIECE.", "WIELD THEM IN HIS NAME.", weapons)
 	switch(weapon_choice)
 		if("Relic, 'Apocrypha' (Greatsword)")
 			H.put_in_hands(new /obj/item/rogueweapon/greatsword/silver/psy/relic(H))

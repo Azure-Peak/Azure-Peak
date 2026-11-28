@@ -120,7 +120,7 @@ NECRO SKELETONS
 
 	H.adjust_blindness(-3)
 	var/tabards = list("Black Jupon", "Black Tabard", "Black Cloak", "Black Toga")
-	var/tabard_choice = input(H, "Choose your CLOAK.", "BEAR YOUR HERALDRY.") as anything in tabards
+	var/tabard_choice = tgui_input_list(H, "Choose your CLOAK.", "BEAR YOUR HERALDRY.", tabards)
 	switch(tabard_choice)
 		if("Black Jupon")
 			cloak = /obj/item/clothing/cloak/tabard/stabard/surcoat/necro
@@ -130,7 +130,7 @@ NECRO SKELETONS
 			cloak = /obj/item/clothing/cloak/half/lich
 		if("Black Toga")
 			cloak = /obj/item/clothing/cloak/tabard/toga/lich
-	var/weapon_choice = input(H, "Choose your weapon.", "RISE AGAINST THE LYVING.") as anything in list("Sword + Shield", "Spear", "Mace + Shield", "Axe + Shield", "Flail + Shield")
+	var/weapon_choice = tgui_input_list(H, "Choose your weapon.", "RISE AGAINST THE LYVING.", list("Sword + Shield", "Spear", "Mace + Shield", "Axe + Shield", "Flail + Shield"))
 	H.set_blindness(0)
 	switch(weapon_choice)
 		if("Sword + Shield")
@@ -203,7 +203,7 @@ NECRO SKELETONS
 
 	H.adjust_blindness(-3)
 	var/tabards = list("Black Jupon", "Black Tabard", "Black Cloak", "Black Toga")
-	var/tabard_choice = input(H, "Choose your CLOAK.", "BEAR YOUR HERALDRY.") as anything in tabards
+	var/tabard_choice = tgui_input_list(H, "Choose your CLOAK.", "BEAR YOUR HERALDRY.", tabards)
 	switch(tabard_choice)
 		if("Black Jupon")
 			cloak = /obj/item/clothing/cloak/tabard/stabard/surcoat/necro
@@ -211,7 +211,7 @@ NECRO SKELETONS
 			cloak = /obj/item/clothing/cloak/tabard/necro
 		if("Black Toga")
 			cloak = /obj/item/clothing/cloak/tabard/toga/lich
-	var/weapon_choice = input(H, "Choose your weapon.", "RISE AGAINST THE LYVING.") as anything in list("Bow", "Sling", "Crossbow")
+	var/weapon_choice = tgui_input_list(H, "Choose your weapon.", "RISE AGAINST THE LYVING.", list("Bow", "Sling", "Crossbow"))
 	H.set_blindness(0)
 	switch(weapon_choice)
 		if("Bow")
@@ -285,11 +285,11 @@ NECRO SKELETONS
 		"None"
 		)
 	H.adjust_blindness(-3)
-	var/helmchoice = input(H, "Choose your Helm.", "TAKE UP HELMS") as anything in helmets
+	var/helmchoice = tgui_input_list(H, "Choose your Helm.", "TAKE UP HELMS", helmets)
 	if(helmchoice != "None")
 		head = helmets[helmchoice]
 	var/tabards = list("Black Jupon", "Black Tabard", "Black Cloak", "Black Toga")
-	var/tabard_choice = input(H, "Choose your CLOAK.", "BEAR YOUR HERALDRY.") as anything in tabards
+	var/tabard_choice = tgui_input_list(H, "Choose your CLOAK.", "BEAR YOUR HERALDRY.", tabards)
 	switch(tabard_choice)
 		if("Black Jupon")
 			cloak = /obj/item/clothing/cloak/tabard/stabard/surcoat/necro
@@ -299,7 +299,7 @@ NECRO SKELETONS
 			cloak = /obj/item/clothing/cloak/half/lich
 		if("Black Toga")
 			cloak = /obj/item/clothing/cloak/tabard/toga/lich
-	var/weapon_choice = input(H, "Choose your weapon.", "RISE AGAINST THE LYVING.") as anything in list("Greatsword", "Spear", "Great Flail", "Warhammer + Shield")
+	var/weapon_choice = tgui_input_list(H, "Choose your weapon.", "RISE AGAINST THE LYVING.", list("Greatsword", "Spear", "Great Flail", "Warhammer + Shield"))
 	H.set_blindness(0)
 	switch(weapon_choice)
 		if("Greatsword")
@@ -382,7 +382,7 @@ NECRO SKELETONS
 	beltl = /obj/item/rogueweapon/pick
 
 	var/tabards = list("Black Jupon", "Black Tabard", "Black Cloak", "Black Toga")
-	var/tabard_choice = input(H, "Choose your CLOAK.", "BEAR YOUR HERALDRY.") as anything in tabards
+	var/tabard_choice = tgui_input_list(H, "Choose your CLOAK.", "BEAR YOUR HERALDRY.", tabards)
 	switch(tabard_choice)
 		if("Black Jupon")
 			cloak = /obj/item/clothing/cloak/tabard/stabard/surcoat/necro

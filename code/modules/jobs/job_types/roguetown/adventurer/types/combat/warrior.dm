@@ -36,7 +36,7 @@
 	H.set_blindness(0)
 	if(H.mind)
 		var/weapons = list("Short Sword & Iron Shield","Arming Sword & Wood Shield","Longsword & +1 Wrestling","Stecher & +1 Wrestling","Broadsword & +1 Wrestling","Battle Axe & Wood Shield","Mace & Iron Shield","Flail & Iron Shield","Billhook","Greatflail")
-		var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
+		var/weapon_choice = tgui_input_list(H, "Choose your weapon.", "TAKE UP ARMS", weapons)
 		switch(weapon_choice)
 			if("Short Sword & Iron Shield")
 				H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_EXPERT, TRUE)
@@ -89,7 +89,7 @@
 				r_hand = /obj/item/rogueweapon/flail/peasantwarflail/iron
 				backr = /obj/item/rogueweapon/scabbard/gwstrap
 		var/armors = list("Chainmaille Set","Iron Breastplate","Gambeson & Helmet","Light Raneshi Armor")
-		var/armor_choice = input(H, "Choose your armor.", "TAKE UP ARMOR") as anything in armors
+		var/armor_choice = tgui_input_list(H, "Choose your armor.", "TAKE UP ARMOR", armors)
 		switch(armor_choice)
 			if("Chainmaille Set")
 				armor = /obj/item/clothing/suit/roguetown/armor/chainmail/iron
@@ -161,7 +161,7 @@
 	H.set_blindness(0)
 	if(H.mind)
 		var/weapons = list("Rapier & Parrying Dagger","Sabre & Buckler","Messer & Buckler","Dagger & Parrying Dagger","Dual Wield Shortswords","Heavy Dagger & +1 Unarmed")
-		var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
+		var/weapon_choice = tgui_input_list(H, "Choose your weapon.", "TAKE UP ARMS", weapons)
 		switch(weapon_choice)
 			if("Rapier & Parrying Dagger")
 				H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_EXPERT, TRUE)
@@ -198,7 +198,7 @@
 				beltl = /obj/item/rogueweapon/scabbard/sword
 
 		var/armors = list("Classical Set","Cuirass Set")
-		var/armor_choice = input(H, "Choose your armor.", "TAKE UP ARMOR") as anything in armors
+		var/armor_choice = tgui_input_list(H, "Choose your armor.", "TAKE UP ARMOR", armors)
 		switch(armor_choice)
 			if("Classical Set")
 				mask = /obj/item/clothing/mask/rogue/duelmask
@@ -263,7 +263,7 @@
 		return
 
 	var/weapons = list("Bronze Katar","Bronze Sword","Bronze Axe","Bronze Mace","Bronze Spear","Bronze Flail","Whiphunter (+I PER / -I SPD)","Unarmed","Greatsword - Bodybuilder")
-	var/weapon_choice = input(H, "Choose your WEAPON.", "TAKE UP ARMS.") as anything in weapons
+	var/weapon_choice = tgui_input_list(H, "Choose your WEAPON.", "TAKE UP ARMS.", weapons)
 	switch(weapon_choice)
 		if("Bronze Katar")
 			H.adjust_skillrank_up_to(/datum/skill/combat/unarmed, SKILL_LEVEL_EXPERT, TRUE)
@@ -387,7 +387,7 @@
 			"Banded Iron Helmet"			=	/obj/item/clothing/head/roguetown/helmet/sallet/iron/banded,
 			"None"
 			)
-		var/helmchoice = input(H, "Choose your Helm.", "TAKE UP HELMS") as anything in helmets
+		var/helmchoice = tgui_input_list(H, "Choose your Helm.", "TAKE UP HELMS", helmets)
 		if(helmchoice != "None")
 			head = helmets[helmchoice]
 
@@ -396,7 +396,7 @@
 			"Half-Plate, Gambeson, & Chausses",
 			"Banded Iron, Light Gambeson, & Pants"
 			)
-		var/armorchoice = input(H, "Choose your armor.", "TAKE UP ARMOR") as anything in armors
+		var/armorchoice = tgui_input_list(H, "Choose your armor.", "TAKE UP ARMOR", armors)
 		switch(armorchoice)
 			if("Breastplate, Hauberk, & Kilt")
 				armor = /obj/item/clothing/suit/roguetown/armor/plate/cuirass/iron
@@ -432,7 +432,7 @@
 	H.set_blindness(0)
 	if(H.mind)
 		var/weapons = list("Executioner's Sword","Bastard Sword","Broadsword","Warhammer + Shield","Flail + Shield","Studded Flail + Shield","Lucerne","Greataxe","Greatflail","Banded Sword + Shield")
-		var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
+		var/weapon_choice = tgui_input_list(H, "Choose your weapon.", "TAKE UP ARMS", weapons)
 		switch(weapon_choice)
 			if("Executioner's Sword")
 				H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_JOURNEYMAN, TRUE)
@@ -516,7 +516,7 @@
 	add_verb(H, /mob/living/carbon/human/proc/torture_victim) //Not as scary as it sounds. Mostly. Okay, just a little bit.
 	if(H.mind)
 		var/silver = list("Silver Dagger","Silver Shortsword","Silver Arming Sword","Silver Rapier","Silver Longsword","Silver Broadsword","Silver Executioner Sword","Silver Mace","Silver Warhammer","Silver Morningstar","Silver Whip","Silver War Axe","Silver Tomahawk","Silver Poleaxe","Silver Spear","Silver Halberd","Silver Quarterstaff","Silver Katar (+1 Athletics)","Silver Claws (+1 Athletics)","Silver Knuckledusters (+1 Athletics)", "Stake Launcher + 24 Shotstakes")
-		var/silver_choice = input(H, "Choose your WEAPON.", "PREPARE YOUR ARMS.") as anything in silver //Trim down to five or six choices, later? See what's the most popular, first. Gives people a chance to experiment with all of the new silver weapons.
+		var/silver_choice = tgui_input_list(H, "Choose your WEAPON.", "PREPARE YOUR ARMS.", silver) //Trim down to five or six choices, later? See what's the most popular, first. Gives people a chance to experiment with all of the new silver weapons.
 		switch(silver_choice)
 			if("Silver Dagger")
 				H.adjust_skillrank_up_to(/datum/skill/combat/knives, SKILL_LEVEL_JOURNEYMAN, TRUE)
@@ -597,7 +597,7 @@
 				beltr = /obj/item/quiver/bolt/stake/standard
 
 		var/sidearm = list("Dagger", "Parrying Dagger", "Heavy Dagger", "Broadsword", "Greatshield", "Stake Launcher", "Blessed Silver Stake", "Blessed Silver Hunting Knife", "Blessed Silver Shovel")
-		var/sidearm_choice = input(H, "Choose your SIDEARM.", "SAY YOUR PRAYERS.") as anything in sidearm
+		var/sidearm_choice = tgui_input_list(H, "Choose your SIDEARM.", "SAY YOUR PRAYERS.", sidearm)
 		switch(sidearm_choice)
 			if("Dagger")
 				l_hand = /obj/item/rogueweapon/huntingknife/idagger/steel
@@ -630,7 +630,7 @@
 				l_hand = /obj/item/rogueweapon/shovel/silver/preblessed //Unlocks the secret 'Shovel Knight' subclass. No dagger skills if you take this. Doesn't scale off anything, I think. Raw style.
 
 		var/discipline = list("Sanguine - Silverblooded (+I INT)", "Swiftfooted - Dodgemaster (+I SPD)", "Stalwart - Platearmorable (+I CON / -I SPD)")
-		var/discipline_choice = input(H, "Choose your DISCIPLINE.", "FACE YOUR NIGHTMARE.") as anything in discipline
+		var/discipline_choice = tgui_input_list(H, "Choose your DISCIPLINE.", "FACE YOUR NIGHTMARE.", discipline)
 		switch(discipline_choice)
 			if("Sanguine - Silverblooded (+I INT)")
 				ADD_TRAIT(H, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
@@ -657,7 +657,7 @@
 				shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/puritan
 				belt = /obj/item/storage/belt/rogue/leather/black
 				var/helmets = list("Puritan's Armored Hat", "Visored Sallet","Snouted Visored Sallet", "Volfskulle Bascinet", "Fluted Armet", "Fluted Armet With Greatplume", "Sugarloaf Greathelm", "Barbute Greathelm", "Snouted Burgonet", "Pigface Bascinet", "Roundface Bascinet","Snouted Roundface Bascinet")
-				var/helmet_choice = input(H, "Choose your VISAGE.", "GET PSYCHED.") as anything in helmets
+				var/helmet_choice = tgui_input_list(H, "Choose your VISAGE.", "GET PSYCHED.", helmets)
 				switch(helmet_choice)
 					if("Puritan's Armored Hat")
 						head = /obj/item/clothing/head/roguetown/puritan/armored
@@ -746,7 +746,7 @@
 		l_hand = /obj/item/rogueweapon/shield/wood/deprived
 		pants = /obj/item/clothing/under/roguetown/loincloth/deprived
 	var/weapons = list("Broken Blade","Ghastly Club")
-	var/weapon_choice = input(H, "Choose your..... WEAPON.", "TAKE UP ARMS.") as anything in weapons
+	var/weapon_choice = tgui_input_list(H, "Choose your..... WEAPON.", "TAKE UP ARMS.", weapons)
 	switch(weapon_choice)
 		if("Broken Blade")
 			H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_JOURNEYMAN, TRUE)

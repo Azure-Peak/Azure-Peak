@@ -89,8 +89,7 @@ GLOBAL_VAR(deaths_door_exit)//turf at necra's shrine on each map
 			label = "[get_area(T)]"
 		named[label] = T
 
-	var/choice = input(user, "Choose a path from Death's Edge:", "Necra's Way") \
-		as null|anything in named
+	var/choice = tgui_input_list(user, "Choose a path from Death's Edge:", "Necra's Way", null|named)
 	if(!choice)
 		return null
 

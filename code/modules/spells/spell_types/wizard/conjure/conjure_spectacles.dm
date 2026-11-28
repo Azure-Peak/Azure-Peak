@@ -47,7 +47,7 @@
 
 /datum/action/cooldown/spell/conjure_spectacles/cast(list/targets, mob/living/user = usr)
 	. = ..()
-	var/spectacles_choice = input(user, "Choose a spectacles", "Conjure Spectacles") as anything in spectacles
+	var/spectacles_choice = tgui_input_list(user, "Choose a spectacles", "Conjure Spectacles", spectacles)
 	if(!spectacles_choice)
 		return
 	if(src.conjured_spectacles)

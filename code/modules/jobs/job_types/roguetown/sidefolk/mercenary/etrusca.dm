@@ -53,7 +53,7 @@
 		)
 	if(H.mind)
 		var/weapons = list("Intrepid Leader - Dual Longswords", "Calculating Tactician - Crossbow + Shortsword")
-		var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
+		var/weapon_choice = tgui_input_list(H, "Choose your weapon.", "TAKE UP ARMS", weapons)
 		switch(weapon_choice)
 			if("Intrepid Leader - Dual Longswords") //It's badass fuck you
 				H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_EXPERT, TRUE)

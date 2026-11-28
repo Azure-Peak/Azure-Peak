@@ -100,7 +100,7 @@ GLOBAL_LIST_EMPTY(used_colors)
 	if(GLOB.lordsecondary)
 		colors_to_pick["Secondary Keep Color"] = GLOB.lordsecondary
 	colors_to_pick += GLOB.used_colors.Copy()
-	var/picked = input(user, "Choose your dye:", "Dyes", null) as null|anything in colors_to_pick
+	var/picked = tgui_input_list(user, "Choose your dye:", "Dyes", null|colors_to_pick)
 	if(!picked)
 		return null
 	return colors_to_pick[picked]
@@ -367,7 +367,7 @@ GLOBAL_LIST_EMPTY(used_colors)
 		var/list/presets = COLOR_MAP
 		presets += GLOB.pridelist
 
-		var/picked = input(user, "Choose your dye:", "Dyes", null) as null|anything in presets
+		var/picked = tgui_input_list(user, "Choose your dye:", "Dyes", null|presets)
 		if(!picked)
 			return
 

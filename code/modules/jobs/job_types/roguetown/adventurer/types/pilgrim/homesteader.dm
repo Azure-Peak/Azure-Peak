@@ -198,7 +198,7 @@
 	else if(H.adaptive_name_title != name)
 		default_mode = "Single Skill Title"
 
-	var/title_mode = input(H, "How should I be known?", "Homesteader Title", default_mode) as null|anything in title_modes
+	var/title_mode = tgui_input_list(H, "How should I be known?", "Homesteader Title", null|title_modes, default_mode)
 	if(!title_mode)
 		return FALSE
 	switch(title_mode)
@@ -211,7 +211,7 @@
 				to_chat(H, span_warning("I do not have any titles to choose from."))
 				return FALSE
 			var/default_title = (H.adaptive_name_title && H.adaptive_name_title != name) ? H.adaptive_name_title : title_options[1]
-			var/title_choice = input(H, "Which title should I use?", "Homesteader Title", default_title) as null|anything in title_options
+			var/title_choice = tgui_input_list(H, "Which title should I use?", "Homesteader Title", null|title_options, default_title)
 			if(!title_choice)
 				return FALSE
 			H.adaptive_name_title = title_choice

@@ -29,7 +29,7 @@
 	to_chat(H, span_warning("A surviving servant of a destroyed dynasty, an exile, or a spy, one way or another, your skills will help you serve. The rest is to find your master."))
 
 	var/choice_list = list("Butler", "Maid")
-	var/choice = input(H, "What are you?", "Occupation") as anything in choice_list
+	var/choice = tgui_input_list(H, "What are you?", "Occupation", choice_list)
 
 	switch(choice)
 		if("Maid")

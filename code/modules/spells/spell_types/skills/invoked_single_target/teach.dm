@@ -95,7 +95,7 @@
 		else
 			if(L in range(1, usr))
 				to_chat(usr, span_notice("My student needs some time to select a lesson."))
-				var/chosen_skill = input(L, "Most of the lessons require you to be no less than novice in the selected skill", "Choose a skill") as null|anything in choices
+				var/chosen_skill = tgui_input_list(L, "Most of the lessons require you to be no less than novice in the selected skill", "Choose a skill", null|choices)
 				var/datum/skill/item = choices[chosen_skill]
 				if(!item)
 					return	// student canceled

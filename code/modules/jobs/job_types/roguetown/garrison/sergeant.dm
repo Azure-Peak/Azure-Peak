@@ -107,7 +107,7 @@
 	H.adjust_blindness(-3)
 	if(H.mind)
 		var/weapons = list("Flail & Shield","Axe & Iron Shield","Halberd & Heater","Longsword & Crossbow","Sabre & Iron Shield")	//Bit more unique than footsman, you are a jack-of-all-trades + slightly more 'elite'.
-		var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
+		var/weapon_choice = tgui_input_list(H, "Choose your weapon.", "TAKE UP ARMS", weapons)
 		H.set_blindness(0)
 		switch(weapon_choice)
 			if("Flail & Shield")	//Tower-shield, higher durability wood shield w/ more coverage. Plus a steel flail; maybe.. less broken that a steel mace?
@@ -142,7 +142,7 @@
 			"Steel Cuirass"		= /obj/item/clothing/suit/roguetown/armor/plate/cuirass,
 			"Scalemail"	= /obj/item/clothing/suit/roguetown/armor/plate/scale,
 		)
-		var/armorchoice = input(H, "Choose your armor.", "TAKE UP ARMOR") as anything in armors
+		var/armorchoice = tgui_input_list(H, "Choose your armor.", "TAKE UP ARMOR", armors)
 		armor = armors[armorchoice]
 	if(H.mind)
 		SStreasury.grant_savings(ECONOMIC_UPPER_MIDDLE_CLASS, H)

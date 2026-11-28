@@ -107,7 +107,7 @@
 	H.adjust_blindness(-3)
 	if(H.mind)
 		var/weapons = list("Claymore","Great Mace","Battle Axe","Poleaxe","Estoc","Halberd","Stecher","Lucerne", "Partizan")
-		var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
+		var/weapon_choice = tgui_input_list(H, "Choose your weapon.", "TAKE UP ARMS", weapons)
 		H.set_blindness(0)
 		switch(weapon_choice)
 			if("Claymore")
@@ -164,7 +164,7 @@
 			"Snouted Roundface Bascinet"	= /obj/item/clothing/head/roguetown/helmet/bascinet/pigface/roundface/snouted,
 			"None"
 		)
-		var/helmchoice = input(H, "Choose your Helm.", "TAKE UP HELMS") as anything in helmets
+		var/helmchoice = tgui_input_list(H, "Choose your Helm.", "TAKE UP HELMS", helmets)
 		if(helmchoice != "None")
 			head = helmets[helmchoice]
 
@@ -174,7 +174,7 @@
 			"Steel Cuirass"		= /obj/item/clothing/suit/roguetown/armor/plate/cuirass,
 			"Fluted Cuirass"	= /obj/item/clothing/suit/roguetown/armor/plate/cuirass/fluted,
 		)
-		var/armorchoice = input(H, "Choose your armor.", "TAKE UP ARMOR") as anything in armors
+		var/armorchoice = tgui_input_list(H, "Choose your armor.", "TAKE UP ARMOR", armors)
 		armor = armors[armorchoice]
 
 	backpack_contents = list(
@@ -225,7 +225,7 @@
 	H.adjust_blindness(-3)
 	if(H.mind)
 		var/weapons = list("Longsword","Flail","Warhammer","Sabre")
-		var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
+		var/weapon_choice = tgui_input_list(H, "Choose your weapon.", "TAKE UP ARMS", weapons)
 		H.set_blindness(0)
 		switch(weapon_choice)
 			if("Longsword")
@@ -267,7 +267,7 @@
 			"Snouted Roundface Bascinet"	= /obj/item/clothing/head/roguetown/helmet/bascinet/pigface/roundface/snouted,
 			"None"
 		)
-		var/helmchoice = input(H, "Choose your Helm.", "TAKE UP HELMS") as anything in helmets
+		var/helmchoice = tgui_input_list(H, "Choose your Helm.", "TAKE UP HELMS", helmets)
 		if(helmchoice != "None")
 			head = helmets[helmchoice]
 
@@ -277,7 +277,7 @@
 			"Steel Cuirass"		= /obj/item/clothing/suit/roguetown/armor/plate/cuirass,
 			"Fluted Cuirass"	= /obj/item/clothing/suit/roguetown/armor/plate/cuirass/fluted,
 		)
-		var/armorchoice = input(H, "Choose your armor.", "TAKE UP ARMOR") as anything in armors
+		var/armorchoice = tgui_input_list(H, "Choose your armor.", "TAKE UP ARMOR", armors)
 		armor = armors[armorchoice]
 
 	backpack_contents = list(
@@ -343,7 +343,7 @@
 			"Lance + Kite Shield",
 			"Halberd + Crossbow"
 		)
-		var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
+		var/weapon_choice = tgui_input_list(H, "Choose your weapon.", "TAKE UP ARMS", weapons)
 		H.set_blindness(0)
 		switch(weapon_choice)
 			if("Longsword + Crossbow")
@@ -406,7 +406,7 @@
 			"Snouted Roundface Bascinet"	= /obj/item/clothing/head/roguetown/helmet/bascinet/pigface/roundface/snouted,
 			"None"
 		)
-		var/helmchoice = input(H, "Choose your Helm.", "TAKE UP HELMS") as anything in helmets
+		var/helmchoice = tgui_input_list(H, "Choose your Helm.", "TAKE UP HELMS", helmets)
 		if(helmchoice != "None")
 			head = helmets[helmchoice]
 
@@ -416,7 +416,7 @@
 			"Steel Cuirass"		= /obj/item/clothing/suit/roguetown/armor/plate/cuirass,
 			"Fluted Cuirass"	= /obj/item/clothing/suit/roguetown/armor/plate/cuirass/fluted,
 		)
-		var/armorchoice = input(H, "Choose your armor.", "TAKE UP ARMOR") as anything in armors
+		var/armorchoice = tgui_input_list(H, "Choose your armor.", "TAKE UP ARMOR", armors)
 		armor = armors[armorchoice]
 
 	backpack_contents = list(
@@ -473,8 +473,8 @@
 	if(H.mind)
 		var/weapons = list("Rapier + Longbow","Estoc + Recurve Bow","Stecher + Recurve Bow","Sabre + Buckler","Whip + Crossbow","Poleaxe + Sling")
 		var/armor_options = list("Light Armor", "Medium Armor", "Medium Cuirass")
-		var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
-		var/armor_choice = input(H, "Choose your armor.", "TAKE UP ARMS") as anything in armor_options
+		var/weapon_choice = tgui_input_list(H, "Choose your weapon.", "TAKE UP ARMS", weapons)
+		var/armor_choice = tgui_input_list(H, "Choose your armor.", "TAKE UP ARMS", armor_options)
 		H.set_blindness(0)
 		switch(weapon_choice)
 			if("Rapier + Longbow")
@@ -552,7 +552,7 @@
 			"None"
 		)
 
-		var/helmchoice = input(H, "Choose your Helm.", "TAKE UP HELMS") as anything in helmets
+		var/helmchoice = tgui_input_list(H, "Choose your Helm.", "TAKE UP HELMS", helmets)
 		if(helmchoice != "None")
 			head = helmets[helmchoice]
 	backpack_contents = list(
@@ -654,7 +654,7 @@
 		"Sabre",
 		"Lance",
 		)
-	var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
+	var/weapon_choice = tgui_input_list(H, "Choose your weapon.", "TAKE UP ARMS", weapons)
 	H.set_blindness(0)
 	switch(weapon_choice)
 		if("Edict & Aegis (Sabre & Buckler)")
@@ -704,7 +704,7 @@
 			"Crossbow",
 			"Recurve Bow",
 		)
-		var/secondary_choice = input(H, "Choose your secondary.", "TAKE UP ARMS") as anything in secondary
+		var/secondary_choice = tgui_input_list(H, "Choose your secondary.", "TAKE UP ARMS", secondary)
 		switch(secondary_choice)
 			if("Kite Shield")
 				backl = /obj/item/rogueweapon/shield/tower/metal
@@ -723,7 +723,7 @@
 		"Fluted Cuirass",
 		"Champion's Plate"
 	)
-	var/armorchoice = input(H, "Choose your armor.", "TAKE UP ARMOR") as anything in armors
+	var/armorchoice = tgui_input_list(H, "Choose your armor.", "TAKE UP ARMOR", armors)
 	switch(armorchoice)
 		if("Brigandine")
 			armor = /obj/item/clothing/suit/roguetown/armor/brigandine/retinue
@@ -745,7 +745,7 @@
 			"Banneret's Snouted Bascinet"	= /obj/item/clothing/head/roguetown/helmet/heavy/banneret/bascinet,
 			"None"
 		)
-		var/bannerethelmchoice = input(H, "Choose your Helm.", "TAKE UP HELMS") as anything in bannerethelms
+		var/bannerethelmchoice = tgui_input_list(H, "Choose your Helm.", "TAKE UP HELMS", bannerethelms)
 		if(bannerethelmchoice != "None")
 			head = bannerethelms[bannerethelmchoice]
 		return
@@ -777,7 +777,7 @@
 		"Snouted Roundface Bascinet"	= /obj/item/clothing/head/roguetown/helmet/bascinet/pigface/roundface/snouted,
 		"None"
 	)
-	var/helmchoice = input(H, "Choose your Helm.", "TAKE UP HELMS") as anything in helmets
+	var/helmchoice = tgui_input_list(H, "Choose your Helm.", "TAKE UP HELMS", helmets)
 	if(helmchoice != "None")
 		head = helmets[helmchoice]
 

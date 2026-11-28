@@ -208,7 +208,7 @@
 /obj/item/clothing/gloves/roguetown/plate/kote/attack_right(mob/user)
 	..()
 	if(!picked)
-		var/choice = input(user, "Choose a color.", "Uniform colors") as anything in COLOR_MAP
+		var/choice = tgui_input_list(user, "Choose a color.", "Uniform colors", COLOR_MAP)
 		var/playerchoice = COLOR_MAP[choice]
 		picked = TRUE
 		detail_color = playerchoice

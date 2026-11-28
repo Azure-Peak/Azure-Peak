@@ -47,7 +47,7 @@
 	to_chat(H, span_warning("You are a professional soldier, clad in maille, with years of experience in warfare and battle under your belt, far more than most mortals could claim. Your lord's will be done."))
 	if(H.mind)
 		var/weapons = list("Warhammer & Shield","Sabre & Shield","Longsword & Shield","Axe & Shield","Battleaxe","Billhook","Greataxe","Halberd")
-		var/weapon_choice = input(H, "Choose your weapon.", "ARMS TO HERALD THE NITE") as anything in weapons
+		var/weapon_choice = tgui_input_list(H, "Choose your weapon.", "ARMS TO HERALD THE NITE", weapons)
 		H.set_blindness(0)
 		switch(weapon_choice)
 			if("Warhammer & Shield") //Steel warhammer for armor + skull shatterer
@@ -101,7 +101,7 @@
 		"Winged Helmet"	= /obj/item/clothing/head/roguetown/helmet/winged,
 		"None"
 		)
-		var/helmchoice = input(H, "Choose your Helm.", "A VISAGE IN THE NITE") as anything in helmets
+		var/helmchoice = tgui_input_list(H, "Choose your Helm.", "A VISAGE IN THE NITE", helmets)
 		if(helmchoice != "None")
 			head = helmets[helmchoice]
 
@@ -188,7 +188,7 @@
 
 	if(H.mind)
 		var/weapons = list("Recurve Bow","Yew Longbow","Crossbow")
-		var/weapon_choice = input(H, "Choose your weapon.", "ARMS TO HERALD THE NITE") as anything in weapons
+		var/weapon_choice = tgui_input_list(H, "Choose your weapon.", "ARMS TO HERALD THE NITE", weapons)
 		H.set_blindness(0)
 		switch(weapon_choice)
 			if("Recurve Bow")
@@ -240,7 +240,7 @@
 	H.set_blindness(0)
 	if(H.mind)
 		var/weapons = list("Messer & Parrying Dagger","Messer & Buckler","Heavy Dagger & Parrying Dagger","Dual Wield Messers") //Rapiers are a newer design, therefore ancient vampires use something else...
-		var/weapon_choice = input(H, "Choose your weapon.", "ARMS TO HERALD THE NITE") as anything in weapons
+		var/weapon_choice = tgui_input_list(H, "Choose your weapon.", "ARMS TO HERALD THE NITE", weapons)
 		switch(weapon_choice)
 			if("Messer & Parrying Dagger")
 				H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_EXPERT, TRUE)
@@ -408,7 +408,7 @@
 	if(H.mind)
 		H.mind.AddSpell(new /datum/action/cooldown/spell/projectile/vicious_mockery)
 		var/weapons = list("Harp","Lute","Accordion","Guitar","Hurdy-Gurdy","Viola","Vocal Talisman", "Psyaltery", "Flute")
-		var/weapon_choice = input(H, "Choose your instrument.", "STRINGS TO PLAY LYKE MORTALS.") as anything in weapons
+		var/weapon_choice = tgui_input_list(H, "Choose your instrument.", "STRINGS TO PLAY LYKE MORTALS.", weapons)
 		H.set_blindness(0)
 		switch(weapon_choice)
 			if("Harp")

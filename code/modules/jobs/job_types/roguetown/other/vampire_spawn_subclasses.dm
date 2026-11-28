@@ -95,7 +95,7 @@
 			"Lucerne",
 			"Partizan",
 		)
-		var/weapon_choice = input(H, "Choose your weapon.", "ARMS TO MAKE THE LYVING BOW") as anything in weapons
+		var/weapon_choice = tgui_input_list(H, "Choose your weapon.", "ARMS TO MAKE THE LYVING BOW", weapons)
 		switch(weapon_choice)
 			if("Longsword + Crossbow")
 				beltl = /obj/item/rogueweapon/scabbard/sword/noble
@@ -164,7 +164,7 @@
 			"Volfskulle Bascinet"		= /obj/item/clothing/head/roguetown/helmet/heavy/volfplate,
 			"None"
 		)
-		var/helmchoice = input(H, "Choose your Helm.", "A VISAGE TO TERRIFYING THE LYVING") as anything in helmets
+		var/helmchoice = tgui_input_list(H, "Choose your Helm.", "A VISAGE TO TERRIFYING THE LYVING", helmets)
 		if(helmchoice != "None")
 			head = helmets[helmchoice]
 
@@ -174,7 +174,7 @@
 			"Steel Cuirass"		= /obj/item/clothing/suit/roguetown/armor/plate/cuirass,
 			"Fluted Cuirass"	= /obj/item/clothing/suit/roguetown/armor/plate/cuirass/fluted,
 		)
-		var/armorchoice = input(H, "Choose your armor.", "A BULWARK AGAINST THE LITE") as anything in armors
+		var/armorchoice = tgui_input_list(H, "Choose your armor.", "A BULWARK AGAINST THE LITE", armors)
 		armor = armors[armorchoice]
 
 	belt = /obj/item/storage/belt/rogue/leather/steel
@@ -235,7 +235,7 @@
 	if(H.mind)
 		H.set_blindness(0)
 		var/choice_list = list("Royal (Light Armor /w dress + Skilled Appraisal)", "Royal (Light Armor /w shirt + Skilled Appraisal)", "Noble (Light Armor + Skilled Appraisal)", "Suitor/Consort (Medium Armor)")
-		var/choice = input(H, "What is your disguise?", "WHAT MASQUERADE DO YOU BEAR?") as anything in choice_list
+		var/choice = tgui_input_list(H, "What is your disguise?", "WHAT MASQUERADE DO YOU BEAR?", choice_list)
 
 		switch(choice)
 			if("Royal (Light Armor /w dress + Skilled Appraisal)") //You get a bit extra for the part with the lighter loadouts.
@@ -280,7 +280,7 @@
 			"Yew Longbow",
 			"Recurve Bow",
 		)
-		var/weapon_choice = input(H, "Choose your bow.", "WHAT MEANS DO YOU HUNT IN THE NITE?") as anything in weapons //Unlike vamp skirmisher, we specialise all-in only for our ranged pick because we have a ton of stuff already. No jack of all trades.
+		var/weapon_choice = tgui_input_list(H, "Choose your bow.", "WHAT MEANS DO YOU HUNT IN THE NITE?", weapons) //Unlike vamp skirmisher, we specialise all-in only for our ranged pick because we have a ton of stuff already. No jack of all trades.
 		switch(weapon_choice)
 			if("Crossbow")
 				beltr = /obj/item/quiver/bolt/standard

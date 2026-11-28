@@ -38,7 +38,7 @@
 	if(HAS_TRAIT(H, TRAIT_ANCIENT_HAG) || HAS_TRAIT(H, TRAIT_FEYTOUCHED))
 		options += "Scry"
 
-	var/choice = input(user, "What would you like to do?", "Wyrd Mirror") as null|anything in options
+	var/choice = tgui_input_list(user, "What would you like to do?", "Wyrd Mirror", null|options)
 	if(!choice)
 		return
 

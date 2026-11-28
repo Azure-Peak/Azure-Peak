@@ -42,7 +42,7 @@
 	var/list/choices = list("Consult Bounties", "Print List of Bounties")
 	if(get_bounty_faction_for_user(H))
 		choices += "Print Key of Absolution"
-	var/selection = input(user, "The Excidium listens", src) as null|anything in choices
+	var/selection = tgui_input_list(user, "The Excidium listens", src, null|choices)
 
 	switch(selection)
 

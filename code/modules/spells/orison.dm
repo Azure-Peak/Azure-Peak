@@ -598,7 +598,7 @@ GLOBAL_LIST_INIT(convert_incantations, list(
 			if(istype(patron, old_patron.type))
 				continue // no converting astratans to astrata
 			patrons_named[patron.name] = patron.type
-		new_patron = patrons_named[input(new_convert, "Which of the Ten calls to you most?", "THE GODS SMILE") as anything in patrons_named]
+		new_patron = patrons_named[tgui_input_list(new_convert, "Which of the Ten calls to you most?", "THE GODS SMILE", patrons_named)]
 
 	if(ispath(new_patron, /datum/patron/divine/xylix))
 		caster.say(pick_assoc(GLOB.convert_incantations)) // just like torturing a xylixian has random lines from all the other gods, converting someone TO xylix will troll you as well

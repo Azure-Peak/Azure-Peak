@@ -91,7 +91,7 @@
 	H.adjust_blindness(-3)
 	if(H.mind)
 		var/weapons = list("Warhammer & Shield","Axe & Shield","Sword & Shield","Halberd & Sword","Greataxe & Sword")
-		var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
+		var/weapon_choice = tgui_input_list(H, "Choose your weapon.", "TAKE UP ARMS", weapons)
 		H.set_blindness(0)
 		switch(weapon_choice)
 			if("Warhammer & Shield")
@@ -125,7 +125,7 @@
 
 	if(H.mind)
 		var/armor_options = list("Light Brigandine Set", "Maille Set")
-		var/armor_choice = input(H, "Choose your armor.", "TAKE UP ARMS") as anything in armor_options
+		var/armor_choice = tgui_input_list(H, "Choose your armor.", "TAKE UP ARMS", armor_options)
 
 		switch(armor_choice)
 			if("Light Brigandine Set")
@@ -149,7 +149,7 @@
 		"Skull Cap"			= /obj/item/clothing/head/roguetown/helmet/skullcap,
 		"None"
 		)
-		var/helmchoice = input(H, "Choose your Helm.", "TAKE UP HELMS") as anything in helmets
+		var/helmchoice = tgui_input_list(H, "Choose your Helm.", "TAKE UP HELMS", helmets)
 		if(helmchoice != "None")
 			head = helmets[helmchoice]
 	if(H.mind)
@@ -194,9 +194,9 @@
 	H.adjust_blindness(-3)
 	if(H.mind)
 		var/weapons = list("Crossbow","Bow","Sling")
-		var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
+		var/weapon_choice = tgui_input_list(H, "Choose your weapon.", "TAKE UP ARMS", weapons)
 		var/armor_options = list("Leather Armor", "Brigandine Armor")
-		var/armor_choice = input(H, "Choose your armor.", "TAKE UP ARMS") as anything in armor_options
+		var/armor_choice = tgui_input_list(H, "Choose your armor.", "TAKE UP ARMS", armor_options)
 		H.set_blindness(0)
 		switch(weapon_choice)
 			if("Crossbow")
@@ -222,7 +222,7 @@
 					"Dagger" = /obj/item/rogueweapon/huntingknife/idagger/steel/special,
 					"Messer" = /obj/item/rogueweapon/huntingknife/combat/messser,
 				)
-				var/sidearm_choice = input(H, "Choose your sidearm.", "TAKE UP ARMS") as anything in sidearm
+				var/sidearm_choice = tgui_input_list(H, "Choose your sidearm.", "TAKE UP ARMS", sidearm)
 				r_hand = sidearm[sidearm_choice]
 			if("Brigandine Armor") //New MAA skirmisher
 				armor = /obj/item/clothing/suit/roguetown/armor/brigandine/light/retinue
@@ -241,7 +241,7 @@
 				"Skull Cap"			= /obj/item/clothing/head/roguetown/helmet/skullcap,
 				"None"
 				)
-				var/helmchoice = input(H, "Choose your Helm.", "TAKE UP HELMS") as anything in helmets
+				var/helmchoice = tgui_input_list(H, "Choose your Helm.", "TAKE UP HELMS", helmets)
 				if(helmchoice != "None")
 					head = helmets[helmchoice]
 
@@ -308,7 +308,7 @@
 	H.adjust_blindness(-3)
 	if(H.mind)
 		var/weapons = list("Sabre & Crossbow", "Flail & Shield","Lucerne & Whip")
-		var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
+		var/weapon_choice = tgui_input_list(H, "Choose your weapon.", "TAKE UP ARMS", weapons)
 		H.set_blindness(0)
 		switch(weapon_choice)
 			if("Sabre & Crossbow")
@@ -342,7 +342,7 @@
 		"Skull Cap"			= /obj/item/clothing/head/roguetown/helmet/skullcap,
 		"None"
 		)
-		var/helmchoice = input(H, "Choose your Helm.", "TAKE UP HELMS") as anything in helmets
+		var/helmchoice = tgui_input_list(H, "Choose your Helm.", "TAKE UP HELMS", helmets)
 		if(helmchoice != "None")
 			head = helmets[helmchoice]
 
@@ -468,7 +468,7 @@
 	H.adjust_blindness(-3)
 	if(H.mind)
 		var/armor_options = list("Light Brigandine Set", "Maille Set")
-		var/armor_choice = input(H, "Choose your armor.", "TAKE UP ARMS") as anything in armor_options
+		var/armor_choice = tgui_input_list(H, "Choose your armor.", "TAKE UP ARMS", armor_options)
 
 		switch(armor_choice)
 			if("Light Brigandine Set")
@@ -492,7 +492,7 @@
 		"Skull Cap"			= /obj/item/clothing/head/roguetown/helmet/skullcap,
 		"None"
 		)
-		var/helmchoice = input(H, "Choose your Helm.", "TAKE UP HELMS") as anything in helmets
+		var/helmchoice = tgui_input_list(H, "Choose your Helm.", "TAKE UP HELMS", helmets)
 		if(helmchoice != "None")
 			head = helmets[helmchoice]
 	if(H.mind)

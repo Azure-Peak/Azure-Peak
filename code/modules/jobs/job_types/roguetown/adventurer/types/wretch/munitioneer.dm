@@ -82,7 +82,7 @@
 		H.set_patron(/datum/patron/divine/malum)
 		H.AddComponent(/datum/component/ore_sight) // controversial, and powerful, but it means you're spending less Wretch Time just mining.
 	var/weapons = list("Path of the Hammer - Steel Warhammer", "Path of the Crossbow - Crossbow and Bolts", "Path of the Pick - Pulaski Axe", "Path of Artifice - Steel Wrench and Engineering")
-	var/weapon_choice = input(H, "Choose your weapon.", "HOT IS THE ANVYL") as anything in weapons
+	var/weapon_choice = tgui_input_list(H, "Choose your weapon.", "HOT IS THE ANVYL", weapons)
 	switch(weapon_choice)
 		if("Path of the Hammer - Steel Warhammer")
 			H.adjust_skillrank_up_to(/datum/skill/combat/maces, SKILL_LEVEL_EXPERT, TRUE)

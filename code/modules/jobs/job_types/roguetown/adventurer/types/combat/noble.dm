@@ -46,7 +46,7 @@
 			clothing += "Underdark" //dullahan are only included for oversights/downstreams where they might be able to roll for this.
 		//if(is_species(H, /datum/species/kobold) || is_species(H, /datum/species/dracon)) //Species Exclusive Options -> Lirvan
 			//clothing += "Lirvan" EXCLUDED for now cause of content lacking. If you ever want to add this, de-comment this.
-		var/clothing_choice = input(H, "Choose your clothing style.", "FROM WHERE DOES YOUR HOUSE HAIL FROM?") as anything in clothing
+		var/clothing_choice = tgui_input_list(H, "Choose your clothing style.", "FROM WHERE DOES YOUR HOUSE HAIL FROM?", clothing)
 		switch(clothing_choice)
 			if("Classic - Nowhere Significant") //Sovl, arguably the /worst/ gear-wise but it STAYS because its the OG loadout.
 				if(should_wear_masc_clothes(H))
@@ -267,7 +267,7 @@
 				backl = /obj/item/storage/backpack/rogue/satchel/black
 
 		var/proficiencies = list("Decorated Sabre + Dodge Expert + 1 WIL", "Decorated Sabre + Maille Training + 1 WIL", "Decorated Rapier + Dodge Expert + 1 WIL", "Decorated Rapier + Maille Training + 1 WIL", "Decorated Arming Sword + Maille Training + 1 WIL", "Bow + Hunting Skill/Masterful Hunter Trait + Boar Maps + 1 PER", "Extra Coin + Expert Appraiser + Intellectual", "Inbred Noble - +5 LCK + Stat 8 baseline + Crit Weakness + No Run + Maille Training", "Survival Skills + Expert Hunter + Outdoorsman + Less Starting Coin + 1 PER", "Decorated Dagger + Thieves Jargon + Expert Climbing + Spy Skills & Traits + Deceiving Meakness + 1 PER")
-		var/proficiency_choice = input(H, "Choose your proficiency.", "WHAT IS THY TALENT?") as anything in proficiencies
+		var/proficiency_choice = tgui_input_list(H, "Choose your proficiency.", "WHAT IS THY TALENT?", proficiencies)
 		switch(proficiency_choice)
 			if("Decorated Sabre + Dodge Expert + 1 WIL") //Rich Battlemaster Lite (Without the Armor or Proper Training)
 				H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_JOURNEYMAN, TRUE)
@@ -344,7 +344,7 @@
 					"Hennin"	= /obj/item/clothing/head/roguetown/hennin,
 					"None"
 					)
-				var/crownchoice = input(H, "Choose your Crown/Hat.", "TAKE UP OPULANCE") as anything in crowns
+				var/crownchoice = tgui_input_list(H, "Choose your Crown/Hat.", "TAKE UP OPULANCE", crowns)
 				if(crownchoice != "None")
 					head = crowns[crownchoice]
 				to_chat(H, span_warning("You are a traveling noble visiting foreign lands. With great wealth, come the poor and the greedy, ready to pilfer you of your hard-earned (inherited) coin, so tread lightly, trust few unless you want to meet a grisly end."))
@@ -464,7 +464,7 @@
 			"Snouted Roundface Bascinet"	= /obj/item/clothing/head/roguetown/helmet/bascinet/pigface/roundface/snouted,
 			"None"
 			)
-		var/helmchoice = input(H, "Choose your Helm.", "TAKE UP HELMS") as anything in helmets
+		var/helmchoice = tgui_input_list(H, "Choose your Helm.", "TAKE UP HELMS", helmets)
 		if(helmchoice != "None")
 			head = helmets[helmchoice]
 
@@ -473,7 +473,7 @@
 			"Coat of Plates"	= /obj/item/clothing/suit/roguetown/armor/brigandine/heavy,
 			"Steel Cuirass"		= /obj/item/clothing/suit/roguetown/armor/plate/cuirass,
 			)
-		var/armorchoice = input(H, "Choose your armor.", "TAKE UP ARMOR") as anything in armors
+		var/armorchoice = tgui_input_list(H, "Choose your armor.", "TAKE UP ARMOR", armors)
 		armor = armors[armorchoice]
 
 	gloves = /obj/item/clothing/gloves/roguetown/chain
@@ -495,7 +495,7 @@
 	H.set_blindness(0)
 	if(H.mind)
 		var/weapons = list("Longsword","Arming Sword + Shield","Mace + Shield","Flail + Shield","Lance + Shield","Billhook","Battle Axe","Greataxe","Greatflail")
-		var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
+		var/weapon_choice = tgui_input_list(H, "Choose your weapon.", "TAKE UP ARMS", weapons)
 		switch(weapon_choice)
 			if("Longsword")
 				H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_JOURNEYMAN, TRUE)
@@ -592,7 +592,7 @@
 	)
 	if(H.mind)
 		var/armors = list("Light Armor","Medium Armor")
-		var/armor_choice = input(H, "Choose your armor.", "DRESS UP!") as anything in armors
+		var/armor_choice = tgui_input_list(H, "Choose your armor.", "DRESS UP!", armors)
 		switch(armor_choice)
 			if("Light Armor")	//For the ones who like Speed
 				shirt = /obj/item/clothing/suit/roguetown/armor/gambeson
@@ -607,7 +607,7 @@
 				gloves = /obj/item/clothing/gloves/roguetown/angle
 				ADD_TRAIT(H, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
 		var/weapon = list("Spear","Shortsword & Shield","Arming Sword","Mace & Shield","Axe & Shield","Flail & Shield","Messer & Shield","Bow & Quiver","Crossbow & Quiver","Sling & Iron Balls")
-		var/weapon_choice = input(H, "Choose your weapon.", "PICK IT UP!") as anything in weapon
+		var/weapon_choice = tgui_input_list(H, "Choose your weapon.", "PICK IT UP!", weapon)
 		switch(weapon_choice)
 			if("Spear")
 				H.adjust_skillrank_up_to(/datum/skill/combat/polearms, SKILL_LEVEL_JOURNEYMAN, TRUE)
@@ -654,7 +654,7 @@
 			"Chain Coif"		= /obj/item/clothing/neck/roguetown/chaincoif/iron,
 			"None"
 			)
-		var/helmchoice = input(H, "Protect Thine Head.", "STRAP IT!") as anything in helmets
+		var/helmchoice = tgui_input_list(H, "Protect Thine Head.", "STRAP IT!", helmets)
 		if(helmchoice != "None")
 			head = helmets[helmchoice]
 	H.set_blindness(0)

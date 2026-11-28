@@ -163,7 +163,7 @@
 		"Slitted Kettle"	= /obj/item/clothing/head/roguetown/helmet/heavy/knight/skettle/black,
 		"None",
 	)
-	var/helmchoice = input(H, "Choose your Helm.", "TAKE UP HELMS") as anything in helmets
+	var/helmchoice = tgui_input_list(H, "Choose your Helm.", "TAKE UP HELMS", helmets)
 	if(helmchoice != "None")
 		head = helmets[helmchoice]
 
@@ -172,7 +172,7 @@
 	switch(spellblade_chant_selected)
 		if("blade")
 			var/weapons = list("Khopesh", "Sabre", "Steel Dagger")
-			var/weapon_choice = input(H, "Choose your WEAPON.", "TAKE UP ARMS") as anything in weapons
+			var/weapon_choice = tgui_input_list(H, "Choose your WEAPON.", "TAKE UP ARMS", weapons)
 			switch(weapon_choice)
 				if("Khopesh")
 					beltr = granted_weapon = /obj/item/rogueweapon/sword/sabre/bronzekhopesh
@@ -182,7 +182,7 @@
 					beltr = granted_weapon = /obj/item/rogueweapon/huntingknife/idagger/steel
 		if("phalangite")
 			var/weapons = list("Spear", "Bardiche")
-			var/weapon_choice = input(H, "Choose your WEAPON.", "TAKE UP ARMS") as anything in weapons
+			var/weapon_choice = tgui_input_list(H, "Choose your WEAPON.", "TAKE UP ARMS", weapons)
 			switch(weapon_choice)
 				if("Spear")
 					r_hand = granted_weapon = /obj/item/rogueweapon/spear
@@ -192,7 +192,7 @@
 					backr = /obj/item/rogueweapon/scabbard/gwstrap
 		if("macebearer")
 			var/weapons = list("Steel Mace", "Steel Warhammer", "Grand Mace", "Battle Axe", "Steel Greataxe")
-			var/weapon_choice = input(H, "Choose your WEAPON.", "TAKE UP ARMS") as anything in weapons
+			var/weapon_choice = tgui_input_list(H, "Choose your WEAPON.", "TAKE UP ARMS", weapons)
 			switch(weapon_choice)
 				if("Steel Mace")
 					beltr = granted_weapon = /obj/item/rogueweapon/mace/steel
@@ -212,7 +212,7 @@
 	H.set_blindness(0)
 
 	var/tabards = list("Black Tabard", "Black Jupon")
-	var/tabard_choice = input(H, "Choose your CLOAK.", "BEAR YOUR HERALDRY.") as anything in tabards
+	var/tabard_choice = tgui_input_list(H, "Choose your CLOAK.", "BEAR YOUR HERALDRY.", tabards)
 	switch(tabard_choice)
 		if("Black Jupon")
 			cloak = /obj/item/clothing/cloak/tabard/stabard/surcoat/lich

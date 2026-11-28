@@ -106,7 +106,7 @@
 		else
 			for(var/i in 1 to sides)
 				possible_outcomes += i
-		var/outcome = input(user, "What will you rig the next roll to?", "XYLIX") as null|anything in possible_outcomes
+		var/outcome = tgui_input_list(user, "What will you rig the next roll to?", "XYLIX", null|possible_outcomes)
 		if(special)
 			outcome = special_faces.Find(outcome)
 		if(!outcome)

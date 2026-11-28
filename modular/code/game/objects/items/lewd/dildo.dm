@@ -31,12 +31,12 @@
 	if(!can_custom)
 		return FALSE
 	if(src && !user.incapacitated() && in_range(user,src))
-		var/shape_choice = input(user, "Choose a shape for your dildo.","Dildo Shape") as null|anything in list("human", "knotted", "flared")
+		var/shape_choice = tgui_input_list(user, "Choose a shape for your dildo.","Dildo Shape", null|list("human", "knotted", "flared"))
 		if(src && shape_choice && !user.incapacitated() && in_range(user,src))
 			dildo_type = shape_choice
 	update_appearance()
 	if(src && !user.incapacitated() && in_range(user,src))
-		var/size_choice = input(user, "Choose a size for your dildo.","Dildo Size") as null|anything in list("small", "medium", "big")
+		var/size_choice = tgui_input_list(user, "Choose a size for your dildo.","Dildo Size", null|list("small", "medium", "big"))
 		if(src && size_choice && !user.incapacitated() && in_range(user,src))
 			dildo_size = size_choice
 			switch(dildo_size)

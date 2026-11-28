@@ -60,7 +60,7 @@
 /datum/outfit/job/roguetown/mercenary/hangyaku/choose_loadout(mob/living/carbon/human/H)
 	. = ..()
 	var/weapons = list("Sword & Bow","Kodachi","Great Mace","Spear", "Nodachi")
-	var/weapon_choice = input(H, "Choose your weapon.", "WHEN STEEL MUST SPEAK...") as anything in weapons
+	var/weapon_choice = tgui_input_list(H, "Choose your weapon.", "WHEN STEEL MUST SPEAK...", weapons)
 	switch(weapon_choice)
 		if("Sword & Bow")
 			H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_EXPERT, TRUE)
@@ -86,7 +86,7 @@
 			H.put_in_hands(new /obj/item/rogueweapon/greatsword/nodachi)
 			H.equip_to_slot_or_del(new /obj/item/rogueweapon/scabbard/gwstrap/nodachi, SLOT_BACK_R, TRUE)
 	var/armors = list("Heavy Armor","Medium Armor")
-	var/armor_choice = input(H, "Choose your armor.", "...THE TONGUE MUST STAY QUIET.") as anything in armors
+	var/armor_choice = tgui_input_list(H, "Choose your armor.", "...THE TONGUE MUST STAY QUIET.", armors)
 	switch(armor_choice)
 		if("Heavy Armor")
 			ADD_TRAIT(H, TRAIT_HEAVYARMOR, TRAIT_GENERIC)
@@ -100,7 +100,7 @@
 			H.equip_to_slot_or_del(new /obj/item/clothing/under/roguetown/heavy_leather_pants/kazengun, SLOT_PANTS, TRUE)
 			H.change_stat(STATKEY_SPD, 1) //+1 speed for taking the worse armor, which is identical to mounted knight, but with worse armor
 	var/masks = list("Full Mask","Half-Mask")
-	var/mask_choice = input(H, "Choose your mask.", "GREET THE SUN?") as anything in masks
+	var/mask_choice = tgui_input_list(H, "Choose your mask.", "GREET THE SUN?", masks)
 	switch(mask_choice)
 		if("Full Mask")
 			H.equip_to_slot_or_del(new /obj/item/clothing/mask/rogue/facemask/steel/kazengun/full, SLOT_WEAR_MASK, TRUE)
@@ -164,7 +164,7 @@
 /datum/outfit/job/roguetown/mercenary/chonin/choose_loadout(mob/living/carbon/human/H)
 	. = ..()
 	var/trades = list("Town Physician","Farmer","Tailor","Laborer","Merchant","Levy") //JMAN COMBAT SKILLS... AND TOWNER TRADES. GOD I HOPE THIS ISN'T A TERRIBLE IDEA.
-	var/trade_choice = input(H, "Choose your former trade.", "WHO ARE YOU?") as anything in trades
+	var/trade_choice = tgui_input_list(H, "Choose your former trade.", "WHO ARE YOU?", trades)
 	switch(trade_choice)
 		if("Town Physician") //alchemy and medicine. that's pretty strong as-is, so...
 			ADD_TRAIT(H, TRAIT_MEDICINE_EXPERT, TRAIT_GENERIC)

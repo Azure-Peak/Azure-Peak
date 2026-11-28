@@ -71,7 +71,7 @@
 
 	if(H.mind)
 		var/riding = list("Spidertamer (Tameable Spider Mount)", "Shroomwalker (+I to Athletics)")
-		var/ridingchoice = input(H, "Choose your TRAVELBOON.", "ROAM ABROAD AND ROAM FAR.") as anything in riding
+		var/ridingchoice = tgui_input_list(H, "Choose your TRAVELBOON.", "ROAM ABROAD AND ROAM FAR.", riding)
 		switch(ridingchoice)
 			if("Spidertamer (Tameable Spider Mount)")
 				apply_virtue(H, new /datum/virtue/utility/riding, VIRTUE_SOURCE_JOB)
@@ -149,7 +149,7 @@
 
 	if(H.mind)
 		var/weapon = list("Bow & Poisoned Arrows", "Dual Sabres")
-		var/weaponchoice = input(H, "Choose your WEAPON.", "PICK YOUR INSTRUMENTS.") as anything in weapon
+		var/weaponchoice = tgui_input_list(H, "Choose your WEAPON.", "PICK YOUR INSTRUMENTS.", weapon)
 		switch(weaponchoice)
 			if("Bow & Poisoned Arrows")
 				backr = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/short
@@ -161,7 +161,7 @@
 				backr = null
 				ADD_TRAIT(H, TRAIT_DUALWIELDER, TRAIT_GENERIC)
 		var/riding = list("Spidertamer (Tameable Spider Mount)", "Shroomwalker (+I to Athletics)")
-		var/ridingchoice = input(H, "Choose your TRAVELBOON.", "ROAM ABROAD AND ROAM FAR.") as anything in riding
+		var/ridingchoice = tgui_input_list(H, "Choose your TRAVELBOON.", "ROAM ABROAD AND ROAM FAR.", riding)
 		switch(ridingchoice)
 			if("Spidertamer (Tameable Spider Mount)")
 				apply_virtue(H, new /datum/virtue/utility/riding, VIRTUE_SOURCE_JOB)

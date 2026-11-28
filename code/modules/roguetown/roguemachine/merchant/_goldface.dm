@@ -726,7 +726,7 @@
 				options += "Enable Paying Taxes"
 			else
 				options += "Stop Paying Taxes"
-			var/select = input(usr, "Please select an option.", "", null) as null|anything in options
+			var/select = tgui_input_list(usr, "Please select an option.", "", null|options)
 			if(!select)
 				return TRUE
 			if(!usr.canUseTopic(src, BE_CLOSE) || (locked && !is_public))

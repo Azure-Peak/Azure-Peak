@@ -101,7 +101,7 @@
 		..()
 		return
 	var/the_time = world.time
-	var/design = input(user, "Select a design.","Tabard Design") as null|anything in list("No changes!", "None", "Symbol", "Split", "Quadrants", "Boxes", "Diamonds")
+	var/design = tgui_input_list(user, "Select a design.","Tabard Design", null|list("No changes!", "None", "Symbol", "Split", "Quadrants", "Boxes", "Diamonds"))
 	if(!design)
 		return
 	if(world.time > (the_time + 30 SECONDS))
@@ -112,7 +112,7 @@
 	var/symbol_chosen = FALSE
 	if(design == "Symbol")
 		design = null
-		design = input(user, "Select a symbol.","Tabard Design") as null|anything in list("chalice","psy","peace","z","imp","skull","widow","arrow")
+		design = tgui_input_list(user, "Select a symbol.","Tabard Design", null|list("chalice","psy","peace","z","imp","skull","widow","arrow"))
 		if(!design)
 			return
 		design = "_[design]"
@@ -124,12 +124,12 @@
 		colors_to_pick["Secondary Keep Color"] = GLOB.lordsecondary
 	var/list/color_map_list = COLOR_MAP
 	colors_to_pick += color_map_list.Copy()
-	var/colorone = input(user, "Select a primary color.","Tabard Design") as null|anything in colors_to_pick
+	var/colorone = tgui_input_list(user, "Select a primary color.","Tabard Design", null|colors_to_pick)
 	if(!colorone)
 		return
 	var/colortwo
 	if(design != "None")
-		colortwo = input(user, "Select a secondary color.","Tabard Design") as null|anything in colors_to_pick
+		colortwo = tgui_input_list(user, "Select a secondary color.","Tabard Design", null|colors_to_pick)
 		if(!colortwo)
 			return
 	if(world.time > (the_time + 30 SECONDS))
@@ -624,7 +624,7 @@
 		..()
 		return
 	var/the_time = world.time
-	var/design = input(user, "Select a design.","Tabard Design") as null|anything in list("Default", "Gold Cross", "Jeruah", "BlackGold", "BlackWhite")
+	var/design = tgui_input_list(user, "Select a design.","Tabard Design", null|list("Default", "Gold Cross", "Jeruah", "BlackGold", "BlackWhite"))
 	if(!design)
 		return
 	if(world.time > (the_time + 30 SECONDS))
@@ -663,7 +663,7 @@
 		..()
 		return
 	var/the_time = world.time
-	var/design = input(user, "Select a design.","Tabard Design") as null|anything in list("Default", "RedBlack", "BlackRed")
+	var/design = tgui_input_list(user, "Select a design.","Tabard Design", null|list("Default", "RedBlack", "BlackRed"))
 	if(!design)
 		return
 	if(world.time > (the_time + 30 SECONDS))
@@ -1693,7 +1693,7 @@
 		..()
 		return
 	var/the_time = world.time
-	var/chosen = input(user, "Select a design.","Tabard Design") as null|anything in list("Split")
+	var/chosen = tgui_input_list(user, "Select a design.","Tabard Design", null|list("Split"))
 	if(world.time > (the_time + 10 SECONDS))
 		return
 	if(!chosen)

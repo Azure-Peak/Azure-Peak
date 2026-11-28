@@ -56,7 +56,7 @@
 		"WHITE" = "#ffffff"
 	))
 	if(H.mind)
-		detailcolor = input(H, "Choose a color.", "NALEDIAN COLORPLEX") as anything in naledicolors
+		detailcolor = tgui_input_list(H, "Choose a color.", "NALEDIAN COLORPLEX", naledicolors)
 		detailcolor = naledicolors[detailcolor]
 		H.mind.AddSpell(new /datum/action/cooldown/spell/ley_lines)
 	r_hand = /obj/item/rogueweapon/woodstaff/implement/grand/naledi
@@ -157,7 +157,7 @@
 		"WHITE" = "#ffffff"
 	))
 	if(H.mind)
-		detailcolor = input(H, "Choose a color.", "NALEDIAN COLORPLEX") as anything in naledicolors
+		detailcolor = tgui_input_list(H, "Choose a color.", "NALEDIAN COLORPLEX", naledicolors)
 		detailcolor = naledicolors[detailcolor]
 		H.mind.AddSpell(new /datum/action/cooldown/spell/fist_of_psydon)
 		H.mind.AddSpell(new /datum/action/cooldown/spell/grasp_of_psydon())
@@ -310,7 +310,7 @@
 
 
 	if(H.mind)
-		detailcolor = input(H, "Choose a color.", "NALEDIAN COLORPLEX") as anything in naledicolors
+		detailcolor = tgui_input_list(H, "Choose a color.", "NALEDIAN COLORPLEX", naledicolors)
 		detailcolor = naledicolors[detailcolor]
 		grant_poke_spell(H)
 		H.mind.AddSpell(new /datum/action/cooldown/spell/blink/shadowstep/vizier)

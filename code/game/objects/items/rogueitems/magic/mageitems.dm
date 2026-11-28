@@ -85,7 +85,7 @@
 	var/obj/effect/decal/cleanable/roguerune/pickrune
 	var/runenameinput
 
-	runenameinput = input(user, "Runes", "Runes") as null|anything in GLOB.t3rune_types
+	runenameinput = tgui_input_list(user, "Runes", "Runes", null|GLOB.t3rune_types)
 
 	pickrune = GLOB.rune_types[runenameinput]
 	rune_to_scribe = pickrune
@@ -161,7 +161,7 @@
 		is_bled = TRUE
 		return
 	var/obj/effect/decal/cleanable/roguerune/pickrune
-	var/runenameinput = input(user, "Runes", "All Runes") as null|anything in GLOB.t4rune_types
+	var/runenameinput = tgui_input_list(user, "Runes", "All Runes", null|GLOB.t4rune_types)
 
 	pickrune = GLOB.rune_types[runenameinput]
 	rune_to_scribe = pickrune

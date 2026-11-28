@@ -1900,9 +1900,9 @@
 					// lists are objects, so alterations maid to the list in a spawn()ed proc will affect the state of the main function
 					// we will use this trick several more times in this function
 					spawn(0)
-						consent["groom"] = input(thegroom, "Do you want to marry [thebride]?") as anything in list("Yes", "No")
+						consent["groom"] = tgui_input_list(thegroom, "Do you want to marry [thebride]?", "make your choice", list("Yes", "No"))
 					spawn(0)
-						consent["bride"] = input(thebride, "Do you want to marry [thegroom]?") as anything in list("Yes", "No")
+						consent["bride"] = tgui_input_list(thebride, "Do you want to marry [thegroom]?", "make your choice", list("Yes", "No"))
 
 					for(var/i in 1 to MARRIAGE_PROMPTS_TIMEOUT)
 						if(consent["groom"] && consent["bride"])
@@ -1941,9 +1941,9 @@
 
 					// need to give a confirm in case one of them misinputs or the names look ugly next to each other or something
 					spawn(0)
-						consent["groom"] = input(thegroom, "Are these names acceptable?") as anything in list("Yes", "No")
+						consent["groom"] = tgui_input_list(thegroom, "Are these names acceptable?", "make your choice", list("Yes", "No"))
 					spawn(0)
-						consent["bride"] = input(thebride, "Are these names acceptable?") as anything in list("Yes", "No")
+						consent["bride"] = tgui_input_list(thebride, "Are these names acceptable?", "make your choice", list("Yes", "No"))
 
 					for(var/i in 1 to MARRIAGE_PROMPTS_TIMEOUT)
 						if(consent["groom"] && consent["bride"])

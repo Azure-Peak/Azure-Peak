@@ -88,7 +88,7 @@
 		add_verb(H, list(/mob/living/carbon/human/mind/proc/setordersheartfelt))
 
 	var/helmet = list("Etruscan Bascinet","Volf Plate Helmet","Beak Helmet","Visored Sallet","Snouted Visored Sallet",)
-	var/helmet_choice = input(H, "Choose your Helm.", "TAKE UP HELMS") as anything in helmet
+	var/helmet_choice = tgui_input_list(H, "Choose your Helm.", "TAKE UP HELMS", helmet)
 	switch(helmet_choice)
 		if("Etruscan Bascinet")
 			head = /obj/item/clothing/head/roguetown/helmet/bascinet/etruscan

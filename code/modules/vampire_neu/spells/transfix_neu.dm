@@ -82,7 +82,7 @@
 		return
 
 	if(!powerful)
-		var/mob/selected = input(user, "Ensnare the mind of which mortal?", "Transfix") as null|anything in targets
+		var/mob/selected = tgui_input_list(user, "Ensnare the mind of which mortal?", "Transfix", null|targets)
 		if(QDELETED(src) || QDELETED(user) || QDELETED(selected))
 			revert_cast(user)
 			return

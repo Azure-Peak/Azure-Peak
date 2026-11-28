@@ -1425,7 +1425,7 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 /proc/handle_special_items_retrieval(mob/user, atom/host_object)
 	if(user.mind && isliving(user))
 		if(user.mind.special_items && user.mind.special_items.len)
-			var/item = input(user, "What will I take?", "STASH") as null|anything in user.mind.special_items
+			var/item = tgui_input_list(user, "What will I take?", "STASH", null|user.mind.special_items)
 			if(item)
 				if(user.Adjacent(host_object))
 					if(user.mind.special_items[item])

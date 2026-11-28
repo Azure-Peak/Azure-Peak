@@ -79,7 +79,7 @@
 	else if(is_astrata) // astrata cross forces you to only be charitable, its harder to hold an exchange under that gaze
 		options = list("Charity")
 
-	var/choice = input(user, "Choose the transaction.", name) as anything in options
+	var/choice = tgui_input_list(user, "Choose the transaction.", name, options)
 	if(choice == "Waiver") // pay off debts with lux, any around you first, otherwise, devitalize self
 		var/obj/item/reagent_containers/lux/found_lux
 		for(var/obj/item/reagent_containers/lux/L in view(1, user))

@@ -588,7 +588,7 @@
 	H.AddComponent(/datum/component/wise_tree_alert)
 	if(H.mind)
 		var/helmets = list("Holy Silver Bascinet","Holy Silver Armet")
-		var/helmets_choice = input(H, "Choose your helmet.", "TAKE UP ARMS") as anything in helmets
+		var/helmets_choice = tgui_input_list(H, "Choose your helmet.", "TAKE UP ARMS", helmets)
 		H.set_blindness(0)
 		switch(helmets_choice)
 			if("Holy Silver Bascinet")

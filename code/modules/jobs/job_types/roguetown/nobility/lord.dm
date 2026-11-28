@@ -81,12 +81,12 @@ GLOBAL_LIST_EMPTY(lord_titles)
 		return
 	var/list/roleprefs = get_roleprefs(C)
 	if(href_list["primcolor"])
-		var/choice = input(usr, "Choose a Primary Color", "ROYAL STANDARD") as anything in COLOR_MAP
+		var/choice = tgui_input_list(usr, "Choose a Primary Color", "ROYAL STANDARD", COLOR_MAP)
 		if(choice)
 			roleprefs["primcolor"] = choice
 			update_subprefs_window(usr)
 	if(href_list["seccolor"])
-		var/choice = input(usr, "Choose a Secondary Color", "ROYAL STANDARD") as anything in COLOR_MAP
+		var/choice = tgui_input_list(usr, "Choose a Secondary Color", "ROYAL STANDARD", COLOR_MAP)
 		if(choice)
 			roleprefs["seccolor"] = choice
 			update_subprefs_window(usr)
@@ -433,7 +433,7 @@ GLOBAL_LIST_EMPTY(lord_titles)
 	if(!length(recruitment))
 		to_chat(user, span_warning("There are no potential honoraries in range."))
 		return
-	var/inputty = input(user, "Select an honorary!", "[name]") as anything in recruitment
+	var/inputty = tgui_input_list(user, "Select an honorary!", "[name]", recruitment)
 	if(inputty)
 		var/mob/living/carbon/human/recruit = recruitment[inputty]
 		if(!QDELETED(recruit) && (recruit in get_hearers_in_view(title_range, user)))
@@ -486,7 +486,7 @@ GLOBAL_LIST_EMPTY(lord_titles)
 	if(!length(recruitment))
 		to_chat(user, span_warning("There are no potential honoraries in range."))
 		return
-	var/inputty = input(user, "Select an honorary!", "[name]") as anything in recruitment
+	var/inputty = tgui_input_list(user, "Select an honorary!", "[name]", recruitment)
 	if(inputty)
 		var/mob/living/carbon/human/recruit = recruitment[inputty]
 		if(!QDELETED(recruit) && (recruit in get_hearers_in_view(nobility_range, user)))
@@ -561,7 +561,7 @@ GLOBAL_LIST_EMPTY(lord_titles)
 	if(!length(recruitment))
 		to_chat(user, span_warning("There are no potential recruits in range."))
 		return
-	var/inputty = input(user, "Select a potential recruit!", "[name]") as anything in recruitment
+	var/inputty = tgui_input_list(user, "Select a potential recruit!", "[name]", recruitment)
 	if(inputty)
 		var/mob/living/carbon/human/recruit = recruitment[inputty]
 		if(!QDELETED(recruit) && (recruit in get_hearers_in_view(recruitment_range, user)))

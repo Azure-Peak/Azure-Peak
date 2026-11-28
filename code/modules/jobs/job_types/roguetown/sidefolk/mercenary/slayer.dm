@@ -49,7 +49,7 @@
 			/obj/item/rope/chain = 1
 		)
 		var/weapons = list("Hatchets", "Greataxe")
-		var/weapon_choice = input(H, "Choose your weapon", "How will you channel your rage?") as anything in weapons
+		var/weapon_choice = tgui_input_list(H, "Choose your weapon", "How will you channel your rage?", weapons)
 		switch(weapon_choice)
 			if("Greataxe")
 				backl = /obj/item/rogueweapon/stoneaxe/battle/slayer

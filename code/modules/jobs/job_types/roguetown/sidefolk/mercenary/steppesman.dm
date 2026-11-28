@@ -44,7 +44,7 @@
 	H.adjust_blindness(-3)
 	if(H.mind)
 		var/classes = list("Szabrista - sabre Veteran", "Árkász - Elite Sapper", "Druzhina - Light Archer","Kozak - Light Infantry")
-		var/classchoice = input(H, "Choose your archetypes", "Available archetypes") as anything in classes
+		var/classchoice = tgui_input_list(H, "Choose your archetypes", "Available archetypes", classes)
 		switch(classchoice)
 			if("Szabrista - sabre Veteran")	//Tl;dr - medium armor class for Mount and Blade larpers who still get a saiga. Akin to Vaquero with specific drip.
 				H.set_blindness(0)
@@ -78,7 +78,7 @@
 				"Beast"		= /obj/item/clothing/mask/rogue/facemask/steel/steppesman/anthro,
 				"None"
 		)
-				var/maskchoice = input(H, "What fits your face?", "MASK SELECTION") as anything in masks
+				var/maskchoice = tgui_input_list(H, "What fits your face?", "MASK SELECTION", masks)
 				if(maskchoice != "None")
 					mask = masks[maskchoice]
 			if("Árkász - Elite Sapper")	//Tl;dr - medium armor sappers with less mobility in exchange for their different statblock and equipment.
@@ -115,7 +115,7 @@
 				"Beast"		= /obj/item/clothing/mask/rogue/facemask/steel/steppesman/anthro,
 				"None"
 		)
-				var/maskchoice = input(H, "What fits your face?", "MASK SELECTION") as anything in masks
+				var/maskchoice = tgui_input_list(H, "What fits your face?", "MASK SELECTION", masks)
 				if(maskchoice != "None")
 					mask = masks[maskchoice]
 			if("Druzhina - Light Archer")	//Tl;dr - light armor class for Tatar-style archery. Has 'Druzhina' as a name cus czech/polish influence, couldn't think of better one.

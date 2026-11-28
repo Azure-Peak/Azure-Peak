@@ -25,9 +25,10 @@
 		for(var/datum/advclass/CHECKS in SSrole_class_handler.sorted_class_categories[CTAG_LICKER_WRETCH])
 			possible_classes += CHECKS
 
-		var/datum/advclass/C = input(H.client, "What is my class?", "Adventure") as null|anything in possible_classes
-		H.licker_subclass = C
-		C.equipme(H)
+		var/datum/advclass/C = tgui_input_list(H.client, "What is my class?", "Adventure", null|possible_classes)
+		if(C)
+			H.licker_subclass = C
+			C.equipme(H)
 
 		H.adjust_skillrank_up_to(/datum/skill/magic/blood, 4, TRUE)
 		var/datum/antagonist/vampire/new_antag = new /datum/antagonist/vampire(generation = GENERATION_NEONATE)

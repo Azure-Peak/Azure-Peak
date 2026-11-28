@@ -106,7 +106,7 @@
 
 	options["Cancel"] = 0
 
-	var/choice = input(user, "Select a canister to remove:", "Rack Contents") as null|anything in options
+	var/choice = tgui_input_list(user, "Select a canister to remove:", "Rack Contents", null|options)
 	if(!choice || choice == "Cancel")
 		return
 

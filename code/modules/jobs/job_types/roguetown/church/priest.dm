@@ -123,7 +123,7 @@ GLOBAL_LIST_EMPTY(heretical_players)
 	if(H.mind)
 		SStreasury.grant_savings(ECONOMIC_UPPER_CLASS, H)
 		var/bishop_drip = list("Traditional Astratan Outfit", "Holy See Outfit")
-		var/bishop_drip_choice = input(H, "Choose your armor.", "TAKE UP ARMS") as anything in bishop_drip
+		var/bishop_drip_choice = tgui_input_list(H, "Choose your armor.", "TAKE UP ARMS", bishop_drip)
 		switch(bishop_drip_choice)
 			if("Traditional Astratan Outfit")
 				head = /obj/item/clothing/head/roguetown/priestmask
@@ -545,7 +545,7 @@ code\modules\admin\verbs\divinewrath.dm has a variant with all the gods so keep 
 		"Curse of Xylix" = /datum/curse/xylix,
 		)
 
-	var/curse_pick = input(src, "Choose a curse to apply or lift.", "Select Curse") as null|anything in curse_choices
+	var/curse_pick = tgui_input_list(src, "Choose a curse to apply or lift.", "Select Curse", null|curse_choices)
 	if (!curse_pick)
 		return
 

@@ -98,7 +98,7 @@ GLOBAL_LIST_INIT(virtue_mount_choices_anthrax, (list(
 	choices = sortList(choices)
 
 	choosing = TRUE
-	var/choice = input(user, "What form does your treasured steed take?") as null|anything in choices
+	var/choice = tgui_input_list(user, "What form does your treasured steed take?", "make your choice", null|choices)
 	var/mob/living/simple_animal/our_chosen_honse = choices[choice]
 
 	if (!our_chosen_honse)
@@ -112,7 +112,7 @@ GLOBAL_LIST_INIT(virtue_mount_choices_anthrax, (list(
 	//spawn in our creature and set it up
 	var/mob/living/simple_animal/original_mount
 	if(ispath(our_chosen_honse, /mob/living/simple_animal/hostile/retaliate/rogue/fogbeast))
-		var/fogbeast_color_choice = input(user, "What color is your trusty steed?") as null|anything in GLOB.valid_fogbeast_colors
+		var/fogbeast_color_choice = tgui_input_list(user, "What color is your trusty steed?", "make your choice", null|GLOB.valid_fogbeast_colors)
 		original_mount = new our_chosen_honse(user.loc, fogbeast_color_choice)
 	else
 		original_mount = new our_chosen_honse(user.loc)
@@ -132,7 +132,7 @@ GLOBAL_LIST_INIT(virtue_mount_choices_anthrax, (list(
 
 	if(istype(original_mount, /mob/living/simple_animal/hostile/retaliate/rogue/saiga))
 		var/saiga_barding = list("None","Padded Barding","Chainmail Barding")
-		var/saiga_barding_choice = input(user, "What protection have you acquired for your steed?", "Saddleborn") as anything in saiga_barding
+		var/saiga_barding_choice = tgui_input_list(user, "What protection have you acquired for your steed?", "Saddleborn", saiga_barding)
 		switch(saiga_barding_choice)
 			if("Padded Barding")
 				original_mount.bbarding = new /obj/item/clothing/barding()
@@ -142,7 +142,7 @@ GLOBAL_LIST_INIT(virtue_mount_choices_anthrax, (list(
 				original_mount.update_icon()
 	else if(istype(original_mount, /mob/living/simple_animal/hostile/retaliate/rogue/fogbeast))
 		var/fogbeast_barding = list("None","Padded Barding","Chainmail Barding")
-		var/fogbeast_barding_choice = input(user, "What protection have you acquired for your steed?", "Saddleborn") as anything in fogbeast_barding
+		var/fogbeast_barding_choice = tgui_input_list(user, "What protection have you acquired for your steed?", "Saddleborn", fogbeast_barding)
 		switch(fogbeast_barding_choice)
 			if("Padded Barding")
 				original_mount.bbarding = new /obj/item/clothing/barding/fogbeast()

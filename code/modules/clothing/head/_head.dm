@@ -110,7 +110,7 @@
 					options["[C.name] (Hidden)"] = C
 				else
 					options["[C.name] (Shown)"] = C
-			var/choice = input(user, "Choose clothing to layer:","Layering") as null|anything in options
+			var/choice = tgui_input_list(user, "Choose clothing to layer:","Layering", null|options)
 			if(choice)
 				var/clothes_to_change = options[choice]
 				if(isclothing(clothes_to_change))

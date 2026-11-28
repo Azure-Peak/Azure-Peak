@@ -85,7 +85,7 @@
 	var/list/options = list()
 	for(var/datum/special_intent/S as anything in special_picks)
 		options[S::name] = S
-	var/choice = input(user, "Choose the Manoeuvre", "MANOEUVRE") as anything in options
+	var/choice = tgui_input_list(user, "Choose the Manoeuvre", "MANOEUVRE", options)
 	if(!choice || !special_picks)
 		return
 	if(!ispath(special))

@@ -193,12 +193,12 @@
 		"Chain coif"		= /obj/item/clothing/neck/roguetown/chaincoif/iron,
 		"None"
 		)
-		var/helmchoice = input(H, "Choose yer nogginpad.", "TAKE UP HELMS") as anything in helmets
+		var/helmchoice = tgui_input_list(H, "Choose yer nogginpad.", "TAKE UP HELMS", helmets)
 		if(helmchoice != "None")
 			head = helmets[helmchoice]
 
 	var/tabards = list("Levy Tabard", "Levy hood")
-	var/tabard_choice = input(H, "Choose your CLOAK.", "BARE YOUR MASTER'S HERALDRY.") as anything in tabards
+	var/tabard_choice = tgui_input_list(H, "Choose your CLOAK.", "BARE YOUR MASTER'S HERALDRY.", tabards)
 	switch(tabard_choice)
 		if("Levy Tabard")
 			cloak = /obj/item/clothing/cloak/tabard/stabard/bog/levy
@@ -207,7 +207,7 @@
 
 	if(H.mind)
 		var/armor_options = list("Leather Armor", "Gambeson Armor")
-		var/armor_choice = input(H, "Put your clothes on!", "TAKE UP ARMAMENTS!") as anything in armor_options
+		var/armor_choice = tgui_input_list(H, "Put your clothes on!", "TAKE UP ARMAMENTS!", armor_options)
 
 		switch(armor_choice)
 			if("Leather Armor")

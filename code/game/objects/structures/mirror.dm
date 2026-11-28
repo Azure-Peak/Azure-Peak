@@ -15,7 +15,7 @@
 
 /proc/perform_mirror_styling(mob/living/user, mob/living/carbon/human/H, atom/source)
 	var/list/options = list("hairstyle", "facial hairstyle")
-	var/chosen = input(user, "What would you like to style?", "Hair Styling") as null|anything in options
+	var/chosen = tgui_input_list(user, "What would you like to style?", "Hair Styling", null|options)
 	if(!chosen)
 		return
 
@@ -27,7 +27,7 @@
 				var/datum/sprite_accessory/hair/head/hair = new hair_type()
 				valid_hairstyles[hair.name] = hair_type
 
-			var/new_style = input(user, "Choose their hairstyle", "Hair Styling") as null|anything in valid_hairstyles
+			var/new_style = tgui_input_list(user, "Choose their hairstyle", "Hair Styling", null|valid_hairstyles)
 			if(!new_style)
 				return
 
@@ -88,7 +88,7 @@
 				var/datum/sprite_accessory/hair/facial/facial = new facial_type()
 				valid_facial_hairstyles[facial.name] = facial_type
 
-			var/new_style = input(user, "Choose their facial hairstyle", "Hair Styling") as null|anything in valid_facial_hairstyles
+			var/new_style = tgui_input_list(user, "Choose their facial hairstyle", "Hair Styling", null|valid_facial_hairstyles)
 			if(!new_style)
 				return
 
@@ -271,7 +271,7 @@
 	var/mob/living/carbon/human/H = user
 	var/should_update = FALSE
 
-	var/choice = input(user, "Something to change?", "Magical Grooming") as null|anything in list("name", "race", "gender", "hair", "eyes", "accessory", "face detail")
+	var/choice = tgui_input_list(user, "Something to change?", "Magical Grooming", null|list("name", "race", "gender", "hair", "eyes", "accessory", "face detail"))
 
 	if(!user.canUseTopic(src, BE_CLOSE, FALSE, NO_TK))
 		return
@@ -293,7 +293,7 @@
 
 		if("race")
 			var/newrace
-			var/racechoice = input(H, "What are we again?", "Race change") as null|anything in choosable_races
+			var/racechoice = tgui_input_list(H, "What are we again?", "Race change", null|choosable_races)
 			newrace = GLOB.species_list[racechoice]
 
 			if(!newrace)
@@ -303,7 +303,7 @@
 			H.set_species(newrace, icon_update=0)
 
 			if(H.dna.species.use_skintones)
-				var/new_s_tone = input(user, "Choose your skin tone:", "Race change")	as null|anything in GLOB.skin_tones
+				var/new_s_tone = tgui_input_list(user, "Choose your skin tone:", "Race change", null|GLOB.skin_tones)
 				if(!user.canUseTopic(src, BE_CLOSE, FALSE, NO_TK))
 					return
 
@@ -371,7 +371,7 @@
 				var/datum/sprite_accessory/accessory/acc = new accessory_type()
 				valid_accessories[acc.name] = accessory_type
 
-			var/new_style = input(user, "Choose your accessory", "Accessory Styling") as null|anything in valid_accessories
+			var/new_style = tgui_input_list(user, "Choose your accessory", "Accessory Styling", null|valid_accessories)
 			if(new_style)
 				var/obj/item/bodypart/head/head = H.get_bodypart(BODY_ZONE_HEAD)
 				if(head && head.bodypart_features)
@@ -394,7 +394,7 @@
 				var/datum/sprite_accessory/face_detail/detail = new detail_type()
 				valid_details[detail.name] = detail_type
 
-			var/new_detail = input(user, "Choose your face detail", "Face Detail") as null|anything in valid_details
+			var/new_detail = tgui_input_list(user, "Choose your face detail", "Face Detail", null|valid_details)
 			if(new_detail)
 				var/obj/item/bodypart/head/head = H.get_bodypart(BODY_ZONE_HEAD)
 				if(head && head.bodypart_features)

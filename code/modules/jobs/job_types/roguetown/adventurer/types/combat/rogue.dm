@@ -57,7 +57,7 @@
 		)
 	if(H.mind)
 		var/weapons = list("Sabre","Whip")
-		var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
+		var/weapon_choice = tgui_input_list(H, "Choose your weapon.", "TAKE UP ARMS", weapons)
 		H.set_blindness(0)
 		switch(weapon_choice)
 			if("Sabre")
@@ -316,7 +316,7 @@
 
 	if(H.mind)
 		var/weapons = list("Parrying Dagger","Whip", "Short Spear")
-		var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
+		var/weapon_choice = tgui_input_list(H, "Choose your weapon.", "TAKE UP ARMS", weapons)
 		H.set_blindness(0)
 		H.mind.AddSpell(new /datum/action/cooldown/spell/matthios/barter_secular)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/fortifyingvapors)
@@ -335,12 +335,12 @@
 				backr = /obj/item/rogueweapon/scabbard/gwstrap
 
 		var/utility = list("Enchanted Ring","Sling","Arcyne Affinity")
-		var/utility_choice = input(H, "Choose your utility.", "A RARE GIFT") as anything in utility
+		var/utility_choice = tgui_input_list(H, "Choose your utility.", "A RARE GIFT", utility)
 		H.set_blindness(0)
 		switch(utility_choice)
 			if("Enchanted Ring")
 				var/rings = list("Swiftness","Vitality","Wisdom") //no courage because it gives unbound strength
-				var/ring_choice = input(H, "What enchantment?", "A RARE GIFT") as anything in rings
+				var/ring_choice = tgui_input_list(H, "What enchantment?", "A RARE GIFT", rings)
 				H.set_blindness(0)
 				switch(ring_choice)
 					if("Swiftness")
@@ -349,7 +349,7 @@
 						switch(H.patron?.type)
 							if(/datum/patron/inhumen/baotha)
 								var/baotharing = list("Ring of Vitality","Rosa Ring")
-								var/baotharing_choice = input(H, "A discrete ring, or one of your faith?", "A RARE GIFT") as anything in baotharing
+								var/baotharing_choice = tgui_input_list(H, "A discrete ring, or one of your faith?", "A RARE GIFT", baotharing)
 								H.set_blindness(0)
 								switch(baotharing_choice)
 									if("Ring of Vitality")

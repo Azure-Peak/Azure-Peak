@@ -86,7 +86,7 @@
 	l_hand = /obj/item/rogueweapon/shield/tower/metal/alloy //guarrenteed ancient shield, its going to break pretty fast.
 	H.adjust_blindness(-3)
 	var/weapons = list("Gladius","Spear","Flail","Khopesh","Axe","Mace")
-	var/weapon_choice = input(H, "Choose your DECREPIT WEAPON.", "RAGE AGAINST THE LYVING.") as anything in weapons
+	var/weapon_choice = tgui_input_list(H, "Choose your DECREPIT WEAPON.", "RAGE AGAINST THE LYVING.", weapons)
 	H.set_blindness(0)
 	switch(weapon_choice)
 		if("Gladius")
@@ -109,7 +109,7 @@
 			H.adjust_skillrank(/datum/skill/combat/maces, 1, TRUE)
 
 	var/tabards = list("Black Jupon", "Black Tabard", "Black Cloak", "Black Toga")
-	var/tabard_choice = input(H, "Choose your CLOAK.", "BEAR YOUR HERALDRY.") as anything in tabards
+	var/tabard_choice = tgui_input_list(H, "Choose your CLOAK.", "BEAR YOUR HERALDRY.", tabards)
 	switch(tabard_choice)
 		if("Black Jupon")
 			cloak = /obj/item/clothing/cloak/tabard/stabard/surcoat/necro
@@ -168,7 +168,7 @@
 	//Knife is default softlock protection sidearm, difference is you don't suck at it here as much.
 
 	var/tabards = list("Black Jupon", "Black Tabard", "Black Cloak", "Black Toga")
-	var/tabard_choice = input(H, "Choose your CLOAK.", "BEAR YOUR HERALDRY.") as anything in tabards
+	var/tabard_choice = tgui_input_list(H, "Choose your CLOAK.", "BEAR YOUR HERALDRY.", tabards)
 	switch(tabard_choice)
 		if("Black Jupon")
 			cloak = /obj/item/clothing/cloak/tabard/stabard/surcoat/necro
@@ -223,7 +223,7 @@
 	gloves = /obj/item/clothing/gloves/roguetown/plate/aalloy
 	H.adjust_blindness(-3)
 	var/weapons = list("Greatsword","Grand Mace")
-	var/weapon_choice = input(H, "Choose your DECREPIT WEAPON.", "RAGE AGAINST THE LYVING.") as anything in weapons
+	var/weapon_choice = tgui_input_list(H, "Choose your DECREPIT WEAPON.", "RAGE AGAINST THE LYVING.", weapons)
 	H.set_blindness(0)
 	switch(weapon_choice)
 		if("Greatsword")
@@ -233,7 +233,7 @@
 			r_hand = /obj/item/rogueweapon/mace/goden/aalloy
 			H.adjust_skillrank(/datum/skill/combat/maces, 1, TRUE)
 	var/armors = list("Sayovard + Cuirass & Hauberk", "Bascinet + Heavy Hauberk")
-	var/armor_choice = input(H, "Choose your PLATE.", "SHRUG OFF THINE BLOWS.") as anything in armors
+	var/armor_choice = tgui_input_list(H, "Choose your PLATE.", "SHRUG OFF THINE BLOWS.", armors)
 	switch(armor_choice)
 		if("Sayovard + Cuirass & Hauberk")
 			head = /obj/item/clothing/head/roguetown/helmet/heavy/guard/aalloy
@@ -246,7 +246,7 @@
 			shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/light
 			armor = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/aalloy/heavy
 	var/tabards = list("Black Jupon", "Black Tabard", "Black Cloak", "Black Toga")
-	var/tabard_choice = input(H, "Choose your CLOAK.", "BEAR YOUR HERALDRY.") as anything in tabards
+	var/tabard_choice = tgui_input_list(H, "Choose your CLOAK.", "BEAR YOUR HERALDRY.", tabards)
 	switch(tabard_choice)
 		if("Black Jupon")
 			cloak = /obj/item/clothing/cloak/tabard/stabard/surcoat/necro

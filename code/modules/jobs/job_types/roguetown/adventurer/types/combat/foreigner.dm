@@ -45,7 +45,7 @@
 	H.set_blindness(0)
 	if(H.mind)
 		var/weapons = list("Naginata","Quarterstaff","Hwando", "Nodachi")
-		var/weapon_choice = input(H, "Choose your weapon", "TAKE UP ARMS") as anything in weapons
+		var/weapon_choice = tgui_input_list(H, "Choose your weapon", "TAKE UP ARMS", weapons)
 		switch(weapon_choice)
 			if("Naginata")
 				r_hand = /obj/item/rogueweapon/spear/naginata
@@ -120,7 +120,7 @@
 	H.set_blindness(0)
 	if(H.mind)
 		var/weapons = list("Tanto","Kodachi")
-		var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
+		var/weapon_choice = tgui_input_list(H, "Choose your weapon.", "TAKE UP ARMS", weapons)
 		switch(weapon_choice)
 			if("Tanto")
 				beltr = /obj/item/rogueweapon/huntingknife/idagger/steel/kazengun
@@ -131,7 +131,7 @@
 				beltl = /obj/item/rogueweapon/scabbard/sword/kazengun/kodachi
 				H.adjust_skillrank_up_to(/datum/skill/combat/swords, 4, TRUE)
 		var/masks = list("Oni","Kitsune")
-		var/mask_choice = input(H, "Choose your mask.", "HIDE YOURSELF") as anything in masks
+		var/mask_choice = tgui_input_list(H, "Choose your mask.", "HIDE YOURSELF", masks)
 		switch(mask_choice)
 			if("Oni")
 				mask = /obj/item/clothing/mask/rogue/facemask/yoruku_oni
@@ -225,7 +225,7 @@
 		)
 
 	var/paths = list("Refugee (Default)", "Seminary Dropout (Hierophant)", "Wandering Yogi (Vizier)")
-	var/path = input(H, "Choose your past.", "WHAT DID WAR TAKE FROM YOU?") as anything in paths
+	var/path = tgui_input_list(H, "Choose your past.", "WHAT DID WAR TAKE FROM YOU?", paths)
 	switch(path)
 		if("Refugee (Default)")
 			to_chat(H, span_warning("An asylum-seeker from the war-torn deserts of Naledi, \
@@ -434,7 +434,7 @@
 	H.set_blindness(0)
 	if(H.mind)
 		var/weapons = list("Balanced Longsword & Seax","Spear & Punch Dagger","Sabre")
-		var/weapon_choice = input(H, "Choose your expertise.", "TAKE UP ARMS") as anything in weapons
+		var/weapon_choice = tgui_input_list(H, "Choose your expertise.", "TAKE UP ARMS", weapons)
 		switch(weapon_choice)
 			if("Balanced Longsword & Seax")
 				H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_EXPERT, TRUE)
@@ -515,7 +515,7 @@
 	to_chat(H, span_warning("The curtains part, the shieldline rallies, and the eyes of a thousand shadows fall upon you. Snarling gladiator, enthralled shieldbearer, vestumed actor; ready yourself for another bout."))
 	if(H.mind)
 		var/bronzeweapon = list("Spatha & +1 Unarmed","Trident & +1 Unarmed","Greataxe & +1 Unarmed","Axepick & +1 Unarmed","Winged Spear + Greatshield","Heavy Khopesh + Greatshield","Shortsword + Shield","Falchion + Shield","Messer + Shield","Khopesh + Shield","Axe + Shield","Warclub + Shield","Flail + Shield","Spear + Shield","Axegauntlet + Shortsword","Nothing - Skilled Pugilist, +I STR / -I WIL")
-		var/bronzeweapon_choice = input(H, "Choose your WEAPONS.", "PUT ON A SHOW FOR THE CROWD.") as anything in bronzeweapon
+		var/bronzeweapon_choice = tgui_input_list(H, "Choose your WEAPONS.", "PUT ON A SHOW FOR THE CROWD.", bronzeweapon)
 		switch(bronzeweapon_choice)
 			if("Spatha & +1 Unarmed")
 				H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_JOURNEYMAN, TRUE)
@@ -608,7 +608,7 @@
 				H.change_stat(STATKEY_WIL, -1)
 
 		var/bronzesidearm = list("A Javelin's Bag", "A Sling With Bronze Pellets", "A Bow With Bronze Arrows", "Another Shortsword & Skills In Dual-Wielding", "Another Messer & Skills In Dual-Wielding", "Another Khopesh & Skills In Dual-Wielding", "Another Axe & Skills In Dual-Wielding", "A Bottle Of Medicinal Fish Vinegar.. ?")
-		var/bronzesidearm_choice = input(H, "Choose your ACCOUTREMENTS.", "PREPARE YOUR OPENING ACT.") as anything in bronzesidearm
+		var/bronzesidearm_choice = tgui_input_list(H, "Choose your ACCOUTREMENTS.", "PREPARE YOUR OPENING ACT.", bronzesidearm)
 		switch(bronzesidearm_choice)
 			if("A Javelin's Bag")
 				beltl = /obj/item/quiver/javelin/bronze
@@ -643,7 +643,7 @@
 				beltl = /obj/item/reagent_containers/glass/bottle/rogue/healthpot/zarum
 				H.adjust_skillrank_up_to(/datum/skill/misc/medicine, SKILL_LEVEL_APPRENTICE, TRUE)
 		var/bronzediscipline = list("Thespian - Dodge Expert, -III CON / +III SPD","Gladiator - Skin-Armored & Immunity To Pain","Shieldbearer - Well-Armored & Maille Training","Bulwark - Fully-Armored & Plate Training")
-		var/bronzediscipline_choice = input(H, "Choose your DISCIPLINE.", "EMBRACE GLORY AND DEATH.") as anything in bronzediscipline
+		var/bronzediscipline_choice = tgui_input_list(H, "Choose your DISCIPLINE.", "EMBRACE GLORY AND DEATH.", bronzediscipline)
 		switch(bronzediscipline_choice)
 			if("Thespian - Dodge Expert, -III CON / +III SPD")
 				ADD_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_GENERIC)
@@ -749,7 +749,7 @@
 	H.set_blindness(0)
 	if(H.mind)
 		var/weapons = list("Autumned Longsword","Autumned Glaive","Autumned Bow")
-		var/weapon_choice = input(H, "Choose your WEAPON.", "WARD NATURE FROM THOSE WHO SEEK TO DEFILE IT.") as anything in weapons
+		var/weapon_choice = tgui_input_list(H, "Choose your WEAPON.", "WARD NATURE FROM THOSE WHO SEEK TO DEFILE IT.", weapons)
 		switch(weapon_choice)
 			if("Autumned Longsword")
 				H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_JOURNEYMAN, TRUE)

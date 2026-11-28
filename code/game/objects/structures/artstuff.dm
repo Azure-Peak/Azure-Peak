@@ -571,7 +571,7 @@
 /obj/item/paint_brush/afterattack(atom/target, mob/living/user, proximity_flag, click_parameters)
 	. = ..()
 	if(istype(target, /obj/item/paint_palette))
-		var/merge_color = input(user, "Choose a color to blend") as anything in target:colors
+		var/merge_color = tgui_input_list(user, "Choose a color to blend", "make your choice", target:colors)
 		if(!merge_color)
 			return
 		var/list/colors = target:colors
@@ -638,7 +638,7 @@
 	update_overlays()
 
 /obj/item/paint_palette/proc/remove_color(mob/user)
-	var/remove_color = input(user, "Choose a color to remove") as anything in colors
+	var/remove_color = tgui_input_list(user, "Choose a color to remove", "make your choice", colors)
 	if(!remove_color)
 		return
 	colors -= remove_color

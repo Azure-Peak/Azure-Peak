@@ -87,7 +87,7 @@
 	if(H.mind)
 		SStreasury.give_money_account(ECONOMIC_LOWER_MIDDLE_CLASS, H, "Church Funding.", mint_new = TRUE, mint_label = "Church funding", income_acct = LEDGER_CITIZEN_ESTATE)
 	var/weapons = list("Discipline - Unarmed","Knuckledusters","Sylveric Trident")
-	var/weapon_choice = input(H,"Choose your weapon.", "TAKE UP ARMS") as anything in weapons
+	var/weapon_choice = tgui_input_list(H,"Choose your weapon.", "TAKE UP ARMS", weapons)
 	switch(weapon_choice)
 		if("Discipline - Unarmed")
 			r_hand = /obj/item/clothing/gloves/roguetown/bandages/pugilist
@@ -101,7 +101,7 @@
 				// Basically bind weapon for dream items. Works on the trident.
 				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/dream_bind)
 	var/brushes = list("Offensive Brush", "Healing Brush")
-	var/brush_choice = input(H,"Choose your ritualistic brush.", "TAKE UP FAITH") as anything in brushes
+	var/brush_choice = tgui_input_list(H,"Choose your ritualistic brush.", "TAKE UP FAITH", brushes)
 	switch(brush_choice)
 		if("Offensive Brush")
 			l_hand = /obj/item/rogueweapon/woodstaff/quarterstaff/steel/paint

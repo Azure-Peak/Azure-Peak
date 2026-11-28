@@ -65,7 +65,7 @@
 /datum/outfit/job/roguetown/psydoniantemplar/choose_loadout(mob/living/carbon/human/H)
 	. = ..()
 	var/helmets = list("Barbute", "Sallet", "Armet", "Bucket Helm", "Greatplumed Armet", "Volfskulle Bascinet")
-	var/helmet_choice = input(H,"Choose your HELMET.", "TAKE UP PSYDON'S HELMS.") as anything in helmets
+	var/helmet_choice = tgui_input_list(H,"Choose your HELMET.", "TAKE UP PSYDON'S HELMS.", helmets)
 	switch(helmet_choice)
 		if("Barbute")
 			H.equip_to_slot_or_del(new /obj/item/clothing/head/roguetown/helmet/heavy/ornate/barbute, SLOT_HEAD, TRUE)
@@ -85,7 +85,7 @@
 	H.equip_to_slot_or_del(new /obj/item/clothing/wrists/roguetown/bracers/chain, SLOT_WRISTS, TRUE)
 
 	var/weapons = list("Psydonic Longsword + Shield", "Psydonic Broadsword + Shield", "Psydonic Greatsword", "Psydonic Executioner Sword", "Psydonic War Axe + Shield", "Psydonic Whip + Shield", "Psydonic Flail + Shield", "Psydonic Flanged Mace + Shield", "Psydonic Grand Mace", "Psydonic Halberd + Arming Sword", "Psydonic Spear + Flanged Mace", "Psydonic Poleaxe + Shortsword")
-	var/weapon_choice = input(H,"Choose your WEAPON.", "TAKE UP PSYDON'S ARMS.") as anything in weapons
+	var/weapon_choice = tgui_input_list(H,"Choose your WEAPON.", "TAKE UP PSYDON'S ARMS.", weapons)
 	switch(weapon_choice)
 		if("Psydonic Longsword + Shield")
 			H.put_in_hands(new /obj/item/rogueweapon/sword/long/silver/psy(H))

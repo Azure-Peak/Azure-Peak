@@ -105,7 +105,7 @@ GLOBAL_LIST_INIT(moldable_organs, list(BODY_ZONE_PRECISE_GROIN=list(ORGAN_SLOT_P
 			if(!(found_organ.organ_flags & ORGAN_SURGERY_HIDDEN))
 				organs[found_organ.name] = found_organ
 
-		var/selected = input(user, "Remove which organ?", "PESTRA") as null|anything in sortList(organs)
+		var/selected = tgui_input_list(user, "Remove which organ?", "PESTRA", null|sortList(organs))
 		if(QDELETED(user) || QDELETED(target) || !user.Adjacent(target) || (user.get_active_held_item() != tool))
 			return FALSE
 		var/obj/item/organ/final_organ = organs[selected]
@@ -187,7 +187,7 @@ GLOBAL_LIST_INIT(moldable_organs, list(BODY_ZONE_PRECISE_GROIN=list(ORGAN_SLOT_P
 	if(!length(organs))
 		to_chat(user, span_warning("There are no organs you can mold in [target]'s [parse_zone(target_zone)]!"))
 		return FALSE
-	var/selected = input(user, "Create which organ?", "PESTRA") as null|anything in sortList(organs)
+	var/selected = tgui_input_list(user, "Create which organ?", "PESTRA", null|sortList(organs))
 	if(QDELETED(user) || QDELETED(target) || !user.Adjacent(target) || (user.get_active_held_item() != tool))
 		return FALSE
 	if(target.getorganslot(selected))

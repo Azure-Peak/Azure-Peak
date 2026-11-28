@@ -134,7 +134,7 @@
 		to_chat(sender, span_warning("There are no mercenaries currently available."))
 		return
 
-	var/choice = input(sender, "Which mercenary do I wish to contact?", "Mercenary Contact") as null|anything in available_mercenaries
+	var/choice = tgui_input_list(sender, "Which mercenary do I wish to contact?", "Mercenary Contact", null|available_mercenaries)
 	if(!choice)
 		return
 

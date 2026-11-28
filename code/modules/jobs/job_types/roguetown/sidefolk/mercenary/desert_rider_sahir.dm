@@ -66,7 +66,7 @@
 	if(H.mind)
 		H.mind.AddSpell(new /datum/action/cooldown/spell/sahir_sandstorm)
 		var/weapons = list("Twin Shamshirs", "Greater Staff")
-		var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
+		var/weapon_choice = tgui_input_list(H, "Choose your weapon.", "TAKE UP ARMS", weapons)
 		H.set_blindness(0)
 		switch(weapon_choice)
 			if("Twin Shamshirs")

@@ -36,7 +36,7 @@
 		return
 
 	var/list/choices = list("Ears", "Eye Color", "Facial Hairstyle", "Hairstyle", "Penis", "Tail", "Testicles", "Vagina", "Wings")
-	var/chosen = input(H, "Change what?", "Appearance") as null|anything in choices
+	var/chosen = tgui_input_list(H, "Change what?", "Appearance", null|choices)
 	if(!chosen)
 		return
 
@@ -60,7 +60,7 @@
 				var/datum/sprite_accessory/ears/ear_type = new ears_path()
 				valid_ears[ear_type.name] = ears_path
 
-			var/new_style = input(H, "Choose your ears", "Ears Customization") as null|anything in valid_ears
+			var/new_style = tgui_input_list(H, "Choose your ears", "Ears Customization", null|valid_ears)
 			if(new_style)
 				if(new_style == "none")
 					var/obj/item/organ/ears/ears = H.getorganslot(ORGAN_SLOT_EARS)
@@ -98,7 +98,7 @@
 				var/datum/sprite_accessory/hair/facial/facial = new facial_type()
 				valid_facial_hairstyles[facial.name] = facial_type
 
-			var/new_style = input(H, "Choose your facial hairstyle", "Hair Styling") as null|anything in valid_facial_hairstyles
+			var/new_style = tgui_input_list(H, "Choose your facial hairstyle", "Hair Styling", null|valid_facial_hairstyles)
 			if(new_style)
 				var/obj/item/bodypart/head/head = H.get_bodypart(BODY_ZONE_HEAD)
 				if(head && head.bodypart_features)
@@ -125,7 +125,7 @@
 				var/datum/sprite_accessory/hair/head/hair = new hair_type()
 				valid_hairstyles[hair.name] = hair_type
 
-			var/new_style = input(H, "Choose your hairstyle", "Hair Styling") as null|anything in valid_hairstyles
+			var/new_style = tgui_input_list(H, "Choose your hairstyle", "Hair Styling", null|valid_hairstyles)
 			if(new_style)
 				var/obj/item/bodypart/head/head = H.get_bodypart(BODY_ZONE_HEAD)
 				if(head && head.bodypart_features)
@@ -158,7 +158,7 @@
 				var/datum/sprite_accessory/penis/penis_type = new penis_path()
 				valid_penis_types[penis_type.name] = penis_path
 
-			var/new_style = input(H, "Choose your penis type", "Penis Customization") as null|anything in valid_penis_types
+			var/new_style = tgui_input_list(H, "Choose your penis type", "Penis Customization", null|valid_penis_types)
 			if(new_style)
 				var/obj/item/organ/penis/penis = H.getorganslot(ORGAN_SLOT_PENIS)
 				if(new_style == "none")
@@ -180,7 +180,7 @@
 				var/datum/sprite_accessory/tail/tail_type = new tail_path()
 				valid_tails[tail_type.name] = tail_path
 
-			var/new_style = input(H, "Choose your tail", "Tail Customization") as null|anything in valid_tails
+			var/new_style = tgui_input_list(H, "Choose your tail", "Tail Customization", null|valid_tails)
 			if(new_style)
 				var/obj/item/organ/tail/tail = H.getorganslot(ORGAN_SLOT_TAIL)
 				if(new_style == "none")
@@ -202,7 +202,7 @@
 				var/datum/sprite_accessory/testicles/testicles_type = new testicle_path()
 				valid_testicle_types[testicles_type.name] = testicle_path
 
-			var/new_style = input(H, "Choose your testicles type", "Testicles Customization") as null|anything in valid_testicle_types
+			var/new_style = tgui_input_list(H, "Choose your testicles type", "Testicles Customization", null|valid_testicle_types)
 			if(new_style)
 				var/obj/item/organ/testicles/testicles = H.getorganslot(ORGAN_SLOT_TESTICLES)
 				if(new_style == "none")
@@ -220,7 +220,7 @@
 
 		if("Vagina")
 			var/list/valid_vagina_types = list("none", "human", "hairy", "spade", "furred", "gaping", "cloaca")
-			var/new_style = input(H, "Choose your vagina type", "Vagina Customization") as null|anything in valid_vagina_types
+			var/new_style = tgui_input_list(H, "Choose your vagina type", "Vagina Customization", null|valid_vagina_types)
 			if(new_style)
 				var/obj/item/organ/vagina/vagina = H.getorganslot(ORGAN_SLOT_VAGINA)
 				if(new_style == "none")
@@ -242,7 +242,7 @@
 				var/datum/sprite_accessory/wings/wing_type = new wings_path()
 				valid_wings[wing_type.name] = wings_path
 
-			var/new_style = input(H, "Choose your wings", "Wings Customization") as null|anything in valid_wings
+			var/new_style = tgui_input_list(H, "Choose your wings", "Wings Customization", null|valid_wings)
 			if(new_style)
 				var/obj/item/organ/wings/wings = H.getorganslot(ORGAN_SLOT_WINGS)
 				if(new_style == "none")
