@@ -141,10 +141,7 @@
 		S.frequency = frequency
 
 	if(isturf(turf_source))
-		// Check distance to relay instead.
-		var/atom/movable/tocheck = user_head ? user_head : src
-
-		var/turf/T = get_turf(tocheck)
+		var/turf/T = get_turf(src)
 
 		//sound volume falloff with distance
 		var/distance = get_dist(T, turf_source)
