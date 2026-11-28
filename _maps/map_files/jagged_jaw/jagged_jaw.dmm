@@ -139128,8 +139128,8 @@
 	pixel_y = 0;
 	density = 0
 	},
-/obj/item/clothing/suit/roguetown/armor/plate/cuirass/iron/triumph,
-/obj/item/clothing/head/roguetown/helmet/skullcap/old,
+/obj/item/clothing/suit/roguetown/armor/plate/cuirass/iron/legacy,
+/obj/item/clothing/head/roguetown/helmet/skullcap/legacy,
 /obj/item/clothing/suit/roguetown/armor/gambeson/light,
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/indoors/town/tavern/grim)
