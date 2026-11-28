@@ -14323,14 +14323,6 @@
 	},
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/indoors/town/dwarfin)
-"cwa" = (
-/obj/structure/bars{
-	color = "#755f48";
-	max_integrity = 9999;
-	name = "rusted bars"
-	},
-/turf/open/floor/rogue/cobble,
-/area/rogue/under/cave/his_vault/puzzle)
 "cwh" = (
 /obj/effect/decal/cobbleedge{
 	dir = 9;
@@ -97898,14 +97890,6 @@
 "qrq" = (
 /turf/closed/wall/mineral/rogue/pipe/corners/eight,
 /area/rogue/under/cave/menageriedungeon)
-"qru" = (
-/obj/structure/bars{
-	color = "#755f48";
-	max_integrity = 9999;
-	name = "rusted bars"
-	},
-/turf/open/floor/rogue/cobble/mossy,
-/area/rogue/under/cave/his_vault/puzzle)
 "qrv" = (
 /obj/structure/bars/tough,
 /turf/open/water/river/flow/north,
@@ -275459,9 +275443,9 @@ ujm
 ujm
 fZr
 aTJ
-qru
-qru
-qru
+aTJ
+aTJ
+aTJ
 wNR
 imj
 fZr
@@ -278166,9 +278150,9 @@ bLR
 imj
 imj
 wNR
-cwa
-qru
-qru
+aTJ
+aTJ
+aTJ
 aTJ
 fZr
 fZr
@@ -278176,9 +278160,9 @@ tMR
 tMR
 tMR
 aTJ
-qru
-qru
-qru
+aTJ
+aTJ
+aTJ
 wNR
 fZr
 wGz
