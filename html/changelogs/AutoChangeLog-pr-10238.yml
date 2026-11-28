@@ -1,0 +1,4 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - rscadd: "Drider spiders are no longer able to pass a table, move through mobs, be picked up, or be fire immune? Their stats has been lowered to be in line with saiga instead of being an upgrade with more speed, more dps, more health, critical damage and fall damage immunity."
