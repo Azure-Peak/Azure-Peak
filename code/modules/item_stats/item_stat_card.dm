@@ -328,7 +328,7 @@ GLOBAL_DATUM(item_preview, /datum/item_preview)
 		card["armor"] = list(stat_card_row("NO ARMOR!"))
 	var/list/coverage = list()
 	if(body_parts_covered)
-		for(var/zone in body_parts_covered2organ_names(body_parts_covered))
+		for(var/zone in body_parts_covered2organ_names(body_parts_covered, FALSE, TRUE))
 			coverage += capitalize(zone)
 	card["coverage"] = coverage
 	var/class_text

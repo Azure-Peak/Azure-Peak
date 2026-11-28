@@ -767,13 +767,17 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 
 		if(istype(src,/obj/item/clothing))
 			var/obj/item/clothing/C = src
+			var/list/zonelist = list()
 			inspec += "<br>"
 			inspec += C.defense_examine()
 			inspec += "<table align='center'; width='100%'; height='100%';border: 1px solid white;border-collapse: collapse><tr style='vertical-align:top'><td width = 35%>"
 			inspec += "<b>COVERAGE: <br></b>"
 			if(!C.body_parts_covered)
 				inspec += "<b>NONE!</b>"
-			var/list/zonelist = body_parts_covered2organ_names(C.body_parts_covered)
+			else if(!C.body_parts_covered_dynamic)
+				zonelist = body_parts_covered2organ_names(C.body_parts_covered)
+			else
+				zonelist = body_parts_covered2organ_names(C.body_parts_covered_dynamic)
 			var/count = 0
 			for(var/zone in zonelist)
 				var/add_divider = TRUE
