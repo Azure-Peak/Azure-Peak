@@ -102,7 +102,6 @@
 
 #define TRAIT_EASYDISMEMBER	"Easy Dismemberment"
 #define TRAIT_HARDDISMEMBER	"Hard Dismemberment"
-#define TRAIT_EASYDECAPITATION "Easy Decapitation" //Standing decaps + easier delimbs even for players
 #define TRAIT_NOPAIN	"Painless" //Notably does not function w/ silver weakness while sundered, we have an exclusion if we have TRAIT_LYCANRESILENCE
 #define TRAIT_NOPAINSTUN	"Enduring" //Notably does not function w/ silver weakness while sundered, we have an exclusion if we have TRAIT_LYCANRESILENCE
 #define TRAIT_NOBREATH	"Breathless"

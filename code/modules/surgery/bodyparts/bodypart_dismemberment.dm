@@ -18,18 +18,13 @@
 	var/probability = nuforce * (total_dam / max_damage)
 	var/hard_dismember = HAS_TRAIT(src, TRAIT_HARDDISMEMBER)
 	var/easy_dismember = rotted || skeletonized || HAS_TRAIT(src, TRAIT_EASYDISMEMBER)
-	var/easy_decapitation = HAS_TRAIT(src, TRAIT_EASYDECAPITATION)
 	if(owner)
 		if(!hard_dismember)
 			hard_dismember = HAS_TRAIT(owner, TRAIT_HARDDISMEMBER)
 		if(!easy_dismember)
 			easy_dismember = HAS_TRAIT(owner, TRAIT_EASYDISMEMBER)
-		if(!easy_decapitation)
-			easy_decapitation = HAS_TRAIT(owner, TRAIT_EASYDECAPITATION)
 	if((total_dam <= (max_damage * CRIT_DISMEMBER_DAMAGE_THRESHOLD)) && !easy_dismember)
 		return 0
-	if(easy_decapitation && zone_precise == BODY_ZONE_PRECISE_NECK)
-		return probability * 1.5
 	if(hard_dismember)
 		return min(probability, 5)
 	else if(easy_dismember)
