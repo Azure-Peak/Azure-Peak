@@ -153,6 +153,19 @@
 		)
 	req_table = TRUE
 
+
+/datum/crafting_recipe/roguetown/stealth/ropearrow
+	name = "rope arrow"
+	display_category = ITEM_CAT_WEAPONS_AMMO
+	category = "Ranged"
+	result = /obj/item/ammo_casing/caseless/rogue/arrow/rope
+	reqs = list(
+		/obj/item/ammo_casing/caseless/rogue/arrow/iron = 1,
+		/obj/item/rope = 1,
+		)
+	req_table = TRUE
+	craftdiff = 2
+
 /datum/crafting_recipe/roguetown/survival/stonearrow_six
 	name = "stone arrow (x6)"
 	display_category = ITEM_CAT_WEAPONS_AMMO

@@ -198,17 +198,42 @@
 
 /obj/structure/rope_ladder
 	name = "rope"
-	desc = "A length of rope that has been lowered against a surface to allow climbing."
+	desc = "A length of rope that has been lowered to allow climbing."
 	icon = 'icons/roguetown/misc/structure.dmi'
 	icon_state = "pillar"
 	anchored = TRUE
 	obj_flags = BLOCK_Z_OUT_DOWN
 	max_integrity = 50
 	blade_dulling = DULLING_BASHCHOP
+	var/turf/climb_target
+
+/obj/structure/rope_ladder/attack_hand(mob/user) //no idea why this wasnt a feature before, but ok
+	. = ..()
+	if(!isliving(user) || user.get_active_held_item()) //we dont want dead people climbing ropes.
+		return
+	var/mob/living/living_user = user
+	if(!in_range(src, living_user) || living_user.buckled) //no climbing buckled
+		return
+	var/turf/landing_turf = climb_target
+	if(!landing_turf)
+		landing_turf = GET_TURF_ABOVE(get_turf(living_user))
+	if(!istype(landing_turf, /turf/open/floor) || landing_turf.is_blocked_turf(source_atom = living_user))
+		to_chat(living_user, span_warning("I am unable to climb up."))
+		return
+	playsound(src, 'sound/foley/noose_idle.ogg', 100, FALSE) //noise used for hanging mobs, but its the one used for rope assisted climbing of walls.
+	to_chat(living_user, span_warning("I begin climbing up [src]..."))
+	if(!do_after(living_user, 90, TRUE, src)) //9 seconds, a while, but not too long, finding a wall is still better.
+		return
+	if(!in_range(src, living_user) || living_user.buckled)
+		return
+	living_user.visible_message(span_notice("[living_user] climbs up [src]."), span_notice("I climb up [src]."))
+	movable_travel_z_level(living_user, landing_turf)
 
 /obj/structure/rope_ladder/get_mechanics_examine(mob/user)
 	. = ..()
 	. += "The rope can be retrieved by dragging it onto yourself."
+	. += "The rope makes walls easier to climb."
+	. += "Even if there are no walls around, you are still able to climb up the rope, albeit it takes longer."
 
 /obj/structure/rope_ladder/MouseDrop(atom/over)
 	if(usr != over)
