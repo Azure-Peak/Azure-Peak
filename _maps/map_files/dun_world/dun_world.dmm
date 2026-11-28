@@ -452,7 +452,7 @@
 	dir = 8
 	},
 /obj/structure/fluff/railing/border,
-/turf/open/floor/rogue/twig,
+/turf/open/floor/rogue/cobble/mossy,
 /area/rogue/indoors/cave)
 "adl" = (
 /obj/structure/fluff/signage{
@@ -6803,7 +6803,7 @@
 	dir = 8
 	},
 /obj/structure/fluff/railing/border/north,
-/turf/open/floor/rogue/twig,
+/turf/open/floor/rogue/cobble/mossy,
 /area/rogue/outdoors/bog/south)
 "bih" = (
 /obj/structure/fluff/railing/corner/north_east,
@@ -16555,7 +16555,7 @@
 /obj/structure/stairs{
 	dir = 8
 	},
-/turf/open/floor/rogue/twig,
+/turf/open/floor/rogue/cobble/mossy,
 /area/rogue/indoors/cave)
 "cPt" = (
 /obj/structure/fluff/wallclock,
@@ -20034,7 +20034,7 @@
 /area/rogue/outdoors/woods/northwest)
 "duX" = (
 /obj/structure/stairs/stone,
-/turf/open/floor/rogue/twig,
+/turf/open/floor/rogue/naturalstone,
 /area/rogue/outdoors/bog/south)
 "duZ" = (
 /obj/structure/flora/roguegrass/bush,
@@ -37364,7 +37364,7 @@
 	},
 /obj/structure/fluff/railing/border,
 /obj/structure/fluff/railing/border,
-/turf/open/floor/rogue/twig,
+/turf/open/floor/rogue/cobble/mossy,
 /area/rogue/indoors/cave)
 "goE" = (
 /obj/structure/mineral_door/wood/deadbolt,
@@ -63766,7 +63766,7 @@
 	dir = 8
 	},
 /obj/structure/fluff/railing/border,
-/turf/open/floor/rogue/twig,
+/turf/open/floor/rogue/cobble/mossy,
 /area/rogue/outdoors/bog/south)
 "kLH" = (
 /obj/structure/plasticflaps,
@@ -67216,7 +67216,7 @@
 /obj/structure/stairs{
 	dir = 1
 	},
-/turf/open/floor/rogue/twig,
+/turf/open/floor/rogue/dirt,
 /area/rogue/outdoors/bog/north)
 "lnq" = (
 /obj/structure/flora/ausbushes/lavendergrass,
@@ -67377,7 +67377,7 @@
 /obj/structure/stairs/stone{
 	dir = 4
 	},
-/turf/open/floor/rogue/twig,
+/turf/open/floor/rogue/naturalstone,
 /area/rogue/outdoors/bog/south)
 "loN" = (
 /obj/structure/fluff/statue/tdummy,
@@ -95827,6 +95827,9 @@
 /obj/effect/spawner/lootdrop/decrepit_equipment_spawner,
 /turf/open/floor/rogue/blocks/green,
 /area/rogue/under/town/sewer)
+"pZR" = (
+/turf/open/floor/rogue/cobble/mossy,
+/area/rogue/indoors/cave)
 "pZS" = (
 /obj/structure/rack/rogue,
 /turf/open/floor/rogue/churchrough,
@@ -105756,7 +105759,7 @@
 	max_integrity = 1000
 	},
 /obj/structure/curtain/magenta,
-/turf/closed/wall/mineral/rogue/craftstone,
+/turf/open/floor/rogue/churchrough,
 /area/rogue/indoors/town/bath)
 "rIp" = (
 /obj/structure/fluff/railing/border/west,
@@ -114783,7 +114786,7 @@
 /obj/structure/stairs/stone{
 	dir = 8
 	},
-/turf/open/floor/rogue/twig,
+/turf/open/floor/rogue/cobble/mossy,
 /area/rogue/outdoors/bog/south)
 "tft" = (
 /obj/structure/flora/roguegrass/water,
@@ -117653,7 +117656,7 @@
 /obj/structure/stairs/stone{
 	dir = 8
 	},
-/turf/open/floor/rogue/twig,
+/turf/open/floor/rogue/cobble/mossy,
 /area/rogue/indoors/cave)
 "tDx" = (
 /mob/living/carbon/human/species/human/northern/mad_touched_treasure_hunter{
@@ -131717,7 +131720,7 @@
 	dir = 8
 	},
 /obj/structure/fluff/railing/border/north,
-/turf/open/floor/rogue/twig,
+/turf/open/floor/rogue/cobble/mossy,
 /area/rogue/indoors/cave)
 "vXt" = (
 /obj/structure/mineral_door/wood/window{
@@ -293609,7 +293612,7 @@ jFf
 jFf
 awg
 acF
-acF
+pZR
 gAt
 nar
 nar
