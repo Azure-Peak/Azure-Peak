@@ -168,7 +168,7 @@
 		var/detail_state = "[icon_state][detail_tag]"
 		if(!icon_exists(icon, detail_state))
 			detail_state = "[initial(icon_state)][detail_tag]"
-		var/mutable_appearance/pic = mutable_appearance(icon(icon, detail_state))
+		var/mutable_appearance/pic = mutable_appearance(icon, detail_state)
 		pic.appearance_flags = RESET_COLOR
 		if(get_detail_color())
 			pic.color = get_detail_color()
@@ -178,7 +178,7 @@
 		var/altdetail_state = "[icon_state][altdetail_tag]"
 		if(!icon_exists(icon, altdetail_state))
 			altdetail_state = "[initial(icon_state)][altdetail_tag]"
-		var/mutable_appearance/pic2 = mutable_appearance(icon(icon, altdetail_state))
+		var/mutable_appearance/pic2 = mutable_appearance(icon, altdetail_state)
 		pic2.appearance_flags = RESET_COLOR
 		if(get_altdetail_color())
 			pic2.color = get_altdetail_color()

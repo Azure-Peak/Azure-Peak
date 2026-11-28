@@ -10,6 +10,8 @@
 	var/fade_time
 
 /obj/effect/temp_visual/Initialize(mapload)
+	if(light_power && light_outer_range && light_on)
+		light_system = MOVABLE_LIGHT
 	. = ..()
 	if(randomdir)
 		setDir(pick(GLOB.cardinals))

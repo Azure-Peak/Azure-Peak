@@ -195,8 +195,15 @@
 			//Assign our single visual ebeam to each ebeam's vis_contents
 			//ends are cropped by a transparent box icon of length-N pixel size laid over the visuals obj
 			if(N+32>length) //went past the target, we draw a box of space to cut away from the beam sprite so the icon actually ends at the center of the target sprite
-				var/icon/II = new(icon, icon_state)
-				II.DrawBox(null,1,(length-N),32,32)
+				var/static/list/endcache = list()
+				var/endkey = "[icon]|[icon_state]|[length-N]"
+				var/icon/II = isfile(icon) ? endcache[endkey] : null
+				if(!II)
+					II = new(icon, icon_state)
+					II.DrawBox(null,1,(length-N),32,32)
+					II = fcopy_rsc(II)
+					if(isfile(icon))
+						endcache[endkey] = II
 				segment.icon = II
 				segment.color = beam_color
 			else

@@ -441,7 +441,7 @@
 	var/current_blood_color = get_blood_color() || BLOOD_COLOR_RED
 	new /obj/effect/decal/cleanable/blood/splatter(T, current_blood_color)
 	for(var/obj/effect/decal/cleanable/blood/B in T)
-		if(istype(B, /obj/effect/decal/cleanable/blood/footprints))
+		if(istype(B, /obj/effect/decal/cleanable/blood/footprints) || B.blood_color == current_blood_color)
 			continue
 		B.set_blood_color(current_blood_color)
 	T?.pollute_turf(/datum/pollutant/metallic_scent, 30)
@@ -522,7 +522,6 @@
 	add_mob_blood(source)
 	for(var/obj/item/I as anything in get_equipped_items())
 		I.add_mob_blood(source)
-		I.update_slot_icon()
 
 /mob/living/proc/add_drip_floor(turf/T, amt)
 	if(!iscarbon(src))

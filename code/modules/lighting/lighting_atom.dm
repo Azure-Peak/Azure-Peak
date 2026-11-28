@@ -25,7 +25,8 @@
 		set_light_color(l_color)
 	if(!isnull(l_on))
 		set_light_on(l_on)
-	update_light()
+	if(light_system == STATIC_LIGHT)
+		update_light()
 
 #undef NONSENSICAL_VALUE
 

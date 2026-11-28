@@ -46,7 +46,8 @@
 	if(!new_blood_color || blood_color == new_blood_color)
 		return
 	blood_color = new_blood_color
-	remove()
+	var/atom/A = parent
+	A.cut_overlay(pic, TRUE)
 	generate_appearance()
 	apply()
 
