@@ -206,6 +206,8 @@ GLOBAL_LIST_INIT(attack_blip_pref_list, list(
 #define PREFERENCE_TAB_GAME_SETTINGS 1
 #define PREFERENCE_TAB_KEYBINDINGS 2
 
+#define PREFERENCE_SUBTAB_CLASS "\"class\""
+
 // Different DM-side popups, these must match the keys of registerPopup's second argument
 // These have to be double quoted because of how setSharedState works
 // INSTRUCTIONS FOR DOWNSTREAM: Just use your own defines folder, all of your code that needs these should be in your modular folder anyways

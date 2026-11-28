@@ -1,7 +1,4 @@
 /datum/preferences/proc/ui_data_character_creator_classes(mob/user)
-	if(joblessrole != RETURNTOLOBBY && joblessrole != BERANDOMJOB) // this is to catch those that used the previous definition and reset.
-		joblessrole = RETURNTOLOBBY
-
 	var/list/data = list(
 		"joblessrole" = joblessrole,
 		"classes" = list()

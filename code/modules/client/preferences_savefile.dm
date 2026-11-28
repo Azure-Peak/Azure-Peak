@@ -776,7 +776,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	song_title		= sanitize_text(song_title, initial(song_title))
 	rumour			= sanitize_text(rumour, initial(rumour))
 	noble_gossip	= sanitize_text(noble_gossip, initial(noble_gossip))
-	joblessrole		= sanitize_text(joblessrole, initial(joblessrole))
+	joblessrole		= sanitize_inlist(joblessrole, list(RETURNTOLOBBY, BERANDOMJOB), initial(joblessrole))
 	preset_bounty_crime = sanitize_text(preset_bounty_crime, initial(preset_bounty_crime))
 
 	// complex/other stuff

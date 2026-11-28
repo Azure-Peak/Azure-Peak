@@ -5,7 +5,8 @@
 
 	data += ui_data_character_creator_all_pages(user)
 	data += ui_data_character_creator_appearance(user)
-	data += ui_data_character_creator_classes(user)
+	if(LAZYACCESS(tgui_shared_states, "charactercreatorsubtab") == PREFERENCE_SUBTAB_CLASS)
+		data += ui_data_character_creator_classes(user)
 	data += ui_data_character_creator_descriptors(user)
 	data += ui_data_character_creator_identity(user)
 	data += ui_data_character_creator_politics(user)
