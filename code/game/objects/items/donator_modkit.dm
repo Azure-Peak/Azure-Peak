@@ -1809,8 +1809,8 @@
 
 /obj/item/enchantingkit/bloakplate
 	name = "Woad Blessed Cuirass"
-	desc = "A small container of special morphing dust, perfect to make a specific item. It can be used to alter the appearance of a steel cuirass, fluted cuirass, scalemail armor and the elven plate."
-	target_items = list(/obj/item/clothing/suit/roguetown/armor/plate/cuirass,/obj/item/clothing/suit/roguetown/armor/plate/cuirass/fluted,/obj/item/clothing/suit/roguetown/armor/plate/scale, /obj/item/clothing/suit/roguetown/armor/plate/elven_plate)
+	desc = "A small container of special morphing dust, perfect to make a specific item. It can be used to alter the appearance of a steel cuirass, fluted cuirass, scalemail armor"
+	target_items = list(/obj/item/clothing/suit/roguetown/armor/plate/cuirass,/obj/item/clothing/suit/roguetown/armor/plate/cuirass/fluted,/obj/item/clothing/suit/roguetown/armor/plate/scale)
 	result_item = /obj/item/clothing/suit/roguetown/armor/plate/cuirass/bloakplate
 
 /obj/item/enchantingkit/bloakbarbute
