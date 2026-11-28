@@ -1434,4 +1434,4 @@
 /datum/loadout_item/donator/easternpipe
 	name = "Donator Item - Ornate Eastern Pipe"
 	path = /obj/item/clothing/mask/cigarette/pipe/donator_eastern
-	ckeywhitelist = list("eldritchlullaby", "ryan180602")
+	ckeywhitelist = list("eldritchlullaby", "ryan180602", "thestripes")
