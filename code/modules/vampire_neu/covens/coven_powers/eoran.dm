@@ -134,8 +134,8 @@
 	to_chat(second_target, span_purple("You feel a warm connection forming with [bonded], as if they were family."))
 
 	// Store the bond information
-	bonded.AddComponent(/datum/component/familial_bond, second_target, duration_length)
-	second_target.AddComponent(/datum/component/familial_bond, bonded, duration_length)
+	bonded.AddComponent(/datum/component/familial_bond, second_target, duration_length, src)
+	second_target.AddComponent(/datum/component/familial_bond, bonded, duration_length, src)
 
 //BEAUTY'S RESTORATION
 /datum/coven_power/eora/beautys_restoration
