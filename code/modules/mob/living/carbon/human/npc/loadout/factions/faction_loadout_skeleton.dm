@@ -545,7 +545,7 @@
 	)
 	head = list(
 		/obj/item/clothing/head/roguetown/helmet/skullcap = 20, //old sovl
-		/obj/item/clothing/head/roguetown/helmet/skullcap/old = 1, //old SOVL (rare b.c its a triumph thing otherwise)
+		/obj/item/clothing/head/roguetown/helmet/skullcap/legacy = 1, //old SOVL (rare b.c its a triumph thing otherwise)
 		/obj/item/clothing/head/roguetown/helmet/kettle/iron = 8,
 		/obj/item/clothing/head/roguetown/helmet/leather = 15,
 		/obj/item/clothing/head/roguetown/helmet/heavy/guard/bogman/iron = 3,

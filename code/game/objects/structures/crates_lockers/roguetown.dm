@@ -349,7 +349,7 @@
 		/obj/item/reagent_containers/food/snacks/canned = 15,
 		/obj/item/storage/backpack/rogue/satchel = 3,
 		/obj/item/storage/roguebag = 3, //Weapons / tools
-		/obj/item/rogueweapon/stoneaxe/woodcut/triumph = 5,
+		/obj/item/rogueweapon/stoneaxe/woodcut/legacy = 5,
 		/obj/item/rogueweapon/sword/broken = 5,
 		/obj/item/flashlight/flare/torch/lantern = 5,
 		/obj/item/rogue/instrument/lute = 5,
