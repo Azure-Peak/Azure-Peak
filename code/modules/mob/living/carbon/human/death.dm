@@ -179,12 +179,6 @@
 	jitteriness = 0
 	dna.species.spec_death(gibbed, src)
 
-	if(isdullahan(src))
-		var/datum/species/dullahan/user_species = src.dna.species
-		if(user_species.headless)
-			user_species.soul_light_off()
-			update_body()
-
 	if(SSticker.HasRoundStarted())
 		SSblackbox.ReportDeath(src)
 		log_message("has died (BRUTE: [src.getBruteLoss()], BURN: [src.getFireLoss()], TOX: [src.getToxLoss()], OXY: [src.getOxyLoss()], CLONE: [src.getCloneLoss()])", LOG_ATTACK)

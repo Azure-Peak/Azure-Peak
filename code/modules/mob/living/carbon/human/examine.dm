@@ -418,10 +418,6 @@
 	for(var/missing_zone in get_missing_limbs())
 		if(missing_zone == BODY_ZONE_HEAD)
 			missing_head = TRUE
-			if (isdullahan(src))
-				var/datum/species/dullahan/user_species = dna.species
-				if(user_species.headless && user != src && !isdullahan(user))
-					user.add_stress(/datum/stressevent/headless)
 		missing_limbs += parse_zone(missing_zone)
 
 	if(length(missing_limbs))

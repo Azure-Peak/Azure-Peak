@@ -98,19 +98,10 @@
 	if(!msg && nomsg == FALSE)
 		return
 
-	// A COMSIG here would be nice, in my attempts it sadly didn't work out well for the relay.
 	var/atom/movable/emotelocation = user
 	var/mob/living/carbon/human/human
 	if(ishuman(user))
 		human = user
-
-	var/obj/item/organ/dullahan_vision/vision
-	var/datum/species/dullahan/dullahan
-	if(isdullahan(user))
-		dullahan = human.dna.species
-		vision = human.getorganslot(ORGAN_SLOT_HUD)
-		if(dullahan.headless && vision.viewing_head)
-			emotelocation = dullahan.my_head
 
 
 	var/pitch = 1 //bespoke vary system so deep voice/high voiced humans
@@ -123,14 +114,6 @@
 		tmp_sound = sound(get_sfx(tmp_sound))
 	tmp_sound.frequency = pitch
 	if(tmp_sound && tmp_sound.file && (!only_forced_audio || !intentional))
-		// Specifying what bodyparts are needed to run an emote is a desireable replacement.
-		// Band-aid so emotes with sound aren't misplaced. You can still point with your head, for example.
-		var/soundfile = tmp_sound.file
-		if(dullahan && dullahan.headless)
-			if(findtext("[soundfile]", @"sound/vo"))
-				emotelocation = dullahan.my_head
-			else// if(!vision.viewing_head)
-				emotelocation = user
 		var/sound_range = snd_range
 		if(quiet)
 			sound_range = -6

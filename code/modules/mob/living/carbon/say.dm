@@ -1,12 +1,4 @@
 /mob/living/carbon/proc/handle_tongueless_speech(mob/living/carbon/speaker, list/speech_args)
-	// Probably not tongueless if it has a relay.
-	var/mob/living/carbon/human/human = src
-	if(isdullahan(human))
-		var/datum/species/dullahan/dullahan = human.dna.species
-		var/obj/item/bodypart/head/dullahan/head = dullahan.my_head
-		if(dullahan.headless && head.tongue)
-			return
-		
 	var/message = speech_args[SPEECH_MESSAGE]
 	var/static/regex/tongueless_lower = new("\[gdntke]+", "g")
 	var/static/regex/tongueless_upper = new("\[GDNTKE]+", "g")

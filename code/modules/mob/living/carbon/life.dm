@@ -137,10 +137,10 @@
 /mob/living/proc/handle_inwater()
 	extinguish_mob()
 
-/mob/living/carbon/human/handle_inwater(turf/onturf, extinguish = TRUE, force_drown = FALSE)
+/mob/living/carbon/human/handle_inwater(turf/onturf)
 	..()
 
-	if(!(mobility_flags & MOBILITY_STAND) || force_drown)
+	if(!(mobility_flags & MOBILITY_STAND))
 		if (HAS_TRAIT(src, TRAIT_NOBREATH) || HAS_TRAIT(src, TRAIT_WATERBREATHING))
 			return TRUE
 		if(stat == DEAD && client)

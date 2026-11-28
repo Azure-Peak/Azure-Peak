@@ -476,18 +476,6 @@
 			R.fields["name"] = newname
 
 /mob/living/carbon/human/get_total_tint()
-	if(isdullahan(src))
-		var/datum/species/dullahan/species = dna.species
-		var/obj/item/bodypart/head/dullahan/user_head = species.my_head
-		if(species.headless && user_head)
-			var/obj/item/organ/dullahan_vision/vision = getorganslot(ORGAN_SLOT_HUD)
-
-			if(vision && vision.viewing_head && user_head.eyes)
-				. = user_head.eyes.tint
-			else
-				. = INFINITY
-			return
-
 	. = ..()
 	if(glasses)
 		. += glasses.tint
@@ -762,9 +750,6 @@
 			if(has_grab && can_be_firemanned(target))
 				fireman_carry(target)
 				return TRUE
-	else if(istype(dragged, /obj/item/bodypart/head/dullahan/))
-		var/obj/item/bodypart/head/dullahan/item_head = dragged
-		item_head.show_inv(user)
 	. = ..()
 
 /mob/living/carbon/human/RightMouseDrop_T(atom/dragged, mob/living/user)

@@ -1313,7 +1313,7 @@ There are several things that need to be remembered:
 /mob/living/carbon/human/update_inv_mouth()
 	remove_overlay(MOUTH_LAYER)
 
-	if(!isdullahan(src) && !get_bodypart(BODY_ZONE_HEAD)) //Decapitated
+	if(!get_bodypart(BODY_ZONE_HEAD)) //Decapitated
 		return
 
 	if(client && hud_used && hud_used.inv_slots[SLOT_MOUTH])

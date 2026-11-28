@@ -203,13 +203,6 @@ GLOBAL_LIST_INIT(rollable_stats_by_key, list(
 	var/atom/movable/emotelocation = src
 	var/mob/living/carbon/human/human = ishuman(src) ? src : null
 
-	// A headless dullahan speaks from whichever half is doing the looking.
-	if(isdullahan(src))
-		var/datum/species/dullahan/dullahan = human.dna.species
-		var/obj/item/organ/dullahan_vision/vision = human.getorganslot(ORGAN_SLOT_HUD)
-		if(dullahan.headless && vision.viewing_head)
-			emotelocation = dullahan.my_head
-
 	var/styled_name = "<b>[emotelocation]</b>"
 	if(human?.voice_color)
 		var/color_to_use = human.voicecolor_override || human.voice_color

@@ -142,21 +142,6 @@
 	if(istype(loc, /turf/open/water))
 		handle_inwater(loc)
 
-/mob/living/carbon/human/check_drowning()
-	if(isdullahan(src))
-		var/mob/living/carbon/human = src
-		var/datum/species/dullahan/dullahan = human.dna.species
-		if(dullahan.headless)
-			var/obj/item/bodypart/head/dullahan/drownrelay = dullahan.my_head
-			if(!drownrelay)
-				return
-			if(istype(drownrelay.loc, /turf/open/water))
-				handle_inwater(drownrelay.loc, extinguish = FALSE, force_drown = TRUE)
-			if(istype(loc, /turf/open/water)) // Extinguish ourselves if our body is in water.
-				extinguish_mob()
-			return
-	. =..()
-
 /mob/living/proc/handle_breathing()
 	return TRUE
 

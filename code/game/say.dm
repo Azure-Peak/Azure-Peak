@@ -75,15 +75,8 @@ GLOBAL_LIST_INIT(freqtospan, list(
 	var/arrowpart = ""
 
 	if(istype(src,/mob/living))
-		var/atom/movable/tocheck = src
-		// Check relay instead.
-		if(isdullahan(src))
-			var/mob/living/carbon/human = src
-			var/datum/species/dullahan/dullahan = human.dna.species
-			if(dullahan.headless)
-				tocheck = dullahan.my_head
 		var/turf/speakturf = get_turf(speaker)
-		var/turf/sourceturf = get_turf(tocheck)
+		var/turf/sourceturf = get_turf(src)
 		if(istype(speakturf) && istype(sourceturf) && !(speakturf in get_hear(7, sourceturf)))
 			switch(get_dir(src,speaker))
 				if(NORTH)

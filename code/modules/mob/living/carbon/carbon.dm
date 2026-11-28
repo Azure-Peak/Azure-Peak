@@ -646,15 +646,6 @@
 
 	mob_timers["puke"] = world.time
 
-	var/obj/item/bodypart/head/dullahan/vomitrelay
-	if(isdullahan(src))
-		var/mob/living/carbon/human = src
-		var/datum/species/dullahan/dullahan = human.dna.species
-		if(dullahan.headless)
-			vomitrelay = dullahan.my_head
-
-	var/atom/movable/vomit_source = vomitrelay ? vomitrelay : src
-
 	if(nutrition <= 50 && !blood)
 		if(message)
 			emote("gag")
@@ -666,16 +657,7 @@
 			return TRUE
 		add_nausea(-100)
 		energy_add(-50)
-		if(vomitrelay && ishuman(vomitrelay.loc))
-			var/mob/living/carbon/human/parent = vomitrelay.loc
-			if(message)
-				visible_message("<span class='danger'>[vomitrelay] throws up all over [parent]!</span>", \
-								"<span class='danger'>I puke all over [parent]!</span>")
-				parent.add_stress(/datum/stressevent/vomitother)
-
-				src.add_stress(/datum/stressevent/vomitedonother)
-			distance = 0
-		else if(is_mouth_covered()) //make this add a blood/vomit overlay later it'll be hilarious
+		if(is_mouth_covered()) //make this add a blood/vomit overlay later it'll be hilarious
 			if(message)
 				visible_message("<span class='danger'>[src] throws up all over [p_them()]self!</span>", \
 								"<span class='danger'>I puke all over myself!</span>")
@@ -685,7 +667,7 @@
 			distance = 0
 		else
 			if(message)
-				visible_message("<span class='danger'>[vomit_source] pukes!</span>", "<span class='danger'>I puke!</span>")
+				visible_message("<span class='danger'>[src] pukes!</span>", "<span class='danger'>I puke!</span>")
 				if(iscarbon(src))
 					var/mob/living/carbon/C = src
 					C.add_stress(/datum/stressevent/vomit)
@@ -693,17 +675,17 @@
 		if(NOBLOOD in dna?.species?.species_traits)
 			return TRUE
 		if(message)
-			visible_message("<span class='danger'>[vomit_source] coughs up blood!</span>", "<span class='danger'>I cough up blood!</span>")
+			visible_message("<span class='danger'>[src] coughs up blood!</span>", "<span class='danger'>I cough up blood!</span>")
 
 	if(stun)
 		Immobilize(59)
 
-	var/turf/T = get_turf(vomit_source)
+	var/turf/T = get_turf(src)
 	if(!blood)
 		playsound(T, pick('sound/vo/vomit.ogg','sound/vo/vomit_2.ogg'), 100, TRUE)
 	else
 		if(stat != DEAD)
-			playsound(vomit_source, pick('sound/vo/throat.ogg','sound/vo/throat2.ogg','sound/vo/throat3.ogg'), 100, FALSE)
+			playsound(src, pick('sound/vo/throat.ogg','sound/vo/throat2.ogg','sound/vo/throat3.ogg'), 100, FALSE)
 
 	blur_eyes(10)
 
@@ -717,25 +699,7 @@
 	for(var/i=0 to distance)
 		if(blood)
 			if(T)
-				if(vomitrelay && blood_volume > 0)
-					var/mob/living/carbon/human/parent = vomitrelay.loc
-					var/amt = 5 * parent.physiology.bleed_mod
-					blood_volume = max(blood_volume - amt, 0)
-					GLOB.azure_round_stats[STATS_BLOOD_SPILT] += amt
-					if(isturf(vomit_source.loc))
-						add_drip_floor(vomit_source.loc, amt)
-					var/vol2use
-					if(amt > 1)
-						var/index = min(amt - 1, 3)
-						vol2use = "sound/misc/bleed ([index]).ogg"
-					if(!(mobility_flags & MOBILITY_STAND))
-						vol2use = null
-					if(vol2use)
-						playsound(T, vol2use, 100, FALSE)
-
-					updatehealth()
-				else
-					bleed(5)
+				bleed(5)
 		else
 			if(T)
 				T.add_vomit_floor(src, VOMIT_TOXIC)//toxic barf looks different
@@ -1396,12 +1360,3 @@
 	if((cmode) && (mind) && (!handcuffed) && (stat == CONSCIOUS))
 		return 0
 	. = ..()
-
-// reset_perspective is called for things like z-level transitions. however, revs specifically need to not have their perspective reset if their
-// body moves away from their head; otherwise you get rev bodies with full sight
-/mob/living/carbon/reset_perspective(atom/A)
-	var/obj/item/organ/dullahan_vision/vision = getorganslot(ORGAN_SLOT_HUD)
-	var/datum/species/dullahan/our_species = dna?.species
-	if(!A && istype(vision) && vision.viewing_head && istype(our_species))
-		return ..(our_species.my_head)
-	return ..()

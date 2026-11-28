@@ -2703,15 +2703,6 @@ GLOBAL_LIST_INIT(sight_trait_signals, build_sight_trait_signals())
 	if(client)
 		client.pixel_x = 0
 		client.pixel_y = 0
-	if(isdullahan(src))
-		var/mob/living/carbon/human/human = src
-		var/obj/item/organ/dullahan_vision/vision = human.getorganslot(ORGAN_SLOT_HUD)
-		var/datum/species/dullahan/species = human.dna.species
-		if(species.headless && vision.viewing_head)
-			var/obj/item/bodypart/head/dullahan/head = species.my_head
-			reset_perspective(head)
-			update_cone_show()
-			return
 	reset_perspective()
 	update_cone_show()
 //	UnregisterSignal(src, COMSIG_MOVABLE_PRE_MOVE)

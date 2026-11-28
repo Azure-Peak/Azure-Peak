@@ -12,18 +12,7 @@
 	attack_verb = list("bites")
 
 /datum/intent/bite/on_mmb(atom/target, mob/living/user, params)
-	var/datum/species/dullahan/user_species
-	if(isdullahan(user) && ishuman(target))
-		var/mob/living/carbon/human/target_human = target
-		var/mob/living/carbon/human/user_human = user
-		user_species = user_human.dna.species
-		var/obj/item/bodypart/head/dullahan/user_head = user_species.my_head
-
-		var/same_tile = (get_turf(user_head) == get_turf(target_human))
-		var/head_close = target_human.is_holding(user_head) || same_tile
-		if((user_species.headless && !head_close) || (!user_species.headless && !target_human.Adjacent(user)))
-			return
-	else if(!target.Adjacent(user))
+	if(!target.Adjacent(user))
 		return
 	if(target == user)
 		return
@@ -36,8 +25,7 @@
 	if(HAS_TRAIT(user, TRAIT_NO_BITE))
 		to_chat(user, span_warning("I can't bite."))
 		return
-	if(!user_species || (user_species && !user_species.headless))
-		user.face_atom(target)
+	user.face_atom(target)
 	if(iscarbon(user))
 		var/mob/living/carbon/carbon_user = user
 		if(carbon_user.mouth?.type == /obj/item/grabbing/bite)
@@ -255,18 +243,7 @@
 		qdel(src)
 		return FALSE
 
-	if(isdullahan(grabbee) && ishuman(grabbed))
-		var/mob/living/carbon/human/target = grabbed
-		var/mob/living/carbon/human/user_human = grabbee
-
-		var/datum/species/dullahan/user_species = user_human.dna.species
-		var/obj/item/bodypart/head/dullahan/user_head = user_species.my_head
-
-		if(!user_species.headless && user_human.Adjacent(target))
-			return TRUE
-		else if(user_species.headless && (get_turf(user_head) == get_turf(target) || target.is_holding(user_head)))
-			return TRUE
-	else if(grabbee.Adjacent(grabbed))
+	if(grabbee.Adjacent(grabbed))
 		return TRUE
 	grabbee.stop_pulling(FALSE)
 	qdel(src)
@@ -294,19 +271,7 @@
 ///Chewing after bite
 ///User is the one biting.
 /obj/item/grabbing/bite/proc/bitelimb(mob/living/carbon/human/user) //implies limb_grabbed and sublimb are things
-	var/datum/species/dullahan/user_species
-	if(isdullahan(user) && ishuman(grabbed))
-		var/mob/living/carbon/human/target_human = grabbed
-		var/mob/living/carbon/human/user_human = user
-		user_species = user_human.dna.species
-		var/obj/item/bodypart/head/dullahan/user_head = user_species.my_head
-
-		var/same_tile = (get_turf(user_head) == get_turf(target_human))
-		var/head_close = target_human.is_holding(user_head) || same_tile
-		if((user_species.headless && !head_close) || (!user_species.headless && !target_human.Adjacent(user)))
-			qdel(src)
-			return
-	else if(!user.Adjacent(grabbed))
+	if(!user.Adjacent(grabbed))
 		qdel(src)
 		return
 	if(world.time <= user.next_move)

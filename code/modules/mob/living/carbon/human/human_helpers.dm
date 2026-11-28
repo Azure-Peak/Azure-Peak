@@ -9,13 +9,8 @@
 		var/datum/organ_dna/organ_dna = dna.organ_dna[slot]
 		if(organ_dna)
 			expected_organs[slot] = organ_dna.can_create_organ() ? organ_dna.organ_type : null
-	var/list/detached_head_slots = list()
-	var/datum/species/dullahan/dullahan = species
-	if(istype(dullahan) && dullahan.headless && !QDELETED(dullahan.my_head))
-		for(var/obj/item/organ/organ in dullahan.my_head.contents)
-			detached_head_slots[organ.slot] = TRUE
 	for(var/slot in expected_organs)
-		if(getorganslot(slot) || detached_head_slots[slot] || !species.is_organ_slot_allowed(src, slot))
+		if(getorganslot(slot) || !species.is_organ_slot_allowed(src, slot))
 			continue
 		var/obj/item/organ/organ_type = expected_organs[slot]
 		if(organ_type)

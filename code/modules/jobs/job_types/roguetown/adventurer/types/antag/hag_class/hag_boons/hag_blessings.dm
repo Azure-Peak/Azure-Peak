@@ -66,15 +66,6 @@
 			blindness_flaws += cf
 		if(istype(cf, /datum/charflaw/noeyel))
 			var/obj/item/bodypart/head/head = H.get_bodypart(BODY_ZONE_HEAD)
-			if(!head && H.dna?.species && istype(H.dna.species, /datum/species/dullahan))
-				var/datum/species/dullahan/rev = H.dna.species
-				if(rev.headless) // that'd explain it. attach their head before we proceed
-					rev.my_head.attach_limb(H)
-					H.update_a_intents()
-					var/obj/item/organ/dullahan_vision/vision = H.getorganslot(ORGAN_SLOT_HUD)
-					vision.viewing_head = FALSE
-					H.reset_perspective()
-					head = H.get_bodypart(BODY_ZONE_HEAD)
 			if(!head) // something bizarre has happened
 				continue
 			head.remove_wound(/datum/wound/facial/eyes/left/permanent)
@@ -82,15 +73,6 @@
 			blindness_flaws += cf
 		if(istype(cf, /datum/charflaw/noeyer))
 			var/obj/item/bodypart/head/head = H.get_bodypart(BODY_ZONE_HEAD)
-			if(!head && H.dna?.species && istype(H.dna.species, /datum/species/dullahan))
-				var/datum/species/dullahan/rev = H.dna.species
-				if(rev.headless) // that'd explain it. attach their head before we proceed
-					rev.my_head.attach_limb(H)
-					H.update_a_intents()
-					var/obj/item/organ/dullahan_vision/vision = H.getorganslot(ORGAN_SLOT_HUD)
-					vision.viewing_head = FALSE
-					H.reset_perspective()
-					head = H.get_bodypart(BODY_ZONE_HEAD)
 			if(!head) // something bizarre has happened
 				continue
 			head.remove_wound(/datum/wound/facial/eyes/right/permanent)

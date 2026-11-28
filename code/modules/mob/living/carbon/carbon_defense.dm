@@ -488,11 +488,5 @@
 /mob/living/carbon/can_hear()
 	. = FALSE
 	var/obj/item/organ/ears/ears = getorganslot(ORGAN_SLOT_EARS)
-	if(isdullahan(src))
-		var/mob/living/carbon/human/user = src
-		var/datum/species/dullahan/dullahan = user.dna.species
-		var/obj/item/bodypart/head/dullahan/head = dullahan.my_head
-		if(dullahan.headless && head.ears)
-			ears = head.ears
 	if((istype(ears) && !ears.deaf) || (src.stat == DEAD)) // 2nd check so you can hear messages when beheaded
 		. = TRUE

@@ -138,19 +138,8 @@
 	. = list()
 	while(processing_list.len)
 		var/atom/A = processing_list[1]
-		var/add = TRUE
-		if(isdullahan(A))
-			var/mob/living/carbon/human = A
-			// It's a headless Dullahan, they can't hear. Might have a relay in their inventory.
-			var/datum/species/dullahan/user_species = human.dna.species
-			if(user_species.headless)
-				add = FALSE
-
-		if((A.flags_1 & HEAR_1) && add)
+		if(A.flags_1 & HEAR_1)
 			. += A
-		else if(istype(A, /obj/item/bodypart/head/dullahan))
-			var/obj/item/bodypart/head/dullahan/head = A
-			. += head.original_owner
 		processing_list.Cut(1, 2)
 		processing_list += A.contents
 

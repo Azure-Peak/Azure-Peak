@@ -136,20 +136,6 @@
 	stressadd_per_extra_stack = 2
 	desc = span_red("I puked on myself!")
 
-/datum/stressevent/vomitother
-	timer = 3 MINUTES
-	stressadd = 3
-	max_stacks = 3
-	stressadd_per_extra_stack = 3
-	desc = span_red("Someone puked on me! Gross!")
-
-/datum/stressevent/vomitedonother
-	timer = 3 MINUTES
-	stressadd = 2
-	max_stacks = 3
-	stressadd_per_extra_stack = 2
-	desc = span_red("I puked on someone!")
-
 /datum/stressevent/paracrowd
 	timer = 2 MINUTES
 	stressadd = 3
@@ -448,11 +434,6 @@
 	stressadd = 3
 	desc = span_boldred("I have lost my hood! It's not right. I feel ashamed.")
 	timer = 999 MINUTES
-
-/datum/stressevent/headless
-	stressadd = 3
-	desc = span_red("Where is their head? What is that flame?!")
-	timer = 5 MINUTES
 
 /datum/stressevent/profane // When a non-assassin touches a profane dagger
 	timer = 3 MINUTES
