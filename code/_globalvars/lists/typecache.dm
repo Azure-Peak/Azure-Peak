@@ -8,3 +8,6 @@ GLOBAL_LIST_INIT(typecache_mob, typecacheof(/mob))
 GLOBAL_LIST_INIT(typecache_living, typecacheof(/mob/living))
 
 GLOBAL_LIST_INIT(typecache_machine_or_structure, typecacheof(list(/obj/machinery, /obj/structure)))
+//Below typecache used for letting combat-mode attacks pass through a sprite and to the tile you click on.
+GLOBAL_LIST_INIT(typecache_combat_click_through, typecacheof(list(/obj/structure/flora/roguetree, /obj/structure/flora/rogueshroom,
+)))

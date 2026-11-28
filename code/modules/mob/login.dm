@@ -89,6 +89,7 @@
 			CB.Invoke()
 		log_played_names(client.ckey,name,real_name)
 		auto_deadmin_on_login()
+		client.refresh_faded_flora()
 
 	if(SSticker.current_state == GAME_STATE_FINISHED)
 		do_game_over()

@@ -806,6 +806,7 @@
 	if(hud_used)
 		if(hud_used.cmode_button)
 			hud_used.cmode_button.update_icon()
+	client?.refresh_faded_flora()
 	on_cmode()
 
 #undef CMODE_SHAKE_ANIMATION
