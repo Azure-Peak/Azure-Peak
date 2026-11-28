@@ -236,7 +236,7 @@
 
 /datum/abyssal_ritual/communal_viscosity
 	name = "Commune Umbral Gift"
-	desc = "Whispers abyssal truths into the minds of all nearby channelers. Grants the 'Gift of Umbral Paint' spell to any conscious individual present who does not already possess it."
+	desc = "Whispers abyssal truths into the minds of all nearby channelers. Grants the 'Dreamwaker's Bow' spell to any conscious individual present who does not already possess it."
 	base_channel_time = 300
 
 	required_ingredients = list(
@@ -259,7 +259,7 @@
 		if(M.stat != CONSCIOUS)
 			continue
 		if(M == leader || (get_turf(M) in outer_rim))
-			if(!M.mind?.has_spell(/datum/action/cooldown/spell/umbral_viscosity) && !M.mind?.has_spell(/datum/action/cooldown/spell/umbral_viscosity/single_use))
+			if(!M.mind?.has_spell(/datum/action/cooldown/spell/dreamwakers_bow) && !M.mind?.has_spell(/datum/action/cooldown/spell/dreamwakers_bow/single_use))
 				eligible_targets += M
 
 	if(!length(eligible_targets))
@@ -278,8 +278,8 @@
 		if(M.stat != CONSCIOUS)
 			continue
 		if(M == leader || (get_turf(M) in outer_rim))
-			if(!M.mind?.has_spell(/datum/action/cooldown/spell/umbral_viscosity) && !M.mind?.has_spell(/datum/action/cooldown/spell/umbral_viscosity/single_use))
-				var/datum/action/cooldown/spell/umbral_viscosity/single_use/B = new /datum/action/cooldown/spell/umbral_viscosity/single_use()
+			if(!M.mind?.has_spell(/datum/action/cooldown/spell/dreamwakers_bow) && !M.mind?.has_spell(/datum/action/cooldown/spell/dreamwakers_bow/single_use))
+				var/datum/action/cooldown/spell/dreamwakers_bow/B = new /datum/action/cooldown/spell/dreamwakers_bow/single_use()
 				M.mind.AddSpell(B, M)
 				to_chat(M, span_purple("An oily vision washes over your mind! You have been gifted the Umbral Paint."))
 				M.visible_message(span_purple("[M]'s eyes momentarily flash a dark, ink-like purple."))
@@ -449,5 +449,115 @@
 		"#Let not what lies there be forgotten.",
 		"Abyssor! Grant us thy bounty!"
 	)
+
+/datum/abyssal_ritual/oneiric_sanctuary
+	name = "Oneiric Sanctuary"
+	desc = "Make a weighty offering to a Leviathan to be granted passage into its realm. Grants a single-use spell that can pull the caster and a grabbed, consenting target into the Dream temporarily."
+	base_channel_time = 250
+
+	required_ingredients = list(
+		/obj/item/dream_material/dream_star = 1,
+		/obj/item/dream_material/dream_shards = 1,
+		/obj/item/reagent_containers/food/snacks/fish/angler = 1
+	)
+
+	invocation_phases = list(
+		"Stars align in the ink of the abyss...",
+		"The sharp shards pierce the edges of His dream...",
+		"O Leviathan, grant us sanctuary!",
+		"Allow us but a mote's trespass!",
+		"TIDES EMBRACE US!!! DREAM ENGULF US!!!"
+	)
+
+/datum/abyssal_ritual/oneiric_sanctuary/on_success(obj/structure/roguemachine/dream_pool/P, mob/living/leader, list/mob/living/channelers)
+	..()
+
+	to_chat(leader, span_purple("A sense of primal terror washes over you, then recedes... you are granted passage!"))
+	var/datum/action/cooldown/spell/oneiric_sanctuary/spell = new /datum/action/cooldown/spell/oneiric_sanctuary()
+	leader.mind.AddSpell(spell, leader)
+
+	P.visible_message(span_purple("The pool fountains violently, embedding [leader]'s soul with an abyssal gift!"))
+	return TRUE
+
+/datum/abyssal_ritual/imbue_abyssal_talisman
+	name = "Imbue Abyssal Talisman"
+	desc = "Imbue your very essence into a talisman, which can then be thrown into the waves to summon you as an Undine. If you can project Undines yourself, this will work in any water; if not, it will only work in ocean water."
+
+	required_ingredients = list(
+		/obj/item/dream_material/dream_ring = 1,
+		/obj/item/dream_material/parchment_raw = 1
+	)
+
+	invocation_phases = list(
+		"I pour myself into the depths...",
+		"I hereby swear to heed their call...",
+		"Let the tides bind my fate!",
+	)
+
+/datum/abyssal_ritual/imbue_abyssal_talisman/on_success(obj/structure/roguemachine/dream_pool/P, mob/living/leader, list/mob/living/channelers)
+	..()
+
+	var/talisman_type = (leader.mind.has_spell(/datum/action/cooldown/spell/undine_projection) ? /obj/item/abyssal_talisman/greater : /obj/item/abyssal_talisman)
+	P.visible_message(span_purple("An abyssal talisman materializes, bound to [leader]'s spirit!"))
+	var/obj/item/abyssal_talisman/talisman = new talisman_type(leader.drop_location())
+	talisman.creator = leader
+	return TRUE
+
+/datum/abyssal_ritual/dream_ripples
+	name = "Dream Ripples"
+	desc = "Delve temporarily into the Dream to project a vision to a known target; they will see it when next they sleep."
+	base_channel_time = 50
+
+	required_ingredients = list(
+		/obj/item/dream_material/dream_effigy = 1,
+		/obj/item/dream_material/parchment_raw = 1,
+	)
+
+	invocation_phases = list(
+		"Through the dream, convey!",
+	)
+	var/dream_messages = list() // alist: mob ref → dream message
+
+/datum/abyssal_ritual/dream_ripples/on_success(obj/structure/roguemachine/dream_pool/P, mob/living/leader, list/mob/living/channelers)
+	..()
+
+	if(!leader.mind.known_people.len)
+		to_chat(leader, span_warning("I don't know anyone."))
+		return FALSE
+
+	var/list/eligible_players = list()
+	for(var/people in leader.mind.known_people)
+		eligible_players += people
+	eligible_players = sortList(eligible_players)
+
+	var/input = tgui_input_list(leader, "Who do you wish to find?", "Projection", eligible_players)
+	if(isnull(input))
+		to_chat(leader, span_warning("No target selected."))
+		return FALSE
+
+	var/mob/living/carbon/human/target
+	for(var/mob/living/carbon/human/HL in GLOB.human_list)
+		if(HL.real_name == input)
+			target = HL
+			break
+
+	if(!target)
+		return FALSE
+
+	var/message = input(leader, "Enter your vision (remember trailing punctuation!)", "REACHING OUT, THROUGH DREAM") as text
+	if(!message || !length(message))
+		return FALSE
+
+	dream_messages[target] = message
+	log_game("[key_name(leader)] sent a dream vision to [key_name(target)] with contents [message]")
+	RegisterSignal(target, COMSIG_MOB_SLEEP, PROC_REF(on_sleep))
+	P.visible_message(span_purple("[P] flares softly, carrying your message away!"))
+	return TRUE
+
+/datum/abyssal_ritual/dream_ripples/proc/on_sleep(mob/source)
+	if(source in dream_messages)
+		to_chat(source, span_purple("Your dreams turn strange, giving way to a vision... [dream_messages[source]]"))
+		dream_messages -= source
+	UnregisterSignal(source, COMSIG_MOB_SLEEP)
 
 #undef MOVESPEED_ID_WATERLOG_SLOW

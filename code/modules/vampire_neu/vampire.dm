@@ -109,6 +109,7 @@ GLOBAL_LIST_EMPTY(vampire_objects)
 				vampdude?.devotion = null //no cleric VL, please.
 				vampdude.mind?.RemoveAllSpells() //no spellblade VL, please.
 				max_thralls = 69
+				SSmapping.retainer.vampire_lord = vampdude
 			if(GENERATION_ANCILLAE)
 				vampdude?.cmode_music = 'sound/music/cmode/antag/combat_thrall.ogg'
 				vampdude?.adjust_skillrank_up_to(/datum/skill/magic/blood, 5, TRUE) // Masquerade round antagonist. They should be given a little bit more leeway.

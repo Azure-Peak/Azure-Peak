@@ -503,8 +503,15 @@
 	item_state = "paintbow"
 	item_flags = DROPDEL
 	spill_ammo_on_drop = FALSE
+	ranged_skill = /datum/skill/magic/holy
 	var/dust_timer_id
 	mag_type = /obj/item/ammo_box/magazine/internal/shot/bow/paint
+
+/obj/item/gun/ballistic/revolver/grenadelauncher/bow/short/paint/coat
+	mag_type = /obj/item/ammo_box/magazine/internal/shot/bow/paint/coat
+
+/obj/item/gun/ballistic/revolver/grenadelauncher/bow/short/paint/grasp
+	mag_type = /obj/item/ammo_box/magazine/internal/shot/bow/paint/grasp
 
 /obj/item/gun/ballistic/revolver/grenadelauncher/bow/short/paint/Initialize(mapload)
 	. = ..()
@@ -560,6 +567,12 @@
 	ammo_type = /obj/item/ammo_casing/caseless/rogue/arrow/iron/paint
 	start_empty = FALSE // Spawns preloaded with the arrow
 	max_ammo = 1
+
+/obj/item/ammo_box/magazine/internal/shot/bow/paint/coat
+	ammo_type = /obj/item/ammo_casing/caseless/rogue/arrow/iron/paint/coat
+
+/obj/item/ammo_box/magazine/internal/shot/bow/paint/grasp
+	ammo_type = /obj/item/ammo_casing/caseless/rogue/arrow/iron/paint/grasp
 
 /obj/item/gun/ballistic/revolver/grenadelauncher/bow/short/paint/attack_hand(mob/user)
 	if(loc == user && user.is_holding(src))

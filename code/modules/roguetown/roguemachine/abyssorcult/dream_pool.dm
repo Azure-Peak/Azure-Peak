@@ -313,8 +313,8 @@
 		if(M.stat == CONSCIOUS && (get_turf(M) in outer_rim))
 			final_channelers += M
 
-	R.consume_ingredients(src, final_channelers)
-	R.on_success(src, leader, final_channelers)
+	if(R.on_success(src, leader, final_channelers))
+		R.consume_ingredients(src, final_channelers)
 	playsound(src, 'sound/magic/cosmic_expansion.ogg', 100, TRUE)
 	ritual_active = FALSE
 

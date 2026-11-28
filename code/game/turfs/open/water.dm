@@ -272,7 +272,7 @@
 			if(water_level == 2)
 				L.SoakMob(BELOW_CHEST)
 		if(water_overlay)
-			if(water_level > 1 && !istype(oldLoc, type))
+			if(water_level > 1 && !istype(oldLoc, /turf/open/water))
 				playsound(AM, 'sound/foley/waterenter.ogg', 100, FALSE)
 			else
 				playsound(AM, pick('sound/foley/watermove (1).ogg','sound/foley/watermove (2).ogg'), 100, FALSE)

@@ -489,3 +489,15 @@
 	if(!..())
 		return FALSE
 	return TRUE
+
+/datum/vision_quest/tier_1/fish_transformation
+	name = "A great leap"
+	description = "A soul stands on a precipice."
+	target_description = "a hesitant one"
+	summary = "The greatest risks bring true liberation."
+	vision_text = "You stand on a cliff, gazing at the waves lapping below. Behind you lies everything you have ever known: your home, your family, your familiar world. All engulfed in searing heat, now. Perhaps it was bearable, at first. The air was not always so unbearably dry, Astrata's light once gentle, now scorching. Your flesh bears many burns, marks of attempts to endure in a land you are increasingly unfit for. Yet the heat only grows, and a whisper from beneath beckons. You stumble, falling for an eternity before you are embraced by the soothing waves, and at once a great weight is lifted from you. You swim away gracefully, scales gliding sleekly through the water, propelled by powerful fins; and for the first time you can remember, you feel at peace."
+	possible_phrases = list(
+		"let go of the past",
+		"change will save you",
+		"the abyss changes, but flame consumes"
+	)

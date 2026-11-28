@@ -25,11 +25,11 @@
 		/datum/action/cooldown/spell/miracle/heal					= CLERIC_T1,
 		/datum/action/cooldown/spell/miracle/bloodmiracle			= CLERIC_T1,
 		/datum/action/cooldown/spell/ink_presence					= CLERIC_T1,
-		/datum/action/cooldown/spell/paint_blessing					= CLERIC_T1,
-		/datum/action/cooldown/spell/umbral_viscosity				= CLERIC_T2,
-		/datum/action/cooldown/spell/transmute_ink					= CLERIC_T3,
-		/obj/effect/proc_holder/spell/invoked/call_dreamfiend		= CLERIC_T3,
-		/datum/action/cooldown/spell/recharge_pylon					= CLERIC_T4,
+		/datum/action/cooldown/spell/paint_attunement				= CLERIC_T1,
+		/datum/action/cooldown/spell/dreamwakers_bow				= CLERIC_T2,
+		/datum/action/cooldown/spell/ink_blessing					= CLERIC_T3,
+		/datum/action/cooldown/spell/wake_dreamfiend				= CLERIC_T3,
+		/datum/action/cooldown/spell/undine_projection				= CLERIC_T4,
 		/obj/effect/proc_holder/spell/invoked/resurrect/dream		= CLERIC_T4,
 	)
 	confess_lines = list(

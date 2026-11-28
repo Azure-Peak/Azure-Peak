@@ -780,8 +780,9 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 
 /mob/living/simple_animal/revive(full_heal = FALSE, admin_revive = FALSE)
 	if(..()) //successfully ressuscitated from death
-		icon = initial(icon)
-		icon_state = icon_living
+		if(icon_living)
+			icon = initial(icon)
+			icon_state = icon_living
 		density = initial(density)
 		mobility_flags = MOBILITY_FLAGS_DEFAULT
 		update_mobility()

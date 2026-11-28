@@ -93,7 +93,8 @@
 			dreamfiend.blink_to_target(target)
 			controller.set_blackboard_key(BB_BASIC_MOB_CURRENT_TARGET, main_target)
 		else if(main_target == null || main_target.stat != 0)
-			dreamfiend.return_to_abyssor()
+			spawn(0)
+				dreamfiend.return_to_abyssor()
 
 /datum/ai_planning_subtree/blink_if_far
 
@@ -245,7 +246,8 @@
 			dreamfiend.blink_to_target(target)
 			controller.set_blackboard_key(BB_BASIC_MOB_CURRENT_TARGET, main_target)
 		else if(main_target == null || main_target.stat != 0)
-			dreamfiend.return_to_abyssor()
+			spawn(0)
+				dreamfiend.return_to_abyssor()
 
 /datum/ai_controller/dreamfiend_unbound
 	ai_movement = /datum/ai_movement/hybrid_pathing

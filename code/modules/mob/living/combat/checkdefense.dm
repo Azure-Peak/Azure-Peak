@@ -14,6 +14,7 @@
 	return next_shot && world.time < next_shot
 
 /mob/living/proc/checkdefense(datum/intent/attack_intent, mob/living/user)
+	SEND_SIGNAL(src, COMSIG_MOB_CHECKDEFENSE, attack_intent, user)
 
 	// We check for a disruptable swingdelay first.
 	var/datum/status_effect/swingdelay/disrupt/SW = has_status_effect(/datum/status_effect/swingdelay/disrupt)

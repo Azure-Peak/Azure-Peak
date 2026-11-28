@@ -151,7 +151,7 @@
 	return FALSE
 
 /mob/living/simple_animal/hostile/rogue/dreamfiend/proc/return_to_abyssor()
-	src.visible_message(span_notice("The [src] starts to fade out of reality!"))
+	src.visible_message(span_notice("\The [src] starts to fade out of reality!"))
 	if(do_after(src, desummon_timer, FALSE, target = src))
 		qdel(src)
 
@@ -172,7 +172,7 @@
 		F.ai_controller.set_blackboard_key(BB_BASIC_MOB_CURRENT_TARGET, main_target)
 		F.ai_controller.set_blackboard_key(BB_MAIN_TARGET, main_target)
 	if(main_target)
-		src.visible_message(span_notice("some dreamfiends split forth front the body of the [src] following after [main_target]... countless teeth bared with hostility!"))
+		src.visible_message(span_notice("Some dreamfiends split forth front the body of \the [src] following after [main_target]... countless teeth bared with hostility!"))
 	qdel(src)
 
 /mob/living/simple_animal/hostile/rogue/dreamfiend/ancient/death()
@@ -181,6 +181,9 @@
 			new /obj/item/rogueweapon/greataxe/dreamscape/active(loc)
 		else
 			new /obj/effect/spawner/lootdrop/roguetown/abyssor(loc)
+	qdel(src)
+
+/mob/living/simple_animal/hostile/rogue/dreamfiend/ancient/summoned/death() // don't use these to farm dreamweapons, please
 	new /obj/effect/decal/cleanable/dreamfiend_ichor/huge(loc)
 	qdel(src)
 

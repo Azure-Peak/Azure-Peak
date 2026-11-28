@@ -107,6 +107,7 @@
 				record_round_statistic(STATS_DEADITES_KILLED)
 			if(mind.has_antag_datum(/datum/antagonist/skeleton) || mind.has_antag_datum(/datum/antagonist/lich))
 				record_round_statistic(STATS_SKELETONS_KILLED)
+			GLOB.dream_omens_handler.handle_death(src)
 
 	if(!gibbed)
 		/*

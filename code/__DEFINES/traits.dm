@@ -219,6 +219,7 @@
 //Abyssor
 #define TRAIT_ABYSSOR_SWIM "Blessing of Abyssor" //less base fatigue drain when swimming
 #define TRAIT_DEEP_DREAMER "Deep Dreamer" //Abyssor's blessing lets the sleeper drift deeper into the unknowable depths of dream, granting 1-2 extra dream points each night.
+#define TRAIT_DREAM_FRAGMENTS "Dream Fragments" // T3+ painter path only: access to the 'dream fragments' mechanic which gives them flavorful dreams that can bestow buffs to others
 //Xylix
 #define TRAIT_XYLIX "Blessing of Xylix" // secret thieves cant language
 #define TRAIT_XYLIX_DEVOTEE "Xylixian Fateweaver" // fate-weaving and luck-based bonuses
@@ -629,6 +630,7 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_NUDE_SLEEPER = span_warning("I can't fall asleep unless I'm nude and in bed."),
 	TRAIT_ABYSSOR_SWIM = span_info("I get far less tired when swimming than my peers. I also find mirth in rain and in the midst of storms."),
 	TRAIT_DEEP_DREAMER = span_info("My dreams run deeper than those of my peers, and I often find myself drifting into strange and unknowable places while I sleep. (Grants between 1-2 extra points of Dream per rest)."),
+	TRAIT_DREAM_FRAGMENTS = span_purple("My connection to the Divine Dream grants me true visions when I sleep, and I can remember fragments of them when I wake."),
 	TRAIT_LONGSTRIDER = span_info("Each of my steps finds its footing no matter how treacherous the terrain is."),
 	TRAIT_TRAINED_SMITH = span_info("I've spent long training, and with some more, I will be able to smith legendary items."),
 	TRAIT_EXPERT_FISHER = span_info("I am experienced at fishing, and fish come to my hands more easily than most. I can tell which fishes swim in a body of water at a glance, and I know ahead of time when something hostile takes the hook."),

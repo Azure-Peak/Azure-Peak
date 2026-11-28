@@ -3396,6 +3396,7 @@
 #include "code\modules\spells\roguetown\acolyte\ravox.dm"
 #include "code\modules\spells\roguetown\acolyte\resurrect.dm"
 #include "code\modules\spells\roguetown\acolyte\xylix.dm"
+#include "code\modules\spells\roguetown\acolyte\abyssor\dream_fragments.dm"
 #include "code\modules\spells\roguetown\acolyte\abyssor\dream_pylon.dm"
 #include "code\modules\spells\roguetown\acolyte\abyssor\paint_infusion.dm"
 #include "code\modules\spells\roguetown\acolyte\abyssor\paint_infusions.dm"
