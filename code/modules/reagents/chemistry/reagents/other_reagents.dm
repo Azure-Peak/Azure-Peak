@@ -247,15 +247,12 @@
 	return TRUE
 
 /datum/reagent/water/reaction_turf(turf/T, reac_volume)
+	T.quench()
+
 	if(isopenturf(T))
 		var/turf/open/OT = T
 		if(reac_volume >= 5)
 			OT.add_water(reac_volume * 3) //nuprocet)
-
-		var/obj/effect/hotspot/hotspot = (locate(/obj/effect/hotspot) in T)
-		if(hotspot)
-			new /obj/effect/temp_visual/small_smoke(T)
-			qdel(hotspot)
 
 	if(iswallturf(T))
 		if(!T.color)

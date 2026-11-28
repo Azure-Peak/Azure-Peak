@@ -80,6 +80,9 @@
 			playsound(get_turf(target), 'sound/items/firesnuff.ogg', 100)
 			new /obj/effect/temp_visual/snap_freeze(get_turf(M))
 		apply_scorch_stack(M, 1, def_zone)
+	else if(isturf(target))
+		var/turf/T = target
+		T.fire_act(maxlevel = 1)
 	else if(isatom(target))
 		var/atom/A = target
 		A.fire_act()

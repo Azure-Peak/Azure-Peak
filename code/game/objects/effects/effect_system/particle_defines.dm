@@ -39,6 +39,12 @@
 	name = "burning"
 	position = list(0, 0, 0)
 
+/particles/smoke/burning/plume
+	name = "plume"
+	count = 4
+	spawning = 0.0125
+	scale = list(0.8, 0.8)
+
 /particles/smoke/burning/small
 	name = "burning_small"
 	spawning = 1

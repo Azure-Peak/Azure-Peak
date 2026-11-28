@@ -24,10 +24,19 @@
 	icon_state = "ice_cube"
 	max_integrity = 120
 	break_sound = 'sound/combat/fracture/fracturedry (1).ogg'
+	///turf fuel held back while the ice stands on it
+	var/fuel = 0
 
 /obj/structure/forcefield_weak/ice/Initialize(mapload, mob/summoner)
 	. = ..()
+	var/turf/T = loc
+	fuel = T.quench(TRUE)
 	frost_adjacent()
+
+/obj/structure/forcefield_weak/ice/Destroy()
+	var/turf/T = loc
+	T?.burn_power += fuel
+	return ..()
 
 /obj/structure/forcefield_weak/ice/proc/frost_adjacent()
 	for(var/mob/living/L in range(1, src))

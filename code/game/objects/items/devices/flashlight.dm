@@ -174,6 +174,7 @@
 	. += span_info("Ovens, hearths, braziers, scones, candles, bushes, grass patches, and other certain structures can be set alight by left-clicking them while on the 'USE' intent.")
 	. += span_info("Standing in front of an unignited light source while sharpening a blade - or striking two stones together - can eventually reignite it.")
 	. += span_info("Click on a person while targeting their mouth zone to light their smoke.")
+	. += IGNITER_HINT
 
 /obj/item/flashlight/flare/torch/Initialize(mapload)
 	GLOB.weather_act_upon_list += src
@@ -261,6 +262,9 @@
 	. = ..()
 	if (!proximity)
 		return
+	var/obj/O = A
+	if(!user.cmode && (isturf(A) || (isobj(A) && (O.resistance_flags & FLAMMABLE))))
+		return
 	if (on && (prob(50) || (user.used_intent.type == /datum/intent/use)))
 		if (ismob(A))
 			A.spark_act()
@@ -330,16 +334,6 @@
 	extinguishable = FALSE
 	weather_resistant = TRUE
 	experimental_onhip = FALSE //Looks a little wonky due to how belts overlay with hip items. Reenable if you wish, but be mindful of that fact.
-
-/obj/item/flashlight/flare/torch/lantern/afterattack(atom/movable/A, mob/user, proximity)
-	. = ..()
-	if(!proximity)
-		return
-	if(on && (prob(50) || (user.used_intent.type == /datum/intent/use)))
-		if(ismob(A))
-			A.spark_act()
-		else
-			A.fire_act(3,3)
 
 /obj/item/flashlight/flare/torch/lantern/process()
 	open_flame(heat)
