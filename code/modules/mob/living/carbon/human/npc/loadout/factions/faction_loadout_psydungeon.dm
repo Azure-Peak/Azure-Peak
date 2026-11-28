@@ -63,7 +63,7 @@
 	name = "Psydonite Tomb Sentinal"
 	job = "Psydonite Tomb Sentinal"
 	statpack = /datum/npc_statpack/caster/t2 //get up close and they're dead-meat
-	traits = list(TRAIT_PSYDONITE, TRAIT_CHUNKYFINGERS) //devotee + mage so no crit resist
+	traits = list(TRAIT_PSYDONITE, TRAIT_WARLOCK) //devotee + mage so no crit resist
 	//journeyman tradeoff for weapon + cantrip + decent light armor + can cast w/out penalty
 	loadouts = list(
 		/datum/npc_loadout/kit/psy_vault_guard_flavor,
