@@ -9,7 +9,7 @@
 	id = "revenant"
 	desc_title = "Revenant"
 	desc = "Revenants are those that have died, returning from death to continue 'living' in a manner to speak. Their origins are not entirely known, yet many strongly believe them to have originated from the rot and decay of Psydonia. \
-	Unable to truly rest, yet entirely sane of mind. Capable of detaching their heads through unknown arcyne means, they are oft wanderers due to their unknown origins and being ostracized by both the Church and many of the common masses around the lands."
+	Unable to truly rest, yet entirely sane of mind. They are oft wanderers due to their unknown origins and being ostracized by both the Church and many of the common masses around the lands."
 	// Stat balancing. Per-server decision. Preferably keep neutral until analysis post testmerges.
 	//race_bonus = list(STAT_INTELLIGENCE = 1, STAT_CONSTITUTION = 1)
 	skin_tone_wording = "Catalyst"
@@ -137,10 +137,6 @@
 	)
 
 	restricted_virtues = list(/datum/virtue/utility/noble, /datum/virtue/utility/hollow)
-	mechanics_explanations = list("Can harmlessly detach their own head by aiming for the head and clicking themselves with an empty hand on TOUCH intent and on STRONG stance.",
-		"Others can remove their head (painfully) by GRABbing them aggressively by the head and TWISTing it.",
-		"Can put only their own head back on, (by themselves or with assistance).",
-		"Despite decapitation not being lethal for them, they are more easily decapitated than other races.")
 
 	stress_examine = TRUE
 	stress_desc = span_red("Accursed. I should keep my distance...")
@@ -348,15 +344,6 @@
 	if(source.check_same_tile && !target.is_holding(my_head) && !(get_turf(target) == get_turf(my_head)) && !user.is_holding(my_head) && !(get_turf(user) == get_turf(my_head)))
 		return FALSE
 	return TRUE // we don't do a clothing check because the clothing on rev heads isn't interactable
-
-/datum/species/dullahan/proc/get_nodrop_head()
-	var/obj/item/bodypart/head/dullahan/head = my_head
-	var/mob/living/carbon/human/user = head.original_owner
-	for(var/obj/item/equipped_item in user.get_equipped_items(include_pockets = FALSE, include_beltslots = FALSE))
-		if(HAS_TRAIT(equipped_item, TRAIT_NODROP))
-			if(equipped_item.slot_flags & (ITEM_SLOT_MOUTH | ITEM_SLOT_HEAD | ITEM_SLOT_NECK | ITEM_SLOT_MASK))
-				return equipped_item
-	return FALSE
 
 /datum/species/dullahan/can_equip(obj/item/item, slot, disable_warning, mob/living/carbon/human/user, bypass_equip_delay_self = FALSE)
 	if(slot == SLOT_MOUTH && istype(item, /obj/item/grabbing/bite/))
