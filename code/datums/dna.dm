@@ -44,6 +44,7 @@
 	destination.dna.uni_identity = uni_identity
 	destination.dna.blood_type = blood_type
 	destination.set_species(species.type, icon_update=0)
+	destination.dna.species.copy_properties_from(species)
 	destination.dna.body_markings = deepCopyList(body_markings)
 	destination.dna.features = features.Copy()
 	destination.dna.real_name = real_name
@@ -64,6 +65,7 @@
 	new_dna.body_markings = deepCopyList(body_markings)
 	new_dna.features = features.Copy()
 	new_dna.species = new species.type
+	new_dna.species.copy_properties_from(species)
 	new_dna.real_name = real_name
 
 /datum/dna/proc/generate_uni_identity()
@@ -226,6 +228,7 @@
 		var/datum/species/newrace = new mrace.type
 		newrace.copy_properties_from(mrace)
 		set_species(newrace, icon_update=0)
+		dna.species.copy_properties_from(mrace)
 
 	if(newreal_name)
 		real_name = newreal_name

@@ -93,6 +93,7 @@ export const SubtabIdentityCardInfo = () => {
     pen_name,
     pronouns,
     race_bonus,
+    race_title,
     real_name,
     species_base_name,
     species_check,
@@ -122,6 +123,17 @@ export const SubtabIdentityCardInfo = () => {
             {species_check ? null : '(!)'}
           </Button>
         </LabeledGridList.Item>
+        {race_title !== null ? (
+          <LabeledGridList.Item
+            label="Race Title"
+            tooltip="A cosmetic title shown when someone examines you. Your race and its mechanics remain unchanged."
+            tooltipPosition="bottom-start"
+          >
+            <Button fluid onClick={() => act('race_title')}>
+              {race_title}
+            </Button>
+          </LabeledGridList.Item>
+        ) : null}
         {race_bonus !== null ? (
           <LabeledGridList.Item label="Race Bonus">
             <Button fluid onClick={() => act('race_bonus_select')}>

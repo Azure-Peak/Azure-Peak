@@ -4,6 +4,16 @@
 /datum/species/demihuman
 	name = "Half-Kin"
 	id = "demihuman"
+	race_titles = list(
+		"Half-Bat", "Half-Bauson", "Half-Bear", "Half-Bee", "Half-Bird", "Half-Boar", "Half-Bull",
+		"Half-Cabbit", "Half-Cat", "Half-Cow", "Half-Coyote", "Half-Deer", "Half-Dog",
+		"Half-Donkey", "Half-Drakian", "Half-Frog", "Half-Goat", "Half-Hare", "Half-Horse",
+		"Half-Hyena", "Half-Insect", "Half-Jackal", "Half-Leopard", "Half-Lion",
+		"Half-Lizard", "Half-Lynx", "Half-Monkey", "Half-Moose",
+		"Half-Otter", "Half-Panda", "Half-Panther", "Half-Pig", "Half-Possum",
+		"Half-Rakun", "Half-Rous", "Half-Saiga", "Half-Seal", "Half-Sheep",
+		"Half-Spider", "Half-Tiger", "Half-Venard", "Half-Volf", "Half-Zad",
+	)
 	is_subrace = TRUE
 	origin_default = /datum/virtue/origin/grenzelhoft
 	origin = "Grenzelhoft"

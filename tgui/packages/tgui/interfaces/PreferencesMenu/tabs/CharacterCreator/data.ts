@@ -235,6 +235,7 @@ export type IdentityData = {
   species_base_name: string;
   species_sub_name: string;
   species_check: BooleanLike;
+  race_title: string | null;
   race_bonus: string | null; // null indicates no race bonus
 
   nickname: string;

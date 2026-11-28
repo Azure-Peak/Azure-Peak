@@ -4,6 +4,17 @@
 /datum/species/anthromorph
 	name = "Wild-Kin"
 	id = "anthromorph"
+	race_titles = list(
+		"Bat-Kin", "Half-Bauson", "Bear-Kin", "Bee-Kin", "Bird-Kin", "Boar-Kin",
+		"Bull-Kin", "Cabbit-Kin", "Cat-Kin", "Chimera-Kin",
+		"Cow-Kin", "Coyote-Kin", "Deer-Kin", "Dog-Kin", "Donkey-Kin",
+		"Drakian-Kin", "Frog-Kin", "Goat-Kin", "Griffon-Kin", "Hare-Kin", "Horse-Kin",
+		"Hyena-Kin", "Insect-Kin", "Jackal-Kin", "Jackalope-Kin", "Leopard-Kin",
+		"Lion-Kin", "Lizard-Kin", "Lynx-Kin", "Monkey-Kin", "Moose-Kin",
+		"Moth-Kin", "Otter-Kin", "Panda-Kin", "Panther-Kin", "Pig-Kin",
+		"Possum-Kin", "Rakun-Kin", "Rous-Kin", "Saiga-kin", "Seal-Kin", "Sheep-Kin",
+		"Spider-Kin", "Tiger-Kin", "Venard-Kin", "Volf-Kin", "Zad-Kin",
+	)
 	base_name = "Beastvolk"
 	desc_title = "Wild-Kin"
 	desc = "A product of Dendor's enigmatic meddling in mortals races. The average wild-kin suffers from animalistic urges that vary in severity, \

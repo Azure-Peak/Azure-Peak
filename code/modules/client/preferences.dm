@@ -71,6 +71,7 @@ GLOBAL_LIST_EMPTY(chosen_names)
 	var/voice_color = "#a0a0a0"
 	var/voice_pitch = 1
 	var/datum/species/pref_species = new /datum/species/human/northern()	//Mutant race
+	var/race_title
 	var/static/datum/species/default_species = new /datum/species/human/northern()
 	var/datum/patron/selected_patron
 	var/static/datum/patron/default_patron = /datum/patron/divine/undivided
@@ -261,6 +262,7 @@ GLOBAL_LIST_EMPTY(chosen_names)
 // Otherwise the preferences will be left in an invalid state!
 /datum/preferences/proc/set_new_race(datum/species/new_race, user, skip_random = FALSE)
 	pref_species = new_race
+	race_title = null
 	// new species can have job restrictions so merk job prefs
 	ResetJobs()
 	if(user)

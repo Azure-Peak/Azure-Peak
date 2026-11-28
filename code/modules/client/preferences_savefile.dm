@@ -585,6 +585,8 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 
 	//Species
 	_load_species(S)
+	race_title = null
+	S["race_title"] >> race_title
 
 	_load_virtue(S)
 	_load_quirk(S)
@@ -707,6 +709,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	gender = sanitize_gender(gender)
 
 	// names
+	race_title = sanitize_inlist_no_pick(race_title, pref_species.race_titles, null)
 	real_name = reject_bad_name(real_name)
 	if(!real_name)
 		real_name = random_unique_name(gender)
@@ -950,6 +953,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	WRITE_FILE(S["preset_bounty_severity_v_key"] , preset_bounty_severity_v_key)
 	WRITE_FILE(S["preset_bounty_crime"] , preset_bounty_crime)
 	WRITE_FILE(S["flavortext"] , html_decode(flavortext))
+	WRITE_FILE(S["race_title"] , race_title)
 	WRITE_FILE(S["pen_name"] , pen_name)
 	WRITE_FILE(S["ooc_notes"] , html_decode(ooc_notes))
 	WRITE_FILE(S["ooc_extra"] ,	ooc_extra)

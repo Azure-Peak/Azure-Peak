@@ -2,6 +2,19 @@
 	var/mob/user = ui.user
 
 	switch(action)
+		if("race_title")
+			if(!length(pref_species.race_titles))
+				return CHARACTER_ACT_DATA_UPDATE
+			var/list/choices = list("None") + pref_species.race_titles
+			var/choice = tgui_input_list(user, "Choose a cosmetic race title:", "RACE TITLE", choices, race_title || "None")
+			if(choice == "None")
+				verbose_pref_log_change(user, "notice", "Race Title", race_title || "None", "None")
+				race_title = null
+			else if(choice && (choice in pref_species.race_titles))
+				verbose_pref_log_change(user, "notice", "Race Title", race_title || "None", choice)
+				race_title = choice
+			return CHARACTER_ACT_DATA_UPDATE
+
 		if("real_name")
 			var/new_name = tgui_input_text(user, "The name of this vessel?", "IDENTITY", real_name, encode = FALSE)
 			if(new_name)

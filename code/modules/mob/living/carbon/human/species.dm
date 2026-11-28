@@ -69,6 +69,10 @@ GLOBAL_LIST_INIT(body_builds, init_body_builds())
 	var/limbs_id		//this is used if you want to use a different species limb sprites. Mainly used for angels as they look like humans.
 	var/clothes_id //id for clothes
 	var/name	// this is the fluff name. these will be left generic (such as 'Lizardperson' for the lizard race) so servers can change them to whatever
+	/// Cosmetic race titles available in character creation.
+	var/list/race_titles
+	/// Selected cosmetic title for this particular body.
+	var/race_title
 	var/desc
 	var/desc_title
 	var/list/mechanics_explanations // if this species has unique mechanics, explain each of them here. try to keep separate mechanics separated as individual list items
@@ -413,7 +417,7 @@ GLOBAL_LIST_INIT(body_builds, init_body_builds())
 
 //Called when cloning, copies some vars that should be kept
 /datum/species/proc/copy_properties_from(datum/species/old_species)
-	return
+	race_title = sanitize_inlist_no_pick(old_species.race_title, race_titles, null)
 
 //Please override this locally if you want to define when what species qualifies for what rank if human authority is enforced.
 /datum/species/proc/qualifies_for_rank(rank, list/features)
