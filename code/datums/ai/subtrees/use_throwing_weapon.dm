@@ -85,6 +85,9 @@
 	if(pawn.incapacitated())
 		return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_FAILED
 
+	if(HAS_TRAIT(pawn, TRAIT_DEADITE)) //deadites don't use throwing knives.
+		return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_FAILED
+
 	pawn.face_atom(target)
 	var/min_dist = ai_min_throw_dist(throwingknife)
 	var/windup_until = controller.blackboard[BB_THROW_WINDUP_UNTIL]

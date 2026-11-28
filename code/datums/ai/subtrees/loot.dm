@@ -83,6 +83,9 @@
 	if(!pawn.Adjacent(target))
 		return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_FAILED
 
+	if(HAS_TRAIT(pawn, TRAIT_DEADITE)) //deadites don't loot, they can't physically put items into their inventory.
+		return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_FAILED
+
 	var/datum/component/ai_inventory_manager/inv = controller.get_inventory()
 	if(!inv)
 		return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_FAILED
