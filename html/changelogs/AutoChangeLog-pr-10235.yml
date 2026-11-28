@@ -1,0 +1,5 @@
+author: "Ryan180602"
+delete-after: True
+changes:
+  - bugfix: "game prefs bounty select panel doesn't nuke your bounty if you close out of it."
+  - rscadd: "lickers get a choice of having a bounty or otherwise."
