@@ -135,18 +135,14 @@
 // Proc for wretch to select a bounty
 /proc/wretch_select_bounty(mob/living/carbon/human/H)
 	var/datum/preferences/P = H?.client?.prefs
-	var/bounty_poster_key
-	var/bounty_severity_key
-	var/my_crime
 	var/list/roleprefs = P?.job_subprefs?["Wretch"]
-	if(roleprefs && length(roleprefs))
-		bounty_poster_key = roleprefs["bounty_poster_key"]
-		bounty_severity_key = roleprefs["bounty_severity_key"]
-		my_crime = roleprefs["my_crime"]
-	else if(P?.preset_bounty_enabled)
-		bounty_poster_key = P.preset_bounty_poster_key
-		bounty_severity_key = P.preset_bounty_severity_key
-		my_crime = P.preset_bounty_crime
+	var/bounty_poster_key = roleprefs?["bounty_poster_key"]
+	var/bounty_severity_key = roleprefs?["bounty_severity_key"]
+	var/my_crime = roleprefs?["my_crime"]
+	if(P?.preset_bounty_enabled)
+		bounty_poster_key ||= P.preset_bounty_poster_key
+		bounty_severity_key ||= P.preset_bounty_severity_key
+		my_crime ||= P.preset_bounty_crime
 
 	if(bounty_poster_key && !GLOB.bounty_posters[bounty_poster_key])
 		bounty_poster_key = null
