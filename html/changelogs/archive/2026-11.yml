@@ -1353,3 +1353,23 @@
       skeletons to use. Currently used for casters + Luxplate skeletons
   - bugfix: fixed luxplate NPC sets having belts in them, you're meant to get that
       via flavor loadouts not have it on the luxplate NPC loadouts and overridden.
+2026-11-28:
+  BobProductive:
+  - bugfix: Flips duelist cape back sprite to make it logical
+  Dorodomki:
+  - rscadd: 'Added new woad armor for donators
+
+      :cl:'
+  FreeStylaLT:
+  - balance: Voyeur vice is now more difficult to satisfy by vice-unrelated positive
+      moodlets alone.
+  JustSomeGal:
+  - refactor: Moved the paint advclasses for acolyte and templar into appropriate
+      places. No player-facing change from this.
+  OrbisAnima:
+  - qol: Allows wax putty to be eaten.
+  Ryan180602:
+  - rscadd: donor item for ryan
+  - bugfix: inconsistent sounds looping irregularly
+  dopamiin0:
+  - bugfix: barter's skill scaling works now

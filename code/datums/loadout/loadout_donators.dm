@@ -1416,3 +1416,13 @@
 	name = "Donator Item - Ceremonial Lunar Muzzle"
 	path = /obj/item/clothing/mask/rogue/lunarmuzzle
 	ckeywhitelist = list("clemtheduck", "persephoneq")
+
+/datum/loadout_item/donator/bloakplate
+	name = "Donator kit - Woad Blessed Cuirass"
+	path = /obj/item/enchantingkit/bloakplate
+	ckeywhitelist = list("koruu", "gabopwn", "dakken12")
+
+/datum/loadout_item/donator/bloakhelm
+	name = "Donator kit - Woad Blessed Barbute"
+	path = /obj/item/enchantingkit/bloakbarbute
+	ckeywhitelist = list("koruu", "gabopwn", "dakken12")

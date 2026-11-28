@@ -218,6 +218,8 @@
 
 	if(repeat && istype(repeat, /datum/looping_sound))
 		var/datum/looping_sound/D = repeat
+		if(!D.channel)
+			return FALSE
 		var/datum/weakref/our_ref = WEAKREF(src)
 		if(our_ref in D.thingshearing) //we are already hearing this loop
 			if(client.played_loops[D])
