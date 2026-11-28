@@ -1,0 +1,8 @@
+author: "Ryan180602"
+delete-after: True
+changes:
+  - rscadd: "donor item ornate pipe for two ckeys."
+  - rscadd: "donor item ornate zig box for all donors."
+  - rscadd: "clicking on yourself with a lit smokable takes a drag. 10s cooldown."
+  - bugfix: "zigkissing doesn't need same-tile anymore. Adjacency works."
+  - code_imp: "Allow for upright and snout sprites for smokables."
