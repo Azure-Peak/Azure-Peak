@@ -440,7 +440,7 @@
 	smeltresult = /obj/item/ingot/component/zizo
 
 /obj/item/rogueweapon/shield/tower/metal/zizo/get_examine_highlight_status()
-	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_ZIZO_WEAPON)
+	return (..() || list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_ZIZO_WEAPON))
 
 /obj/item/rogueweapon/shield/tower/metal/zizo/Initialize(mapload)
 	. = ..()
@@ -696,7 +696,7 @@
 	AddComponent(/datum/component/cursed_item, TRAIT_HORDE, "SHIELD", "RENDERED ASUNDER")
 
 /obj/item/rogueweapon/shield/iron/graggar/get_examine_highlight_status()
-	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_GRAGGAR_RELIC)
+	return (..() || list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_GRAGGAR_RELIC))
 
 #undef SHIELD_BANG_COOLDOWN
 

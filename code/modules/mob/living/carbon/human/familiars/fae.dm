@@ -1,3 +1,5 @@
+#define FAMILIAR_FLIGHT_RANGE 20 // distance from the summoner at which the familiar loses flight. this uses manhattan distance, and z-level diff counts for 5. so this works out to "about 1 screen away + a zlevel up or down", but feel free to jak it
+
 // mobility/utility focused. innocuous. can fly, and brew potions, but not much else
 /mob/living/carbon/human/species/familiar/fae
 	name = "Sprite"
@@ -12,19 +14,20 @@
 	var/brewing = 0
 	var/should_brew = FALSE
 	pass_flags = PASSTABLE | PASSMOB
-	inherent_spell = list(/datum/action/cooldown/spell/projectile/fetch/fae)
+	inherent_spell = list(/datum/action/cooldown/spell/projectile/fetch/fae, /datum/action/cooldown/spell/rootcheck, /datum/action/cooldown/spell/invisibility/fae, /datum/action/cooldown/spell/fae_brew, /datum/action/cooldown/spell/reagent_bite)
 	movement_type = FLYING
-	t1_spell = list(/datum/action/cooldown/spell/rootcheck, /datum/action/cooldown/spell/invisibility/fae)
-	t2_spell = list(/datum/action/cooldown/spell/fae_brew, /obj/effect/proc_holder/spell/invoked/reagent_bite)
-	tutorial_message = span_notice("As a native of the faewyld, you are able to fly, and kneestingers will not harm you. In addition, you can lash out with a vine to retrieve small objects at a distance.")
-	tierup_messages = list(
-		span_info("You may now blend into your surroundings at will, and force hidden crops to bloom at your command."),
-		span_info("You can now act as a reagent container, holding up to 90 drams of any solution. You can also deliver 5 drams at a time of your stored solution with an alchemical bite. You may also act as a portable cauldron, able to be fed alchemical reagents and brew them into potions. You do not need water to do so. Any attempts to brew potion beyond your reagent capacity will result in reagents being voided.")
-	)
+	tutorial_message = span_notice("As a native of the faewyld, you are able to fly, and kneestingers will not harm you. In addition, you can lash out with a vine to retrieve small objects at a distance, blend into your surroundings at will, and force hidden crops to bloom at your command. You also act as a reagent container, holding up to 90 drams of any solution. You can also deliver 5 drams at a time of your stored solution with an alchemical bite. You may also act as a portable cauldron, able to be fed alchemical reagents and brew them into potions. You do not need water to do so. Any attempts to brew potion beyond your reagent capacity will result in reagents being voided.")
 	valid_healing_items = list(/obj/item/magic/fae)
 	planar_origin = "fae"
-	STASPD = 12
 	voiceclips = list("plantcross")
+	var/warned = FALSE // 2 second grace period to get back in range of their summoner or they lose flight
+	var/leash_check_time = 0
+	voice_desc = "rustling"
+	voice_desc_prefix = CUSTOM_PREFIX_HAS_A
+	trait_desc = "fluttering"
+	trait_desc_prefix = CUSTOM_PREFIX_HAS_A
+	stature_desc = "faerie"
+	stature_desc_prefix = CUSTOM_PREFIX_HAS_A
 
 /datum/species/familiar/fae
 	name = "Faerie"
@@ -50,11 +53,44 @@
 		TRAIT_UNLYCKERABLE,
 		TRAIT_ZOMBIE_IMMUNE,
 		TRAIT_UNCONVERTIBLE,
-		TRAIT_NONAMESTEAL
+		TRAIT_NONAMESTEAL,
+		TRAIT_IRON_WEAK, // iron makes them uncomfy and iron weapons hurt more
+		TRAIT_LESSER_FAE, // iron can shackle them
+		TRAIT_BLOOD_RESISTANCE // i know, i know, but they genuinely bleed out WAY too fast without it. consider that they have no armor and can't drink water to regen blood
 	)
 	origin = "The Faewyld"
 	origin_default = /datum/virtue/origin/unselectable/fae
-	species_traits = list(NO_UNDERWEAR, NO_ORGAN_FEATURES, NO_BODYPART_FEATURES, NOBLOOD, NOSTOMACH)
+	species_traits = list(NO_UNDERWEAR, NO_ORGAN_FEATURES, NO_BODYPART_FEATURES, NOSTOMACH)
+	blood_color = "#a3ffba" // it's not blood it's plant juice or w/e
+
+/datum/species/familiar/fae/on_species_gain(mob/living/carbon/C, datum/species/old_species, datum/preferences/pref_load)
+	RegisterSignal(C, COMSIG_ITEM_ATTACKED_SUCCESS, PROC_REF(handle_iron_weakness))
+	return ..()
+
+/datum/species/familiar/fae/on_species_loss(mob/living/carbon/human/C, datum/species/new_species, pref_load)
+	UnregisterSignal(C, COMSIG_ITEM_ATTACKED_SUCCESS)
+	return ..()
+
+/datum/species/familiar/fae/proc/handle_iron_weakness(mob/living/carbon/human/hit, obj/item/with, mob/by)
+	if(!ishuman(hit) || !with.is_iron())
+		return
+	hit.apply_status_effect(/datum/status_effect/debuff/iron_weakness)
+
+/datum/species/familiar/fae/bullet_act(obj/projectile/P, mob/living/carbon/human/H, def_zone)
+	var/static/list/iron_ammo_types = list(
+		/obj/item/ammo_casing/caseless/rogue/arrow/iron,
+		/obj/item/ammo_casing/caseless/rogue/bolt,
+		/obj/item/ammo_casing/caseless/rogue/bolt/light,
+		/obj/item/ammo_casing/caseless/rogue/bolt/blunt,
+		/obj/item/ammo_casing/caseless/rogue/heavy_bolt/blunt
+	)
+	if(..())
+		return 1
+	if(!istype(P, /obj/projectile/bullet/reusable))
+		return
+	var/obj/projectile/bullet/reusable/B = P
+	if(B.ammo_type in iron_ammo_types)
+		H.apply_status_effect(/datum/status_effect/debuff/iron_weakness)
 
 /mob/living/carbon/human/species/familiar/fae/Initialize(mapload)
 	. = ..()
@@ -95,7 +131,7 @@
 	return ret
 
 /mob/living/carbon/human/species/familiar/fae/attackby(obj/item/I, mob/user, params)
-	if(istype(I, /obj/item/alch) && tier >= 2)
+	if(istype(I, /obj/item/alch))
 		if(ingredients.len >= maxingredients)
 			to_chat(user, "<span class='warning'>Nothing else can fit.</span>")
 			return FALSE
@@ -128,11 +164,26 @@
 
 /mob/living/carbon/human/species/familiar/fae/Life()
 	. = ..()
+	// only check this once every few seconds, to avoid lag. also obviously only if we HAVE a summoner, and would be capable of flight normally
+	if(familiar_summoner && !src.has_status_effect(/datum/status_effect/debuff/iron_weakness) && (world.time > (leash_check_time + 2 SECONDS)))
+		leash_check_time = world.time
+		var/is_near_owner = (get_dist_3d(src, familiar_summoner) < FAMILIAR_FLIGHT_RANGE)
+		if(!is_near_owner && movement_type & FLYING)
+			if(warned)
+				movement_type = GROUND
+				warned = FALSE
+			else
+				to_chat(src, span_warning("My connection to my summoner wanes, I cannot maintain flight for long at this range!"))
+				warned = TRUE
+		else if(is_near_owner && !(movement_type & FLYING))
+			to_chat(src, span_smallgreen("My connection with my summoner bolsters, my flight is restored!"))
+			movement_type = FLYING
+
 	if(brewing && !ingredients.len)
 		brewing = 0
 	if(brewing && !should_brew)
 		brewing = 0
-	if(tier>=2 && ingredients.len && should_brew)
+	if(ingredients.len && should_brew)
 		if(brewing < 20)
 			if(brewing == 0)
 				src.visible_message(span_info("[src] bubbles softly, beginning to mix the ingredients into a potion..."))
@@ -189,7 +240,8 @@
 				src.visible_message("<span class='info'>[src] emits a gurgling noise and a faint [found_recipe.smells_like] smell.</span>")
 				record_featured_stat(FEATURED_STATS_ALCHEMISTS, familiar_summoner)
 				record_round_statistic(STATS_POTIONS_BREWED)
-				//give xp for /datum/skill/craft/alchemy
+				//give xp to both summoner AND yourself
+				add_sleep_experience(src, /datum/skill/craft/alchemy, amt2raise)
 				add_sleep_experience(familiar_summoner, /datum/skill/craft/alchemy, amt2raise)
 				playsound(src, "bubbles", 100, TRUE)
 				playsound(src,'sound/misc/smelter_fin.ogg', 30, FALSE)
@@ -207,8 +259,14 @@
 	summoning_emote = "Mist coils into feline shape, resolving into a lynx with pale fur and unblinking silver eyes."
 	icon_state = "mist"
 	alpha = 150
-	speak_emote = list("purrs softly", "whispers")
+	speak_emote = list("purrs", "whispers")
 	voiceclips = list('sound/vo/mobs/cat/cat_purr1.ogg', 'sound/vo/mobs/cat/cat_purr2.ogg', 'sound/vo/mobs/cat/cat_purr3.ogg', 'sound/vo/mobs/cat/cat_purr4.ogg',)
+	voice_desc = "quiet"
+	voice_desc_prefix = CUSTOM_PREFIX_HAS_A
+	trait_desc = "hazy"
+	trait_desc_prefix = CUSTOM_PREFIX_HAS_AN
+	stature_desc = "felid"
+	stature_desc_prefix = CUSTOM_PREFIX_HAS_A
 
 /mob/living/carbon/human/species/familiar/fae/rune_rat
 	name = "Rune Rat"
@@ -217,6 +275,12 @@
 	icon_state = "runerat"
 	speak_emote = list("squeaks", "chatters")
 	voiceclips = list('sound/vo/mobs/mouse/squeak.ogg')
+	voice_desc = "sagacious"
+	voice_desc_prefix = CUSTOM_PREFIX_HAS_A
+	trait_desc = "arcyne"
+	trait_desc_prefix = CUSTOM_PREFIX_HAS_AN
+	stature_desc = "rat"
+	stature_desc_prefix = CUSTOM_PREFIX_HAS_A
 
 /mob/living/carbon/human/species/familiar/fae/vaporroot_wisp
 	name = "Vaporroot Wisp"
@@ -225,7 +289,13 @@
 	icon_state = "vaporroot"
 	alpha = 150
 	speak_emote = list("whispers", "murmurs")
-	voiceclips = list() // silent on purpose
+	voiceclips = list()
+	voice_desc = "faint"
+	voice_desc_prefix = CUSTOM_PREFIX_HAS_A
+	trait_desc = "shimmering"
+	trait_desc_prefix = CUSTOM_PREFIX_HAS_A
+	stature_desc = "wisp"
+	stature_desc_prefix = CUSTOM_PREFIX_HAS_A
 
 /mob/living/carbon/human/species/familiar/fae/glimmer_hare
 	name = "Glimmer Hare"
@@ -233,37 +303,97 @@
 	summoning_emote = "The air glints, and a translucent hare twitches into existence."
 	alpha = 150
 	icon_state = "glimmer"
-	speak_emote = list("chatters quickly", "chirps")
+	speak_emote = list("chatters", "chirps")
 	voiceclips = list('sound/vo/mobs/rabbit/rabbit_alert.ogg')
+	voice_desc = "chattering"
+	voice_desc_prefix = CUSTOM_PREFIX_HAS_A
+	trait_desc = "leporine"
+	trait_desc_prefix = CUSTOM_PREFIX_HAS_A
+	stature_desc = "apparition"
+	stature_desc_prefix = CUSTOM_PREFIX_HAS_AN
 
 /mob/living/carbon/human/species/familiar/fae/hollow_antlerling
 	name = "Hollow Antlerling"
 	desc = "A dog-sized deer with gleaming hollow antlers that emit flute-like sounds."
 	summoning_emote = "A musical chime sounds. A tiny deer with antlers like bone flutes steps gently into view."
 	icon_state = "antlerling"
-	speak_emote = list("chimes softly", "calls out")
+	speak_emote = list("chimes", "calls")
 	voiceclips = list() // i have no ideas
+	voice_desc = "chiming"
+	voice_desc_prefix = CUSTOM_PREFIX_HAS_A
+	trait_desc = "musical"
+	trait_desc_prefix = CUSTOM_PREFIX_HAS_AN
+	stature_desc = "deer"
+	stature_desc_prefix = CUSTOM_PREFIX_HAS_A
 
 /mob/living/carbon/human/species/familiar/fae/starfield_crow
 	name = "Starfield Zad"
 	desc = "Its glossy feathers shimmer with shifting constellations, eyes gleaming with uncanny awareness even in the darkest shadows."
 	summoning_emote = "A rift in the air reveals a fragment of the starry void, from which a sleek zad with feathers like the night sky takes flight."
 	icon_state = "crow_flying"
-	speak_emote = list("caws quietly", "croaks")
+	speak_emote = list("caws", "croaks")
 	voiceclips = list('sound/vo/mobs/bird/CROW_01.ogg', 'sound/vo/mobs/bird/CROW_02.ogg', 'sound/vo/mobs/bird/CROW_03.ogg')
+	voice_desc = "cawing"
+	voice_desc_prefix = CUSTOM_PREFIX_HAS_A
+	trait_desc = "astral"
+	trait_desc_prefix = CUSTOM_PREFIX_HAS_AN
+	stature_desc = "corvid"
+	stature_desc_prefix = CUSTOM_PREFIX_HAS_A
 
 /mob/living/carbon/human/species/familiar/fae/ripplefox
 	name = "Ripplefox"
 	desc = "They flicker when not directly observed. Leaves no tracks. You're not always sure they're still nearby."
 	summoning_emote = "A ripple in the air becomes a sleek fox, their fur twitching between shades of color as they pad forth."
 	icon_state = "ripple"
-	speak_emote = list("whispers fast", "speaks quickly") // why the FUCK do we have so many fox noises and 13 of them are whining variants
+	speak_emote = list("rapidly whispers", "hushes") // why the FUCK do we have so many fox noises and 13 of them are whining variants
 	voiceclips = list('sound/vo/mobs/venard/fox1.ogg','sound/vo/mobs/venard/fox2.ogg','sound/vo/mobs/venard/fox3.ogg','sound/vo/mobs/venard/fox4.ogg','sound/vo/mobs/venard/fox5.ogg','sound/vo/mobs/venard/fox6.ogg','sound/vo/mobs/venard/fox7.ogg','sound/vo/mobs/venard/fox8.ogg','sound/vo/mobs/venard/fox9.ogg','sound/vo/mobs/venard/fox10.ogg','sound/vo/mobs/venard/fox11.ogg','sound/vo/mobs/venard/fox12.ogg','sound/vo/mobs/venard/fox13.ogg', 'sound/vo/yip.ogg', 'sound/vo/yip2.ogg', 'sound/vo/yip3.ogg')
+	voice_desc = "vulpine"
+	voice_desc_prefix = CUSTOM_PREFIX_HAS_A
+	trait_desc = "flickering"
+	trait_desc_prefix = CUSTOM_PREFIX_HAS_AN
+	stature_desc = "venard"
+	stature_desc_prefix = CUSTOM_PREFIX_HAS_A
 
 /mob/living/carbon/human/species/familiar/fae/whisper_stoat
 	name = "Whisper Stoat"
 	desc = "Its gaze is too knowing. It tilts its head as if listening to something inside your skull."
 	summoning_emote = "A thought twists into form, a tiny stoat slinks into view."
 	icon_state = "whisper"
-	speak_emote = list("mutters", "speaks softly")
-	voiceclips = list() // i have no ideas
+	speak_emote = list("mutters", "whispers")
+	voiceclips = list() // they're silent. like a whisper...
+	voice_desc = "hushed"
+	voice_desc_prefix = CUSTOM_PREFIX_HAS_A
+	trait_desc = "sly"
+	trait_desc_prefix = CUSTOM_PREFIX_HAS_AN
+	stature_desc = "mustelid"
+	stature_desc_prefix = CUSTOM_PREFIX_HAS_A
+
+/datum/status_effect/debuff/iron_weakness
+	id = "iron_weakness"
+	alert_type = /atom/movable/screen/alert/status_effect/debuff/iron_weakness
+	effectedstats = list(STATKEY_SPD = -5) // oof
+	duration = 30 SECONDS
+
+/datum/status_effect/debuff/iron_weakness/on_apply()
+	. = ..()
+	owner.movement_type = GROUND // no flight for youuu
+	ADD_TRAIT(owner, TRAIT_SPELLCOCKBLOCK, TRAIT_GENERIC)
+
+/datum/status_effect/debuff/iron_weakness/on_remove()
+	. = ..()
+	var/still_has_iron = FALSE
+	for(var/obj/item/I in owner.contents)
+		if(I.is_iron())
+			still_has_iron = TRUE
+			break
+	owner.movement_type = initial(owner.movement_type)
+	REMOVE_TRAIT(owner, TRAIT_SPELLCOCKBLOCK, TRAIT_GENERIC)
+	if(still_has_iron)
+		spawn(1)
+			owner.apply_status_effect(/datum/status_effect/debuff/iron_weakness) // it shouldn't go away if you're still ironclad
+
+/atom/movable/screen/alert/status_effect/debuff/iron_weakness
+	name = "Iron Weakness"
+	desc = "Curse this damnable metal! It weighs upon me heavily, and renders my magic useless to boot!"
+
+#undef FAMILIAR_FLIGHT_RANGE

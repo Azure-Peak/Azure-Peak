@@ -6,23 +6,25 @@
 	icon_state = "warden"
 
 	speak_emote = list ("rumbles", "grinds")
-	inherent_spell = list(/datum/action/cooldown/spell/magicians_stone/elemental)
-	t1_spell = list(/datum/action/cooldown/spell/earthen_forge, /datum/action/cooldown/spell/earthen_forge/wall)
-	t2_spell = list(/datum/action/cooldown/spell/arcyne_forge/elementalt2)
+	tutorial_message = "As a denizen of the earthen depths, you are skilled at most forms of construction and repair. You can call forth stones from the earth, or shape yourself into tools and walls, including a staff tipped with a potent earthen gem; you may also shape earth into tools for your own use."
+	inherent_spell = list(/datum/action/cooldown/spell/magicians_stone/elemental, /datum/action/cooldown/spell/earthen_forge, /datum/action/cooldown/spell/earthen_forge/wall, /datum/action/cooldown/spell/arcyne_forge/elementalt2)
 	valid_healing_items = list(/obj/item/magic/elemental)
-	tierup_messages = list(
-		span_info("You can now shape your earthen form into tools and weapons, including those capable of repairing equipment."),
-		span_info("You can now use the ground itself to shape tools and weapons, instead of using your own body.")
-	)
 	planar_origin = "elemental"
 	STACON = 8 // these guys are tankier
 	voiceclips = list('sound/foley/stone_scrape.ogg')
+	voice_desc = "rumbling"
+	voice_desc_prefix = CUSTOM_PREFIX_HAS_A
+	trait_desc = "earthen"
+	trait_desc_prefix = CUSTOM_PREFIX_HAS_AN
+	stature_desc = "warden"
+	stature_desc_prefix = CUSTOM_PREFIX_HAS_A
 
 /datum/species/familiar/elemental
 	name = "Elemental"
 	id = "elemental"
 	origin = "The Depths"
 	origin_default = /datum/virtue/origin/unselectable/elemental
+	blood_color = "#5e1e0a" // rusty, brownish red = earthier
 
 // so they can actually do repairs
 /mob/living/carbon/human/species/familiar/elemental/Initialize(mapload)
@@ -42,21 +44,39 @@
 	desc = "This damp, heavy toad pulses with unseen strength. Its skin is cool and lined with mineral veins."
 	summoning_emote = "A deep thrum echoes beneath your feet, and a mossy toad pushes itself free from the earth, humming low."
 	icon_state = "pondstone"
-	speak_emote = list("croaks low", "grumbles")
+	speak_emote = list("croaks", "grumbles")
+	voice_desc = "croaking"
+	voice_desc_prefix = CUSTOM_PREFIX_HAS_A
+	trait_desc = "earthen"
+	trait_desc_prefix = CUSTOM_PREFIX_HAS_AN
+	stature_desc = "amphibian"
+	stature_desc_prefix = CUSTOM_PREFIX_HAS_AN
 
 /mob/living/carbon/human/species/familiar/elemental/gravemoss_serpent
 	name = "Gravemoss Serpent"
 	desc = "Its scales are flecked with lichen and grave-dust. Wherever it passes, roots twitch faintly in the soil."
 	summoning_emote = "The ground heaves faintly as a long, moss-veiled serpent uncoils from it."
 	icon_state = "gravemoss"
-	speak_emote = list("hisses low", "mutters")
+	speak_emote = list("hisses", "mutters")
+	voice_desc = "hissing"
+	voice_desc_prefix = CUSTOM_PREFIX_HAS_A
+	trait_desc = "earthen"
+	trait_desc_prefix = CUSTOM_PREFIX_HAS_AN
+	stature_desc = "serpent"
+	stature_desc_prefix = CUSTOM_PREFIX_HAS_A
 
 /mob/living/carbon/human/species/familiar/elemental/thornback_turtle
 	name = "Thornback Turtle"
 	desc = "It barely moves, but seems unshakable. Vines twist gently around its limbs."
 	summoning_emote = "The ground gives a slow rumble. A turtle with a bark-like shell emerges from the soil."
 	icon_state = "thornback"
-	speak_emote = list("rumbles", "speaks slowly")
+	speak_emote = list("rumbles", "drawls")
+	voice_desc = "pondrous"
+	voice_desc_prefix = CUSTOM_PREFIX_HAS_A
+	trait_desc = "vined"
+	trait_desc_prefix = CUSTOM_PREFIX_HAS_A
+	stature_desc = "tortoise"
+	stature_desc_prefix = CUSTOM_PREFIX_HAS_A
 
 /mob/living/carbon/human/species/familiar/elemental/brass_thrum
 	name = "Brass Thrum"
@@ -65,6 +85,12 @@
 	icon_state = "drone_clock"
 	summoning_emote = "A metallic clatter as a brass spider-like automaton unfolds itself."
 	speak_emote = list("chitters", "whirs")
+	voice_desc = "chittering"
+	voice_desc_prefix = CUSTOM_PREFIX_HAS_A
+	trait_desc = "mechanical"
+	trait_desc_prefix = CUSTOM_PREFIX_HAS_A
+	stature_desc = "spider"
+	stature_desc_prefix = CUSTOM_PREFIX_HAS_A
 
 /mob/living/carbon/human/species/familiar/elemental/gemspire_beetle
 	name = "Gemspire Beetle"
@@ -73,3 +99,9 @@
 	icon_state = "drone_gem"
 	summoning_emote = "A faint chime as a gem-encrusted mechanical beetle scuttles into view."
 	speak_emote = "chimes"
+	voice_desc = "chiming"
+	voice_desc_prefix = CUSTOM_PREFIX_HAS_A
+	trait_desc = "crystalline"
+	trait_desc_prefix = CUSTOM_PREFIX_HAS_A
+	stature_desc = "beetle"
+	stature_desc_prefix = CUSTOM_PREFIX_HAS_A

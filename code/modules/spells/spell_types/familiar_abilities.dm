@@ -214,60 +214,67 @@
 	desc = "Shoot out a grasping vine that draws in a freestanding item towards the caster. Doesn't work on living targets."
 	invocations = list("Recolligere silva")
 
-/obj/effect/proc_holder/spell/invoked/reagent_bite
+/datum/action/cooldown/spell/reagent_bite
 	name = "Alchemical Bite" // placeholder
 	desc = "Bite a target, delivering a 5-dram dose of whatever is in your stomach. Cast on a reagent container to transfer its contents into your stomach, or fill it if it's empty. You can also drink from containers directly to similar effect."
-	range = 1
-	recharge_time = 10 SECONDS
-	overlay_icon = 'icons/mob/actions/mage_hex.dmi'
-	overlay_icon_state = "wither"
+	cast_range  = 1
+	cooldown_time = 10 SECONDS
+	button_icon = 'icons/mob/actions/mage_hex.dmi'
+	button_icon_state = "wither"
 
-/obj/effect/proc_holder/spell/invoked/reagent_bite/cast(list/targets, mob/living/carbon/human/species/familiar/fae/user)
+	charge_required = FALSE
+	cooldown_time = 1 SECONDS
+
+	primary_resource_type = SPELL_COST_NONE
+	spell_requirements = NONE
+	spell_impact_intensity = SPELL_IMPACT_NONE
+
+/datum/action/cooldown/spell/reagent_bite/cast(atom/target)
 	. = ..()
+	var/mob/living/carbon/human/species/familiar/fae/user = owner
+	if(!istype(user))
+		return
 	if(!user || !user.reagents) // literally how
-		revert_cast()
 		return FALSE
-	var/atom/target = targets.len?targets[1]:null
-	if(!targets.len || !(isliving(target) || target.is_refillable()) || !target.reagents)
+	if(!(isliving(target) || target.is_refillable()) || !target.reagents)
 		to_chat(user, span_notice("I need to select a valid target to bite!"))
-		revert_cast()
 		return FALSE
 	if(!isliving(target))
 		if(user.reagents.total_volume && (!target.reagents.holder_full()))
 			user.visible_message(
-				span_notice("[user.name] gently bites the top of [targets[1]], filling it with an alchemical cocktail..."),
-				span_notice("You gently bite the top of [targets[1]], filling it with your alchemical cocktail...")
+				span_notice("[user.name] gently bites the top of [target], filling it with an alchemical cocktail..."),
+				span_notice("You gently bite the top of [target], filling it with your alchemical cocktail...")
 			)
 			// we're not biting a mob, so we can loop for convenience
-			while(do_after(user, 1 SECONDS, FALSE, target) && user.reagents.trans_to(targets[1], 5, transfered_by = user))
+			while(do_after(user, 1 SECONDS, FALSE, target) && user.reagents.trans_to(target, 5, transfered_by = user))
 				user.visible_message(
-					span_notice("[user.name] fills [targets[1]] with more of [user.p_their()] alchemical cocktail..."),
-					span_notice("You fill [targets[1]] with more of your alchemical cocktail...")
+					span_notice("[user.name] fills [target] with more of [user.p_their()] alchemical cocktail..."),
+					span_notice("You fill [target] with more of your alchemical cocktail...")
 				)
 			user.visible_message(
-				span_notice("[user.name] lets go of [targets[1]]."),
-				span_notice("You let go of [targets[1]].")
+				span_notice("[user.name] lets go of [target]."),
+				span_notice("You let go of [target].")
 			)
 			return TRUE
 		else if(target.reagents.total_volume && (!user.reagents.holder_full())) // suckle it up!
 			user.visible_message(
-				span_notice("[user.name] latches onto [targets[1]], beginning to drink..."),
-				span_notice("You latch onto [targets[1]], and begin to drink...")
+				span_notice("[user.name] latches onto [target], beginning to drink..."),
+				span_notice("You latch onto [target], and begin to drink...")
 			)
 			// we're not biting a mob, so we can loop for convenience
 			while(do_after(user, 1 SECONDS, FALSE, target) && target.reagents.trans_to(user, 5, transfered_by = user))
 				user.visible_message(
-					span_notice("[user.name] drinks from [targets[1]]..."),
-					span_notice("You drink from [targets[1]]...")
+					span_notice("[user.name] drinks from [target]..."),
+					span_notice("You drink from [target]...")
 				)
 			user.visible_message(
-				span_notice("[user.name] lets go of [targets[1]]."),
-				span_notice("You let go of [targets[1]].")
+				span_notice("[user.name] lets go of [target]."),
+				span_notice("You let go of [target].")
 			)
 			return TRUE
 		return FALSE
 
-	var/mob/living/living_target = targets[1]
+	var/mob/living/living_target = target
 	user.visible_message(
 		span_notice("[user.name] attempts to bite [living_target.name]!"),
 		span_notice("You attempt to bite [living_target.name]...")
@@ -283,52 +290,118 @@
 		playsound(living_target, 'sound/combat/hits/bladed/genstab (1).ogg', 100, FALSE, -1)
 		return TRUE
 
-/obj/effect/proc_holder/spell/invoked/incendiary_bite
+/datum/action/cooldown/spell/incendiary_bite
 	name = "Incendiary Bite"
 	desc = "Bite a target, engulfing them in infernal flame."
-	range = 1
-	recharge_time = 10 SECONDS
-	overlay_icon = 'icons/mob/actions/mage_pyromancy.dmi'
-	overlay_icon_state = "spitfire"
+	cast_range = 1
+	cooldown_time = 10 SECONDS
+	charge_required = FALSE
+	button_icon = 'icons/mob/actions/mage_pyromancy.dmi'
+	button_icon_state = "spitfire"
 
-/obj/effect/proc_holder/spell/invoked/incendiary_bite/cast(list/targets, mob/living/carbon/human/species/familiar/infernal/user)
+/datum/action/cooldown/spell/incendiary_bite/cast(atom/target)
 	. = ..()
-	if(!user) // literally how
-		revert_cast()
+	if(!owner) // literally how
 		return FALSE
-	if(!targets.len)
-		to_chat(user, span_notice("I need to select a valid target to bite!"))
-		revert_cast()
+	if(!target)
+		to_chat(owner, span_notice("I need to select a valid target to bite!"))
 		return FALSE
-	var/atom/target = targets[1]
 	if(!istype(target))
-		revert_cast()
 		return FALSE
 	target.fire_act(1,10) // shouldn't be oppressive by any means it's 1 stack every 10 seconds
 
-/datum/action/cooldown/spell/matthios/raze/infernal
-	name = "Hellfyre Wave"
-	desc = "Exhale a cone of hellfyre before you, scorching enemies and igniting the ground. These flames are also strong enough to turn unworthy corpses into ashes and dust."
-	fluff_desc = "The hellfyre is always within your lungs, for you have breathed it, lived in it. Exhaling that to profane this realm is no difficult task."
-	primary_resource_cost = 0
-	cooldown_time = 1 MINUTES
-	familiar = TRUE
-	required_items = null
+// unlike the more complex infernal possession spell this doesn't let you choose your target
+/datum/action/cooldown/spell/cursed_item_possession
+	name = "Relic Possession"
+	desc = "Returns me to my relic form."
+	button_icon = 'icons/mob/actions/actions_cult.dmi'
+	button_icon_state = "hand"
+	spell_color = PATRON_COLOR_VHESLYN
+	glow_intensity = GLOW_INTENSITY_LOW
+	charge_required = FALSE
+	cooldown_time = 1 MINUTES // leaves you reasonably vulnerable; SHOULDN'T be abusable??
+	var/obj/item/relic
 
-/obj/effect/proc_holder/spell/self/infernal_surge
-	name = "Infernal Surge"
-	desc = "Let loose the flame of the hells in a small radius around you."
-	recharge_time = 15 SECONDS
-	overlay_icon = 'icons/mob/actions/mage_pyromancy.dmi'
-	overlay_icon_state = "fire_curtain"
-	chargetime = 1 SECONDS
-
-/obj/effect/proc_holder/spell/self/infernal_surge/cast(list/targets, mob/user)
+/datum/action/cooldown/spell/cursed_item_possession/cast(atom/cast_on)
 	. = ..()
-	var/turf/center = user.loc
-	for(var/turf/T in range(2, center))
-		new /obj/effect/hotspot(T, null, null, 10)
-		new /obj/effect/temp_visual/fire(T)
+	var/mob/living/carbon/human/species/familiar/H = owner
+	if(!istype(H))
+		return FALSE
+	if(!relic) // huh? whuh?
+		to_chat(H, "My bond with that relic was severed somehow! I am free!") // this should only happen if the item gets like, qdel'd by an admin or something
+		H.mind.AddSpell(new /datum/action/cooldown/spell/infernal_possession)
+		H.mind.RemoveSpell(src)
+	relic.forceMove(H.drop_location()) // it's stored INSIDE us when we unpossess it! so take it out first to avoid recursing
+	var/datum/component/possessed_item/P = relic.AddComponent(/datum/component/possessed_item, H, PATRON_COLOR_VHESLYN, EXAMINEHIGHLIGHT_HERESYSEVERITY_ODD, HERESYDESC_INFERNAL_PASSIVE, EXAMINEHIGHLIGHT_HERESYSEVERITY_SUSPICIOUS, HERESYDESC_INFERNAL_ACTIVE, TRUE, FALSE, /mob/living/carbon/human/proc/toggle_infernal_armor, FALSE)
+	H.RegisterSignal(P, COMSIG_QDELETING, TYPE_PROC_REF(/mob/living/carbon/human/species/familiar/infernal, relic_unpossess))
+	return TRUE
+
+// cosmetic resprite
+/obj/item/rogueweapon/sword/long/infernal
+	name = "infernal blade"
+	desc = "A sinister blade of hellish origin, its wicked edge thirsts for blood. It was clearly crafted by no human hands, yet it is well-balanced."
+	icon_state = "blksword"
+	secondary_skills = list(/datum/skill/combat/arcyne = 1) // swords and arc armament at equal scaling
+
+/datum/action/cooldown/spell/infernal_possession
+	name = "Infernal Possession"
+	desc = "Possess armor, a ring, an amulet, or a weapon; change modes to instead conjure a potent—but obviously suspicious—staff or sword and possess that instead. Items you possess will have their power increased in a small way: blades will gain a lyfesteal effect, worn items (except stat-rings) will retaliate with fire when struck. While inside, whispering will project your voice directly into your bearer's mind. Resist to cancel the possession. Items you possess will be visibly odd. While possessing a wielded weapon or worn clothing/armor, whisper to speak directly into the mind of your bearer. Should they allow it, you can possess your bearer outright; you'll be able to use their skills, spells, and traits while you do, and the item housing you will become obviously suspicious. While you possess them, their body will feel no pain and fear no exsanguination, but will be harmed by silver. If they've used your power (hitting someone with you as a weapon, or blocking a hit with you as armor/clothing), you don't need their consent to possess them; however, if they resist, you will be on a time limit, after which you will be unable to possess them again for some time. While listening to them may be wise, it is by no means mandatory."
+	button_icon = 'icons/mob/actions/actions_cult.dmi'
+	button_icon_state = "hand"
+	spell_color = PATRON_COLOR_VHESLYN
+	glow_intensity = GLOW_INTENSITY_LOW
+	cooldown_time = 10 MINUTES // once you're out, you're exposed for a good while. note that this cooldown starts once you LEAVE the form, not on possess
+	charge_required = TRUE
+	charge_time = 1 SECONDS
+	modes = list(
+		list("tag" = "", "name" = "Possess"),
+		list("tag" = "STAFF", "name" = "Staff"),
+		list("tag" = "BLADE", "name" = "Blade"),
+	)
+
+/datum/action/cooldown/spell/infernal_possession/cast(atom/cast_on)
+	. = ..()
+	var/mob/living/carbon/human/species/familiar/H = owner
+	if(!istype(H))
+		return FALSE
+	var/obj/item/target = cast_on
+	var/conjure = (current_mode != 1)
+	if(current_mode == 2)
+		target = new /obj/item/rogueweapon/woodstaff/implement/greater/infernal(get_turf(H))
+	else if(current_mode == 3)
+		target = new /obj/item/rogueweapon/sword/long/infernal(get_turf(H))
+	if(!target || !istype(target)) // we cast on nothing, or on something that isn't an item/ourselves. either way we can't move forward
+		return FALSE
+	if(target.is_silver || target.is_lesser_silver)
+		to_chat(H, span_warning("\The [target]'s purity rebukes me! I cannot possess it..."))
+		return FALSE
+	if(target.GetComponent(/datum/component/magic_item))
+		to_chat(H, span_warning("The arcyne energies embedded in [target] rebuke me!"))
+		return FALSE
+	if(target.GetComponent(/datum/component/possessed_item))
+		to_chat(H, span_warning("[target] is already possessed!"))
+		return FALSE
+	if(target.GetComponent(/datum/component/cursed_item))
+		to_chat(H, span_warning("Divine energy repulses me... [target] already bears a curse, it cannot contain me as well."))
+		return FALSE
+	if(istype(target, /obj/item/rogueweapon/sword/long/judgement/vlord)) // why the FUCK does this reimplement the cursed item component's functionality without actually having a cursed item component
+		to_chat(H, span_warning("Divine energy repulses me... [target] already bears a curse, it cannot contain me as well."))
+		return FALSE
+	if(target.GetComponent(/datum/component/conjured_item))
+		to_chat(H, span_warning("I should not possess something so ephemeral."))
+		return FALSE
+	// not a weapon, not an amulet/ring, and not armor
+	if(!istype(target, /obj/item/rogueweapon) && !istype(target, /obj/item/clothing/ring) && !istype(target, /obj/item/clothing/neck/roguetown/psicross) && !target.has_armor_value())
+		to_chat(H, span_warning("I can only possess weapons, armor, rings, and amulets."))
+		return FALSE
+	// it's that easy. all the logic for this is actually in the possessed item component
+	var/datum/component/possessed_item/P = target.AddComponent(/datum/component/possessed_item, H, spell_color, conjure ? EXAMINEHIGHLIGHT_HERESYSEVERITY_SUSPICIOUS : EXAMINEHIGHLIGHT_HERESYSEVERITY_ODD, conjure ? HERESYDESC_INFERNAL_PASSIVE_OBVIOUS : HERESYDESC_INFERNAL_PASSIVE, EXAMINEHIGHLIGHT_HERESYSEVERITY_SUSPICIOUS, HERESYDESC_INFERNAL_ACTIVE, TRUE, conjure, /mob/living/carbon/human/proc/toggle_infernal_armor, TRUE, span_boldwarning("Infernal flames emanate from $src, flowing into $bearer... their eyes flash with new malice!"))
+	if(P)
+		RegisterSignal(P, COMSIG_QDELETING, PROC_REF(handle_cooldown))
+	return FALSE // we don't want the CD to start until we get in the item
+
+/datum/action/cooldown/spell/infernal_possession/proc/handle_cooldown()
+	StartCooldown(get_adjusted_cooldown())
 
 /datum/action/cooldown/spell/magicians_stone/elemental
 	name = "Create Stone"
@@ -342,7 +415,7 @@
 	gem_socketable = FALSE
 	implement_upgradable = FALSE
 
-/obj/item/rogueweapon/woodstaff/implement/greater/infernal
+/obj/item/rogueweapon/woodstaff/implement/greater/infernal // note that this is not marked as heretical here: it can only be summoned via the infernal possession spell, which adds a possessed item component to it - which marks it heretical. fancy that
 	name = "\improper Staff of the Daemonbinder"
 	base_implement_name = "\improper Infernal Staff" // "Infernal Staff of Flame" etc
 	desc = "A mage's staff that shimmers with eternal malice. It is perpetually warm to the touch; holding it inspires an urge to unleash one's most powerful magic. Merely a touch from it is enough to spark flame. It captures excess energy dissipated into the air when a spell is cast, giving a generous share of it back to the wielder."
@@ -366,9 +439,6 @@
 		A.fire_act(3,3)
 	user.flash_fullscreen("whiteflash")
 	to_chat(user, span_notice("\The [src] produces an igniting spark!"))
-
-/obj/item/rogueweapon/woodstaff/implement/greater/infernal/get_examine_highlight_status()
-	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_SUSPICIOUS, "It shimmers with abyssal flame!")
 
 /datum/action/cooldown/spell/earthen_forge
 	name = "Earthen Forge"
@@ -454,6 +524,7 @@
 
 	R.obj_integrity = R.max_integrity
 	owner.status_flags |= GODMODE
+	ADD_TRAIT(owner, TRAIT_NOSLEEP, "orbed")
 	if(isitem(R))
 		// Mark as conjured — no salvage, no smelting
 		I.smeltresult = null
@@ -478,19 +549,11 @@
 
 /datum/action/cooldown/spell/earthen_forge/proc/revert()
 	if(conjured_item)
+		REMOVE_TRAIT(owner, TRAIT_NOSLEEP, "orbed")
 		owner.forceMove(get_turf(owner))
 		owner.status_flags &= ~GODMODE
 		owner.update_cone_show()
 		QDEL_NULL(conjured_item)
-
-/datum/action/cooldown/spell/earthen_forge/infernal
-	name = "Arcyne Attunement"
-	desc = "Lend your summoner the means to burn the world down, taking the form of a powerful staff that channels flame exquisitely."
-
-	conjure_options = list(
-		// Staff
-		"Infernal Staff" = /obj/item/rogueweapon/woodstaff/implement/greater/infernal,
-	)
 
 /obj/structure/arcyne_wall/greater/elemental
 	desc = "The mason did an excellent job etching details into this wall."
@@ -510,6 +573,38 @@
 /datum/action/cooldown/spell/earthen_forge/void // lmao
 	name = "Void Forge"
 	desc = "Shape your ever-malleable form into a tool or weapon. When the item breaks, you will revert to your original form. Resist to manually revert."
+	conjure_options = list( // everything BUT the staff, as we do that in the capstone ability
+		// Weapons
+		"Short Sword" = /obj/item/rogueweapon/sword/short/iron,
+		"Hunting Sword" = /obj/item/rogueweapon/sword/short/messer/iron,
+		"Arming Sword" = /obj/item/rogueweapon/sword/iron,
+		"Cudgel" = /obj/item/rogueweapon/mace/cudgel,
+		"Warhammer" = /obj/item/rogueweapon/mace/warhammer,
+		"Dagger" = /obj/item/rogueweapon/huntingknife/idagger,
+		"Flail" = /obj/item/rogueweapon/flail,
+		"Whip" = /obj/item/rogueweapon/whip,
+		"Wooden Shield" = /obj/item/rogueweapon/shield/wood,
+		// Tools
+		"Axe" = /obj/item/rogueweapon/stoneaxe/woodcut,
+		"Pickaxe" = /obj/item/rogueweapon/pick,
+		"Hoe" = /obj/item/rogueweapon/hoe,
+		"Thresher" = /obj/item/rogueweapon/thresher,
+		"Sickle" = /obj/item/rogueweapon/sickle,
+		"Pitchfork" = /obj/item/rogueweapon/pitchfork,
+		"Tongs" = /obj/item/rogueweapon/tongs,
+		"Hammer" = /obj/item/rogueweapon/hammer/iron,
+		"Shovel" = /obj/item/rogueweapon/shovel,
+		"Handsaw" = /obj/item/rogueweapon/handsaw,
+		"Scissors" = /obj/item/rogueweapon/huntingknife/scissors,
+		"Fishing Rod" = /obj/item/fishingrod,
+		"Frying Pan" = /obj/item/cooking/pan,
+		"Pot" = /obj/item/reagent_containers/glass/bucket/pot,
+		"Bowl" = /obj/item/reagent_containers/glass/bowl,
+		"Fork" = /obj/item/kitchen/fork/iron,
+		"Spoon" = /obj/item/kitchen/spoon/iron,
+		"Chisel Set" = /obj/item/rogueweapon/chisel/assembly/arcyne,
+		"Needle" = /obj/item/needle
+	)
 
 /datum/action/cooldown/spell/arcyne_forge/elementalt2
 	name = "Greater Earthen Shaping"
@@ -550,31 +645,37 @@
 	)
 	cooldown_time = 30 SECONDS
 
-/obj/effect/proc_holder/spell/invoked/consume
+/datum/action/cooldown/spell/consume
 	name = "Consume"
 	desc = "Devour a planar being, feasting on its essences. Eat, and grow strong."
-	range = 1
-	recharge_time = 10 SECONDS
-	overlay_icon = 'icons/mob/actions/hagspells.dmi'
-	overlay_icon_state = "hand_up"
+	cast_range = 1
+	cooldown_time = 1 MINUTES
+	charge_required = FALSE
+	button_icon = 'icons/mob/actions/hagspells.dmi'
+	button_icon_state = "hand_up"
+	var/static/list/consumable = list(
+		/mob/living/simple_animal/hostile/retaliate/rogue/fae/sprite,
+		/mob/living/simple_animal/hostile/retaliate/rogue/elemental/crawler,
+		/mob/living/simple_animal/hostile/retaliate/rogue/infernal/imp,
+		/mob/living/carbon/human/species/familiar/void
+	)
 
-/obj/effect/proc_holder/spell/invoked/consume/cast(list/targets, mob/living/carbon/human/species/familiar/void/user)
+/datum/action/cooldown/spell/consume/cast(atom/cast_on)
 	. = ..()
+	var/mob/living/carbon/human/species/familiar/void/user = owner
 	if(!user) // literally how
-		revert_cast()
 		return FALSE
-	if(!targets.len)
+	var/mob/living/target = cast_on
+	if(!target || !(target.type in consumable))
 		to_chat(user, span_notice("I can't eat that... not yet, at least."))
 		return FALSE
-	var/mob/living/carbon/human/species/familiar/target = targets[1]
-	if(!istype(target))
+	if(!(target.type in consumable))
 		to_chat(user, span_notice("I can't eat that... not yet, at least."))
 		return FALSE
-	if(target.mind)
+	if(target.mind) // generally shouldn't be true, but the last thing we want is to delete an admin having a laugh or something
 		to_chat(user, span_notice("This one is fully awakened... it will have too tight a grasp on its essence. I must find a mindless power, perhaps my creator can help?"))
-		revert_cast()
 		return FALSE
-	if(target.planar_origin == "void")
+	if(isfamiliar(target)) // can only get here if it's void so
 		user.visible_message(
 			span_warning("[user] reaches out towards [target]... suddenly, you feel a sense of foreboding!"),
 			span_warning("I prepare to devour [target]... this seems like a bad idea, but I am oh so hungry...")
@@ -584,28 +685,31 @@
 			span_warning("[user] begins to devour [target]!"),
 			span_warning("I begin to devour [target]!")
 		)
-	if(!do_mob(user,target,5 SECONDS))
+	if(!move_after(user, (isfamiliar(target) ? 5 : 1) SECONDS, target = target))
 		return FALSE
-	// we have a mindless familiar: let's see if it's actually valid for us
+	// we have a valid mindless target: let's see if it's actually valid for us
 	var/essence_to_grant = null
-	if(istype(target, /mob/living/carbon/human/species/familiar/fae))
+	if(istype(target, /mob/living/simple_animal/hostile/retaliate/rogue/fae))
 		essence_to_grant = "fae"
-	else if(istype(target, /mob/living/carbon/human/species/familiar/infernal))
+	else if(istype(target, /mob/living/simple_animal/hostile/retaliate/rogue/infernal))
 		essence_to_grant = "infernal"
-	else if(istype(target, /mob/living/carbon/human/species/familiar/elemental))
+	else if(istype(target, /mob/living/simple_animal/hostile/retaliate/rogue/elemental))
 		essence_to_grant = "elemental"
 	else
 		// kin... hubris begets hubris, in the end
 		for(var/obj/effect/decal/cleanable/roguerune/arcyne/binding/rune in range(target.loc))
-			rune.summoned_mob = null
+			if(rune.busy)
+				to_chat(user, span_warning("This one is actively awakening... I am too late?"))
+				return FALSE
+			rune.summoned_thing = null
 		user.visible_message(
-			span_warningbig("[src] attempts to consume [target], but as soon as their essences commingle, they annihilate in a violent blast!"),
+			span_warningbig("[user] attempts to consume [target], but as soon as their essences commingle, they annihilate in a violent blast!"),
 			span_warningbig("I attempt to consume [target], but as soon as I touch their essences, I am undone!")
 		)
 		new /obj/effect/temp_visual/dragon_swoop(target.loc)
 		playsound(target.loc, 'sound/vo/mobs/vdragon/drgnroar.ogg', 50, TRUE, -1)
 		for(var/mob/living/L in orange(1, target))
-			if(L.ckey == user.ckey)
+			if(L == user)
 				continue // user will be qdel'd so don't throw them
 			L.adjustBruteLoss(75) // this should never kill it's just an "oh fuck" moment
 			if(L && !QDELETED(L)) // Some mobs are deleted on death
@@ -630,9 +734,10 @@
 		user.essences_consumed += essence_to_grant
 		user.grant_essence(essence_to_grant)
 		if(LAZYLEN(user.essences_consumed) == 3)
-			to_chat(user, span_notice("I have consumed the essences of the three planes. One dae, I will grow strong enough to consume yet greater beings, but for now, this appears to be my limit. My hunger is mostly sated, for the week."))
+			to_chat(user, span_notice("I have consumed the essences of the three planes, and learned much. One dae, I will grow strong enough to consume yet greater beings, but for now, this appears to be my limit. My hunger is mostly sated, for the week; and I gain a new power, to inhabit objects and possess their bearers."))
+			user.mind.AddSpell(new /datum/action/cooldown/spell/void_possession)
 		for(var/obj/effect/decal/cleanable/roguerune/arcyne/binding/rune in range(target.loc))
-			rune.summoned_mob = null
+			rune.summoned_thing = null
 		QDEL_NULL(target)
 		return TRUE
 	else
@@ -641,72 +746,18 @@
 			span_warning("I consume [target]'s essence, but I have already tasted of it! This will not nourish me anymore, I must find something new to devour.")
 		)
 		for(var/obj/effect/decal/cleanable/roguerune/arcyne/binding/rune in range(target.loc))
-			rune.summoned_mob = null
+			rune.summoned_thing = null
 		QDEL_NULL(target)
 		return TRUE
 
-/obj/effect/proc_holder/spell/invoked/drakeling_beam
-	name = "Aberrant Beam"
-	desc = "Show these fools the power of the void!"
-	recharge_time = 30 SECONDS
-	overlay_state = "regression"
-	overlay_icon = 'icons/mob/actions/mage_shared.dmi'
-	overlay_icon_state = "soulshot"
-	chargetime = 0
-	range = 4
-	antimagic_allowed = TRUE
+/datum/action/cooldown/spell/void_beam/familiar
+	name = "Abberant Beam"
+	spell_requirements = SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
 
-/obj/effect/obeliskbeam/drakeling
-	name = "drakeling beam"
-
-// nerfed damage down to one-fifth the original value - still fucks up simples though
-/obj/effect/obeliskbeam/drakeling/damage(mob/living/hit_mob)
-	if(issimple(hit_mob))
-		hit_mob.apply_damage(damage = SPELL_DMG_VS(hit_mob, SPELL_DMG(10)), damagetype = BURN)
-	else
-		hit_mob.apply_damage(damage = SPELL_DMG_VS(hit_mob, SPELL_DMG(3)), damagetype = BURN)
-	to_chat(hit_mob, span_danger("You're damaged by [src]!"))
-
-/obj/effect/proc_holder/spell/invoked/drakeling_beam/cast(list/targets, mob/living/carbon/human/species/familiar/void/user)
-	user.face_atom(targets[1])
-	user.move_resist = MOVE_FORCE_VERY_STRONG
-	if(do_after(user,1 SECONDS, target=user))
-		user.visible_message(span_danger("[user] fires an aberrant beam!"))
-		playsound(user, 'sound/magic/obeliskbeam.ogg', 150, FALSE, 0, 3)
-		var/turf/target_turf = get_ranged_target_turf(user, user.dir, 4) // nerfed range by _over_ half
-		var/turf/origin_turf = get_turf(user)
-		var/list/affected_turfs = get_line(origin_turf, target_turf) - origin_turf
-		for(var/turf/affected_turf in affected_turfs)
-			if(affected_turf.opacity)
-				break
-			var/blocked = FALSE
-			for(var/obj/potential_block in affected_turf.contents)
-				if(potential_block.opacity)
-					blocked = TRUE
-					break
-			if(blocked)
-				break
-			var/obj/effect/obeliskbeam/drakeling/new_obeliskbeam = new(affected_turf)
-			new_obeliskbeam.dir = user.dir
-			user.beam_parts += new_obeliskbeam
-			new_obeliskbeam.assign_creator(user)
-			for(var/mob/living/hit_mob in affected_turf.contents)
-				if(issimple(hit_mob))
-					hit_mob.apply_damage(damage = SPELL_DMG_VS(hit_mob, SPELL_DMG(15)), damagetype = BURN)
-				else
-					hit_mob.apply_damage(damage = SPELL_DMG_VS(hit_mob, SPELL_DMG(5)), damagetype = BURN) // this is literally one-fifth of the normal aberrant beam you will not be fragging with this
-				to_chat(hit_mob, span_userdanger("You're blasted by [user]'s aberrant beam!"))
-		if(!length(user.beam_parts))
-			return FALSE
-		var/atom/last_obeliskbeam = user.beam_parts[length(user.beam_parts)]
-		last_obeliskbeam.icon_state = "obeliskbeam_end"
-		var/atom/first_obeliskbeam = user.beam_parts[1]
-		first_obeliskbeam.icon_state = "obeliskbeam_start"
-		do_after(user, delay = 5 SECONDS, target = user)
-		user.move_resist = initial(user.move_resist)
-		for(var/obj/effect/obeliskbeam/drakeling/beam in user.beam_parts)
-			beam.disperse()
-		user.beam_parts = list()
+/datum/action/cooldown/spell/void_beam/familiar/cast(atom/cast_on)
+	if(!isfamiliar(owner))
+		return FALSE
+	. = ..()
 
 /datum/action/cooldown/spell/projectile/fetch/fae/void
 	name = "Grasp of the Void"
@@ -715,3 +766,59 @@
 
 /datum/action/cooldown/spell/magicians_stone/elemental/void
 	name = "Harvest Stone"
+
+// keep in mind this is only accessible to full mages (anyone w/o a major can't summon drakelings) and requires more effort than getting a dorpel normally
+/obj/item/rogueweapon/woodstaff/implement/grand/void
+	base_implement_name = "Voidbinder's Staff" // "Voidbinder's Staff of Frost"
+	name = "Staff of the Voidbinder"
+	desc = "A masterwork staff set with an otherworldly focus-gem, which seems to absorb all light. They say an Azurian magos laid the foundations for such a staff's creation, but tragically died before ever wielding one herself. The gem captures excess energy dissipated into the air when a spell is cast, giving most of it back to the wielder - arcyne economy refined to an art."
+
+/datum/action/cooldown/spell/void_possession // stripped down and more innocuous version of infernal possession
+	name = "Void Possession"
+	desc = "Possess armor, a ring, an amulet, or a weapon, lending it a fragment of your power; resist to cancel the possession. Cast on yourself instead to turn into a particularly effective staff. While possessing a wielded weapon or worn clothing/armor, whisper to speak directly into the mind of your bearer. Should they allow it, you can possess your bearer outright; you'll be able to use their skills, spells, and traits while you do. Your creator remains your creator, however, and you are still bound to obey them - though, of course, nobody said it had to be your creator you possess..."
+	spell_color = GLOW_COLOR_ARCANE // todo: maybe add a void glow later? black or green to match the obelisks?
+	charge_required = TRUE
+	charge_time = 1 SECONDS
+	cooldown_time = 5 MINUTES // this one's less nefarious, and as such can be freer
+	modes = list(
+		list("tag" = "", "name" = "Possess"),
+		list("tag" = "STAFF", "name" = "Staff"),
+	)
+
+/datum/action/cooldown/spell/void_possession/cast(atom/cast_on)
+	. = ..()
+	var/mob/living/carbon/human/species/familiar/void/H = owner
+	if(!istype(H))
+		return FALSE
+	var/obj/item/target = cast_on
+	if(current_mode != 1) // staff mode: summon a staff to possess. unlike an infernal, we're a great product of the arcyne and as such, are a finer staff but with no special effects
+		target = new /obj/item/rogueweapon/woodstaff/implement/grand/void(get_turf(H))
+	if(!target || !istype(target)) // we cast on nothing, or on something that isn't an item. either way we can't move forward
+		return FALSE
+	if(target.GetComponent(/datum/component/magic_item)) // i KNOW one of y'all is going to try to be gamer and double enchant
+		to_chat(H, span_warning("The arcyne energies embedded into [target] repel me!"))
+		return FALSE
+	if(target.GetComponent(/datum/component/possessed_item))
+		to_chat(H, span_warning("[target] is already possessed!"))
+		return FALSE
+	if(target.GetComponent(/datum/component/cursed_item))
+		to_chat(H, span_warning("Divine energy repulses me... [target] already bears a curse, it cannot contain me as well."))
+		return FALSE
+	if(istype(target, /obj/item/rogueweapon/sword/long/judgement/vlord)) // why the FUCK does this reimplement the cursed item component's functionality without actually having a cursed item component
+		to_chat(H, span_warning("Divine energy repulses me... [target] already bears a curse, it cannot contain me as well."))
+		return FALSE
+	if(target.GetComponent(/datum/component/conjured_item))
+		to_chat(H, span_warning("I should not possess something so ephemeral."))
+		return FALSE
+	// not a weapon, not an amulet/ring, and not armor
+	if(!istype(target, /obj/item/rogueweapon) && !istype(target, /obj/item/clothing/ring) && !istype(target, /obj/item/clothing/neck/roguetown/psicross) && !target.has_armor_value())
+		to_chat(H, span_warning("I can only possess weapons, armor, rings, and amulets."))
+		return FALSE
+	// it's that easy. all the logic for this is actually in the possessed item component
+	var/datum/component/possessed_item/P = target.AddComponent(/datum/component/possessed_item, H, spell_color, temp = (current_mode != 1), verbiage = span_warning("Arcyne energies pour from $src into $bearer, their eyes flare with hunger!"))
+	if(P)
+		RegisterSignal(P, COMSIG_QDELETING, PROC_REF(handle_cooldown))
+	return FALSE // we don't want the CD to start until we get in the item
+
+/datum/action/cooldown/spell/void_possession/proc/handle_cooldown()
+	StartCooldown(get_adjusted_cooldown())

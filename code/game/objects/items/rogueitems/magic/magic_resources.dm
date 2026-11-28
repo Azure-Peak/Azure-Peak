@@ -182,5 +182,93 @@
 	desc = "A mystical essence imbued with the power of Dendor. Merely holding it transports one's mind to ancient times."
 	tier = 4
 
+// now this might look like a lot. however, these items all come at a cost, namely an antagonistic force is possessing them and will possess YOU if you use them
+// so it's really not all that insane considering; more of an enabler for cursed object stories than a meta thing
+/obj/item/cursed_item_spawner
+	name = "shimmering relic"
+	desc = "A strange item whose form cannot quite be discerned. It pulses with an ominous power, as if inviting you to pick it up and claim its power for your own."
+	icon = 'icons/roguetown/items/magic_resources.dmi'
+	icon_state = "abberant"
+	resistance_flags = FIRE_PROOF
+	w_class = WEIGHT_CLASS_TINY
+	grid_width = 32
+	grid_height = 32
+	var/obj/item/form // type path not instance
+	var/static/list/transformation_options = list( // a few notably good/popular weapons, a staff, non-secret stat ring, or chest armor for each of the 3 armor classes. feel free to add to this!
+		/obj/item/rogueweapon/sword/long::name = /obj/item/rogueweapon/sword/long,
+		/obj/item/rogueweapon/sword/rapier::name = /obj/item/rogueweapon/sword/rapier,
+		/obj/item/rogueweapon/sword/sabre::name = /obj/item/rogueweapon/sword/sabre,
+		/obj/item/rogueweapon/halberd::name = /obj/item/rogueweapon/halberd,
+		/obj/item/rogueweapon/woodstaff/implement/grand::name = /obj/item/rogueweapon/woodstaff/implement/grand,
+		/obj/item/clothing/ring/statamythortz::name = /obj/item/clothing/ring/statamythortz,
+		/obj/item/clothing/ring/statgemerald::name = /obj/item/clothing/ring/statgemerald,
+		/obj/item/clothing/ring/statonyx::name = /obj/item/clothing/ring/statonyx,
+		/obj/item/clothing/ring/statrontz::name = /obj/item/clothing/ring/statrontz,
+		/obj/item/clothing/suit/roguetown/armor/plate/full/fluted::name = /obj/item/clothing/suit/roguetown/armor/plate/full/fluted,
+		/obj/item/clothing/suit/roguetown/armor/plate/cuirass/fluted::name = /obj/item/clothing/suit/roguetown/armor/plate/cuirass/fluted,
+		/obj/item/clothing/suit/roguetown/armor/plate/cuirass/fencer::name = /obj/item/clothing/suit/roguetown/armor/plate/cuirass/fencer,
+	)
+	examine_highlight_severity = EXAMINEHIGHLIGHT_HERESYSEVERITY_ODD
+	examine_highlight_desc = "It beckons with a strange malice, inspiring a palpable feeling of unease."
+
+/obj/item/cursed_item_spawner/Initialize(mapload)
+	. = ..()
+	filters += filter(type = "drop_shadow", x=0, y=0, size=1, offset = 2, color = PATRON_COLOR_VHESLYN)
+
+/obj/item/cursed_item_spawner/ComponentInitialize()
+	. = ..()
+	AddComponent(/datum/component/unsellable, "radiates foreboding power") // just in case. this is a very-limited avenue for ghostmobs we don't want people rushing it and RRing it
+
+/obj/item/cursed_item_spawner/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Right-click this item in your hand to select what form the relic will take, then left-click to awaken its power. From stat rings to weapons and armor, it can be quite a boon.")
+	. += span_info("However, such power comes at a price. Something malevolent dwells within that may threaten to overtake you.")
+
+/obj/item/cursed_item_spawner/attack_self(mob/user)
+	if(!ishuman(user) || isfamiliar(user)) // nuh uh
+		to_chat(user, "The relic rejects me!")
+		return FALSE
+	var/mob/living/carbon/human/H = user
+	if(!form)
+		to_chat(user, span_warning("You need to identify the relic before you can awaken it!"))
+		return ..()
+	to_chat(user, span_notice("You attempt to awaken the relic's power..."))
+	var/mob/living/carbon/human/species/familiar/infernal/inhabitant = awaken_familiar(user, FAMILIAR_PLANE_INFERNAL, "cursed [form::name]", null) // we put the familiar in nullspace TEMPORARILY because they should not be visible to the user for a moment lmao; they get moved inside the relic during the component init
+	if(!inhabitant)
+		to_chat(user, span_warning("...but it remains silent. Perhaps an attempt later would bear more fruit?"))
+		return ..()
+	var/obj/item/relic = new form(user.drop_location())
+	var/datum/component/possessed_item/P = relic.AddComponent(/datum/component/possessed_item, inhabitant, PATRON_COLOR_VHESLYN, EXAMINEHIGHLIGHT_HERESYSEVERITY_ODD, HERESYDESC_INFERNAL_PASSIVE, EXAMINEHIGHLIGHT_HERESYSEVERITY_SUSPICIOUS, HERESYDESC_INFERNAL_ACTIVE, TRUE, FALSE, /mob/living/carbon/human/proc/toggle_infernal_armor, FALSE, span_boldwarning("Infernal flames emanate from $src, flowing into $bearer... their eyes flash with new malice!"))
+	user.dropItemToGround(src, TRUE, TRUE)
+	user.put_in_hands(relic)
+	var/datum/action/cooldown/spell/cursed_item_possession/spell = new
+	spell.relic = relic
+	inhabitant.mind.RemoveSpell(/datum/action/cooldown/spell/infernal_possession)
+	inhabitant.mind.AddSpell(spell)
+	inhabitant.RegisterSignal(relic, COMSIG_OBJ_DECONSTRUCT, TYPE_PROC_REF(/mob/living/carbon/human/species/familiar/infernal, relic_destroyed))
+	inhabitant.RegisterSignal(P, COMSIG_QDELETING, TYPE_PROC_REF(/mob/living/carbon/human/species/familiar/infernal, relic_unpossess))
+	// tutorial GO
+	to_chat(inhabitant, span_notice("I am an infernal, bound within this relic by a longago magos. Long have I rested within these rotting halls, before being found by [H.get_unmasked_name()], who has foolishly unleashed my power..."))
+	to_chat(inhabitant, span_notice("I am not obligated to obey [H.get_unmasked_name()]. If their goals align with mine, I will help them; if not, I may hinder them. I am only bound by my own malice, and the limits of my power. I should remember that I am weak, ultimately; I will have a much easier time of things if my bearer trusts me."))
+	to_chat(inhabitant, span_notice("I am still bound to this relic, more or less. If it is damaged, I will be fine, but if it is destroyed entirely I will be irrevocably banished from whence I came. I can break free for a time by resisting (X by default), but doing so puts my true body at risk. My relic grants a boon to its bearer: it will [isstatring(relic) ? "increase their basal attributes" : (isweapon(relic) ? "drain the lyfe of those struck" : "retaliate with flames when they are struck")]."))
+	to_chat(inhabitant, span_notice("Whispering while in relic-form will project my voice into the mind of my bearer. I can possess my bearer (which needs not be the one that freed me...), though I will need their consent until they use me for some time. While I am possessing them, their body will feel no pain and fear no exsanguination, but silver will harm us both. Once [isweapon(relic) ? "they strike someone with me" : (relic.has_armor_value()?"I protect them from a blow":"they begin wearing me")], my power over them will begin to grow; this will be interrupted and reset should they drop me. I will know when it is done. Once the possession is broken - either by me releasing them, them resisting and some time passing, or me being removed from their person - I will need to wait some time before I can possess them again."))
+
+	qdel(src)
+	return TRUE
+
+/obj/item/cursed_item_spawner/rmb_self(mob/user, keybind)
+	if(!ishuman(user) || isfamiliar(user)) // nuh uh
+		to_chat(user, "The relic rejects me!")
+		return ..()
+	var/mob/living/carbon/human/H = user
+	var/had_form = form
+	var/choice = tgui_input_list(H, "What manner of relic is this?", "WHISPERS OF POWER", transformation_options)
+	if(!choice) // again should only happen if they DC while doing this
+		return ..()
+	form = transformation_options[choice]
+	to_chat(H, span_notice("[had_form?"I was wrong, before; it's clearly":"Ah, of course! It's"] \a [form::name]!"))
+	desc = "A strange [form::name]. It whispers promises of power, begging to be awakened..." // convey this step is done
+	return TRUE
+
 #undef LEYLINE_SELLPRICE
 #undef VOIDSTONE_SELLPRICE

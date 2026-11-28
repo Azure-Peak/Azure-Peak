@@ -60,6 +60,7 @@
 #define ROLE_CHOSEN				"Chosen"
 #define ROLE_VAMPIRE_SUMMON		"Vampire Summon"
 #define ROLE_NOTORIOUS_BOUNTY	"Notorious Bounty Target"
+#define ROLE_FAMILIAR			"Familiar"
 
 GLOBAL_LIST_INIT(special_roles_rogue, list(
 	ROLE_MANIAC = /datum/antagonist/maniac,
@@ -83,7 +84,7 @@ GLOBAL_LIST_INIT(antagonist_ban_groups, list(
 	"All Antagonists" = list(ROLE_ANTAGONIST),
 	"Major Antagonists" = list(ROLE_ASCENDANT, ROLE_ASPIRANT, ROLE_BANDIT, ROLE_HAG, ROLE_NBEAST, ROLE_WEREWOLF, ROLE_LICH, ROLE_PREBEL, ROLE_REBEL_LEADER, ROLE_RENEGADE),
 	"Lesser Antagonists" = list(ROLE_WRETCH, ROLE_DREAMWALKER, ROLE_GNOLL, ROLE_VAMPIRE, ROLE_ASSASSIN),
-	"Antagonist Ghost Roles" = list(ROLE_NECRO_SKELETON, ROLE_LICH_SKELETON, ROLE_UNBOUND_DEATHKNIGHT, ROLE_DARK_ITINERANT, ROLE_VAMPIRE_SUMMON, ROLE_NOTORIOUS_BOUNTY),
+	"Antagonist Ghost Roles" = list(ROLE_NECRO_SKELETON, ROLE_LICH_SKELETON, ROLE_UNBOUND_DEATHKNIGHT, ROLE_DARK_ITINERANT, ROLE_VAMPIRE_SUMMON, ROLE_NOTORIOUS_BOUNTY, ROLE_FAMILIAR),
 ))
 
 //Job defines for what happens when you fail to qualify for any job during job selection

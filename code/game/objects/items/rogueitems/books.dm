@@ -372,7 +372,7 @@
 	AddComponent(/datum/component/cursed_item, TRAIT_CABAL, "TOME") //intended, sure-cut sign you worship Zizo. (Also to avoid unintended bug of bishop blessing people w/it.)
 
 /obj/item/book/rogue/bibble/zizo/get_examine_highlight_status()
-	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_ZIZO_RELIC) //black market good, very few and far between.
+	return (..() || list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_ZIZO_RELIC)) //black market good, very few and far between.
 
 /datum/status_effect/buff/blessed
 	id = "blessed"

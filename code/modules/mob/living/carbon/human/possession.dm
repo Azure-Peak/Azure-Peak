@@ -4,19 +4,24 @@
 	set category = "RoleUnique.Displaced Soul"
 	release_vessel(FALSE)
 
+/// finds a displaced_soul corresponding to this vessel's initial inhabitant. if there is none (like if you call this on someone that's not possessed) it won't return anything
+/mob/living/carbon/human/proc/get_displaced_soul()
+	for(var/mob/dead/observer/eye/screye/displaced_soul/one_among_many in GLOB.displaced_souls)
+		if(one_among_many.vessel == src)
+			return one_among_many
+
 ///src is the vessel, currently-possessed, that we want to restore. given as a verb as a fallback for if spells or other options don't make sense
 /mob/living/carbon/human/proc/release_vessel(dying = FALSE)
 	if(!HAS_TRAIT(src, TRAIT_POSSESSED))
 		return // just to be safe against spamclicks and thelike
 	var/mob/dead/observer/eye/screye/displaced_soul/estranged_lux
-	for(var/mob/dead/observer/eye/screye/displaced_soul/one_among_many in GLOB.displaced_souls)
-		if(one_among_many.vessel == src)
-			estranged_lux = one_among_many
+	estranged_lux = get_displaced_soul()
 	if(!estranged_lux) // where's your soul, sire
 		return FALSE
 	var/mob/living/carbon/human/original = estranged_lux.possessor
 	if(!SEND_SIGNAL(src, COMSIG_MOB_POSSESS_RELEASE, estranged_lux, original, dying))			// handle things like HCT transfer
 		return FALSE
+	SEND_SIGNAL(original, COMSIG_MOB_POSSESS_RELEASE_OTHER, estranged_lux, src, dying)
 	if(devotion)
 		devotion.holder = original
 		original.devotion = devotion
@@ -43,7 +48,7 @@
 
 ///src is the possessing mob, vessel is the mob to be possessed. role-agnostic and can be called on non-hags safely, have fun. set remove_spells to FALSE if you want the possessor to have access to the possessee's spells. set vessel_skills to TRUE if you want the vessel's skills to be used instead of the possessor's
 /mob/living/carbon/human/proc/possess_vessel(mob/living/carbon/human/vessel, trait_source = TRAIT_GENERIC, remove_spells = TRUE, vessel_skills = FALSE)
-	if(!vessel || QDELING(vessel) || HAS_TRAIT(vessel, TRAIT_POSSESSED)) // we want to make EXTRA sure nobody does anything stupid, here
+	if(!vessel || QDELING(vessel) || HAS_TRAIT(vessel, TRAIT_POSSESSED) || vessel.ai_controller || !vessel.key || !vessel.mind?.active) // we want to make EXTRA sure nobody does anything stupid, here
 		return FALSE
 	var/datum/mind/vessel_orig_mind = vessel.mind // save this reference early incase make_observer fucks with it
 	vessel.mind.current = null // don't do anything funky while we execute
@@ -108,6 +113,7 @@
 	vessel.reset_perspective() // needed for revs and such
 	ADD_TRAIT(vessel, TRAIT_POSSESSED, trait_source)
 	SEND_SIGNAL(vessel, COMSIG_MOB_POSSESS, dsoul, src)
+	SEND_SIGNAL(src, COMSIG_MOB_POSSESS_OTHER, dsoul, vessel)
 	add_verb(vessel, /mob/living/carbon/human/proc/release_vessel_verb) // failsafe: if a possession method doesn't add a revert method, they'll have a verb for it
 	add_verb(dsoul, /mob/dead/observer/eye/screye/displaced_soul/proc/resist_possession) // failsafe: if a possessor is badfaithing/afk, or in certain ic circumstances, you can resist. what that does depends on the possession source
 	return dsoul

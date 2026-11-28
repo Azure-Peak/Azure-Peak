@@ -268,7 +268,7 @@
 	icon_state = "mgrinningsallet"
 
 /obj/item/clothing/head/roguetown/helmet/sallet/visored/grinning/get_examine_highlight_status()
-	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_SUSPICIOUS, HERESYDESC_MATTHIOS_GRINNING)
+	return (..() || list(EXAMINEHIGHLIGHT_HERESYSEVERITY_SUSPICIOUS, HERESYDESC_MATTHIOS_GRINNING))
 
 /obj/item/clothing/head/roguetown/helmet/sallet/raneshen
 	name = "kulah khud"
@@ -847,7 +847,7 @@
 	AddComponent(/datum/component/cursed_item, TRAIT_DEPRAVED, "HELMET")
 
 /obj/item/clothing/head/roguetown/helmet/baotha/get_examine_highlight_status()
-	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_BAOTHA_ARMOR)
+	return (..() || list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_BAOTHA_ARMOR))
 
 /obj/item/clothing/head/roguetown/helmet/nasal
 	name = "nasal helmet"

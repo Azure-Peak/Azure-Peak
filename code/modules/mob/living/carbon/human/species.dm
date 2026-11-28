@@ -545,6 +545,7 @@ GLOBAL_LIST_INIT(body_builds, init_body_builds())
 
 
 /datum/species/proc/on_species_gain(mob/living/carbon/C, datum/species/old_species, datum/preferences/pref_load)
+	SHOULD_CALL_PARENT(TRUE)
 	// Drop the items the new species can't wear
 	if((AGENDER in species_traits))
 		C.gender = PLURAL
@@ -667,7 +668,7 @@ GLOBAL_LIST_INIT(body_builds, init_body_builds())
 
 /datum/species/proc/handle_body(mob/living/carbon/human/H)
 	H.remove_overlay(BODY_LAYER)
-	H.remove_overlay(ABOVE_BODY_FRONT_LAYER)
+	H.remove_overlay(BODY_FRONT_FRONT_LAYER)
 
 	var/list/standing = list()
 
@@ -693,7 +694,7 @@ GLOBAL_LIST_INIT(body_builds, init_body_builds())
 		H.overlays_standing[BODY_LAYER] = standing
 
 	H.apply_overlay(BODY_LAYER)
-	H.apply_overlay(ABOVE_BODY_FRONT_LAYER)
+	H.apply_overlay(BODY_FRONT_FRONT_LAYER)
 
 //This exists so sprite accessories can still be per-layer without having to include that layer's
 //number in their sprite name, which causes issues when those numbers change.

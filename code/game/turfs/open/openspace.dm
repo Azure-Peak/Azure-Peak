@@ -293,6 +293,7 @@ GLOBAL_DATUM_INIT(openspace_backdrop_one_for_all, /atom/movable/openspace_backdr
 				if(climbed)
 					climber.visible_message(span_info("[climber] climbs along [wall_for_message]..."))
 					climber_armor_class = climber.highest_ac_worn()
+					var/hadflying = (climber.movement_type == FLYING)
 					if(!(climber_armor_class <= ARMOR_CLASS_LIGHT))
 						to_chat(climber, span_danger("The armor weighs me down!")) // if you can actually shuffle along the wall but wearing heavy armor, you get a grip on it... but fall, as a little treat
 					else
@@ -301,7 +302,8 @@ GLOBAL_DATUM_INIT(openspace_backdrop_one_for_all, /atom/movable/openspace_backdr
 					climber.stamina_add(stamina_cost_final) // eat some of climber's stamina when we move onto the next tile
 					climber.apply_status_effect(/datum/status_effect/debuff/climbing_lfwb) // continious drain of STAMINA and checks to remove the status effect if we are on solid stuff or branches
 					climber.forceMove(climb_target) // while our MOVEMENT TYPE is FLYING, we move onto next tile and can't fall cos of the flying
-					climber.movement_type = GROUND // if we move and it's an empty space tile, we fall. otherwise we either just walk into a wall along which we climb and don't fall, or walk onto a solid turf, like... floor or water
+					if(!hadflying) // why are you wall-climbing with flight...? idk! but people do, and it breaks stuff
+						climber.movement_type = GROUND // if we move and it's an empty space tile, we fall. otherwise we either just walk into a wall along which we climb and don't fall, or walk onto a solid turf, like... floor or water
 					if(quick_climb) //only used with climbing gear
 						playsound(climber, 'sound/items/garrotegrab.ogg', sfx_vol)
 					else if(climber.m_intent != MOVE_INTENT_SNEAK)

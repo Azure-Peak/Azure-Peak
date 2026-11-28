@@ -68,7 +68,7 @@
 /obj/item/psydonmusicbox/get_examine_highlight_status()
 	// If we are not crankin' that shit... its just a musical box, nothing weird.
 	if(cranking_true_nature == FALSE)
-		return null
+		return ..()
 	// Otherwise, it's obvious this thing is torturing souls and is fucked up and evil.
 	else
 		return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_INQUIS_CHURNER)
@@ -359,7 +359,7 @@ Inquisitorial armory down here
 		. += span_info("It is gone.")
 
 /obj/item/flashlight/flare/torch/lantern/psycenser/get_examine_highlight_status()
-	return list(EXAMINEHIGHLIGHT_VIBE_GOLGATHA, VIBEDESC_GOLGATHA)
+	return (..() || list(EXAMINEHIGHLIGHT_VIBE_GOLGATHA, VIBEDESC_GOLGATHA))
 
 /obj/item/flashlight/flare/torch/lantern/psycenser/getonmobprop(tag)
 	. = ..()

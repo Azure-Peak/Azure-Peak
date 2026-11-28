@@ -155,6 +155,7 @@ GLOBAL_LIST_EMPTY(displaced_souls)
 	var/datum/patron/vessel_patron				// ditto
 	var/datum/skill_holder/archived_skills		// why are minds like this
 	var/vessel_skills							// tells us whose skills these actually are
+	var/datum/component/possessed_item/curse	// if this soul originated from a possessed item, we need to store this
 
 /mob/dead/observer/eye/screye/displaced_soul/Initialize(mapload)
 	. = ..()

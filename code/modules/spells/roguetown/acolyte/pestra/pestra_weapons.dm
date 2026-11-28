@@ -10,7 +10,7 @@
 	possible_item_intents = list(/datum/intent/dagger/thrust, /datum/intent/dagger/cut/heavy, /datum/intent/dagger/thrust/pick, /datum/intent/dagger/sucker_punch)
 
 /obj/item/rogueweapon/huntingknife/idagger/steel/rotfang/get_examine_highlight_status()
-	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_PESTRA_WEAPON)
+	return (..() || list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_PESTRA_WEAPON))
 
 /obj/item/rogueweapon/huntingknife/idagger/steel/rotfang/Initialize(mapload)
 	. = ..()
@@ -23,7 +23,7 @@
 	icon_state = "ichor"
 
 /obj/item/reagent_containers/powder/black_ichor/get_examine_highlight_status()
-	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ODD, HERESYDESC_BLACK_ROT)
+	return (..() || list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ODD, HERESYDESC_BLACK_ROT))
 
 /datum/component/ichor_stained
 	dupe_mode = COMPONENT_DUPE_UNIQUE

@@ -38,7 +38,7 @@
 
 	SEND_SIGNAL(src, COMSIG_HUMAN_LIFE)
 
-	if(mind)
+	if(mind && mind.sleep_adv)
 		mind.sleep_adv.add_stress_cycle(get_stress_amount())
 		for(var/datum/antagonist/A as anything in mind.antag_datums)
 			A.on_life(src)
@@ -49,7 +49,7 @@
 			if(has_status_effect(/datum/status_effect/debuff/sleepytime))
 				remove_status_effect(/datum/status_effect/debuff/sleepytime)
 				remove_stress(/datum/stressevent/sleepytime)
-				if(mind)
+				if(mind && mind.sleep_adv)
 					mind.sleep_adv.advance_cycle()
 	if(leprosy == 1)
 		adjustToxLoss(2)

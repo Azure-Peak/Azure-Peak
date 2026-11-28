@@ -23,7 +23,7 @@
 /obj/item/speakerinq/get_examine_highlight_status()
 	// If we are wearing it on our ring slot, it looks like a psydonian ring. Disguised...
 	if(active_equipped)
-		return null
+		return ..()
 	// Otherwise, it's an undisguised and OBVIOUSLY weird and WRONG device. Very obvious.
 	else
 		return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_VERYODD, HERESYDESC_INQUIS_WHISPERER)

@@ -1034,6 +1034,15 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 		var/mob/living/living_user = user
 		living_user.rebuild_obscured_flags() // AZURE EDIT: cache our equipped items `flags_inv` values
 
+	var/iron = is_iron()
+	if(isliving(user) && iron && HAS_TRAIT(user, TRAIT_LESSER_FAE)) // SPD malus, flight disable, and antimagic
+		var/mob/living/L = user
+		if(!L.has_status_effect(/datum/status_effect/debuff/iron_weakness))
+			to_chat(L, span_warning("The iron weighs me down and disables my magic!"))
+		L.apply_status_effect(/datum/status_effect/debuff/iron_weakness)
+	else if(iron && HAS_TRAIT(user, TRAIT_IRON_WEAK)) // cosmetic weakness: it's uncomfy, but not mechanically impactful
+		to_chat(user, span_warning("The iron rests uncomfortably upon me, though I am not so weak as to be bound by it."))
+
 	update_transform()
 
 //sometimes we only want to grant the item's action if it's equipped in a specific slot.
@@ -1931,6 +1940,10 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 *
 * If this returns null, the item will not be shown as heretical.*/
 /obj/item/proc/get_examine_highlight_status()
+	SHOULD_CALL_PARENT(TRUE) // we need this otherwise component and var overrides for heresyseverity/heresydesc won't work
+	var/datum/component/possessed_item/cursed = GetComponent(/datum/component/possessed_item)
+	if(cursed && cursed.heresy_severity && cursed.heresy_desc)
+		return list(cursed.heresy_severity, cursed.heresy_desc)
 	if(examine_highlight_severity && examine_highlight_desc)
 		return list(examine_highlight_severity, examine_highlight_desc)
 	return null
@@ -2058,3 +2071,7 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 
 /obj/item/proc/remove_floating() // needed for timers
 	item_flags &= ~FLOATING_ITEM
+
+/// should return true if the item is majority iron, for example armor or weapons, that should trigger iron weaknesses in fae. don't allow cheesey renaming strats though
+/obj/item/proc/is_iron()
+	return (smeltresult && smeltresult == /obj/item/ingot/iron) || findtext(initial(name), "iron")

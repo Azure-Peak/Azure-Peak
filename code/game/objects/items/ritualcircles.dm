@@ -710,7 +710,7 @@
 	var/obj/upgraded_rune_type = /obj/structure/active_abyssor_rune/greater
 
 /obj/item/abyssal_marker/get_examine_highlight_status()
-	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, "It shatters the barrier between reality and NIGHTMARE")
+	return (..() || list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, "It shatters the barrier between reality and NIGHTMARE"))
 
 /obj/item/abyssal_marker/volatile
 	name = "volatile abyssal marker"
@@ -729,7 +729,7 @@
 	upgraded_rune_type = null
 
 /obj/item/abyssal_marker/tidal/get_examine_highlight_status()
-	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_SUSPICIOUS, "It shatters the barrier between reality and NIGHTMARE")
+	return (..() || list(EXAMINEHIGHLIGHT_HERESYSEVERITY_SUSPICIOUS, "It shatters the barrier between reality and NIGHTMARE"))
 
 /obj/item/abyssal_marker/volatile/Initialize(mapload)
 	. = ..()

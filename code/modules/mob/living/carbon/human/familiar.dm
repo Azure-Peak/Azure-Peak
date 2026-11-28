@@ -19,13 +19,9 @@
 	mob_biotypes = MOB_ORGANIC|MOB_BEAST
 	faction = list(FACTION_ROGUEANIMAL, FACTION_NEUTRAL)
 	footstep_type = FOOTSTEP_MOB_BAREFOOT
-	var/tier = 0 // increments once per dae survived; gates the stronger abilities
 	var/mob/living/carbon/familiar_summoner = null
 	var/inherent_spell = null
-	var/t1_spell = list()
 	var/tutorial_message = null
-	var/tierup_messages = list()
-	var/t2_spell = list()
 	var/summoning_emote = null
 	var/list/valid_healing_items = list() // what planar materials can heal you?
 	var/planar_origin = "void" // what plane are we from? avoids a bunch of istype checks
@@ -38,10 +34,16 @@
 
 	// stats: should be squishy, but able to keep up with their summoner
 	STACON = 5 // might be too low? it's more than skeletons...
+	var/voice_desc
+	var/voice_desc_prefix = CUSTOM_PREFIX_HAS_A
+	var/trait_desc
+	var/trait_desc_prefix = CUSTOM_PREFIX_HAS_A
+	var/stature_desc
+	var/stature_desc_prefix = CUSTOM_PREFIX_HAS_A
 
 /mob/living/carbon/human/species/familiar/attack_hand(mob/user) // very important port from simplemobs
 	. = ..()
-	if(user.used_intent.type == INTENT_HELP)
+	if(user != src && user.used_intent.type == INTENT_HELP)
 		if (health > 0)
 			visible_message(span_notice("[user] pets [src]."), \
 							span_notice("[user] pets you."), null, null, user)
@@ -52,6 +54,16 @@
 /datum/status_effect/buff/healing/familiar
 	alert_type = /atom/movable/screen/alert/status_effect/buff/healing/familiar
 
+/datum/status_effect/buff/healing/familiar/on_apply()
+	. = ..()
+	for(var/datum/wound/i in owner.get_sewable_wounds())
+		i.set_bleed_rate(0) // doesn't HEAL the wound but you won't bleed out if you're being healed actively
+
+/datum/status_effect/buff/healing/familiar/tick()
+	. = ..()
+	if(owner.blood_volume < BLOOD_VOLUME_NORMAL)
+		owner.blood_volume = min(owner.blood_volume+(BLOOD_VOLUME_NORMAL/30), BLOOD_VOLUME_NORMAL) // this requires special circumstances to apply and should save you from bleeding out reasonably fast; 30 seconds is the guideline
+
 /atom/movable/screen/alert/status_effect/buff/healing/familiar
 	name = "Planar Respite"
 	desc = "Drawing energy from my home plane to restore myself."
@@ -59,6 +71,9 @@
 // slight perf gains over list iteration for all types
 /mob/living/carbon/human/species/familiar/proc/is_aligned_leyline(obj/structure/leyline/ley)
 	return FALSE
+
+/mob/living/carbon/human/species/familiar/can_be_firemanned(mob/living/carbon/target)
+	return FALSE // we don't want them carrying people
 
 // leying down gives healing
 /mob/living/carbon/human/species/familiar/Life()
@@ -96,9 +111,30 @@
 	icon_state = initial(icon_state) // parent proc nulls this
 	real_name = initial(real_name) // we override these later but we don't want random human names being pulled for this
 	name = initial(name)
+	custom_descriptors = list()
+	for(var/i in 1 to CUSTOM_DESCRIPTOR_AMOUNT)
+		var/datum/custom_descriptor_entry/entry = new
+		if(i == 9) // voice
+			entry.content_text = voice_desc
+			entry.prefix_type = voice_desc_prefix
+		else if(i == 12) // trait
+			entry.content_text = trait_desc
+			entry.prefix_type = trait_desc_prefix
+		else if(i == 10) // stature
+			entry.content_text = stature_desc
+			entry.prefix_type = stature_desc_prefix
+		custom_descriptors += entry
+	add_mob_descriptor(/datum/mob_descriptor/voice/custom/nine)
+	add_mob_descriptor(/datum/mob_descriptor/trait/custom/twelve)
+	add_mob_descriptor(/datum/mob_descriptor/stature/custom/ten)
+
+// there are some edge cases where familiars can be QDEL'd while inside items. rather than manually adding catches for every one it's probably best to just gracefully handle it and let them be resummoned
+/mob/living/carbon/human/species/familiar/Destroy()
+	GLOB.chosen_names -= real_name
+	. = ..()
 
 /mob/living/carbon/human/species/familiar/say_mod(input, message_mode)
-	if(speak_emote && speak_emote.len)
+	if(LAZYLEN(speak_emote))
 		verb_say = pick(speak_emote)
 	. = ..()
 
@@ -111,7 +147,7 @@
 /datum/species/familiar
 	name = "base familiar"
 	id = "familiar"
-	species_traits = list(NO_UNDERWEAR, NO_ORGAN_FEATURES, NO_BODYPART_FEATURES, NOBLOOD)
+	species_traits = list(NO_UNDERWEAR, NO_ORGAN_FEATURES, NO_BODYPART_FEATURES)
 	inherent_traits = list(
 		TRAIT_STEELHEARTED,
 		TRAIT_NOFALLDAMAGE1,
@@ -131,6 +167,7 @@
 		TRAIT_ZOMBIE_IMMUNE,
 		TRAIT_UNCONVERTIBLE,
 		TRAIT_NONAMESTEAL,
+		TRAIT_BLOOD_RESISTANCE // i know, i know, but they genuinely bleed out WAY too fast without it. consider that they have no armor and can't drink water to regen blood
 	)
 	inherent_biotypes = MOB_HUMANOID
 	no_equip = list(SLOT_SHIRT, SLOT_HEAD, SLOT_WEAR_MASK, SLOT_ARMOR, SLOT_GLOVES, SLOT_SHOES, SLOT_PANTS, SLOT_CLOAK, SLOT_BELT, SLOT_BACK_R, SLOT_BACK_L, SLOT_S_STORE, SLOT_BELT_L, SLOT_BELT_R, SLOT_WRISTS, SLOT_RING)
@@ -207,6 +244,8 @@
 	set category = "RoleUnique.Winged Form"
 	set name = "Fly Up"
 
+	if(stat || !(movement_type & FLYING))
+		return
 	if(src.pulledby != null)
 		to_chat(src, span_notice("I can't fly away while being grabbed!"))
 		return
@@ -222,6 +261,8 @@
 	set category = "RoleUnique.Winged Form"
 	set name = "Fly Down"
 
+	if(stat || !(movement_type & FLYING))
+		return
 	if(src.pulledby != null)
 		to_chat(src, span_notice("I can't fly away while being grabbed!"))
 		return
@@ -232,32 +273,6 @@
 			to_chat(src, span_notice("I fly down."))
 		else
 			to_chat(src, span_notice("I can't fly away while being grabbed!"))
-
-/mob/living/carbon/human/species/familiar/proc/grant_tier_abilities(tier)
-	if(tier==1 && length(t1_spell))
-		for(var/path in t1_spell)
-			var/spell_instance = new path
-			if(spell_instance && src.mind)
-				src.mind.AddSpell(spell_instance)
-	if(tier==2 && length(t2_spell))
-		for(var/path in t2_spell)
-			var/spell_instance = new path
-			if(spell_instance && src.mind)
-				src.mind.AddSpell(spell_instance)
-	return
-
-/mob/living/carbon/human/species/familiar/proc/debug_force_tierup()
-	GLOB.tod="night"
-	do_time_change()
-
-/mob/living/carbon/human/species/familiar/do_time_change()
-	. = ..()
-	if(src.planar_origin!="void" && GLOB.tod == "night" && tier < 2)
-		tier++
-		to_chat(src, span_info("As another nite falls, your powers grow, adjusting more to the mortal plane."))
-		if(LAZYLEN(tierup_messages) && tierup_messages[tier])
-			to_chat(src, tierup_messages[tier])
-		grant_tier_abilities(tier)
 
 /mob/living/carbon/human/species/familiar/Destroy()
 	if(familiar_summoner && familiar_summoner.mind)
@@ -289,6 +304,7 @@
 		ret.Insert(2, "<img src=[prefs.familiar_headshot_link[planar_origin]] width=100 height=100/>")
 	if(prefs.familiar_flavortext_display[planar_origin] || prefs.familiar_headshot_link[planar_origin] || prefs.familiar_ooc_notes_display[planar_origin])
 		ret.Insert(ret.len-1, "<a href='?src=[REF(src)];task=view_fam_headshot;'>Examine closer</a>")
+	ret.Insert(2, desc)
 	return ret
 
 /mob/living/carbon/human/species/familiar/can_be_held(mob/by)

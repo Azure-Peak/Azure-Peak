@@ -23,7 +23,7 @@
 			src.last_used = world.time
 
 /datum/magic_item/greater/lifesteal/on_hit(obj/item/source, atom/target, mob/user, proximity_flag, click_parameters)
-	if(!proximity_flag)
+	if(!proximity_flag || HAS_TRAIT(user, TRAIT_PACIFISM))
 		return
 	if(world.time < src.last_used + 100)
 		if(!warned)
@@ -46,7 +46,7 @@
 	var/list/last_used = list()
 
 /datum/magic_item/greater/lightning/on_hit(obj/item/source, atom/target, mob/user, proximity_flag, click_parameters)
-	if(!proximity_flag)
+	if(!proximity_flag || HAS_TRAIT(user, TRAIT_PACIFISM))
 		return
 	if(world.time < (src.last_used[source] + (1 MINUTES + 40 SECONDS))) //thanks borbop
 		return
@@ -70,7 +70,7 @@
 	var/last_used
 
 /datum/magic_item/greater/frostveil/on_hit(obj/item/source, atom/target, mob/user, proximity_flag, click_parameters)
-	if(!proximity_flag)
+	if(!proximity_flag || HAS_TRAIT(user, TRAIT_PACIFISM))
 		return
 	if(world.time < src.last_used + 20 SECONDS)
 		return
@@ -238,7 +238,7 @@
 	var/list/last_used = list()
 
 /datum/magic_item/greater/void/on_hit(obj/item/source, atom/target, mob/user, proximity_flag, click_parameters)
-	if(!proximity_flag)
+	if(!proximity_flag || HAS_TRAIT(user, TRAIT_PACIFISM))
 		return
 	if(world.time < (src.last_used[source] + 10 SECONDS))
 		return

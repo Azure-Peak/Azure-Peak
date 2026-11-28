@@ -29,6 +29,7 @@
 		stored_mob.forceMove(get_turf(stored_mob))
 	stored_mob.status_flags &= ~GODMODE
 	stored_mob.reset_perspective()
+	REMOVE_TRAIT(stored_mob, TRAIT_NOSLEEP, "orbed")
 	if(!QDELING(src))
 		qdel(src)
 	stored_mob.update_cone_show()
@@ -42,6 +43,7 @@
 	loc = orb
 	status_flags |= GODMODE
 	set_item_sprite(orb)
+	ADD_TRAIT(src, TRAIT_NOSLEEP, "orbed") // sigh
 	orb.name = name
 	orb.desc = desc
 	reset_perspective(orb)

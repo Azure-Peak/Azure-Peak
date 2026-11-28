@@ -23,7 +23,7 @@
 	var/replace_existing_roguemachine_crown = FALSE
 
 /obj/item/clothing/head/roguetown/crown/serpcrown/get_examine_highlight_status()
-	return list(EXAMINEHIGHLIGHT_VIBE_CROWN, VIBEDESC_CROWN)
+	return (..() || list(EXAMINEHIGHLIGHT_VIBE_CROWN, VIBEDESC_CROWN))
 
 /obj/item/clothing/head/roguetown/crown/serpcrown/Initialize(mapload)
 	. = ..()

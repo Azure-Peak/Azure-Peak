@@ -436,7 +436,7 @@
 	AddComponent(/datum/component/cursed_item, TRAIT_HORDE, "GAUNTLET", "RENDERED ASUNDER")
 
 /obj/item/rogueweapon/handclaw/steel/graggaredged/get_examine_highlight_status()
-	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_GRAGGAR_WEAPON)
+	return (..() || list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_GRAGGAR_WEAPON))
 
 /obj/item/rogueweapon/handclaw/steel/graggarblunt
 	name = "vicious mantlebreaker"
@@ -458,7 +458,7 @@
 	AddComponent(/datum/component/cursed_item, TRAIT_HORDE, "GAUNTLET", "RENDERED ASUNDER")
 
 /obj/item/rogueweapon/handclaw/steel/graggarblunt/get_examine_highlight_status()
-	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_GRAGGAR_WEAPON)
+	return (..() || list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_GRAGGAR_WEAPON))
 
 // non evyl version of unarmed weapons, nerfed to be more balanced for general use, alternatives to steel & bronze claws, but not as good as the gronn special claws
 
