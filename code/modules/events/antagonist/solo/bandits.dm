@@ -59,8 +59,6 @@
 
 		H.devotion = null //in your class.
 		H.mind.RemoveAllSpells() //in your class.
-		if(isdullahan(H)) //hackjob for reverents
-			H.revive(full_heal = TRUE, admin_revive = TRUE) //hacky way to re-enable UI eyes
 		SSjob.AssignRole(H, "Bandit")
 		H.job = "Bandit"
 		SSmapping.retainer.bandits |= H
