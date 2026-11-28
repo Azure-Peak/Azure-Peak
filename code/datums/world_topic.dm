@@ -26,15 +26,12 @@
 	var/require_comms_key = FALSE
 
 /datum/world_topic/proc/TryRun(list/input)
-	if(!config)
-		return "Configuration has not initialised yet"
 	var/comms_key = CONFIG_GET(string/comms_key)
-	if(!comms_key) // key was not set
-		return "Commskey disabled"
-	key_valid = comms_key == input["key"]
+	var/input_key = input["key"]
+	key_valid = comms_key && input_key && (comms_key == input_key)
+	input -= "key"
 	if(require_comms_key && !key_valid)
 		return "Bad Key"
-	input -= "key"
 	. = Run(input)
 	if(islist(.))
 		. = list2params(.)
@@ -162,17 +159,17 @@
 
 	.["round_duration"] = SSticker ? round((world.time-SSticker.round_start_time)/10) : 0
 	// Amount of world's ticks in seconds, useful for calculating round duration
-	
+
 	//Time dilation stats.
 	.["time_dilation_current"] = SStime_track.time_dilation_current
 	.["time_dilation_avg"] = SStime_track.time_dilation_avg
 	.["time_dilation_avg_slow"] = SStime_track.time_dilation_avg_slow
 	.["time_dilation_avg_fast"] = SStime_track.time_dilation_avg_fast
-	
+
 	//pop cap stats
 	.["soft_popcap"] = CONFIG_GET(number/soft_popcap) || 0
 	.["hard_popcap"] = CONFIG_GET(number/hard_popcap) || 0
 	.["extreme_popcap"] = CONFIG_GET(number/extreme_popcap) || 0
 	.["popcap"] = max(CONFIG_GET(number/soft_popcap), CONFIG_GET(number/hard_popcap), CONFIG_GET(number/extreme_popcap)) //generalized field for this concept for use across ss13 codebases
 
-	
+
