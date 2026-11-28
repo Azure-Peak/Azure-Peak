@@ -517,7 +517,7 @@
 	var/datum/language_holder/lang = user.mind.get_language_holder()
 	var/datum/skill_holder/skills = user.ensure_skills()
 	var/list/user_skills = skills.known_skills.Copy()
-	projection.name = user.get_unmasked_name()
+	projection.name = user.name
 	projection.key = user.key
 	projection.original_body = user
 	var/datum/mind/undine_mind = projection.mind
