@@ -100,15 +100,6 @@
 			to_chat(user, span_warning("This one has pledged a vow to Necra. The sinews reject the false flesh. It requires their own flesh and blood."))
 			return FALSE
 
-	// Dullahan-specific refusal should only apply when attaching a head
-		if(isdullahan(target) && target_zone == BODY_ZONE_HEAD)
-			to_chat(user, span_warning("The body is refusing the head."))
-			return FALSE
-		if(istype(bodypart, /obj/item/bodypart/head/dullahan))
-			to_chat(user, span_warning("The head is refusing the body."))
-			return FALSE
-
-
 	display_results(user, target, span_notice("I begin to replace [target]'s [parse_zone(target_zone)] with [tool]..."),
 		span_notice("[user] begins to replace [target]'s [parse_zone(target_zone)] with [tool]."),
 		span_notice("[user] begins to replace [target]'s [parse_zone(target_zone)]."))

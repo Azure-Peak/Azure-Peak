@@ -40,11 +40,8 @@
 	default_body_build_m = BODY_BUILD_BULKY
 	default_body_build_f = BODY_BUILD_SLIM
 	enflamed_icon = "widefire"
-	bodypart_overrides = list(
-		BODY_ZONE_HEAD = /obj/item/bodypart/head/dullahan,
-	)
 	organs = list(
-		ORGAN_SLOT_BRAIN = /obj/item/organ/brain/dullahan,
+		ORGAN_SLOT_BRAIN = /obj/item/organ/brain,
 		ORGAN_SLOT_HEART = /obj/item/organ/heart,
 		ORGAN_SLOT_LUNGS = /obj/item/organ/lungs,
 		ORGAN_SLOT_EYES = /obj/item/organ/eyes,
@@ -54,9 +51,6 @@
 		ORGAN_SLOT_STOMACH = /obj/item/organ/stomach,
 		ORGAN_SLOT_APPENDIX = /obj/item/organ/appendix,
 		ORGAN_SLOT_GUTS = /obj/item/organ/guts,
-		// Customizable eyes means overriden eyes get thrown out.
-		// HUD organ deals with less parenting problems as well.
-		ORGAN_SLOT_HUD = /obj/item/organ/dullahan_vision,
 		)
 	bodypart_features = list(
 		/datum/bodypart_feature/hair/head,
@@ -75,7 +69,6 @@
 		/datum/customizer/organ/horns/demihuman,
 		/datum/customizer/organ/wings/anthro,
 		/datum/customizer/organ/horns/tusks,
-		/datum/customizer/organ/soul/fire,
 		/datum/customizer/organ/tail/dullahan,
 		/datum/customizer/organ/ears/dullahan,
 		/datum/customizer/organ/testicles/anthro,
@@ -140,10 +133,6 @@
 
 	stress_examine = TRUE
 	stress_desc = span_red("Accursed. I should keep my distance...")
-	// Faster to check the head directly than looping through with get_bodypart.
-	var/headless = FALSE
-	var/obj/item/bodypart/head/dullahan/my_head
-	var/obj/effect/dummy/lighting_obj/moblight/mob_light_obj
 
 /datum/species/dullahan/check_roundstart_eligible()
 	return TRUE
@@ -238,116 +227,3 @@
 		"red - blood" = "822b2b"
 	))
 
-/obj/item/organ/brain/dullahan
-	organ_flags = ORGAN_ORGANIC
-	decoy_override = TRUE
-
-// May bug out if you lose or gain species while in-game.
-// I don't know if that is possible, may have some cases relating to eye signals.
-/datum/species/dullahan/on_species_gain(mob/living/carbon/user, datum/species/old_species)
-	..()
-	RegisterSignal(user, COMSIG_MOB_SAY_POSTPROCESS, PROC_REF(on_say_postprocess))
-	// TODO SEXCON2: Re-enable Dullahan detached head ERP support
-	RegisterSignal(user, COMSIG_ERP_LOCATION_ACCESSIBLE, PROC_REF(on_erp_location_accessible))
-	RegisterSignal(user, COMSIG_LIVING_REVIVE, PROC_REF(on_aheal))
-	my_head = user.get_bodypart(BODY_ZONE_HEAD)
-	RegisterSignal(my_head, COMSIG_QDELETING, PROC_REF(on_head_destroyed))
-
-/datum/species/dullahan/on_species_loss(mob/living/carbon/user)
-	. = ..()
-
-	UnregisterSignal(user, COMSIG_MOB_SAY)
-	UnregisterSignal(user, COMSIG_MOB_SAY_POSTPROCESS)
-	UnregisterSignal(user, COMSIG_ERP_LOCATION_ACCESSIBLE)
-	if(my_head && my_head.owner ~= user)
-		// Give their head back instead?
-		// In TG Dullahan heads are always off, thus they give back heads.
-		// Warn that they're going to die?
-		if(!(user.status_flags & GODMODE))
-			user.death()
-
-	if(my_head)
-		UnregisterSignal(my_head, COMSIG_QDELETING)
-	my_head = null
-	soul_light_off()
-	mob_light_obj = null
-
-/datum/species/dullahan/proc/on_aheal(datum/source, full_heal, admin_revive)
-	if(!admin_revive)
-		return
-	var/mob/living/carbon/user = my_head.original_owner
-	if(!headless)
-		return
-
-	my_head.attach_limb(user)
-	headless = FALSE
-
-	var/obj/item/organ/dullahan_vision/vision = user.getorganslot(ORGAN_SLOT_HUD)
-	vision.viewing_head = FALSE
-	user.reset_perspective()
-
-// Butchering a head permas their user as the organs don't drop, that is bad.
-// I'll not fix that as it may be on purpose in some codebases.
-/datum/species/dullahan/proc/on_head_destroyed()
-	var/mob/living/carbon/user = my_head.original_owner
-	if(!(user.status_flags & GODMODE))
-		user.death()
-
-	UnregisterSignal(my_head, COMSIG_QDELETING)
-	my_head = null
-
-/datum/species/dullahan/proc/soul_light_on(mob/living/carbon/human/user)
-	var/obj/item/organ/soul/soul_accessory = user.getorganslot(ORGAN_SLOT_SOUL)
-	if(soul_accessory && user.stat != DEAD)
-		QDEL_NULL(mob_light_obj)
-		mob_light_obj = user.mob_light(soul_accessory.accessory_colors, 2, 2)
-
-/datum/species/dullahan/proc/soul_light_off()
-	QDEL_NULL(mob_light_obj)
-
-/datum/species/dullahan/proc/on_say_postprocess(datum/source, list/speech_args)
-	var/mob/living/carbon/human/human = my_head.original_owner
-
-	if(!headless)
-		return
-
-	var/message_mode = speech_args[SPEECH_MODE]
-	var/fullcrit = human.InFullCritical()
-	var/message_range = 7
-	if((human.InCritical() && !fullcrit) || message_mode == MODE_WHISPER)
-		message_range = 1
-
-	var/radio_return = human.radio(speech_args[SPEECH_MESSAGE], message_mode, speech_args[SPEECH_SPANS], speech_args[SPEECH_LANGUAGE])
-	if(radio_return & REDUCE_RANGE)
-		message_range = 1
-
-	my_head.say(speech_args[SPEECH_MESSAGE], spans = speech_args[SPEECH_SPANS], sanitize = FALSE, message_range = message_range, message_mode = speech_args[SPEECH_MODE])
-	speech_args[SPEECH_MESSAGE] = ""
-
-/datum/species/dullahan/proc/on_erp_location_accessible(datum/unused, datum/sex_action/source, mob/living/carbon/human/user, mob/living/carbon/human/target, location = BODY_ZONE_CHEST, grabs = FALSE, skipundies = TRUE)
-	var/restrict_parts = FALSE // we're the user. we can access any zone of theirs with our head, as long as it's nearby. probably.
-	if(target.dna?.species == src) // we're the target, i.e. we're checking if OUR OWN parts are accessible. only affect head zones
-		restrict_parts = TRUE
-	if(!headless || !my_head)
-		return FALSE // don't do anything special if their head is attached
-	var/static/list/head_zones = list(BODY_ZONE_HEAD, BODY_ZONE_PRECISE_EARS, BODY_ZONE_PRECISE_L_EYE, BODY_ZONE_PRECISE_R_EYE, BODY_ZONE_PRECISE_MOUTH, BODY_ZONE_PRECISE_SKULL)
-	if(restrict_parts)
-		var/found_zone = FALSE
-		for(var/zone in head_zones)
-			if(findtext(zone, location))
-				found_zone = TRUE
-				break
-		if(!found_zone)
-			return FALSE // we only want to actually affect head zones
-	if(source.require_grab && !(user == target) && !user.is_holding(my_head)) // we count "holding the head" as a grab
-		return FALSE
-	if(source.check_same_tile && !target.is_holding(my_head) && !(get_turf(target) == get_turf(my_head)) && !user.is_holding(my_head) && !(get_turf(user) == get_turf(my_head)))
-		return FALSE
-	return TRUE // we don't do a clothing check because the clothing on rev heads isn't interactable
-
-/datum/species/dullahan/can_equip(obj/item/item, slot, disable_warning, mob/living/carbon/human/user, bypass_equip_delay_self = FALSE)
-	if(slot == SLOT_MOUTH && istype(item, /obj/item/grabbing/bite/))
-		if(user.mouth)
-			return FALSE
-		return equip_delay_self_check(item, user, bypass_equip_delay_self)
-	return ..()

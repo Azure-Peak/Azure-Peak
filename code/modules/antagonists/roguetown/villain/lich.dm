@@ -107,24 +107,9 @@
 	L.update_body()
 	L.update_hair()
 	L.update_body_parts(redraw = TRUE)
-	// Revenant's on_species_loss and on_head_destroyed both call death() — and the
-	// dullahan head's drop_limb assumes the owner is still dullahan, so it runtimes
-	// after a species swap. Replace the head with a vanilla one first under GODMODE,
-	// then swap species.
-
 	// Why do we do this? Lich isn't meant to accidentally be a construct/reverant.
 	// Ironman traits break us completely. As for Reverant we're unkillable b/c decapitation immunity + spellcast check bugs + only die to blessed silver + we're immune to decapitation kills.
-	var/had_godmode = (L.status_flags & GODMODE)
-	L.status_flags |= GODMODE
-	if(isdullahan(L))
-		var/obj/item/bodypart/head/old_head = L.get_bodypart(BODY_ZONE_HEAD)
-		if(old_head)
-			var/obj/item/bodypart/head/new_head = new /obj/item/bodypart/head()
-			new_head.replace_limb(L, TRUE)
-			qdel(old_head)
 	L.set_species(/datum/species/human/northern)
-	if(!had_godmode)
-		L.status_flags &= ~GODMODE
 
 /datum/antagonist/lich/proc/equip_lich()
 	owner.unknow_all_people()

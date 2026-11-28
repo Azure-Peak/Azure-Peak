@@ -237,11 +237,6 @@ GLOBAL_LIST_INIT(department_radio_keys, list(
 		return 1
 
 	var/datum/language/D = GLOB.language_datum_instances[language]
-	var/postsigreturn = SEND_SIGNAL(src, COMSIG_MOB_SAY_POSTPROCESS, args)
-	if(postsigreturn & COMPONENT_UPPERCASE_SPEECH)
-		message = uppertext(message)
-	if(!message)
-		return
 
 	if(D.flags & SIGNLANG)
 		send_speech_sign(message, message_range, src, bubble_type, spans, language, message_mode, original_message)

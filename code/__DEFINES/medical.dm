@@ -83,7 +83,6 @@
 #define ORGAN_SLOT_HORNS "horns"
 #define ORGAN_SLOT_ANTENNAS "antennas"
 #define ORGAN_SLOT_NECK_FEATURE "neck_feature"
-#define ORGAN_SLOT_SOUL "soul"
 #define ORGAN_SLOT_HEAD_FEATURE "head_feature"
 #define ORGAN_SLOT_BACK_FEATURE "back_feature"
 #define ORGAN_SLOT_TAIL_FEATURE "tail_feature"
