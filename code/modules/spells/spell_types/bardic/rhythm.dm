@@ -110,10 +110,19 @@
 
 	// Register for the next melee hit (pre-defense, rhythm always lands)
 	RegisterSignal(H, COMSIG_MOB_ITEM_ATTACK_POST_SWINGDELAY, PROC_REF(on_melee_hit))
+	RegisterSignal(H, COMSIG_HUMAN_MELEE_UNARMED_ATTACK, PROC_REF(on_unarmed_hit))
 
 	// Start the window timer
 	prime_timer_id = addtimer(CALLBACK(src, PROC_REF(rhythm_fizzle)), RHYTHM_WINDOW, TIMER_STOPPABLE)
 	return TRUE
+
+/datum/action/cooldown/spell/rhythm/proc/on_unarmed_hit(mob/living/source, atom/target, proximity)
+	SIGNAL_HANDLER
+	if(!proximity)
+		return
+	if(!istype(owner.used_intent, INTENT_HARM))
+		return
+	on_melee_hit(owner, target, owner, null)
 
 /// Melee hit while primed - fire the rhythm effect
 /datum/action/cooldown/spell/rhythm/proc/on_melee_hit(mob/living/source, mob/living/target, mob/living/user, obj/item/weapon)
@@ -124,7 +133,7 @@
 		return
 
 	primed = FALSE
-	UnregisterSignal(owner, COMSIG_MOB_ITEM_ATTACK_POST_SWINGDELAY)
+	UnregisterSignal(owner, list(COMSIG_MOB_ITEM_ATTACK_POST_SWINGDELAY, COMSIG_HUMAN_MELEE_UNARMED_ATTACK))
 	if(prime_timer_id)
 		deltimer(prime_timer_id)
 		prime_timer_id = null
@@ -154,7 +163,7 @@
 		return
 	primed = FALSE
 	prime_timer_id = null
-	UnregisterSignal(owner, COMSIG_MOB_ITEM_ATTACK_POST_SWINGDELAY)
+	UnregisterSignal(owner, list(COMSIG_MOB_ITEM_ATTACK_POST_SWINGDELAY, COMSIG_HUMAN_MELEE_UNARMED_ATTACK))
 	owner.remove_filter(RHYTHM_FILTER)
 	to_chat(owner, span_warning("I failed to strike in time. My song goes unheard."))
 
@@ -177,7 +186,7 @@
 /datum/action/cooldown/spell/rhythm/Remove(mob/remove_from)
 	if(primed)
 		primed = FALSE
-		UnregisterSignal(remove_from, COMSIG_MOB_ITEM_ATTACK_POST_SWINGDELAY)
+		UnregisterSignal(remove_from, list(COMSIG_MOB_ITEM_ATTACK_POST_SWINGDELAY, COMSIG_HUMAN_MELEE_UNARMED_ATTACK))
 		if(prime_timer_id)
 			deltimer(prime_timer_id)
 			prime_timer_id = null
