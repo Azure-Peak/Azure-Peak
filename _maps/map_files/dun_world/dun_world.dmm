@@ -20282,6 +20282,15 @@
 /mob/living/carbon/human/species/human/northern/bog_deserters/better_gear,
 /turf/open/floor/rogue/churchrough,
 /area/rogue/under/cave/scarymaze)
+"dxx" = (
+/obj/structure/vine,
+/obj/structure/mineral_door/wood/donjon{
+	dir = 8;
+	locked = 1;
+	lockid = "inquisition"
+	},
+/turf/open/floor/rogue/naturalstone,
+/area/rogue/under/cave/his_vault)
 "dxA" = (
 /mob/living/simple_animal/hostile/retaliate/rogue/bigrat,
 /turf/open/floor/rogue/blocks/green,
@@ -49069,11 +49078,7 @@
 /turf/closed/wall/mineral/rogue/decowood,
 /area/rogue/indoors/town)
 "iph" = (
-/obj/structure/bars{
-	color = "#755f48";
-	name = "rusted bars"
-	},
-/turf/open/floor/rogue/cobble/mossy,
+/turf/closed/wall/mineral/rogue/stone/window/unbreakable,
 /area/rogue/under/cave/his_vault)
 "ipk" = (
 /obj/structure/flora/roguegrass/bush,
@@ -269584,8 +269589,8 @@ vmN
 hRp
 svB
 hMG
-ujm
-ujm
+hRp
+kFW
 ujm
 ujm
 ujm
@@ -270035,9 +270040,9 @@ ujm
 kFW
 cDh
 kFW
-ujm
-ujm
-ujm
+kFW
+hRp
+kFW
 ujm
 ujm
 ujm
@@ -270488,8 +270493,8 @@ kFW
 lYJ
 kFW
 kFW
-ujm
-ujm
+hRp
+kFW
 ujm
 ujm
 ujm
@@ -270940,8 +270945,8 @@ kFW
 iph
 kFW
 vwN
-vwN
-ujm
+dxx
+kFW
 ujm
 kFW
 kFW
