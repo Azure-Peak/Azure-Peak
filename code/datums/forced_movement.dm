@@ -38,17 +38,17 @@
 	if(QDELETED(victim) || !victim.loc || QDELETED(target) || !target.loc)
 		qdel(src)
 		return
-	var/steps_to_take = round(steps_per_tick * (world.time - last_processed))
-	if(steps_to_take)
-		for(var/i in 1 to steps_to_take)
-			if(TryMove())
-				moved_at_all = TRUE
-				if(on_step)
-					on_step.InvokeAsync()
-			else
-				qdel(src)
-				return
-		last_processed = world.time
+	if(steps_per_tick * (world.time - last_processed) < 1)
+		return
+	var/slide_glide = DELAY_TO_GLIDE_SIZE(SSfastprocess.wait)
+	victim.set_glide_size(slide_glide)
+	if(!TryMove())
+		qdel(src)
+		return
+	victim.set_glide_size(slide_glide)
+	moved_at_all = TRUE
+	on_step?.InvokeAsync()
+	last_processed = world.time
 
 /datum/forced_movement/proc/TryMove(recursive = FALSE)
 	if(QDELETED(src)) //Our previous step caused deletion of this datum
