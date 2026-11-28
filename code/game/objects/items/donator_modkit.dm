@@ -1800,3 +1800,15 @@
 		/obj/item/clothing/gloves/roguetown/knuckles							= /obj/item/clothing/gloves/roguetown/knuckles/dominion_cestus
 	)
 	result_item = null
+
+/obj/item/enchantingkit/bloakplate
+	name = "Woad Blessed Cuirass"
+	desc = "A small container of special morphing dust, perfect to make a specific item. It can be used to alter the appearance of a steel cuirass, fluted cuirass, scalemail armor and the elven plate."
+	target_items = list(/obj/item/clothing/suit/roguetown/armor/plate/cuirass,/obj/item/clothing/suit/roguetown/armor/plate/cuirass/fluted,/obj/item/clothing/suit/roguetown/armor/plate/scale, /obj/item/clothing/suit/roguetown/armor/plate/elven_plate)
+	result_item = /obj/item/clothing/suit/roguetown/armor/plate/cuirass/bloakplate
+
+/obj/item/enchantingkit/bloakbarbute
+	name = "Woad Blessed Barbute"
+	desc = "A small container of special morphing dust, perfect to make a specific item. It can be used to alter the appearance of a bascinet, crusader bucket helmet, great barbute and the elven helmet."
+	target_items = list(/obj/item/clothing/head/roguetown/helmet/bascinet,/obj/item/clothing/head/roguetown/helmet/heavy/bucket/crusader,/obj/item/clothing/head/roguetown/helmet/heavy/barbute/great, /obj/item/clothing/head/roguetown/helmet/heavy/elven_helm)
+	result_item = /obj/item/clothing/head/roguetown/helmet/sallet/warden/bloakbarbute

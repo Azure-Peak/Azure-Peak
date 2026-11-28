@@ -1216,3 +1216,11 @@
 	icon = 'icons/clothing/donor_clothes.dmi'
 	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
 	sleeved = 'icons/clothing/onmob/donor_sleeves_armor.dmi'
+
+/obj/item/clothing/suit/roguetown/armor/plate/cuirass/bloakplate
+	slot_flags = ITEM_SLOT_ARMOR
+	name = " woad blessed cuirass"
+	desc = "A blend of the old and new. Tradition and Innovation. Forgesteel, blessed with the creations of the Woad-Mother. Songs and Dance learned over centuries now regrow yonder the surface, reclaiming what was theirs once more."
+	body_parts_covered = COVERAGE_VEST
+	icon_state = "bloak_plate"
+	item_state = "bloak_plate"
