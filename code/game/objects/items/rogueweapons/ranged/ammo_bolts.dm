@@ -20,6 +20,7 @@
 	desc = "A lighter, far less sturdier bolt. Made for smaller crossbows."
 	icon_state = "light_bolt"
 	caliber = "lightbolt"
+	ammo_weight = 0.65
 	projectile_type = /obj/projectile/bullet/reusable/bolt/light
 
 /obj/item/ammo_casing/caseless/rogue/bolt/aalloy
@@ -68,6 +69,7 @@
 	possible_item_intents = list(/datum/intent/dagger/cut, /datum/intent/dagger/thrust)
 	caliber = "lightbolt"
 	icon_state = "light_bolt_holywater"
+	ammo_weight = 0.65
 
 /obj/projectile/bullet/reusable/bolt/light/holy
 	name = "light sunderbolt"

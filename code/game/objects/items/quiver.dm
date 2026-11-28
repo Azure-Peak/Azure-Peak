@@ -5,9 +5,7 @@
 	item_state = "quiver"
 	flags_ai_inventory = AI_ITEM_QUIVER
 	icon = 'icons/roguetown/weapons/ammo.dmi'
-	//lefthand_file = 'icons/mob/inhands/equipment/backpack_lefthand.dmi'
-	//righthand_file = 'icons/mob/inhands/equipment/backpack_righthand.dmi'
-	w_class = WEIGHT_CLASS_BULKY
+	w_class = WEIGHT_CLASS_NORMAL
 	slot_flags = ITEM_SLOT_HIP|ITEM_SLOT_BACK
 	resistance_flags = FIRE_PROOF
 	max_integrity = 0
@@ -23,6 +21,10 @@
 	experimental_inhand = TRUE
 	experimental_onhip = TRUE
 	experimental_onback = TRUE
+	/// Used for initialization of quivers, leave it empty so they fill to max capacity.
+	var/fill_amount
+	/// used for initialization of quivers, is the ammo they start with, leave empty for no ammo start.
+	var/starting_ammo
 
 /obj/item/quiver/getonmobprop(tag)
 	..()
@@ -287,99 +289,61 @@
 	else
 		icon_state = "quiver0"
 
-/obj/item/quiver/arrows
-	var/fill_amount
-
-/obj/item/quiver/arrows/Initialize(mapload)
-	..()
-	for(var/i in 1 to (fill_amount || max_storage))
-		var/obj/item/ammo_casing/caseless/rogue/arrow/iron/A = new()
+/// Fills the quiver with ammo_path. Stops at max_count if given, or when the weight budget is used up.
+/obj/item/quiver/proc/fill_with(ammo_path, max_count)
+	var/count = 0
+	while(!max_count || count < max_count)
+		var/obj/item/ammo_casing/caseless/rogue/A = new ammo_path()
+		if(A.ammo_weight <= 0 || get_current_weight() + A.ammo_weight > max_storage)
+			qdel(A)
+			break
 		arrows += A
+		count++
 	update_icon()
+
+/obj/item/quiver/Initialize(mapload)
+	. = ..()
+	if (starting_ammo)
+		fill_with(starting_ammo, fill_amount)
+
+/obj/item/quiver/arrows/
+	starting_ammo = /obj/item/ammo_casing/caseless/rogue/arrow/iron
 
 /obj/item/quiver/arrows/scarce
 	fill_amount = 2
 
-/obj/item/quiver/stonearrows/Initialize(mapload)
-	..()
-	for(var/i in 1 to max_storage)
-		var/obj/item/ammo_casing/caseless/rogue/arrow/stone/A = new()
-		arrows += A
-	update_icon()
+/obj/item/quiver/stonearrows/
+	starting_ammo = /obj/item/ammo_casing/caseless/rogue/arrow/stone
 
-/obj/item/quiver/bluntarrows/Initialize(mapload)
-	..()
-	for(var/i in 1 to max_storage)
-		var/obj/item/ammo_casing/caseless/rogue/arrow/blunt/A = new()
-		arrows += A
-	update_icon()
+/obj/item/quiver/bluntarrows/
+	starting_ammo = /obj/item/ammo_casing/caseless/rogue/arrow/blunt
 
-/obj/item/quiver/poisonarrows/Initialize(mapload)
-	. = ..()
-	for(var/i in 1 to max_storage)
-		var/obj/item/ammo_casing/caseless/rogue/arrow/poison/A = new()
-		arrows += A
-	update_icon()
+/obj/item/quiver/poisonarrows/
+	starting_ammo = /obj/item/ammo_casing/caseless/rogue/arrow/poison
 
-/obj/item/quiver/pyroarrows/Initialize(mapload)
-	. = ..()
-	for(var/i in 1 to max_storage)
-		var/obj/item/ammo_casing/caseless/rogue/arrow/elemental/fire/A = new()
-		arrows += A
-	update_icon()
+/obj/item/quiver/pyroarrows/
+	starting_ammo = /obj/item/ammo_casing/caseless/rogue/arrow/elemental/fire
 
-/obj/item/quiver/Parrows/Initialize(mapload)
-	. = ..()
+/obj/item/quiver/Warrows/
+	starting_ammo = /obj/item/ammo_casing/caseless/rogue/arrow/water
 
-/obj/item/quiver/Warrows/Initialize(mapload)
-	..()
-	for(var/i in 1 to max_storage)
-		var/obj/item/ammo_casing/caseless/rogue/arrow/water/A = new()
-		arrows += A
-	update_icon()
+/obj/item/quiver/bodkin/
+	starting_ammo = /obj/item/ammo_casing/caseless/rogue/arrow/steel
 
-/obj/item/quiver/bodkin/Initialize(mapload)
-	..()
-	for(var/i in 1 to max_storage)
-		var/obj/item/ammo_casing/caseless/rogue/arrow/steel/A = new()
-		arrows += A
-	update_icon()
+/obj/item/quiver/paalloy/
+	starting_ammo = /obj/item/ammo_casing/caseless/rogue/arrow/steel/paalloy
 
-/obj/item/quiver/paalloy/Initialize(mapload)
-	..()
-	for(var/i in 1 to max_storage)
-		var/obj/item/ammo_casing/caseless/rogue/arrow/steel/paalloy/A = new()
-		arrows += A
-	update_icon()
+/obj/item/quiver/broadhead_aalloy/
+	starting_ammo = /obj/item/ammo_casing/caseless/rogue/arrow/iron/aalloy
 
-/obj/item/quiver/broadhead_aalloy/Initialize(mapload)
-	..()
-	for(var/i in 1 to max_storage)
-		var/obj/item/ammo_casing/caseless/rogue/arrow/iron/aalloy/A = new()
-		arrows += A
-	update_icon()
+/obj/item/quiver/silver/
+	starting_ammo = /obj/item/ammo_casing/caseless/rogue/arrow/silver
 
-/obj/item/quiver/silver/Initialize(mapload)
-	..()
-	for(var/i in 1 to max_storage)
-		var/obj/item/ammo_casing/caseless/rogue/arrow/silver/A = new()
-		arrows += A
-	update_icon()
+/obj/item/quiver/bronzearrows/
+	starting_ammo = /obj/item/ammo_casing/caseless/rogue/arrow/bronze
 
-/obj/item/quiver/bronzearrows/Initialize(mapload)
-	..()
-	for(var/i in 1 to max_storage)
-		var/obj/item/ammo_casing/caseless/rogue/arrow/bronze/A = new()
-		arrows += A
-	update_icon()
-
-/obj/item/quiver/blacksteelarrows/Initialize(mapload)
-	..()
-	for(var/i in 1 to max_storage)
-		var/obj/item/ammo_casing/caseless/rogue/arrow/blacksteel/A = new()
-		arrows += A
-	update_icon()
-
+/obj/item/quiver/blacksteelarrows/
+	starting_ammo = /obj/item/ammo_casing/caseless/rogue/arrow/blacksteel
 
 //////////// AI ARCHER QUIVERS ////////////
 /obj/item/quiver/randomfill
@@ -508,99 +472,47 @@
 	else
 		icon_state = "boltpouch0"
 
-/obj/item/quiver/bolt/standard/Initialize(mapload)
-	..()
-	for(var/i in 1 to max_storage)
-		var/obj/item/ammo_casing/caseless/rogue/bolt/A = new()
-		arrows += A
-	update_icon()
+/obj/item/quiver/bolt/standard/
+	starting_ammo = /obj/item/ammo_casing/caseless/rogue/bolt
 
 /obj/item/quiver/bolt/npc
-	max_storage = 8
+	fill_amount = 8
 
-/obj/item/quiver/bolt/npc/Initialize(mapload)
-	..()
-	for(var/i in 1 to max_storage)
-		var/obj/item/ammo_casing/caseless/rogue/bolt/A = new()
-		arrows += A
-	update_icon()
+/obj/item/quiver/bolt/npc/
+	starting_ammo = /obj/item/ammo_casing/caseless/rogue/bolt
 
-/obj/item/quiver/bolt/aalloy/Initialize(mapload)
-	..()
-	for(var/i in 1 to max_storage)
-		var/obj/item/ammo_casing/caseless/rogue/bolt/aalloy/A = new()
-		arrows += A
-	update_icon()
+/obj/item/quiver/bolt/aalloy/
+	starting_ammo = /obj/item/ammo_casing/caseless/rogue/bolt/aalloy
 
-/obj/item/quiver/bolt/bronze/Initialize(mapload)
-	..()
-	for(var/i in 1 to max_storage)
-		var/obj/item/ammo_casing/caseless/rogue/bolt/bronze/A = new()
-		arrows += A
-	update_icon()
+/obj/item/quiver/bolt/bronze/
+	starting_ammo = /obj/item/ammo_casing/caseless/rogue/bolt/bronze
 
-/obj/item/quiver/bolt/paalloy/Initialize(mapload)
-	..()
-	for(var/i in 1 to max_storage)
-		var/obj/item/ammo_casing/caseless/rogue/bolt/paalloy/A = new()
-		arrows += A
-	update_icon()
+/obj/item/quiver/bolt/paalloy/
+	starting_ammo = /obj/item/ammo_casing/caseless/rogue/bolt/paalloy
 
-/obj/item/quiver/bolt/blunt/Initialize(mapload)
-	..()
-	for(var/i in 1 to max_storage)
-		var/obj/item/ammo_casing/caseless/rogue/bolt/blunt/A = new()
-		arrows += A
-	update_icon()
+/obj/item/quiver/bolt/blunt/
+	starting_ammo = /obj/item/ammo_casing/caseless/rogue/bolt/blunt
 
-/obj/item/quiver/bolt/holy/Initialize(mapload)
-	..()
-	for(var/i in 1 to max_storage)
-		var/obj/item/ammo_casing/caseless/rogue/bolt/holy/A = new()
-		arrows += A
-	update_icon()
+/obj/item/quiver/bolt/holy/
+	starting_ammo = /obj/item/ammo_casing/caseless/rogue/bolt/holy
 
-/obj/item/quiver/bolt/lightholy/Initialize(mapload)
-	..()
-	for(var/i in 1 to max_storage)
-		var/obj/item/ammo_casing/caseless/rogue/bolt/lightholy/A = new()
-		arrows += A
-	update_icon()
+/obj/item/quiver/bolt/lightholy/
+	starting_ammo = /obj/item/ammo_casing/caseless/rogue/bolt/lightholy
 
-/obj/item/quiver/bolt/pyro/Initialize(mapload)
-	..()
-	for(var/i in 1 to max_storage)
-		var/obj/item/ammo_casing/caseless/rogue/bolt/pyro/A = new()
-		arrows += A
-	update_icon()
+/obj/item/quiver/bolt/pyro/
+	starting_ammo = /obj/item/ammo_casing/caseless/rogue/bolt/pyro
 
-/obj/item/quiver/bolt/water/Initialize(mapload)
-	..()
-	for(var/i in 1 to max_storage)
-		var/obj/item/ammo_casing/caseless/rogue/bolt/water/A = new()
-		arrows += A
-	update_icon()
+/obj/item/quiver/bolt/water/
+	starting_ammo = /obj/item/ammo_casing/caseless/rogue/bolt/water
 
-/obj/item/quiver/bolt/silver/Initialize(mapload)
-	..()
-	for(var/i in 1 to max_storage)
-		var/obj/item/ammo_casing/caseless/rogue/bolt/silver/A = new()
-		arrows += A
-	update_icon()
+/obj/item/quiver/bolt/silver/
+	starting_ammo = /obj/item/ammo_casing/caseless/rogue/bolt/silver
 
-/obj/item/quiver/bolt/light/Initialize(mapload)
-	..()
-	for(var/i in 1 to max_storage)
-		var/obj/item/ammo_casing/caseless/rogue/bolt/light/A = new()
-		arrows += A
-	update_icon()
+/obj/item/quiver/bolt/light/
+	starting_ammo = /obj/item/ammo_casing/caseless/rogue/bolt/light
 
-/obj/item/quiver/bolt/blacksteel/Initialize(mapload)
-	..()
-	for(var/i in 1 to max_storage)
-		var/obj/item/ammo_casing/caseless/rogue/bolt/blacksteel/A = new()
-		arrows += A
-	update_icon()
+/obj/item/quiver/bolt/blacksteel/
+	starting_ammo = /obj/item/ammo_casing/caseless/rogue/bolt/blacksteel
 
 /////////////
 // BOLT, H.//
@@ -630,61 +542,29 @@
 	else
 		icon_state = "boltpouch0"
 
-/obj/item/quiver/bolt/heavy/standard/Initialize(mapload)
-	..()
-	for(var/i in 1 to max_storage)
-		var/obj/item/ammo_casing/caseless/rogue/heavy_bolt/A = new()
-		arrows += A
-	update_icon()
+/obj/item/quiver/bolt/heavy/standard/
+	starting_ammo = /obj/item/ammo_casing/caseless/rogue/heavy_bolt
 
-/obj/item/quiver/bolt/heavy/bronze/Initialize(mapload)
-	..()
-	for(var/i in 1 to max_storage)
-		var/obj/item/ammo_casing/caseless/rogue/heavy_bolt/bronze/A = new()
-		arrows += A
-	update_icon()
+/obj/item/quiver/bolt/heavy/bronze/
+	starting_ammo = /obj/item/ammo_casing/caseless/rogue/heavy_bolt/bronze
 
-/obj/item/quiver/bolt/heavy/aalloy/Initialize(mapload)
-	..()
-	for(var/i in 1 to max_storage)
-		var/obj/item/ammo_casing/caseless/rogue/heavy_bolt/aalloy/A = new()
-		arrows += A
-	update_icon()
+/obj/item/quiver/bolt/heavy/aalloy/
+	starting_ammo = /obj/item/ammo_casing/caseless/rogue/heavy_bolt/aalloy
 
-/obj/item/quiver/bolt/heavy/paalloy/Initialize(mapload)
-	..()
-	for(var/i in 1 to max_storage)
-		var/obj/item/ammo_casing/caseless/rogue/heavy_bolt/paalloy/A = new()
-		arrows += A
-	update_icon()
+/obj/item/quiver/bolt/heavy/paalloy/
+	starting_ammo = /obj/item/ammo_casing/caseless/rogue/heavy_bolt/paalloy
 
-/obj/item/quiver/bolt/heavy/blunt/Initialize(mapload)
-	..()
-	for(var/i in 1 to max_storage)
-		var/obj/item/ammo_casing/caseless/rogue/heavy_bolt/blunt/A = new()
-		arrows += A
-	update_icon()
+/obj/item/quiver/bolt/heavy/blunt/
+	starting_ammo = /obj/item/ammo_casing/caseless/rogue/heavy_bolt/blunt
 
-/obj/item/quiver/bolt/heavy/silver/Initialize(mapload)
-	..()
-	for(var/i in 1 to max_storage)
-		var/obj/item/ammo_casing/caseless/rogue/heavy_bolt/silver/A = new()
-		arrows += A
-	update_icon()
+/obj/item/quiver/bolt/heavy/silver/
+	starting_ammo = /obj/item/ammo_casing/caseless/rogue/heavy_bolt/silver
 
-/obj/item/quiver/bolt/heavy/stake/Initialize(mapload)
-	..()
-	for(var/i in 1 to max_storage)
-		var/obj/item/ammo_casing/caseless/rogue/heavy_bolt/stake/A = new()
-		arrows += A
-	update_icon()
+/obj/item/quiver/bolt/heavy/stake/
+	starting_ammo = /obj/item/ammo_casing/caseless/rogue/heavy_bolt/stake
 
-/obj/item/quiver/bolt/heavy/stake_silver/Initialize(mapload)
-	..()
-	for(var/i in 1 to max_storage)
-		var/obj/item/ammo_casing/caseless/rogue/heavy_bolt/stake_silver/A = new()
-		arrows += A
-	update_icon()
+/obj/item/quiver/bolt/heavy/stake_silver/
+	starting_ammo = /obj/item/ammo_casing/caseless/rogue/heavy_bolt/stake_silver
 
 /////////////
 // STAKES	//
@@ -714,19 +594,11 @@
 	else
 		icon_state = "stakepouch0"
 
-/obj/item/quiver/bolt/stake/standard/Initialize(mapload)
-	..()
-	for(var/i in 1 to max_storage)
-		var/obj/item/ammo_casing/caseless/rogue/stake/A = new()
-		arrows += A
-	update_icon()
+/obj/item/quiver/bolt/stake/standard/
+	starting_ammo = /obj/item/ammo_casing/caseless/rogue/stake
 
-/obj/item/quiver/bolt/stake/silver/Initialize(mapload)
-	..()
-	for(var/i in 1 to max_storage)
-		var/obj/item/ammo_casing/caseless/rogue/stake/silver/A = new()
-		arrows += A
-	update_icon()
+/obj/item/quiver/bolt/stake/silver/
+	starting_ammo = /obj/item/ammo_casing/caseless/rogue/stake/silver
 
 //////////////
 // JAVELINS //
@@ -756,40 +628,20 @@
 	else
 		icon_state = "javelinbag0"
 
-/obj/item/quiver/javelin/iron/Initialize(mapload)
-	..()
-	for(var/i in 1 to 4)
-		var/obj/item/ammo_casing/caseless/rogue/javelin/A = new()
-		arrows += A
-	update_icon()
+/obj/item/quiver/javelin/iron/
+	starting_ammo = /obj/item/ammo_casing/caseless/rogue/javelin
 
-/obj/item/quiver/javelin/steel/Initialize(mapload)
-	..()
-	for(var/i in 1 to 4)
-		var/obj/item/ammo_casing/caseless/rogue/javelin/steel/A = new()
-		arrows += A
-	update_icon()
+/obj/item/quiver/javelin/steel/
+	starting_ammo = /obj/item/ammo_casing/caseless/rogue/javelin/steel
 
-/obj/item/quiver/javelin/paalloy/Initialize(mapload)
-	..()
-	for(var/i in 1 to 4)
-		var/obj/item/ammo_casing/caseless/rogue/javelin/steel/paalloy/A = new()
-		arrows += A
-	update_icon()
+/obj/item/quiver/javelin/paalloy/
+	starting_ammo = /obj/item/ammo_casing/caseless/rogue/javelin/steel/paalloy
 
-/obj/item/quiver/javelin/bronze/Initialize(mapload)
-	..()
-	for(var/i in 1 to 4)
-		var/obj/item/ammo_casing/caseless/rogue/javelin/bronze/A = new()
-		arrows += A
-	update_icon()
+/obj/item/quiver/javelin/bronze/
+	starting_ammo = /obj/item/ammo_casing/caseless/rogue/javelin/bronze
 
-/obj/item/quiver/javelin/blacksteel/Initialize(mapload)
-	..()
-	for(var/i in 1 to 4)
-		var/obj/item/ammo_casing/caseless/rogue/javelin/blacksteel/A = new()
-		arrows += A
-	update_icon()
+/obj/item/quiver/javelin/blacksteel/
+	starting_ammo = /obj/item/ammo_casing/caseless/rogue/javelin/blacksteel
 
 ////////////
 // SLINGS //
@@ -830,93 +682,35 @@
 /obj/item/quiver/sling/update_icon()
 	return
 
-/obj/item/quiver/sling/stone/Initialize(mapload)
-	. = ..()
-	for(var/i in 1 to max_storage)
-		var/obj/item/ammo_casing/caseless/rogue/sling_bullet/stone/A = new()
-		arrows += A
-	update_icon()
-
+/obj/item/quiver/sling/stone/
+	starting_ammo = /obj/item/ammo_casing/caseless/rogue/sling_bullet/stone
 /obj/item/quiver/sling/npc
 	max_storage = 20
 
-/obj/item/quiver/sling/npc/Initialize(mapload)
-	. = ..()
-	for(var/i in 1 to max_storage)
-		var/obj/item/ammo_casing/caseless/rogue/sling_bullet/stone/A = new()
-		arrows += A
-	update_icon()
-
-/obj/item/quiver/sling/iron/Initialize(mapload)
-	. = ..()
-	for(var/i in 1 to max_storage)
-		var/obj/item/ammo_casing/caseless/rogue/sling_bullet/iron/A = new()
-		arrows += A
-	update_icon()
-
-/obj/item/quiver/sling/steel/Initialize(mapload)
-	. = ..()
-	for(var/i in 1 to max_storage)
-		var/obj/item/ammo_casing/caseless/rogue/sling_bullet/scattershot/A = new()
-		arrows += A
-	update_icon()
-
-/obj/item/quiver/sling/aalloy/Initialize(mapload)
-	. = ..()
-	for(var/i in 1 to max_storage)
-		var/obj/item/ammo_casing/caseless/rogue/sling_bullet/aalloy/A = new()
-		arrows += A
-	update_icon()
-
-/obj/item/quiver/sling/paalloy/Initialize(mapload)
-	. = ..()
-	for(var/i in 1 to max_storage)
-		var/obj/item/ammo_casing/caseless/rogue/sling_bullet/paalloy/A = new()
-		arrows += A
-	update_icon()
-
-/obj/item/quiver/sling/bronze/Initialize(mapload)
-	. = ..()
-	for(var/i in 1 to max_storage)
-		var/obj/item/ammo_casing/caseless/rogue/sling_bullet/bronze/A = new()
-		arrows += A
-	update_icon()
-
-/obj/item/quiver/sling/scattershot/Initialize(mapload)
-	. = ..()
-	for(var/i in 1 to max_storage)
-		var/obj/item/ammo_casing/caseless/rogue/sling_bullet/scattershot/A = new()
-		arrows += A
-	update_icon()
-
-/obj/item/quiver/sling/heavy_sling_bullet/Initialize(mapload)
-	. = ..()
-	for(var/i in 1 to 13) // 3 weight each, 13 rocks = 39/40 capacity
-		var/obj/item/ammo_casing/caseless/rogue/sling_bullet/heavy_sling_bullet/A = new()
-		arrows += A
-	update_icon()
-
-/obj/item/quiver/sling/fire_pot/Initialize(mapload)
-	. = ..()
-	for(var/i in 1 to 13) // 3 weight each, 13 pots = 39/40 capacity
-		var/obj/item/ammo_casing/caseless/rogue/sling_bullet/fire_pot/A = new()
-		arrows += A
-	update_icon()
-
-/obj/item/quiver/sling/blacksteel/Initialize(mapload)
-	. = ..()
-	for(var/i in 1 to max_storage)
-		var/obj/item/ammo_casing/caseless/rogue/sling_bullet/blacksteel/A = new()
-		arrows += A
-	update_icon()
-
-/obj/item/quiver/sling/bs_scattershot/Initialize(mapload)
-	. = ..()
-	for(var/i in 1 to max_storage)
-		var/obj/item/ammo_casing/caseless/rogue/sling_bullet/bs_scattershot/A = new()
-		arrows += A
-	update_icon()
-
+/obj/item/quiver/sling/npc/
+	starting_ammo = /obj/item/ammo_casing/caseless/rogue/sling_bullet/stone
+/obj/item/quiver/sling/iron/
+	starting_ammo = /obj/item/ammo_casing/caseless/rogue/sling_bullet/iron
+/obj/item/quiver/sling/steel/
+	starting_ammo = /obj/item/ammo_casing/caseless/rogue/sling_bullet/scattershot
+/obj/item/quiver/sling/aalloy/
+	starting_ammo = /obj/item/ammo_casing/caseless/rogue/sling_bullet/aalloy
+/obj/item/quiver/sling/paalloy/
+	starting_ammo = /obj/item/ammo_casing/caseless/rogue/sling_bullet/paalloy
+/obj/item/quiver/sling/bronze/
+	starting_ammo = /obj/item/ammo_casing/caseless/rogue/sling_bullet/bronze
+/obj/item/quiver/sling/scattershot/
+	starting_ammo = /obj/item/ammo_casing/caseless/rogue/sling_bullet/scattershot
+/obj/item/quiver/sling/heavy_sling_bullet/
+	starting_ammo = /obj/item/ammo_casing/caseless/rogue/sling_bullet/heavy_sling_bullet
+	fill_amount = 13
+/obj/item/quiver/sling/fire_pot/
+	starting_ammo = /obj/item/ammo_casing/caseless/rogue/sling_bullet/fire_pot
+	fill_amount = 13
+/obj/item/quiver/sling/blacksteel/
+	starting_ammo = /obj/item/ammo_casing/caseless/rogue/sling_bullet/blacksteel
+/obj/item/quiver/sling/bs_scattershot/
+	starting_ammo = /obj/item/ammo_casing/caseless/rogue/sling_bullet/bs_scattershot
 // ============================================================
 // MECHANIZED QUIVERS
 // Three variants: bow, crossbow, siegebow
