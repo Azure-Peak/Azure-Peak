@@ -42,7 +42,7 @@
 #define LAMIA_HEALTH 200
 #define DRAGGER_HEALTH 215
 #define HEADLESS_HEALTH 350
-#define DRIDER_HEALTH 660
+#define DRIDER_HEALTH 400
 #define MIMIC_HEALTH 700
 
 // ─── Spiders
