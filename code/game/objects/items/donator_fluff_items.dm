@@ -1628,7 +1628,7 @@
 
 //
 
-/obj/item/rogueweapon/donator_imbuedlongsword
+/obj/item/rogueweapon/example/donator_imbuedlongsword
 	name = "imbued longsword"
 	desc = "A lethal and perfectly balanced weapon, imbued with decorative flair. The longsword is the protagonist of endless tales and myths \
 	all across Psydonia, seen in the hands of noblemen and an ever-decreasing quantity of master duelists. \
@@ -2297,7 +2297,7 @@
 	icon = 'icons/obj/items/donor_weapons.dmi'
 	sheathe_icon = "wazia_kukri_silver"
 
-/obj/item/rogueweapon/koruu/longsword
+/obj/item/rogueweapon/example/koruu_longsword
 	name = "Excaliber"
 	desc = "One day...I'll craft a legendary weapon, a truly legendary sword. One that shall be known. \
 As Excaliber."
@@ -2306,7 +2306,7 @@ As Excaliber."
 	sheathe_icon = "wazialong"
 	bigboy = TRUE
 
-/obj/item/rogueweapon/koruu/etrusca
+/obj/item/rogueweapon/example/koruu_etrusca
 	name = "Colada"
 	desc = "The wounds received in battle bestow honor, they do not take it away..."
 	icon_state = "waziaetrusc"
@@ -2314,7 +2314,7 @@ As Excaliber."
 	sheathe_icon = "waziaetrusc"
 	bigboy = TRUE
 
-/obj/item/rogueweapon/koruu/judgement
+/obj/item/rogueweapon/example/koruu_judgement
 	name = "A Durthurian Tale"
 	desc = "Strength Above All. To Protect What We Love."
 	icon_state = "waziajudgement"
