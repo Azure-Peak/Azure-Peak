@@ -16,6 +16,12 @@
 	var/ournum
 	var/mailtag
 	var/obfuscated = FALSE
+	var/receive_only = FALSE
+
+/obj/structure/roguemachine/mail/receiver
+	name = "HERMES receiver"
+	desc = "A hydropneumatic mail receiver. Letters addressed to its number are delivered beside it."
+	receive_only = TRUE
 
 /obj/structure/roguemachine/mail/Initialize(mapload)
 	. = ..()
@@ -62,6 +68,8 @@
 	return TRUE
 
 /obj/structure/roguemachine/mail/attack_hand(mob/user)
+	if(receive_only)
+		return
 	if(SSroguemachine.hermailermaster && ishuman(user))
 		var/obj/item/roguemachine/mastermail/M = SSroguemachine.hermailermaster
 		var/mob/living/carbon/human/H = user
@@ -130,6 +138,9 @@
 
 /obj/structure/roguemachine/mail/get_mechanics_examine(mob/user)
 	. = ..()
+	if(receive_only)
+		. += span_info("Receives letters addressed to its number. Pick them up beside the receiver.")
+		return
 	. += span_info("Right click to access the terminal for writing letters or purchasing supplies.")
 	. += span_info("Insert coins to purchase supplies or send letters.")
 	. += span_info("Left click with a paper or package to send a prewritten letter for free.")
@@ -140,6 +151,8 @@
 		. += span_info("Properly sign them. Include an INDEXER where needed. Stamp them for two additional Marques.")
 
 /obj/structure/roguemachine/mail/attack_right(mob/user)
+	if(receive_only)
+		return
 	. = ..()
 	if(.)
 		return
@@ -157,6 +170,8 @@
 	return GLOB.human_adjacent_state
 
 /obj/structure/roguemachine/mail/ui_interact(mob/user, datum/tgui/ui)
+	if(receive_only)
+		return
 	ui = SStgui.try_update_ui(user, src, ui)
 	if(!ui)
 		ui = new(user, src, "Hermes", "HERMES")
@@ -392,6 +407,8 @@
 		var/obj/structure/roguemachine/mail/box = find_mail_box(destination)
 		if(!box)
 			return FALSE
+		if(box.receive_only && !istype(I, /obj/item/paper))
+			return FALSE
 		stamp_mail(I, destination, sender)
 		I.forceMove(box.loc)
 		box.say("New mail!")
@@ -437,6 +454,8 @@
 	return P
 
 /obj/structure/roguemachine/mail/ui_act(action, list/params, datum/tgui/ui, datum/ui_state/state)
+	if(receive_only)
+		return TRUE
 	if(..())
 		return TRUE
 	var/mob/user = usr
@@ -511,6 +530,9 @@
 #define INDEXER_MISTAKE_MIN 20 // minimum false positive chance roll for heresy. a reduced value is used for the antag checks. used to be 1
 
 /obj/structure/roguemachine/mail/attackby(obj/item/P, mob/user, params)
+	if(receive_only)
+		to_chat(user, span_warning("This HERMES only receives letters."))
+		return
 	if(istype(P, /obj/item/parcel/towner_caravan))
 		var/obj/item/parcel/towner_caravan/box = P
 		box.post_to_owner(src, user)
@@ -844,6 +866,10 @@
 			if(!mail_exists(send2place))
 				to_chat(user, span_warning(mail_fail_msg(send2place)))
 				return
+			var/obj/structure/roguemachine/mail/box = find_mail_box(send2place)
+			if(box?.receive_only && !istype(P, /obj/item/paper))
+				to_chat(user, span_warning("That HERMES only receives letters."))
+				return
 			var/sentfrom = mail_signature_prompt(user)
 			if(!sentfrom)
 				return
@@ -903,6 +929,8 @@
 
 /obj/structure/roguemachine/mail/update_icon()
 	cut_overlays()
+	if(receive_only)
+		return
 	if(coin_loaded)
 		if(inqcoins > 0)
 			add_overlay(mutable_appearance(icon, "mail-i"))
@@ -1087,6 +1115,8 @@
 */
 
 /obj/structure/roguemachine/mail/proc/inqlock()
+	if(receive_only)
+		return
 	inqonly = !inqonly
 
 /obj/structure/roguemachine/mail/proc/display_marquette(mob/user)
@@ -1102,6 +1132,16 @@
 		return
 	if(href_list["directory"])
 		view_directory(usr)
+		return
+	if(receive_only)
+		return
+	if(href_list["eject"])
+		if(inqcoins <= 0)
+			return
+		coin_loaded = FALSE
+		update_icon()
+		budget2change(inqcoins, usr, "MARQUE")
+		inqcoins = 0
 
 /// The MARQUETTE gets its own tgui datum since the HERMES itself already hosts the letter UI.
 /datum/marquette_panel
