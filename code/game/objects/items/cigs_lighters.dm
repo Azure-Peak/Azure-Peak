@@ -497,6 +497,16 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 	icon_state = "roach"
 	muteinmouth = FALSE
 
+/obj/item/cigbutt/roach/pre_attack(atom/target, mob/living/user)
+	. = ..()
+	if(.)
+		return
+	if(!istype(target, /obj/item/carvedwood/ashtray) && !istype(target, /obj/item/forgeable/gold/ashtray) && !istype(target, /obj/item/forgeable/silver/ashtray) && !istype(target, /obj/item/forgeable/bronze/ashtray)) //text sausage... *drool
+		return
+	user.visible_message(span_notice("[user] stuffs the roach into the zigtray."), span_notice("I stuff the roach into the zigtray."))
+	qdel(src)
+	return TRUE
+
 /obj/item/cigbutt/roach/Initialize(mapload)
 	. = ..()
 	pixel_x = rand(-5, 5)
