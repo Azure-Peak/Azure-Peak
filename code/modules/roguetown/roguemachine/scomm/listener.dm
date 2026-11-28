@@ -66,6 +66,9 @@
 	if(.)
 		return
 	user.changeNext_move(CLICK_CD_MELEE)
+	if(!(src in user.get_held_items())) //Have to be holding it
+		to_chat(user, span_info("I can only [active ? "undeafen" : "deafen"] the Listener while holding it in my hand."))
+		return
 	playsound(loc, 'sound/misc/bug.ogg', 50, FALSE, -1)
 	active = !active
 	if(active)
@@ -73,6 +76,7 @@
 	else
 		icon_state = initial(icon_state)
 	to_chat(user, span_info("I [active ? "undeafen" : "deafen"] the Listener."))
+	user.visible_message(span_notice("[user] presses [user.p_their()] digit into a groove on the strange ear in [user.p_their()] hand!")) //Send a message to chat just like with scomstones
 	update_icon()
 	return
 
