@@ -25,6 +25,7 @@
 	. = ..()
 	if(. && user.mind)
 		record_featured_stat(FEATURED_STATS_EMOS, user)
+		record_round_statistic(STATS_TIMES_WEPT)
 
 
 /datum/emote/living/carbon/human/sexmoanlight

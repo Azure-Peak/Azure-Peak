@@ -202,6 +202,7 @@
 				for(var/i in 1 to 2)
 					new bonus_reward_path(T)
 			to_chat(seeker, span_green("The vision solidifies! Your rewards appear at the ritual rune."))
+			record_round_statistic(STATS_ABYSSOR_REMEMBERED)
 			quest?.on_complete(src)
 		else
 			to_chat(seeker, span_warning("The ritual rune is gone! Your rewards are lost."))

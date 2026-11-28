@@ -136,9 +136,13 @@
 
 //Psydon
 #define STATS_HUMEN_DEATHS "humen_deaths"
+#define STATS_PSYCENSER_EXPLODE "golgatha_exploded"
 #define STATS_PSYCROSS_USERS "people_wearing_psycross"
 #define STATS_LUX_HARVESTED "lux_harvested"
 #define STATS_MARQUES_MADE "marques_made"
+#define STATS_DNR_KILLED "unrevivable_deaths"
+#define STATS_TIMES_WEPT "times_wept"
+#define STATS_ALIVE_INQUIS "alive_inquisition"
 
 //Astratan
 #define STATS_LAWS_AND_DECREES_MADE "laws_and_decrees_made"
@@ -162,6 +166,8 @@
 #define STATS_BOOKS_BURNED "books_burned"
 #define STATS_SKILLS_DREAMED "skills_dreamed"
 #define STATS_VOYEURS "voyeurs"
+#define STATS_STARGAZERS "stargazers"
+#define STATS_MAGES "total_mages"
 
 //Necra
 #define STATS_SKELETONS_KILLED "skeletons_killed"
@@ -169,6 +175,7 @@
 #define STATS_GRAVES_ROBBED "graves_robbed"
 #define STATS_DEADITES_KILLED "deadites_killed"
 #define STATS_VAMPIRES_KILLED "vampires_killed"
+#define STATS_DNR_TOTAL "DNR_total"
 
 //Pestra
 #define STATS_POTIONS_BREWED "potions_brewed"
@@ -182,6 +189,8 @@
 #define STATS_ANIMALS_TAMED "animals_tamed"
 #define STATS_WEREVOLVES "werevolves"
 #define STATS_FOREST_DEATHS "forest_deaths"
+#define STATS_ASUNDERED_MINDS "asundered_minds"
+#define STATS_ANIMALS_DEADITED "animals_deadited"
 
 //Ravox
 #define STATS_COMBAT_SKILLS "combat_skills"
@@ -189,12 +198,15 @@
 #define STATS_WARCRIES "warcries"
 #define STATS_YIELDS "yields"
 #define STATS_THRILLSEEKERS "thrillseekers"
+#define STATS_BOUNTY_TOTAL_CLAIMED "bounty_total_claimed"
 
 //Xylix
 #define STATS_LAUGHS_MADE "laughs_made"
 #define STATS_PEOPLE_MOCKED "people_mocked"
 #define STATS_CRITS_MADE "crits_made"
 #define STATS_SONGS_PLAYED "songs_played"
+#define STATS_LOST_GAMBLED "lost_gambling"
+#define STATS_WON_GAMBLED "won_gambling"
 
 //Malum
 #define STATS_MASTERWORKS_FORGED "masterworks_forged"
@@ -202,6 +214,7 @@
 #define STATS_CRAFT_SKILLS "craft_skills"
 #define STATS_CRAFTED_ITEMS "craft_items"
 #define STATS_BEARDS_SHAVED "beards_shaved"
+#define STATS_BOMBS_EXPLODED "bombs_exploded"
 
 //Abyssor
 #define STATS_WATER_CONSUMED "water_consumed"
@@ -217,24 +230,29 @@
 #define STATS_CLINGY_PEOPLE "clingy_people"
 #define STATS_BEAUTIFUL_PEOPLE "beautiful_people"
 #define STATS_MARRIAGES_MADE "marriages_done"
+#define STATS_EORA_TREE_FELLERS "eora_tree_fellers"
+#define STATS_PACIFIED_PEOPLE "pacifism_total"
 
 //Zizo
-#define STATS_ZIZO_PRAISED "zizo_praised"
+#define STATS_CONSTRUCT_DEATHS "construct_deaths"
+#define STATS_ZIZO_SAID "zizo_said"
 #define STATS_DEADITES_WOKEN_UP "deadites_woken_up"
 #define STATS_CLERGY_DEATHS "priest_deaths"
-#define STATS_TORTURES "tortures"
-#define STATS_SADISTS "sadists"
+#define STATS_ZCROSS_USERS "people_wearing_zcross"
+#define STATS_REVIVAL_CHAIR_USES "revival_chair_uses"
 
 //Graggar
 #define STATS_BLOOD_SPILT "blood_spilt"
 #define STATS_ORGANS_EATEN "organs_eaten"
 #define STATS_DEATHS "deaths"
-#define STATS_PEOPLE_GIBBED "people_gibbed"
+#define STATS_SADISTS "sadists"
+#define STATS_TORTURES "tortures"
 #define STATS_ASSASSINATIONS "assassinations"
 
 //Baotha
 #define STATS_DRUGS_SNORTED "drugs_snorted"
 #define STATS_ALCOHOL_CONSUMED "alcohol_consumed"
+#define STATS_MASOCHISTS "mascochists"
 #define STATS_PLEASURES "pleasures"
 #define STATS_ALCOHOLICS "alcoholics"
 #define STATS_JUNKIES "junkies"
@@ -242,7 +260,7 @@
 
 //Matthios
 #define STATS_SHRINE_VALUE "shrine_value"
-#define STATS_GREEDY_PEOPLE "tomb_deaths"
+#define STATS_GREEDY_PEOPLE "greedy_people"
 #define STATS_LOCKS_PICKED "locks_picked"
 #define STATS_BANDITS "bandits"
 #define STATS_INDEBTED "indebt_people"

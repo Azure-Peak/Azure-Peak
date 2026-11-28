@@ -1850,6 +1850,7 @@ SUBSYSTEM_DEF(gamemode)
 	var/list/statistics_to_clear = list(
 		STATS_TOTAL_POPULATION,
 		STATS_PSYCROSS_USERS,
+		STATS_ZCROSS_USERS,
 		STATS_ALIVE_NOBLES,
 		STATS_ALIVE_GARRISON,
 		STATS_ALIVE_CLERGY,
@@ -1860,11 +1861,17 @@ SUBSYSTEM_DEF(gamemode)
 		STATS_DEADITES_ALIVE,
 		STATS_CLINGY_PEOPLE,
 		STATS_BEAUTIFUL_PEOPLE,
+		STATS_PACIFIED_PEOPLE,
+		STATS_MAGES,
+		STATS_DNR_TOTAL,
 		STATS_MARRIAGES_MADE,
 		STATS_ALCOHOLICS,
 		STATS_JUNKIES,
 		STATS_VOYEURS,
 		STATS_NYMPHOMANIACS,
+		STATS_SADISTS,
+		STATS_MASOCHISTS,
+		STATS_ASUNDERED_MINDS,
 		STATS_INDEBTED,
 		STATS_THRILLSEEKERS,
 		STATS_GREEDY_PEOPLE,
@@ -1942,8 +1949,12 @@ SUBSYSTEM_DEF(gamemode)
 			var/mob/living/carbon/human/human_mob = client.mob
 			record_round_statistic(STATS_TOTAL_POPULATION)
 			for(var/obj/item/clothing/neck/current_item in human_mob.get_equipped_items(TRUE))
-				if(current_item.type in list(/obj/item/clothing/neck/roguetown/psicross, /obj/item/clothing/neck/roguetown/psicross/wood, /obj/item/clothing/neck/roguetown/psicross/aalloy, /obj/item/clothing/neck/roguetown/psicross/silver,	/obj/item/clothing/neck/roguetown/psicross/g))
+				if(current_item.type in list(/obj/item/clothing/neck/roguetown/psicross, /obj/item/clothing/neck/roguetown/psicross/wood, /obj/item/clothing/neck/roguetown/psicross/aalloy, /obj/item/clothing/neck/roguetown/psicross/paalloy, /obj/item/clothing/neck/roguetown/psicross/silver, /obj/item/clothing/neck/roguetown/psicross/silver/naledi, /obj/item/clothing/neck/roguetown/psicross/g))
 					record_round_statistic(STATS_PSYCROSS_USERS)
+					break
+			for(var/obj/item/clothing/neck/current_item in human_mob.get_equipped_items(TRUE))
+				if(current_item.type in list(/obj/item/clothing/neck/roguetown/psicross/inhumen, /obj/item/clothing/neck/roguetown/psicross/inhumen/wood, /obj/item/clothing/neck/roguetown/psicross/inhumen/aalloy, /obj/item/clothing/neck/roguetown/psicross/inhumen/paalloy, /obj/item/clothing/neck/roguetown/psicross/inhumen/g))
+					record_round_statistic(STATS_ZCROSS_USERS)
 					break
 			switch(human_mob.pronouns)
 				if(HE_HIM)
@@ -1963,6 +1974,8 @@ SUBSYSTEM_DEF(gamemode)
 				record_round_statistic(STATS_ALIVE_NOBLES)
 			if((human_mob.mind.assigned_role in GLOB.garrison_positions) || (human_mob.mind.assigned_role in GLOB.retinue_positions))
 				record_round_statistic(STATS_ALIVE_GARRISON)
+			if((human_mob.mind.assigned_role in GLOB.inquisition_positions))
+				record_round_statistic(STATS_ALIVE_INQUIS)
 			if(human_mob.mind.assigned_role in GLOB.church_positions)
 				record_round_statistic(STATS_ALIVE_CLERGY)
 			if((human_mob.mind.assigned_role in GLOB.burgher_positions) || (human_mob.mind.assigned_role in GLOB.atc_positions) || (human_mob.mind.assigned_role in GLOB.peasant_positions))
@@ -1973,6 +1986,10 @@ SUBSYSTEM_DEF(gamemode)
 				record_round_statistic(STATS_JUNKIES)
 			if(human_mob.has_flaw(/datum/charflaw/addiction/lovefiend))
 				record_round_statistic(STATS_NYMPHOMANIACS)
+			if(human_mob.has_flaw(/datum/charflaw/addiction/sadist))
+				record_round_statistic(STATS_SADISTS)
+			if(human_mob.has_flaw(/datum/charflaw/addiction/masochist))
+				record_round_statistic(STATS_MASOCHISTS)
 			if(human_mob.has_flaw(/datum/charflaw/indebted))
 				record_round_statistic(STATS_INDEBTED)
 			if(human_mob.has_flaw(/datum/charflaw/greedy))
@@ -1981,10 +1998,18 @@ SUBSYSTEM_DEF(gamemode)
 				record_round_statistic(STATS_CLINGY_PEOPLE)
 			if(human_mob.has_flaw(/datum/charflaw/addiction/thrillseeker))
 				record_round_statistic(STATS_THRILLSEEKERS)
+			if(human_mob.has_flaw(/datum/charflaw/mind_broken))
+				record_round_statistic(STATS_ASUNDERED_MINDS)
 			if(human_mob.has_flaw(/datum/charflaw/addiction/voyeur))
 				record_round_statistic(STATS_VOYEURS)
 			if(HAS_TRAIT(human_mob, TRAIT_BEAUTIFUL))
 				record_round_statistic(STATS_BEAUTIFUL_PEOPLE)
+			if(HAS_TRAIT(human_mob, TRAIT_DNR))
+				record_round_statistic(STATS_DNR_TOTAL)
+			if(HAS_TRAIT(human_mob, TRAIT_ARCYNE))
+				record_round_statistic(STATS_MAGES)
+			if(HAS_TRAIT(human_mob, TRAIT_PACIFISM))
+				record_round_statistic(STATS_PACIFIED_PEOPLE)
 
 			// Races - proper alive checking (We have so fucking many, kill me..)
 			if(ishumannorthern(human_mob))

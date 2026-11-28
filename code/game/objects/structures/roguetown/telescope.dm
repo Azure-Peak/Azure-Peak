@@ -162,6 +162,7 @@
 		// no spamming the 'scope pal
 		if(!got_fucked)
 			H.apply_status_effect(/datum/status_effect/telescope_used)
+			record_round_statistic(STATS_STARGAZERS)
 
 /obj/structure/globe
 	name = "globe"

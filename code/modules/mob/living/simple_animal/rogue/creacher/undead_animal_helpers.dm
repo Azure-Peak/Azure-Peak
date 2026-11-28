@@ -125,6 +125,8 @@ GLOBAL_LIST_INIT(animal_to_undead, list(
 	animate(mob)
 	var/undead_type = GLOB.animal_to_undead[mob.type]
 	new undead_type(mob.loc)
+	record_round_statistic(STATS_DEADITES_WOKEN_UP)
+	record_round_statistic(STATS_ANIMALS_DEADITED)
 	mob.visible_message(span_danger("[mob] walks again... As a terrifying deadite!"))
 
 	qdel(mob)

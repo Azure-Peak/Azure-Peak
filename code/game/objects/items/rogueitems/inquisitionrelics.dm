@@ -422,6 +422,8 @@ Inquisitorial armory down here
 		user.visible_message(span_warningbig("[user] smashes the exposed [src], shattering the shard of SYON!"))
 		user.visible_message(span_blue(pick("WHY--!!","SYON BLAS--!!","ENDU--!!","ENDURE THI--!!","WHAT THE F--!!","OH MY ALLFA--!!","OH PSYDO--!!","KABOO--!!","MASHALLA--!!","OH ADONA--!!","OH SHI--!!","PSYDO--!!","PSYDON BLAS--!!")))
 		explosion(get_turf(A), extreme_impact_range = 3, heavy_impact_range = 5, light_impact_range = 6, flame_range = 3, flash_range = 6, smoke = FALSE)
+		record_round_statistic(STATS_BOMBS_EXPLODED) //lmao
+		record_round_statistic(STATS_PSYCENSER_EXPLODE)
 		fuel = 0
 		turn_off()
 		icon_state = "psycenser-broken"
