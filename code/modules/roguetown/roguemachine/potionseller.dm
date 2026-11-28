@@ -342,8 +342,7 @@
 		if(!usr.canUseTopic(src, BE_CLOSE) || !locked)
 			return
 		if(ishuman(usr) && budget > 0)
-			budget2change(budget, usr)
-			budget = 0
+			budget = refund_pouch(budget, usr)
 
 	if(href_list["withdrawgain"])
 		if(!usr.canUseTopic(src, BE_CLOSE) || locked)

@@ -809,7 +809,11 @@ SUBSYSTEM_DEF(job)
 		H.mind.assigned_role = rank
 
 	if(job)
+		var/mob/living/carbon/human/tracked = ishuman(H) ? H : null
+		var/list/snapshot = tracked?.snapshot_build()
 		var/new_mob = job.equip(H, null, null, joined_late , null, M.client)
+		if(!ismob(new_mob) || new_mob == tracked)
+			tracked?.record_build_changes(BUILD_SOURCE_JOB, snapshot)
 		if(ismob(new_mob))
 			H = new_mob
 			if(!joined_late)
@@ -1035,6 +1039,8 @@ SUBSYSTEM_DEF(job)
 			key = "Inquisition"
 		if(BURGHERS)
 			key = "Burghers"
+		if(ATC)
+			key = "Azurian Trading Company"
 		if(GUILDSMAN)
 			key = "Guildsmen"
 		if(PEASANTS)

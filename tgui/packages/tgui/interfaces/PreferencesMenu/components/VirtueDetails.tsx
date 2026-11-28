@@ -36,6 +36,7 @@ export const VirtueDetails = (props: VirtueDetailsProps) => {
             <Box key={skill.name}>
               {skill.level} levels of {skill.name}{' '}
               {skill.max_level ? `up to ${skill.max_level}` : null}
+              {skill.hardcap ? ' (hard cap)' : null}
             </Box>
           ))}
         </Stack.Item>

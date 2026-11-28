@@ -39,6 +39,7 @@
 #define LOG_SEEN			(1 << 19)
 #define LOG_NPC_SAY			(1 << 20)
 #define LOG_CRAFT			(1 << 21)
+#define LOG_SUBTLE			(1 << 22)
 
 #define SEEN_LOG_SAY 1
 #define SEEN_LOG_EMOTE 2
@@ -56,6 +57,7 @@
 #define INDIVIDUAL_OWNERSHIP_LOG	(LOG_OWNERSHIP)
 #define INDIVIDUAL_SHOW_ALL_LOG		(LOG_ATTACK | LOG_SAY | LOG_WHISPER | LOG_EMOTE | LOG_DSAY | LOG_PDA | LOG_CHAT | LOG_COMMENT | LOG_TELECOMMS | LOG_OOC | LOG_ADMIN | LOG_OWNERSHIP | LOG_GAME | LOG_CRAFT | LOG_NPC_SAY)
 #define INDIVIDUAL_SEEN_LOG		(LOG_SEEN)
+#define INDIVIDUAL_SUBTLE_LOG	(LOG_SUBTLE)
 
 #define LOGSRC_CLIENT "Client"
 #define LOGSRC_MOB "Mob"
@@ -115,6 +117,7 @@
 #define LOG_CATEGORY_GAME_VOTE "game-vote"
 #define LOG_CATEGORY_GAME_WHISPER "game-whisper"
 #define LOG_CATEGORY_GAME_CRAFT "game-craft"
+#define LOG_CATEGORY_SUBTLE "subtle"
 
 // HREF categories
 #define LOG_CATEGORY_HREF "href"

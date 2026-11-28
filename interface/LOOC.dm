@@ -87,8 +87,6 @@
 	if(!recipient_choice)
 		return
 
-	mob.log_talk(msg, LOG_LOOC)
-
 	var/recipient_label
 	var/recipient_admin_label
 	if(recipient_choice == "1-Tile Range")
@@ -104,6 +102,8 @@
 			recipient_admin_label = "[recipient_label] ([target.ckey])"
 		else
 			recipient_admin_label = recipient_label
+
+	mob.log_talk(msg, LOG_SUBTLE, tag = "SLOOC to [recipient_admin_label]")
 
 	var/admin_info = " ([s_ckey]) [ADMIN_FLW(S)]"
 	var/prefix_text = span_prefix("[pfx]:")

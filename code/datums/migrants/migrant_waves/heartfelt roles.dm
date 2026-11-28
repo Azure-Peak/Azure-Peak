@@ -1,3 +1,7 @@
+/datum/migrant_role/heartfelt
+	abstract_type = /datum/migrant_role/heartfelt
+	political_faction = POLITICAL_FACTION_HEARTFELT
+
 /datum/migrant_role/heartfelt/count
 	name = "Count of Heartfelt"
 	advclass_cat_rolls = list(CTAG_HFT_COUNT = 20)

@@ -1,0 +1,5 @@
+#define POLITICAL_FACTION_NEUTRAL "neutral"
+#define POLITICAL_FACTION_AZUROSA "azurosa"
+#define POLITICAL_FACTION_HEARTFELT "heartfelt"
+#define POLITICAL_FACTION_ROSAWOOD "rosawood"
+#define POLITICAL_FACTION_BENEDICTUS "benedictus"

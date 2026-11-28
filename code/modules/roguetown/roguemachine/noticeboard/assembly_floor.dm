@@ -25,7 +25,6 @@
 
 /datum/city_assembly_panel/ui_static_data(mob/user)
 	return list(
-		"trade_brackets" = ASSEMBLY_TRADE_BRACKETS,
 		"defense_brackets" = ASSEMBLY_DEFENSE_BRACKETS,
 		"quorum_voters" = ASSEMBLY_QUORUM_VOTERS,
 		"recall_threshold_pct" = ASSEMBLY_RECALL_THRESHOLD_PCT,
@@ -50,8 +49,6 @@
 	var/datum/assembly_warrant/W = SScity_assembly?.current_warrant
 	if(W)
 		data["warrant"] = list(
-			"trade_cap" = W.trade_daily_cap,
-			"trade_remaining" = W.trade_remaining,
 			"defense_cap" = W.defense_daily_cap,
 			"defense_remaining" = W.defense_remaining,
 		)
@@ -111,19 +108,7 @@
 		return 0
 	if(SScity_assembly.first_session_resolve_at > world.time)
 		return round((SScity_assembly.first_session_resolve_at - world.time) / 10)
-	if(!SSnightshift || !SSticker)
-		return 0
-	var/current_station_time = station_time()
-	var/dawn_at = SSnightshift.nightshift_dawn_start
-	var/game_ds_until_dawn
-	if(current_station_time < dawn_at)
-		game_ds_until_dawn = dawn_at - current_station_time
-	else
-		game_ds_until_dawn = (864000 - current_station_time) + dawn_at
-	var/rate = SSticker.station_time_rate_multiplier || 1
-	if(rate <= 0)
-		rate = 1
-	return round((game_ds_until_dawn / rate) / 10)
+	return seconds_until_dawn()
 
 /datum/city_assembly_panel/proc/build_next_resolution_label()
 	if(SScity_assembly?.first_session_resolve_at > world.time)
@@ -168,21 +153,6 @@
 				var/resign_job = resigner.job
 				SScity_assembly.demote_alderman("resigned voluntarily")
 				SScity_assembly.notify_alderman_lost_ref(resign_name, resign_job, "resigned")
-			return TRUE
-		if("alderman_trade")
-			// Alderman acts from the Commons' own board, not the Stewardry's locked Nerve Master.
-			// Bypasses the physical-access problem (the Stewardry is locked against them) without
-			// bypassing the warrant cap (the Steward machine's own gate still enforces it).
-			if(!SScity_assembly.is_alderman(usr))
-				to_chat(usr, span_warning("Only the Alderman can trade from this board."))
-				return TRUE
-			if(!SScity_assembly.current_warrant || SScity_assembly.current_warrant.trade_remaining <= 0)
-				to_chat(usr, span_warning("As Alderman, you can't trade right now. The Assembly set no trade warrant, or today's warrant is spent."))
-				return TRUE
-			if(!SStreasury.steward_machine)
-				to_chat(usr, span_warning("There is no Nerve Master in the realm to trade through."))
-				return TRUE
-			SStreasury.steward_machine.open_trade_tgui(usr)
 			return TRUE
 
 /obj/structure/roguemachine/noticeboard/proc/open_assembly_tgui(mob/user)

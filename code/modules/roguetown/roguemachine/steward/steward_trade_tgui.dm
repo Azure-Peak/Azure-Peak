@@ -1,61 +1,32 @@
-#define LEDGER_PAGE_SIZE 50
-
 /obj/structure/roguemachine/steward/ui_state(mob/user)
-	// The sitting Alderman acts remotely from the Notice Board - they cannot physically reach the
-	// locked Stewardry. For them, swap adjacency for a conscious-and-alive check; access is gated
-	// at every action by alderman_has_access() checking trait + warrant. Everyone else needs to
-	// be standing at the Nerve Master itself.
-	if(SScity_assembly?.is_alderman(user))
-		return GLOB.conscious_state
 	return GLOB.human_adjacent_state
 
-/// The sitting Alderman's remote trade access bypasses `/atom/ui_status`'s can_interact clamp
-/// (which enforces physical adjacency and would downgrade UI_INTERACTIVE to UI_UPDATE, painting
-/// the whole window grey). Authority is already enforced by alderman_has_access() on every
-/// ui_act. Pull the status straight from state.can_use_topic without the adjacency filter.
 /obj/structure/roguemachine/steward/ui_status(mob/user, datum/ui_state/state)
-	if(SScity_assembly?.is_alderman(user))
-		. = UI_CLOSE
-		if(state)
-			. = max(., state.can_use_topic(src, user))
-		return
+	if(locked)
+		return UI_CLOSE
 	return ..()
 
 /obj/structure/roguemachine/steward/ui_interact(mob/user, datum/tgui/ui)
 	SStgui.try_update_ui(user, src, ui)
 
 /obj/structure/roguemachine/steward/proc/open_trade_tgui(mob/user)
-	if(locked && !alderman_has_access(user))
+	if(locked)
 		to_chat(user, span_warning("It's locked."))
 		return
 	var/datum/tgui/ui = SStgui.try_update_ui(user, src, null)
 	if(!ui)
 		ui = new(user, src, "StewardTrade")
 		ui.open()
+		ui.set_autoupdate(FALSE)
 
-/obj/structure/roguemachine/steward/proc/alderman_has_access(mob/user)
-	if(!user || !SScity_assembly)
-		return FALSE
-	if(!SScity_assembly.is_alderman(user))
-		return FALSE
-	if(!SScity_assembly.current_warrant)
-		return FALSE
-	return (SScity_assembly.current_warrant.trade_remaining > 0)
-
-/// Adjacency/topic check that yields to the Alderman. The Alderman acts remotely from the Notice
-/// Board and never stands at the Stewardry; every trade-path callsite should use this instead of
-/// calling canUseTopic directly. Returns TRUE if the user may proceed.
 /obj/structure/roguemachine/steward/proc/user_can_act(mob/user)
-	if(SScity_assembly?.is_alderman(user))
-		return TRUE
 	return user.canUseTopic(src, BE_CLOSE)
 
 /// Catalog data — doesn't change mid-session. Trade good names, region names/descriptions,
-/// hardcoded caps, importability flags. TGUI caches this and doesn't re-ship it per tick.
+/// hardcoded caps. TGUI caches this and doesn't re-ship it per tick.
 /obj/structure/roguemachine/steward/ui_static_data(mob/user)
 	var/list/data = list()
-	data["order_pool_cap"] = STANDING_ORDERS_POOL_CAP
-	data["auto_limit_days"] = STOCKPILE_AUTO_LIMIT_DAYS
+	data["order_extend_cost"] = STANDING_ORDER_EXTEND_COST
 	data["quality_payouts"] = list(
 		list("label" = "worn", "pct" = round(ITEM_QUALITY_MULT_WORN * 100)),
 		list("label" = "ruined", "pct" = round(ITEM_QUALITY_MULT_RUINED * 100)),
@@ -76,7 +47,6 @@
 			continue
 		good_catalog[good_id] = list(
 			"name" = tg.name,
-			"importable" = tg.importable ? TRUE : FALSE,
 			"category" = tg.category || "misc",
 		)
 	data["good_catalog"] = good_catalog
@@ -87,23 +57,48 @@
 		region_catalog[region_id] = list(
 			"name" = region.name,
 			"description" = region.description,
+			"subroute" = "[region.subroute]",
+			"tribute" = region.tribute_goods.Copy(),
+			"gifts" = gift_names(region.gifts),
+			"supply" = region.trade_type_rows(region.produces, region.supply_sources),
+			"demand" = region.trade_type_rows(region.demands, region.demand_sources, TRUE),
 		)
 	data["region_catalog"] = region_catalog
+
+	var/list/caravan_routes = list()
+	for(var/route in subtypesof(/datum/trade_route))
+		var/list/subroutes = list()
+		for(var/datum/trade_subroute/subroute as anything in subtypesof(/datum/trade_subroute))
+			if(initial(subroute.route) != route)
+				continue
+			var/list/region_ids = list()
+			for(var/datum/economic_region/region as anything in get_subroute_regions(subroute))
+				region_ids += region.region_id
+			subroutes += list(list(
+				"id" = "[subroute]",
+				"name" = initial(subroute.name),
+				"region_ids" = region_ids,
+			))
+		caravan_routes += list(list(
+			"id" = "[route]",
+			"name" = get_route_name(route),
+			"subroutes" = subroutes,
+		))
+	data["caravan_routes"] = caravan_routes
 
 	var/list/petition_categories = list()
 	for(var/cat_id in GLOB.petition_categories)
 		var/list/cat = GLOB.petition_categories[cat_id]
-		var/list/cat_templates = cat["templates"]
 		var/list/templates = list()
-		for(var/template in cat_templates)
+		for(var/kind in cat["kinds"])
 			var/list/region_ids = list()
 			for(var/region_id in GLOB.economic_regions)
 				var/datum/economic_region/region = GLOB.economic_regions[region_id]
-				if(template in region.possible_standing_order_types)
+				if(kind in region.request_kinds)
 					region_ids += region_id
 			templates += list(list(
-				"id" = "[template]",
-				"label" = cat_templates[template],
+				"id" = "[kind]",
+				"label" = SSeconomy.petition_kind_label(kind),
 				"region_ids" = region_ids,
 			))
 		petition_categories += list(list(
@@ -116,124 +111,35 @@
 	data["petition_categories"] = petition_categories
 	data["petition_tax_pct"] = round((1 - PETITION_TAX_MULT) * 100)
 	data["petitions_per_day"] = PETITIONS_PER_DAY
+	data["is_steward_role"] = (user.job in GLOB.crown_authority_roles) ? TRUE : FALSE
+
+	var/list/commission_catalog = list()
+	for(var/datum/royal_commission/C as anything in GLOB.royal_commissions)
+		commission_catalog[REF(C)] = list(
+			"name" = C.name,
+			"desc" = C.desc,
+			"daily_stock" = C.daily_stock,
+			"contents" = C.content_rows(),
+		)
+	for(var/datum/crown_import/D as anything in GLOB.crown_imports)
+		commission_catalog[REF(D)] = list(
+			"name" = D.name,
+			"desc" = D.desc,
+			"daily_stock" = D.daily_stock,
+		)
+	data["commission_catalog"] = commission_catalog
+	data["commission_lead_minutes"] = round(COMMISSION_LEAD_TIME / (1 MINUTES))
+	data["rental_pay"] = CARAVAN_RENTAL_PAY
+	data["rental_rate"] = MARKET_DAY_RENTAL_RATE
+	data["market_day_base_rate"] = MARKET_DAY_RATE
+	data["market_day_floor"] = MARKET_DAY_FLOOR
 
 	return data
 
-/obj/structure/roguemachine/steward/proc/build_ledger_page(ckey)
-	var/list/lview = ledger_view[ckey]
-	var/view_mode = lview ? (lview["view"] || "journal") : "journal"
-	var/list/page_data = list("view" = view_mode)
-	switch(view_mode)
-		if("ledger")
-			var/account_id = lview ? (lview["account"] || LEDGER_CROWN_CASH) : LEDGER_CROWN_CASH
-			page_data["chart"] = SStreasury.get_chart_listing(LEDGER_BOOK_CROWN)
-			page_data["account_ledger"] = SStreasury.get_account_ledger(account_id, 100)
-			return page_data
-		if("trial")
-			page_data["trial_balance"] = SStreasury.get_trial_balance(LEDGER_BOOK_CROWN)
-			page_data["reconciliation"] = SStreasury.reconcile_ledger(LEDGER_BOOK_CROWN)
-			return page_data
-		if("income")
-			page_data["income_statement"] = SStreasury.get_income_statement(LEDGER_BOOK_CROWN)
-			return page_data
-		if("balance")
-			page_data["balance_sheet"] = SStreasury.get_balance_sheet(LEDGER_BOOK_CROWN)
-			return page_data
-		if("subsidiary")
-			page_data["subsidiary"] = SStreasury.get_subsidiary_ledgers()
-			return page_data
-
-	var/page = max(1, lview ? (lview["page"] || 1) : 1)
-	var/filter = lview ? (lview["filter"] || "") : ""
-	var/window_start = (page - 1) * LEDGER_PAGE_SIZE + 1
-	var/window_end = page * LEDGER_PAGE_SIZE
-	var/list/entries = list()
-	var/matched = 0
-	var/total = length(SStreasury.ledger)
-	var/crown_name = SStreasury.discretionary_fund?.name
-	for(var/i = total to 1 step -1)
-		var/datum/treasury_entry/E = SStreasury.ledger[i]
-		if(E.legs)
-			if(!E.touches_book(LEDGER_BOOK_CROWN))
-				continue
-		else if(crown_name && E.from_name != crown_name && E.to_name != crown_name)
-			continue
-		if(filter && !findtext(E.reason, filter) && !findtext(E.from_name, filter) && !findtext(E.to_name, filter))
-			continue
-		matched++
-		if(matched < window_start)
-			continue
-		if(matched > window_end)
-			break
-		entries += list(SStreasury.journal_entry_view(E, LEDGER_BOOK_CROWN))
-	page_data["entries"] = entries
-	page_data["page"] = page
-	page_data["page_size"] = LEDGER_PAGE_SIZE
-	page_data["shown"] = length(entries)
-	page_data["has_more"] = (matched > window_end) ? TRUE : FALSE
-	page_data["filtered"] = filter ? TRUE : FALSE
-	return page_data
-
 /obj/structure/roguemachine/steward/ui_data(mob/user)
 	var/list/data = list()
-	// The ledger page rides on normal updates, sent once after each ledger action. Static data is
-	// rate-limited to one full update a second, and tgui swaps the whole window for a "Loading"
-	// screen while one is pending - rapid ledger clicks used to kick the Steward back to its base menu.
-	var/list/ledger_state = ledger_view[user.ckey]
-	if(ledger_state && ledger_state["open"] && ledger_state["dirty"])
-		ledger_state["dirty"] = FALSE
-		data["ledger_page"] = build_ledger_page(user.ckey)
 	data["treasury"] = SStreasury?.discretionary_fund?.balance || 0
-	data["day"] = GLOB.dayspassed
-	data["expected_rural_revenue"] = SStreasury?.get_rural_tax_amount() || 0
-	data["expected_wage_outlay"] = SStreasury?.get_expected_wage_outlay() || 0
-	data["royal_custom_unlocked"] = SStreasury?.royal_custom_unlocked ? TRUE : FALSE
-	data["royal_custom_margin"] = SStreasury?.royal_custom_margin
-	data["royal_custom_threshold"] = SStreasury?.royal_custom_threshold
-	data["royal_custom_volume"] = SStreasury?.economic_output || 0
-
-	// Alderman-acting view: expose the warrant so the TGUI can render it prominently. Only
-	// populated when the viewer is the sitting Alderman - the Steward doesn't need a warrant
-	// display in their own machine view.
-	data["is_alderman_acting"] = SScity_assembly?.is_alderman(user) ? TRUE : FALSE
-	if(data["is_alderman_acting"])
-		var/datum/assembly_warrant/W = SScity_assembly.current_warrant
-		if(W)
-			data["alderman_warrant"] = list(
-				"trade_cap" = W.trade_daily_cap,
-				"trade_remaining" = W.trade_remaining,
-				"defense_cap" = W.defense_daily_cap,
-				"defense_remaining" = W.defense_remaining,
-			)
-		else
-			data["alderman_warrant"] = null
-	else
-		data["alderman_warrant"] = null
-
-	var/list/blockaded = list()
-	for(var/region_id in GLOB.economic_regions)
-		var/datum/economic_region/region = GLOB.economic_regions[region_id]
-		if(region.is_region_blockaded)
-			blockaded += region.name
-	data["blockaded_regions"] = blockaded
-
-	data["banditry_projection"] = SSeconomy.preview_banditry_drain()
-
-	// Per-user quote response for the trade modal, populated by trade_quote act.
-	data["trade_quote"] = last_trade_quote[user.ckey]
-
-	var/list/events = list()
-	for(var/datum/economic_event/E as anything in GLOB.active_economic_events)
-		events += list(list(
-			"name" = E.name,
-			"description" = E.description,
-			"event_type" = E.event_type,
-			"days_left" = max(0, E.day_expires - GLOB.dayspassed),
-			"affected_goods" = E.affected_goods ? E.affected_goods.Copy() : list(),
-			"saturation_target" = E.saturation_target,
-			"saturation_progress" = E.saturation_progress,
-		))
-	data["active_events"] = events
+	data["day"] = ECONOMY_DAY
 
 	var/list/orders = list()
 	for(var/datum/standing_order/O as anything in GLOB.standing_order_pool)
@@ -241,16 +147,14 @@
 			continue
 		var/datum/economic_region/order_region = GLOB.economic_regions[O.region_id]
 		var/is_blockaded = order_region?.is_region_blockaded ? TRUE : FALSE
-		var/days_left = max(0, O.day_expires - GLOB.dayspassed)
+		var/days_left = max(0, O.day_expires - ECONOMY_DAY)
 
 		var/list/items = list()
-		var/can_fulfill = TRUE
-		var/shortfall = ""
-		var/delivered_value = 0
 		var/has_warehouse = FALSE
 		var/has_stockpile = FALSE
-		for(var/good_id in O.required_items)
-			var/needed = O.required_items[good_id]
+		var/list/needs = SSeconomy.order_needs(O)
+		for(var/good_id in needs)
+			var/needed = needs[good_id]
 			var/have = 0
 			var/route = SSeconomy.get_good_route(good_id)
 			if(route == "warehouse")
@@ -259,33 +163,14 @@
 			else
 				has_stockpile = TRUE
 				var/datum/roguestock/entry = SSeconomy.find_stockpile_by_trade_good(good_id)
-				have = entry ? entry.stockpile_amount : 0
-				if(have < needed)
-					can_fulfill = FALSE
-					var/datum/trade_good/tg = GLOB.trade_goods[good_id]
-					var/label = tg ? tg.name : good_id
-					if(shortfall != "")
-						shortfall += ", "
-					shortfall += "need [needed - have] more [label]"
-				delivered_value += SSeconomy.compute_good_unit_payout(O, good_id) * min(have, needed)
+				have = entry ? entry.royal_stock : 0
 			items += list(list(
 				"good_id" = good_id,
 				"needed" = needed,
 				"have" = have,
 				"route" = route,
+				"unit_pay" = SSeconomy.compute_good_unit_payout(O, good_id),
 			))
-
-		// Partial settlement applies only to the stockpile portion's coverage; warehouse goods are all-or-nothing.
-		var/can_partial = FALSE
-		var/partial_pct = 0
-		var/partial_payout_preview = 0
-		if(has_stockpile && !can_fulfill && O.total_payout > 0)
-			var/petitioned_value = O.petitioned ? round(delivered_value * PETITION_TAX_MULT) : delivered_value
-			var/coverage = petitioned_value / O.total_payout
-			if(coverage >= STANDING_ORDER_PARTIAL_THRESHOLD)
-				can_partial = TRUE
-				partial_pct = round(coverage * 100)
-				partial_payout_preview = round(petitioned_value * STANDING_ORDER_PARTIAL_PAYOUT_MULT)
 
 		orders += list(list(
 			"ref" = REF(O),
@@ -295,93 +180,232 @@
 			"region_blockaded" = is_blockaded,
 			"has_warehouse" = has_warehouse,
 			"has_stockpile" = has_stockpile,
+			"crafted" = O.crafted,
 			"days_left" = days_left,
-			"payout" = O.total_payout,
-			"base_payout" = O.base_payout,
-			"scarcity_bonus_pct" = O.scarcity_bonus_pct,
+			"payout" = SSeconomy.order_needs_payout(O),
+			"halved" = is_blockaded,
 			"items" = items,
-			"can_fulfill" = can_fulfill,
-			"shortfall_text" = shortfall,
 			"petitioned" = O.petitioned ? TRUE : FALSE,
-			"can_partial" = can_partial,
-			"partial_pct" = partial_pct,
-			"partial_payout_pct" = round(STANDING_ORDER_PARTIAL_PAYOUT_MULT * 100),
-			"partial_payout_preview" = partial_payout_preview,
-			"pair_id" = O.pair_id,
-			"pair_label" = O.pair_label,
+			"extend_blocker" = SSeconomy.extend_blocker(O) || "",
 		))
 	data["active_orders"] = orders
+
+	var/list/offer_rows = list()
+	for(var/datum/region_offer/offer as anything in GLOB.region_offer_pool)
+		offer_rows += list(list(
+			"ref" = REF(offer),
+			"region_id" = offer.region_id,
+			"good_id" = offer.good_id,
+			"units" = SSeconomy.offer_units_now(offer),
+			"unit_price" = offer.unit_price,
+			"total_price" = SSeconomy.offer_price_now(offer),
+			"halved" = SSeconomy.region_raided(offer.region_id) ? TRUE : FALSE,
+		))
+	data["active_offers"] = offer_rows
+
+	var/list/region_caravan = list()
+	for(var/region_id in GLOB.economic_regions)
+		var/datum/economic_region/region = GLOB.economic_regions[region_id]
+		var/list/tribute = list()
+		var/list/tribute_units = region.tribute_units()
+		for(var/good_id in tribute_units)
+			tribute += list(list("good_id" = good_id, "units" = tribute_units[good_id]))
+		region_caravan[region_id] = list(
+			"blockaded" = region.is_region_blockaded ? TRUE : FALSE,
+			"tribute" = tribute,
+			"tribute_blocker" = region.tribute_blocker() || "",
+			"escorted" = SSeconomy.subroute_escorted(region.subroute) ? TRUE : FALSE,
+		)
+	data["region_caravan"] = region_caravan
+
+	var/list/caravan_escorts = list()
+	for(var/datum/blockade/B as anything in GLOB.active_blockades)
+		caravan_escorts["[B.subroute]"] = list(
+			"escorted" = SSeconomy.subroute_escorted(B.subroute) ? TRUE : FALSE,
+			"fee" = SSeconomy.escort_fee(B.subroute),
+			"blocker" = SSeconomy.escort_blocker(B.subroute) || "",
+		)
+	data["caravan_escorts"] = caravan_escorts
+
+	var/list/commission_rows = list()
+	for(var/datum/royal_commission/C as anything in GLOB.royal_commissions)
+		commission_rows += list(list(
+			"ref" = REF(C),
+			"stock" = C.stock,
+			"price" = C.get_price(),
+			"blocker" = SSeconomy.commission_blocker(C) || "",
+		))
+	var/list/commission_order_rows = list()
+	for(var/datum/commission_order/order as anything in SSeconomy.commission_orders)
+		commission_order_rows += list(list(
+			"name" = order.commission.name,
+			"seconds_left" = max(0, round((order.arrive_at - world.time) / (1 SECONDS))),
+		))
+	var/list/local_rows = list()
+	for(var/datum/crown_import/D as anything in GLOB.crown_imports)
+		local_rows += list(list(
+			"ref" = REF(D),
+			"stock" = D.stock,
+			"price" = D.get_import_price(),
+			"blocker" = SSeconomy.local_commission_blocker(D) || "",
+		))
+	data["commissions"] = list(
+		"kits" = commission_rows,
+		"local" = local_rows,
+		"orders" = commission_order_rows,
+	)
+
+	var/list/trips = list()
+	for(var/datum/caravan_trip/trip as anything in SSeconomy.caravan_trips)
+		var/datum/trade_good/offer_good = trip.offer_good_id ? GLOB.trade_goods[trip.offer_good_id] : null
+		var/datum/economic_region/tribute_region = trip.tribute_region_id ? GLOB.economic_regions[trip.tribute_region_id] : null
+		trips += list(list(
+			"route" = get_route_name(trip.route),
+			"request" = trip.request_name,
+			"offer" = trip.offer_good_id ? "[trip.offer_units] [offer_good ? offer_good.name : trip.offer_good_id]" : null,
+			"tribute" = tribute_region?.name,
+			"sell_offer" = trip.sell_offer ? TRUE : FALSE,
+			"sell_tribute" = trip.sell_tribute ? TRUE : FALSE,
+			"return_seconds" = trip.return_at ? max(0, round((trip.return_at - world.time) / (1 SECONDS))) : null,
+		))
+	data["caravans"] = list(
+		"fleet" = SSeconomy.caravan_fleet,
+		"home" = SSeconomy.caravans_home(),
+		"rented" = SSeconomy.caravan_rentals,
+		"return_seconds" = max(0, round(SSeconomy.seconds_until_caravan_tally())),
+		"remembered_left" = SSeconomy.remembered_caravans_left,
+		"remembered_minutes" = CARAVAN_REMEMBERED_TIME / (1 MINUTES),
+		"trips" = trips,
+	)
+	data["caravan_quote"] = build_caravan_quote(user.ckey)
+	var/list/sell = caravan_sell[user.ckey]
+	data["caravan_sell"] = list(
+		"offer" = sell?["offer"] ? TRUE : FALSE,
+		"tribute" = sell?["tribute"] ? TRUE : FALSE,
+	)
+	data["market_dae"] = list(
+		"rate" = SSeconomy.market_day_rate(),
+		"rented" = SSeconomy.caravan_rentals,
+		"returnable" = SSeconomy.returnable_rentals(),
+		"rent_blocker" = SSeconomy.rental_blocker() || "",
+		"next_seconds" = max(0, round(seconds_until_market_day())),
+		"midday_rate" = SSeconomy.midday_market_rate,
+	)
 
 	// Caching more for performance
 	if(SStreasury.market_view_dirty || isnull(SStreasury.cached_market_rows))
 		rebuild_market_view()
 	data["market_rows"] = SStreasury.cached_market_rows
-	data["total_arbitrage_potential"] = SStreasury.cached_total_arbitrage_potential
-	data["autoexport_percentage"] = round(SStreasury.autoexport_percentage * 100)
-	data["region_rows"] = SStreasury.cached_region_rows
-
-	var/autoexport_barred = 0
-	for(var/datum/roguestock/A as anything in SStreasury.stockpile_datums)
-		if(A.autoexport_disabled)
-			autoexport_barred++
-	var/shortage_goods_open = 0
-	for(var/datum/economic_event/E as anything in GLOB.active_economic_events)
-		if(E.event_type != ECON_EVENT_SHORTAGE)
-			continue
-		for(var/good_id in E.affected_goods)
-			var/datum/roguestock/A = SStreasury.stockpile_by_trade_good[good_id]
-			if(A && !A.autoexport_disabled)
-				shortage_goods_open++
-	data["autoexport_barred"] = autoexport_barred
-	data["shortage_goods_open"] = shortage_goods_open
-
-	data["auto_import"] = build_auto_import_data()
 
 	var/list/petition_state = list()
 	var/petitions_remaining = SSeconomy.petitions_remaining_today()
 	petition_state["pledge_balance"] = SStreasury.burgher_pledge_fund?.balance || 0
 	petition_state["petitions_remaining"] = petitions_remaining
-	petition_state["is_steward_role"] = (user.job in GLOB.crown_authority_roles) ? TRUE : FALSE
-	petition_state["is_alderman_acting"] = SScity_assembly?.is_alderman(user) ? TRUE : FALSE
 	var/selected_template = petition_view[user.ckey]
-	var/list/offers = list()
+	var/list/targets = list()
+	var/blocker = ""
 	if(selected_template && SSeconomy.petition_category_of(selected_template))
-		for(var/region_id in GLOB.economic_regions)
-			var/datum/economic_region/region = GLOB.economic_regions[region_id]
-			if(!(selected_template in region.possible_standing_order_types))
-				continue
-			offers += list(list(
-				"region_id" = region_id,
-				"blocker" = SSeconomy.petition_blocker(region_id, selected_template) || "",
+		blocker = SSeconomy.petition_blocker(selected_template) || ""
+		for(var/datum/economic_region/region as anything in SSeconomy.petition_target_regions(selected_template))
+			var/datum/standing_order/current = SSeconomy.region_request(region.region_id)
+			targets += list(list(
+				"region_id" = region.region_id,
+				"raided" = (region.is_region_blockaded && !SSeconomy.subroute_escorted(region.subroute)) ? TRUE : FALSE,
+				"replaces" = current ? current.name : "",
 			))
 	petition_state["selected_template"] = selected_template ? "[selected_template]" : null
-	petition_state["offers"] = offers
+	petition_state["blocker"] = blocker
+	petition_state["targets"] = targets
 	data["petition"] = petition_state
 
-	data["sequestration"] = list(
-		"active" = SStreasury.is_in_receivership() ? TRUE : FALSE,
-		"in_arrears" = (SStreasury.treasury_state == TREASURY_IN_ARREARS) ? TRUE : FALSE,
-		"debt" = SStreasury.treasury_debt,
-		"state_label" = bankruptcy_state_label(SStreasury.treasury_state),
-	)
-
-	var/can_draw_loan = (user.job in GLOB.crown_authority_roles) && !SScity_assembly?.is_alderman(user)
-	data["atc_loan"] = list(
-		"available" = (can_draw_loan && SStreasury.atc_loan_available()) ? TRUE : FALSE,
-		"can_view" = can_draw_loan ? TRUE : FALSE,
-		"min" = ATC_LOAN_MIN_AMOUNT,
-		"max" = ATC_LOAN_MAX_AMOUNT,
-		"closed_day" = ATC_LOAN_CLOSED_DAY,
-		"interest_pct" = round(ATC_LOAN_INTEREST_RATE * 100),
-		"blocker" = SStreasury.atc_loan_blocker_reason() || "",
-		"arrears_consumed" = SStreasury.atc_loan_arrears_consumed ? TRUE : FALSE,
-		"loans_drawn" = SStreasury.atc_loans_drawn_this_round,
-		"outstanding" = SStreasury.atc_loan_arrears_consumed ? SStreasury.treasury_debt : 0,
-	)
+	data["sequestration"] = sequestration_state()
 
 	return data
 
-/// Rebuild SStreasury's cached_market_rows + cached_region_rows + cached_total_arbitrage_potential
+/obj/structure/roguemachine/steward/proc/build_caravan_quote(ckey)
+	var/list/quote = list("request" = null, "offer" = null, "tribute" = null)
+	var/list/picked = caravan_view[ckey]
+	if(!picked)
+		return quote
+
+	var/datum/standing_order/request = picked["request"] ? (locate(picked["request"]) in GLOB.standing_order_pool) : null
+	if(request && !request.is_fulfilled)
+		var/list/scan = SSeconomy.scan_order(request)
+		var/list/plan = SSeconomy.order_fill_plan(request)
+		var/list/needs = SSeconomy.order_needs(request)
+		var/list/items = list()
+		for(var/good_id in needs)
+			var/route = SSeconomy.get_good_route(good_id)
+			var/loaded = 0
+			for(var/list/avail_set in list(scan["equip"], scan["potion"], scan["stock"]))
+				var/list/entry = avail_set[good_id]
+				if(entry)
+					loaded = entry["delivered_units"]
+			var/list/item = list(
+				"good_id" = good_id,
+				"needed" = needs[good_id],
+				"route" = route,
+				"unit_pay" = SSeconomy.compute_good_unit_payout(request, good_id),
+				"loaded" = loaded,
+				"have" = loaded,
+				"market_closed" = TRUE,
+				"market_left" = 0,
+				"fill_units" = 0,
+				"fill_cost" = 0,
+				"ask_first" = 0,
+				"ask_last" = 0,
+			)
+			var/datum/roguestock/D = route == "stockpile" ? SSeconomy.find_stockpile_by_trade_good(good_id) : null
+			if(D)
+				item["have"] = D.royal_stock
+				if(!D.market_never_supplies)
+					var/left = D.market_available()
+					var/fill_units = plan[good_id] || 0
+					item["market_closed"] = FALSE
+					item["market_left"] = left
+					item["fill_units"] = fill_units
+					item["fill_cost"] = fill_units ? D.market_ask(fill_units) : 0
+					if(left)
+						item["ask_first"] = D.market_unit_ask(D.market_stock - 1)
+						item["ask_last"] = D.market_unit_ask(D.market_stock - max(1, fill_units))
+			items += list(item)
+		quote["request"] = list(
+			"ref" = picked["request"],
+			"load_units" = scan["units"],
+			"load_payout" = scan["payout"],
+			"items" = items,
+		)
+
+	var/datum/region_offer/offer = picked["offer"] ? (locate(picked["offer"]) in GLOB.region_offer_pool) : null
+	var/offer_units = offer ? SSeconomy.offer_units_now(offer) : 0
+	if(offer)
+		var/datum/roguestock/D = SSeconomy.find_stockpile_by_trade_good(offer.good_id)
+		var/closed = !D || D.market_never_supplies
+		quote["offer"] = list(
+			"ref" = picked["offer"],
+			"market_closed" = closed ? TRUE : FALSE,
+			"sale_total" = closed ? 0 : D.market_bid(offer_units),
+			"bid_first" = closed ? 0 : stockpile_price(D.market_unit_ask(D.market_stock + 1) * STOCKPILE_BID_RATIO),
+			"bid_last" = closed ? 0 : stockpile_price(D.market_unit_ask(D.market_stock + offer_units) * STOCKPILE_BID_RATIO),
+		)
+
+	var/datum/economic_region/tribute_region = picked["tribute"] ? GLOB.economic_regions[picked["tribute"]] : null
+	if(tribute_region)
+		var/list/tribute_units = tribute_region.tribute_units()
+		var/sale_total = 0
+		for(var/good_id in tribute_units)
+			var/datum/roguestock/D = SSeconomy.find_stockpile_by_trade_good(good_id)
+			if(!D || D.market_never_supplies)
+				continue
+			var/offset = (offer && offer.good_id == good_id) ? offer_units : 0
+			sale_total += D.market_bid(tribute_units[good_id], offset)
+		quote["tribute"] = list(
+			"region_id" = picked["tribute"],
+			"sale_total" = mammon_round(sale_total),
+		)
+	return quote
+
+/// Rebuild SStreasury's cached_market_rows
 /// from current world state and clear market_view_dirty. Heavy work (~3ms); called only when
 /// invalidated by a trade action, stockpile mutation, blockade flip, day reset, or economic
 /// event boundary. event_tag_by_good is pre-built by the ui_data caller from the small, hot
@@ -390,14 +414,13 @@
 	if(isnull(event_tag_by_good))
 		event_tag_by_good = list()
 		for(var/datum/economic_event/E as anything in GLOB.active_economic_events)
-			for(var/gid in E.affected_goods)
-				event_tag_by_good[gid] = E.event_type
+			for(var/gid in E.shortage_goods)
+				event_tag_by_good[gid] = "SHORTAGE"
+			for(var/gid in E.glut_goods)
+				event_tag_by_good[gid] = "GLUT"
 
 	var/list/market_rows = list()
-	var/total_arbitrage_potential = 0
 	var/list/market_stockpile_entries = SStreasury.stockpile_by_trade_good
-	var/list/producers = SSeconomy.goods_with_producers
-	var/list/demanders = SSeconomy.goods_with_demand
 	for(var/good_id in market_stockpile_entries)
 		var/datum/trade_good/tg = GLOB.trade_goods[good_id]
 		if(!tg)
@@ -406,710 +429,64 @@
 		if(!entry)
 			continue
 
-		var/event_tag = ""
-		if(event_tag_by_good[good_id] == ECON_EVENT_SHORTAGE)
-			event_tag = "SHORTAGE"
-		else if(event_tag_by_good[good_id] == ECON_EVENT_OVERSUPPLY)
-			event_tag = "GLUT"
-
-		var/margin_per_unit = max(0, entry.withdraw_price - entry.payout_price)
-		var/arbitrage_potential = margin_per_unit * entry.stockpile_amount
-		total_arbitrage_potential += arbitrage_potential
+		var/event_tag = event_tag_by_good[good_id] || ""
+		var/list/dawn = entry.dawn_forecast()
 
 		market_rows += list(list(
 			"good_id" = good_id,
-			"stock" = entry.stockpile_amount,
-			"stock_limit" = entry.stockpile_limit,
+			"stock" = entry.royal_stock,
+			"market_stock" = entry.market_stock,
+			"market_target" = entry.market_target,
+			"market_label" = market_step_label(entry.market_step(entry.market_stock)),
+			"market_buy" = entry.market_ask(1),
+			"market_sell" = entry.market_bid(1),
+			"never_supplied" = entry.market_never_supplies ? TRUE : FALSE,
+			"market_left" = entry.market_available(),
+			"sold_out" = entry.market_available() <= 0 ? TRUE : FALSE,
 			"event_tag" = event_tag,
-			"import_regions" = (tg.importable && producers[good_id]) ? build_market_import_regions(good_id) : list(),
-			"export_regions" = demanders[good_id] ? build_market_export_regions(good_id) : list(),
-			"buy_price" = entry.payout_price,
-			"sell_price" = entry.withdraw_price,
-			"market_buy_price" = entry.cached_market_deposit_price || entry.payout_price,
-			"market_sell_price" = entry.cached_market_withdraw_price || entry.withdraw_price,
-			"automatic_price" = entry.automatic_price ? TRUE : FALSE,
-			"automatic_limit" = entry.automatic_limit ? TRUE : FALSE,
-			"accepting" = entry.accept_toggle_enabled ? TRUE : FALSE,
-			"withdraw_disabled" = entry.withdraw_disabled ? TRUE : FALSE,
-			"autoexport_disabled" = entry.autoexport_disabled ? TRUE : FALSE,
-			"margin_per_unit" = margin_per_unit,
-			"arbitrage_potential" = arbitrage_potential,
-		))
-
-	var/list/region_rows = list()
-	for(var/region_id in GLOB.economic_regions)
-		var/datum/economic_region/region = GLOB.economic_regions[region_id]
-		var/list/produces = list()
-		for(var/good_id in region.produces)
-			if(!GLOB.trade_goods[good_id])
-				continue
-			produces += list(list(
-				"good_id" = good_id,
-				"total" = region.get_day_capacity_total(good_id, TRUE),
-				"today" = region.get_day_capacity(good_id, TRUE),
-			))
-		var/list/demands = list()
-		for(var/good_id in region.demands)
-			if(!GLOB.trade_goods[good_id])
-				continue
-			demands += list(list(
-				"good_id" = good_id,
-				"total" = region.get_day_capacity_total(good_id, FALSE),
-				"today" = region.get_day_capacity(good_id, FALSE),
-			))
-		region_rows += list(list(
-			"region_id" = region_id,
-			"blockaded" = region.is_region_blockaded ? TRUE : FALSE,
-			"produces" = produces,
-			"demands" = demands,
+			"dawn_change" = dawn["dawn_change"],
+			"raided_supply" = dawn["raided_supply"],
+			"raided_demand" = dawn["raided_demand"],
+			"raided_suppliers" = dawn["raided_suppliers"],
+			"raided_demanders" = dawn["raided_demanders"],
 		))
 
 	SStreasury.cached_market_rows = market_rows
-	SStreasury.cached_region_rows = region_rows
-	SStreasury.cached_total_arbitrage_potential = total_arbitrage_potential
 	SStreasury.market_view_dirty = FALSE
 
-/obj/structure/roguemachine/steward/proc/build_market_import_regions(good_id)
-	var/list/out = list()
-	for(var/rid in GLOB.economic_regions)
-		var/datum/economic_region/r = GLOB.economic_regions[rid]
-		var/pace = r.produces[good_id]
-		if(!pace)
-			continue
-		var/today = r.produces_today[good_id] || 0
-		var/starting_index = max(0, pace - today)
-		var/price = SSeconomy.compute_import_unit_price(good_id, r, starting_index + 1)
-		out += list(list(
-			"region_id" = rid,
-			"unit_price" = price,
-			"capacity_today" = r.get_day_capacity(good_id, TRUE),
-			"capacity_total" = r.get_day_capacity_total(good_id, TRUE),
-			"batch_capacity" = r.get_batch_capacity(good_id, TRUE),
-			"is_blockaded" = r.is_region_blockaded ? TRUE : FALSE,
-		))
-	for(var/i in 1 to length(out) - 1)
-		for(var/j in (i + 1) to length(out))
-			if(out[j]["unit_price"] < out[i]["unit_price"])
-				var/list/swap = out[i]
-				out[i] = out[j]
-				out[j] = swap
-	return out
-
-/obj/structure/roguemachine/steward/proc/build_market_export_regions(good_id)
-	var/list/out = list()
-	for(var/rid in GLOB.economic_regions)
-		var/datum/economic_region/r = GLOB.economic_regions[rid]
-		var/pace = r.demands[good_id]
-		if(!pace)
-			continue
-		var/today = r.demands_today[good_id] || 0
-		var/starting_index = max(0, pace - today)
-		var/price = SSeconomy.compute_export_unit_price(good_id, r, starting_index + 1)
-		out += list(list(
-			"region_id" = rid,
-			"unit_price" = price,
-			"capacity_today" = r.get_day_capacity(good_id, FALSE),
-			"capacity_total" = r.get_day_capacity_total(good_id, FALSE),
-			"batch_capacity" = r.get_batch_capacity(good_id, FALSE),
-			"is_blockaded" = r.is_region_blockaded ? TRUE : FALSE,
-		))
-	for(var/i in 1 to length(out) - 1)
-		for(var/j in (i + 1) to length(out))
-			if(out[j]["unit_price"] > out[i]["unit_price"])
-				var/list/swap = out[i]
-				out[i] = out[j]
-				out[j] = swap
-	return out
-
-/obj/structure/roguemachine/steward/proc/build_auto_import_data()
-	if(!SStreasury.auto_import_view_dirty && !isnull(SStreasury.cached_auto_import_data))
-		return SStreasury.cached_auto_import_data
-	var/list/essentials = list()
-	for(var/good_id in AUTO_IMPORT_ESSENTIALS)
-		var/datum/trade_good/tg = GLOB.trade_goods[good_id]
-		if(!tg)
-			continue
-		var/datum/roguestock/entry = SSeconomy.find_stockpile_by_trade_good(good_id)
-		essentials += list(list(
-			"good_id" = good_id,
-			"active" = SStreasury.is_auto_import_active(good_id) ? TRUE : FALSE,
-			"stock" = entry ? entry.stockpile_amount : 0,
-		))
-
-	var/list/others = list()
-	var/list/stockpile_entries = SStreasury.stockpile_by_trade_good
-	var/list/producers = SSeconomy.goods_with_producers
-	for(var/good_id in stockpile_entries)
-		if(good_id in AUTO_IMPORT_ESSENTIALS)
-			continue
-		if(!producers[good_id])
-			continue
-		var/datum/trade_good/tg = GLOB.trade_goods[good_id]
-		if(!tg || !tg.importable)
-			continue
-		var/datum/roguestock/entry = stockpile_entries[good_id]
-		if(!entry || !entry.accept_toggle_enabled)
-			continue
-		others += list(list(
-			"good_id" = good_id,
-			"active" = SStreasury.is_auto_import_active(good_id) ? TRUE : FALSE,
-			"stock" = entry.stockpile_amount,
-		))
-	var/list/history = list()
-	for(var/list/entry as anything in SStreasury.auto_import_daily_history)
-		var/list/lines = entry["lines"]
-		history += list(list(
-			"day" = entry["day"],
-			"spent" = entry["spent"],
-			"lines" = lines || list(),
-		))
-
-	SStreasury.cached_auto_import_data = list(
-		"today_spent" = SStreasury.auto_import_daily_spent,
-		"purse_floor" = SStreasury.auto_import_purse_floor,
-		"floor_target" = AUTO_IMPORT_FLOOR,
-		"batch_size" = AUTO_IMPORT_BATCH,
-		"max_price_mult" = AUTO_IMPORT_MAX_PRICE_MULT,
-		"essentials" = essentials,
-		"others" = others,
-		"history" = history,
-	)
-	SStreasury.auto_import_view_dirty = FALSE
-	return SStreasury.cached_auto_import_data
-
-/// Trade-control actions blocked during sequestration. Petitions, order fulfillment,
-/// and read-only quote actions are deliberately excluded so the Steward can still
-/// crawl out of debt by petitioning, taxing, and fining.
+/// Trade-control actions blocked during sequestration. Petitions and order fulfillment
+/// are deliberately excluded so the Steward can still crawl out of debt by petitioning,
+/// taxing, and fining.
 GLOBAL_LIST_INIT(steward_trade_sequestration_locked_actions, list(
-	"trade_import",
-	"trade_export",
-	"trade_region_import",
-	"trade_region_export",
-	"toggle_auto_import",
-	"kill_switch_auto_import",
-	"set_auto_import_purse_floor",
-	"toggle_auto_price",
-	"toggle_auto_limit",
-	"toggle_stockpile_accept",
-	"toggle_withdraw_disabled",
-	"toggle_autoexport_disabled",
-	"allow_withdraw_category",
-	"bar_withdraw_category",
-	"allow_autoexport_category",
-	"bar_autoexport_category",
-	"bar_autoexport_shortages",
-	"allow_autoexport_all",
-	"set_buy_price",
-	"set_sell_price",
-	"set_stockpile_limit",
-	"import_steward_policy",
-	"autoprice_all",
-	"autolimit_all",
-	"autoprice_category",
-	"autolimit_category",
-	"accept_category",
-	"reject_category",
-	"multiply_all_buy",
-	"multiply_all_sell",
-	"multiply_category_buy",
-	"multiply_category_sell",
-	"set_autoexport_percentage",
-	"export_surplus_all",
-	"export_surplus_category",
+	"sell_to_market",
+	"buy_from_market",
 ))
 
-/obj/structure/roguemachine/steward/ui_act(action, list/params)
+/obj/structure/roguemachine/steward/ui_act(action, list/params, datum/tgui/ui, datum/ui_state/state)
 	. = ..()
 	if(.)
 		return
-	if(!user_can_act(usr))
-		return TRUE
-	if(locked && !alderman_has_access(usr))
-		return TRUE
+	if(locked || !user_can_act(usr))
+		return
 	if(SStreasury.is_in_receivership() && (action in GLOB.steward_trade_sequestration_locked_actions))
 		to_chat(usr, span_warning("Trade controls are locked under sequestration. Petitions, taxes and fines still work."))
-		return TRUE
-	if(action == "fulfill_order" || (action in GLOB.steward_trade_sequestration_locked_actions))
+		ui.send_update()
+		return
+	if(action in GLOB.steward_trade_sequestration_locked_actions)
 		SStreasury.dirty_market_view()
 	switch(action)
-		if("fulfill_order")
-			if(!COOLDOWN_FINISHED(src, fulfill_retry_cooldown))
-				to_chat(usr, span_warning("You just tried to fulfill an order. Wait a moment and try again."))
-				return TRUE
-			var/datum/standing_order/O = locate(params["ref"]) in GLOB.standing_order_pool
-			if(O)
-				var/wants_partial = !!params["partial"]
-				var/result = SSeconomy.fulfill_order(usr, O, wants_partial)
-				if(result == STANDING_ORDER_FULFILL_NEEDS_PARTIAL_PROMPT)
-					var/list/preview = SSeconomy.preview_partial_fulfillment(O)
-					var/coverage_pct = preview["coverage_pct"]
-					var/preview_payout = preview["payout"]
-					var/missing_text = preview["missing_text"]
-					var/confirm = alert(usr, "You have [coverage_pct]% of the goods for [O.name]. Send them now for [preview_payout]m, [round(STANDING_ORDER_PARTIAL_PAYOUT_MULT * 100)]% of their value? Still missing: [missing_text].", "Partial Delivery", "Send", "Wait")
-					if(confirm == "Send")
-						var/list/partial_result = SSeconomy.fulfill_order(usr, O, TRUE)
-						if(islist(partial_result) && partial_result["status"] == "partial")
-							var/pq_delta = partial_result["quality_delta"]
-							var/pq_suffix = ""
-							if(pq_delta > 0)
-								pq_suffix = " (quality bonus: +[pq_delta]m)"
-							else if(pq_delta < 0)
-								pq_suffix = " (quality penalty: [pq_delta]m)"
-							scom_announce("Standing Order partially fulfilled: [O.name] (+[partial_result["payout"]]m)[pq_suffix].")
-							playsound(src, 'sound/misc/coindispense.ogg', 60, FALSE, -1)
-						else
-							COOLDOWN_START(src, fulfill_retry_cooldown, STANDING_ORDER_FULFILL_RETRY_COOLDOWN)
-					SStgui.update_uis(src)
-					return TRUE
-				if(islist(result) && result["status"] == "full")
-					var/q_delta = result["quality_delta"]
-					var/q_suffix = ""
-					if(q_delta > 0)
-						q_suffix = " (quality bonus: +[q_delta]m)"
-					else if(q_delta < 0)
-						q_suffix = " (quality penalty: [q_delta]m)"
-					scom_announce("Standing Order fulfilled: [O.name] (+[result["payout"]]m)[q_suffix].")
-					playsound(src, 'sound/misc/coindispense.ogg', 60, FALSE, -1)
-				else
-					COOLDOWN_START(src, fulfill_retry_cooldown, STANDING_ORDER_FULFILL_RETRY_COOLDOWN)
-			SStgui.update_uis(src)
+		if("open_window")
+			open_steward_window(usr, params["window"])
+			return
+		if("sell_to_market")
+			var/quantity = text2num("[params["quantity"]]")
+			if(quantity)
+				SSeconomy.sell_to_market(usr, params["good_id"], quantity)
 			return TRUE
-		if("trade_import")
-			handle_trade_import(usr, params["region_id"], params["good_id"], params["quantity"])
-			last_trade_quote -= usr.ckey
-			SStgui.update_uis(src)
-			return TRUE
-		if("trade_export")
-			handle_trade_export(usr, params["region_id"], params["good_id"], params["quantity"])
-			last_trade_quote -= usr.ckey
-			SStgui.update_uis(src)
-			return TRUE
-		if("trade_quote")
-			last_trade_quote[usr.ckey] = quote_trade(usr, params["side"], params["region_id"], params["good_id"], params["quantity"])
-			SStgui.update_uis(src)
-			return TRUE
-		if("trade_quote_close")
-			last_trade_quote -= usr.ckey
-			SStgui.update_uis(src)
-			return TRUE
-		if("trade_region_import")
-			handle_trade_region_import(usr, params["region_id"])
-			SStgui.update_uis(src)
-			return TRUE
-		if("trade_region_export")
-			handle_trade_region_export(usr, params["region_id"])
-			SStgui.update_uis(src)
-			return TRUE
-		if("toggle_auto_import")
-			if(SScity_assembly?.is_alderman(usr))
-				return TRUE
-			var/good_id = params["good_id"]
-			if(good_id)
-				SStreasury.set_auto_import(good_id, !SStreasury.is_auto_import_active(good_id))
-			SStgui.update_uis(src)
-			return TRUE
-		if("kill_switch_auto_import")
-			if(SScity_assembly?.is_alderman(usr))
-				return TRUE
-			SStreasury.kill_switch_auto_import()
-			SStgui.update_uis(src)
-			return TRUE
-		if("set_auto_import_purse_floor")
-			if(SScity_assembly?.is_alderman(usr))
-				return TRUE
-			var/amount = text2num("[params["amount"]]")
-			if(!isnull(amount))
-				SStreasury.set_auto_import_purse_floor(amount)
-			SStgui.update_uis(src)
-			return TRUE
-		// ── Stockpile management. Steward-only — Aldermen see the data but can't edit. ──
-		if("toggle_auto_price")
-			if(SScity_assembly?.is_alderman(usr))
-				return TRUE
-			var/datum/roguestock/D = SSeconomy.find_stockpile_by_trade_good(params["good_id"])
-			if(D)
-				D.automatic_price = !D.automatic_price
-				if(D.automatic_price)
-					D.snap_auto_prices()
-			SStgui.update_uis(src)
-			return TRUE
-		if("toggle_auto_limit")
-			if(SScity_assembly?.is_alderman(usr))
-				return TRUE
-			var/datum/roguestock/D = SSeconomy.find_stockpile_by_trade_good(params["good_id"])
-			if(D)
-				D.automatic_limit = !D.automatic_limit
-				if(D.automatic_limit)
-					// Recompute this one entry from the auto formula.
-					var/effective_pop = (SSeconomy && SSeconomy.simulated_player_scalar > 0) ? SSeconomy.simulated_player_scalar : get_active_player_count()
-					var/pop_mult = min(REGION_POP_SCALE_MAX, 1.0 + (effective_pop * REGION_POP_SCALE_PER_PLAYER))
-					var/total_demand = 0
-					for(var/region_id in GLOB.economic_regions)
-						var/datum/economic_region/region = GLOB.economic_regions[region_id]
-						total_demand += region.demands[D.trade_good_id] || 0
-					if(total_demand > 0)
-						D.stockpile_limit = max(STOCKPILE_LIMIT_MIN, ceil(total_demand * pop_mult * STOCKPILE_AUTO_LIMIT_DAYS))
-					else
-						D.stockpile_limit = max(STOCKPILE_LIMIT_MIN, D.stockpile_limit)
-			SStgui.update_uis(src)
-			return TRUE
-		if("toggle_stockpile_accept")
-			if(SScity_assembly?.is_alderman(usr))
-				return TRUE
-			var/datum/roguestock/D = SSeconomy.find_stockpile_by_trade_good(params["good_id"])
-			if(D)
-				D.accept_toggle_enabled = !D.accept_toggle_enabled
-				SStreasury.dirty_market_view()
-			SStgui.update_uis(src)
-			return TRUE
-		if("toggle_withdraw_disabled")
-			if(SScity_assembly?.is_alderman(usr))
-				return TRUE
-			var/datum/roguestock/D = SSeconomy.find_stockpile_by_trade_good(params["good_id"])
-			if(D)
-				D.withdraw_disabled = !D.withdraw_disabled
-				SStreasury.dirty_market_view()
-			SStgui.update_uis(src)
-			return TRUE
-		if("set_buy_price")
-			if(SScity_assembly?.is_alderman(usr))
-				return TRUE
-			var/datum/roguestock/D = SSeconomy.find_stockpile_by_trade_good(params["good_id"])
-			var/price = text2num("[params["price"]]")
-			if(D && !isnull(price))
-				D.payout_price = clamp(round(price), 0, 9999)
-				D.automatic_price = FALSE
-			SStgui.update_uis(src)
-			return TRUE
-		if("set_sell_price")
-			if(SScity_assembly?.is_alderman(usr))
-				return TRUE
-			var/datum/roguestock/D = SSeconomy.find_stockpile_by_trade_good(params["good_id"])
-			var/price = text2num("[params["price"]]")
-			if(D && !isnull(price))
-				D.withdraw_price = clamp(round(price), 0, 9999)
-				D.automatic_price = FALSE
-			SStgui.update_uis(src)
-			return TRUE
-		if("set_stockpile_limit")
-			if(SScity_assembly?.is_alderman(usr))
-				return TRUE
-			var/datum/roguestock/D = SSeconomy.find_stockpile_by_trade_good(params["good_id"])
-			var/lim = text2num("[params["limit"]]")
-			if(D && !isnull(lim))
-				D.set_manual_limit(lim)
-			SStgui.update_uis(src)
-			return TRUE
-		if("export_steward_policy")
-			if(SScity_assembly?.is_alderman(usr))
-				return TRUE
-			tgui_input_text(usr, "Copy the text here and save it locally. You can paste it into Import Policy in later rounds to keep your custom settings, including: Handset limits, autoexport / withdraw bars, unaccepted goods, autoimport list, essential opt-outs, surplus threshold and purse floor. Autolimits or prices are not stored.", "Export Policy", SStreasury.export_steward_policy(), max_length = STEWARD_POLICY_IMPORT_MAX_LEN, multiline = TRUE, encode = FALSE, width = STEWARD_POLICY_WINDOW_WIDTH, height = STEWARD_POLICY_WINDOW_HEIGHT)
-			return TRUE
-		if("import_steward_policy")
-			if(SScity_assembly?.is_alderman(usr))
-				return TRUE
-			var/blob = tgui_input_text(usr, "Import exported policies from previous round. See export policy for what are covered.", "Import Policy", max_length = STEWARD_POLICY_IMPORT_MAX_LEN, multiline = TRUE, encode = FALSE, width = STEWARD_POLICY_WINDOW_WIDTH, height = STEWARD_POLICY_WINDOW_HEIGHT)
-			if(!blob || !user_can_act(usr) || SScity_assembly?.is_alderman(usr) || SStreasury.is_in_receivership())
-				return TRUE
-			var/list/result = SStreasury.import_steward_policy(blob)
-			if(!result)
-				to_chat(usr, span_warning("The Steward policy looks wrong or malformed."))
-				return TRUE
-			var/applied = result["applied"]
-			var/skipped = result["skipped"]
-			var/skipped_text = ""
-			if(skipped)
-				skipped_text = " Skipped [skipped] unknown [skipped == 1 ? "entry" : "entries"]."
-			to_chat(usr, span_notice("Applied [applied] setting\s.[skipped_text]"))
-			log_game("POLICY IMPORT: [key_name(usr)] imported [applied] steward policy settings ([skipped] skipped)")
-			SStgui.update_uis(src)
-			return TRUE
-		if("autoprice_all")
-			if(SScity_assembly?.is_alderman(usr))
-				return TRUE
-			for(var/datum/roguestock/stockpile/A in SStreasury.stockpile_datums)
-				A.automatic_price = TRUE
-				A.snap_auto_prices()
-			SStgui.update_uis(src)
-			return TRUE
-		if("autolimit_all")
-			if(SScity_assembly?.is_alderman(usr))
-				return TRUE
-			for(var/datum/roguestock/A in SStreasury.stockpile_datums)
-				A.automatic_limit = TRUE
-			SStreasury.autoset_stockpile_limits()
-			SStgui.update_uis(src)
-			return TRUE
-		if("autoprice_category")
-			if(SScity_assembly?.is_alderman(usr))
-				return TRUE
-			var/category = params["category"]
-			if(!category)
-				return TRUE
-			for(var/datum/roguestock/A in SStreasury.stockpile_datums)
-				if(!A.trade_good_id)
-					continue
-				var/datum/trade_good/tg = GLOB.trade_goods[A.trade_good_id]
-				if(!tg || tg.category != category)
-					continue
-				A.automatic_price = TRUE
-				A.snap_auto_prices()
-			SStgui.update_uis(src)
-			return TRUE
-		if("autolimit_category")
-			if(SScity_assembly?.is_alderman(usr))
-				return TRUE
-			var/category = params["category"]
-			if(!category)
-				return TRUE
-			for(var/datum/roguestock/A in SStreasury.stockpile_datums)
-				if(!A.trade_good_id)
-					continue
-				var/datum/trade_good/tg = GLOB.trade_goods[A.trade_good_id]
-				if(!tg || tg.category != category)
-					continue
-				A.automatic_limit = TRUE
-			SStreasury.autoset_stockpile_limits()
-			SStgui.update_uis(src)
-			return TRUE
-		if("accept_category")
-			if(SScity_assembly?.is_alderman(usr))
-				return TRUE
-			var/category = params["category"]
-			if(!category)
-				return TRUE
-			for(var/datum/roguestock/A in SStreasury.stockpile_datums)
-				if(!A.trade_good_id)
-					continue
-				var/datum/trade_good/tg = GLOB.trade_goods[A.trade_good_id]
-				if(!tg || tg.category != category)
-					continue
-				A.accept_toggle_enabled = TRUE
-			SStreasury.dirty_market_view()
-			SStgui.update_uis(src)
-			return TRUE
-		if("reject_category")
-			if(SScity_assembly?.is_alderman(usr))
-				return TRUE
-			var/category = params["category"]
-			if(!category)
-				return TRUE
-			for(var/datum/roguestock/A in SStreasury.stockpile_datums)
-				if(!A.trade_good_id)
-					continue
-				var/datum/trade_good/tg = GLOB.trade_goods[A.trade_good_id]
-				if(!tg || tg.category != category)
-					continue
-				A.accept_toggle_enabled = FALSE
-			SStreasury.dirty_market_view()
-			SStgui.update_uis(src)
-			return TRUE
-		if("allow_withdraw_category", "bar_withdraw_category")
-			if(SScity_assembly?.is_alderman(usr))
-				return TRUE
-			var/category = params["category"]
-			if(!category)
-				return TRUE
-			var/barred = (action == "bar_withdraw_category")
-			for(var/datum/roguestock/A in SStreasury.stockpile_datums)
-				if(!A.trade_good_id)
-					continue
-				var/datum/trade_good/tg = GLOB.trade_goods[A.trade_good_id]
-				if(!tg || tg.category != category)
-					continue
-				A.withdraw_disabled = barred
-			SStreasury.dirty_market_view()
-			SStgui.update_uis(src)
-			return TRUE
-		if("allow_autoexport_category", "bar_autoexport_category")
-			if(SScity_assembly?.is_alderman(usr))
-				return TRUE
-			var/category = params["category"]
-			if(!category)
-				return TRUE
-			var/barred = (action == "bar_autoexport_category")
-			for(var/datum/roguestock/A in SStreasury.stockpile_datums)
-				if(!A.trade_good_id)
-					continue
-				var/datum/trade_good/tg = GLOB.trade_goods[A.trade_good_id]
-				if(!tg || tg.category != category)
-					continue
-				A.autoexport_disabled = barred
-			SStreasury.dirty_market_view()
-			SStgui.update_uis(src)
-			return TRUE
-		if("bar_autoexport_shortages")
-			if(SScity_assembly?.is_alderman(usr))
-				return TRUE
-			var/barred_count = 0
-			for(var/datum/economic_event/E as anything in GLOB.active_economic_events)
-				if(E.event_type != ECON_EVENT_SHORTAGE)
-					continue
-				for(var/good_id in E.affected_goods)
-					var/datum/roguestock/A = SStreasury.stockpile_by_trade_good[good_id]
-					if(!A || A.autoexport_disabled)
-						continue
-					A.autoexport_disabled = TRUE
-					barred_count++
-			SStreasury.dirty_market_view()
-			if(barred_count)
-				to_chat(usr, span_info("Autoexport barred on [barred_count] good\s under shortage."))
-			else
-				to_chat(usr, span_warning("No shortage goods left to bar."))
-			SStgui.update_uis(src)
-			return TRUE
-		if("allow_autoexport_all")
-			if(SScity_assembly?.is_alderman(usr))
-				return TRUE
-			for(var/datum/roguestock/A as anything in SStreasury.stockpile_datums)
-				A.autoexport_disabled = FALSE
-			SStreasury.dirty_market_view()
-			SStgui.update_uis(src)
-			return TRUE
-		if("toggle_autoexport_disabled")
-			if(SScity_assembly?.is_alderman(usr))
-				return TRUE
-			var/datum/roguestock/D = SSeconomy.find_stockpile_by_trade_good(params["good_id"])
-			if(D)
-				D.autoexport_disabled = !D.autoexport_disabled
-				SStreasury.dirty_market_view()
-			SStgui.update_uis(src)
-			return TRUE
-		if("multiply_all_buy")
-			if(SScity_assembly?.is_alderman(usr))
-				return TRUE
-			var/mult = text2num("[params["multiplier"]]")
-			if(isnull(mult) || mult <= 0)
-				return TRUE
-			for(var/datum/roguestock/stockpile/A in SStreasury.stockpile_datums)
-				A.refresh_auto_price()
-				A.payout_price = max(1, round(A.payout_price * mult))
-				A.automatic_price = FALSE
-			SStgui.update_uis(src)
-			return TRUE
-		if("multiply_all_sell")
-			if(SScity_assembly?.is_alderman(usr))
-				return TRUE
-			var/mult = text2num("[params["multiplier"]]")
-			if(isnull(mult) || mult <= 0)
-				return TRUE
-			for(var/datum/roguestock/stockpile/A in SStreasury.stockpile_datums)
-				A.refresh_auto_price()
-				A.withdraw_price = max(1, round(A.withdraw_price * mult))
-				A.automatic_price = FALSE
-			SStgui.update_uis(src)
-			return TRUE
-		if("multiply_category_buy")
-			if(SScity_assembly?.is_alderman(usr))
-				return TRUE
-			var/category = params["category"]
-			var/mult = text2num("[params["multiplier"]]")
-			if(!category || isnull(mult) || mult <= 0)
-				return TRUE
-			for(var/datum/roguestock/stockpile/A in SStreasury.stockpile_datums)
-				if(!A.trade_good_id)
-					continue
-				var/datum/trade_good/tg = GLOB.trade_goods[A.trade_good_id]
-				if(!tg || tg.category != category)
-					continue
-				A.refresh_auto_price()
-				A.payout_price = max(1, round(A.payout_price * mult))
-				A.automatic_price = FALSE
-			SStgui.update_uis(src)
-			return TRUE
-		if("multiply_category_sell")
-			if(SScity_assembly?.is_alderman(usr))
-				return TRUE
-			var/category = params["category"]
-			var/mult = text2num("[params["multiplier"]]")
-			if(!category || isnull(mult) || mult <= 0)
-				return TRUE
-			for(var/datum/roguestock/stockpile/A in SStreasury.stockpile_datums)
-				if(!A.trade_good_id)
-					continue
-				var/datum/trade_good/tg = GLOB.trade_goods[A.trade_good_id]
-				if(!tg || tg.category != category)
-					continue
-				A.refresh_auto_price()
-				A.withdraw_price = max(1, round(A.withdraw_price * mult))
-				A.automatic_price = FALSE
-			SStgui.update_uis(src)
-			return TRUE
-		if("set_autoexport_percentage")
-			if(SScity_assembly?.is_alderman(usr))
-				return TRUE
-			var/pct = text2num("[params["pct"]]")
-			if(isnull(pct))
-				return TRUE
-			pct = clamp(round(pct), 0, 100)
-			SStreasury.autoexport_percentage = pct * 0.01
-			SStgui.update_uis(src)
-			return TRUE
-		if("export_surplus_all")
-			if(SScity_assembly?.is_alderman(usr))
-				return TRUE
-			var/list/result = SStreasury.mass_export_surplus(silent = FALSE)
-			var/units = result["units"]
-			var/revenue = result["revenue"]
-			if(units <= 0)
-				to_chat(usr, span_warning("No surplus to export. No entries are over their threshold or no regions have remaining demand."))
-				return TRUE
-			scom_announce("The Crown sold [units] units of surplus stock abroad for [revenue] mammon.")
-			for(var/line in result["lines"])
-				to_chat(usr, span_notice(line))
-			to_chat(usr, span_notice("<b>Total: [units] units exported for [revenue]m.</b>"))
-			playsound(src, 'sound/misc/coindispense.ogg', 60, FALSE, -1)
-			SStgui.update_uis(src)
-			return TRUE
-		if("export_surplus_category")
-			if(SScity_assembly?.is_alderman(usr))
-				return TRUE
-			var/category = params["category"]
-			if(!category)
-				return TRUE
-			// Per-category mass export: identical surplus rules, filtered to one trade-good category.
-			var/total_revenue = 0
-			var/total_units = 0
-			var/list/lines = list()
-			for(var/datum/roguestock/D in SStreasury.stockpile_datums)
-				if(!D.trade_good_id || !D.automatic_price || !D.importexport_amt)
-					continue
-				if(D.autoexport_disabled)
-					continue
-				var/datum/trade_good/tg = GLOB.trade_goods[D.trade_good_id]
-				if(!tg || tg.category != category)
-					continue
-				var/keep = round(SStreasury.autoexport_percentage * D.stockpile_limit)
-				if(SStreasury.is_auto_import_active(D.trade_good_id))
-					keep = max(keep, AUTO_IMPORT_FLOOR)
-				var/surplus = D.stockpile_amount - keep
-				if(surplus <= 0)
-					continue
-				var/list/best = SSeconomy.get_best_export_region(D.trade_good_id)
-				if(!best || !best["region_id"])
-					continue
-				var/datum/economic_region/region = GLOB.economic_regions[best["region_id"]]
-				if(!region)
-					continue
-				var/remaining_demand = region.demands_today[D.trade_good_id] || 0
-				if(remaining_demand <= 0)
-					continue
-				var/export_qty = min(surplus, remaining_demand)
-				var/revenue = SSeconomy.manual_export(null, region.region_id, D.trade_good_id, export_qty)
-				if(!revenue)
-					continue
-				total_revenue += revenue
-				total_units += export_qty
-				lines += "[export_qty] [D.name] to [region.name] for [revenue]m"
-			if(total_units <= 0)
-				to_chat(usr, span_warning("No [category] surplus to export."))
-				return TRUE
-			scom_announce("The Crown sold [total_units] units of surplus [category] abroad for [total_revenue] mammon.")
-			for(var/line in lines)
-				to_chat(usr, span_notice(line))
-			to_chat(usr, span_notice("<b>Total: [total_units] units exported for [total_revenue]m.</b>"))
-			playsound(src, 'sound/misc/coindispense.ogg', 60, FALSE, -1)
-			SStgui.update_uis(src)
+		if("buy_from_market")
+			var/quantity = text2num("[params["quantity"]]")
+			if(quantity)
+				SSeconomy.buy_from_market(usr, params["good_id"], quantity)
 			return TRUE
 		if("petition_select")
 			var/template = text2path(params["template"])
@@ -1117,97 +494,86 @@ GLOBAL_LIST_INIT(steward_trade_sequestration_locked_actions, list(
 				petition_view[usr.ckey] = template
 			else
 				petition_view -= usr.ckey
-			SStgui.update_uis(src)
+			ui.send_update()
+			return
+		if("caravan_select")
+			caravan_view[usr.ckey] = list("request" = "[params["request"]]", "offer" = "[params["offer"]]", "tribute" = "[params["tribute"]]")
+			ui.send_update()
+			return
+		if("caravan_sell_toggle")
+			var/kind = params["kind"]
+			if(kind != "offer" && kind != "tribute")
+				return
+			var/list/sell = caravan_sell[usr.ckey]
+			if(!sell)
+				sell = list("offer" = FALSE, "tribute" = FALSE)
+				caravan_sell[usr.ckey] = sell
+			sell[kind] = !sell[kind]
+			ui.send_update()
+			return
+		if("buy_escort")
+			var/subroute = text2path(params["subroute"])
+			if(ispath(subroute, /datum/trade_subroute) && SSeconomy.buy_escort(usr, subroute))
+				playsound(src, 'sound/misc/coindispense.ogg', 60, FALSE, -1)
+			return TRUE
+		if("send_caravan")
+			var/route = text2path(params["route"])
+			if(!ispath(route, /datum/trade_route))
+				return TRUE
+			var/datum/standing_order/request
+			if(params["request"])
+				request = locate(params["request"]) in GLOB.standing_order_pool
+				if(!request)
+					to_chat(usr, span_warning("That order is gone."))
+					return TRUE
+			var/datum/region_offer/offer
+			if(params["offer"])
+				offer = locate(params["offer"]) in GLOB.region_offer_pool
+				if(!offer)
+					to_chat(usr, span_warning("That offer is gone."))
+					return TRUE
+			var/datum/economic_region/tribute_region
+			if(params["tribute"])
+				tribute_region = GLOB.economic_regions[params["tribute"]]
+			var/list/sell = caravan_sell[usr.ckey]
+			if(SSeconomy.send_caravan(usr, route, request, offer, tribute_region, params["fill"] ? TRUE : FALSE, sell?["offer"] ? TRUE : FALSE, sell?["tribute"] ? TRUE : FALSE))
+				playsound(src, 'sound/misc/coindispense.ogg', 60, FALSE, -1)
+			return TRUE
+		if("place_commission")
+			var/datum/royal_commission/C = locate(params["ref"]) in GLOB.royal_commissions
+			if(C && SSeconomy.place_commission(usr, C))
+				playsound(src, 'sound/misc/coindispense.ogg', 60, FALSE, -1)
+			return TRUE
+		if("place_local_commission")
+			var/datum/crown_import/D = locate(params["ref"]) in GLOB.crown_imports
+			if(D && SSeconomy.place_local_commission(usr, D))
+				playsound(src, 'sound/misc/coindispense.ogg', 60, FALSE, -1)
+			return TRUE
+		if("rent_caravan")
+			if(!(usr.job in GLOB.crown_authority_roles))
+				to_chat(usr, span_warning("Only Crown officials can rent out caravans."))
+				return
+			SSeconomy.rent_caravan(usr)
+			return TRUE
+		if("return_rental")
+			if(!(usr.job in GLOB.crown_authority_roles))
+				to_chat(usr, span_warning("Only Crown officials can take back caravans."))
+				return
+			SSeconomy.return_rental(usr)
+			return TRUE
+		if("extend_order")
+			if(!(usr.job in GLOB.crown_authority_roles))
+				to_chat(usr, span_warning("Only Crown officials can send a zad."))
+				return TRUE
+			var/datum/standing_order/O = locate(params["ref"]) in GLOB.standing_order_pool
+			if(O)
+				SSeconomy.extend_order(usr, O)
 			return TRUE
 		if("petition_for_order")
-			if(SScity_assembly?.is_alderman(usr))
-				to_chat(usr, span_warning("As Alderman, you can't petition regions."))
-				return TRUE
 			if(!(usr.job in GLOB.crown_authority_roles))
 				to_chat(usr, span_warning("Only Crown officials can petition regions."))
 				return TRUE
-			var/region_id = params["region_id"]
 			var/template = text2path(params["template"])
-			if(SSeconomy.petition_for_order(usr, region_id, template))
-				var/datum/economic_region/region = GLOB.economic_regions[region_id]
+			if(SSeconomy.petition_for_order(usr, template))
 				playsound(src, 'sound/items/inqslip_sealed.ogg', 70, FALSE, -1)
-				visible_message(span_notice("[src] stamps the petition and seals it for [region?.name]."))
-			SStgui.update_uis(src)
 			return TRUE
-		if("take_atc_loan")
-			if(SScity_assembly?.is_alderman(usr))
-				to_chat(usr, span_warning("As Alderman, you can't take loans for the Crown."))
-				return TRUE
-			if(!(usr.job in GLOB.crown_authority_roles))
-				to_chat(usr, span_warning("Only Crown officials can take loans from the ATC."))
-				return TRUE
-			var/amount = text2num("[params["amount"]]")
-			if(!isnum(amount))
-				return TRUE
-			if(SStreasury.take_atc_loan(amount, usr))
-				playsound(src, 'sound/items/inqslip_sealed.ogg', 70, FALSE, -1)
-				visible_message(span_notice("[src] stamps the loan papers with the ATC seal."))
-			SStgui.update_uis(src)
-			return TRUE
-		if("set_royal_custom_margin")
-			if(!SStreasury.royal_custom_unlocked)
-				return TRUE
-			var/n = text2num("[params["value"]]")
-			if(isnum(n))
-				SStreasury.royal_custom_margin = clamp(round(n), 0, 500)
-			return TRUE
-		if("ledger_open")
-			SStreasury.revalue_stockpile_inventory()
-			ledger_view[usr.ckey] = list("open" = TRUE, "page" = 1, "filter" = "", "dirty" = TRUE)
-			return TRUE
-		if("ledger_close")
-			var/list/lview = ledger_view[usr.ckey]
-			if(lview)
-				lview["open"] = FALSE
-			return TRUE
-		if("ledger_page")
-			var/list/lview = ledger_view[usr.ckey]
-			if(!lview || !lview["open"])
-				return TRUE
-			lview["page"] = max(1, text2num("[params["page"]]") || 1)
-			lview["dirty"] = TRUE
-			return TRUE
-		if("ledger_filter")
-			var/list/lview = ledger_view[usr.ckey]
-			if(!lview || !lview["open"])
-				return TRUE
-			lview["filter"] = trim("[params["filter"]]")
-			lview["page"] = 1
-			lview["dirty"] = TRUE
-			return TRUE
-		if("ledger_view")
-			var/list/lview = ledger_view[usr.ckey]
-			if(!lview || !lview["open"])
-				return TRUE
-			var/new_view = "[params["view"]]"
-			if(!(new_view in list("journal", "ledger", "trial", "income", "balance", "subsidiary")))
-				return TRUE
-			SStreasury.revalue_stockpile_inventory()
-			lview["view"] = new_view
-			lview["page"] = 1
-			lview["dirty"] = TRUE
-			return TRUE
-		if("ledger_account")
-			var/list/lview = ledger_view[usr.ckey]
-			if(!lview || !lview["open"])
-				return TRUE
-			var/datum/ledger_account/picked = SStreasury.get_ledger_account("[params["id"]]")
-			if(!picked || picked.book != LEDGER_BOOK_CROWN)
-				return TRUE
-			lview["account"] = picked.id
-			lview["dirty"] = TRUE
-			return TRUE
-		if("ledger_refresh")
-			var/list/lview = ledger_view[usr.ckey]
-			if(!lview || !lview["open"])
-				return TRUE
-			SStreasury.revalue_stockpile_inventory()
-			lview["dirty"] = TRUE
-			return TRUE
-
-#undef LEDGER_PAGE_SIZE

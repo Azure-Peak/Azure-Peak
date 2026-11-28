@@ -97,6 +97,13 @@
 	. = ..()
 	reagents.add_reagent(/datum/reagent/consumable/ethanol/redwine,900)
 
+/obj/structure/fermentation_keg/elvenred
+	name = "delectable fruity wine barrel"
+	desc = "A barrel that contains a Rosawood delicacy. Elven wine is prized across all of Psydonia."
+
+/obj/structure/fermentation_keg/elvenred/Initialize(mapload)
+	. = ..()
+	reagents.add_reagent(/datum/reagent/consumable/ethanol/elfred,900)
 
 /obj/structure/fermentation_keg/onion
 	name = "eye-wateringly aromatic barrel"

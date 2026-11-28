@@ -996,7 +996,7 @@ GLOBAL_VAR_INIT(mobids, 1)
 /mob/post_unbuckle_mob(mob/living/M)
 	M.layer = initial(M.layer)
 	M.pixel_y = initial(M.pixel_y)
-	candodge = initial(M.candodge)
+	candodge = initial(candodge)
 
 ///returns the height in pixel the mob should have when buckled to another mob.
 /mob/proc/get_mob_buckling_height(mob/seat)
@@ -1241,8 +1241,15 @@ GLOBAL_VAR_INIT(mobids, 1)
 /mob/vv_get_var(var_name)
 	switch(var_name)
 		if("logging")
-			return debug_variable(var_name, logging, 0, src, FALSE)
+			var/list/shown_logs = logging.Copy()
+			shown_logs -= "[LOG_SUBTLE]"
+			return debug_variable(var_name, shown_logs, 0, src, FALSE)
 	. = ..()
+
+/mob/can_vv_get(var_name)
+	if(var_name == NAMEOF(src, logging))
+		return FALSE
+	return ..()
 
 /mob/vv_auto_rename(new_name)
 	//Do not do parent's actions, as we *usually* do this differently.

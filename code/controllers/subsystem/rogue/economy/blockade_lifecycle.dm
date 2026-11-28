@@ -1,6 +1,6 @@
-/datum/controller/subsystem/economy/proc/find_blockade_for_region(region_id)
+/datum/controller/subsystem/economy/proc/find_blockade_for_subroute(subroute)
 	for(var/datum/blockade/B as anything in GLOB.active_blockades)
-		if(B.region_id == region_id)
+		if(B.subroute == subroute)
 			return B
 	return null
 
@@ -17,75 +17,92 @@
 		return null
 	return pickweight(eligible)
 
-/datum/controller/subsystem/economy/proc/roll_blockade(replenish = FALSE)
+/datum/controller/subsystem/economy/proc/pick_blockade_subroute()
 	var/list/candidates = list()
-	for(var/region_id in GLOB.economic_regions)
-		var/datum/economic_region/ER = GLOB.economic_regions[region_id]
-		if(!ER.threat_region_id)
+	for(var/subroute in subtypesof(/datum/trade_subroute))
+		if(gathering_blockades[subroute] || find_blockade_for_subroute(subroute))
 			continue
-		if(ER.is_region_blockaded)
+		var/list/regions = get_subroute_regions(subroute)
+		if(!length(regions))
 			continue
-		if(replenish && !ER.blockade_replenish_eligible)
+		var/recently_cleared = FALSE
+		for(var/datum/economic_region/ER as anything in regions)
+			if(ER.day_last_cleared >= 0 && (ECONOMY_DAY - ER.day_last_cleared) < BLOCKADE_RECLEAR_COOLDOWN)
+				recently_cleared = TRUE
+				break
+		if(recently_cleared)
 			continue
-		if(ER.day_last_cleared >= 0 && (GLOB.dayspassed - ER.day_last_cleared) < BLOCKADE_RECLEAR_COOLDOWN)
+		var/threat_region_id = get_subroute_threat_region(subroute)
+		if(!pick_blockade_faction_for(SSregionthreat.get_region(threat_region_id)))
 			continue
-		var/datum/threat_region/TR = SSregionthreat.get_region(ER.threat_region_id)
-		if(!TR)
+		if(!SSquestpool.has_landmark_for_region(threat_region_id))
 			continue
-		if(!pick_blockade_faction_for(TR))
-			continue
-		if(!SSquestpool.has_landmark_for_region(ER.threat_region_id))
-			continue
-		candidates += region_id
+		candidates += subroute
 	if(!length(candidates))
 		return null
-	var/chosen_id = pick(candidates)
-	var/datum/economic_region/ER = GLOB.economic_regions[chosen_id]
-	var/datum/threat_region/TR = SSregionthreat.get_region(ER.threat_region_id)
-	var/fid = pick_blockade_faction_for(TR)
+	return pick(candidates)
+
+/datum/controller/subsystem/economy/proc/roll_blockade()
+	var/subroute = pick_blockade_subroute()
+	if(!subroute)
+		return null
+	var/fid = pick_blockade_faction_for(SSregionthreat.get_region(get_subroute_threat_region(subroute)))
 	if(!fid)
 		return null
-	return place_blockade(chosen_id, fid)
+	return place_blockade(subroute, fid)
 
-/datum/controller/subsystem/economy/proc/place_blockade(region_id, faction_id)
-	var/datum/economic_region/ER = GLOB.economic_regions[region_id]
-	if(!ER)
+/datum/controller/subsystem/economy/proc/gather_blockade()
+	var/subroute = pick_blockade_subroute()
+	if(!subroute)
+		return FALSE
+	var/fid = pick_blockade_faction_for(SSregionthreat.get_region(get_subroute_threat_region(subroute)))
+	if(!fid)
+		return FALSE
+	gathering_blockades[subroute] = fid
+	var/datum/quest_faction/F = get_quest_faction(fid)
+	if(F)
+		scom_announce("<font color='#c44'>The scouts report a [F.group_word] of [F.name_plural] massing on the road to [get_subroute_region_names(subroute)]. It will be blocked at the next dawn.</font>")
+	return TRUE
+
+/datum/controller/subsystem/economy/proc/land_gathering_blockades()
+	for(var/subroute in gathering_blockades)
+		place_blockade(subroute, gathering_blockades[subroute])
+	gathering_blockades.Cut()
+
+/datum/controller/subsystem/economy/proc/place_blockade(subroute, faction_id)
+	if(find_blockade_for_subroute(subroute))
 		return null
-	if(find_blockade_for_region(region_id))
+	var/list/regions = get_subroute_regions(subroute)
+	if(!length(regions))
 		return null
-	if(!SSquestpool.has_landmark_for_region(ER.threat_region_id))
+	var/threat_region_id = get_subroute_threat_region(subroute)
+	if(!SSquestpool.has_landmark_for_region(threat_region_id))
 		return null
 
 	var/datum/blockade/B = new()
-	B.region_id = region_id
-	B.threat_region_name = ER.threat_region_id
+	B.subroute = subroute
+	B.threat_region_name = threat_region_id
 	B.faction_id = faction_id
-	B.day_started = GLOB.dayspassed
+	B.day_started = ECONOMY_DAY
 	GLOB.active_blockades += B
-	ER.is_region_blockaded = TRUE
+	for(var/datum/economic_region/ER as anything in regions)
+		ER.is_region_blockaded = TRUE
 	SStreasury.dirty_market_view()
 	record_round_statistic(STATS_BLOCKADES_FIRED, 1)
-	if(daily_report_diff)
-		var/list/fired = daily_report_diff["blockades_fired"]
-		var/datum/quest_faction/F = B.get_faction()
-		fired += "[ER.name] - [F ? "[F.group_word] of [F.name_plural]" : "raiders"]"
 	announce_blockade_start(B)
 	return B
 
 /datum/controller/subsystem/economy/proc/clear_blockade(datum/blockade/B, reason = "cleared")
 	if(!B)
 		return
-	var/datum/economic_region/ER = B.get_region()
-	if(ER)
+	for(var/datum/economic_region/ER as anything in B.get_regions())
 		ER.is_region_blockaded = FALSE
-		ER.day_last_cleared = GLOB.dayspassed
-		SStreasury.dirty_market_view()
+		ER.day_last_cleared = ECONOMY_DAY
+	SStreasury.dirty_market_view()
 	GLOB.active_blockades -= B
+	release_estate_backlogs()
 	if(reason == "cleared")
 		record_round_statistic(STATS_BLOCKADES_CLEARED, 1)
-		if(daily_report_diff && ER)
-			var/list/cleared = daily_report_diff["blockades_cleared"]
-			cleared += ER.name
 		announce_blockade_cleared(B)
 	qdel(B)
 
@@ -96,7 +113,9 @@
 			break
 
 /datum/controller/subsystem/economy/proc/tick_blockade_replenish()
-	if(GLOB.dayspassed < BLOCKADE_REPLENISH_FIRST_DAY || GLOB.dayspassed > BLOCKADE_REPLENISH_LAST_DAY)
+	land_gathering_blockades()
+	var/strike_day = ECONOMY_DAY + 1
+	if(strike_day < BLOCKADE_REPLENISH_FIRST_DAY || strike_day > BLOCKADE_REPLENISH_LAST_DAY)
 		return
 	if(length(GLOB.active_blockades) >= BLOCKADE_REPLENISH_FLOOR)
 		return
@@ -105,18 +124,14 @@
 		return
 	if(!prob(BLOCKADE_REPLENISH_DAILY_CHANCE))
 		return
-	if(roll_blockade(replenish = TRUE))
+	if(gather_blockade())
 		blockade_replenish_spent++
 
 /datum/controller/subsystem/economy/proc/announce_blockade_start(datum/blockade/B)
-	var/datum/economic_region/ER = B.get_region()
 	var/datum/quest_faction/F = B.get_faction()
-	if(!ER || !F)
+	if(!F)
 		return
-	scom_announce("<font color='#c44'>BLOCKADE: A [F.group_word] of [F.name_plural] has cut the trade road to [ER.name].</font>")
+	scom_announce("<font color='#c44'>BLOCKADE: A [F.group_word] of [F.name_plural] has cut the trade road to [B.get_region_names()].</font>")
 
 /datum/controller/subsystem/economy/proc/announce_blockade_cleared(datum/blockade/B)
-	var/datum/economic_region/ER = B.get_region()
-	if(!ER)
-		return
-	scom_announce("<font color='#5cb85c'>The blockade on the road to [ER.name] has been broken.</font>")
+	scom_announce("<font color='#5cb85c'>The blockade on the road to [B.get_region_names()] has been broken.</font>")

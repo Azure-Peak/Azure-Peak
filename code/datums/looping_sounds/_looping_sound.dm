@@ -100,8 +100,6 @@ GLOBAL_LIST_EMPTY(created_sound_groups)
 
 	if(_channel)
 		channel = _channel
-	if(!channel)
-		channel = SSsounds.reserve_sound_channel(src)
 
 	if(start_immediately)
 		start()
@@ -138,6 +136,8 @@ GLOBAL_LIST_EMPTY(created_sound_groups)
 
 /datum/looping_sound/proc/start(atom/on_behalf_of)
 	stopped = FALSE
+	if(!channel)
+		channel = SSsounds.reserve_sound_channel(src)
 	if(on_behalf_of)
 		set_parent(on_behalf_of)
 	loop_started = TRUE
@@ -151,6 +151,9 @@ GLOBAL_LIST_EMPTY(created_sound_groups)
 		set_parent(null)
 	on_stop()
 	loop_started = FALSE
+	if(SSsounds.using_channels_by_datum[src])
+		SSsounds.free_datum_channels(src)
+		channel = null
 //		if(!timerid)
 //			return
 //		deltimer(timerid)

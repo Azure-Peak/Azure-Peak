@@ -218,6 +218,8 @@ But you can call procs that are of type /mob/living/carbon/human/proc/ for that 
 
 	var/mob/living/carbon/human/H
 	if(isobserver(M))
+		message_admins(span_danger("[key_name_admin(usr)] turned the observer [key_name_admin(M)] into a new human via the Loadout Manager."))
+		log_admin("[key_name(usr)] turned the observer [key_name(M)] into a new human via the Loadout Manager.")
 		H = M.change_mob_type(/mob/living/carbon/human, null, null, TRUE)
 		// Ensure the new human inherits the ckey from the observer
 		if(!H.ckey && M.ckey)

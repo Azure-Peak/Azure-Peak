@@ -117,7 +117,7 @@
 	var/datum/fund/tavern_fund = SStreasury.innkeeper_fund
 	var/guild_paid = 0
 	if(completed_quest.guild_cut_rate > 0)
-		var/guild_fee = round(reward * completed_quest.guild_cut_rate)
+		var/guild_fee = mammon_round(reward * completed_quest.guild_cut_rate)
 		if(guild_fee > 0 && user_account && tavern_fund)
 			if(SStreasury.transfer(user_account, tavern_fund, guild_fee, "Guild Cut - [completed_quest.quest_type]", LEDGER_CITIZEN_CONTRACT_PAID, LEDGER_TAVERN_REFERRAL_IN))
 				guild_paid = guild_fee

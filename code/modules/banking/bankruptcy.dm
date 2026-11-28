@@ -76,7 +76,6 @@
 	treasury_state = TREASURY_BANKRUPTCY
 
 	suspend_charters_for_bankruptcy()
-	override_trade_for_bankruptcy()
 	suspend_wages_for_bankruptcy()
 
 	priority_announce(
@@ -184,18 +183,6 @@
 		bankruptcy_suspended_decree_ids += decree_id
 	steward_machine?.enforce_wage_floors()
 
-/// Force every importable good onto standing import and pin auto-export at the sequestration
-/// ratio. Not snapshotted - the Steward must re-tune by hand on recovery.
-/datum/controller/subsystem/treasury/proc/override_trade_for_bankruptcy()
-	autoexport_percentage = BANKRUPTCY_AUTOEXPORT_PERCENTAGE
-	auto_import_disabled.Cut()
-	for(var/good_id in GLOB.trade_goods)
-		var/datum/trade_good/tg = GLOB.trade_goods[good_id]
-		if(tg && tg.importable)
-			auto_import_standing[good_id] = TRUE
-	dirty_auto_import_view()
-	dirty_market_view()
-
 /// Cooldown-free restore of a bankruptcy-suspended charter. Returns TRUE on success.
 /datum/controller/subsystem/treasury/proc/restore_charter_via_concession(decree_id)
 	if(bankruptcy_concession_picks <= 0)
@@ -258,7 +245,7 @@ GLOBAL_LIST_INIT(atc_seizure_inventory, list(
 	"a portrait of a forgotten ancestor, slashed by a disgruntled debtor",
 	"the Court Cupbearer's pewter inventory and the keys to it",
 	"a jeweled Lirvanic bathtub of indecent proportion",
-	"twelve casks of Bleakcoast firewine, marked for the Midwinter feast",
+	"twelve casks of Valmora Blue, marked for the Midwinter feast",
 	"a Kazengun lacquered wardrobe of indeterminate vintage",
 	"an Etruscan illuminated bestiary, warped by damp",
 	"a clutch of Heartfelt clockwork toys, ticking faintly",
@@ -322,7 +309,7 @@ GLOBAL_LIST_INIT(atc_seizure_inventory, list(
 			to_chat(applicant, span_warning("Loan refused. [blocker]"))
 		return FALSE
 	amount = clamp(round(amount), ATC_LOAN_MIN_AMOUNT, ATC_LOAN_MAX_AMOUNT)
-	var/debt_owed = round(amount * (1 + ATC_LOAN_INTEREST_RATE))
+	var/debt_owed = mammon_round(amount * (1 + ATC_LOAN_INTEREST_RATE))
 	treasury_debt += debt_owed
 	GLOB.azure_round_stats[STATS_TREASURY_DEBT_OUTSTANDING] = treasury_debt
 	atc_loans_drawn_this_round += 1
@@ -341,10 +328,10 @@ GLOBAL_LIST_INIT(atc_seizure_inventory, list(
 		loan_legs += list(list(LEDGER_CROWN_INTEREST_INC, 0, amount - debt_owed))
 	post_ledger_entry("financing", "ATC emergency loan (principal)", loan_legs, null, discretionary_fund)
 	priority_announce(
-		"The Crown has taken a loan of [amount]m from the ATC at [round(ATC_LOAN_INTEREST_RATE * 100)]% interest, and now owes [debt_owed]m.",
+		"The Crown has taken a loan of [amount]m from the ATC at [round(ATC_LOAN_INTEREST_RATE * 100)]% interest, and now owes [format_mammon(debt_owed)]m.",
 		"THE CROWN BORROWS",
 		'sound/misc/royal_decree.ogg',
 		"Captain",
 	)
-	log_game("ATC LOAN: [applicant ? key_name(applicant) : "system"] drew [amount]m principal from the Azurian Trading Company; debt of [debt_owed]m registered")
+	log_game("ATC LOAN: [applicant ? key_name(applicant) : "system"] drew [amount]m principal from the Azurian Trading Company; debt of [format_mammon(debt_owed)]m registered")
 	return TRUE

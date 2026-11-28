@@ -8,7 +8,7 @@
 	class_select_category = CLASS_CAT_KAZENGUN
 	category_tags = list(CTAG_MERCENARY, CTAG_MERCPARTY_VANGUARD)
 	traits_applied = list(TRAIT_NOBLE) //i hate nobles but it's thematic
-	noble_income = 15
+	noble_rank = NOBLE_RANK_GENTRY
 	cmode_music = 'sound/music/combat_Kazengun_Firestorm.ogg'
 	maximum_possible_slots = 3
 	subclass_stats = list(	// 11 - 2 weight, aka, 9 weighted. same as grenzel.

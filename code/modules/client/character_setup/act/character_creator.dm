@@ -24,6 +24,10 @@
 	if(.)
 		return
 
+	. = ui_act_character_creator_politics(action, params, ui, state)
+	if(.)
+		return
+
 	. = ui_act_character_creator_villain(action, params, ui, state)
 	if(.)
 		return

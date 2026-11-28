@@ -28,6 +28,18 @@
 		return
 	if(!islist)
 		usr.client.vvdatum = WEAKREF(thing)
+		if(ismob(thing))
+			var/mob/viewed_mob = thing
+			if(viewed_mob.ckey || viewed_mob.mind)
+				log_admin_view(viewed_mob, "had their variables viewed")
+		else if(istype(thing, /datum/mind))
+			var/datum/mind/viewed_mind = thing
+			if(viewed_mind.current)
+				log_admin_view(viewed_mind.current, "had their variables viewed")
+		else if(istype(thing, /datum/preferences))
+			var/datum/preferences/viewed_prefs = thing
+			if(viewed_prefs.parent)
+				log_admin_view(viewed_prefs.parent, "had their variables viewed")
 	var/isalist = isalist(thing) // islist will always be true for alists too
 
 	var/title = ""

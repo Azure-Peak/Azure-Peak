@@ -771,6 +771,12 @@
 	target_items = list(/obj/item/clothing/head/roguetown/helmet/heavy/psydonhelm)
 	result_item = /obj/item/clothing/head/roguetown/helmet/heavy/psydonhelm/ryan
 
+//Ryan180602 - Ogre Mask
+/obj/item/enchantingkit/ryan_ogremask
+	name = "'snouted ogre mask' morphing elixir"
+	target_items = list(/obj/item/clothing/mask/rogue/facemask/steel/kazengun/full)
+	result_item = /obj/item/clothing/mask/rogue/facemask/steel/kazengun/full/ryan
+
 //Ryan180602 - Naginata
 /obj/item/enchantingkit/weapon/ryan_naginata
 	name = "'+5 common profane naginata' morphing elixir"

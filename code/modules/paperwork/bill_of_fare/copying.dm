@@ -28,6 +28,10 @@
 		out += "T|[title]"
 	for(var/key in columns)
 		var/datum/bill_of_fare_column/column = columns[key]
+		if(length(column.heading))
+			out += "H|[column.export_tag]|[column.heading]"
+	for(var/key in columns)
+		var/datum/bill_of_fare_column/column = columns[key]
 		for(var/datum/bill_of_fare_line/line as anything in column.lines)
 			var/item_id = line.linked ? column.item_id(line.linked) : ""
 			var/item_name = line.linked ? "[column.catalog_name(line.linked)]" : ""
@@ -91,6 +95,7 @@
 
 	var/new_title = ""
 	var/title_seen = FALSE
+	var/list/new_headings = list()
 	var/list/note_lines = list()
 	for(var/line_number in 2 to length(lines))
 		var/raw_line = lines[line_number]
@@ -108,6 +113,17 @@
 			new_title = bill_of_fare_clean_text(user, fields[2], BILL_OF_FARE_TITLE_LEN)
 			if(isnull(new_title))
 				return null
+			continue
+		if(line_tag == "H")
+			if(length(fields) != 3)
+				return BOF_BAD_LINE(line_number)
+			var/datum/bill_of_fare_column/heading_column = by_tag[trim(fields[2])]
+			if(!heading_column || !isnull(new_headings[heading_column.key]))
+				return BOF_BAD_LINE(line_number)
+			var/new_heading = bill_of_fare_clean_text(user, fields[3], BILL_OF_FARE_HEADING_LEN)
+			if(isnull(new_heading))
+				return null
+			new_headings[heading_column.key] = new_heading
 			continue
 		if(line_tag == "N")
 			if(length(fields) != 2)
@@ -137,6 +153,7 @@
 	return list(
 		"title" = new_title,
 		"notes" = new_notes,
+		"headings" = new_headings,
 		"columns" = parsed_columns,
 	)
 
@@ -174,8 +191,10 @@
 	title = parsed["title"]
 	notes = parsed["notes"]
 	var/list/parsed_columns = parsed["columns"]
+	var/list/parsed_headings = parsed["headings"]
 	for(var/key in columns)
 		var/datum/bill_of_fare_column/column = columns[key]
+		column.heading = parsed_headings[key] || ""
 		column.lines = list()
 		for(var/list/row as anything in parsed_columns[key])
 			add_line(column, row["name"], row["linked"], row["price"])

@@ -6,6 +6,7 @@ import {
   sectionHeaderStyle,
 } from '../common/parchment';
 import type { TabProps } from './types';
+import { formatMammon } from '../common/format';
 
 export const PollLevyTab = ({ data }: TabProps) => {
   const tax = data.poll_levy;
@@ -29,7 +30,7 @@ export const PollLevyTab = ({ data }: TabProps) => {
       <div style={fieldRowStyle}>
         <div style={fieldLabelStyle}>Arrears</div>
         <div style={fieldValueStyle}>
-          {tax.owed > 0 ? `${tax.owed}m owed` : 'None'}
+          {tax.owed > 0 ? `${formatMammon(tax.owed)}m owed` : 'None'}
         </div>
       </div>
     </div>

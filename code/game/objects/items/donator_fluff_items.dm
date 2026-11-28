@@ -964,7 +964,7 @@
 	custom_design = TRUE
 	body_parts_covered = CHEST
 	slot_flags = ITEM_SLOT_HEAD | ITEM_SLOT_CLOAK
-	storage = FALSE
+	storage = null
 	grid_width = 32
 	grid_height = 32
 
@@ -2218,6 +2218,14 @@
 	icon_state = "ryan_maimedhelm"
 	icon = 'icons/clothing/donor_clothes.dmi'
 	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes64.dmi'
+
+/obj/item/clothing/mask/rogue/facemask/steel/kazengun/full/ryan
+	name = "snouted ogre mask"
+	desc = "\"Fortune is an ugly, two-faced goddess.\""
+	icon = 'icons/clothing/donor_clothes.dmi'
+	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
+	icon_state = "ryan_ogremask"
+	item_state = "ryan_ogremask"
 
 /obj/item/rogueweapon/example/ryan_naginata
 	name = "+5 common profane naginata"

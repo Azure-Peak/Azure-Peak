@@ -74,7 +74,7 @@
 		var/ridingchoice = input(H, "Choose your TRAVELBOON.", "ROAM ABROAD AND ROAM FAR.") as anything in riding
 		switch(ridingchoice)
 			if("Spidertamer (Tameable Spider Mount)")
-				apply_virtue(H, new /datum/virtue/utility/riding)
+				apply_virtue(H, new /datum/virtue/utility/riding, VIRTUE_SOURCE_JOB)
 			if("Shroomwalker (+I to Athletics)")
 				H.adjust_skillrank_up_to(/datum/skill/misc/athletics, SKILL_LEVEL_MASTER, TRUE)
 
@@ -164,7 +164,7 @@
 		var/ridingchoice = input(H, "Choose your TRAVELBOON.", "ROAM ABROAD AND ROAM FAR.") as anything in riding
 		switch(ridingchoice)
 			if("Spidertamer (Tameable Spider Mount)")
-				apply_virtue(H, new /datum/virtue/utility/riding)
+				apply_virtue(H, new /datum/virtue/utility/riding, VIRTUE_SOURCE_JOB)
 			if("Shroomwalker (+I to Athletics)")
 				H.adjust_skillrank_up_to(/datum/skill/misc/athletics, SKILL_LEVEL_MASTER, TRUE)
 

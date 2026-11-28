@@ -5,13 +5,25 @@ SUBSYSTEM_DEF(economy)
 	var/last_processed_day = 0
 	var/roundstart_events_fired = FALSE
 	var/simulated_player_scalar = 0
-	var/list/daily_report_diff = null
+	var/list/dawn_digest = null
 	var/last_petition_day = -1
 	var/petitions_today = 0
 	var/blockade_replenish_spent = 0
+	var/list/gathering_blockades = list()
 	var/list/event_path_cooldowns = list()
-	var/list/goods_with_producers = list()
-	var/list/goods_with_demand = list()
+	var/caravan_fleet = CARAVAN_FLEET_START
+	var/list/caravan_trips = list()
+	var/caravan_tally_timer
+	var/caravans_used_home = 0
+	var/remembered_caravans_left = CARAVAN_REMEMBERED_COUNT
+	var/caravan_rentals = 0
+	var/fresh_caravan_rentals = 0
+	var/midday_market_rate = 0
+	var/list/producer_volumes
+	var/list/demand_volumes
+	var/list/escorted_subroutes = list()
+	var/list/commission_orders = list()
+	var/list/estates = list()
 
 
 /datum/controller/subsystem/economy/proc/get_effective_player_count()
@@ -19,212 +31,39 @@ SUBSYSTEM_DEF(economy)
 		return simulated_player_scalar
 	return get_active_player_count()
 
+/datum/controller/subsystem/economy/proc/tribute_pop_mult()
+	var/progress = (get_effective_player_count() - TRIBUTE_POP_SCALE_START) / (TRIBUTE_POP_SCALE_FULL - TRIBUTE_POP_SCALE_START)
+	return 1 + clamp(progress, 0, 1) * (TRIBUTE_POP_MAX_MULT - 1)
+
 /datum/controller/subsystem/economy/Initialize(mapload)
-	populate_standing_order_templates()
-	for(var/region_id in GLOB.economic_regions)
-		var/datum/economic_region/region = GLOB.economic_regions[region_id]
-		for(var/good_id in region.produces)
-			if(region.produces[good_id])
-				goods_with_producers[good_id] = TRUE
-		for(var/good_id in region.demands)
-			if(region.demands[good_id])
-				goods_with_demand[good_id] = TRUE
-	daily_report_diff = list(
-		"day" = GLOB.dayspassed,
-		"events_fired" = list(),
-		"events_expired" = list(),
-		"blockades_fired" = list(),
-		"blockades_cleared" = list(),
-		"orders_rolled" = 0,
-		"urgent_rolled" = 0,
-		"regular_orders_by_region" = list(),
-		"urgent_orders_today" = list(),
-	)
+	dawn_digest = list("regular_orders_by_region" = list())
 	roundstart_events()
 	roundstart_blockades()
 	return ..()
-
-/datum/controller/subsystem/economy/proc/populate_standing_order_templates()
-	var/list/mapping = list(
-		TRADE_REGION_KINGSFIELD = list(
-			/datum/standing_order/demand_rations,
-			/datum/standing_order/demand_textile,
-			/datum/standing_order/demand_smithing,
-			/datum/standing_order/demand_exotic,
-			/datum/standing_order/demand_fishery,
-			/datum/standing_order/demand_orchard,
-			/datum/standing_order/demand_salt,
-			/datum/standing_order/demand_alchemical,
-			/datum/standing_order/demand_alchemical_warband,
-			/datum/standing_order/demand_equipment_armaments,
-			/datum/standing_order/demand_equipment_armor_heavy,
-			/datum/standing_order/demand_equipment_armor_light,
-			/datum/standing_order/demand_birthday_gift,
-			/datum/standing_order/demand_great_feast_proteins,
-			/datum/standing_order/demand_frontier_gear,
-			/datum/standing_order/demand_court_finery,
-			/datum/standing_order/demand_fine_joinery,
-			/datum/standing_order/demand_artificery,
-			/datum/standing_order/demand_jewelry,
-			/datum/standing_order/demand_artificed_panoply,
-			/datum/standing_order/demand_tournament_arms,
-			/datum/standing_order/demand_arcane_commission,
-		),
-		TRADE_REGION_ROSAWOOD = list(
-			/datum/standing_order/demand_construction_bulk,
-			/datum/standing_order/demand_exotic,
-			/datum/standing_order/demand_birthday_gift,
-			/datum/standing_order/demand_fine_joinery,
-		),
-		TRADE_REGION_ROCKHILL = list(
-			/datum/standing_order/demand_orchard,
-			/datum/standing_order/demand_construction_bulk,
-			/datum/standing_order/demand_birthday_gift,
-			/datum/standing_order/demand_great_feast_proteins,
-			/datum/standing_order/demand_court_finery,
-			/datum/standing_order/demand_fine_joinery,
-			/datum/standing_order/demand_jewelry,
-			/datum/standing_order/demand_tournament_arms,
-			/datum/standing_order/demand_trophy_heads,
-			/datum/standing_order/demand_arcane_commission,
-		),
-		TRADE_REGION_DAFTSMARCH = list(
-			/datum/standing_order/demand_construction_bulk,
-			/datum/standing_order/demand_smithing,
-			/datum/standing_order/demand_victualling_mines,
-			/datum/standing_order/demand_birthday_gift,
-			/datum/standing_order/demand_artificery,
-			/datum/standing_order/demand_artificed_panoply,
-		),
-		TRADE_REGION_BLACKHOLT = list(
-			/datum/standing_order/demand_exotic,
-			/datum/standing_order/demand_construction_bulk,
-			/datum/standing_order/demand_alchemical,
-			/datum/standing_order/demand_alchemical_warband,
-			/datum/standing_order/demand_birthday_gift,
-			/datum/standing_order/demand_artificery,
-		),
-		TRADE_REGION_SALTWICK = list(
-			/datum/standing_order/demand_fishery,
-			/datum/standing_order/demand_construction_bulk,
-			/datum/standing_order/demand_salt,
-			/datum/standing_order/demand_victualling_fleet,
-		),
-		TRADE_REGION_BLEAKCOAST = list(
-			/datum/standing_order/demand_rations,
-			/datum/standing_order/demand_armaments,
-			/datum/standing_order/demand_fishery,
-			/datum/standing_order/demand_construction_bulk,
-			/datum/standing_order/demand_victualling_garrison,
-			/datum/standing_order/demand_alchemical,
-			/datum/standing_order/demand_equipment_armaments,
-			/datum/standing_order/demand_equipment_armor_heavy,
-			/datum/standing_order/demand_equipment_armor_light,
-			/datum/standing_order/demand_birthday_gift,
-			/datum/standing_order/demand_great_feast_proteins,
-			/datum/standing_order/demand_frontier_gear,
-			/datum/standing_order/demand_prosthetic_run,
-		),
-		TRADE_REGION_NORTHFORT = list(
-			/datum/standing_order/demand_rations,
-			/datum/standing_order/demand_armaments,
-			/datum/standing_order/demand_construction_bulk,
-			/datum/standing_order/demand_victualling_garrison,
-			/datum/standing_order/demand_alchemical,
-			/datum/standing_order/demand_alchemical_warband,
-			/datum/standing_order/demand_equipment_armaments,
-			/datum/standing_order/demand_equipment_armor_heavy,
-			/datum/standing_order/demand_equipment_armor_light,
-			/datum/standing_order/demand_great_feast_proteins,
-			/datum/standing_order/demand_frontier_gear,
-			/datum/standing_order/demand_artificery,
-			/datum/standing_order/demand_prosthetic_run,
-			/datum/standing_order/demand_arcane_commission,
-		),
-		TRADE_REGION_HEARTFELT = list(
-			/datum/standing_order/demand_rations,
-			/datum/standing_order/demand_armaments,
-			/datum/standing_order/demand_textile,
-			/datum/standing_order/demand_orchard,
-			/datum/standing_order/demand_victualling_garrison,
-			/datum/standing_order/demand_alchemical,
-			/datum/standing_order/demand_alchemical_warband,
-			/datum/standing_order/demand_equipment_armaments,
-			/datum/standing_order/demand_equipment_armor_heavy,
-			/datum/standing_order/demand_equipment_armor_light,
-			/datum/standing_order/demand_birthday_gift,
-			/datum/standing_order/demand_great_feast_proteins,
-			/datum/standing_order/demand_frontier_gear,
-			/datum/standing_order/demand_court_finery,
-			/datum/standing_order/demand_fine_joinery,
-			/datum/standing_order/demand_jewelry,
-			/datum/standing_order/demand_prosthetic_run,
-			/datum/standing_order/demand_artificed_panoply,
-			/datum/standing_order/demand_tournament_arms,
-			/datum/standing_order/demand_trophy_heads,
-			/datum/standing_order/demand_arcane_commission,
-		),
-	)
-	// possible_standing_order_types is an assoc list of template_path -> roll_weight,
-	// so the daily roller can pickweight() finished-goods orders more often than raws.
-	for(var/region_id in mapping)
-		var/datum/economic_region/region = GLOB.economic_regions[region_id]
-		if(!region)
-			continue
-		var/list/templates = mapping[region_id]
-		var/list/weighted = list()
-		for(var/datum/standing_order/template as anything in templates)
-			var/datum/standing_order/probe = new template()
-			weighted[template] = probe.roll_weight
-			qdel(probe)
-		region.possible_standing_order_types = weighted
 
 /datum/controller/subsystem/economy/proc/daily_tick()
 	if(GLOB.dayspassed <= last_processed_day)
 		return
 	last_processed_day = GLOB.dayspassed
-
-	// Roundstart Initialize pre-allocates the diff so Day 0 rolls are captured. Subsequent
-	// ticks allocate a fresh diff here. Either way, the day is stamped to the current one.
-	if(!daily_report_diff)
-		daily_report_diff = list(
-			"events_fired" = list(),
-			"events_expired" = list(),
-			"blockades_fired" = list(),
-			"blockades_cleared" = list(),
-			"orders_rolled" = 0,
-			"urgent_rolled" = 0,
-			"regular_orders_by_region" = list(),
-			"urgent_orders_today" = list(),
-		)
-	daily_report_diff["day"] = GLOB.dayspassed
-
-	// Pop-scaled daily reset: larger rounds have proportionally more commerce.
-	var/effective_pop = get_effective_player_count()
-	var/pop_mult = min(REGION_POP_SCALE_MAX, 1.0 + (effective_pop * REGION_POP_SCALE_PER_PLAYER))
-	var/order_size_mult = min(STANDING_ORDER_POP_SCALE_MAX, 1.0 + (effective_pop * STANDING_ORDER_POP_SCALE_PER_PLAYER))
-	for(var/region_id in GLOB.economic_regions)
-		var/datum/economic_region/region = GLOB.economic_regions[region_id]
-		region.produces_today = list()
-		region.demands_today = list()
-		region.produces_day_start = list()
-		region.demands_day_start = list()
-		for(var/good_id in region.produces)
-			var/produced_units = max(1, round(region.produces[good_id] * pop_mult))
-			region.produces_today[good_id] = produced_units
-			region.produces_day_start[good_id] = produced_units
-		for(var/good_id in region.demands)
-			var/demanded_units = max(1, round(region.demands[good_id] * pop_mult))
-			region.demands_today[good_id] = demanded_units
-			region.demands_day_start[good_id] = demanded_units
 	SStreasury.dirty_market_view()
+
+	if(!dawn_digest)
+		dawn_digest = list("regular_orders_by_region" = list())
+
+	var/effective_pop = get_effective_player_count()
+
+	caravan_fleet = min(CARAVAN_FLEET_MAX, caravan_fleet + CARAVAN_FLEET_PER_DAY)
+	caravans_used_home = 0
+	schedule_caravan_tally()
+	restock_crown_imports()
+	restock_commissions()
 
 	var/list/expired = list()
 	for(var/datum/standing_order/O as anything in GLOB.standing_order_pool)
 		if(O.is_fulfilled)
 			expired += O
 			continue
-		if(O.day_expires <= GLOB.dayspassed)
+		if(O.day_expires <= ECONOMY_DAY)
 			expired += O
 	for(var/datum/standing_order/O as anything in expired)
 		if(!O.is_fulfilled)
@@ -238,12 +77,8 @@ SUBSYSTEM_DEF(economy)
 	recompute_active_order_payouts()
 
 	tick_blockade_replenish()
+	run_market_day()
 	tick_banditry_drain()
-
-	// Runs after events/blockades so auto-import sees the day's fresh price_mods, blockade
-	// flags, and produces_today values. Happens before standing-order rolls - the rolls
-	// don't consult produces_today, so order matters only for bookkeeping ordering.
-	SStreasury.run_auto_import_tick()
 
 	if(GLOB.standing_order_pool.len < STANDING_ORDERS_POOL_CAP)
 		var/total_to_roll = min(STANDING_ORDERS_MAX_PER_DAY, STANDING_ORDERS_BASE_PER_DAY + round(effective_pop * STANDING_ORDERS_PER_ACTIVE_PLAYER))
@@ -253,242 +88,129 @@ SUBSYSTEM_DEF(economy)
 			var/list/eligible_ids = list()
 			for(var/region_id in GLOB.economic_regions)
 				var/datum/economic_region/region = GLOB.economic_regions[region_id]
-				if(!length(region.possible_standing_order_types))
+				if(region_order_count(region_id) >= STANDING_ORDERS_MAX_PER_REGION)
 					continue
-				var/active_count = 0
-				var/list/seen_pairs = list()
-				for(var/datum/standing_order/O as anything in GLOB.standing_order_pool)
-					if(O.region_id != region_id)
-						continue
-					if(O.pair_id)
-						if(seen_pairs[O.pair_id])
-							continue
-						seen_pairs[O.pair_id] = TRUE
-					active_count++
-				if(active_count < STANDING_ORDERS_MAX_PER_REGION)
-					eligible_ids += region_id
+				if(!length(region.request_kinds) && !length(stockpile_goods(region.demands)))
+					continue
+				eligible_ids += region_id
 			if(!length(eligible_ids))
 				break
-			var/chosen_region_id = pick(eligible_ids)
-			var/datum/economic_region/region = GLOB.economic_regions[chosen_region_id]
-			var/template = pickweight(region.possible_standing_order_types)
-			var/datum/standing_order/probe = template
-			if(initial(probe.pair_sibling_type))
-				instantiate_standing_order_pair(template, initial(probe.pair_sibling_type), region, order_size_mult)
-			else
-				instantiate_standing_order(template, region, order_size_mult)
+			roll_standing_order(GLOB.economic_regions[pick(eligible_ids)])
 
-	var/list/relieved_today = daily_report_diff["events_relieved"]
-	var/list/by_region = daily_report_diff["regular_orders_by_region"]
-	var/list/urgents_today = daily_report_diff["urgent_orders_today"]
+	tick_offers(effective_pop)
+
+	var/list/relieved_today = dawn_digest["events_relieved"]
+	var/list/by_region = dawn_digest["regular_orders_by_region"]
 	var/list/dawn_parts = list()
-	if(length(by_region) || length(urgents_today))
+	if(length(by_region))
 		var/total_regular = 0
 		for(var/region_name in by_region)
 			total_regular += by_region[region_name]
-		var/order_line = "[total_regular] new standing order\s"
-		if(length(urgents_today))
-			order_line += " ([length(urgents_today)] URGENT)"
-		dawn_parts += order_line
+		dawn_parts += "[total_regular] new standing order\s"
 	if(length(dawn_parts))
 		scom_announce("[jointext(dawn_parts, " - ")].")
 	if(length(relieved_today))
 		scom_announce("<font color='#5cb85c'>RELIEF: [jointext(relieved_today, ", ")] ended. Prices are back to normal.</font>")
 
-	print_steward_report(daily_report_diff)
-	daily_report_diff = null
+	dawn_digest = null
 
 	if(SSmerchant_trade)
 		SSmerchant_trade.daily_tick()
+
+	SStreasury.steward_machine?.push_open_windows()
 
 /datum/controller/subsystem/economy/proc/roundstart_events()
 	if(roundstart_events_fired)
 		return
 	roundstart_events_fired = TRUE
-	for(var/i in 1 to ECON_EVENT_ROUNDSTART_COUNT)
-		roll_single_event()
+	roll_economic_events()
 
 /datum/controller/subsystem/economy/proc/roll_economic_events()
-	while(GLOB.active_economic_events.len < ECON_EVENT_TARGET_COUNT)
-		if(!roll_single_event())
+	roll_event_kind(TRUE, ECON_EVENT_FISH_CROP_ACTIVE, ECON_EVENT_FISH_CROP_ACTIVE)
+	roll_event_kind(FALSE, ECON_EVENT_OTHER_MIN, ECON_EVENT_OTHER_MAX)
+
+/datum/controller/subsystem/economy/proc/roll_event_kind(fish_crops, min_count, max_count)
+	var/wanted = rand(min_count, max_count)
+	while(count_economic_events(fish_crops) >= wanted)
+		if(!displace_oldest_event(fish_crops))
+			break
+	while(count_economic_events(fish_crops) < wanted)
+		if(!roll_single_event(fish_crops))
 			break
 
-/datum/controller/subsystem/economy/proc/roll_single_event()
-	// Build eligible pool: any concrete subtype whose affected_goods don't overlap an active event's goods.
-	// initial() on list vars returns null in BYOND, so we temp-instantiate each candidate to inspect the list.
+/datum/controller/subsystem/economy/proc/count_economic_events(fish_crops)
+	. = 0
+	for(var/datum/economic_event/E as anything in GLOB.active_economic_events)
+		if(E.fish_crops == fish_crops)
+			.++
+
+/datum/controller/subsystem/economy/proc/displace_oldest_event(fish_crops)
+	for(var/datum/economic_event/E as anything in GLOB.active_economic_events)
+		if(E.fish_crops != fish_crops || E.day_started >= ECONOMY_DAY)
+			continue
+		end_economic_event(E)
+		return TRUE
+	return FALSE
+
+/datum/controller/subsystem/economy/proc/economic_event_clashes(datum/economic_event/E)
+	for(var/datum/economic_event/active as anything in GLOB.active_economic_events)
+		if(length(E.affected_goods & active.affected_goods))
+			return TRUE
+		if(length(E.exclusive & active.exclusive))
+			return TRUE
+	return FALSE
+
+/datum/controller/subsystem/economy/proc/roll_single_event(fish_crops)
 	var/list/eligible = list()
 	for(var/path in subtypesof(/datum/economic_event))
 		var/datum/economic_event/probe = path
-		if(!initial(probe.name))
-			continue	// abstract
-		if(initial(probe.event_type) == ECON_EVENT_NARRATIVE)
-			continue	// narrative events don't roll in v1
+		if(!initial(probe.name) || initial(probe.fish_crops) != fish_crops)
+			continue
 		var/cooled_until = event_path_cooldowns[path]
-		if(cooled_until && GLOB.dayspassed < cooled_until)
+		if(cooled_until && ECONOMY_DAY < cooled_until)
 			continue
 		var/datum/economic_event/tentative = new path()
-		var/clash = FALSE
-		for(var/active in GLOB.active_economic_events)
-			var/datum/economic_event/A = active
-			for(var/good in tentative.affected_goods)
-				if(good in A.affected_goods)
-					clash = TRUE
-					break
-			if(clash)
-				break
-		qdel(tentative)
-		if(!clash)
+		if(!economic_event_clashes(tentative))
 			eligible += path
+		qdel(tentative)
 	if(!length(eligible))
 		return FALSE
 	var/chosen_path = pick(eligible)
 	var/datum/economic_event/E = new chosen_path()
-	E.day_started = GLOB.dayspassed
-	E.day_expires = GLOB.dayspassed + E.duration_days
+	E.day_started = ECONOMY_DAY
+	E.day_expires = ECONOMY_DAY + E.duration_days
 	GLOB.active_economic_events += E
 	E.on_apply()
 	record_round_statistic(STATS_ECON_EVENTS_FIRED, 1)
-	if(daily_report_diff)
-		var/list/fired = daily_report_diff["events_fired"]
-		fired += "[E.name] ([E.event_type == ECON_EVENT_SHORTAGE ? "shortage" : "glut"])"
-		var/bucket_key = E.event_type == ECON_EVENT_SHORTAGE ? "fired_shortage_names" : "fired_glut_names"
-		var/list/bucket = daily_report_diff[bucket_key]
-		if(!bucket)
-			bucket = list()
-			daily_report_diff[bucket_key] = bucket
-		bucket += E.name
-	if(E.event_type == ECON_EVENT_SHORTAGE)
-		spawn_urgent_for_event(E)
 	return TRUE
-
-/datum/controller/subsystem/economy/proc/spawn_urgent_for_event(datum/economic_event/E)
-	if(!E || !length(E.affected_goods))
-		return
-	var/current_urgent = 0
-	for(var/datum/standing_order/O as anything in GLOB.standing_order_pool)
-		if(istype(O, /datum/standing_order/urgent))
-			current_urgent++
-	if(current_urgent >= STANDING_ORDERS_MAX_URGENT)
-		return
-	// Pick a region that demands any of the affected goods; fallback to one that produces them.
-	var/list/candidate_regions = list()
-	for(var/region_id in GLOB.economic_regions)
-		var/datum/economic_region/region = GLOB.economic_regions[region_id]
-		if(region.is_region_blockaded)
-			continue
-		for(var/good in E.affected_goods)
-			if(region.demands[good])
-				candidate_regions += region_id
-				break
-	if(!length(candidate_regions))
-		for(var/region_id in GLOB.economic_regions)
-			var/datum/economic_region/region = GLOB.economic_regions[region_id]
-			if(region.is_region_blockaded)
-				continue
-			for(var/good in E.affected_goods)
-				if(region.produces[good])
-					candidate_regions += region_id
-					break
-	if(!length(candidate_regions))
-		return
-	var/chosen_region_id = pick(candidate_regions)
-	var/datum/economic_region/region = GLOB.economic_regions[chosen_region_id]
-	var/datum/standing_order/urgent/O = new()
-	O.region_id = chosen_region_id
-	O.source_event_ref = WEAKREF(E)
-	var/list/mix = list()
-	var/order_size_mult = min(STANDING_ORDER_POP_SCALE_MAX, 1.0 + (get_effective_player_count() * STANDING_ORDER_POP_SCALE_PER_PLAYER))
-	for(var/good in E.affected_goods)
-		var/datum/trade_good/tg = GLOB.trade_goods[good]
-		// Scale qty inversely with base_price so high-value goods (gems, dendor) land
-		// in small order sizes instead of blowing out the payout math.
-		var/base = tg ? tg.base_price : 5
-		var/qty_lo
-		var/qty_hi
-		if(base >= 40)
-			qty_lo = 3
-			qty_hi = 5
-		else if(base >= 15)
-			qty_lo = 6
-			qty_hi = 12
-		else
-			qty_lo = 12
-			qty_hi = 25
-		mix[good] = max(1, round(rand(qty_lo, qty_hi) * order_size_mult))
-	O.required_items = mix
-	O.name = O.generate_name(region)
-	O.description = O.generate_description(region)
-	O.day_issued = GLOB.dayspassed
-	O.day_expires = GLOB.dayspassed + URGENT_ORDER_DURATION
-	O.total_payout = compute_order_payout(O, region)
-	GLOB.standing_order_pool += O
-	E.urgent_order_ref = WEAKREF(O)
-	record_round_statistic(STATS_URGENT_ORDERS_SPAWNED, 1)
-	if(daily_report_diff)
-		var/list/items_text = list()
-		for(var/good_id in O.required_items)
-			var/datum/trade_good/tg = GLOB.trade_goods[good_id]
-			items_text += "[O.required_items[good_id]] [tg ? tg.name : good_id]"
-		var/list/urgents = daily_report_diff["urgent_orders_today"]
-		urgents += list(list(
-			"region" = region.name,
-			"items" = jointext(items_text, ", "),
-			"payout" = O.total_payout,
-		))
 
 /datum/controller/subsystem/economy/proc/expire_economic_events()
 	var/list/expired = list()
 	for(var/datum/economic_event/E as anything in GLOB.active_economic_events)
-		if(E.day_expires <= GLOB.dayspassed)
+		if(E.day_expires <= ECONOMY_DAY)
 			expired += E
 	for(var/datum/economic_event/E as anything in expired)
-		E.on_expire()
-		GLOB.active_economic_events -= E
-		event_path_cooldowns[E.type] = GLOB.dayspassed + ECON_EVENT_REROLL_COOLDOWN_DAYS
-		record_round_statistic(STATS_ECON_EVENTS_EXPIRED, 1)
-		if(daily_report_diff)
-			var/list/ended = daily_report_diff["events_expired"]
-			ended += E.name
-		var/datum/standing_order/urgent/O = E.urgent_order_ref?.resolve()
-		if(O && !O.is_fulfilled)
-			GLOB.standing_order_pool -= O
+		end_economic_event(E)
 
-/datum/controller/subsystem/economy/proc/compute_import_unit_price(good_id, datum/economic_region/region, unit_index)
-	var/datum/trade_good/tg = GLOB.trade_goods[good_id]
-	if(!tg || !region)
-		return 0
-	var/daily_pace = max(1, region.produces[good_id] || 0)
-	var/overshoot = max(0, (unit_index - daily_pace) / daily_pace)
-	var/blockade_mult = region.is_region_blockaded ? BLOCKADE_IMPORT_MULT : 1.0
-	var/unit_price = tg.base_price * (1 + overshoot * TRADE_ESCALATION_SLOPE) * tg.global_price_mod * blockade_mult
-	return max(1, round(unit_price))
+/datum/controller/subsystem/economy/proc/end_economic_event(datum/economic_event/E)
+	E.on_expire()
+	GLOB.active_economic_events -= E
+	event_path_cooldowns[E.type] = ECONOMY_DAY + ECON_EVENT_REROLL_COOLDOWN_DAYS
+	record_round_statistic(STATS_ECON_EVENTS_EXPIRED, 1)
 
-/datum/controller/subsystem/economy/proc/compute_export_unit_price(good_id, datum/economic_region/region, unit_index)
-	var/datum/trade_good/tg = GLOB.trade_goods[good_id]
-	if(!tg || !region)
-		return 0
-	var/daily_pace = max(1, region.demands[good_id] || 0)
-	// Oversupply DECAY (not the import-side escalation). When the Steward floods a region past
-	// its daily demand, each additional unit fetches a diminishing price: price is divided by
-	// (1 + overshoot * slope). At demand = 3 and exported = 12, overshoot = 3 -> unit price
-	// falls to 1/4. low_price floor still applies via the max() below.
-	var/overshoot = max(0, (unit_index - daily_pace) / daily_pace)
-	var/oversupply_mult = 1 / (1 + overshoot * TRADE_ESCALATION_SLOPE)
-	var/blockade_mult = region.is_region_blockaded ? BLOCKADE_EXPORT_MULT : 1.0
-	var/export_price = tg.base_price * tg.global_price_mod * oversupply_mult * (1 - IMPORT_EXPORT_SPREAD) * blockade_mult
-	return max(round(export_price), tg.low_price)
-
-/datum/controller/subsystem/economy/proc/compute_good_unit_payout(datum/standing_order/order, good_id)
+/datum/controller/subsystem/economy/proc/good_steady_price(good_id)
 	var/datum/trade_good/tg = GLOB.trade_goods[good_id]
 	if(!tg)
 		return 0
-	var/unit_price = (tg.item_type && GLOB.derived_sellprices[tg.item_type]) || tg.base_price
-	var/unit_mult
-	if(istype(order, /datum/standing_order/urgent))
-		unit_mult = max(1.0, tg.global_price_mod)
-	else
-		unit_mult = 1 + STANDING_ORDER_BASE_BONUS
-	return CEILING(unit_price * unit_mult, 1)
+	return (tg.item_type && GLOB.derived_sellprices[tg.item_type]) || tg.base_price
+
+/datum/controller/subsystem/economy/proc/compute_good_unit_payout(datum/standing_order/order, good_id)
+	if(!GLOB.trade_goods[good_id])
+		return 0
+	var/unit_mult = order.crafted ? REQUEST_CRAFTED_PAYOUT_MULT : REQUEST_GOODS_PAYOUT_MULT
+	if(order.petitioned)
+		unit_mult *= PETITION_TAX_MULT
+	return mammon_round(good_steady_price(good_id) * unit_mult)
 
 /datum/controller/subsystem/economy/proc/compute_equipment_delivered_value(datum/standing_order/order, list/equip_avail)
 	var/total = 0
@@ -502,24 +224,15 @@ SUBSYSTEM_DEF(economy)
 			if(counted >= delivered)
 				break
 			var/qmult = I.has_item_quality ? ITEM_QUALITY_MULT(I.item_quality) : ITEM_QUALITY_MULT_STANDARD
-			total += CEILING(unit_payout * qmult, 1)
+			total += mammon_round(unit_payout * qmult)
 			counted++
 	return total
 
-/// Also stamps order.base_payout/scarcity_bonus_pct as a side effect, so the UI and daily
-/// recompute don't need to re-derive the breakdown separately.
-/datum/controller/subsystem/economy/proc/compute_order_payout(datum/standing_order/order, datum/economic_region/region)
+/datum/controller/subsystem/economy/proc/compute_order_payout(datum/standing_order/order)
 	var/total = 0
 	for(var/good_id in order.required_items)
 		total += compute_good_unit_payout(order, good_id) * order.required_items[good_id]
-	if(order.petitioned)
-		total = round(total * PETITION_TAX_MULT)
-	order.base_payout = round(total)
-	// Boosts payout (never required quantity) below reference pop - Crown income only.
-	var/scarcity_mult = clamp(1.0 + (STANDING_ORDER_SCARCITY_REFERENCE_POP - get_effective_player_count()) / STANDING_ORDER_SCARCITY_REFERENCE_POP * STANDING_ORDER_SCARCITY_MAX_BONUS, 1.0, 1.0 + STANDING_ORDER_SCARCITY_MAX_BONUS)
-	order.scarcity_bonus_pct = round((scarcity_mult - 1) * 100)
-	total = round(total * scarcity_mult)
-	return round(total)
+	return whole_mammon(total)
 
 /// Payouts used to lock in at roll time and never catch up to later pop/price shifts while an
 /// order sat unfulfilled. Recompute daily so active orders stay current.
@@ -527,169 +240,158 @@ SUBSYSTEM_DEF(economy)
 	for(var/datum/standing_order/O as anything in GLOB.standing_order_pool)
 		if(O.is_fulfilled)
 			continue
-		var/datum/economic_region/region = GLOB.economic_regions[O.region_id]
-		if(!region)
-			continue
-		O.total_payout = compute_order_payout(O, region)
+		O.total_payout = compute_order_payout(O)
 
-/// Returns the new order, or null if the template's item mix came up empty (caller decides
-/// whether that's a skip or a refund).
-/datum/controller/subsystem/economy/proc/instantiate_standing_order(template, datum/economic_region/region, order_size_mult, petitioned = FALSE)
-	if(!template || !region)
+/datum/controller/subsystem/economy/proc/region_order_count(region_id)
+	var/count = 0
+	for(var/datum/standing_order/O as anything in GLOB.standing_order_pool)
+		if(O.region_id == region_id)
+			count++
+	return count
+
+/datum/controller/subsystem/economy/proc/stockpile_goods(list/volumes)
+	var/list/goods = list()
+	for(var/good_id in volumes)
+		if(!SStreasury.stockpile_by_trade_good[good_id])
+			continue
+		if(get_good_route(good_id) != "stockpile")
+			continue
+		if(good_steady_price(good_id) <= 0)
+			continue
+		goods[good_id] = volumes[good_id]
+	return goods
+
+/datum/controller/subsystem/economy/proc/crafted_order_count()
+	var/count = 0
+	for(var/datum/standing_order/O as anything in GLOB.standing_order_pool)
+		if(O.crafted && !O.petitioned && !O.is_fulfilled)
+			count++
+	return count
+
+/datum/controller/subsystem/economy/proc/crafted_order_cap()
+	var/progress = (get_effective_player_count() - REQUEST_CRAFTED_POP_SCALE_START) / (REQUEST_CRAFTED_POP_SCALE_FULL - REQUEST_CRAFTED_POP_SCALE_START)
+	return round(REQUEST_CRAFTED_MAX_OPEN_MIN + clamp(progress, 0, 1) * (REQUEST_CRAFTED_MAX_OPEN_MAX - REQUEST_CRAFTED_MAX_OPEN_MIN), 1)
+
+/datum/controller/subsystem/economy/proc/roll_standing_order(datum/economic_region/region)
+	var/list/goods = stockpile_goods(region.demands)
+	for(var/datum/economic_event/E as anything in GLOB.active_economic_events)
+		goods -= E.glut_goods
+	var/list/kinds = region.request_kinds.Copy()
+	if(crafted_order_count() >= crafted_order_cap())
+		for(var/kind in kinds.Copy())
+			var/datum/request_kind/request_kind = GLOB.request_kinds[kind]
+			if(request_kind?.crafted)
+				kinds -= kind
+	if(length(goods))
+		kinds[REQUEST_KIND_GOODS] = REQUEST_WEIGHT_GOODS
+	if(!length(kinds))
 		return null
-	var/datum/standing_order/O = new template()
+	var/kind = pickweight(kinds)
+	if(kind == REQUEST_KIND_GOODS)
+		return instantiate_request(region, pickweight(goods))
+	return instantiate_kind_request(region, kind)
+
+/datum/controller/subsystem/economy/proc/instantiate_kind_request(datum/economic_region/region, kind, petitioned = FALSE)
+	var/datum/request_kind/request_kind = GLOB.request_kinds[kind]
+	if(!request_kind || !length(request_kind.goods))
+		return null
+	return instantiate_request(region, pick(request_kind.goods), petitioned, request_kind.crafted)
+
+/datum/controller/subsystem/economy/proc/instantiate_request(datum/economic_region/region, good_id, petitioned = FALSE, crafted = FALSE)
+	if(!region || good_steady_price(good_id) <= 0)
+		return null
+	var/datum/standing_order/request/O = new()
 	O.region_id = region.region_id
+	O.good_id = good_id
 	O.petitioned = petitioned
-	O.required_items = O.generate_item_mix()
-	if(!length(O.required_items))
-		qdel(O)
-		return null
-	for(var/good_id in O.required_items)
-		O.required_items[good_id] = max(1, round(O.required_items[good_id] * order_size_mult))
+	O.crafted = crafted
+	O.required_items[good_id] = deal_units(good_id, crafted ? REQUEST_CRAFTED_MAX_UNITS : 0)
+	return post_standing_order(O, region)
+
+/datum/controller/subsystem/economy/proc/deal_units(good_id, max_units = 0)
+	var/datum/roguestock/D = find_stockpile_by_trade_good(good_id)
+	if(D)
+		return max(1, round(D.market_target * rand(DEAL_TARGET_SHARE_MIN, DEAL_TARGET_SHARE_MAX) / 100))
+	var/units = max(1, round(rand(STANDING_ORDER_VALUE_MIN, STANDING_ORDER_VALUE_MAX) / good_steady_price(good_id)))
+	return max_units ? min(units, max_units) : units
+
+/datum/controller/subsystem/economy/proc/post_standing_order(datum/standing_order/O, datum/economic_region/region)
 	O.name = O.generate_name(region)
 	O.description = O.generate_description(region)
-	O.day_issued = GLOB.dayspassed
-	O.day_expires = GLOB.dayspassed + STANDING_ORDER_DURATION
-	O.total_payout = compute_order_payout(O, region)
+	O.day_issued = ECONOMY_DAY
+	O.day_expires = ECONOMY_DAY + STANDING_ORDER_DURATION
+	O.total_payout = compute_order_payout(O)
 	GLOB.standing_order_pool += O
-	if(daily_report_diff)
-		daily_report_diff["orders_rolled"] = (daily_report_diff["orders_rolled"] || 0) + 1
-		if(!petitioned)
-			var/list/by_region = daily_report_diff["regular_orders_by_region"]
-			by_region[region.name] = (by_region[region.name] || 0) + 1
+	if(dawn_digest && !O.petitioned)
+		var/list/by_region = dawn_digest["regular_orders_by_region"]
+		by_region[region.name] = (by_region[region.name] || 0) + 1
 	return O
 
-/datum/controller/subsystem/economy/proc/instantiate_standing_order_pair(template_a, template_b, datum/economic_region/region, order_size_mult, petitioned = FALSE)
-	var/datum/standing_order/A = instantiate_standing_order(template_a, region, order_size_mult, petitioned)
-	if(!A)
-		return null
-	var/datum/standing_order/B = instantiate_standing_order(template_b, region, order_size_mult, petitioned)
-	if(!B)
-		GLOB.standing_order_pool -= A
-		qdel(A)
-		return null
-	var/pid = "pair_[GLOB.dayspassed]_[world.time]_[rand(1, 99999)]"
-	A.pair_id = pid
-	B.pair_id = pid
-	B.day_expires = A.day_expires
-	return A
 
-
-/datum/controller/subsystem/economy/proc/fulfill_order(mob/user, datum/standing_order/order, partial = FALSE)
-	if(!order || order.is_fulfilled)
-		return FALSE
-	var/datum/economic_region/ER = GLOB.economic_regions[order.region_id]
-	if(ER?.is_region_blockaded)
-		if(user)
-			to_chat(user, span_warning("[ER.name] is blockaded. You can't deliver this order until the road is cleared."))
-		return FALSE
-
+/datum/controller/subsystem/economy/proc/scan_order(datum/standing_order/order)
 	var/list/equip_goods = list()
 	var/list/potion_goods = list()
 	var/list/stock_goods = list()
+	var/has_dock = length(GLOB.steward_export_machines)
 	for(var/good_id in order.required_items)
 		var/datum/trade_good/tg = GLOB.trade_goods[good_id]
 		if(tg?.behavior == TRADE_BEHAVIOR_EQUIPMENT)
-			equip_goods += good_id
+			if(has_dock)
+				equip_goods += good_id
 		else if(tg?.behavior == TRADE_BEHAVIOR_POTION)
-			potion_goods += good_id
+			if(has_dock)
+				potion_goods += good_id
 		else
 			stock_goods += good_id
 
-	if((length(equip_goods) || length(potion_goods)) && !length(GLOB.steward_export_machines))
-		if(user)
-			to_chat(user, span_warning("There's no warehouse dock manifest, so you can't fulfill warehouse orders."))
-		return FALSE
+	var/list/needs = order_needs(order)
+	var/list/equip_avail = length(equip_goods) ? scan_equipment_availability(needs, equip_goods, order.crafted) : list()
+	var/list/potion_avail = length(potion_goods) ? scan_potion_availability(needs, potion_goods) : list()
+	var/list/stock_avail = length(stock_goods) ? scan_stockpile_availability(needs, stock_goods) : list()
 
-	var/list/equip_avail = length(equip_goods) ? scan_equipment_availability(order, equip_goods) : list()
-	var/list/potion_avail = length(potion_goods) ? scan_potion_availability(order, potion_goods) : list()
-	var/list/stock_avail = length(stock_goods) ? scan_stockpile_availability(order, stock_goods) : list()
-
-	var/missing_count = 0
-	var/list/missing_labels = list()
-	var/delivered_pretax = 0
-	var/equip_delivered_value = compute_equipment_delivered_value(order, equip_avail)
-	delivered_pretax += equip_delivered_value
+	var/units = 0
+	var/payout = compute_equipment_delivered_value(order, equip_avail)
+	var/quality_delta = payout
+	for(var/good_id in equip_avail)
+		var/list/entry = equip_avail[good_id]
+		quality_delta -= compute_good_unit_payout(order, good_id) * entry["delivered_units"]
+		units += entry["delivered_units"]
 	for(var/list/avail_set in list(potion_avail, stock_avail))
 		for(var/good_id in avail_set)
 			var/list/entry = avail_set[good_id]
-			delivered_pretax += compute_good_unit_payout(order, good_id) * entry["delivered_units"]
-			if(!entry["satisfied"])
-				missing_count++
-				var/datum/trade_good/tg = GLOB.trade_goods[good_id]
-				missing_labels += tg ? tg.name : good_id
-	for(var/good_id in equip_avail)
-		var/list/entry = equip_avail[good_id]
-		if(!entry["satisfied"])
-			missing_count++
-			var/datum/trade_good/tg = GLOB.trade_goods[good_id]
-			missing_labels += tg ? tg.name : good_id
+			payout += compute_good_unit_payout(order, good_id) * entry["delivered_units"]
+			units += entry["delivered_units"]
+	return list(
+		"equip" = equip_avail,
+		"potion" = potion_avail,
+		"stock" = stock_avail,
+		"units" = units,
+		"payout" = max(0, whole_mammon(payout)),
+		"quality_delta" = whole_mammon(quality_delta),
+	)
 
-	if(!missing_count)
-		consume_equipment_payload(equip_avail)
-		consume_potion_payload(potion_avail)
-		consume_stockpile_payload(stock_avail)
-		var/canonical_equip_value = 0
-		for(var/good_id in equip_avail)
-			var/list/entry = equip_avail[good_id]
-			canonical_equip_value += compute_good_unit_payout(order, good_id) * entry["delivered_units"]
-		var/quality_delta = equip_delivered_value - canonical_equip_value
-		if(order.petitioned)
-			quality_delta = round(quality_delta * PETITION_TAX_MULT)
-		var/full_payout = max(0, round(order.total_payout + quality_delta))
-		SStreasury.mint(SStreasury.discretionary_fund, full_payout, "Standing Order: [order.name]", null, LEDGER_CROWN_REV_STANDING_ORDERS)
-		record_round_statistic(STATS_STANDING_ORDER_REVENUE, full_payout)
-		record_round_statistic(STATS_STANDING_ORDERS_FULFILLED, 1)
-		order.is_fulfilled = TRUE
-		GLOB.standing_order_pool -= order
-		if(user)
-			to_chat(user, span_notice("Order fulfilled: [full_payout]m paid to the Treasury."))
-			if(quality_delta > 0)
-				to_chat(user, span_green("Quality bonus: +[quality_delta]m for quality goods."))
-			else if(quality_delta < 0)
-				to_chat(user, span_warning("Quality penalty: [quality_delta]m for shoddy goods."))
-			log_game("STANDING ORDER FULFILLED by [user.ckey]: [order.name] (+[full_payout]m, quality_delta=[quality_delta]m)")
-		return list("status" = "full", "payout" = full_payout, "quality_delta" = quality_delta)
-
-	var/delivered_value = order.petitioned ? round(delivered_pretax * PETITION_TAX_MULT) : delivered_pretax
-	var/total_value = order.total_payout
-	var/coverage = total_value > 0 ? (delivered_value / total_value) : 0
-
-	if(coverage < STANDING_ORDER_PARTIAL_THRESHOLD)
-		if(user)
-			to_chat(user, span_warning("You only have [round(coverage * 100)]% of the goods. You need at least [round(STANDING_ORDER_PARTIAL_THRESHOLD * 100)]% to send part of an order. Missing: [english_list(missing_labels)]."))
-		return FALSE
-
-	if(!partial)
-		return STANDING_ORDER_FULFILL_NEEDS_PARTIAL_PROMPT
-
-	var/payout = round(delivered_value * STANDING_ORDER_PARTIAL_PAYOUT_MULT)
-	var/canonical_equip_value_partial = 0
-	for(var/good_id in equip_avail)
-		var/list/entry = equip_avail[good_id]
-		canonical_equip_value_partial += compute_good_unit_payout(order, good_id) * entry["delivered_units"]
-	var/quality_delta_partial = equip_delivered_value - canonical_equip_value_partial
-	if(order.petitioned)
-		quality_delta_partial = round(quality_delta_partial * PETITION_TAX_MULT)
-	quality_delta_partial = round(quality_delta_partial * STANDING_ORDER_PARTIAL_PAYOUT_MULT)
+/datum/controller/subsystem/economy/proc/load_order(datum/standing_order/order, list/scan)
+	var/list/equip_avail = scan["equip"]
+	var/list/potion_avail = scan["potion"]
+	var/list/stock_avail = scan["stock"]
 	consume_equipment_payload(equip_avail)
 	consume_potion_payload(potion_avail)
 	consume_stockpile_payload(stock_avail)
-	SStreasury.mint(SStreasury.discretionary_fund, payout, "Standing Order (Partial): [order.name]", null, LEDGER_CROWN_REV_STANDING_ORDERS)
-	record_round_statistic(STATS_STANDING_ORDER_REVENUE, payout)
-	record_round_statistic(STATS_STANDING_ORDERS_FULFILLED, 1)
+	order.partly_delivered = TRUE
+	for(var/list/avail_set in list(equip_avail, potion_avail, stock_avail))
+		for(var/good_id in avail_set)
+			var/list/entry = avail_set[good_id]
+			order.required_items[good_id] -= entry["delivered_units"]
+			if(order.required_items[good_id] <= 0)
+				order.required_items -= good_id
+	if(length(order.required_items))
+		order.total_payout = compute_order_payout(order)
+		return FALSE
 	order.is_fulfilled = TRUE
 	GLOB.standing_order_pool -= order
-	if(user)
-		to_chat(user, span_notice("Order partially fulfilled: you sent [round(coverage * 100)]% of the goods and [payout]m went to the Treasury ([round(STANDING_ORDER_PARTIAL_PAYOUT_MULT * 100)]% of their value)."))
-		if(quality_delta_partial > 0)
-			to_chat(user, span_green("Quality bonus: +[quality_delta_partial]m for above-standard goods."))
-		else if(quality_delta_partial < 0)
-			to_chat(user, span_warning("Quality penalty: [quality_delta_partial]m for shoddy goods."))
-		log_game("STANDING ORDER PARTIAL FULFILLED by [user.ckey]: [order.name] (+[payout]m, [round(coverage * 100)]% coverage, quality_delta=[quality_delta_partial]m)")
-	return list("status" = "partial", "payout" = payout, "coverage_pct" = round(coverage * 100), "quality_delta" = quality_delta_partial)
+	return TRUE
 
-/datum/controller/subsystem/economy/proc/scan_equipment_availability(datum/standing_order/order, list/goods)
+/datum/controller/subsystem/economy/proc/scan_equipment_availability(list/needs, list/goods, crafted_only = FALSE)
 	var/list/out = list()
 	var/list/matched_by_good = list()
 	var/list/found_by_good = list()
@@ -701,6 +403,8 @@ SUBSYSTEM_DEF(economy)
 		if(QDELETED(M))
 			continue
 		for(var/obj/item/I in view(1, M))
+			if(crafted_only && !I.was_crafted)
+				continue
 			for(var/good_id in goods)
 				var/datum/trade_good/tg = GLOB.trade_goods[good_id]
 				if(!tg || !tg.item_type || !istype(I, tg.item_type))
@@ -711,14 +415,14 @@ SUBSYSTEM_DEF(economy)
 				// Crown treats each tier as one fungible commodity).
 				if(!tg.accept_subtypes && I.type != tg.item_type)
 					continue
-				if(found_by_good[good_id] >= order.required_items[good_id])
+				if(found_by_good[good_id] >= needs[good_id])
 					continue
 				found_by_good[good_id]++
 				matched_by_good[good_id] += I
 				break
 
 	for(var/good_id in goods)
-		var/need = order.required_items[good_id]
+		var/need = needs[good_id]
 		var/have = found_by_good[good_id]
 		out[good_id] = list(
 			"payload" = matched_by_good[good_id],
@@ -728,14 +432,14 @@ SUBSYSTEM_DEF(economy)
 		)
 	return out
 
-/datum/controller/subsystem/economy/proc/scan_potion_availability(datum/standing_order/order, list/goods)
+/datum/controller/subsystem/economy/proc/scan_potion_availability(list/needs, list/goods)
 	var/list/out = list()
 	var/list/required_volume_by_good = list()
 	var/list/found_volume_by_good = list()
 	var/list/matched_containers_by_good = list()
 	for(var/good_id in goods)
 		var/datum/trade_good/tg = GLOB.trade_goods[good_id]
-		required_volume_by_good[good_id] = order.required_items[good_id] * tg.required_volume
+		required_volume_by_good[good_id] = needs[good_id] * tg.required_volume
 		found_volume_by_good[good_id] = 0
 		matched_containers_by_good[good_id] = list()
 
@@ -758,7 +462,7 @@ SUBSYSTEM_DEF(economy)
 
 	for(var/good_id in goods)
 		var/datum/trade_good/tg = GLOB.trade_goods[good_id]
-		var/need_units = order.required_items[good_id]
+		var/need_units = needs[good_id]
 		var/found_volume = found_volume_by_good[good_id]
 		var/delivered_units = min(need_units, round(found_volume / tg.required_volume))
 		out[good_id] = list(
@@ -769,12 +473,12 @@ SUBSYSTEM_DEF(economy)
 		)
 	return out
 
-/datum/controller/subsystem/economy/proc/scan_stockpile_availability(datum/standing_order/order, list/goods)
+/datum/controller/subsystem/economy/proc/scan_stockpile_availability(list/needs, list/goods)
 	var/list/out = list()
 	for(var/good_id in goods)
-		var/need = order.required_items[good_id]
+		var/need = needs[good_id]
 		var/datum/roguestock/stockpile_entry = find_stockpile_by_trade_good(good_id)
-		var/have = stockpile_entry ? stockpile_entry.stockpile_amount : 0
+		var/have = stockpile_entry ? stockpile_entry.royal_stock : 0
 		out[good_id] = list(
 			"payload" = null,
 			"delivered_units" = min(have, need),
@@ -801,70 +505,10 @@ SUBSYSTEM_DEF(economy)
 		var/delivered = entry["delivered_units"]
 		var/datum/roguestock/stockpile_entry = find_stockpile_by_trade_good(good_id)
 		if(stockpile_entry)
-			stockpile_entry.stockpile_amount -= delivered
+			stockpile_entry.royal_stock -= delivered
 			record_material_flow(MATERIAL_FLOW_OUT, MATERIAL_SOURCE_STANDING_ORDER, stockpile_entry.item_type, delivered)
-		credit_economic_event_saturation(good_id, delivered)
 	SStreasury.dirty_market_view()
 
-/datum/controller/subsystem/economy/proc/preview_partial_fulfillment(datum/standing_order/order)
-	var/list/equip_goods = list()
-	var/list/potion_goods = list()
-	var/list/stock_goods = list()
-	for(var/good_id in order.required_items)
-		var/datum/trade_good/tg = GLOB.trade_goods[good_id]
-		if(tg?.behavior == TRADE_BEHAVIOR_EQUIPMENT)
-			equip_goods += good_id
-		else if(tg?.behavior == TRADE_BEHAVIOR_POTION)
-			potion_goods += good_id
-		else
-			stock_goods += good_id
-
-	var/list/equip_avail = length(equip_goods) ? scan_equipment_availability(order, equip_goods) : list()
-	var/list/potion_avail = length(potion_goods) ? scan_potion_availability(order, potion_goods) : list()
-	var/list/stock_avail = length(stock_goods) ? scan_stockpile_availability(order, stock_goods) : list()
-
-	var/delivered_pretax = 0
-	var/list/missing_labels = list()
-	delivered_pretax += compute_equipment_delivered_value(order, equip_avail)
-	for(var/list/avail_set in list(potion_avail, stock_avail))
-		for(var/good_id in avail_set)
-			var/list/entry = avail_set[good_id]
-			delivered_pretax += compute_good_unit_payout(order, good_id) * entry["delivered_units"]
-			if(!entry["satisfied"])
-				var/datum/trade_good/tg = GLOB.trade_goods[good_id]
-				var/short_units = entry["need_units"] - entry["delivered_units"]
-				missing_labels += "[short_units] [tg ? tg.name : good_id]"
-	for(var/good_id in equip_avail)
-		var/list/entry = equip_avail[good_id]
-		if(!entry["satisfied"])
-			var/datum/trade_good/tg = GLOB.trade_goods[good_id]
-			var/short_units = entry["need_units"] - entry["delivered_units"]
-			missing_labels += "[short_units] [tg ? tg.name : good_id]"
-	var/delivered_value = order.petitioned ? round(delivered_pretax * PETITION_TAX_MULT) : delivered_pretax
-	var/total_value = order.total_payout
-	var/coverage = total_value > 0 ? (delivered_value / total_value) : 0
-	var/payout = round(delivered_value * STANDING_ORDER_PARTIAL_PAYOUT_MULT)
-
-	return list(
-		"coverage_pct" = round(coverage * 100),
-		"payout" = payout,
-		"missing_text" = length(missing_labels) ? english_list(missing_labels) : "nothing",
-	)
-
-
-/datum/controller/subsystem/economy/proc/order_is_equipment(datum/standing_order/order)
-	for(var/good_id in order.required_items)
-		var/datum/trade_good/tg = GLOB.trade_goods[good_id]
-		if(tg?.behavior == TRADE_BEHAVIOR_EQUIPMENT)
-			return TRUE
-	return FALSE
-
-/datum/controller/subsystem/economy/proc/order_is_alchemical(datum/standing_order/order)
-	for(var/good_id in order.required_items)
-		var/datum/trade_good/tg = GLOB.trade_goods[good_id]
-		if(tg?.behavior == TRADE_BEHAVIOR_POTION)
-			return TRUE
-	return FALSE
 /datum/controller/subsystem/economy/proc/get_good_route(good_id)
 	var/datum/trade_good/tg = GLOB.trade_goods[good_id]
 	if(tg?.behavior == TRADE_BEHAVIOR_EQUIPMENT || tg?.behavior == TRADE_BEHAVIOR_POTION)
@@ -876,207 +520,57 @@ SUBSYSTEM_DEF(economy)
 		return null
 	return SStreasury.stockpile_by_trade_good[good_id]
 
-/datum/controller/subsystem/economy/proc/manual_import(mob/user, region_id, good_id, quantity, stipend = FALSE)
-	var/datum/economic_region/region = GLOB.economic_regions[region_id]
-	if(!region)
+/datum/controller/subsystem/economy/proc/release_to_market(datum/roguestock/D, quantity, ledger_label)
+	D.refresh_auto_price()
+	var/revenue = D.market_bid(quantity)
+	D.royal_stock -= quantity
+	D.market_stock += quantity
+	credit_economic_event_saturation(D.trade_good_id, quantity)
+	SStreasury.dirty_market_view(D)
+	SStreasury.mint(SStreasury.discretionary_fund, revenue, ledger_label, null, LEDGER_CROWN_REV_STOCKPILE_SALES)
+	return revenue
+
+/datum/controller/subsystem/economy/proc/sell_to_market(mob/user, good_id, quantity)
+	var/datum/roguestock/D = find_stockpile_by_trade_good(good_id)
+	if(!D)
 		return 0
-	var/datum/trade_good/tg = GLOB.trade_goods[good_id]
-	if(!tg || !tg.importable)
-		if(user)
-			to_chat(user, span_warning("That good can't be imported."))
+	if(D.market_never_supplies)
+		to_chat(user, span_warning("The market is closed."))
 		return 0
+	if(D.royal_stock <= 0)
+		to_chat(user, span_warning("There is no [D.name] in the royal stockpile."))
+		return 0
+	quantity = min(round(quantity), TRADE_MAX_BULK_UNITS, D.royal_stock)
 	if(quantity <= 0)
 		return 0
+	var/revenue = release_to_market(D, quantity, "Market Sale: [quantity] [D.name] by [user.real_name]")
+	log_game("MARKET SALE by [user.ckey]: [quantity] [D.name] (revenue [revenue]m)")
+	to_chat(user, span_notice("Sold [quantity] [D.name] to the market for [format_mammon(revenue)]m."))
+	return revenue
 
-	var/daily_pace = region.produces[good_id] || 0
-	if(daily_pace <= 0)
-		if(user)
-			to_chat(user, span_warning("[region.name] does not produce [tg.name]."))
+/datum/controller/subsystem/economy/proc/buy_from_market(mob/user, good_id, quantity, bulk_capped = TRUE)
+	var/datum/roguestock/D = find_stockpile_by_trade_good(good_id)
+	if(!D)
 		return 0
-
-	var/produces_today = region.produces_today[good_id] || 0
-	var/starting_index = max(0, daily_pace - produces_today)
-
-	var/total_cost = 0
-	for(var/i in 1 to quantity)
-		total_cost += compute_import_unit_price(good_id, region, starting_index + i)
-
-	if(SStreasury.discretionary_fund.balance < total_cost)
-		if(user)
-			to_chat(user, span_warning("The Treasury can't afford this import. It has [SStreasury.discretionary_fund.balance]m and needs [total_cost]m."))
+	if(D.market_never_supplies)
+		to_chat(user, span_warning("The market is closed."))
 		return 0
-
-	var/actor_suffix = user ? " by [user.real_name]" : ""
-	var/import_label
-	if(stipend)
-		import_label = "Subsidy Import"
-	else
-		import_label = user ? "Manual Import" : "Autoimport"
-
-	if(quantity > 1)
-		SStreasury.burn(SStreasury.discretionary_fund, total_cost, "[import_label]: [quantity] [tg.name] from [region.name][actor_suffix]", LEDGER_CROWN_EXP_IMPORTS)
-	else
-		SStreasury.burn(SStreasury.discretionary_fund, total_cost, "[import_label]: [tg.name] from [region.name][actor_suffix]", LEDGER_CROWN_EXP_IMPORTS)
-
-	region.produces_today[good_id] = produces_today - quantity
-	var/datum/roguestock/stockpile_entry = find_stockpile_by_trade_good(good_id)
-	if(stockpile_entry)
-		stockpile_entry.stockpile_amount += quantity
-	SStreasury.total_import += total_cost
-	SStreasury.economic_output += total_cost
-	SStreasury.dirty_market_view()
-	record_round_statistic(STATS_STOCKPILE_IMPORTS_VALUE, total_cost)
-
-	if(user)
-		log_game("MANUAL IMPORT by [user.ckey]: [quantity] [tg.name] from [region.name] (cost [total_cost]m)")
-	return total_cost
-
-/datum/controller/subsystem/economy/proc/manual_export(mob/user, region_id, good_id, quantity)
-	var/datum/economic_region/region = GLOB.economic_regions[region_id]
-	if(!region)
-		return 0
-	var/datum/trade_good/tg = GLOB.trade_goods[good_id]
-	if(!tg)
-		if(user)
-			to_chat(user, span_warning("That isn't a known trade good."))
-		return 0
+	D.refresh_auto_price()
+	quantity = min(round(quantity), D.market_available())
+	if(bulk_capped)
+		quantity = min(quantity, TRADE_MAX_BULK_UNITS)
 	if(quantity <= 0)
+		to_chat(user, span_warning("[D.name] is out of stock."))
 		return 0
-
-	var/daily_pace = region.demands[good_id] || 0
-	if(daily_pace <= 0)
-		if(user)
-			to_chat(user, span_warning("[region.name] does not demand [tg.name]."))
+	var/cost = D.market_ask(quantity)
+	if(!SStreasury.burn(SStreasury.discretionary_fund, cost, "Market Purchase: [quantity] [D.name] by [user.real_name]", LEDGER_CROWN_EXP_STOCKPILE))
+		to_chat(user, span_warning("The Treasury can't afford this. It has [format_mammon(SStreasury.discretionary_fund.balance)]m and needs [format_mammon(cost)]m."))
 		return 0
-
-	var/datum/roguestock/stockpile_entry = find_stockpile_by_trade_good(good_id)
-	if(!stockpile_entry || stockpile_entry.stockpile_amount < quantity)
-		if(user)
-			to_chat(user, span_warning("Not enough [tg.name] in the stockpile: you have [stockpile_entry?.stockpile_amount || 0] and need [quantity]."))
-		return 0
-
-	var/demands_today = region.demands_today[good_id] || 0
-	var/starting_index = max(0, daily_pace - demands_today)
-
-	var/total_revenue = 0
-	for(var/i in 1 to quantity)
-		total_revenue += compute_export_unit_price(good_id, region, starting_index + i)
-
-	stockpile_entry.stockpile_amount -= quantity
-	region.demands_today[good_id] = demands_today - quantity
-	var/actor_suffix = user ? " by [user.real_name]" : ""
-	var/export_label = user ? "Manual Export" : "Autoexport"
-	SStreasury.dirty_market_view()
-	SStreasury.mint(SStreasury.discretionary_fund, total_revenue, "[export_label]: [quantity] [tg.name] to [region.name][actor_suffix]", null, LEDGER_CROWN_REV_EXPORT_SALES)
-	SStreasury.total_export += total_revenue
-	SStreasury.economic_output += total_revenue
-	// do_export records this too; every other export route (manual, mass, autoexport) lands here instead.
-	record_round_statistic(STATS_STOCKPILE_EXPORTS_VALUE, total_revenue)
-	credit_economic_event_saturation(good_id, quantity)
-
-	if(user)
-		log_game("MANUAL EXPORT by [user.ckey]: [quantity] [tg.name] to [region.name] (revenue [total_revenue]m)")
-	return total_revenue
-
-/datum/controller/subsystem/economy/proc/get_best_import_region(good_id, exclude_blockaded = TRUE)
-	var/datum/trade_good/tg = GLOB.trade_goods[good_id]
-	if(!tg || !tg.importable)
-		return null
-
-	var/best_region_id = null
-	var/best_price = INFINITY
-	var/best_blockaded = FALSE
-	var/nominal_region_id = null
-	var/nominal_price = INFINITY
-
-	for(var/region_id in GLOB.economic_regions)
-		var/datum/economic_region/region = GLOB.economic_regions[region_id]
-		var/daily_pace = region.produces[good_id] || 0
-		if(daily_pace <= 0)
-			continue
-		var/produces_today = region.produces_today[good_id] || 0
-		var/starting_index = max(0, daily_pace - produces_today)
-		var/unit_price = compute_import_unit_price(good_id, region, starting_index + 1)
-
-		if(unit_price < nominal_price)
-			nominal_price = unit_price
-			nominal_region_id = region_id
-
-		if(exclude_blockaded && region.is_region_blockaded)
-			continue
-		if(unit_price < best_price)
-			best_price = unit_price
-			best_region_id = region_id
-			best_blockaded = region.is_region_blockaded
-
-	// Fallback: cheapest blockaded region if no non-blockaded producer exists.
-	if(!best_region_id && nominal_region_id)
-		best_region_id = nominal_region_id
-		best_price = nominal_price
-		best_blockaded = TRUE
-
-	if(!best_region_id)
-		return null
-
-	var/list/result = list(
-		"region_id" = best_region_id,
-		"unit_price" = round(best_price),
-		"is_blockaded" = best_blockaded,
-		"fallback_region_id" = null,
-		"fallback_price" = null,
-	)
-	if(nominal_region_id && nominal_region_id != best_region_id)
-		result["fallback_region_id"] = nominal_region_id
-		result["fallback_price"] = round(nominal_price)
-	return result
-
-/datum/controller/subsystem/economy/proc/get_best_export_region(good_id, exclude_blockaded = TRUE)
-	var/datum/trade_good/tg = GLOB.trade_goods[good_id]
-	if(!tg)
-		return null
-
-	var/best_region_id = null
-	var/best_price = -1
-	var/best_blockaded = FALSE
-	var/nominal_region_id = null
-	var/nominal_price = -1
-
-	for(var/region_id in GLOB.economic_regions)
-		var/datum/economic_region/region = GLOB.economic_regions[region_id]
-		var/daily_pace = region.demands[good_id] || 0
-		if(daily_pace <= 0)
-			continue
-		var/demands_today = region.demands_today[good_id] || 0
-		var/starting_index = max(0, daily_pace - demands_today)
-		var/unit_price = compute_export_unit_price(good_id, region, starting_index + 1)
-
-		if(unit_price > nominal_price)
-			nominal_price = unit_price
-			nominal_region_id = region_id
-
-		if(exclude_blockaded && region.is_region_blockaded)
-			continue
-		if(unit_price > best_price)
-			best_price = unit_price
-			best_region_id = region_id
-			best_blockaded = region.is_region_blockaded
-
-	if(!best_region_id && nominal_region_id)
-		best_region_id = nominal_region_id
-		best_price = nominal_price
-		best_blockaded = TRUE
-
-	if(!best_region_id)
-		return null
-
-	var/list/result = list(
-		"region_id" = best_region_id,
-		"unit_price" = round(best_price),
-		"is_blockaded" = best_blockaded,
-		"fallback_region_id" = null,
-		"fallback_price" = null,
-	)
-	if(nominal_region_id && nominal_region_id != best_region_id)
-		result["fallback_region_id"] = nominal_region_id
-		result["fallback_price"] = round(nominal_price)
-	return result
+	D.market_stock -= quantity
+	D.royal_stock += quantity
+	D.check_glut_relief()
+	debit_economic_event_saturation(good_id, quantity)
+	SStreasury.dirty_market_view(D)
+	log_game("MARKET PURCHASE by [user.ckey]: [quantity] [D.name] (cost [cost]m)")
+	to_chat(user, span_notice("Bought [quantity] [D.name] from the market for [format_mammon(cost)]m."))
+	return cost
