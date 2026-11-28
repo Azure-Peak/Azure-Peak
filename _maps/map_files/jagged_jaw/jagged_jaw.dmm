@@ -50888,11 +50888,7 @@
 /turf/closed/wall/mineral/rogue/roofwall/outercorner,
 /area/rogue/indoors/town/grim)
 "ggy" = (
-/obj/structure/bars{
-	color = "#755f48";
-	name = "rusted bars"
-	},
-/turf/open/floor/rogue/cobble/mossy,
+/turf/closed/wall/mineral/rogue/stone/window/unbreakable,
 /area/rogue/under/cave/his_vault)
 "ggC" = (
 /obj/effect/decal/cleanable/blood/gibs/up,
@@ -63135,14 +63131,6 @@
 /obj/machinery/tanningrack,
 /turf/open/floor/rogue/ruinedwood/herringbone,
 /area/rogue/indoors/town/grim)
-"hFu" = (
-/obj/structure/bars{
-	color = "#755f48";
-	max_integrity = 9999;
-	name = "rusted bars"
-	},
-/turf/open/floor/rogue/cobble/mossy,
-/area/rogue/under/cave/his_vault/puzzle)
 "hFv" = (
 /obj/structure/fluff/statue,
 /turf/closed/wall/mineral/rogue/decostone/cand,
@@ -170129,6 +170117,15 @@
 	},
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/inq/chapel)
+"uvf" = (
+/obj/structure/vine,
+/obj/structure/mineral_door/wood/donjon{
+	dir = 8;
+	locked = 1;
+	lockid = "inquisition"
+	},
+/turf/open/floor/rogue/cobble,
+/area/rogue/under/cave/his_vault)
 "uvg" = (
 /obj/machinery/light/rogue/candle,
 /obj/structure/rack/rogue/shelf/big,
@@ -196225,14 +196222,6 @@
 	},
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/under/town/basement/keep/grim)
-"xxt" = (
-/obj/structure/bars{
-	color = "#755f48";
-	max_integrity = 9999;
-	name = "rusted bars"
-	},
-/turf/open/floor/rogue/cobble,
-/area/rogue/under/cave/his_vault/puzzle)
 "xxv" = (
 /turf/open/floor/rogue/cobble/mossy,
 /area/rogue/under/underdark/north/grim)
@@ -292943,8 +292932,8 @@ pTK
 oAu
 oWN
 bQa
-kwo
-kwo
+pBd
+dGh
 kwo
 kwo
 kwo
@@ -293324,9 +293313,9 @@ kwo
 dGh
 qmS
 dGh
-kwo
-kwo
-kwo
+dGh
+pBd
+dGh
 kwo
 kwo
 kwo
@@ -293707,8 +293696,8 @@ dGh
 hSZ
 dGh
 dGh
-kwo
-kwo
+pBd
+dGh
 kwo
 kwo
 kwo
@@ -294089,8 +294078,8 @@ dGh
 ggy
 dGh
 fOI
-fOI
-kwo
+uvf
+dGh
 kwo
 dGh
 dGh
@@ -297892,9 +297881,9 @@ kwo
 kwo
 pOB
 cyN
-hFu
-hFu
-hFu
+cyN
+cyN
+cyN
 pAA
 vmK
 pOB
@@ -300179,9 +300168,9 @@ aWH
 vmK
 vmK
 pAA
-xxt
-hFu
-hFu
+cyN
+cyN
+cyN
 cyN
 pOB
 pOB
@@ -300189,9 +300178,9 @@ lmh
 lmh
 lmh
 cyN
-hFu
-hFu
-hFu
+cyN
+cyN
+cyN
 pAA
 pOB
 mtA

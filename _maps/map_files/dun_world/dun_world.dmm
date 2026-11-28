@@ -14323,14 +14323,6 @@
 	},
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/indoors/town/dwarfin)
-"cwa" = (
-/obj/structure/bars{
-	color = "#755f48";
-	max_integrity = 9999;
-	name = "rusted bars"
-	},
-/turf/open/floor/rogue/cobble,
-/area/rogue/under/cave/his_vault/puzzle)
 "cwh" = (
 /obj/effect/decal/cobbleedge{
 	dir = 9;
@@ -20290,6 +20282,15 @@
 /mob/living/carbon/human/species/human/northern/bog_deserters/better_gear,
 /turf/open/floor/rogue/churchrough,
 /area/rogue/under/cave/scarymaze)
+"dxx" = (
+/obj/structure/vine,
+/obj/structure/mineral_door/wood/donjon{
+	dir = 8;
+	locked = 1;
+	lockid = "inquisition"
+	},
+/turf/open/floor/rogue/naturalstone,
+/area/rogue/under/cave/his_vault)
 "dxA" = (
 /mob/living/simple_animal/hostile/retaliate/rogue/bigrat,
 /turf/open/floor/rogue/blocks/green,
@@ -49077,11 +49078,7 @@
 /turf/closed/wall/mineral/rogue/decowood,
 /area/rogue/indoors/town)
 "iph" = (
-/obj/structure/bars{
-	color = "#755f48";
-	name = "rusted bars"
-	},
-/turf/open/floor/rogue/cobble/mossy,
+/turf/closed/wall/mineral/rogue/stone/window/unbreakable,
 /area/rogue/under/cave/his_vault)
 "ipk" = (
 /obj/structure/flora/roguegrass/bush,
@@ -97898,14 +97895,6 @@
 "qrq" = (
 /turf/closed/wall/mineral/rogue/pipe/corners/eight,
 /area/rogue/under/cave/menageriedungeon)
-"qru" = (
-/obj/structure/bars{
-	color = "#755f48";
-	max_integrity = 9999;
-	name = "rusted bars"
-	},
-/turf/open/floor/rogue/cobble/mossy,
-/area/rogue/under/cave/his_vault/puzzle)
 "qrv" = (
 /obj/structure/bars/tough,
 /turf/open/water/river/flow/north,
@@ -269600,8 +269589,8 @@ vmN
 hRp
 svB
 hMG
-ujm
-ujm
+hRp
+kFW
 ujm
 ujm
 ujm
@@ -270051,9 +270040,9 @@ ujm
 kFW
 cDh
 kFW
-ujm
-ujm
-ujm
+kFW
+hRp
+kFW
 ujm
 ujm
 ujm
@@ -270504,8 +270493,8 @@ kFW
 lYJ
 kFW
 kFW
-ujm
-ujm
+hRp
+kFW
 ujm
 ujm
 ujm
@@ -270956,8 +270945,8 @@ kFW
 iph
 kFW
 vwN
-vwN
-ujm
+dxx
+kFW
 ujm
 kFW
 kFW
@@ -275459,9 +275448,9 @@ ujm
 ujm
 fZr
 aTJ
-qru
-qru
-qru
+aTJ
+aTJ
+aTJ
 wNR
 imj
 fZr
@@ -278166,9 +278155,9 @@ bLR
 imj
 imj
 wNR
-cwa
-qru
-qru
+aTJ
+aTJ
+aTJ
 aTJ
 fZr
 fZr
@@ -278176,9 +278165,9 @@ tMR
 tMR
 tMR
 aTJ
-qru
-qru
-qru
+aTJ
+aTJ
+aTJ
 wNR
 fZr
 wGz

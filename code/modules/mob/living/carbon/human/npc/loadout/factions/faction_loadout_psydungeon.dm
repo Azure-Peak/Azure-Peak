@@ -70,7 +70,7 @@
 		/datum/npc_loadout/kit/psytomb_mage_lesser_entry,
 		/datum/npc_loadout/armor/medium/psy_vault_lighter, //squishier if you limb-aim - otavan themed
 	)
-	ai_controller = /datum/ai_controller/human_npc/caster/melee
+	ai_controller = /datum/ai_controller/human_npc/caster
 
 //** FULL CASTERS **//
 
@@ -243,6 +243,4 @@
 
 /datum/npc_loadout/kit/psytomb_mage_lesser_entry
 	spells = list(/datum/action/cooldown/spell/projectile/lightning_bolt) //no shadowstep so they don't teleport, focuses on stronger lbolts
-	weapons = list(
-		list(/obj/item/rogueweapon/woodstaff/quarterstaff/iron), //weaker
-	)
+	//no weapons because the AI will try to break shit
