@@ -1685,3 +1685,31 @@
 	set category = "Emotes"
 
 	emote("ffsalute", intentional =	TRUE)
+
+/datum/emote/living/wwhistle
+	key = "wwhistle"
+	key_third_person = "whistles!"
+	message = "whistles appreciatively!"
+	message_muffled = "makes a muffled noise."
+	emote_type = EMOTE_AUDIBLE
+	show_runechat = FALSE
+
+/mob/living/carbon/human/verb/emote_wwhistle()
+	set name = "Wolf Whistle"
+	set category = "Emotes.Noises"
+
+	emote("wwhistle", intentional =	TRUE)
+
+/datum/emote/living/iwhistle
+	key = "iwhistle"
+	key_third_person = "whistles."
+	message = "lets out an impressed whistle."
+	message_muffled = "makes a muffled noise."
+	emote_type = EMOTE_AUDIBLE
+	show_runechat = FALSE
+
+/mob/living/carbon/human/verb/emote_iwhistle()
+	set name = "Impressed Whistle"
+	set category = "Emotes.Noises"
+
+	emote("iwhistle", intentional =	TRUE)
